@@ -122,8 +122,6 @@ import java.util.regex.Pattern;
 
 	private Map<String, String> mEnvVariables;
 
-	private CfgParseResult mCfgParseResult = new CfgParseResult();
-
 	private int mLine = 1;
 	private int mOffset = 0;
 
@@ -133,31 +131,12 @@ import java.util.regex.Pattern;
 	private ExternalCommandSectionHandler externalCommandsSectionHandler = new ExternalCommandSectionHandler();
 	private ExecuteSectionHandler executeSectionHandler = new ExecuteSectionHandler();
 
-	/**
-	 * Adds a new macro reference
-	 * @param aMacroName name
-	 * @param aMacroToken token of the macro for getting its location
-	 * @param aErrorMarker error marker, it will be shown after parsing
-	 *                     if the definition referenced macro is not found
-	 */
-	private void addMacro( final String aMacroName, final Token aMacroToken, final TITANMarker aErrorMarker ) {
-		mCfgParseResult.addMacro( aMacroName, aMacroToken, mActualFile, aErrorMarker );
-	}
-
 	private void reportWarning(TITANMarker marker){
-		mCfgParseResult.getWarningsAndErrors().add(marker);
+		//TODO: implement
 	}
 
 	public void setActualFile(File file) {
 		mActualFile = file;
-	}
-
-	public CfgParseResult getCfgParseResult() {
-		return mCfgParseResult;
-	}
-
-	public void setEnvironmentalVariables(Map<String, String> aEnvVariables){
-		mEnvVariables = aEnvVariables;
 	}
 
 	public ComponentSectionHandler getComponentSectionHandler() {
@@ -215,7 +194,7 @@ import java.util.regex.Pattern;
 	 */
 	private void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 		TITANMarker marker = createError( aMessage, aStartToken, aEndToken );
-		mCfgParseResult.getWarningsAndErrors().add(marker);
+		//TODO: implement
 	}
 
 	/**
@@ -232,92 +211,6 @@ import java.util.regex.Pattern;
 	private TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 		final TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, SEVERITY_ERROR, PRIORITY_NORMAL );
 		return marker;
-	}
-
-	/**
-	 * Gets the value of a macro or an environment variable
-	 * @param aDefinition macro or environment variable
-	 * @return macro or environment variable value, or null if there is no such definition
-	 */
-	private String getDefinitionValue(String aDefinition){
-		final Map< String, CfgDefinitionInformation > definitions = mCfgParseResult.getDefinitions();
-		if ( definitions != null && definitions.containsKey( aDefinition ) ) {
-			return definitions.get( aDefinition ).getValue();
-		} else if ( mEnvVariables != null && mEnvVariables.containsKey( aDefinition ) ) {
-			return mEnvVariables.get( aDefinition );
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Extracts macro name from macro string
-	 * @param aMacroString macro string, for example: \$a, \${a}
-	 * @return extracted macro name without extra characters, for example: a
-	 */
-	private String getMacroName( final String aMacroString ) {
-		final Matcher m = PATTERN_MACRO.matcher( aMacroString );
-		if ( m.find() ) {
-			return m.group(1);
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Extracts macro name from typed macro string
-	 * @param aMacroString macro string, for example: \${a, float}
-	 * @return extracted macro name without extra characters, for example: a
-	 */
-	private String getTypedMacroName( final String aMacroString ) {
-		final Matcher m = PATTERN_TYPED_MACRO.matcher( aMacroString );
-		if ( m.find() ) {
-			return m.group(1);
-		} else {
-			return null;
-		}
-	}
-
-	/**
-	 * Gets the macro value string of a macro (without type)
-	 * @param aMacroToken the macro token
-	 * @param aErrorFormatStr format strings for error messages if definition (macro or environment variable) cannot be resolved
-	 *                        %s : definition
-	 * @return the macro value string
-	 *         or "" if macro is invalid. In this case an error marker is also created
-	 */
-	private String getMacroValue( final Token aMacroToken, final String aErrorFormatStr ) {
-		final String definition = getMacroName( aMacroToken.getText() );
-		final String errorMsg = String.format( aErrorFormatStr, definition );
-		final String value = getDefinitionValue( definition );
-		if ( value == null ) {
-			// macro errors are processed later
-			final TITANMarker errorMarker = createError( errorMsg, aMacroToken, aMacroToken );
-			addMacro( definition, aMacroToken, errorMarker );
-			return "";
-		}
-		return value;
-	}
-
-	/**
-	 * Gets the macro value string of a macro (with type)
-	 * @param aMacroToken the macro token
-	 * @param aErrorFormatStr format strings for error messages if definition (macro or environment variable) cannot be resolved
-	 *                        %s : definition
-	 * @return the macro value string
-	 *         or "" if macro is invalid. In this case an error marker is also created
-	 */
-	private String getTypedMacroValue( Token aMacroToken, String aErrorFormatStr ) {
-		final String definition = getTypedMacroName( aMacroToken.getText() );
-		final String errorMsg = String.format( aErrorFormatStr, definition );
-		final String value = getDefinitionValue( definition );
-		if ( value == null ) {
-			// macro errors are processed later
-			final TITANMarker errorMarker = createError( errorMsg, aMacroToken, aMacroToken );
-			addMacro( definition, aMacroToken, errorMarker );
-			return "";
-		}
-		return value;
 	}
 
 	/**
@@ -344,12 +237,7 @@ import java.util.regex.Pattern;
 	 * @param new module parameter
 	 */
 	private void set_param(Module_Parameter param) {
-		try {
-			Module_List.set_param(param);
-		} catch (TtcnError e) {
-			//TODO: handle error
-			//error_flag = true;
-		}
+		Module_List.set_param(param);
 	}
 
 	/**
@@ -362,8 +250,7 @@ import java.util.regex.Pattern;
 }
 
 pr_ConfigFile:
-	(	pr_Section
-	)+
+	pr_Section+
 	EOF
 ;
 
@@ -405,8 +292,6 @@ pr_MainControllerItemUnixDomainSocket:
 	SEMICOLON?
 	{	if ( $u.text != null ) {
 			boolean value = "yes".equalsIgnoreCase( $u.text );
-			mCfgParseResult.setUnixDomainSocket( value );
-			//TODO: remove one of them, it is redundant
 			mcSectionHandler.setUnixDomainSocket( value );
 		}
 	}
@@ -422,8 +307,6 @@ pr_MainControllerItemKillTimer:
 	k = pr_ArithmeticValueExpression
 	SEMICOLON?
 	{	if ( $k.number != null ) {
-			mCfgParseResult.setKillTimer( $k.number.getValue() );
-			//TODO: remove one of them, it is redundant
 			mcSectionHandler.setKillTimer( $k.number );
 		}
 	}
@@ -434,9 +317,7 @@ pr_MainControllerItemLocalAddress:
 	ASSIGNMENTCHAR
 	l = pr_HostName
 	SEMICOLON?
-	{	mCfgParseResult.setLocalAddress( $l.text );
-		//TODO: remove one of them, it is redundant
-		mcSectionHandler.setLocalAddress( $l.text );
+	{	mcSectionHandler.setLocalAddress( $l.text );
 	}
 ;
 
@@ -446,8 +327,6 @@ pr_MainControllerItemNumHcs:
 	n = pr_IntegerValueExpression
 	SEMICOLON?
 	{	if ( $n.integer != null ) {
-			mCfgParseResult.setNumHcs( $n.integer.getIntegerValue() );
-			//TODO: remove one of them, it is redundant
 			mcSectionHandler.setNumHCsText( $n.integer );
 		}
 	}
@@ -459,8 +338,6 @@ pr_MainControllerItemTcpPort:
 	t = pr_IntegerValueExpression
 	SEMICOLON?
 	{	if ( $t.integer != null ) {
-			mCfgParseResult.setTcpPort( $t.integer.getIntegerValue() );
-			//TODO: remove one of them, it is redundant
 			mcSectionHandler.setTcpPort( $t.integer );
 		}
 	}
@@ -500,9 +377,7 @@ pr_ExecuteSectionItem
 				item.setTestcaseName( $testcase.name );
 			}
 	)?
-	//TODO: remove one of them, it is redundant
-	{	mCfgParseResult.getExecuteElements().add( executeElement );
-		executeSectionHandler.getExecuteitems().add( item );
+	{	executeSectionHandler.getExecuteitems().add( item );
 	}
 	SEMICOLON?
 ;
@@ -652,8 +527,7 @@ pr_DatabaseFile:
 pr_DatabaseFilePart:
 (	STRING
 |	macro = MACRO
-		{	final String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
-			//TODO: implement: use value if needed
+		{	//TODO: error, CFG file cannot contain macros after preparsing
 		}
 );
 
@@ -679,8 +553,7 @@ pr_StatisticsFile:
 pr_StatisticsFilePart:
 (	STRING
 |	macro = MACRO
-		{	final String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
-			//TODO: implement: use value if needed
+		{	//TODO: error, CFG file cannot contain macros after preparsing
 		}
 );
 
@@ -818,7 +691,7 @@ pr_LoggerPluginEntry [component_id_t comp]
 //		TTCN_Logger.register_plugin( $comp, $i.identifier, pluginFilename );
 		
 //		final logging_setting_t logging_setting = new logging_setting_t();
-//		logging_setting.component = comp;
+//		logging_setting.component = $comp;
 //		logging_setting.pluginId = $i.identifier;
 //		final logging_param_t logging_param = new logging_param_t();
 //		logging_param.log_param_selection = logging_param_type.LP_UNKNOWN;
@@ -1124,11 +997,9 @@ pr_ComponentItem:
 	n = pr_ComponentName
 		{	component.setComponentName( $n.text );	}
 	ASSIGNMENTCHAR
-	(	h = pr_HostName {	mCfgParseResult.getComponents().put( $n.text, $h.text );
-							component.setHostName( $h.text );
+	(	h = pr_HostName {	component.setHostName( $h.text );
 						}
-	|	i = pr_HostNameIpV6	{	mCfgParseResult.getComponents().put( $n.text, $i.text );
-								component.setHostName( $i.text );
+	|	i = pr_HostNameIpV6	{	component.setHostName( $i.text );
 							}
 	)
 {	componentSectionHandler.getComponents().add( component );
@@ -1144,14 +1015,14 @@ pr_ComponentName:
 pr_HostName:
 (	pr_DNSName
 |	TTCN3IDENTIFIER
-|	macro1 = MACRO_HOSTNAME
-		{	final String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_STRING );
-			//TODO: implement: use value if needed
-		}
+|	MACRO_HOSTNAME
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	}
 |	macro2 = MACRO
-		{	final String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_STRING );
-			//TODO: implement: use value if needed
-		}
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	}
 )
 ;
 
@@ -1175,17 +1046,21 @@ pr_DefinitionRValue:
 pr_SimpleValue:
 (	TTCN3IDENTIFIER
 |	MACRORVALUE
-|	MACRO_ID
-|	MACRO_INT
-|	MACRO_BOOL
-|	MACRO_FLOAT
-|	MACRO_EXP_CSTR
-|	MACRO_BSTR
-|	MACRO_HSTR
-|	MACRO_OSTR
-|	MACRO_BINARY
-|	MACRO_HOSTNAME
-|	MACRO
+|	(	MACRO_ID
+	|	MACRO_INT
+	|	MACRO_BOOL
+	|	MACRO_FLOAT
+	|	MACRO_EXP_CSTR
+	|	MACRO_BSTR
+	|	MACRO_HSTR
+	|	MACRO_OSTR
+	|	MACRO_BINARY
+	|	MACRO_HOSTNAME
+	|	MACRO
+	)
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 |	IPV6
 |	STRING
 |	BITSTRING
@@ -1220,7 +1095,9 @@ pr_TestportName:
 
 pr_Identifier returns [String identifier]:
 (	macro = MACRO_ID
-		{	$identifier = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );	}
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 |	a = TTCN3IDENTIFIER
 		{	$identifier = $a.getText();	}
 )
@@ -1274,7 +1151,7 @@ pr_IntegerPrimaryExpression returns [CFGNumber integer]:
 
 pr_NaturalNumber returns [CFGNumber integer]:
 (	a = NATURAL_NUMBER	{$integer = new CFGNumber($a.text);}
-|	macro = pr_MacroNaturalNumber { $integer = $macro.integer; }
+|	macro = pr_MacroNaturalNumber
 |	TTCN3IDENTIFIER // module parameter name
 		{	$integer = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
 		}//TODO: incorrect behaviour
@@ -1284,23 +1161,16 @@ pr_NaturalNumber returns [CFGNumber integer]:
 pr_MPNaturalNumber returns [TitanInteger integer]:
 (	a = NATURAL_NUMBER	{$integer = new TitanInteger($a.text);}
 |	pr_MacroNaturalNumber
-	{
-		// runtime cfg parser should have resolved the macros already, so raise error
-		config_process_error("Macro is not resolved");
-	} 
 )
 ;
 
-pr_MacroNaturalNumber returns [CFGNumber integer]:
-(	macro1 = MACRO_INT
-		{	final String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
-			$integer = new CFGNumber( value.length() > 0 ? value : "0" );
-		}
-|	macro2 = MACRO
-		{	final String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_INT );
-			$integer = new CFGNumber( value.length() > 0 ? value : "0" );
-		}
+pr_MacroNaturalNumber:
+(	MACRO_INT
+|	MACRO
 )
+{	// runtime cfg parser should have resolved the macros already, so raise error
+	config_process_error("Macro is not resolved");
+} 
 ;
 
 pr_StringValue returns [String string]
@@ -1330,8 +1200,8 @@ pr_CString returns [String string]:
 				config_process_error( cse.getErrorMessage() );
 			}
 		}
-|	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
-|	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
+|	pr_MacroCString
+|	pr_MacroExpliciteCString
 |	TTCN3IDENTIFIER // module parameter name
 		{	$string = ""; // value is unknown yet, but it should not be null
 		}
@@ -1350,22 +1220,25 @@ pr_MPCString returns [String string]:
 |	(	pr_MacroCString
 	|	pr_MacroExpliciteCString
 	)
-	{
-		// runtime cfg parser should have resolved the macros already, so raise error
+	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	} 
 	
 )
 ;
 
-pr_MacroCString returns [String string]:
-	macro = MACRO
-		{	$string = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );	}
+pr_MacroCString:
+	MACRO
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 ;
 
-pr_MacroExpliciteCString returns [String string]:
-	macro = MACRO_EXP_CSTR
-		{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );	}
+pr_MacroExpliciteCString:
+	MACRO_EXP_CSTR
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 ;
 
 pr_GroupItem:
@@ -1393,9 +1266,7 @@ pr_GroupItem:
 		)*
 	)
 )
-{	mCfgParseResult.getGroups().put( $a.text, memberlist.toArray( new String[ memberlist.size() ] ) );
-	//TODO: remove one of them, it is redundant
-	group.setGroupName( $a.text );
+{	group.setGroupName( $a.text );
 	groupSectionHandler.getGroups().add( group );
 }
 ;
@@ -1690,10 +1561,10 @@ pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
 
 pr_Float returns [CFGNumber floatnum]:
 (	a = FLOAT {$floatnum = new CFGNumber($a.text);}
-|	macro = MACRO_FLOAT
-		{	final String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
-			$floatnum = new CFGNumber( value.length() > 0 ? value : "0.0" );
-		}
+|	MACRO_FLOAT
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 |	TTCN3IDENTIFIER // module parameter name
 		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}//TODO: incorrect behaviour
@@ -1705,8 +1576,7 @@ pr_MPFloat returns [double floatnum]:
 |	NANKEYWORD	{	$floatnum = Double.NaN;	}
 |	INFINITYKEYWORD	{	$floatnum = Double.POSITIVE_INFINITY;	}
 |	MACRO_FLOAT
-	{
-		// runtime cfg parser should have resolved the macros already, so raise error
+	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	} 
 )
@@ -1715,10 +1585,10 @@ pr_MPFloat returns [double floatnum]:
 pr_Boolean returns [Boolean bool]:
 (	t = TRUE { $bool = true; }
 |	f = FALSE { $bool = false; }
-|	macro = MACRO_BOOL
-		{	final String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BOOLEAN );
-			$bool = "true".equalsIgnoreCase( value );
-		}
+|	MACRO_BOOL
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 )
 ;
 
@@ -1762,7 +1632,10 @@ pr_BString returns [String string]:
 			$string = temp.replaceAll("^\'|\'B$|\\s+", "");
 		}
 	}
-|	macro = MACRO_BSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );	}
+|	MACRO_BSTR
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 )
 ;
 
@@ -1780,7 +1653,10 @@ pr_HString returns [String string]:
 			$string = temp.replaceAll("^\'|\'H$|\\s+", "");
 		}
 	}
-|	macro = MACRO_HSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );	}
+|	MACRO_HSTR
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 )
 ;
 
@@ -1798,8 +1674,14 @@ pr_OString returns [String string]:
 			$string = temp.replaceAll("^\'|\'O$|\\s+", "");
 		}
 	}
-|	macro = MACRO_OSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );	}
-|	macro_bin = MACRO_BINARY	{	$string = getTypedMacroValue( $macro_bin, DEFINITION_NOT_FOUND_STRING );	}
+|	MACRO_OSTR
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
+|	MACRO_BINARY
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	} 
 )
 ;
 
