@@ -220,6 +220,10 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
+			return realValue;
+		}
+
 		lastTimeChecked = timestamp;
 
 		switch (newType) {
@@ -247,11 +251,6 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public IValue setLoweridToReference(final CompilationTimeStamp timestamp) {
-		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
-			return realValue;
-		}
-
-		lastTimeChecked = timestamp;
 		realValue = setValuetype(timestamp, Value_type.REFERENCED_VALUE);
 
 		return realValue;
