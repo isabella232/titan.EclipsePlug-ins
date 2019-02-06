@@ -99,6 +99,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
+		super.setMyScope(scope);
 		if (templateInstances != null) {
 			templateInstances.setMyScope(scope);
 		}
