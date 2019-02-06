@@ -661,7 +661,8 @@ public final class Assignment_Statement extends Statement {
 					if (rhsCopied) {
 						//TODO handle the needs conversion case
 						value.generateCodeInit(aData, source, rhsRef);
-					} else if (isOptional) {
+					}
+					if (isOptional) {
 						leftExpression.expression.append(".get()");
 					}
 
@@ -674,6 +675,7 @@ public final class Assignment_Statement extends Statement {
 					} else {
 						source.append(MessageFormat.format("final {0} {1} = {2};\n", typeGenname, tempID, leftExpression.expression));
 					}
+
 					source.append(leftExpression.postamble);
 					if (rhsCopied) {
 						source.append(MessageFormat.format("{0}.operator_assign({1});\n", tempID, rhsCopy));
