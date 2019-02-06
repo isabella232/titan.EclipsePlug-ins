@@ -251,9 +251,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public IValue setLoweridToReference(final CompilationTimeStamp timestamp) {
-		realValue = setValuetype(timestamp, Value_type.REFERENCED_VALUE);
-
-		return realValue;
+		return setValuetype(timestamp, Value_type.REFERENCED_VALUE);
 	}
 
 	@Override
