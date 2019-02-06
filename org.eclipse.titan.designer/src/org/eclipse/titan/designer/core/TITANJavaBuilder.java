@@ -69,6 +69,10 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		final Set<String> knownModuleNames = sourceParser.getKnownModuleNames();
 		codeGeneratorMonitor.beginTask("Checking prerequisites", localModules.size() + 1);
 		for(Module module : localModules) {
+			if (monitor.isCanceled()) {
+				break;
+			}
+
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");
 			try {
 				ProjectSourceCompiler.compile(timestamp, module, reportDebugInformation );
