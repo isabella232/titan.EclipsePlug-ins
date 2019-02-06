@@ -657,7 +657,7 @@ pr_ComponentSpecificLoggingParam:
 pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
-	component_id_t comp = new component_id_t(); 
+	component_id_t comp = new component_id_t();
 }:
 	(	cn = pr_ComponentID DOT
 		{	componentName = $cn.text;
@@ -689,7 +689,7 @@ pr_LoggerPluginEntry [component_id_t comp]
 	{
 //TODO: implement
 //		TTCN_Logger.register_plugin( $comp, $i.identifier, pluginFilename );
-		
+
 //		final logging_setting_t logging_setting = new logging_setting_t();
 //		logging_setting.component = $comp;
 //		logging_setting.pluginId = $i.identifier;
@@ -704,7 +704,7 @@ pr_PlainLoggingParam
 @init {
 	String componentName = "*";
 	String pluginName = "*";
-	component_id_t comp = new component_id_t(); 
+	component_id_t comp = new component_id_t();
 }:
 (	cn = pr_ComponentID DOT
 		{	componentName = $cn.text;
@@ -1060,7 +1060,7 @@ pr_SimpleValue:
 	)
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 |	IPV6
 |	STRING
 |	BITSTRING
@@ -1097,7 +1097,7 @@ pr_Identifier returns [String identifier]:
 (	macro = MACRO_ID
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 |	a = TTCN3IDENTIFIER
 		{	$identifier = $a.getText();	}
 )
@@ -1170,7 +1170,7 @@ pr_MacroNaturalNumber:
 )
 {	// runtime cfg parser should have resolved the macros already, so raise error
 	config_process_error("Macro is not resolved");
-} 
+}
 ;
 
 pr_StringValue returns [String string]
@@ -1222,8 +1222,7 @@ pr_MPCString returns [String string]:
 	)
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
-	
+	}
 )
 ;
 
@@ -1231,14 +1230,14 @@ pr_MacroCString:
 	MACRO
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 ;
 
 pr_MacroExpliciteCString:
 	MACRO_EXP_CSTR
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 ;
 
 pr_GroupItem:
@@ -1564,7 +1563,7 @@ pr_Float returns [CFGNumber floatnum]:
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 |	TTCN3IDENTIFIER // module parameter name
 		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}//TODO: incorrect behaviour
@@ -1578,7 +1577,7 @@ pr_MPFloat returns [double floatnum]:
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 )
 ;
 
@@ -1588,7 +1587,7 @@ pr_Boolean returns [Boolean bool]:
 |	MACRO_BOOL
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 )
 ;
 
@@ -1635,7 +1634,7 @@ pr_BString returns [String string]:
 |	MACRO_BSTR
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 )
 ;
 
@@ -1656,7 +1655,7 @@ pr_HString returns [String string]:
 |	MACRO_HSTR
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 )
 ;
 
@@ -1677,11 +1676,11 @@ pr_OString returns [String string]:
 |	MACRO_OSTR
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 |	MACRO_BINARY
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
-	} 
+	}
 )
 ;
 
