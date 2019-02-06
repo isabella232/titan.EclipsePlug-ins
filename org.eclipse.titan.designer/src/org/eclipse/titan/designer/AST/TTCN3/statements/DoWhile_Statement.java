@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -310,10 +311,26 @@ public final class DoWhile_Statement extends Statement {
 	}
 
 	public void generateCodeConditional(final JavaGenData aData, final StringBuilder source) {
-		if (expression.returnsNative()) {
-			source.append(MessageFormat.format("if ( !{0} )", expression.generateSingleExpression(aData)));
+		if (expression.canGenerateSingleExpression()) {
+			if (expression.returnsNative()) {
+				source.append(MessageFormat.format("if ( !{0} )", expression.generateSingleExpression(aData)));
+			} else {
+				source.append(MessageFormat.format("if ( {0}.not().getValue() )", expression.generateSingleExpression(aData)));
+			}
 		} else {
-			source.append(MessageFormat.format("if ( {0}.not().getValue() )", expression.generateSingleExpression(aData)));
+			final String tempId = aData.getTemporaryVariableName();
+			source.append(MessageFormat.format("boolean {0};\n", tempId));
+
+			ExpressionStruct expression2 = new ExpressionStruct();
+			expression2.expression.append(tempId);
+			expression2.expression.append(" = ");
+			expression.generateCodeExpressionMandatory(aData, expression2, false);
+			if (!expression.returnsNative()) {
+				expression2.expression.append(".get_value() ");
+			}
+			expression2.mergeExpression(source);
+
+			source.append(MessageFormat.format("if ( !{0} )", tempId));
 		}
 		source.append(" {\n");
 		source.append("break;\n");
