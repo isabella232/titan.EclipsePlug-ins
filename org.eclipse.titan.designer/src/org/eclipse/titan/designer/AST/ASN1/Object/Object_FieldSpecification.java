@@ -50,7 +50,7 @@ public final class Object_FieldSpecification extends FieldSpecification {
 	public void setMyObjectClass(final ObjectClass_Definition objectClass) {
 		super.setMyObjectClass(objectClass);
 		final Scope scope = myObjectClass.getMyScope();
-		objectClass.setMyScope(scope);
+		this.objectClass.setMyScope(scope);
 		if (null != defaultObject) {
 			defaultObject.setMyScope(scope);
 		}
