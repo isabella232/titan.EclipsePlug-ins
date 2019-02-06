@@ -105,8 +105,14 @@ public final class Unmap_Statement extends Statement {
 		if (componentReference1 != null) {
 			componentReference1.setMyScope(scope);
 		}
+		if (portReference1 != null) {
+			portReference1.setMyScope(scope);
+		}
 		if (componentReference2 != null) {
 			componentReference2.setMyScope(scope);
+		}
+		if (portReference2 != null) {
+			portReference2.setMyScope(scope);
 		}
 	}
 
