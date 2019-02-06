@@ -25,6 +25,9 @@ public class TitanBuilderEnabled extends PropertyTester {
 	@Override
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		final IProject project = ((IResource)receiver).getProject();
+		if (!project.isAccessible()) {
+			return false;
+		}
 		try {
 			final IProjectDescription description = project.getDescription();
 			final ICommand[] buildSpec = description.getBuildSpec();
