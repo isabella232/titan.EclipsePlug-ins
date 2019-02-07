@@ -119,7 +119,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(191);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(190);
 		int lineNum = 54;
 		markersToCheck.add(new MarkerToCheck("The function must have one parameter instead of 0 for attribute `prototype(convert)'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
@@ -332,8 +332,8 @@ public class AST_tests {
 		lineNum += 92;
 		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_146'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonexi' in type `@attribute_tests.intrec'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_146'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonexi' in module `attribute_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonexi' in module `attribute_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("octetstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 13;
 		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_145'",  lineNum, IMarker.SEVERITY_ERROR));

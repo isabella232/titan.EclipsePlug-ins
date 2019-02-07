@@ -346,8 +346,24 @@ pr_XAssocList returns [ArrayList<RawAST.rawAST_single_tag> taglist]:
 (	element1 = pr_XAssocElement	{$taglist = new ArrayList<RawAST.rawAST_single_tag>();
 					if($element1.singleTag != null) {$taglist.add($element1.singleTag);}}
 	(	SEMICOLON
-		element2 = pr_XAssocElement {//FIXME check for duplication
-					if($element1.singleTag != null) {$taglist.add($element2.singleTag);}}
+		element2 = pr_XAssocElement {
+					if($element2.singleTag != null) {
+						RawAST.rawAST_single_tag newTag = $element2.singleTag;
+						int foundIndex = $taglist.size();
+						for (int i = $taglist.size() - 1; i >= 0; i--) {
+							RawAST.rawAST_single_tag actualTag = $taglist.get(i);
+							if ((actualTag.fieldName == null && newTag.fieldName == null)
+								|| (newTag.fieldName != null && newTag.fieldName.equals(actualTag.fieldName))) {
+								foundIndex = i;
+								break;
+							}
+						}
+						if (foundIndex == $taglist.size()) {
+							$taglist.add($element2.singleTag);
+						} else if (newTag.keyList != null) {
+							$taglist.get(foundIndex).keyList.addAll(newTag.keyList);
+						}
+					}}
 	)*
 );
 
