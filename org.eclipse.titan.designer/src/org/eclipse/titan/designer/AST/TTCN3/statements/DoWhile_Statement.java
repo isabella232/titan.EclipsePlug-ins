@@ -315,7 +315,7 @@ public final class DoWhile_Statement extends Statement {
 			if (expression.returnsNative()) {
 				source.append(MessageFormat.format("if ( !{0} )", expression.generateSingleExpression(aData)));
 			} else {
-				source.append(MessageFormat.format("if ( {0}.not().getValue() )", expression.generateSingleExpression(aData)));
+				source.append(MessageFormat.format("if ( {0}.not() )", expression.generateSingleExpression(aData)));
 			}
 		} else {
 			final String tempId = aData.getTemporaryVariableName();
