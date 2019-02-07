@@ -126,6 +126,23 @@ public final class Default_Null_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport("TitanComponent");
+
+		final StringBuilder result = new StringBuilder();
+		result.append("new TitanComponent(TitanComponent.NULL_COMPREF)");
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport("TitanComponent");
 
@@ -135,13 +152,5 @@ public final class Default_Null_Value extends Value {
 		lastTimeGenerated = aData.getBuildTimstamp();
 
 		return source;
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
-		aData.addBuiltinTypeImport("TitanComponent");
-
-		expression.expression.append("TitanComponent.NULL_COMPREF");
 	}
 }

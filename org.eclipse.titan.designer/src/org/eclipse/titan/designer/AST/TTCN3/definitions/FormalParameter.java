@@ -1175,10 +1175,10 @@ public final class FormalParameter extends Definition {
 			switch (assignmentType) {
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
-				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", type.getGenNameValue(aData, source, myScope), getGenName(), identifier.getName()));
+				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type.getGenNameValue(aData, source, myScope), getGenName(), identifier.getName()));
 				break;
 			case A_PAR_TEMP_IN:
-				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", type.getGenNameTemplate(aData, source, myScope), getGenName(), identifier.getName()));
+				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type.getGenNameTemplate(aData, source, myScope), getGenName(), identifier.getName()));
 				break;
 			default:
 				break;
