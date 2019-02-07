@@ -480,6 +480,30 @@ public abstract class Expression_Value extends Value {
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
 
 	@Override
+	public void setGenName(String genName) {
+		super.setGenName(genName);
+		if (lastValue != null && lastValue != this) {
+			lastValue.setGenName(genName);
+		}
+	}
+
+	@Override
+	public void setGenName(String prefix, String suffix) {
+		super.setGenName(prefix, suffix);
+		if (lastValue != null && lastValue != this) {
+			lastValue.setGenName(prefix, suffix);
+		}
+	}
+
+	@Override
+	public void setCodeSection(CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		if (lastValue != null && lastValue != this) {
+			lastValue.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public boolean needsShortCircuit() {
 		return true;
