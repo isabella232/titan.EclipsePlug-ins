@@ -29,10 +29,12 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -929,6 +931,12 @@ public final class Sequence_Value extends Value {
 		case TYPE_ASN1_SEQUENCE:
 			nofComps = ((ASN1_Sequence_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
 			break;
+		case TYPE_TTCN3_CHOICE:
+			nofComps = ((TTCN3_Choice_Type) type).getNofComponents();
+			break;
+		case TYPE_ASN1_CHOICE:
+			nofComps = ((ASN1_Choice_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 		}
@@ -951,6 +959,12 @@ public final class Sequence_Value extends Value {
 				break;
 			case TYPE_ASN1_SEQUENCE:
 				compField = ((ASN1_Sequence_Type) type).getComponentByIndex(i);
+				break;
+			case TYPE_TTCN3_CHOICE:
+				compField = ((TTCN3_Choice_Type) type).getComponentByIndex(i);
+				break;
+			case TYPE_ASN1_CHOICE:
+				compField = ((ASN1_Choice_Type) type).getComponentByIndex(i);
 				break;
 			default:
 				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
