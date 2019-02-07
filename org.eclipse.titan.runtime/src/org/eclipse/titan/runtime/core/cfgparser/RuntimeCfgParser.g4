@@ -527,8 +527,9 @@ pr_DatabaseFile:
 pr_DatabaseFilePart:
 (	STRING
 |	macro = MACRO
-		{	//TODO: error, CFG file cannot contain macros after preparsing
-		}
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	}
 );
 
 pr_AggregateData:
@@ -553,8 +554,9 @@ pr_StatisticsFile:
 pr_StatisticsFilePart:
 (	STRING
 |	macro = MACRO
-		{	//TODO: error, CFG file cannot contain macros after preparsing
-		}
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	}
 );
 
 pr_DisableStatistics:
