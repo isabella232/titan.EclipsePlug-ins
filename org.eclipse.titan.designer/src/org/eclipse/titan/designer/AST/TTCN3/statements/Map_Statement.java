@@ -115,13 +115,13 @@ public final class Map_Statement extends Statement {
 			componentReference1.setMyScope(scope);
 		}
 		if (portReference1 != null) {
-			portReference1.setMyScope(scope);
+			portReference1.setSubreferencesScope(scope);
 		}
 		if (componentReference2 != null) {
 			componentReference2.setMyScope(scope);
 		}
 		if (portReference2 != null) {
-			portReference2.setMyScope(scope);
+			portReference2.setSubreferencesScope(scope);
 		}
 	}
 

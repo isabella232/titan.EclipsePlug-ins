@@ -35,6 +35,13 @@ public class PortReference extends Reference {
 		this.componentType = componentType;
 	}
 
+	public void setSubreferencesScope(final Scope scope) {
+		subReferences.trimToSize();
+		for (int i = 0; i < subReferences.size(); i++) {
+			subReferences.get(i).setMyScope(scope);
+		}
+	}
+
 	/** @return a new instance of this reference */
 	public Reference newInstance() {
 		ErrorReporter.INTERNAL_ERROR("Port referencies should not be cloned");
