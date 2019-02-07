@@ -4,3 +4,6 @@
 /RuntimeCfgParser.tokens
 /RuntimeCfgParserBaseListener.java
 /RuntimeCfgParserListener.java
+/RuntimeCfgPreParser.java
+/RuntimeCfgPreParser.tokens
+
