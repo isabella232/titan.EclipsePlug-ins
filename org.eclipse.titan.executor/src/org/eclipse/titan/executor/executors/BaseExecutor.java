@@ -112,8 +112,7 @@ public abstract class BaseExecutor {
 
 	public static final String MAIN_CONTROLLER = "Main Controller";
 	protected static final String CONFIGFILEPATH_NULL = "Could not launch beacuse the configuration file's path is null";
-	protected static final String ENVVARS_NULL = "Could not launch beacuse the environmental variables are not available";
-	protected static final String NO_HOSTCONTROLLER_SPECIFIED = "No Host Controller was specified on this launch configuration's Host Controllers page";
+	private static final String NO_HOSTCONTROLLER_SPECIFIED = "No Host Controller was specified on this launch configuration's Host Controllers page";
 
 	/** Error dialog title for the case, when the execution control list is empty */
 	private static final String EMPTY_EXECUTION_FAILED_TITLE = "Execution failed";
@@ -138,16 +137,16 @@ public abstract class BaseExecutor {
 
 	protected boolean consoleLogging;
 	protected boolean severityLevelExtraction;
-	protected int maximumNotificationCount;
+	private int maximumNotificationCount;
 	protected boolean verdictExtraction;
 	protected boolean keepTemporarilyGeneratedConfigFiles;
 	protected boolean logFileNameDefined = false;
-	protected String mLogFileName = null;
-	protected boolean logFilesMerged = false;
+	private String mLogFileName = null;
+	private boolean logFilesMerged = false;
 
 	protected String mcPort;
 	protected String mcHost = "NULL";
-	protected String label = "Base Executor";
+	private String label = "Base Executor";
 	protected MainControllerElement mainControllerRoot;
 	private ILaunch launchStarted;
 	protected ArrayList<ExecutedTestcase> executedTests = new ArrayList<ExecutedTestcase>();
@@ -701,7 +700,7 @@ public abstract class BaseExecutor {
 	/**
 	 *  Deletes every log files in the log directory if the default log folder has been set.
 	 */
-	protected void deleteLogFiles() {
+	private void deleteLogFiles() {
 		final IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 		if ( !isDeleteLogFilesSet( preferenceStore ) ) {
 			return;
@@ -750,18 +749,10 @@ public abstract class BaseExecutor {
 				preferenceStore, project, PreferenceConstants.EXECUTOR_PREFERENCE_PAGE_ID, PreferenceConstants.DELETE_LOG_FILES_NAME));
 	}
 
-	private boolean isLogFolderSet(final IPreferenceStore preferenceStore) {
-		return Boolean.parseBoolean(getOverlayedPreferenceValue(
-				preferenceStore,
-				project,
-				PreferenceConstants.EXECUTOR_PREFERENCE_PAGE_ID,
-				PreferenceConstants.SET_LOG_FOLDER));
-	}
-
 	/**
 	 * Merges the generated log files together.
 	 */
-	protected void mergeLogFiles() {
+	private void mergeLogFiles() {
 		if (logFilesMerged) {
 			return;
 		} else {

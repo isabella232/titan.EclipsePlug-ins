@@ -52,14 +52,12 @@ public final class ConfigFileHandler {
 	private double killTimer = 10.0;
 	private int numHCs = 0;
 	private boolean unixDomainSocket = false;
-	private final Map<String , String[]> groups = new HashMap<String, String[]>();
+	private final Map<String, String[]> groups = new HashMap<String, String[]>();
 	private final Map<String, String> components = new HashMap<String, String>();
 	private final List<String> executeElements = new ArrayList<String>();
 
 	private final List<Throwable> exceptions = new ArrayList<Throwable>();
 	private boolean processingErrorsDetected = false;
-
-	private List<Integer> disallowedNodes;
 
 	private Map<String, String> environmentalVariables;
 
@@ -103,7 +101,7 @@ public final class ConfigFileHandler {
 		return killTimer;
 	}
 
-	public Map<String , String[]> getGroups(){
+	public Map<String, String[]> getGroups(){
 		return groups;
 	}
 

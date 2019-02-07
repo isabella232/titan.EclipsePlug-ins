@@ -99,7 +99,7 @@ public class CharstringExtractor {
 					// double-quote, question mark or
 					// backslash:
 					if (c2 == '\'' || c2 == '"' || c2 == '?' || c2 == '\\') {
-						sb.append(aTtcnCharstring.charAt(pointer));
+						sb.append(c2);
 						pointer++;
 					} else if (c2 == 'a') { // Audible bell
 						sb.append((char) 0x07);
@@ -174,7 +174,7 @@ public class CharstringExtractor {
 						//*/
 					}
 				} else { // End of backslash-escape
-					sb.append(aTtcnCharstring.charAt(pointer));
+					sb.append(c1);
 					pointer++;
 				}
 			} else {

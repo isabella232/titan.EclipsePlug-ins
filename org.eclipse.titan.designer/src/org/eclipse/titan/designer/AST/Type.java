@@ -834,7 +834,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			//TODO only raw data is extracted
 			final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
 			boolean newRaw = false;
-			final AtomicBoolean rawFoud = new AtomicBoolean(false);
+			final AtomicBoolean rawFound = new AtomicBoolean(false);
 			if (rawAttribute == null) {
 				IType t_refd = this;
 				while (t_refd.getRawAttribute() == null && t_refd instanceof Referenced_Type) {
@@ -846,9 +846,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				newRaw = true;
 			}
 
-			analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFoud);
+			analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFound);
 
-			if (!rawFoud.get() && newRaw) {
+			if (!rawFound.get() && newRaw) {
 				rawAttribute = null;
 			}
 		}

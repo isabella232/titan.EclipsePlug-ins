@@ -374,7 +374,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 	 * file
 	 *
 	 * @param fileName
-	 *                the file name paramtere of the #include directive
+	 *                the file name parameter of the #include directive
 	 */
 	private void processIncludeDirective(final PreprocessorDirective ppDirective) {
 		if (ppDirective.str == null || "".equals(ppDirective.str)) {
