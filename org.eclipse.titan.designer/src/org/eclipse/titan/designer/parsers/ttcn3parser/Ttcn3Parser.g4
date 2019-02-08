@@ -2930,8 +2930,9 @@ pr_FunctionStatement returns[Statement statement]
 | s6 = pr_VerdictStatements			{ $statement = $s6.statement; }
 | s7 = pr_SUTStatements				{ $statement = $s7.statement; }
 | s8 = pr_TestcaseStopStatement		{ $statement = $s8.statement; }
-| s9 = pr_SetStateStatement		{ $statement = $s9.statement; }
-| s10 = pr_SetencodeStatement { $statement = $s10.statement; }
+| s9 = pr_UpdateStatement			{ $statement = $s9.statement; }
+| s10 = pr_SetStateStatement		{ $statement = $s9.statement; }
+| s11 = pr_SetencodeStatement { $statement = $s10.statement; }
 );
 
 pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
@@ -2947,6 +2948,22 @@ pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
 )
 {
 	$statement = new TestcaseStop_Statement(logArguments);
+	$statement.setLocation(getLocation( $start, getStopToken()));
+};
+
+pr_UpdateStatement returns [Update_Statement statement]
+@init {
+	Reference ref = null;
+	MultipleWithAttributes attr = null;
+ }:
+ (	TITANSPECIFICUPDATEKEYWORD 
+	pr_LParen
+	r = pr_ValueReference { ref = $r.reference; }
+	pr_RParen
+	s = pr_WithStatement { attr = $s.attributes; }
+)
+{
+	$statement = new Update_Statement (ref, attr);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
