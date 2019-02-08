@@ -429,6 +429,83 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 			}
 		}
 	}
+	
+	/**
+	 * The static version of checkErroneousAttributes function.
+	 * 
+	 * @param timestamp
+	 */
+	public static ErroneousAttributes checkErroneousAttributes(MultipleWithAttributes p_attrib, IType p_type, Scope p_scope, String p_fullname, boolean in_update_stmt, CompilationTimeStamp timestamp, final Reference ref) {
+		if (p_attrib == null) {
+			return null;
+		}
+
+		ErroneousAttributes erroneous_attrs = null;
+		for (int i = 0; i < p_attrib.getNofElements(); i++) {
+			final SingleWithAttribute act_attr = p_attrib.getAttribute(i);
+			if (act_attr.getAttributeType() == Attribute_Type.Erroneous_Attribute) {
+				//check runtime 2 , now throw error
+				p_attrib.getLocation().reportSemanticError("`erroneous' attributes can be used only with the Function Test Runtime");
+			}
+		}
+			return null;
+			/**final int nof_qualifiers = act_attr.getQualifiers() != null ? act_attr.getQualifiers().getNofQualifiers() : 0;
+				final List<IType> referencedTypeArray = new ArrayList<IType>(nof_qualifiers);
+				final List<ArrayList<Integer>> subrefsArrayArray = new ArrayList<ArrayList<Integer>>(nof_qualifiers);
+				final List<ArrayList<IType>> typeArrayArray = new ArrayList<ArrayList<IType>>(nof_qualifiers);
+				if (nof_qualifiers == 0) {
+					act_attr.getLocation().reportSemanticError(
+							"At least one qualifier must be specified for the `erroneous' attribute");
+				} else {
+					// check if qualifiers point to
+					// existing fields
+					for (int qi = 0; qi < nof_qualifiers; qi++) {
+						final Qualifier actualQualifier = act_attr.getQualifiers().getQualifierByIndex(qi);
+						final Reference reference = new Reference(null);
+						reference.addSubReference(new FieldSubReference(ref.getId()));
+						for (int ri = 0; ri < actualQualifier.getNofSubReferences(); ri++) {
+							reference.addSubReference(actualQualifier.getSubReferenceByIndex(ri));
+						}
+						reference.setLocation(actualQualifier.getLocation());
+						reference.setMyScope(p_scope);
+						IType fieldType = p_type.getFieldType(timestamp, reference, 1,
+								Expected_Value_type.EXPECTED_CONSTANT, false);
+						ArrayList<Integer> subrefsArray = null;
+						ArrayList<IType> typeArray = null;
+						if (fieldType != null) {
+							subrefsArray = new ArrayList<Integer>();
+							typeArray = new ArrayList<IType>();
+							final boolean validIndexes = p_type.getSubrefsAsArray(timestamp, reference, 1,
+									subrefsArray, typeArray);
+							if (!validIndexes) {
+								fieldType = null;
+								subrefsArray = null;
+								typeArray = null;
+							}
+							if (reference.refersToStringElement()) {
+								actualQualifier.getLocation()
+								.reportSemanticError(
+										"Reference to a string element cannot be used in this context");
+								fieldType = null;
+								subrefsArray = null;
+								typeArray = null;
+							}
+						}
+						referencedTypeArray.add(fieldType);
+						subrefsArrayArray.add(subrefsArray);
+						typeArrayArray.add(typeArray);
+					}
+				}
+				final ErroneousAttributeSpecification errAttributeSpecification = parseErrAttrSpecString(act_attr.getAttributeSpecification());
+				if (errAttributeSpecification != null) {
+					errAttributeSpecification.check(timestamp, p_scope);
+					erroneous_attrs = new ErroneousAttributes(p_type);
+					erroneous_attrs.addSpecification(errAttributeSpecification);
+				}
+			}
+		}
+		return erroneous_attrs;**/
+		}
 
 	/**
 	 * Check if two definitions are (almost) identical: the type and
