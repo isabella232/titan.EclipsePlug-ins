@@ -566,19 +566,19 @@ The *`.xls`* format used by the *`jxl`* library only supports 255 columns in a t
 = References
 
 [[_1]]
-* [1] link:https://github.com/eclipse/titan.core/blob/master/usrguide/installationguide.adoc[Installation guide for TITAN TTCN-3 Test Executor]
+* [1] link:https://github.com/eclipse/titan.core/blob/master/usrguide/installationguide/installationguide.adoc[Installation guide for TITAN TTCN-3 Test Executor]
 
 [[_2]]
-* [2] link:https://github.com/eclipse/titan.EclipsePlug-ins/blob/master/Eclipse_installationguide.adoc[Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE]
+* [2] link:https://github.com/eclipse/titan.EclipsePlug-ins/blob/master/org.eclipse.titan.help/docs/Eclipse_installationguide/Eclipse_installationguide.adoc[Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE]
 
 [[_3]]
-* [3] link:https://github.com/eclipse/titan.core/blob/master/usrguide/userguide/README.adoc[User Guide for TITAN TTCN-3 Test Executor]
+* [3] link:https://github.com/eclipse/titan.core/blob/master/usrguide/userguide/UserGuide.adoc[User Guide for TITAN TTCN-3 Test Executor]
 
 [[_4]]
-* [4] link:https://github.com/eclipse/titan.core/blob/master/usrguide/referenceguide/README.adoc[Programmers Technical Reference for TITAN TTCN-3 Test Executor]
+* [4] link:https://github.com/eclipse/titan.core/blob/master/usrguide/referenceguide/ReferenceGuide.adoc[Programmers Technical Reference for TITAN TTCN-3 Test Executor]
 
 [[_5]]
-* [5] link:https://github.com/eclipse/titan.core/blob/master/usrguide/releasenotes.adoc[Release Notes for TITAN TTCN-3 Test Executor]
+* [5] link:https://github.com/eclipse/titan.core/blob/master/usrguide/releasenotes/releasenotes.adoc[Release Notes for TITAN TTCN-3 Test Executor]
 
 
 [[_6]]
