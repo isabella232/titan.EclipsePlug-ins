@@ -363,6 +363,7 @@ MACRO_SCOPE:			'__SCOPE__';
 // TITAN specific keywords
 TITANSPECIFICTRY:	'@try';
 TITANSPECIFICCATCH:	'@catch';
+TITANSPECIFICUPDATEKEYWORD: '@update';
 
 // modifier keywords
 NOCASEKEYWORD:			'@nocase';
