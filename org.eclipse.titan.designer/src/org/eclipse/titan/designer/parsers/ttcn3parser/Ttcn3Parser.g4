@@ -2931,8 +2931,8 @@ pr_FunctionStatement returns[Statement statement]
 | s7 = pr_SUTStatements				{ $statement = $s7.statement; }
 | s8 = pr_TestcaseStopStatement		{ $statement = $s8.statement; }
 | s9 = pr_UpdateStatement			{ $statement = $s9.statement; }
-| s10 = pr_SetStateStatement		{ $statement = $s9.statement; }
-| s11 = pr_SetencodeStatement { $statement = $s10.statement; }
+| s10 = pr_SetStateStatement		{ $statement = $s10.statement; }
+| s11 = pr_SetencodeStatement { $statement = $s11.statement; }
 );
 
 pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
