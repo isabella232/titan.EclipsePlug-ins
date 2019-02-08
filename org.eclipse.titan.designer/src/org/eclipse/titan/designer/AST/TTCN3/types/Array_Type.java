@@ -1300,6 +1300,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");
 
+		source.append(MessageFormat.format("public {0}(final Class<{2}> classTemplate, final TitanValue_Array<{1}> otherValue) '{'\n", classTemplateName, ofValueType, ofTemplateType));
+		source.append("super(classTemplate, otherValue);\n");
+		source.append("}\n");
+
 		source.append(MessageFormat.format("public {0}(final Optional<{1}> otherValue) '{'\n", classTemplateName, className));
 		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
 		source.append("switch (otherValue.get_selection()) {\n");
