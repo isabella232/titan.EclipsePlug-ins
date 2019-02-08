@@ -444,11 +444,12 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		for (int i = 0; i < p_attrib.getNofElements(); i++) {
 			final SingleWithAttribute act_attr = p_attrib.getAttribute(i);
 			if (act_attr.getAttributeType() == Attribute_Type.Erroneous_Attribute) {
-				//check runtime 2 , now throw error
+				//TODO: check runtime 2 , now throw error
 				p_attrib.getLocation().reportSemanticError("`erroneous' attributes can be used only with the Function Test Runtime");
 			}
 		}
 			return null;
+			//TODO: runtime 2
 			/**final int nof_qualifiers = act_attr.getQualifiers() != null ? act_attr.getQualifiers().getNofQualifiers() : 0;
 				final List<IType> referencedTypeArray = new ArrayList<IType>(nof_qualifiers);
 				final List<ArrayList<Integer>> subrefsArrayArray = new ArrayList<ArrayList<Integer>>(nof_qualifiers);

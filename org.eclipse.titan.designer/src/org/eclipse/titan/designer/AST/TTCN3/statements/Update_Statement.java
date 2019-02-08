@@ -105,7 +105,7 @@ public class Update_Statement extends Statement {
 		if (attr != null) {
 			err_attrib = Definition.checkErroneousAttributes(attr, ref_type, myScope, ref_type.getFullName(), false, timestamp, ref);
 		}
-		//Runtime 2
+		//TODO: Runtime 2
 		/*if (ref.getSubreferences() != null) {
 			ref.getLocation().reportSemanticError("Field names and array indexes are not allowed in this context");
 		}*/
