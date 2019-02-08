@@ -648,11 +648,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-		referenceChain.release();
-
-		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
+		if (referencedValue != null && referencedValue != this && referencedValue.canGenerateSingleExpression() && referencedValue.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
 			return true;
 		}
 
@@ -662,12 +658,8 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean returnsNative() {
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-		referenceChain.release();
-
-		if (last != null && last != this) {
-			return last.returnsNative();
+		if (referencedValue != null && referencedValue != this) {
+			return referencedValue.returnsNative();
 		}
 
 		return false;
@@ -683,12 +675,8 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-		referenceChain.release();
-
-		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
-			return last.generateSingleExpression(aData);
+		if (referencedValue != null && referencedValue != this && referencedValue.canGenerateSingleExpression() && referencedValue.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
+			return referencedValue.generateSingleExpression(aData);
 		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
@@ -700,11 +688,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-		referenceChain.release();
-
-		if (last == this) {
+		if (referencedValue == null || referencedValue == this) {
 			final ExpressionStruct expression = new ExpressionStruct();
 			expression.expression.append(name);
 			expression.expression.append(".operator_assign(");
@@ -719,27 +703,27 @@ public final class Referenced_Value extends Value {
 
 		// the referred value is available at compile time
 		// the code generation is based on the referred value
-		if (last.canGenerateSingleExpression() &&
-				myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
+		if (referencedValue.canGenerateSingleExpression() &&
+				myScope.getModuleScopeGen() == referencedValue.getMyScope().getModuleScopeGen()) {
 			// simple substitution for in-line values within the same module
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.generateSingleExpression(aData)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.generateSingleExpression(aData)));
 		} else {
 			// use a simple reference to reduce code size
-			if (needsInitPrecede(aData, last)) {
+			if (needsInitPrecede(aData, referencedValue)) {
 				// the referred value must be initialized first
-				if (!last.isTopLevel() && last.needsTemporaryReference()) {
+				if (!referencedValue.isTopLevel() && referencedValue.needsTemporaryReference()) {
 					// temporary id should be introduced for the lhs
 					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
-					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", last.getMyGovernor().getGenNameValue(aData, source, myScope), tempId, last.get_lhs_name()));
-					last.generateCodeInit(aData, source, tempId);
+					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", referencedValue.getMyGovernor().getGenNameValue(aData, source, myScope), tempId, referencedValue.get_lhs_name()));
+					referencedValue.generateCodeInit(aData, source, tempId);
 					source.append("}\n");
 				} else {
-					last.generateCodeInit(aData, source, last.get_lhs_name());
+					referencedValue.generateCodeInit(aData, source, referencedValue.get_lhs_name());
 				}
 			}
 
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.getGenNameOwn(myScope)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.getGenNameOwn(myScope)));
 		}
 
 		lastTimeGenerated = aData.getBuildTimstamp();
@@ -750,11 +734,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInitMandatory(final JavaGenData aData, final StringBuilder source, final String name) {
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-		referenceChain.release();
-
-		if (last == this) {
+		if (referencedValue == null || referencedValue == this) {
 			final ExpressionStruct expression = new ExpressionStruct();
 			expression.expression.append(name);
 			expression.expression.append(".operator_assign(");
@@ -768,15 +748,15 @@ public final class Referenced_Value extends Value {
 
 		// the referred value is available at compile time
 		// the code generation is based on the referred value
-		if (last.canGenerateSingleExpression() &&
-				myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
+		if (referencedValue.canGenerateSingleExpression() &&
+				myScope.getModuleScopeGen() == referencedValue.getMyScope().getModuleScopeGen()) {
 			// simple substitution for in-line values within the same module
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.generateSingleExpression(aData)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.generateSingleExpression(aData)));
 		} else {
 			// TODO might need initialization see needs_init_precede
 			// TODO Value.cc:generate_code_init_refd
 
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, last.getGenNameOwn(myScope)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.getGenNameOwn(myScope)));
 		}
 
 		return source;
