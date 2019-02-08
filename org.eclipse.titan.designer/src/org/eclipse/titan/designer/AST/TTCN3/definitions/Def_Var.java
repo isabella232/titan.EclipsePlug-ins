@@ -521,6 +521,7 @@ public final class Def_Var extends Definition {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, sb);
+			arrayType.generateCodeTemplate(aData, sb);
 		}
 
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
