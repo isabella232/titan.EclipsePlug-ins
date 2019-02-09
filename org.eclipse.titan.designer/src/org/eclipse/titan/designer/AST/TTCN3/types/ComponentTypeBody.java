@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -955,7 +956,11 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		if (extendsReferences != null) {
 			boolean hasBaseComponents = false;
+			TreeMap<String, ComponentTypeBody> orderedNames = new TreeMap<String, ComponentTypeBody>();
 			for (final ComponentTypeBody cb : compatibleBodies) {
+				orderedNames.put(cb.getIdentifier().getName(), cb);
+			}
+			for (final ComponentTypeBody cb : orderedNames.values()) {
 				if (cb.definitions.size() > 0) {
 					if(!hasBaseComponents) {
 						init_comp.append("if(init_base_comps) {\n");
@@ -1015,7 +1020,11 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			}
 		}
 
-		for (final Definition def : attributeGainedDefinitions.values() ) {
+		TreeMap<String, Definition> orderedNames1 = new TreeMap<String, Definition>();
+		for (final Definition def : attributeGainedDefinitions.values()) {
+			orderedNames1.put(def.getIdentifier().getName(), def);
+		}
+		for (final Definition def : orderedNames1.values() ) {
 			if (def.getAssignmentType() == Assignment_type.A_PORT) {
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
@@ -1035,7 +1044,11 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			}
 		}
 
-		for (final Definition def : extendsGainedDefinitions.values() ) {
+		TreeMap<String, Definition> orderedNames2 = new TreeMap<String, Definition>();
+		for (final Definition def : extendsGainedDefinitions.values()) {
+			orderedNames2.put(def.getIdentifier().getName(), def);
+		}
+		for (final Definition def : orderedNames2.values() ) {
 			if (def.getAssignmentType() == Assignment_type.A_PORT) {
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
