@@ -185,7 +185,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "Referenced type";
 		}
 
-		return refdLast.getTypename();
+		return refdLast.getTypename();//TODO maybe this should be the name of the current type. 
 	}
 
 	@Override
