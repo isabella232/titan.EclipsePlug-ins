@@ -68,20 +68,25 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		final Collection<Module> localModules = sourceParser.getModules();
 		final Set<String> knownModuleNames = sourceParser.getKnownModuleNames();
 		codeGeneratorMonitor.beginTask("Checking prerequisites", localModules.size() + 1);
+		int generatedCount = 0;
 		for(Module module : localModules) {
-			if (monitor.isCanceled()) {
+			if (codeGeneratorMonitor.isCanceled()) {
 				break;
 			}
 
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");
 			try {
 				ProjectSourceCompiler.compile(timestamp, module, reportDebugInformation );
+				if (ProjectSourceCompiler.generated) {
+					generatedCount++;
+				}
 			} catch ( Exception e ) {
 				ErrorReporter.logExceptionStackTrace("While generating Java code for module " + module.getIdentifier().getDisplayName(), e);
 			}
 
 			codeGeneratorMonitor.worked(1);
 		}
+		TITANDebugConsole.println("Generated " + generatedCount + " Java files.");
 		TITANDebugConsole.println("Generating code for single main");
 		try {
 			ProjectSourceCompiler.generateGeneratedPackageInfo(project);

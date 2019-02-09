@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 
@@ -28,6 +29,7 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
  * @author Arpad Lovassy
  */
 public class ProjectSourceCompiler {
+	public static boolean generated;
 
 	/** the root package of the generated java source */
 	private static String getPackageGeneratedRoot(final IProject project) {
@@ -57,6 +59,11 @@ public class ProjectSourceCompiler {
 		return MessageFormat.format("user_provided/org/eclipse/titan/{0}/user_provided", projectName);
 	}
 
+	public static void generateSourceFolder(final IProject project) throws CoreException {
+		final IFolder folder = project.getFolder( getGeneratedRoot(project) );
+		createDir( folder );
+	}
+
 	/**
 	 * Generates java code for a module
 	 * @param timestamp the timestamp of this build
@@ -65,6 +72,7 @@ public class ProjectSourceCompiler {
 	 * @throws CoreException
 	 */
 	public static void compile(final BuildTimestamp timestamp, final Module aModule, final boolean aDebug ) throws CoreException {
+		generated = false;
 		final IResource sourceFile = aModule.getLocation().getFile();
 		if(MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, sourceFile, IMarker.SEVERITY_ERROR)
 				|| MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, sourceFile)
@@ -119,10 +127,13 @@ public class ProjectSourceCompiler {
 			if(needsUpdate(file, content) ) {
 				final InputStream outputStream = new ByteArrayInputStream( content.getBytes() );
 				file.setContents( outputStream, IResource.FORCE | IResource.KEEP_HISTORY, null );
+				generated = true;
+				TITANDebugConsole.println("re-Generated code for module `" + aModule.getIdentifier().getDisplayName() + "'");
 			}
 		} else {
 			final InputStream outputStream = new ByteArrayInputStream( content.getBytes() );
 			file.create( outputStream, IResource.FORCE, null );
+			generated = true;
 		}
 	}
 
