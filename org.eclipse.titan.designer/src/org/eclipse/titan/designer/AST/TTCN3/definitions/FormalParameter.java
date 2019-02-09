@@ -371,6 +371,7 @@ public final class FormalParameter extends Definition {
 	public void reset() {
 		isUsed = false;
 		wasAssigned = false;
+		usedAsLValue = false;
 	}
 
 	@Override
@@ -387,7 +388,6 @@ public final class FormalParameter extends Definition {
 		}
 
 		lastTimeChecked = timestamp;
-		usedAsLValue = false;
 
 		if (evaluationType != parameterEvaluationType.NORMAL_EVAL && (assignmentType == Assignment_type.A_PAR_TEMP_OUT || assignmentType == Assignment_type.A_PAR_TEMP_INOUT)) {
 			getLocation().reportSemanticError(MessageFormat.format("Only `in'' formal template parameters can have @{0} evaluation", evaluationType == parameterEvaluationType.LAZY_EVAL ? "lazy" : "fuzzy"));
