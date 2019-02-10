@@ -19,7 +19,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.UnbufferedCharStream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -70,6 +72,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_ErroneousAttributeSpecContext;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
+import org.eclipse.titan.designer.properties.data.MakefileCreationData;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 
 /**
  * The definition class represents general TTCN3 definitions.
@@ -444,8 +448,20 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		for (int i = 0; i < p_attrib.getNofElements(); i++) {
 			final SingleWithAttribute act_attr = p_attrib.getAttribute(i);
 			if (act_attr.getAttributeType() == Attribute_Type.Erroneous_Attribute) {
-				//TODO: check runtime 2 , now throw error
-				p_attrib.getLocation().reportSemanticError("`erroneous' attributes can be used only with the Function Test Runtime");
+				boolean useRuntime2 = false;
+				try {
+					if ("true".equals(p_attrib.getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+							MakefileCreationData.FUNCTIONTESTRUNTIME_PROPERTY)))) {
+						useRuntime2 = true;
+					}
+				} catch (CoreException e) {
+					ErrorReporter.logExceptionStackTrace("Error while reading persistent property", e);
+				}
+
+				if (!useRuntime2) {
+					p_attrib.getLocation().reportSemanticError("`erroneous' attributes can be used only with the Function Test Runtime");
+					return null;
+				}
 			}
 		}
 			return null;
