@@ -576,7 +576,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * ASN.1 types automatically support BER, PER and JSON encodings, and XER
 	 * encoding, if set by the compiler option.
 	 * */
-	public void checkEncode(final CompilationTimeStamp timestamp) {
+	public final void checkEncode(final CompilationTimeStamp timestamp) {
 		switch (getTypeRefdLast(timestamp).getTypetypeTtcn3()) {
 		case TYPE_NULL:
 		case TYPE_BOOL:
