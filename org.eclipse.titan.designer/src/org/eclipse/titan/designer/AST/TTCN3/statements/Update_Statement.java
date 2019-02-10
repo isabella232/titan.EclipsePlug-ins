@@ -9,6 +9,9 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.text.MessageFormat;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -25,6 +28,8 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.properties.data.MakefileCreationData;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 
 public class Update_Statement extends Statement {
 
@@ -88,6 +93,16 @@ public class Update_Statement extends Statement {
 
 	@Override
 	public void check(CompilationTimeStamp timestamp) {
+		boolean useRuntime2 = false;
+		try {
+			if ("true".equals(getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.FUNCTIONTESTRUNTIME_PROPERTY)))) {
+				useRuntime2 = true;
+			}
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace("Error while reading persistent property", e);
+		}
+
 		//TODO: check runtime later
 		Assignment refd_ass = ref.getRefdAssignment(timestamp, false);
 		switch (refd_ass.getAssignmentType()) {
