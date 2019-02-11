@@ -1217,15 +1217,16 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for a reference.");
 						return;
 					}
-
+					//TODO when can compfield == null  happen?
 					if (i < subReferences.size() - 1 && compField != null && compField.isOptional() && !isTemplate) {
 						if (isConst) {
 							expression.expression.append(".constGet()");
 						} else {
 							expression.expression.append(".get()");
 						}
-						type = compField.getType();
 					}
+
+					type = compField.getType();
 				}
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
 				final Value value = ((ArraySubReference)subreference).getValue();
