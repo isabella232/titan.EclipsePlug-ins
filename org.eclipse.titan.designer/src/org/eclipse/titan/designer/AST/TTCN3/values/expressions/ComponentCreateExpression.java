@@ -400,8 +400,11 @@ public final class ComponentCreateExpression extends Expression_Value {
 				expression.expression.append('\"');
 				expression.expression.append(Code.translate_string(temp));
 				expression.expression.append('\"');
-			} else {
+			} else if (name.returnsNative()){
 				name.generateCodeExpressionMandatory(aData, expression, false);
+			} else {
+				name.generateCodeExpressionMandatory(aData, expression, true);
+				expression.expression.append(".get_value().toString()");
 			}
 		} else {
 			expression.expression.append("null");
@@ -419,8 +422,11 @@ public final class ComponentCreateExpression extends Expression_Value {
 				expression.expression.append('\"');
 				expression.expression.append(Code.translate_string(temp));
 				expression.expression.append('\"');
-			} else {
+			} else if (location.returnsNative()){
 				location.generateCodeExpressionMandatory(aData, expression, false);
+			} else {
+				location.generateCodeExpressionMandatory(aData, expression, true);
+				expression.expression.append(".get_value().toString()");
 			}
 		} else {
 			expression.expression.append("null");
