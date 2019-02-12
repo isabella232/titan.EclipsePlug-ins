@@ -747,7 +747,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0});\n", i + 1));
+			source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0,number,#});\n", i + 1));
 			source.append("\t\t\t\tbreak;\n");
 		}
 
@@ -765,7 +765,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tswitch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("\t\t\tcase {0}:\n", i + 1));
+			source.append(MessageFormat.format("\t\t\tcase {0,number,#}:\n", i + 1));
 			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_text(text_buf);\n", fieldInfo.mJavaVarName));
 			source.append("\t\t\t\tbreak;\n");
 		}
@@ -885,15 +885,15 @@ public final class UnionGenerator {
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("int encoded_length = 0;\n");
 			source.append("myleaf.isleaf = false;\n");
-			source.append(MessageFormat.format("myleaf.num_of_nodes = {0};\n", fieldInfos.size()));
-			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0}];\n", fieldInfos.size()));
+			source.append(MessageFormat.format("myleaf.num_of_nodes = {0,number,#};\n", fieldInfos.size()));
+			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0,number,#}];\n", fieldInfos.size()));
 			source.append("switch (union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
-				source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1}]);\n", fieldInfo.mTypeDescriptorName, i));
-				source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("myleaf.nodes[{0,number,#}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0,number,#}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1,number,#}]);\n", fieldInfo.mTypeDescriptorName, i));
+				source.append(MessageFormat.format("myleaf.nodes[{0,number,#}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
 				final int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
 				if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
@@ -924,8 +924,8 @@ public final class UnionGenerator {
 			source.append("switch (sel_field) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case {0}: '{'\n", i));
-				source.append(MessageFormat.format("final RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("case {0,number,#}: '{'\n", i));
+				source.append(MessageFormat.format("final RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
 				source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 				source.append("break;\n");
 				source.append("}\n");
@@ -1071,8 +1071,8 @@ public final class UnionGenerator {
 					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(-1 * tag_type[i] - 1);
 
 					source.append("buff.set_pos_bit(starting_pos);\n");
-					source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-					source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
+					source.append(MessageFormat.format("final RAW_Force_Omit field_{0,number,#}_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2,number,#}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
 					source.append("if (decoded_length >= 0) {\n");
 					source.append("if (");
 					genRawFieldChecker(source, cur_choice, true);
@@ -1086,8 +1086,8 @@ public final class UnionGenerator {
 				if (tag_type[i] == 0) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 					source.append("buff.set_pos_bit(starting_pos);\n");
-					source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-					source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
+					source.append(MessageFormat.format("final RAW_Force_Omit field_{0,number,#}_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2,number,#}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
 					source.append("if (decoded_length >= 0) {\n");
 					source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 					source.append("}\n");
@@ -1916,7 +1916,7 @@ public final class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("\t\t\t\tcase {0}:\n", i));
+			source.append(MessageFormat.format("\t\t\t\tcase {0,number,#}:\n", i));
 			source.append(MessageFormat.format("\t\t\t\t\tsingle_value = new {0}();\n", fieldInfo.mJavaTemplateName));
 			source.append("\t\t\t\t\tsingle_value.decode_text(text_buf);\n");
 			source.append("\t\t\t\t\tbreak;\n");

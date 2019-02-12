@@ -3946,14 +3946,14 @@ public final class RecordSetCodeGenerator {
 					}
 					genRawFieldChecker(source, cur_choice, true);
 					source.append(") {\n");
-					source.append(MessageFormat.format("selected_field = {0};\n", cur_choice.fieldnum));
+					source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
 					source.append('}');
 				} else {
 					other = cur_choice.fieldnum;
 				}
 			}
 			source.append(" else {\n");
-			source.append(MessageFormat.format("selected_field = {0};\n", other));
+			source.append(MessageFormat.format("selected_field = {0,number,#};\n", other));
 			source.append("}\n");
 		}
 		/* check the presence of optional field*/
