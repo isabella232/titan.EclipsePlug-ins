@@ -626,6 +626,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					tempField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
 					tempField.type = t.getGenNameValue(aData, source, myScope);
 					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source, myScope);
+					tempField.unionType = getGenNameValue(aData, source, myScope);
 					codingKey.fields.add(tempField);
 
 					for (int b = 0; b < key.keyField.names.size(); b++) {
@@ -642,6 +643,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 							newField.nthfield = comp_index;
 							newField.nthfieldname = idf2.getName();
 							newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+							newField.unionType = t.getGenNameValue(aData, source, myScope);
 							break;
 						case TYPE_TTCN3_SEQUENCE:
 						case TYPE_TTCN3_SET:

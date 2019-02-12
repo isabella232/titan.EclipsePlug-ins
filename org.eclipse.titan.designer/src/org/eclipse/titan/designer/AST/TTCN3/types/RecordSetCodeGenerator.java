@@ -3747,7 +3747,7 @@ public final class RecordSetCodeGenerator {
 						} else {
 							source.append(is_equal ? " && " : " || ");
 						}
-						source.append(MessageFormat.format("{0}.get_selection() {1} union_selection_type.ALT_{2}", fieldName, is_equal ? "==" : "!=", field.nthfieldname));
+						source.append(MessageFormat.format("{0}.get_selection() {1} {2}.union_selection_type.ALT_{3}", fieldName, is_equal ? "==" : "!=", field.unionType, field.nthfieldname));
 					}
 					fieldName = MessageFormat.format("{0}.get_field_{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
 

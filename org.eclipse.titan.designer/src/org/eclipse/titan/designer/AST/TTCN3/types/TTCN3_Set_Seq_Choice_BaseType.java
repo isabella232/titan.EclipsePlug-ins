@@ -1077,6 +1077,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					tempField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
 					tempField.type = t.getGenNameValue(aData, source, myScope);
 					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source, myScope);
+					tempField.unionType = getGenNameValue(aData, source, myScope);
 					if (cf.isOptional()) {
 						tempField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
 					} else {
@@ -1098,6 +1099,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							newField.nthfield = comp_index;
 							newField.nthfieldname = idf2.getName();
 							newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+							newField.unionType = t.getGenNameValue(aData, source, myScope);
 							break;
 						case TYPE_TTCN3_SEQUENCE:
 						case TYPE_TTCN3_SET:
@@ -1172,6 +1174,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						newField.nthfield = comp_index;
 						newField.nthfieldname = idf2.getName();
 						newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+						newField.unionType = t.getGenNameValue(aData, source, myScope);
 						break;
 					case TYPE_TTCN3_SEQUENCE:
 					case TYPE_TTCN3_SET:
@@ -1247,6 +1250,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						final Type t_field2 = cf2.getType();
 						if (t_field2.getTypetype() == Type_type.TYPE_TTCN3_CHOICE) {
 							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+							element_i.raw.lengthindex.unionType = t_field2.getGenNameValue(aData, source, myScope);
 						} else if (cf2.isOptional()) {
 							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
 						} else {
@@ -1311,6 +1315,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								newField.nthfield = comp_index;
 								newField.nthfieldname = idf2.getName();
 								newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+								newField.unionType = t.getGenNameValue(aData, source, myScope);
 								break;
 							case TYPE_TTCN3_SEQUENCE:
 							case TYPE_TTCN3_SET:
@@ -1392,6 +1397,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 									newField.nthfield = comp_index;
 									newField.nthfieldname = idf2.getName();
 									newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+									newField.unionType = t.getGenNameValue(aData, source, myScope);
 									break;
 								case TYPE_TTCN3_SEQUENCE:
 								case TYPE_TTCN3_SET:

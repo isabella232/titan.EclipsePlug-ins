@@ -53,6 +53,8 @@ public class RawASTStruct {
 		public rawAST_coding_field_type fieldtype;
 		public String type;
 		public String typedesc;
+		// only when fieldtype is UNION_FIELD
+		public String unionType;
 	}
 
 	public static class rawAST_coding_field_list {
