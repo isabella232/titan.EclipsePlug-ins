@@ -247,9 +247,10 @@ public final class Disconnect_Statement extends Statement {
 			Port_Utility.generate_code_portref(aData, expression, portReference1);
 		} else {
 			portReference1.generateCode(aData, expression, getMyScope());
-			expression.expression.append(".get_name(), ");
+			expression.expression.append(".get_name()");
 		}
 
+		expression.expression.append(", ");
 		componentReference2.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
 		if (componentReference2.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE) == null) {
