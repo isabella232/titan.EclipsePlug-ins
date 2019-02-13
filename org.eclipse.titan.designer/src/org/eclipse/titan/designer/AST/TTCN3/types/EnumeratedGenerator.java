@@ -190,6 +190,7 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
+		aData.addBuiltinTypeImport("Optional");
 		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addImport( "java.text.MessageFormat" );
 		aData.addImport("java.util.ArrayList");
@@ -197,8 +198,9 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
 
 		generateTemplateDeclaration(source, e_defs.name);
+		generatetemplateCopyValue(aData, source, e_defs.name);
 		generatetemplateCopyTemplate(aData, source, e_defs.name);
-		generateTemplateConstructors(aData, source, e_defs.name);
+		generateTemplateConstructors(aData, source, e_defs.name, e_defs.displayName);
 		generateTemplateCleanUp(source);
 		generateTemplateIsBound(source);
 		generateTemplateIsValue(source, e_defs.name);
@@ -1011,7 +1013,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\tprivate ArrayList<{0}_template> value_list;\n\n", name));
 	}
 
-	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String name){
+	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String name, final String displayName){
 		// empty
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
@@ -1070,6 +1072,20 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tsingle_value = otherValue.enum_value;\n");
 		source.append("\t\t}\n\n");
 
+		//FIXME comment + displayName replacement where needed
+		source.append( MessageFormat.format( "\t\tpublic {0}_template( final Optional<{0}> otherValue ) '{'\n", name ) );
+		source.append("\t\t\tswitch (otherValue.get_selection()) {\n");
+		source.append("\t\t\tcase OPTIONAL_PRESENT:\n");
+		source.append("\t\t\t\tcopy_value(otherValue.constGet());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OPTIONAL_OMIT:\n");
+		source.append("\t\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
+
 		// own type
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
@@ -1101,10 +1117,27 @@ public final class EnumeratedGenerator {
 		//FIXME implement optional parameter version
 	}
 
+	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (aData.isDebug()) {
+			//FIXME check comment
+			source.append("\t\t/**\n");
+			source.append("\t\t * Internal function to copy the provided value into this template.\n");
+			source.append("\t\t * The template becomes a specific value template.\n");
+			source.append("\t\t * The already existing content is overwritten.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param other_value the value to be copied.\n");
+			source.append("\t\t * */\n");
+		}
+		source.append( MessageFormat.format( "\t\tprivate void copy_value(final {0} other_value) '{'\n", name));
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\tsingle_value = other_value.enum_value;\n");
+		source.append("\t\t}\n\n");
+	}
+
 	private static void generatetemplateCopyTemplate(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
-			source.append("\t\t * Initializes to a given template.\n");
+			source.append("\t\t * Internal function to initialize this template.\n");
 			source.append("\t\t * The elements of the provided template are copied.\n");
 			source.append("\t\t *\n");
 			source.append("\t\t * @param otherValue\n");
