@@ -362,8 +362,7 @@ public final class Def_Port extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			source.append( "public" );
-			source.append( " static " );
+			source.append( "public static " );
 		}
 
 		aData.addBuiltinTypeImport( "TitanPort" );
