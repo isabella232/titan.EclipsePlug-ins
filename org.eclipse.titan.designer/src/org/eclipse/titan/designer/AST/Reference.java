@@ -1244,7 +1244,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 							expression.expression.append(".get_at(");
 						}
 
-						value.generateCodeExpression(aData, expression, false);
+						value.generateCodeExpressionMandatory(aData, expression, false);
 						expression.expression.append(MessageFormat.format(".constGet_at({0}))", j));
 					}
 				} else if (pt.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
@@ -1258,7 +1258,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 							expression.expression.append(".get_at(");
 						}
 
-						value.generateCodeExpression(aData, expression, false);
+						value.generateCodeExpressionMandatory(aData, expression, false);
 						expression.expression.append(MessageFormat.format(".constGet_at({0}))", j));
 					}
 				} else {
@@ -1268,7 +1268,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						expression.expression.append(".get_at(");
 					}
 
-					value.generateCodeExpression(aData, expression, false);
+					value.generateCodeExpressionMandatory(aData, expression, false);
 					expression.expression.append(")");
 				}
 
