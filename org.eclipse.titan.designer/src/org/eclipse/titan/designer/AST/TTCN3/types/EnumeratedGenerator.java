@@ -199,16 +199,16 @@ public final class EnumeratedGenerator {
 
 		generateTemplateDeclaration(source, e_defs.name);
 		generatetemplateCopyValue(aData, source, e_defs.name);
-		generatetemplateCopyTemplate(aData, source, e_defs.name);
+		generatetemplateCopyTemplate(aData, source, e_defs.name, e_defs.displayName);
 		generateTemplateConstructors(aData, source, e_defs.name, e_defs.displayName);
 		generateTemplateCleanUp(source);
 		generateTemplateIsBound(source);
 		generateTemplateIsValue(source, e_defs.name);
-		generateTemplateoperator_assign(aData, source,e_defs.name);
-		generateTemplateMatch(aData, source,  e_defs.name);
-		generateTemplateValueOf(source, e_defs.name);
-		generateTemplateSetType(source,  e_defs.name);
-		generateTemplateListItem(source, e_defs.name);
+		generateTemplateoperator_assign(aData, source, e_defs.name, e_defs.displayName);
+		generateTemplateMatch(aData, source, e_defs.name, e_defs.displayName);
+		generateTemplateValueOf(source, e_defs.name, e_defs.displayName);
+		generateTemplateSetType(source, e_defs.name, e_defs.displayName);
+		generateTemplateListItem(source, e_defs.name, e_defs.displayName);
 		generateTemplateMatchOmit(source);
 		generateTemplateLog(source, e_defs.name);
 		generateTemplateLogMatch(aData, source, e_defs.name, e_defs.displayName);
@@ -1051,7 +1051,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\tpublic {0}_template(final int otherValue) '{'\n", name));
 		source.append("\t\t\tsuper(template_sel.SPECIFIC_VALUE);\n");
 		source.append(MessageFormat.format("\t\t\tif (!{0}.is_valid_enum(otherValue)) '{'\n", name));
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Initializing a template of enumerated type {0} with unknown numeric value \"+ otherValue +\".\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Initializing a template of enumerated type {0} with unknown numeric value \"+ otherValue +\".\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append(MessageFormat.format("\t\t\tsingle_value = {0}.enum_type.getValue(otherValue);\n", name));
 		source.append("\t\t}\n\n");
@@ -1068,11 +1068,10 @@ public final class EnumeratedGenerator {
 		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template(final {0} otherValue) '{'\n", name));
 		source.append("\t\t\tsuper(template_sel.SPECIFIC_VALUE);\n");
-		source.append("\t\t\totherValue.must_bound(\"Creating a template from an unbound value of enumerated type "+ name +". \");\n");
+		source.append("\t\t\totherValue.must_bound(\"Creating a template from an unbound value of enumerated type "+ displayName +". \");\n");
 		source.append("\t\t\tsingle_value = otherValue.enum_value;\n");
 		source.append("\t\t}\n\n");
 
-		//FIXME displayName replacement where needed
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Initializes with an optional field.\n");
@@ -1141,7 +1140,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generatetemplateCopyTemplate(final JavaGenData aData, final StringBuilder source, final String name) {
+	private static void generatetemplateCopyTemplate(final JavaGenData aData, final StringBuilder source, final String name, final String displayName) {
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Internal function to initialize this template.\n");
@@ -1170,12 +1169,12 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tdefault:\n");
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Copying an uninitialized/unsupported template of enumerated type {0}.\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Copying an uninitialized/unsupported template of enumerated type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String name) {
+	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String name, final String displayName) {
 		// arg: template_sel
 		source.append("\t\t@Override\n");
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final template_sel otherValue) '{'\n", name));
@@ -1200,7 +1199,7 @@ public final class EnumeratedGenerator {
 		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final int otherValue) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\tif (!{0}.is_valid_enum(otherValue)) '{'\n", name));
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
@@ -1263,7 +1262,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t */\n");
 		}
 		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final {0} otherValue)'{'\n", name));
-		source.append("\t\t\totherValue.must_bound(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
+		source.append("\t\t\totherValue.must_bound(\"Assignment of an unbound value of enumerated type "+ displayName +" to a template. \");\n");
 		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t\tsingle_value = otherValue.enum_value;\n");
@@ -1276,7 +1275,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\t\tif( otherValue instanceof {0} ) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}) otherValue);\n", name));
 		source.append("\t\t\t}\n\n");
-		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", displayName));
 		source.append("\t\t}\n\n");
 
 		//Arg: Base_Template
@@ -1285,17 +1284,17 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\t\tif( otherValue instanceof {0}_template ) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template) otherValue);\n", name));
 		source.append("\t\t\t}\n\n");
-		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}''_template can not be cast to {1}\", otherValue));\n", name));
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}''_template can not be cast to {1}\", otherValue));\n", displayName));
 		source.append("\t\t}\n\n");
 
 		//FIXME implement optional parameter version
 	}
 
-	private static void generateTemplateSetType(final StringBuilder source, final String name){
+	private static void generateTemplateSetType(final StringBuilder source, final String name, final String displayName){
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void set_type(final template_sel templateType, final int list_length) {\n");
 		source.append("\t\t\tif (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tclean_up();\n");
 		source.append("\t\t\tset_selection(templateType);\n");
@@ -1337,7 +1336,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateTemplateMatch(final JavaGenData aData, final StringBuilder source, final String name) {
+	private static void generateTemplateMatch(final JavaGenData aData, final StringBuilder source, final String name, final String displayName) {
 		// name.enum_type
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
@@ -1379,7 +1378,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("\t\t\tdefault:\n");
-		source.append("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ name +".\");\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ displayName +".\");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 
@@ -1415,31 +1414,31 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\t\tif( otherValue instanceof {0} ) '{'\n", name));
 		source.append(MessageFormat.format("\t\t\t\treturn match(({0}) otherValue, legacy);\n", name));
 		source.append("\t\t\t}\n\n");
-		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", displayName));
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateTemplateValueOf(final StringBuilder source, final String name) {
+	private static void generateTemplateValueOf(final StringBuilder source, final String name, final String displayName) {
 		source.append("\t\t@Override\n");
 		source.append(MessageFormat.format("\t\tpublic {0} valueof() '{'\n", name));
 		source.append("\t\t\tif (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append(MessageFormat.format("\t\t\treturn new {0}(single_value);\n", name));
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateTemplateListItem(final StringBuilder source, final String name) {
+	private static void generateTemplateListItem(final StringBuilder source, final String name, final String displayName) {
 		source.append("\t\t@Override\n");
 		source.append(MessageFormat.format("\t\tpublic {0}_template list_item(final int list_index) '{'\n", name));
 		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 
 		source.append("\t\t\tif (list_index < 0) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal error: Accessing a value list template of type {0} using a negative index ('{'0'}').\", list_index));\n", name));
 		source.append("\t\t\t} else if(list_index >= value_list.size()) {\n");
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of enumerated type {0}.\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of enumerated type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn value_list.get(list_index);\n");
 		source.append("\t\t}\n\n");
