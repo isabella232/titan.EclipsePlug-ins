@@ -1113,8 +1113,6 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tsuper(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t\tsingle_value = otherValue;\n");
 		source.append("\t\t}\n\n");
-
-		//FIXME implement optional parameter version
 	}
 
 	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String name) {
