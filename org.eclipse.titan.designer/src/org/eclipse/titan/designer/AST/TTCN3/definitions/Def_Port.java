@@ -362,12 +362,7 @@ public final class Def_Port extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				source.append( "private" );
-			} else {
-				source.append( "public" );
-			}
-			source.append( " static " );
+			source.append( "public static " );
 		}
 
 		aData.addBuiltinTypeImport( "TitanPort" );
