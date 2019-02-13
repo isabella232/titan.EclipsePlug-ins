@@ -1117,7 +1117,6 @@ public final class EnumeratedGenerator {
 
 	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (aData.isDebug()) {
-			//FIXME check comment
 			source.append("\t\t/**\n");
 			source.append("\t\t * Internal function to copy the provided value into this template.\n");
 			source.append("\t\t * The template becomes a specific value template.\n");
