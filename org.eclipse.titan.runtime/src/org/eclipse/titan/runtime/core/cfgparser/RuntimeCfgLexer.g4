@@ -272,7 +272,14 @@ MACRO1:
 ) -> type(MACRO);
 CSTR1: 					'charstring' -> type(CSTR);
 MACRO_EXP_CSTR1:		'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? CSTR1 WS1? '}' -> type(MACRO_EXP_CSTR);
-STRING1:				'"' .*? '"' -> type(STRING);
+STRING1:
+'"'
+(	'\\' .
+|	'""'
+|	~( '\\' | '"' )
+)*
+'"'
+ -> type(STRING);
 FL1:					'float' -> type(FL);
 MACRO_FLOAT1:			'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? FL1 WS1? '}' -> type(MACRO_FLOAT);
 
@@ -458,11 +465,9 @@ fragment FR_ESCAPE5:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r
 STRING5:
 (
 	'"'
-	(	FR_ESCAPE5
-	|	~('"' | '\n' | '\r')
-	|	'\n'
-	|	'\r'
-	|	'\r\n'
+	(	'\\' .
+	|	'""'
+	|	~( '\\' | '"' )
 	)*
 	'"'
 |
@@ -549,7 +554,14 @@ BLOCK_COMMENT6:		'/*' .*? '*/'
 	-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON6: 		';' -> type(SEMICOLON);
 ASSIGNMENTCHAR6:	':'? '=' -> type(ASSIGNMENTCHAR);
-STRING6:			'"' .*? '"' -> type(STRING);
+STRING6:
+'"'
+(	'\\' .
+|	'""'
+|	~( '\\' | '"' )
+)*
+'"'
+ -> type(STRING);
 STRINGOP6:			'&' -> type(STRINGOP);
 BEGINCONTROLPART6:	( 'begincontrolpart' | 'Begincontrolpart' | 'beginControlpart' | 'BeginControlpart'
 | 'begincontrolPart' | 'BeginControlPart' | 'beginControlPart' | 'BegincontrolPart' ) -> type(BEGINCONTROLPART);
@@ -631,12 +643,9 @@ SYSTEMKEYWORD7:		'system' -> type(SYSTEMKEYWORD);
 fragment FR_ESCAPE7:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 STRING7:
 '"'
-(
-	FR_ESCAPE7
-|	~('"' | '\n' | '\r')
-|	'\n'
-|	'\r'
-|	'\r\n'
+(	'\\' .
+|	'""'
+|	~( '\\' | '"' )
 )*
 '"'
  -> type(STRING);
@@ -855,15 +864,11 @@ MACRO9:
 	'$' FR_TTCN3IDENTIFIER9
 |	'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? '}'
 ) -> type(MACRO);
-//STRING9:			'"' .*? '"' -> type(STRING);
 STRING9:
 '"'
-(
-	FR_ESCAPE9
-|	~('"' | '\n' | '\r')
-|	'\n'
-|	'\r'
-|	'\r\n'
+(	'\\' .
+|	'""'
+|	~( '\\' | '"' )
 )*
 '"'
  -> type(STRING);
@@ -1124,7 +1129,14 @@ MACRO11:
 	'$' FR_TTCN3IDENTIFIER11
 |	'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? '}'
 ) -> type(MACRO);
-STRING11:			'"' .*? '"' -> type(STRING);
+STRING11:
+'"'
+(	'\\' .
+|	'""'
+|	~( '\\' | '"' )
+)*
+'"'
+ -> type(STRING);
 
 //profiler section
 mode PROFILER_SECTION_MODE;
@@ -1199,7 +1211,14 @@ UNUSEDATA: 'UnusedData'; ALL: 'All';
 
 TRUE12:							'true' -> type(TRUE);
 FALSE12:						'false' -> type(FALSE);
-STRING12:						'"' .*? '"' -> type(STRING);
+STRING12:
+'"'
+(	'\\' .
+|	'""'
+|	~( '\\' | '"' )
+)*
+'"'
+ -> type(STRING);
 fragment FR_LETTER12:			[A-Za-z];
 fragment FR_DIGIT12:			[0-9];
 fragment FR_TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_DIGIT12+ | '_')*;
