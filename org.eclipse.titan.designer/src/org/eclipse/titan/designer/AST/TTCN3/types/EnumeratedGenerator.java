@@ -1072,7 +1072,17 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tsingle_value = otherValue.enum_value;\n");
 		source.append("\t\t}\n\n");
 
-		//FIXME comment + displayName replacement where needed
+		//FIXME displayName replacement where needed
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Initializes with an optional field.\n");
+			source.append("\t\t * The template becomes a specific template with the provided value,\n");
+			source.append("\t\t * or omit if the optional field is set to omit.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the template to initialize to.\n");
+			source.append("\t\t * */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic {0}_template( final Optional<{0}> otherValue ) '{'\n", name ) );
 		source.append("\t\t\tswitch (otherValue.get_selection()) {\n");
 		source.append("\t\t\tcase OPTIONAL_PRESENT:\n");
