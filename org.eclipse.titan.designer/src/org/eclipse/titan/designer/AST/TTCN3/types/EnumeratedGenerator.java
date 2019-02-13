@@ -1277,23 +1277,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t}\n\n");
 		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}''_template can not be cast to {1}\", otherValue));\n", name));
 		source.append("\t\t}\n\n");
-		/*@Override
-		public myenum1_template operator_assign(Base_Type otherValue) {
-			if( otherValue instanceof myenum1 ) {
-				return operator_assign((myenum1) otherValue);
-			}
 
-			throw new TtcnError(MessageFormat.format("Internal Error: value `myenum1' can not be cast to {1}", otherValue));
-		}
-
-		@Override
-		public myenum1_template operator_assign(Base_Template otherValue) {
-			if( otherValue instanceof myenum1_template ) {
-				return operator_assign((myenum1_template) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `myenum1' can not be cast to {1}", otherValue));
-		}*/
 		//FIXME implement optional parameter version
 	}
 
