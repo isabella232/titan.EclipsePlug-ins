@@ -999,13 +999,14 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		// system port initializer function
 		boolean first_port_found = false;
+		boolean elseNeeded = false;
 
 		for (final Definition def : definitions ) {
 			if (def.getAssignmentType() == Assignment_type.A_PORT) {
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
 					first_port_found = true;
-					if (initSystemPort.length() > 0) {
+					if (elseNeeded) {
 						initSystemPort.append("else ");
 					}
 
@@ -1017,6 +1018,8 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				initSystemPort.append(".get().safe_start();\n");
 				initSystemPort.append("return true;\n");
 				initSystemPort.append("}\n");
+
+				elseNeeded = true;
 			}
 		}
 
@@ -1029,7 +1032,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
 					first_port_found = true;
-					if (initSystemPort.length() > 0) {
+					if (elseNeeded) {
 						initSystemPort.append("else ");
 					}
 
@@ -1041,6 +1044,8 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				initSystemPort.append(".get().safe_start();\n");
 				initSystemPort.append("return true;\n");
 				initSystemPort.append("}\n");
+
+				elseNeeded = true;
 			}
 		}
 
@@ -1053,7 +1058,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
 					first_port_found = true;
-					if (initSystemPort.length() > 0) {
+					if (elseNeeded) {
 						initSystemPort.append("else ");
 					}
 
@@ -1065,13 +1070,14 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				initSystemPort.append(".get().safe_start();\n");
 				initSystemPort.append("return true;\n");
 				initSystemPort.append("}\n");
+
+				elseNeeded = true;
 			}
 		}
 
 		if (first_port_found) {
 			initSystemPort.append("}\n");
 		}
-
 	}
 
 	//originally generate_code_comptype_name
