@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
 import org.eclipse.titan.runtime.core.TitanPort.translation_port_state;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * TTCN-3 runtime class
@@ -1004,6 +1004,11 @@ public final class TTCN_Runtime {
 	}
 
 	//originally component_killed, with component parameter
+	public static TitanAlt_Status component_killed(final TitanComponent component_reference) {
+		return component_killed(component_reference.get_component());
+	}
+
+	//originally component_killed, with component parameter
 	public static TitanAlt_Status component_killed(final int component_reference) {
 		if (in_controlPart()) {
 			throw new TtcnError("Killed operation cannot be performed in the control part.");
@@ -1023,6 +1028,11 @@ public final class TTCN_Runtime {
 		default:
 			return ptc_killed(component_reference);
 		}
+	}
+
+	//originally component_running, with component parameter
+	public static boolean component_running(final TitanComponent component_reference) {
+		return component_running(component_reference.get_component());
 	}
 
 	//originally component_running, with component parameter
@@ -1048,6 +1058,11 @@ public final class TTCN_Runtime {
 	}
 
 	//originally component_alive, with component parameter
+	public static boolean component_alive(final TitanComponent component_reference) {
+		return component_alive(component_reference.get_component());
+	}
+
+	//originally component_alive, with component parameter
 	public static boolean component_alive(final int component_reference) {
 		if (in_controlPart()) {
 			throw new TtcnError("Alive operation cannot be performed in the control part.");
@@ -1067,6 +1082,11 @@ public final class TTCN_Runtime {
 		default:
 			return ptc_alive(component_reference);
 		}
+	}
+
+	//originally stop_component
+	public static void stop_component(final TitanComponent component_reference) {
+		stop_component(component_reference.get_component());
 	}
 
 	//originally stop_component
@@ -1117,6 +1137,11 @@ public final class TTCN_Runtime {
 		}
 
 		throw new TC_End();
+	}
+
+	//originally kill_component
+	public static void kill_component(final TitanComponent component_reference) {
+		kill_component(component_reference.get_component());
 	}
 
 	//originally kill_component
