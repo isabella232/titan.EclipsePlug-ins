@@ -1163,7 +1163,16 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		}
 
 		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
-			expression.expression.append(".get()");
+			switch (referredAssignment.getAssignmentType()) {
+			case A_VAR:
+			case A_VAR_TEMPLATE:
+			case A_PORT:
+			case A_TIMER:
+				expression.expression.append(".get()");
+				break;
+			default:
+				break;
+			}
 		}
 
 		generateCode(aData, expression, subReferences, 1, isTemplate, true, referedGovernor);
@@ -1359,7 +1368,17 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		}
 
 		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
-			ass_id2 = ass_id2 + ".get()";
+			switch (referredAssignment.getAssignmentType()) {
+			case A_VAR:
+			case A_VAR_TEMPLATE:
+			case A_PORT:
+			case A_TIMER:
+				ass_id2 = ass_id2 + ".get()";
+				break;
+			default:
+				break;
+			}
+			
 		}
 
 		if (subReferences.size() > 1) {
