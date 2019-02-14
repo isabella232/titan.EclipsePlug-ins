@@ -772,7 +772,7 @@ public final class Def_Timer extends Definition {
 					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
 						continue;
 					}
-					final String embeddedName = MessageFormat.format("{0}.get_at({1})", genName, i + dim.getOffset());
+					final String embeddedName = MessageFormat.format("{0}.get_at({1,number,#})", genName, i + dim.getOffset());
 					generateCodeArrayDuration(aData, source, embeddedName, classNames, (Value) v_elem, startDim + 1);
 				}
 			} else {
@@ -784,7 +784,7 @@ public final class Def_Timer extends Definition {
 					}
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
-					expression.expression.append(".get_at(").append(i + dim.getOffset()).append(")");
+					expression.expression.append(MessageFormat.format(".get_at({0,number,#})", i + dim.getOffset()));
 					expression.expression.append(".operator_assign("); // originally set_default_duration(obj_name, i)
 
 					v_elem.generateCodeExpression(aData, expression, true);
@@ -853,7 +853,7 @@ public final class Def_Timer extends Definition {
 			list.add(tempId2);
 			sb.append(MessageFormat.format("public static class {0} extends TitanTimer_Array<{1}> '{'\n", tempId2, tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
-			sb.append(MessageFormat.format("super({0}.class, {1}, {2});\n", tempId1, dim.getSize(), dim.getOffset()));
+			sb.append(MessageFormat.format("super({0}.class, {1,number,#}, {2,number,#});\n", tempId1, dim.getSize(), dim.getOffset()));
 			sb.append("}\n");
 			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId2));
 			sb.append("super(otherValue);\n");
