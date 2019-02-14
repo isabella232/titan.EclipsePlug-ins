@@ -1158,7 +1158,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			source.append(" * */\n");
 		}
 		source.append(MessageFormat.format("public {0}() '{'\n", ownName));
-		source.append(MessageFormat.format("super({0}.class, {1},{2});\n",elementName,dimension.getSize(), dimension.getOffset()));
+		source.append(MessageFormat.format("super({0}.class, {1,number,#},{2,number,#});\n",elementName,dimension.getSize(), dimension.getOffset()));
 		source.append("}\n\n");
 
 		if (aData.isDebug()) {
@@ -1181,7 +1181,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			source.append(" * */\n");
 		}
 		source.append(MessageFormat.format("public {0}_template() '{'\n",ownName));
-		source.append(MessageFormat.format("super({0}.class, {0}_template.class, {1}, {2});\n",elementName,dimension.getSize(), dimension.getOffset()));
+		source.append(MessageFormat.format("super({0}.class, {0}_template.class, {1,number,#}, {2,number,#});\n",elementName,dimension.getSize(), dimension.getOffset()));
 		source.append("}\n\n");
 
 		if (aData.isDebug()) {
@@ -1259,7 +1259,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		source.append(MessageFormat.format("public static class {0} extends TitanValue_Array<{1}> '{'\n", className, ofType));
 		source.append(MessageFormat.format("public {0}() '{'\n", className));
-		source.append(MessageFormat.format("super({0}.class, {1} , {2});\n", ofType, dim.getSize(), dim.getOffset()));
+		source.append(MessageFormat.format("super({0}.class, {1,number,#} , {2,number,#});\n", ofType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
 		source.append("super(otherValue);\n");
@@ -1297,7 +1297,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		source.append(MessageFormat.format("public static class {0} extends TitanTemplate_Array<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
 		source.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
-		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
+		source.append(MessageFormat.format("super({0}.class, {1}.class, {2,number,#}, {3,number,#});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");
 
 		source.append(MessageFormat.format("public {0}(final Class<{2}> classTemplate, final TitanValue_Array<{1}> otherValue) '{'\n", classTemplateName, ofValueType, ofTemplateType));
@@ -1305,7 +1305,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n");
 
 		source.append(MessageFormat.format("public {0}(final Optional<{1}> otherValue) '{'\n", classTemplateName, className));
-		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
+		source.append(MessageFormat.format("super({0}.class, {1}.class, {2,number,#}, {3,number,#});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
 		source.append("switch (otherValue.get_selection()) {\n");
 		source.append("case OPTIONAL_PRESENT:\n");
 		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
