@@ -79,6 +79,19 @@ public class TitanOctetString extends Base_Type {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanOctetString(final TitanOctetString_Element otherValue) {
+		otherValue.must_bound("Copying an unbound octetstring element.");
+
+		val_ptr = new char[1];
+		val_ptr[0] = otherValue.get_nibble();
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanOctetString(final char value) {
 		val_ptr = new char[1];
 		val_ptr[0] = value;
