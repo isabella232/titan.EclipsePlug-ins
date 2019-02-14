@@ -731,7 +731,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @param expression the expression to generate source code into
 	 * @param reference the reference to check
 	 * */
-	public void generateCodeExpressionOptionalFieldReference(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {
+	public static void generateCodeExpressionOptionalFieldReference(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 		switch (assignment.getAssignmentType()) {
