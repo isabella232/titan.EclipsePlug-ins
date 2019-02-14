@@ -588,6 +588,8 @@ public final class TTCN_Runtime {
 			Module_List.clean_up_usage_stats();
 		}
 
+		TTCN_Logger.close_file();
+		
 		return returnValue;
 	}
 
@@ -683,6 +685,7 @@ public final class TTCN_Runtime {
 		}
 
 		TTCN_Logger.log_executor_component(ExecutorComponent_reason.enum_type.ptc__finished);
+		TTCN_Logger.close_file();
 
 		return returnValue;
 	}
