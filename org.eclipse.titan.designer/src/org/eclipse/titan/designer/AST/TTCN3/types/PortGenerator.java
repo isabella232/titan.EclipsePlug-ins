@@ -409,6 +409,8 @@ public final class PortGenerator {
 		}
 
 		if (portDefinition.portType == PortType.USER) {
+			aData.addBuiltinTypeImport("TitanPort");
+
 			source.append("public TitanPort get_provider_port() {\n");
 			source.append("get_default_destination();\n");
 			if (portDefinition.legacy) {
