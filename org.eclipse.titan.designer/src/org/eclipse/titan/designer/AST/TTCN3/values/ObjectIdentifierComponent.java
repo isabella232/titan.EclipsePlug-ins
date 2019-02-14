@@ -187,6 +187,10 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 					((Referenced_Value) definedValue).getReference().generateConstRef(aData, expression);
 					components.add(MessageFormat.format("TitanObjectid.from_integer({0})", expression.expression));
 				}
+			} else if (Value_type.INTEGER_VALUE.equals(definedValue.getValuetype())) {
+				final StringBuilder result = new StringBuilder();
+				result.append("new TitanInteger(").append(((Integer_Value) definedValue).intValue()).append(')');
+				components.add(result.toString());
 			}
 		} else if (number != null) {
 			if (Value_type.INTEGER_VALUE.equals(number.getValuetype())) {
