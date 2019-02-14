@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -105,6 +106,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 		if (reference != null) {
 			// TODO implement properly
 			reference.generateCode(aData, expression);
+			Value.generateCodeExpressionOptionalFieldReference(aData, expression, reference);
 		}
 	}
 

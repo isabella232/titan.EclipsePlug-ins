@@ -121,7 +121,7 @@ public final class Value_ActualParameter extends ActualParameter {
 			if (eval == parameterEvaluationType.NORMAL_EVAL) {
 				final StringBuilder expressionExpression = new StringBuilder();
 				final ExpressionStruct valueExpression = new ExpressionStruct();
-				value.generateCodeExpression(aData, valueExpression, true);
+				value.generateCodeExpressionMandatory(aData, valueExpression, true);
 				if(valueExpression.preamble.length() > 0) {
 					expression.preamble.append(valueExpression.preamble);
 				}
