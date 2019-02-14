@@ -83,14 +83,24 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean skeleton_given_ = false;
 	private boolean append_file_ = false;
 	private boolean is_disk_full_ = false;
-	private String current_filename_;
+	private static final ThreadLocal<String> current_filename_ = new ThreadLocal<String>() {
+		@Override
+		protected String initialValue(){
+			return null;
+		}
+	};
 	private int logfile_size_ = 0;
 	private int logfile_number_ = 1;
 	private int logfile_index_ = 1;
 	private int logfile_bytes_ = 0;
 	private boolean format_c_present_ = false;
 	private boolean format_t_present_ = false;
-	private File log_fp_;
+	private static ThreadLocal<File> log_fp_ = new ThreadLocal<File>() {
+		@Override
+		protected File initialValue() {
+			return null;
+		};
+	};
 	private boolean is_configured;
 	private File er_;
 	private static final ThreadLocal<BufferedWriter> log_file_writer = new ThreadLocal<BufferedWriter>(){
@@ -113,7 +123,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static LegacyLogger myself = null;
 
 	public LegacyLogger() {
-		log_fp_ = null;
+		log_fp_.set(null);
 		er_ = null;
 		logfile_bytes_ = 0;
 		logfile_size_ = 0;
@@ -125,7 +135,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		is_disk_full_ = false;
 		format_c_present_ = false;
 		format_t_present_ = false;
-		current_filename_ = null;
+		current_filename_.set(null);
 		if (myself == null) {
 			myself = this;
 		} else {
@@ -219,13 +229,13 @@ public class LegacyLogger implements ILoggerPlugin {
 				set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e.%s" : "%e-part%i.%s") : (logfile_number_ == 1 ? "%e.%h-%r.%s" : "%e.%h-%r-part%i.%s"), false);
 			}
 		}
-		current_filename_ = get_file_name(logfile_index_);
+		current_filename_.set(get_file_name(logfile_index_));
 		if (current_filename_ != null) {
-			create_parent_directories(current_filename_);
-			log_fp_ = new File(current_filename_);
-			if (!log_fp_.exists()) {
+			create_parent_directories(current_filename_.get());
+			log_fp_.set(new File(current_filename_.get()));
+			if (!log_fp_.get().exists()) {
 				try {
-					log_fp_.createNewFile();
+					log_fp_.get().createNewFile();
 				} catch (IOException e) {
 					throw new TtcnError(e);
 				}
@@ -239,7 +249,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				}
 			}
 			try {
-				log_file_writer.set(new BufferedWriter(new FileWriter(log_fp_, append_file_),32768));
+				log_file_writer.set(new BufferedWriter(new FileWriter(log_fp_.get(), append_file_),32768));
 			} catch (IOException e) {
 				System.err.println("Cannot open file!");
 			}
@@ -250,16 +260,17 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	public void close_file() {
-		if (log_file_writer.get() == null || log_fp_ == null) {
+		if (log_file_writer.get() == null || log_fp_.get() == null || log_fp_ == null) {
 			return;
 		}
 
 		try {
+			log_file_writer.get().flush();
 			log_file_writer.get().close();
 		} catch ( IOException e ) {
 			System.err.println("Cannot close file!");
 		}
-		log_fp_ = null;
+		log_fp_.set(null);
 	}
 	
 	public boolean is_configured() {
@@ -575,7 +586,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			default: {
 				final String new_filename = get_file_name(logfile_index_);
-				if (new_filename != current_filename_) {
+				if (new_filename != current_filename_.get()) {
 					String switched = "Switching to log file " + new_filename;
 					final TitanLogEvent switched_event = new TitanLogEvent();
 					switched_event.get_field_timestamp__().operator_assign(event.get_field_timestamp__());
@@ -592,7 +603,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 		}
 
-		if (log_fp_ == null) {
+		if (log_fp_.get() == null) {
 			open_file(true);
 		}
 		boolean print_success = log_to_file(event_str);
