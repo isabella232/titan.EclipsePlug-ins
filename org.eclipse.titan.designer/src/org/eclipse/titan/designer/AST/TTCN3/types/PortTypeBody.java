@@ -14,15 +14,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -1902,11 +1905,23 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 *
 	 * @param aData used to access build settings.
 	 * @param source where the source code is to be generated.
+	 * @param scope the scope into which the name needs to be generated.
 	 * */
-	public String getClassName(final JavaGenData aData, final StringBuilder source) {
+	public String getClassName(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		final PortDefinition portDefinition = generateDefinitionForCodeGeneration(aData, source);
 
-		return PortGenerator.getClassName(aData, source, myScope.getModuleScopeGen().getProject(), portDefinition);
+		final StringBuilder returnValue = new StringBuilder();
+		final Module myModule = myScope.getModuleScopeGen();
+		if(!myModule.equals(scope.getModuleScopeGen())) {
+			//when the definition is referred from another module
+			// the reference shall be qualified with the namespace of my module
+			returnValue.append(myModule.getName()).append('.');
+		}
+
+		final IProject generatingProject = myScope.getModuleScopeGen().getProject();
+		returnValue.append(PortGenerator.getClassName(aData, source, generatingProject, portDefinition));
+
+		return returnValue.toString();
 	}
 	/**
 	 * Add generated java code on this level.
