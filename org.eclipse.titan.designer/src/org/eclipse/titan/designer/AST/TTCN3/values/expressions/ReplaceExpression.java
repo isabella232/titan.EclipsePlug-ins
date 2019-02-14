@@ -844,18 +844,24 @@ public final class ReplaceExpression extends Expression_Value {
 				templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
 			}
 			expression.expression.append(".replace( ");
-			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
-				lastValue2.generateCodeExpressionMandatory(aData, expression, true);
-			} else {
+			if (lastValue2 instanceof Integer_Value) {
 				final long tempNative = ((Integer_Value) lastValue2).getValue();
 				expression.expression.append(tempNative);
+			} else if (lastValue2.returnsNative()) {
+				lastValue2.generateCodeExpressionMandatory(aData, expression, false);
+			} else {
+				lastValue2.generateCodeExpressionMandatory(aData, expression, true);
+				expression.expression.append(".get_int()");
 			}
 			expression.expression.append(", ");
-			if (lastValue3.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue3).isNative()) {
-				lastValue3.generateCodeExpressionMandatory(aData, expression, true);
-			} else {
+			if (lastValue3 instanceof Integer_Value) {
 				final long tempNative = ((Integer_Value) lastValue3).getValue();
 				expression.expression.append(tempNative);
+			} else if (lastValue3.returnsNative()) {
+				lastValue3.generateCodeExpressionMandatory(aData, expression, false);
+			} else {
+				lastValue3.generateCodeExpressionMandatory(aData, expression, true);
+				expression.expression.append(".get_int()");
 			}
 			expression.expression.append(", ");
 			if (isValue4) {
