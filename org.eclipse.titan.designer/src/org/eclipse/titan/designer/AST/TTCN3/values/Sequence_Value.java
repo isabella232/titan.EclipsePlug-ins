@@ -805,7 +805,7 @@ public final class Sequence_Value extends Value {
 				final String name = values.getNamedValueByIndex(i).getName().getName();
 				if (((TTCN3_Sequence_Type) type).hasComponentWithName(name)) {
 					final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-					embeddedName.append('.');
+					embeddedName.append(".get_field_");
 					embeddedName.append(name);
 					embeddedName.append("()");
 					if (((TTCN3_Sequence_Type) type).getComponentByName(name).isOptional()) {
