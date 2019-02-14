@@ -242,7 +242,7 @@ public final class Start_Timer_Statement extends Statement {
 		timerReference.generateCode(aData, expression);
 		expression.expression.append(".start(");
 		if (timerValue != null) {
-			timerValue.generateCodeExpression(aData, expression, true);
+			timerValue.generateCodeExpressionMandatory(aData, expression, false);
 		}
 		expression.expression.append(")");
 
