@@ -745,6 +745,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * @param inInterleave is it used in interleave?
 	 */
 	public void generateCodeCallBody(final JavaGenData aData, final StringBuilder source, final String tempId, final String callTimer, final boolean inInterleave) {
+		aData.addBuiltinTypeImport("TitanAlt_Status");
+
 		if (hasRepeat) {
 			source.append(MessageFormat.format("{0}:", tempId));
 		}
