@@ -765,10 +765,11 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return;
 		}
 
-		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : getGenNameValue(aData, expression.expression, targetScope);
+		final String valueTypeGenName = getGenNameValue(aData, expression.expression, targetScope);
+		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : valueTypeGenName;
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, currentTypeGenName, FieldSubReference.getJavaGetterName( fieldId.getName())));
+		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, valueTypeGenName, FieldSubReference.getJavaGetterName( fieldId.getName())));
 		expression.expression.append("}\n");
 
 		final CompField compField = getComponentByName(fieldId.getName());
