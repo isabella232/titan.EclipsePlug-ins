@@ -1235,6 +1235,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						}
 					}
 
+					if (compField == null) {
+						ErrorReporter.INTERNAL_ERROR(MessageFormat.format("FATAL ERROR while generating code for a reference, type {0} does not have field with name {1}", type.getFullName(), id.getDisplayName()));
+						return;
+					}
 					type = compField.getType();
 				}
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
