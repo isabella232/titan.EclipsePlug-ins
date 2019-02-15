@@ -1910,18 +1910,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	public String getClassName(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		final PortDefinition portDefinition = generateDefinitionForCodeGeneration(aData, source);
 
-		final StringBuilder returnValue = new StringBuilder();
-		final Module myModule = myScope.getModuleScopeGen();
-		if(!myModule.equals(scope.getModuleScopeGen())) {
-			//when the definition is referred from another module
-			// the reference shall be qualified with the namespace of my module
-			returnValue.append(myModule.getName()).append('.');
-		}
-
-		final IProject generatingProject = myScope.getModuleScopeGen().getProject();
-		returnValue.append(PortGenerator.getClassName(aData, source, generatingProject, portDefinition));
-
-		return returnValue.toString();
+		return PortGenerator.getClassName(aData, source, portDefinition, myScope, scope);
 	}
 	/**
 	 * Add generated java code on this level.

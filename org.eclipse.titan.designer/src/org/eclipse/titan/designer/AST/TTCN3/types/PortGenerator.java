@@ -13,6 +13,8 @@ import java.util.HashSet;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 
@@ -886,15 +888,27 @@ public final class PortGenerator {
 	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
-	 * @param project
-	 *                the project where this port is generated.
 	 * @param portDefinition
 	 *                the definition of the port.
+	 * @param myScope
+	 *                the scope of the port.
+	 * @param targetScope
+	 *                the scope into which the name needs to be generated.
 	 * */
-	public static String getClassName(final JavaGenData aData, final StringBuilder source, final IProject project, final PortDefinition portDefinition) {
+	public static String getClassName(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final Scope myScope, final Scope targetScope) {
 		String className;
 		if (portDefinition.testportType == TestportType.INTERNAL) {
-			className = portDefinition.javaName;
+			final StringBuilder returnValue = new StringBuilder();
+			final Module myModule = myScope.getModuleScopeGen();
+			if(!myModule.equals(targetScope.getModuleScopeGen())) {
+				//when the definition is referred from another module
+				// the reference shall be qualified with the namespace of my module
+				returnValue.append(myModule.getName()).append('.');
+			}
+
+			returnValue.append(portDefinition.javaName);
+
+			className = returnValue.toString();
 		} else {
 			switch (portDefinition.portType) {
 			case USER:
@@ -904,14 +918,27 @@ public final class PortGenerator {
 					break;
 				}
 				// else fall through
-			case REGULAR:
+			case REGULAR:{
 				className = portDefinition.javaName;
 
-				aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + portDefinition.javaName);
+				final IProject generatingProject = myScope.getModuleScopeGen().getProject();
+				aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(generatingProject) + "." + portDefinition.javaName);
 				break;
-			case PROVIDER:
-				className = portDefinition.javaName;
+			}
+			case PROVIDER: {
+				final StringBuilder returnValue = new StringBuilder();
+				final Module myModule = myScope.getModuleScopeGen();
+				if(!myModule.equals(targetScope.getModuleScopeGen())) {
+					//when the definition is referred from another module
+					// the reference shall be qualified with the namespace of my module
+					returnValue.append(myModule.getName()).append('.');
+				}
+
+				returnValue.append(portDefinition.javaName);
+
+				className = returnValue.toString();
 				break;
+			}
 			default:
 				className = "invalid port type";
 
@@ -949,9 +976,10 @@ public final class PortGenerator {
 			case USER:
 				if (portDefinition.legacy) {
 					className = portDefinition.javaName;
-					baseClassName = portDefinition.providerMessageOutList.get(0).name + "_PROVIDER";
+					//talan scope mentes nev kellene?
+					baseClassName = portDefinition.providerMessageOutList.get(0).name;// + "_PROVIDER";
 
-					aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + baseClassName);
+					//aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + baseClassName);
 					break;
 				}
 				// else fall through
