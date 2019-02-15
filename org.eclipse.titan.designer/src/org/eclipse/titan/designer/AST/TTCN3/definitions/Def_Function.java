@@ -1264,7 +1264,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				startFunction.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PARALLEL_UNQUALIFIED);\n");
 				startFunction.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Function {0} returned {1} : \");\n", identifier.getDisplayName(), returnTypeDisplayName));
 				startFunction.append("ret_val.log();\n");
-				startFunction.append("TTCN_Logger.end_event();;\n");
+				startFunction.append("TTCN_Logger.end_event();\n");
 				startFunction.append("final Text_Buf text_buf = new Text_Buf();\n");
 				startFunction.append(MessageFormat.format("TTCN_Runtime.prepare_function_finished(\"{0}\", text_buf);\n", returnTypeDisplayName));
 				startFunction.append("ret_val.encode_text(text_buf);\n");
