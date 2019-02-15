@@ -577,6 +577,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * encoding, if set by the compiler option.
 	 * */
 	public final void checkEncode(final CompilationTimeStamp timestamp) {
+		rawAttribute = null;
+
 		switch (getTypeRefdLast(timestamp).getTypetypeTtcn3()) {
 		case TYPE_NULL:
 		case TYPE_BOOL:
