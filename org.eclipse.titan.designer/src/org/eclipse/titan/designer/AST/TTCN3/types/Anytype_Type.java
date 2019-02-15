@@ -881,6 +881,7 @@ public final class Anytype_Type extends Type {
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		final CompField compField = getComponentByName(fieldId.getName());
 		final Type nextType = compField.getType();
+		final String nextTypeGenName = nextType.getGenNameValue(aData, expression.expression, targetScope);
 		final boolean nextOptional = !isTemplate && compField.isOptional();
 		if (nextOptional) {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
@@ -888,7 +889,7 @@ public final class Anytype_Type extends Type {
 			final String temporalId = aData.getTemporaryVariableName();
 			aData.addBuiltinTypeImport("Optional");
 			expression.expression.append(MessageFormat.format("final Optional<{0}{1}> {2} = {3}.get_field_{4}();\n",
-					nextType.getGenNameValue(aData, expression.expression, targetScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
+					nextTypeGenName, isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 			if (subReferenceIndex == subreferences.size()-1) {
 				expression.expression.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", temporalId));
@@ -902,7 +903,7 @@ public final class Anytype_Type extends Type {
 				expression.expression.append("{\n");
 
 				final String temporalId2 = aData.getTemporaryVariableName();
-				expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, targetScope), isTemplate?"_template":"", temporalId2, temporalId));
+				expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.constGet();\n", nextTypeGenName, isTemplate?"_template":"", temporalId2, temporalId));
 
 				if (optype == Operation_type.ISBOUND_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
@@ -931,7 +932,7 @@ public final class Anytype_Type extends Type {
 				expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 				closingBrackets.insert(0, "}\n");
 				final String temporalId2 = aData.getTemporaryVariableName();
-				expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, targetScope), isTemplate?"_template":"", temporalId2, temporalId));
+				expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.constGet();\n", nextTypeGenName, isTemplate?"_template":"", temporalId2, temporalId));
 				expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
 
 				nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, optype, field, targetScope);
@@ -942,8 +943,9 @@ public final class Anytype_Type extends Type {
 
 			final String temporalId = aData.getTemporaryVariableName();
 			final String temporalId2 = aData.getTemporaryVariableName();
-			expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3};\n", getGenNameValue(aData, expression.expression, targetScope), isTemplate?"_template":"", temporalId, externalId));
-			expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get_field_{4}();\n", nextType.getGenNameValue(aData, expression.expression, targetScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
+			final String currentTypeGenName = getGenNameValue(aData, expression.expression, targetScope);
+			expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3};\n", currentTypeGenName, isTemplate?"_template":"", temporalId, externalId));
+			expression.expression.append(MessageFormat.format("final {0}{1} {2} = {3}.get_field_{4}();\n", nextTypeGenName, isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 			if (optype == Operation_type.ISBOUND_OPERATION) {
 				expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
