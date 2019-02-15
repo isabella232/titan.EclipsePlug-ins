@@ -1261,7 +1261,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				final String returnTypeDisplayName = returnType.getTypename();
 
 				startFunction.append(MessageFormat.format("final {0} ret_val = new {0}({1}({2}));\n", returnTypeName, genName, actualParList));
-				startFunction.append("TTCN_Logger.begin_event(Severity.PARALLEL_UNQUALIFIED);\n");
+				startFunction.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PARALLEL_UNQUALIFIED);\n");
 				startFunction.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Function {0} returned {1} : \");\n", identifier.getDisplayName(), returnTypeDisplayName));
 				startFunction.append("ret_val.log();\n");
 				startFunction.append("TTCN_Logger.end_event();;\n");
