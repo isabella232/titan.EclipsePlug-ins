@@ -765,13 +765,9 @@ public abstract class AbstractOfType extends ASN1Type {
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalId = aData.getTemporaryVariableName();
-		if (isTemplate) {
-			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameTemplate(aData, expression.expression, targetScope),
-					temporalId, externalId, temporalIndexId));
-		} else {
-			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextType.getGenNameValue(aData, expression.expression, targetScope),
-					temporalId, externalId, temporalIndexId));
-		}
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextTypeGenName,
+				temporalId, externalId, temporalIndexId));
 
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		if (optype == Operation_type.ISBOUND_OPERATION) {
