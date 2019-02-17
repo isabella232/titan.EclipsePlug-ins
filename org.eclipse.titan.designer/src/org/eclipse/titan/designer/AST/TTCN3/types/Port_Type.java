@@ -296,7 +296,7 @@ public final class Port_Type extends Type {
 	 * @param dimensions the dimensions of the array to use.
 	 */
 	public String generateCodePort(final JavaGenData aData, final StringBuilder source, final ArrayDimensions dimensions) {
-		String typeName = aData.getTemporaryVariableName();
+		final String typeName = aData.getTemporaryVariableName();
 		String className = typeName;
 		String elementName;
 

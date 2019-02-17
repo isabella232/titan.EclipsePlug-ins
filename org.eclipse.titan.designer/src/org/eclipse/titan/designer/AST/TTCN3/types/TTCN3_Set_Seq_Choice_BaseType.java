@@ -885,7 +885,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						boolean erroneous = false;
 						boolean isOptional = false;
 						for (int k = 0; k < fieldList.names.size(); k++) {
-							Identifier idf = fieldList.names.get(k);
+							final Identifier idf = fieldList.names.get(k);
 							t = t.getTypeRefdLast(timestamp);
 							switch (t.getTypetype()) {
 							case TYPE_TTCN3_CHOICE:
@@ -895,7 +895,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 									idf.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter FORCEOMIT for field {1}", idf.getDisplayName(), fieldId.getDisplayName()));
 									erroneous = true;
 								} else {
-									CompField cf = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByName(idf.getName());
+									final CompField cf = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByName(idf.getName());
 									t = cf.getType();
 									isOptional = cf.isOptional();
 								}
@@ -907,7 +907,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 									idf.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter FORCEOMIT for field {1}", idf.getDisplayName(), fieldId.getDisplayName()));
 									erroneous = true;
 								} else {
-									CompField cf = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentByName(idf);
+									final CompField cf = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentByName(idf);
 									t = cf.getType();
 									isOptional = cf.isOptional();
 								}

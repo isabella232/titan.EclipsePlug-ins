@@ -956,7 +956,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		if (extendsReferences != null) {
 			boolean hasBaseComponents = false;
-			TreeMap<String, ComponentTypeBody> orderedNames = new TreeMap<String, ComponentTypeBody>();
+			final TreeMap<String, ComponentTypeBody> orderedNames = new TreeMap<String, ComponentTypeBody>();
 			for (final ComponentTypeBody cb : compatibleBodies) {
 				orderedNames.put(cb.getIdentifier().getName(), cb);
 			}
@@ -1023,7 +1023,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			}
 		}
 
-		TreeMap<String, Definition> orderedNames1 = new TreeMap<String, Definition>();
+		final TreeMap<String, Definition> orderedNames1 = new TreeMap<String, Definition>();
 		for (final Definition def : attributeGainedDefinitions.values()) {
 			orderedNames1.put(def.getIdentifier().getName(), def);
 		}
@@ -1049,7 +1049,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			}
 		}
 
-		TreeMap<String, Definition> orderedNames2 = new TreeMap<String, Definition>();
+		final TreeMap<String, Definition> orderedNames2 = new TreeMap<String, Definition>();
 		for (final Definition def : extendsGainedDefinitions.values()) {
 			orderedNames2.put(def.getIdentifier().getName(), def);
 		}
