@@ -480,7 +480,7 @@ public abstract class Expression_Value extends Value {
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
 
 	@Override
-	public void setGenName(String genName) {
+	public void setGenName(final String genName) {
 		super.setGenName(genName);
 		if (lastValue != null && lastValue != this) {
 			lastValue.setGenName(genName);
@@ -488,7 +488,7 @@ public abstract class Expression_Value extends Value {
 	}
 
 	@Override
-	public void setGenName(String prefix, String suffix) {
+	public void setGenName(final String prefix, final String suffix) {
 		super.setGenName(prefix, suffix);
 		if (lastValue != null && lastValue != this) {
 			lastValue.setGenName(prefix, suffix);
@@ -496,7 +496,7 @@ public abstract class Expression_Value extends Value {
 	}
 
 	@Override
-	public void setCodeSection(CodeSectionType codeSection) {
+	public void setCodeSection(final CodeSectionType codeSection) {
 		super.setCodeSection(codeSection);
 		if (lastValue != null && lastValue != this) {
 			lastValue.setCodeSection(codeSection);
