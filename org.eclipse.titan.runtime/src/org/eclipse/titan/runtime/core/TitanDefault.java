@@ -163,6 +163,25 @@ public class TitanDefault extends Base_Type {
 	/**
 	 * Checks if the current value is equivalent to the provided one.
 	 *
+	 * operator== in the core with component parameter
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public boolean operator_equals(final TitanComponent otherValue) {
+		must_bound("The left operand of comparison is an unbound default reference.");
+
+		if (otherValue.componentValue != TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("Comparison of an invalid default value.");
+		}
+
+		return default_ptr == null;
+	}
+
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
 	 * operator== in the core
 	 *
 	 * @param otherValue
@@ -196,6 +215,10 @@ public class TitanDefault extends Base_Type {
 	public boolean operator_equals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanDefault) {
 			return operator_equals((TitanDefault)otherValue);
+		}
+
+		if (otherValue instanceof TitanComponent) {
+			return operator_equals((TitanComponent)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
