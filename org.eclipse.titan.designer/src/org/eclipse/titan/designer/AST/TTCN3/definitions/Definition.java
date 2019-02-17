@@ -439,7 +439,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * 
 	 * @param timestamp
 	 */
-	public static ErroneousAttributes checkErroneousAttributes(MultipleWithAttributes p_attrib, IType p_type, Scope p_scope, String p_fullname, boolean in_update_stmt, CompilationTimeStamp timestamp, final Reference ref) {
+	public static ErroneousAttributes checkErroneousAttributes(final MultipleWithAttributes p_attrib, final IType p_type, final Scope p_scope, final String p_fullname, final boolean in_update_stmt, final CompilationTimeStamp timestamp, final Reference ref) {
 		if (p_attrib == null) {
 			return null;
 		}

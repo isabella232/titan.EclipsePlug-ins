@@ -132,8 +132,8 @@ public class LazyFuzzyParamData {
 		value.generateCodeExpression(aData, valueExpression, true);
 	}
 
-	private static void generateCodeForTemplate(JavaGenData aData, ExpressionStruct templateExpression, TemplateInstance template,
-			Restriction_type genRestrictionCheck, Scope scope) {
+	private static void generateCodeForTemplate(final JavaGenData aData, final ExpressionStruct templateExpression, final TemplateInstance template,
+			final Restriction_type genRestrictionCheck, final Scope scope) {
 		template.generateCode(aData, templateExpression, genRestrictionCheck);
 	}
 
