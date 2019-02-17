@@ -341,6 +341,10 @@ public final class PortGenerator {
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TitanCharString");
 
+		if (portDefinition.testportType != TestportType.ADDRESS) {
+			aData.addBuiltinTypeImport( "TitanComponent_template");
+		}
+
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
