@@ -92,7 +92,7 @@ public class Update_Statement extends Statement {
 	}
 
 	@Override
-	public void check(CompilationTimeStamp timestamp) {
+	public void check(final CompilationTimeStamp timestamp) {
 		boolean useRuntime2 = false;
 		try {
 			if ("true".equals(getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
@@ -104,7 +104,7 @@ public class Update_Statement extends Statement {
 		}
 
 		//TODO: check runtime later
-		Assignment refd_ass = ref.getRefdAssignment(timestamp, false);
+		final Assignment refd_ass = ref.getRefdAssignment(timestamp, false);
 		switch (refd_ass.getAssignmentType()) {
 		case A_CONST:
 		case A_TEMPLATE:
@@ -113,12 +113,13 @@ public class Update_Statement extends Statement {
 			this.getLocation().reportSemanticError(MessageFormat.format("Reference to constant or template definition was expected instead of {0}", refd_ass.getAssignmentName()));
 			return;
 		}
-		IType ref_type = refd_ass.getType(timestamp);
-		if (ref_type != null && ref_type.getIsErroneous(timestamp)) {
-			ref.getLocation().reportSemanticError(MessageFormat.format("Type `{0}' cannot have erroneous attributes", ref_type.getTypename()));
+
+		final IType refd_type = refd_ass.getType(timestamp);
+		if (refd_type != null && refd_type.getIsErroneous(timestamp)) {
+			ref.getLocation().reportSemanticError(MessageFormat.format("Type `{0}' cannot have erroneous attributes", refd_type.getTypename()));
 		}
 		if (attr != null) {
-			err_attrib = Definition.checkErroneousAttributes(attr, ref_type, myScope, ref_type.getFullName(), false, timestamp, ref);
+			err_attrib = Definition.checkErroneousAttributes(attr, refd_type, myScope, refd_type.getFullName(), false, timestamp, ref);
 		}
 		//TODO: Runtime 2
 		/*if (ref.getSubreferences() != null) {
@@ -127,7 +128,7 @@ public class Update_Statement extends Statement {
 	}
 
 	@Override
-	public void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException {
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
 		}
@@ -144,7 +145,7 @@ public class Update_Statement extends Statement {
 	}
 
 	@Override
-	protected boolean memberAccept(ASTVisitor v) {
+	protected boolean memberAccept(final ASTVisitor v) {
 		if (ref != null && !ref.accept(v)) {
 			return false;
 		}
