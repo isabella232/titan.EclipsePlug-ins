@@ -1680,9 +1680,9 @@ public final class PortGenerator {
 			source.append("TTCN_Logger.begin_event_log2str();\n");
 			source.append("sender_template.log_match(my_head.sender_address);\n");
 			source.append("TTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TTCN_Logger.end_event_log2str());\n");
+			source.append("}\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-			source.append("}\n");
 			source.append("}\n");
 		} else {
 			source.append("if (!sender_template.match(my_head.sender_component, false)) {\n");
