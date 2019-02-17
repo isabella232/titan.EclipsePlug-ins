@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
-import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -26,8 +26,6 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
-import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -244,8 +242,8 @@ public final class Return_Statement extends Statement {
 		}
 
 		final Definition definition = myStatementBlock.getMyDefinition();
-		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
-			final IValue value = ((SpecificValue_Template) template).getValue();
+		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.isValue(CompilationTimeStamp.getBaseTimestamp())) {
+			final IValue value = template.getValue();
 			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
 			final Definition myDefinition = myStatementBlock.getMyDefinition();
