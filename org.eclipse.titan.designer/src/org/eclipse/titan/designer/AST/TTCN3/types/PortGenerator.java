@@ -917,7 +917,17 @@ public final class PortGenerator {
 			switch (portDefinition.portType) {
 			case USER:
 				if (portDefinition.legacy) {
-					className = portDefinition.javaName;
+					final StringBuilder returnValue = new StringBuilder();
+					final Module myModule = myScope.getModuleScopeGen();
+					if(!myModule.equals(targetScope.getModuleScopeGen())) {
+						//when the definition is referred from another module
+						// the reference shall be qualified with the namespace of my module
+						returnValue.append(myModule.getName()).append('.');
+					}
+
+					returnValue.append(portDefinition.javaName);
+
+					className = returnValue.toString();
 
 					break;
 				}
