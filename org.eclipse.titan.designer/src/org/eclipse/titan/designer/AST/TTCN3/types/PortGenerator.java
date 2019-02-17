@@ -840,7 +840,7 @@ public final class PortGenerator {
 				final messageTypeInfo inType = portDefinition.inMessages.get(i);
 
 
-				generateTypedIncommingMessageProvider(source, i, inType, portDefinition);
+				generateTypedIncommingMessageProvider(aData, source, i, inType, portDefinition);
 			}
 		}
 
@@ -2226,7 +2226,7 @@ public final class PortGenerator {
 
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
+				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par, final {1} sender_address) '{'\n", typeValueName, portDefinition.addressName));
 				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, sender_address", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", sliding_buffer");
@@ -2250,6 +2250,8 @@ public final class PortGenerator {
 	 * This function generates the incoming_message function for a type, for
 	 * a provider or regular port
 	 *
+	 * @param aData
+	 *                only used to add imports if needed
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param index
@@ -2260,7 +2262,7 @@ public final class PortGenerator {
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	private static void generateTypedIncommingMessageProvider(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
+	private static void generateTypedIncommingMessageProvider(final JavaGenData aData, final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		final String typeValueName = inType.mJavaTypeName;
 
 		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
@@ -2320,7 +2322,7 @@ public final class PortGenerator {
 
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
+				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par, final {1} sender_address) '{'\n", typeValueName, portDefinition.addressName));
 				source.append(MessageFormat.format("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, sender_address", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
 					source.append(", sliding_buffer");
