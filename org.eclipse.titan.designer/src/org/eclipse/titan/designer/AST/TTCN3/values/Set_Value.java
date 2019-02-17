@@ -613,7 +613,10 @@ public final class Set_Value extends Value {
 					if (((TTCN3_Set_Type) type).getComponentByName(name).isOptional()) {
 						embeddedName.append(".get()");
 					}
-					namedValue.getValue().setGenNameRecursive(embeddedName.toString());
+					final IValue v = namedValue.getValue();
+					if (v != null) {
+						v.setGenNameRecursive(embeddedName.toString());
+					}
 				}
 			}
 		}
