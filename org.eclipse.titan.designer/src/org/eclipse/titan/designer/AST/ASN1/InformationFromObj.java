@@ -366,6 +366,7 @@ public final class InformationFromObj extends Reference {
 				final ObjectClassField_Type type = new ObjectClassField_Type(temporalFielspecification.getType(), objectClass,
 						currentFieldName);
 				type.setLocation(location);
+				type.setMyScope(myScope);
 				temporalSetting = type;
 			}
 			break;
