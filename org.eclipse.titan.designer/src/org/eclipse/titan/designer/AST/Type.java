@@ -3166,7 +3166,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param optype tells if the function is isbound or ispresent.
 	 * @param field the expression to be used to reach the last union's field, or null.
 	 * */
-	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, Scope targetScope) {
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
