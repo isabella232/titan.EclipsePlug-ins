@@ -170,8 +170,8 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		lastTimeBuilt = aData.getBuildTimstamp();
 
-		StringBuilder preamble = new StringBuilder();
-		String returnValue = patternstring.create_charstring_literals(myScope.getModuleScopeGen(), preamble);
+		final StringBuilder preamble = new StringBuilder();
+		final String returnValue = patternstring.create_charstring_literals(myScope.getModuleScopeGen(), preamble);
 
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );

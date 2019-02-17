@@ -532,7 +532,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			expression.expression.append(tempId);
 		} else {
 			if (hasDecodedRedirect) {
-				ExpressionStruct newExpression = new ExpressionStruct();
+				final ExpressionStruct newExpression = new ExpressionStruct();
 
 				templateBody.generateCodeExpression( aData, newExpression, templateRestriction );
 

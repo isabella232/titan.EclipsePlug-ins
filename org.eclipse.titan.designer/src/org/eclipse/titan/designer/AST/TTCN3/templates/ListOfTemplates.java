@@ -101,7 +101,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 			return;
 		}
 
-		for ( TTCN3Template  template : templates) {
+		for (final TTCN3Template  template : templates) {
 			template.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -111,7 +111,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	@Override
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (templates != null) {
-			for (TTCN3Template t : templates) {
+			for (final TTCN3Template t : templates) {
 				if (!t.accept(v)) {
 					return false;
 				}
