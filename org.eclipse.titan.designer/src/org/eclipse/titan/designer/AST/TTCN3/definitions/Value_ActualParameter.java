@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -133,12 +135,7 @@ public final class Value_ActualParameter extends ActualParameter {
 					// with lazy or fuzzy parameters)
 					final String tempId = aData.getTemporaryVariableName();
 					value.getMyGovernor().getGenNameValue(aData, expression.preamble, myScope);
-					expression.preamble.append(" ");
-					expression.preamble.append(tempId);
-					expression.preamble.append("(");
-					expression.preamble.append(valueExpression.expression);
-					expression.preamble.append(")");
-	
+					expression.preamble.append(MessageFormat.format(" {0}({1})", tempId, valueExpression.expression));
 					expression.preamble.append(valueExpression.postamble);
 					expressionExpression.append(tempId);
 				}
