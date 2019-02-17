@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -25,6 +26,7 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.BitString_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2OctExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2BitExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -219,12 +221,38 @@ public final class Bitstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport("TitanBitString");
+		if (myGovernor == null) {
+			//TODO check as this might also indicate missing governor settings.
+			aData.addBuiltinTypeImport("TitanBitString");
 
-		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("new TitanBitString(\"{0}\")", value));
+			final StringBuilder result = new StringBuilder();
+			result.append(MessageFormat.format("new TitanBitString(\"{0}\")", value));
+			return result;
+		}
 
-		return result;
+		final IType lastGovernor = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+		switch (lastGovernor.getTypetype()) {
+		case TYPE_BITSTRING:
+		case TYPE_BITSTRING_A: {
+			aData.addBuiltinTypeImport("TitanBitString");
+
+			final StringBuilder result = new StringBuilder();
+			result.append(MessageFormat.format("new TitanBitString(\"{0}\")", value));
+			return result;
+		}
+		case TYPE_OCTETSTRING: {
+			aData.addBuiltinTypeImport("TitanOctetString");
+
+			final StringBuilder result = new StringBuilder();
+			final String octetValue = Bit2OctExpression.bit2oct(value);
+			result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", octetValue));
+			return result;
+		}
+		default:
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
+			return new StringBuilder("FATAL ERROR while generating code for value `" + getFullName() + "''");
+		}
 	}
 
 }
