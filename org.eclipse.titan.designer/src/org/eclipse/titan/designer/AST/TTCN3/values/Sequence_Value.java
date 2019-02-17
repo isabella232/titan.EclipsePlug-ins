@@ -802,7 +802,8 @@ public final class Sequence_Value extends Value {
 		final IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
-				final String name = values.getNamedValueByIndex(i).getName().getName();
+				final NamedValue namedValue = values.getNamedValueByIndex(i);
+				final String name = namedValue.getName().getName();
 				if (((TTCN3_Sequence_Type) type).hasComponentWithName(name)) {
 					final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 					embeddedName.append(".get_field_");
@@ -812,7 +813,7 @@ public final class Sequence_Value extends Value {
 						embeddedName.append(".get()");
 					}
 
-					final IValue v = values.getNamedValueByIndex(i).getValue();
+					final IValue v = namedValue.getValue();
 					if (v != null) {
 						v.setGenNameRecursive(embeddedName.toString());
 					}

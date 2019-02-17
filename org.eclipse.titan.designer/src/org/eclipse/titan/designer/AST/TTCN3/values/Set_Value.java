@@ -603,7 +603,8 @@ public final class Set_Value extends Value {
 		final IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (Type_type.TYPE_TTCN3_SET.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
-				final String name = values.getNamedValueByIndex(i).getName().getName();
+				final NamedValue namedValue = values.getNamedValueByIndex(i);
+				final String name = namedValue.getName().getName();
 				if (((TTCN3_Set_Type) type).hasComponentWithName(name)) {
 					final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 					embeddedName.append(".get_field_");
@@ -612,7 +613,7 @@ public final class Set_Value extends Value {
 					if (((TTCN3_Set_Type) type).getComponentByName(name).isOptional()) {
 						embeddedName.append(".get()");
 					}
-					values.getNamedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
+					namedValue.getValue().setGenNameRecursive(embeddedName.toString());
 				}
 			}
 		}
