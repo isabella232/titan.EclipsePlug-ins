@@ -241,6 +241,19 @@ public class TitanDefault extends Base_Type {
 	/**
 	 * Checks if the current value is not equivalent to the provided one.
 	 *
+	 * operator!= in the core with component parameter
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanComponent otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
 	 * operator!= in the core
 	 *
 	 * @param otherValue
