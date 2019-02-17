@@ -606,10 +606,8 @@ public final class Set_Value extends Value {
 				final NamedValue namedValue = values.getNamedValueByIndex(i);
 				final String name = namedValue.getName().getName();
 				if (((TTCN3_Set_Type) type).hasComponentWithName(name)) {
-					final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-					embeddedName.append(".get_field_");
-					embeddedName.append(name);
-					embeddedName.append("()");
+					final StringBuilder embeddedName = new StringBuilder();
+					embeddedName.append(MessageFormat.format("{0}.get_field_{1}()", parameterGenName, name));
 					if (((TTCN3_Set_Type) type).getComponentByName(name).isOptional()) {
 						embeddedName.append(".get()");
 					}
