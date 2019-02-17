@@ -262,8 +262,8 @@ public final class IsTemplateKindExpression extends Expression_Value {
 			break;
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue lastValue = value.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue lastValue = value.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (!lastValue.isUnfoldable(timestamp)) {
