@@ -82,6 +82,18 @@ public class TitanCharString extends Base_Type {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanCharString(final TitanCharString_Element otherValue) {
+		otherValue.must_bound("Copying an unbound charstring value.");
+
+		val_ptr = new StringBuilder(otherValue.get_char());
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanCharString(final TitanUniversalCharString otherValue) {
 		otherValue.must_bound("Copying an unbound universal charstring to a charstring.");
 
