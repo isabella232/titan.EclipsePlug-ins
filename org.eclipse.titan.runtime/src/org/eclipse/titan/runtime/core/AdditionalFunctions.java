@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 
 /**
@@ -5129,8 +5130,9 @@ public final class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(uchar.getUc_cell()));
 	}
 
-	//FIXME: C.33 - regexp
+	// C.33 - regexp
 	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString expression, final int groupno, final boolean nocase) {
+		//FIXME implement
 		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
 	}
 
@@ -5141,6 +5143,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression_val, final TitanUniversalCharString expression_templ, final int groupno, final boolean nocase) {
+		//FIXME implement
 		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
 	}
 
@@ -5154,9 +5157,20 @@ public final class AdditionalFunctions {
 		return regexp(instr, expression, groupno.get_int(), nocase);
 	}
 
-	//FIXME regexp on templates
+	// regexp on templates
 	public static TitanCharString regexp(final TitanCharString_template instr, final TitanCharString_template expression, final int groupno, final boolean nocase) {
-		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+		if (!instr.is_value()) {
+			throw new TtcnError("The first argument of function regexp() is a template with non-specific value.");
+		}
+		if (expression.is_value()) {
+			return regexp(instr.valueof(), expression.valueof(), groupno, nocase);
+		}
+		// pattern matching to specific value
+		if (expression.get_selection() == template_sel.STRING_PATTERN) {
+			return regexp(instr.valueof(), expression.single_value, groupno, nocase);
+		}
+
+		throw new TtcnError("The second argument of function regexp() should be specific value or pattern matching template.");
 	}
 
 	public static TitanCharString regexp(final TitanCharString_template instr, final TitanCharString_template expression, final TitanInteger groupno, final boolean nocase) {
@@ -5166,7 +5180,18 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString_template instr, final TitanUniversalCharString_template expression, final int groupno, final boolean nocase) {
-		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+		if (!instr.is_value()) {
+			throw new TtcnError("The first argument of function regexp() is a template with non-specific value.");
+		}
+		if (expression.is_value()) {
+			return regexp(instr.valueof(), expression.valueof(), groupno, nocase);
+		}
+		// pattern matching to specific value
+		if (expression.get_selection() == template_sel.STRING_PATTERN) {
+			return regexp(instr.valueof(), null, expression.valueof(), groupno, nocase);
+		}
+
+		throw new TtcnError("The second argument of function regexp() should be specific value or pattern matching template.");
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString_template instr, final TitanUniversalCharString_template expression, final TitanInteger groupno, final boolean nocase) {
@@ -5176,7 +5201,18 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString_template expression, final int groupno, final boolean nocase) {
-		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+		if (!instr.is_value()) {
+			throw new TtcnError("The first argument of function regexp() is a template with non-specific value.");
+		}
+		if (expression.is_value()) {
+			return regexp(instr, expression.valueof(), groupno, nocase);
+		}
+		// pattern matching to specific value
+		if (expression.get_selection() == template_sel.STRING_PATTERN) {
+			return regexp(instr, expression.single_value, groupno, nocase);
+		}
+
+		throw new TtcnError("The second argument of function regexp() should be specific value or pattern matching template.");
 	}
 
 	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString_template expression, final TitanInteger groupno, final boolean nocase) {
