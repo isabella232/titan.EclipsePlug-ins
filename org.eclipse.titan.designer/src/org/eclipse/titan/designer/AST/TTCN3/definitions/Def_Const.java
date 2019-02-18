@@ -483,14 +483,6 @@ public final class Def_Const extends Definition {
 		referenceChain.release();
 
 		final StringBuilder globalVariable = new StringBuilder();
-		if ( !isLocal() ) {
-			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-				globalVariable.append( "\tprivate" );
-			} else {
-				globalVariable.append( "\tpublic" );
-			}
-		}
-
 		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			final Array_Type arrayType = (Array_Type) type;
@@ -499,7 +491,7 @@ public final class Def_Const extends Definition {
 		}
 
 		//TODO const with references to other const does not need to copy
-		globalVariable.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		globalVariable.append(MessageFormat.format("public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		getLocation().update_location_object(aData, aData.getPreInit());
 		if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
 			last.generateCodeInit( aData, aData.getPreInit(), genName );
