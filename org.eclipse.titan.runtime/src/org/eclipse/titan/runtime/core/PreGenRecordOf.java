@@ -102,7 +102,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 	public static class PREGEN__RECORD__OF__INTEGER__OPTIMIZED extends Base_Type {
 
-		private List<TitanInteger> valueElements;
+		protected List<TitanInteger> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -2099,7 +2099,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING extends Base_Type {
 
-		private List<TitanUniversalCharString> valueElements;
+		protected List<TitanUniversalCharString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -4202,7 +4202,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanOctetString> valueElements;
+		protected List<TitanOctetString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -6199,7 +6199,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__FLOAT extends Base_Type {
 
-		private List<TitanFloat> valueElements;
+		protected List<TitanFloat> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -8196,7 +8196,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING extends Base_Type {
 
-		private List<TitanUniversalCharString> valueElements;
+		protected List<TitanUniversalCharString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -10193,7 +10193,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__BITSTRING extends Base_Type {
 
-		private List<TitanBitString> valueElements;
+		protected List<TitanBitString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -12190,7 +12190,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED extends Base_Type {
 
-		private List<TitanBoolean> valueElements;
+		protected List<TitanBoolean> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -14187,7 +14187,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__CHARSTRING extends Base_Type {
 
-		private List<TitanCharString> valueElements;
+		protected List<TitanCharString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -16184,7 +16184,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__BOOLEAN extends Base_Type {
 
-		private List<TitanBoolean> valueElements;
+		protected List<TitanBoolean> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -18181,7 +18181,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__BITSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanBitString> valueElements;
+		protected List<TitanBitString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -20178,7 +20178,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__INTEGER extends Base_Type {
 
-		private List<TitanInteger> valueElements;
+		protected List<TitanInteger> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -22175,7 +22175,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanUniversalCharString> valueElements;
+		protected List<TitanUniversalCharString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -24278,7 +24278,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__BOOLEAN extends Base_Type {
 
-		private List<TitanBoolean> valueElements;
+		protected List<TitanBoolean> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -26381,7 +26381,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED extends Base_Type {
 
-		private List<TitanFloat> valueElements;
+		protected List<TitanFloat> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -28484,7 +28484,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__INTEGER extends Base_Type {
 
-		private List<TitanInteger> valueElements;
+		protected List<TitanInteger> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -30587,7 +30587,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__CHARSTRING extends Base_Type {
 
-		private List<TitanCharString> valueElements;
+		protected List<TitanCharString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -32690,7 +32690,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanUniversalCharString> valueElements;
+		protected List<TitanUniversalCharString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -34687,7 +34687,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__HEXSTRING extends Base_Type {
 
-		private List<TitanHexString> valueElements;
+		protected List<TitanHexString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -36790,7 +36790,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanHexString> valueElements;
+		protected List<TitanHexString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -38893,7 +38893,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__OCTETSTRING extends Base_Type {
 
-		private List<TitanOctetString> valueElements;
+		protected List<TitanOctetString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -40996,7 +40996,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__FLOAT extends Base_Type {
 
-		private List<TitanFloat> valueElements;
+		protected List<TitanFloat> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -43099,7 +43099,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED extends Base_Type {
 
-		private List<TitanInteger> valueElements;
+		protected List<TitanInteger> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -45202,7 +45202,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanOctetString> valueElements;
+		protected List<TitanOctetString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -47305,7 +47305,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__OCTETSTRING extends Base_Type {
 
-		private List<TitanOctetString> valueElements;
+		protected List<TitanOctetString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -49302,7 +49302,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__HEXSTRING extends Base_Type {
 
-		private List<TitanHexString> valueElements;
+		protected List<TitanHexString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -51299,7 +51299,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanCharString> valueElements;
+		protected List<TitanCharString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -53402,7 +53402,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__BITSTRING extends Base_Type {
 
-		private List<TitanBitString> valueElements;
+		protected List<TitanBitString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -55505,7 +55505,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED extends Base_Type {
 
-		private List<TitanBoolean> valueElements;
+		protected List<TitanBoolean> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -57608,7 +57608,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanCharString> valueElements;
+		protected List<TitanCharString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -59605,7 +59605,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__FLOAT__OPTIMIZED extends Base_Type {
 
-		private List<TitanFloat> valueElements;
+		protected List<TitanFloat> valueElements;
 
 		/**
 		 * Initializes to unbound value.
@@ -61602,7 +61602,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanBitString> valueElements;
+		protected List<TitanBitString> valueElements;
 
 		private final compare_function_t compare_function_set = new compare_function_t() {
 			@Override
@@ -63705,7 +63705,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 	}
 	public static class PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED extends Base_Type {
 
-		private List<TitanHexString> valueElements;
+		protected List<TitanHexString> valueElements;
 
 		/**
 		 * Initializes to unbound value.
