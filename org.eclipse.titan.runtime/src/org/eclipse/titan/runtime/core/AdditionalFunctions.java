@@ -5129,9 +5129,61 @@ public final class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(uchar.getUc_cell()));
 	}
 
-	//TODO: C.33 - regexp
+	//FIXME: C.33 - regexp
+	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString expression, final int groupno, final boolean nocase) {
+		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+	}
 
+	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString expression, final TitanInteger groupno, final boolean nocase) {
+		groupno.must_bound("The third argument (groupno) of function regexp() is an unbound integer value.");
 
+		return regexp(instr, expression, groupno.get_int(), nocase);
+	}
+
+	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression_val, final TitanUniversalCharString expression_templ, final int groupno, final boolean nocase) {
+		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+	}
+
+	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression, final int groupno, final boolean nocase) {
+		return regexp(instr, expression, null, groupno, nocase);
+	}
+
+	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression, final TitanInteger groupno, final boolean nocase) {
+		groupno.must_bound("The third argument (groupno) of function regexp() is an unbound integer value.");
+
+		return regexp(instr, expression, groupno.get_int(), nocase);
+	}
+
+	//FIXME regexp on templates
+	public static TitanCharString regexp(final TitanCharString_template instr, final TitanCharString_template expression, final int groupno, final boolean nocase) {
+		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+	}
+
+	public static TitanCharString regexp(final TitanCharString_template instr, final TitanCharString_template expression, final TitanInteger groupno, final boolean nocase) {
+		groupno.must_bound("The third argument (groupno) of function regexp() is an unbound integer value.");
+
+		return regexp(instr, expression, groupno.get_int(), nocase);
+	}
+
+	public static TitanUniversalCharString regexp(final TitanUniversalCharString_template instr, final TitanUniversalCharString_template expression, final int groupno, final boolean nocase) {
+		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+	}
+
+	public static TitanUniversalCharString regexp(final TitanUniversalCharString_template instr, final TitanUniversalCharString_template expression, final TitanInteger groupno, final boolean nocase) {
+		groupno.must_bound("The third argument (groupno) of function regexp() is an unbound integer value.");
+
+		return regexp(instr, expression, groupno.get_int(), nocase);
+	}
+
+	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString_template expression, final int groupno, final boolean nocase) {
+		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+	}
+
+	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString_template expression, final TitanInteger groupno, final boolean nocase) {
+		groupno.must_bound("The third argument (groupno) of function regexp() is an unbound integer value.");
+
+		return regexp(instr, expression, groupno.get_int(), nocase);
+	}
 
 	// for internal purposes
 	public static String get_port_name(final String port_name, final int array_index) {
