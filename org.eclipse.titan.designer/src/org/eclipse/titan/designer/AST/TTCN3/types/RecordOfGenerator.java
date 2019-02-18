@@ -207,7 +207,7 @@ public final class RecordOfGenerator {
 	private static void generateValueDeclaration( final StringBuilder source, final String genName, final String ofTypeName,
 												  final boolean isSetOf ) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\t\tprivate List<{0}> valueElements;\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\tprotected List<{0}> valueElements;\n", ofTypeName ) );
 
 		if ( isSetOf ) {
 			source.append('\n');
@@ -3397,6 +3397,8 @@ public final class RecordOfGenerator {
 	 *                the user readable name of the type to be generated.
 	 * @param ofTypeName
 	 *                type name of the "record of/set of" element
+	 * @param ofTypeGenName
+	 *                type generated name of the "record of/set of" element
 	 * @param isSetOf
 	 *                {@code true}: set of, {@code false}: record of
 	 * @param optimized_memalloc
@@ -3408,6 +3410,7 @@ public final class RecordOfGenerator {
 								final String genName,
 								final String displayName,
 								final String ofTypeName,
+								final String ofTypeGenName,
 								final boolean isSetOf,
 								final boolean optimized_memalloc) {
 		aData.addBuiltinTypeImport("PreGenRecordOf");
@@ -3427,6 +3430,25 @@ public final class RecordOfGenerator {
 		source.append(MessageFormat.format("\t\tpublic {0}(final PreGenRecordOf.PREGEN__{1}__OF__{2}{3} other_value) '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
 		source.append("\t\t\tsuper(other_value);\n");
 		source.append("\t\t}\n");
+		source.append("\t@Override\n");
+		source.append(MessageFormat.format("\t\tpublic {0} operator_concatenate(PreGenRecordOf.PREGEN__{1}__OF__{2}{3} other_value) '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
+		source.append(MessageFormat.format("\t\t\tmust_bound(\"Unbound operand of {0} concatenation.\");\n", displayName));
+		source.append(MessageFormat.format("\t\t\tother_value.must_bound(\"Unbound operand of {0} concatenation.\");\n", displayName));
+		source.append(MessageFormat.format("\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName));
+		source.append("\t\tfor (int i=0; i < valueElements.size(); i++) {\n");
+		source.append(MessageFormat.format("\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeGenName));
+		source.append("\t\t\tif (elem != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeGenName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\tfor (int i = 0; i < other_value.lengthof().get_int(); i++) {\n");
+		source.append(MessageFormat.format("\t\t\tfinal {0} elem = other_value.get_at(i);\n", ofTypeGenName));
+		source.append("\t\t\tif (elem != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeGenName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn ret_val;\n");
+		source.append("\t}\n");
 		source.append("\t}\n");
 	}
 

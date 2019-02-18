@@ -599,27 +599,28 @@ public final class SetOf_Type extends AbstractOfType {
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 		} else {
+			final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
 			switch (ofType.getTypetype()) {
 			case TYPE_BOOL:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BOOLEAN", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BOOLEAN", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BOOLEAN", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			case TYPE_BITSTRING:
 			case TYPE_BITSTRING_A:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BITSTRING", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BITSTRING", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BITSTRING", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			case TYPE_HEXSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "HEXSTRING", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "HEXSTRING", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "HEXSTRING", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			case TYPE_OCTETSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "OCTETSTRING", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "OCTETSTRING", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "OCTETSTRING", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			case TYPE_CHARSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "CHARSTRING", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "CHARSTRING", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "CHARSTRING", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			case TYPE_UCHARSTRING:
@@ -631,21 +632,19 @@ public final class SetOf_Type extends AbstractOfType {
 			case TYPE_UNIVERSALSTRING:
 			case TYPE_BMPSTRING:
 			case TYPE_OBJECTDESCRIPTOR:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "INTEGER", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "INTEGER", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "INTEGER", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			case TYPE_REAL:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "FLOAT", true, optimized_memalloc);
+				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "FLOAT", ofTypeGenName, true, optimized_memalloc);
 				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "FLOAT", ofTemplateTypeName, true, optimized_memalloc);
 				break;
 			default: {
-				final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
-
 				final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 				int extension_bit = RawASTStruct.XDEFDEFAULT;
 				if (hasRaw) {
