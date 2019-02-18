@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
@@ -486,5 +487,34 @@ public final class RegexpExpression extends Expression_Value {
 		if (value3 != null) {
 			value3.reArrangeInitCode(aData, source, usageModule);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return templateInstance1.hasSingleExpression() && templateInstance2.hasSingleExpression()
+				&& value3.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		expression.expression.append("AdditionalFunctions.regexp(");
+		if (templateInstance1.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp())) {
+			templateInstance1.getTemplateBody().getValue().generateCodeExpressionMandatory(aData, expression, true);
+		} else {
+			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+		}
+		expression.expression.append(", ");
+		if (templateInstance2.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp())) {
+			templateInstance2.getTemplateBody().getValue().generateCodeExpressionMandatory(aData, expression, true);
+		} else {
+			templateInstance2.generateCode(aData, expression, Restriction_type.TR_NONE);
+		}
+		expression.expression.append(", ");
+		value3.generateCodeExpressionMandatory(aData, expression, false);
+		expression.expression.append(MessageFormat.format(", {0})", noCase ? "true" : "false"));
 	}
 }
