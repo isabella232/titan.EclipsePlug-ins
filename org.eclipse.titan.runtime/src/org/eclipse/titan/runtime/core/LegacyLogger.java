@@ -260,7 +260,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	public void close_file() {
-		if (log_file_writer.get() == null || log_fp_.get() == null || log_fp_ == null) {
+		if (log_file_writer.get() == null || log_fp_ == null || log_fp_.get() == null) {
 			return;
 		}
 
@@ -1309,7 +1309,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append('.');
 				break;
 			case ptc__created__pid:
-				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {2}.{3}", ptc.get_field_compref().get_int(), ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
+				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {1}.{2}", ptc.get_field_compref().get_int(), ptc.get_field_module__().get_value(), ptc.get_field_name().get_value()));
 				if (ptc.get_field_compname().lengthof().get_int() > 0) {
 					returnValue.append(MessageFormat.format(", component name: {0}", ptc.get_field_compname().get_value()));
 				}
