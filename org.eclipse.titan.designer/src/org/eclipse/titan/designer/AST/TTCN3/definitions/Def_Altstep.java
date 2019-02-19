@@ -702,14 +702,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		source.append(body);
 		source.append("}\n\n");
 
-
-
-		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-			source.append( "private" );
-		} else {
-			source.append( "public" );
-		}
-		source.append(MessageFormat.format(" static final void {0}({1})\n", genName, fullParamaterList));
+		source.append(MessageFormat.format("public static final void {0}({1})\n", genName, fullParamaterList));
 		source.append("{\n");
 		source.append("altstep_begin: for( ; ; ) {\n");
 		source.append("boolean block_flag = false;\n");

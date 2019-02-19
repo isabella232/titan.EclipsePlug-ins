@@ -1113,12 +1113,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.setGenName(genName);
 		}
 
-		final StringBuilder tempSource = new StringBuilder();
-		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-			tempSource.append( "private" );
-		} else {
-			tempSource.append( "public" );
-		}
+		final StringBuilder tempSource = new StringBuilder("public");
 		if (portType == null) {
 			tempSource.append(" static");
 		}
