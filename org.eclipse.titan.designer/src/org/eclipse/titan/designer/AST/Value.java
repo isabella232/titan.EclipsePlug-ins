@@ -442,6 +442,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 
 	/**
 	 * sets the name to be used when generating code recursively
+	 * TODO can we find a better way?
 	 * */
 	public void setGenNameRecursive(final String parameterGenName) {
 		if(parameterGenName.endsWith("().get()")) {
