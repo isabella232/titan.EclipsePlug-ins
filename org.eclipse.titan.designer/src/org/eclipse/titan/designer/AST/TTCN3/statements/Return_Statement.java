@@ -235,13 +235,20 @@ public final class Return_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append("return ");
 
+		final Definition definition = myStatementBlock.getMyDefinition();
+
 		//No return value:
 		if ( template == null) {
+			if (definition.getAssignmentType() == Assignment_type.A_ALTSTEP) {
+				//inside an altstep
+				expression.expression.append("TitanAlt_Status.ALT_YES");
+			}
+
 			expression.mergeExpression(source);
+
 			return;
 		}
 
-		final Definition definition = myStatementBlock.getMyDefinition();
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			final IValue value = template.getValue();
 			value.generateCodeExpressionMandatory(aData, expression, true);
