@@ -421,10 +421,9 @@ public final class Choice_Value extends Value {
 
 		final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 		embeddedName.append(".get_field_");
-		if (name != null) {
-			embeddedName.append(name.getName());
-			embeddedName.append("()");
-		}
+		embeddedName.append(name.getName());
+		embeddedName.append("()");
+
 		if (value != null) {
 			value.setGenNameRecursive(embeddedName.toString());
 		}
