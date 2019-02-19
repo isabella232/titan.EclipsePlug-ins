@@ -445,9 +445,9 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * */
 	public void setGenNameRecursive(final String parameterGenName) {
 		if(parameterGenName.endsWith("().get()")) {
-			setGenName(parameterGenName.substring(0, parameterGenName.length() - 8));
+			setGenName(parameterGenName.substring(0, parameterGenName.length() - 6));
 		} else if(parameterGenName.endsWith("().constGet()")) {
-			setGenName(parameterGenName.substring(0, parameterGenName.length() - 13));
+			setGenName(parameterGenName.substring(0, parameterGenName.length() - 11));
 		} else {
 			setGenName(parameterGenName);
 		}
