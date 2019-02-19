@@ -7,8 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -69,5 +74,16 @@ public final class Stop_Execution_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		source.append("TTCN_Runtime.stop_execution();\n");
+
+		final Definition definition = myStatementBlock.getMyDefinition();
+		if (definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL) {
+			final IType type = definition.getType(CompilationTimeStamp.getBaseTimestamp());
+			final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+			source.append(MessageFormat.format("return new {0}();\n", typeGeneratedName));
+		} else if (definition.getAssignmentType() == Assignment_type.A_FUNCTION_RTEMP) {
+			final IType type = definition.getType(CompilationTimeStamp.getBaseTimestamp());
+			final String typeGeneratedName = type.getGenNameTemplate(aData, source, getMyScope());
+			source.append(MessageFormat.format("return new {0}();\n", typeGeneratedName));
+		}
 	}
 }
