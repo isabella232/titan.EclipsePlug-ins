@@ -1211,15 +1211,12 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						compField = ((Open_Type)type).getComponentByName(id);
 						break;
 					case TYPE_ASN1_SEQUENCE:
-						((ASN1_Sequence_Type)type).parseBlockSequence();
 						compField = ((ASN1_Sequence_Type)type).getComponentByName(id);
 						break;
 					case TYPE_ASN1_SET:
-						((ASN1_Set_Type)type).parseBlockSet();
 						compField = ((ASN1_Set_Type)type).getComponentByName(id);
 						break;
 					case TYPE_ASN1_CHOICE:
-						((ASN1_Choice_Type)type).parseBlockChoice();
 						compField = ((ASN1_Choice_Type)type).getComponentByName(id);
 						break;
 					default:
