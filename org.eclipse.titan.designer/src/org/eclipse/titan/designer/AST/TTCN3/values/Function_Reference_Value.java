@@ -178,6 +178,7 @@ public final class Function_Reference_Value extends Value {
 		final Type returnType = functionType.getReturnType();
 		final String moduleName = referredFunction.getMyScope().getModuleScopeGen().getName();
 		final String functionName = referredFunction.getIdentifier().getName();
+		final String functionGenName = referredFunction.getGenNameFromScope(aData, result, getMyScope(), "");
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");
 		result.append("public String getModuleName() {\n");
@@ -203,7 +204,7 @@ public final class Function_Reference_Value extends Value {
 		result.append(" invoke(");
 		functionType.getFormalParameters().generateCode(aData, result);
 		result.append(") {\n");
-		result.append(MessageFormat.format("{0}{1}.{2}({3});\n", returnType == null ? "" : "return ", moduleName, functionName, actualParList));
+		result.append(MessageFormat.format("{0}{1}({2});\n", returnType == null ? "" : "return ", functionGenName, actualParList));
 		result.append("}\n");
 
 		if (functionType.isStartable(CompilationTimeStamp.getBaseTimestamp())) {

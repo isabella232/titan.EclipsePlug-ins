@@ -322,7 +322,7 @@ public final class RefersExpression extends Expression_Value {
 			if (returnType != null) {
 				expression.expression.append("return ");
 			}
-			expression.expression.append(referredAssignment.getIdentifier().getName());
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), ""));
 			expression.expression.append('(');
 			expression.expression.append(actualParList);
 			expression.expression.append(");\n");
@@ -352,13 +352,14 @@ public final class RefersExpression extends Expression_Value {
 
 			final Altstep_Type altstepType = (Altstep_Type) lastGovernor;
 			final String altstepName = referredAssignment.getIdentifier().getName();
+			final String altstepGenName = referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), "");
 			final StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
 
 			expression.expression.append("@Override\n");
 			expression.expression.append("public void invoke_standalone(");
 			altstepType.getFormalParameters().generateCode(aData, expression.expression);
 			expression.expression.append(") {\n");
-			expression.expression.append(MessageFormat.format("{0}({1});\n", altstepName, actualParList));
+			expression.expression.append(MessageFormat.format("{0}({1});\n", altstepGenName, actualParList));
 			expression.expression.append("}\n");
 
 			expression.expression.append("@Override\n");

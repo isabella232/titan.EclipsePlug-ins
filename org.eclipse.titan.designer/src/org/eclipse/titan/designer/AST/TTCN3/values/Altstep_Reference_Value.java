@@ -183,13 +183,14 @@ public final class Altstep_Reference_Value extends Value {
 		final Altstep_Type altstepType = (Altstep_Type) lastGovernor;
 		final String moduleName = referredAltstep.getMyScope().getModuleScopeGen().getName();
 		final String altstepName = referredAltstep.getIdentifier().getName();
+		final String altstepGenName = referredAltstep.getGenNameFromScope(aData, result, getMyScope(), "");
 		final StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
 
 		result.append("@Override\n");
 		result.append("public void invoke_standalone(");
 		altstepType.getFormalParameters().generateCode(aData, result);
 		result.append(") {\n");
-		result.append(MessageFormat.format("{0}.{1}({2});\n", moduleName, altstepName, actualParList));
+		result.append(MessageFormat.format("{0}({1});\n", altstepGenName, actualParList));
 		result.append("}\n");
 
 		result.append("@Override\n");
