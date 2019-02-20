@@ -371,7 +371,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (realValue != null) {
-			realValue.generateCodeExpression(aData, expression, true);
+			realValue.generateCodeExpression(aData, expression, forceObject);
 			return;
 		}
 
