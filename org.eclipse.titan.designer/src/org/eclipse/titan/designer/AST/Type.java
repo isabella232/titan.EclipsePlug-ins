@@ -977,7 +977,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 		default:{
 			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final boolean canHaveCoding = getTypeRefdLast(timestamp).canHaveCoding(timestamp, builtInCoding, chain);
+			final IType refdLast = getTypeRefdLast(timestamp);
+			final boolean canHaveCoding = refdLast.canHaveCoding(timestamp, builtInCoding, chain);
 			chain.release();
 			if (canHaveCoding) {
 				final Coding_Type newCoding = new Coding_Type();
