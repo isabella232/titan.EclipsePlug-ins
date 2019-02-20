@@ -860,51 +860,50 @@ public final class RecordSetCodeGenerator {
 			final AtomicBoolean has_ext_bit = new AtomicBoolean();
 			set_raw_options(isSet, fieldInfos, raw != null, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
 
-			source.append("@Override\n");
-			source.append("/** {@inheritDoc} */\n");
-			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
-			source.append("if (!is_bound()) {\n");
-			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
-			source.append("}\n");
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} */\n");
+			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
+			source.append("\t\t\tif (!is_bound()) {\n");
+			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
+			source.append("\t\t\t}\n");
 
-			source.append("int encoded_length = 0;\n");
-			source.append("myleaf.isleaf = false;\n");
-			source.append(MessageFormat.format("myleaf.num_of_nodes = {0};\n", fieldInfos.size()));
-			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0}];\n", fieldInfos.size()));
+			source.append("\t\t\tint encoded_length = 0;\n");
+			source.append("\t\t\tmyleaf.isleaf = false;\n");
+			source.append(MessageFormat.format("\t\t\tmyleaf.num_of_nodes = {0};\n", fieldInfos.size()));
+			source.append(MessageFormat.format("\t\t\tmyleaf.nodes = new RAW_enc_tree[{0}];\n", fieldInfos.size()));
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-	
 				if (fieldInfo.isOptional) {
-					source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
-					source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
-					source.append("} else {\n");
-					source.append(MessageFormat.format("myleaf.nodes[{0}] = null;\n", i));
-					source.append("}\n");
+					source.append(MessageFormat.format("\t\t\tif ({0}.is_present()) '{'\n", fieldInfo.mVarName));
+					source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t} else {\n");
+					source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0}] = null;\n", i));
+					source.append("\t\t\t}\n");
 				} else {
-					source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
 				}
 			}
 			final int ext_bit_group_length = raw == null || raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
 			for (int i = 0; i < ext_bit_group_length; i++) {
 				final rawAST_coding_ext_group tempGroup = raw.ext_bit_groups.get(i);
 				if (tempGroup.ext_bit != RawASTStruct.XDEFNO) {
-					source.append("{\n");
-					source.append(MessageFormat.format("int node_idx = {0};\n", tempGroup.from));
-					source.append(MessageFormat.format("while (node_idx <= {0} && myleaf.nodes[node_idx] == null) '{'\n", tempGroup.to));
-					source.append("node_idx++;\n");
-					source.append("}\n");
-					source.append("if (myleaf.nodes[node_idx] != null) {\n");
-					source.append("myleaf.nodes[node_idx].ext_bit_handling = 1;\n");
-					source.append(MessageFormat.format("myleaf.nodes[node_idx].ext_bit = ext_bit_t.{0};\n", tempGroup.ext_bit == RawASTStruct.XDEFYES? "EXT_BIT_YES" : "EXT_BIT_REVERSE"));
-					source.append("}\n");
-					source.append(MessageFormat.format("node_idx = {0};\n", tempGroup.to));
-					source.append(MessageFormat.format("while (node_idx >= {0} && myleaf.nodes[node_idx] == null) '{'\n", tempGroup.from));
-					source.append("node_idx--;\n");
-					source.append("}\n");
-					source.append("if (myleaf.nodes[node_idx] != null) {\n");
-					source.append("myleaf.nodes[node_idx].ext_bit_handling += 2;;\n");
-					source.append("}\n");
-					source.append("}\n");
+					source.append("\t\t\t{\n");
+					source.append(MessageFormat.format("\t\t\t\tint node_idx = {0};\n", tempGroup.from));
+					source.append(MessageFormat.format("\t\t\t\twhile (node_idx <= {0} && myleaf.nodes[node_idx] == null) '{'\n", tempGroup.to));
+					source.append("\t\t\t\t\tnode_idx++;\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t\tif (myleaf.nodes[node_idx] != null) {\n");
+					source.append("\t\t\t\t\tmyleaf.nodes[node_idx].ext_bit_handling = 1;\n");
+					source.append(MessageFormat.format("\t\t\t\t\tmyleaf.nodes[node_idx].ext_bit = ext_bit_t.{0};\n", tempGroup.ext_bit == RawASTStruct.XDEFYES? "EXT_BIT_YES" : "EXT_BIT_REVERSE"));
+					source.append("\t\t\t\t}\n");
+					source.append(MessageFormat.format("\t\t\t\tnode_idx = {0};\n", tempGroup.to));
+					source.append(MessageFormat.format("\t\t\t\twhile (node_idx >= {0} && myleaf.nodes[node_idx] == null) '{'\n", tempGroup.from));
+					source.append("\t\t\t\t\tnode_idx--;\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t\tif (myleaf.nodes[node_idx] != null) {\n");
+					source.append("\t\t\t\t\tmyleaf.nodes[node_idx].ext_bit_handling += 2;;\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t}\n");
 				}
 			}
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -918,13 +917,13 @@ public final class RecordSetCodeGenerator {
 					aData.addBuiltinTypeImport("RAW.calc_type");
 					aData.addBuiltinTypeImport("RAW.RAW_enc_lengthto");
 
-					source.append(MessageFormat.format("encoded_length += {0};\n", fieldInfo.raw.fieldlength));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].calc = calc_type.CALC_LENGTH;\n", i));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\tencoded_length += {0};\n", fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].calc = calc_type.CALC_LENGTH;\n", i));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
-					source.append(MessageFormat.format("myleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
@@ -943,12 +942,12 @@ public final class RecordSetCodeGenerator {
 					if (fieldInfos.get(fieldInfo.raw.pointerto).isOptional) {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.pointerto).mVarName));
 					}
-					source.append(MessageFormat.format("encoded_length += {0};\n", fieldInfo.raw.fieldlength));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].calc = calc_type.CALC_POINTER;\n", i));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\tencoded_length += {0};\n", fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].calc = calc_type.CALC_POINTER;\n", i));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
-					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto = new RAW_enc_pointer(new RAW_enc_tr_pos(myleaf.nodes[{1}].curr_pos.level, myleaf.nodes[{1}].curr_pos.pos), {2}, {3}, {4});\n", i, fieldInfo.raw.pointerto, fieldInfo.raw.ptroffset, fieldInfo.raw.unit, fieldInfo.raw.pointerbase));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].pointerto = new RAW_enc_pointer(new RAW_enc_tr_pos(myleaf.nodes[{1}].curr_pos.level, myleaf.nodes[{1}].curr_pos.pos), {2}, {3}, {4});\n", i, fieldInfo.raw.pointerto, fieldInfo.raw.ptroffset, fieldInfo.raw.unit, fieldInfo.raw.pointerbase));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
 					if (fieldInfos.get(fieldInfo.raw.pointerto).isOptional) {
 						source.append("} else {\n");
 						source.append("TitanInteger atm = new TitanInteger(0);\n");
@@ -956,7 +955,7 @@ public final class RecordSetCodeGenerator {
 						source.append("}\n");
 					}
 				} else {
-					source.append(MessageFormat.format("encoded_length += {0}{1}.RAW_encode({2}_descr_, myleaf.nodes[{3}]);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
+					source.append(MessageFormat.format("\t\t\tencoded_length += {0}{1}.RAW_encode({2}_descr_, myleaf.nodes[{3}]);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
 				}
 				if (fieldInfo.isOptional) {
 					source.append("}\n");
@@ -973,24 +972,24 @@ public final class RecordSetCodeGenerator {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
 
-					source.append(MessageFormat.format("if (myleaf.nodes[{0}].nodes[{1}] != null) '{'\n", i, fieldInfo.raw.lengthindex.nthfield));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].calc = calc_type.CALC_LENGTH;\n", i, fieldInfo.raw.lengthindex.nthfield));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].coding_descr = {2}_descr_;\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.lengthindex.typedesc));
+					source.append(MessageFormat.format("\t\t\tif (myleaf.nodes[{0}].nodes[{1}] != null) '{'\n", i, fieldInfo.raw.lengthindex.nthfield));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].calc = calc_type.CALC_LENGTH;\n", i, fieldInfo.raw.lengthindex.nthfield));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].coding_descr = {2}_descr_;\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.lengthindex.typedesc));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto = new RAW_enc_lengthto({2}, new RAW_enc_tr_pos[{2}], {3}, {4});\n", i, fieldInfo.raw.lengthindex.nthfield, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].lengthto = new RAW_enc_lengthto({2}, new RAW_enc_tr_pos[{2}], {3}, {4});\n", i, fieldInfo.raw.lengthindex.nthfield, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
 						}
-						source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(myleaf.nodes[{3}].curr_pos.level, myleaf.nodes[{3}].curr_pos.pos);\n", i, fieldInfo.raw.lengthindex.nthfield, a, fieldInfo.raw.lengthto.get(a)));
+						source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(myleaf.nodes[{3}].curr_pos.level, myleaf.nodes[{3}].curr_pos.pos);\n", i, fieldInfo.raw.lengthindex.nthfield, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append("} else {\n");
-							source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(0, null);\n", i, fieldInfo.raw.lengthindex.nthfield, a));
+							source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(0, null);\n", i, fieldInfo.raw.lengthindex.nthfield, a));
 							source.append("}\n");
 						}
 					}
-					source.append("}\n");
+					source.append("\t\t\t}\n");
 
 					if (fieldInfo.isOptional) {
 						source.append("}\n");
@@ -1067,21 +1066,21 @@ public final class RecordSetCodeGenerator {
 					if (fieldInfo.isOptional) {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
-					source.append(MessageFormat.format("switch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
+					source.append(MessageFormat.format("\t\t\tswitch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
 					for (int a = 0; a < crosstagLength; a++) {
 						final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(a);
 						final int curSize = cur_choice == null || cur_choice.fields == null ? 0 : cur_choice.fields.size();
 						if(curSize > 0) {
-							source.append(MessageFormat.format("case ALT_{0}:\n", cur_choice.varName));
-							source.append("if (");
+							source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", cur_choice.varName));
+							source.append("\t\t\t\tif (");
 							genRawFieldChecker(source, cur_choice, false);
 							source.append(") {\n");
 							if (cur_choice.fields.get(0).isOmitValue) {
-								source.append(MessageFormat.format("encoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
-								source.append(MessageFormat.format("myleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+								source.append(MessageFormat.format("\t\t\t\t\tencoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+								source.append(MessageFormat.format("\t\t\t\t\tmyleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
 								
 							} else {
-								source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
+								source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
 								for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
 									if (ll > 0) {
 										source.append(',');
@@ -1089,20 +1088,20 @@ public final class RecordSetCodeGenerator {
 									source.append(cur_choice.fields.get(0).fields.get(ll).nthfield);
 								}
 								source.append("});\n");
-								source.append("final RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
-								source.append("if (temp_leaf != null) {\n");
-								source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", cur_choice.fields.get(0).expression.expression, cur_choice.fields.get(0).fields.get(cur_choice.fields.get(0).fields.size()-1).typedesc));
-								source.append("} else {\n");
-								source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
-								source.append("}\n");
+								source.append("\t\t\t\t\tfinal RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
+								source.append("\t\t\t\t\tif (temp_leaf != null) {\n");
+								source.append(MessageFormat.format("\t\t\t\t\t\t{0}.RAW_encode({1}_descr_, temp_leaf);\n", cur_choice.fields.get(0).expression.expression, cur_choice.fields.get(0).fields.get(cur_choice.fields.get(0).fields.size()-1).typedesc));
+								source.append("\t\t\t\t\t} else {\n");
+								source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
+								source.append("\t\t\t\t\t}\n");
 							}
-							source.append("}\n");
-							source.append("break;\n");
+							source.append("\t\t\t\t}\n");
+							source.append("\t\t\t\tbreak;\n");
 						}
 					}
-					source.append("default:\n");
-					source.append("break;\n");
-					source.append("}\n");
+					source.append("\t\t\tdefault:\n");
+					source.append("\t\t\t\tbreak;\n");
+					source.append("\t\t\t}\n");
 					if (fieldInfo.isOptional) {
 						source.append("}\n");
 					}
