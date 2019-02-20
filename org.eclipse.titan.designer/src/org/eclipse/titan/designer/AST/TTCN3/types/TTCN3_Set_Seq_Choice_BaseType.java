@@ -594,7 +594,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 		for ( final CompField compField : compFieldMap.fields ) {
 			refChain.markState();
-			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain)) {
+			final Type fieldType = compField.getType();
+			final IType refdLast = fieldType.getTypeRefdLast(timestamp);
+			if (!refdLast.canHaveCoding(timestamp, coding, refChain)) {
 				return false;
 			}
 			refChain.previousState();
