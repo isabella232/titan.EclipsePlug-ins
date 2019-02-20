@@ -615,6 +615,9 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					final ExpressionStruct expression = new ExpressionStruct();
 					key.v_value.generateCodeExpression(aData, expression, true);
 					codingKey.expression = expression;
+					final ExpressionStruct nativeExpression = new ExpressionStruct();
+					key.v_value.generateCodeExpression(aData, nativeExpression, false);
+					codingKey.nativeExpression = nativeExpression;
 					codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;
 					codingKey.start_pos = 0;
 					final CompField cf = getComponentByIndex(codingSingleTag.fieldnum);

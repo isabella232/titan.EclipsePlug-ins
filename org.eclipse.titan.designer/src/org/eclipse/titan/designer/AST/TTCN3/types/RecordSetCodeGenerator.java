@@ -1225,7 +1225,7 @@ public final class RecordSetCodeGenerator {
 								source.append(MessageFormat.format("buff.set_pos_bit(fl_start_pos + {0});\n", cur_field_list.start_pos));
 								source.append(MessageFormat.format("temporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true, null);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
 								source.append("buff.set_pos_bit(fl_start_pos);\n");
-								source.append(MessageFormat.format("if (temporal_decoded_length > 0 && temporal_{0}.operator_equals({1})) '{'\n", j, cur_field_list.expression.expression));
+								source.append(MessageFormat.format("if (temporal_decoded_length > 0 && temporal_{0}.operator_equals({1})) '{'\n", j, cur_field_list.nativeExpression.expression));
 								source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
 								source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
 								source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
@@ -3727,6 +3727,7 @@ public final class RecordSetCodeGenerator {
 			final rawAST_coding_field_list fields = taglist.fields.get(i);
 			String fieldName = null;
 			boolean firstExpr = true;
+			boolean optional = false;
 			if (i > 0) {
 				source.append(is_equal ? " || " : " && ");
 			}
@@ -3768,14 +3769,18 @@ public final class RecordSetCodeGenerator {
 					fieldName = MessageFormat.format("{0}.get()", fieldName);
 				}
 			}
+			if (fields.fields.get(fields.fields.size() - 1).fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+				optional = true;
+			}
 
 			if (!firstExpr) {
 				source.append(is_equal ? " && " : " || ");
 			}
+			StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
 			if (is_equal) {
-				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
 			} else {
-				source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, expression));
 			}
 
 			if (!firstExpr && taglist.fields.size() > 1) {

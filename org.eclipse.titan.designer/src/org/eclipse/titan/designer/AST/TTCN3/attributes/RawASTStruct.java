@@ -61,6 +61,7 @@ public class RawASTStruct {
 		public ArrayList<rawAST_coding_fields> fields;
 		//public String value;
 		public ExpressionStruct expression;
+		public ExpressionStruct nativeExpression;
 		public boolean isOmitValue;
 		public int start_pos;
 		public int temporal_variable_index;

@@ -1066,6 +1066,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					final ExpressionStruct expression = new ExpressionStruct();
 					key.v_value.generateCodeExpression(aData, expression, true);
 					codingKey.expression = expression;
+					final ExpressionStruct nativeExpression = new ExpressionStruct();
+					key.v_value.generateCodeExpression(aData, nativeExpression, false);
+					codingKey.nativeExpression = nativeExpression;
 					codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;
 					codingKey.start_pos = 0;
 					final CompField cf = getComponentByIndex(codingSingleTag.fieldnum);
@@ -1156,6 +1159,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				final ExpressionStruct expression = new ExpressionStruct();
 				fieldValue.v_value.generateCodeExpression(aData, expression, true);
 				presences.expression = expression;
+				final ExpressionStruct nativeExpression = new ExpressionStruct();
+				fieldValue.v_value.generateCodeExpression(aData, nativeExpression, false);
+				presences.nativeExpression = nativeExpression;
 				presences.isOmitValue = fieldValue.v_value.getValuetype() == Value_type.OMIT_VALUE;
 				final int keySize = fieldValue.keyField == null || fieldValue.keyField.names == null ? 0 : fieldValue.keyField.names.size();
 				presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(keySize);
@@ -1298,6 +1304,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						final ExpressionStruct expression = new ExpressionStruct();
 						fieldValue.v_value.generateCodeExpression(aData, expression, true);
 						presences.expression = expression;
+						final ExpressionStruct nativeExpression = new ExpressionStruct();
+						fieldValue.v_value.generateCodeExpression(aData, nativeExpression, false);
+						presences.nativeExpression = nativeExpression;
 						presences.isOmitValue = fieldValue.v_value.getValuetype() == Value_type.OMIT_VALUE;
 						presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(fieldValue.keyField.names.size());
 						IType t = this;
@@ -1376,6 +1385,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							final ExpressionStruct expression = new ExpressionStruct();
 							key.v_value.generateCodeExpression(aData, expression, true);
 							codingKey.expression = expression;
+							final ExpressionStruct nativeExpression = new ExpressionStruct();
+							key.v_value.generateCodeExpression(aData, nativeExpression, false);
+							codingKey.nativeExpression = nativeExpression;
 							codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;
 							if (codingKey.isOmitValue && key.keyField.names.size() != 1) {
 								getLocation().reportSemanticError("omit value with multiple fields in CROSSTAG");

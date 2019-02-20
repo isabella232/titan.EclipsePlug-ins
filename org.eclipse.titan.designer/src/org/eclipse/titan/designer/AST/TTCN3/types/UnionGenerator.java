@@ -1014,11 +1014,11 @@ public final class UnionGenerator {
 							}
 							tempVariable.decoded_for_element = i;
 							source.append(MessageFormat.format("if (decoded_{0}_length > 0) '{'\n", variableIndex));
-							source.append(MessageFormat.format("if (temporal_{0}.operator_equals({1})", variableIndex, cur_field_list.expression.expression));
+							source.append(MessageFormat.format("if (temporal_{0}.operator_equals({1})", variableIndex, cur_field_list.nativeExpression.expression));
 							for (int k = j + 1; k < cur_choice.fields.size(); k++) {
 								final rawAST_coding_field_list tempFieldList = cur_choice.fields.get(k);
 								if (tempFieldList.temporal_variable_index == variableIndex) {
-									source.append(MessageFormat.format(" || temporal_{0}.operator_equals({1})", variableIndex, tempFieldList.expression.expression));
+									source.append(MessageFormat.format(" || temporal_{0}.operator_equals({1})", variableIndex, tempFieldList.nativeExpression.expression));
 								}
 							}
 							source.append(") {\n");
@@ -2079,6 +2079,7 @@ public final class UnionGenerator {
 			final rawAST_coding_field_list fields = taglist.fields.get(i);
 			String fieldName = null;
 			boolean firstExpr = true;
+			boolean optional = false;
 			if (i > 0) {
 				source.append(is_equal ? " || " : " && ");
 			}
@@ -2104,7 +2105,7 @@ public final class UnionGenerator {
 
 				}
 
-				if (j < fields.fields.size() && field.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+				if (j < fields.fields.size() - 1 && field.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
 					if (firstExpr) {
 						if (taglist.fields.size() > 1) {
 							source.append('(');
@@ -2120,14 +2121,22 @@ public final class UnionGenerator {
 					fieldName = MessageFormat.format("{0}.get()", fieldName);
 				}
 			}
+			if (fields.fields.get(fields.fields.size() - 1).fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+				optional = true;
+			}
 
 			if (!firstExpr) {
 				source.append(is_equal ? " && " : " || ");
 			}
+			if ("id".equals(fieldName)) {
+				int z = 0;
+				z++;
+			}
+			StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
 			if (is_equal) {
-				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
 			} else {
-				source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, fields.expression.expression));
+				source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, expression));
 			}
 
 			if (!firstExpr && taglist.fields.size() > 1) {
