@@ -212,6 +212,12 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 		return true;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
 	/**
 	 * Returns the equivalent Java expression. It can be used only if
 	 * canGenerateSingleExpression() returns true
@@ -225,34 +231,8 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		final StringBuilder source = new StringBuilder();
 		//default implementation
-		source.append(MessageFormat.format("new {0}({0}.enum_type.{1})", getMyGovernor().getGenNameValue(aData, source, myScope), getValue().getName()));
+		source.append(MessageFormat.format("{0}.enum_type.{1}", getMyGovernor().getGenNameValue(aData, source, myScope), getValue().getName()));
 
 		return source;
-	}
-
-	/**
-	 * Generates the equivalent Java code for the value. It is used when the
-	 * value is part of a complex expression (e.g. as operand of a built-in
-	 * operation, actual parameter, array index). The generated code
-	 * fragments are appended to the fields of visitor expr.
-	 *
-	 * generate_code_expr in the compiler
-	 *
-	 * @param aData
-	 *                the structure to put imports into and get temporal
-	 *                variable names from.
-	 * @param expression
-	 *                the expression to generate source code into
-	 * */
-	@Override
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
-		if (canGenerateSingleExpression()) {
-			expression.expression.append(generateSingleExpression(aData));
-			return;
-		}
-
-		expression.expression.append("\t//TODO: ");
-		expression.expression.append(getClass().getSimpleName());
-		expression.expression.append(".generateCodeExpression() is not implemented!\n");
 	}
 }
