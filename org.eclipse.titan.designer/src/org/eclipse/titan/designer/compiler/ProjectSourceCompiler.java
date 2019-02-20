@@ -590,6 +590,12 @@ public class ProjectSourceCompiler {
 			aSb.append("\t}\n\n");
 		}
 
+		if (aData.getListModulePars().length() > 0) {
+			aSb.append("\tpublic void list_modulepars() {\n");
+			aSb.append(aData.getListModulePars());
+			aSb.append("\t}\n\n");
+		}
+
 		aSb.append( "}\n" );
 	}
 

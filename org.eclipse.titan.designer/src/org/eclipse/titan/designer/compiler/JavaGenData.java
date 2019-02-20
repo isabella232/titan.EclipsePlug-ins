@@ -59,6 +59,9 @@ public class JavaGenData {
 	/** the contents of init_system_port*/
 	private final StringBuilder initSystemPort;
 
+	/** the contents of list_modulepars */
+	private final StringBuilder listModulePars;
+
 	/** The imports with short class names */
 	private final Set<String> mImports;
 
@@ -112,6 +115,7 @@ public class JavaGenData {
 		executeAllTestcases = new StringBuilder();
 		initComp = new StringBuilder();
 		initSystemPort = new StringBuilder();
+		listModulePars = new StringBuilder();
 
 		// TreeSet keeps elements in natural order (alphabetical)
 		mImports = new TreeSet<String>();
@@ -263,6 +267,13 @@ public class JavaGenData {
 	 * */
 	public StringBuilder getInitSystemPort() {
 		return initSystemPort;
+	}
+
+	/**
+	 * @return the string where module parameter listing code is written.
+	 * */
+	public StringBuilder getListModulePars() {
+		return listModulePars;
 	}
 
 	/**

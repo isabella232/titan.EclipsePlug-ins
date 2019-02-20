@@ -90,6 +90,10 @@ public class TTCN_Module {
 		throw new TtcnError(MessageFormat.format("Module {0} does not contain test cases.", module_name));
 	}
 
+	public void list_modulepars() {
+		//do nothing by default
+	}
+
 	public void push_version(final Text_Buf text_buf) {
 		text_buf.push_string(module_name);
 		if(md5_checksum == null) {

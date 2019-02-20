@@ -460,6 +460,10 @@ public final class Def_ModulePar_Template extends Definition {
 		moduleParamaterSetting.append(MessageFormat.format("{0}.set_param(param);\n", genName));
 		moduleParamaterSetting.append("return true;\n");
 		moduleParamaterSetting.append("} else ");
+
+		final StringBuilder listModulePars = aData.getListModulePars();
+		listModulePars.append(MessageFormat.format("System.out.println(\"{0}.{1}\");\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
+
 	}
 
 	@Override

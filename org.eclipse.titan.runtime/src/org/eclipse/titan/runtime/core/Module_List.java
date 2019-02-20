@@ -179,8 +179,15 @@ public final class Module_List {
 		//FIXME add module versions
 		Usage_Stats.sendAsync(builder.toString());
 	}
+
 	public static void clean_up_usage_stats() {
 		
+	}
+
+	public void list_modulepars() {
+		for (final TTCN_Module module: modules) {
+			module.list_modulepars();
+		}
 	}
 
 	//FIXME implement list_testcases
