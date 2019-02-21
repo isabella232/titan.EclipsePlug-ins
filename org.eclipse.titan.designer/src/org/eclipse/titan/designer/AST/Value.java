@@ -583,7 +583,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			if (returnsNative() && forceObject) {
 				final IType gov = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 
-				expression.expression.append(MessageFormat.format("new {0}(", gov.getGenNameValue(aData, new StringBuilder(), myScope)));
+				expression.expression.append(MessageFormat.format("new {0}(", gov.getGenNameValue(aData, new StringBuilder(), aData.getModuleScope())));
 				expression.expression.append(generateSingleExpression(aData));
 				expression.expression.append(")");
 			} else {

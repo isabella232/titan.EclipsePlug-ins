@@ -977,14 +977,14 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		}
 
 		if (subReferences.get(0) instanceof ParameterisedSubReference) {
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, aData.getModuleScope(), null));
 			expression.expression.append("( ");
 			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
 			temp.getActualParameters().generateCodeAlias(aData, expression, formalParameterList);
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
 			//the reference does not have an actual parameter list, but the assignment has
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, aData.getModuleScope(), null));
 			expression.expression.append("( ");
 			//FieldSubReference temp = ((FieldSubReference)subReferences.get(0));
 			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
@@ -998,9 +998,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(" )");
 		} else {
 			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
-				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, getMyScope()));
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, aData.getModuleScope()));
 			} else {
-				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, aData.getModuleScope(), null));
 			}
 		}
 
@@ -1132,7 +1132,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		//ha parameterezett
 		if (subReferences.get(0) instanceof ParameterisedSubReference) {
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, aData.getModuleScope(), null));
 			expression.expression.append("( ");
 			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
 			final ActualParameterList actualParameterList = temp.getActualParameters();
@@ -1142,7 +1142,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
 			//the reference does not have an actual parameter list, but the assignment has
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, aData.getModuleScope(), null));
 			expression.expression.append("( ");
 			//FieldSubReference temp = ((FieldSubReference)subReferences.get(0));
 			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
@@ -1156,9 +1156,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(" )");
 		} else {
 			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
-				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, getMyScope()));
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, aData.getModuleScope()));
 			} else {
-				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, aData.getModuleScope(), null));
 			}
 		}
 

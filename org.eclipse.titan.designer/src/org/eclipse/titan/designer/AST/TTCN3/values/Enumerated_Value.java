@@ -231,7 +231,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		final StringBuilder source = new StringBuilder();
 		//default implementation
-		source.append(MessageFormat.format("{0}.enum_type.{1}", getMyGovernor().getGenNameValue(aData, source, myScope), getValue().getName()));
+		source.append(MessageFormat.format("{0}.enum_type.{1}", getMyGovernor().getGenNameValue(aData, source, aData.getModuleScope()), getValue().getName()));
 
 		return source;
 	}
