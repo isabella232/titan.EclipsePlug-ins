@@ -139,7 +139,17 @@ parser grammar Asn1Parser;
 
 	private ArrayList<TITANMarker> unsupportedConstructs = new ArrayList<TITANMarker>();
 
-	public void reportUnsupportedConstruct(TITANMarker marker) {
+	/**
+	 * Adds a marker for configurable unsupported constructs.
+	 * @param aMessage marker message
+	 * @param aStartToken the 1st token, its line and start position will be used for the location
+	 *                  NOTE: start position is the column index of the tokens 1st character.
+	 *                        Column index starts with 0.
+	 * @param aEndToken the last token, its end position will be used for the location.
+	 *                  NOTE: end position is the column index after the token's last character.
+	 */
+	public void reportUnsupportedConstruct( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+		TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL );
 		unsupportedConstructs.add(marker);
 	}
 
@@ -225,7 +235,9 @@ locals [Identifier identifier, Tag_types defaultTagging, boolean extensionImplie
 	)?
 	DEFINITIONS
 	b = pr_TagDefault { $defaultTagging = $b.defaultTagging; }
-	c = pr_ExtensionDefault { $extensionImplied = $c.implied; }
+	c = pr_ExtensionDefault { $extensionImplied = $c.implied; 
+					//reportUnsupportedConstruct( "Extensibility implied is not yet supported.", $c.start, $c.stop );
+				}
 	ASSIGNMENT
 	{
 		act_asn1_module = new ASN1Module($identifier, project, $defaultTagging, $extensionImplied);
