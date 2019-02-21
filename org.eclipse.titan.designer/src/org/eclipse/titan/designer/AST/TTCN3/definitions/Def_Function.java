@@ -45,7 +45,6 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
-import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
@@ -1152,12 +1151,11 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.generateCodeSetUnbound(aData, tempSource);
 			formalParList.generateCodeShadowObjects(aData, tempSource);
 		}
+		tempSource.append( "try {\n" );
 		block.generateCode(aData, tempSource);
-		if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
-			if (block.getSize() == 0 || !block.getStatementByIndex(block.getSize() - 1).isTerminating(CompilationTimeStamp.getBaseTimestamp())) {
-				getLocation().release_location_object(aData, tempSource);
-			}
-		}
+		tempSource.append( "} finally {\n" );
+		getLocation().release_location_object(aData, tempSource);
+		tempSource.append( "}\n" );
 		tempSource.append( "}\n" );
 
 		if (isStartable) {
