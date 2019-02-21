@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.Token;
+import org.eclipse.titan.runtime.core.TtcnError;
 
 /**
  * Stores temporary config editor data of the define section
@@ -22,6 +23,10 @@ import org.antlr.v4.runtime.Token;
 public final class DefineSectionHandler {
 
 	private Map<String, String> definitions = new HashMap<String, String>();
+
+	public Map<String, String> getDefinitions() {
+		return definitions;
+	}
 
 	public void addDefinition(final String name, final String value) {
 		definitions.put(name, value);
@@ -61,12 +66,21 @@ public final class DefineSectionHandler {
 	// pattern for matching typed macro string in quotes, for example: "\${a, float}"
 	private final static Pattern PATTERN_TYPED_MACRO_QUOTED = Pattern.compile("^\"(" + PATTERN_STRING_TYPED_MACRO + ")\"$");
 
+	// pattern for matching macro string in escaped quotes, for example: \"\$a\"
+	private final static Pattern PATTERN_MACRO_ESCAPED_QUOTED = Pattern.compile("^\\\"(" + PATTERN_STRING_MACRO + ")\\\"$");
+
+	// pattern for matching macro string with brace in escaped quotes, for example: \"\${a}\"
+	private final static Pattern PATTERN_MACRO_BRACE_ESCAPED_QUOTED = Pattern.compile("^\\\"(" + PATTERN_STRING_MACRO_BRACE + ")\\\"$");
+
+	// pattern for matching typed macro string in escaped quotes, for example: \"\${a, float}\"
+	private final static Pattern PATTERN_TYPED_MACRO_ESCAPED_QUOTED = Pattern.compile("^\\\"(" + PATTERN_STRING_TYPED_MACRO + ")\\\"$");
+
 	/**
 	 * Extracts macro name from macro string
 	 * @param macroString macro string, for example: \$a, \${a}
 	 * @return extracted macro name without extra characters, for example: a
 	 */
-	private String getMacroName( final String macroString ) {
+	private static String getMacroName( final String macroString ) {
 		Matcher m = PATTERN_MACRO.matcher( macroString );
 		if ( m.find() ) {
 			return m.group(1);
@@ -81,10 +95,10 @@ public final class DefineSectionHandler {
 	}
 
 	/**
-	 * @param macroString macro string in quotes, for example: "\$a", "\${a}", "\${a, float}" 
-	 * @return macro without quotes, or null if no match 
+	 * @param macroString macro string in quotes, for example: "\$a", "\${a}", "\${a, float}",  \"\$a\", \"\${a}\", \"\${a, float}\"
+	 * @return macro without quotes, or null if no match
 	 */
-	public String removeMacroQuotes( final String macroString ) {
+	public static String removeMacroQuotes( final String macroString ) {
 		Matcher m = PATTERN_MACRO_QUOTED.matcher( macroString );
 		if ( m.find() ) {
 			return m.group(1);
@@ -100,14 +114,29 @@ public final class DefineSectionHandler {
 			return m.group(1);
 		}
 
+		m = PATTERN_MACRO_ESCAPED_QUOTED.matcher( macroString );
+		if ( m.find() ) {
+			return m.group(1);
+		}
+
+		m = PATTERN_MACRO_BRACE_ESCAPED_QUOTED.matcher( macroString );
+		if ( m.find() ) {
+			return m.group(1);
+		}
+
+		m = PATTERN_TYPED_MACRO_ESCAPED_QUOTED.matcher( macroString );
+		if ( m.find() ) {
+			return m.group(1);
+		}
+
 		return null;
 	}
 
 	/**
-	 * @param s string in quotes 
-	 * @return string without quotes, or null if no match 
+	 * @param s string in quotes
+	 * @return string without quotes, or null if no match
 	 */
-	public String removeQuotes( final String s ) {
+	public static String removeQuotes( final String s ) {
 		if ( s == null || s.length() < 2 ) {
 			return null;
 		}
@@ -126,7 +155,7 @@ public final class DefineSectionHandler {
 	 * @param aMacroString macro string, for example: \${a, float}
 	 * @return extracted macro name without extra characters, for example: a
 	 */
-	private String getTypedMacroName( final String aMacroString ) {
+	private static String getTypedMacroName( final String aMacroString ) {
 		final Matcher m = PATTERN_TYPED_MACRO.matcher( aMacroString );
 		if ( m.find() ) {
 			return m.group(1);
@@ -145,7 +174,7 @@ public final class DefineSectionHandler {
 		final String definition = getMacroName( macroToken.getText() );
 		final String value = getDefinitionValue( definition );
 		if ( value == null ) {
-			//TODO: error
+			throw new TtcnError("Macro definition not found: "+definition);
 		}
 		return value;
 	}
@@ -160,7 +189,7 @@ public final class DefineSectionHandler {
 		final String definition = getTypedMacroName( macroToken.getText() );
 		final String value = getDefinitionValue( definition );
 		if ( value == null ) {
-			//TODO: error
+			throw new TtcnError("Macro definition not found: "+definition);
 		}
 		return value;
 	}
