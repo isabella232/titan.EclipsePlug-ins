@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
@@ -21,6 +22,9 @@ import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
  * @author Arpad Lovassy
  */
 public class JavaGenData {
+
+	/** the module where the code is being generated */
+	private final Module module;
 
 	/** the java source file without the import part */
 	private final StringBuilder mSrc;
@@ -99,7 +103,8 @@ public class JavaGenData {
 
 	public BuildTimestamp buildTimestamp;
 
-	public JavaGenData(final BuildTimestamp timestamp) {
+	public JavaGenData(final Module module, final BuildTimestamp timestamp) {
+		this.module = module;
 		buildTimestamp = timestamp;
 
 		mSrc = new StringBuilder();
@@ -171,6 +176,13 @@ public class JavaGenData {
 		final StringBuilder temp = new StringBuilder();
 		types.put(typeName, temp);
 		return temp;
+	}
+
+	/**
+	 * @return the module for which the code is being generated.
+	 * */
+	public Module getModuleScope() {
+		return module;
 	}
 
 	/**

@@ -82,7 +82,7 @@ public class ProjectSourceCompiler {
 			return;
 		}
 
-		final JavaGenData data = new JavaGenData(timestamp);
+		final JavaGenData data = new JavaGenData(aModule, timestamp);
 		data.collectProjectSettings(aModule.getLocation());
 		data.setDebug( aDebug );
 		aModule.generateCode( data );
