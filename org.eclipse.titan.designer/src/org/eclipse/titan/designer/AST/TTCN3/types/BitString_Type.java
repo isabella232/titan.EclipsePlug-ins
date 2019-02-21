@@ -362,7 +362,7 @@ public final class BitString_Type extends Type {
 		} else {
 			generateCodeRawDescriptor(aData, source);
 
-			return getGenNameOwn(myScope) + "_raw_";
+			return getGenNameOwn(aData) + "_raw_";
 		}
 	}
 }

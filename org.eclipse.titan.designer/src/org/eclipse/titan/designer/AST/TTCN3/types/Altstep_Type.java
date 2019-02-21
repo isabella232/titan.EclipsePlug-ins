@@ -485,13 +485,13 @@ public final class Altstep_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return getGenNameOwn(scope);
+		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return getGenNameOwn(scope).concat("_template");
+		return getGenNameOwn(aData).concat("_template");
 	}
 
 	@Override

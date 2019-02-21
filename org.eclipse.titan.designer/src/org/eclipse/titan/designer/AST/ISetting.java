@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -68,8 +69,8 @@ public interface ISetting extends IASTNode, ILocateableNode {
 	/**
 	 * Returns a Java reference that points to this setting from the module of the parameter scope.
 	 *
-	 * @param scope the scope into which the name needs to be generated
+	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @return The name of the Java setting in the generated code.
 	 */
-	public String getGenNameOwn(final Scope scope);
+	public String getGenNameOwn(final JavaGenData aData);
 }

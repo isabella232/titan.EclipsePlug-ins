@@ -415,7 +415,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		generateCodeRawDescriptor(aData, source);
 
-		return getGenNameOwn(myScope) + "_raw_";
+		return getGenNameOwn(aData) + "_raw_";
 	}
 
 	@Override

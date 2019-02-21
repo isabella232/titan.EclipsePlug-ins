@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Module.module_type;
 import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -121,22 +122,17 @@ public abstract class Setting extends ASTNode implements ISetting {
 		return genName;
 	}
 
-	/**
-	 * Returns a Java reference that points to this setting from the module of the parameter scope.
-	 *
-	 * @param scope the scope into which the name needs to be generated
-	 * @return The name of the Java setting in the generated code.
-	 */
-	public String getGenNameOwn(final Scope scope) {
-		if(myScope == null || scope == null) {
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameOwn(final JavaGenData aData) {
+		if(myScope == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		final StringBuilder returnValue = new StringBuilder();
 		final Module myModule = myScope.getModuleScopeGen();//get_scope_mod_gen
-
-		if(!myModule.equals(scope.getModuleScopeGen()) && !SpecialASN1Module.isSpecAsss(myModule)) {
+		if(!myModule.equals(aData.getModuleScope()) && !SpecialASN1Module.isSpecAsss(myModule)) {
 			//when the definition is referred from another module
 			// the reference shall be qualified with the namespace of my module
 			returnValue.append(myModule.getName()).append('.');

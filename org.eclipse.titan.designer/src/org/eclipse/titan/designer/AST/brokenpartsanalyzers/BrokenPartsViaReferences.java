@@ -110,7 +110,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 		end = System.nanoTime() - start;
 		if (writeDebugInfo) {
 			TITANDebugConsole.println(String.format(format, footer, simpleDateFormat.format(new Date())));
-			infoAfterExecute();
+			//infoAfterExecute();
 		}
 	}
 

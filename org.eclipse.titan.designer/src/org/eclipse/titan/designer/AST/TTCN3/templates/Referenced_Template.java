@@ -895,7 +895,7 @@ public final class Referenced_Template extends TTCN3Template {
 		template.generateCodeInit(aData, source, template.get_lhs_name());
 		// the equivalent Java code of the referenced template is composed of the
 		// genname of t and the remained sub-references in refstack
-		expression.expression.append(template.getGenNameOwn(myScope));
+		expression.expression.append(template.getGenNameOwn(aData));
 		while (!referenceStack.isEmpty()) {
 			final ISubReference subReference = referenceStack.pop();
 			if (subReference instanceof FieldSubReference) {

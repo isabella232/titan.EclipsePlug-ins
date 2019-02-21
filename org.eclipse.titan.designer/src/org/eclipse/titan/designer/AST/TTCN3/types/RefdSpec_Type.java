@@ -338,7 +338,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 		if (rawAttribute != null) {
 			generateCodeRawDescriptor(aData, source);
 
-			return getGenNameOwn(myScope) + "_raw_";
+			return getGenNameOwn(aData) + "_raw_";
 		}
 
 		return refdType.getGenNameRawDescriptor(aData, source);

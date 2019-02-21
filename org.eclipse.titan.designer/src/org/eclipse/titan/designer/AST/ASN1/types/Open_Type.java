@@ -641,7 +641,7 @@ public final class Open_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return getGenNameOwn(scope);
+		return getGenNameOwn(aData);
 	}
 
 	@Override
@@ -744,7 +744,7 @@ public final class Open_Type extends ASN1Type {
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		generateCodeRawDescriptor(aData, source);
 
-		return getGenNameOwn(myScope) + "_raw_";
+		return getGenNameOwn(aData) + "_raw_";
 	}
 
 	@Override

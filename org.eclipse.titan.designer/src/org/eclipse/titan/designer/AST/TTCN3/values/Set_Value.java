@@ -755,7 +755,7 @@ public final class Set_Value extends Value {
 					if (needsInitPrecede(aData, defaultValue)) {
 						defaultValue.generateCodeInit(aData, source, defaultValue.get_lhs_name());
 					}
-					source.append(MessageFormat.format("{0}.get_field_{1}().operator_assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(myScope)));
+					source.append(MessageFormat.format("{0}.get_field_{1}().operator_assign({2});\n", name, fieldName, defaultValue.getGenNameOwn(aData)));
 					continue;
 				} else {
 					fieldValue = null;

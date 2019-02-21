@@ -723,7 +723,7 @@ public final class Referenced_Value extends Value {
 				}
 			}
 
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.getGenNameOwn(myScope)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.getGenNameOwn(aData)));
 		}
 
 		lastTimeGenerated = aData.getBuildTimstamp();
@@ -756,7 +756,7 @@ public final class Referenced_Value extends Value {
 			// TODO might need initialization see needs_init_precede
 			// TODO Value.cc:generate_code_init_refd
 
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.getGenNameOwn(myScope)));
+			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, referencedValue.getGenNameOwn(aData)));
 		}
 
 		return source;

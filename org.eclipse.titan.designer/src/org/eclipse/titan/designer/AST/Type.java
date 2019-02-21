@@ -2935,7 +2935,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		//FIXME implement the handling of attribute checks
 		if (rawAttribute != null || hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
-			return getGenNameOwn(scope);
+			return getGenNameOwn(aData);
 		}
 		if (this instanceof IReferencingType) {
 			//FIXME check for XER
@@ -2967,7 +2967,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		// if the type has an 'encode' or 'variant' attribute, then it needs its own coder functions
 		//TODO add support for more coders
 		if (codingTable.size() > 0 || rawAttribute != null) {
-			return getGenNameOwn(scope);
+			return getGenNameOwn(aData);
 		}
 
 		// if it has its own custom encoder or decoder functions set, then it needs its own coder functions
@@ -2975,7 +2975,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			final Coding_Type tempCodingType = codingTable.get(i);
 			if (!tempCodingType.builtIn && (tempCodingType.customCoding.encoders.containsKey(this) ||
 					tempCodingType.customCoding.decoders.containsKey(this))) {
-				return getGenNameOwn(scope);
+				return getGenNameOwn(aData);
 			}
 		}
 
@@ -3003,7 +3003,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		case OT_RECORD_OF:
 			// types defined in TTCN-3 or ASN.1 code and their field and element types
 			// have their own default coding variables
-			return getGenNameOwn(scope);
+			return getGenNameOwn(aData);
 		default:
 			break;
 		}

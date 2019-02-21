@@ -337,7 +337,7 @@ public final class Boolean_Type extends ASN1Type {
 		} else {
 			generateCodeRawDescriptor(aData, source);
 
-			return getGenNameOwn(myScope) + "_raw_";
+			return getGenNameOwn(aData) + "_raw_";
 		}
 	}
 }
