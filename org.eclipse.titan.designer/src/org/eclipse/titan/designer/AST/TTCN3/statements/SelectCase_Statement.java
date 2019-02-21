@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -248,7 +249,10 @@ public final class SelectCase_Statement extends Statement {
 		final String type = governor.getGenNameValue(aData, source, myScope);
 		final String tmp = aData.getTemporaryVariableName();
 
-		if (last.returnsNative()) {
+		//TODO check if this could be simplified
+		if (last.returnsNative() || last.getValuetype() == Value_type.REFERENCED_VALUE
+				|| last.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE
+				|| governor.getTypetypeTtcn3() != last.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE)) {
 			source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type, tmp, name));
 		} else {
 			source.append(MessageFormat.format("final {0} {1} = {2};\n", type, tmp, name));
