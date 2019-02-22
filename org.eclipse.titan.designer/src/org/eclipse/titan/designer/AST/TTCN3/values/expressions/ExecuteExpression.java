@@ -277,7 +277,7 @@ public final class ExecuteExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final Assignment testcase = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));
+		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, "testcase_")));
 
 		final List<ISubReference> subReferences = reference.getSubreferences();
 		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {

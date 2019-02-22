@@ -885,7 +885,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
+	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final String prefix) {
 		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
@@ -902,7 +902,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 			return returnValue.toString();
 		} else {
-			return super.getGenNameFromScope(aData, source, scope, prefix);
+			return super.getGenNameFromScope(aData, source, prefix);
 		}
 	}
 

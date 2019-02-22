@@ -213,7 +213,7 @@ public final class ActivateExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
-		expression.expression.append(assignment.getGenNameFromScope(aData, aData.getSrc(), myScope, "activate_"));
+		expression.expression.append(assignment.getGenNameFromScope(aData, aData.getSrc(), "activate_"));
 		expression.expression.append('(');
 
 		if (!reference.getSubreferences().isEmpty()) {

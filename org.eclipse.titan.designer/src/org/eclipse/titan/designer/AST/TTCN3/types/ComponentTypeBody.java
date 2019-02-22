@@ -1014,7 +1014,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				}
 
 				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
-				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
+				initSystemPort.append(def.getGenNameFromScope(aData, source, ""));
 				initSystemPort.append(".get().safe_start();\n");
 				initSystemPort.append("return true;\n");
 				initSystemPort.append("}\n");
@@ -1040,7 +1040,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				}
 
 				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
-				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
+				initSystemPort.append(def.getGenNameFromScope(aData, source, ""));
 				initSystemPort.append(".get().safe_start();\n");
 				initSystemPort.append("return true;\n");
 				initSystemPort.append("}\n");
@@ -1066,7 +1066,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				}
 
 				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
-				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
+				initSystemPort.append(def.getGenNameFromScope(aData, source, ""));
 				initSystemPort.append(".get().safe_start();\n");
 				initSystemPort.append("return true;\n");
 				initSystemPort.append("}\n");

@@ -333,7 +333,7 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 		if (last.getValuetype() == Value_type.TESTCASE_REFERENCE_VALUE) {
 			// the referred testcase is known
 			final Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
-			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));
+			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, "testcase_")));
 			actualParameters.generateCodeAlias(aData, expression, null);
 		} else {
 			// the referred testcase is unknown

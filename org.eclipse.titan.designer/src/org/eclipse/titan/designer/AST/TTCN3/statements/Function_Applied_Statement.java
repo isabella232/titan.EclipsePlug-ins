@@ -165,7 +165,7 @@ public final class Function_Applied_Statement extends Statement {
 			final Function_Reference_Value refdValue = (Function_Reference_Value)last;
 			final Definition definition = refdValue.getReferredFunction();
 
-			expression.expression.append(definition.getGenNameFromScope(aData, source, myScope, ""));
+			expression.expression.append(definition.getGenNameFromScope(aData, source, ""));
 			expression.expression.append("(");
 			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
 				actualParameterList2.generateCodeAlias(aData, expression, null);

@@ -888,7 +888,7 @@ public final class Def_Timer extends Definition {
 				|| defaultDuration.checkEquality(CompilationTimeStamp.getBaseTimestamp(), baseTimerDefinition.defaultDuration)) {
 			if (dimensions == null) {
 				final ExpressionStruct expression = new ExpressionStruct();
-				expression.expression.append(baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""));
+				expression.expression.append(baseTimerDefinition.getGenNameFromScope(aData, initComp, ""));
 				expression.expression.append(".set_default_duration(");
 
 				defaultDuration.generateCodeExpression(aData, expression, true);
@@ -896,7 +896,7 @@ public final class Def_Timer extends Definition {
 				expression.expression.append(')');
 				expression.mergeExpression(initComp);
 			} else {
-				generateCodeArrayDuration(aData, initComp, baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""), new ArrayList<String>(),  baseTimerDefinition.defaultDuration, 0);
+				generateCodeArrayDuration(aData, initComp, baseTimerDefinition.getGenNameFromScope(aData, initComp, ""), new ArrayList<String>(),  baseTimerDefinition.defaultDuration, 0);
 
 			}
 		}

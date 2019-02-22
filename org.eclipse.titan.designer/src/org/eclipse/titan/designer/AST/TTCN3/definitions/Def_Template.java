@@ -967,7 +967,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", typeName));
 			} else {
 				//modified template
-				source.append(MessageFormat.format("final {0} ret_val = new {0}({1}", typeName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
+				source.append(MessageFormat.format("final {0} ret_val = new {0}({1}", typeName, baseTemplate.getGenNameFromScope(aData, source, "")));
 				if (baseTemplate.formalParList != null) {
 					//the base is also parameterized
 					source.append('(');
@@ -1022,7 +1022,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					}
 				}
 			} else {
-				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
+				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, "")));
 				if ( body != null ) {
 					body.generateCodeInit( aData, source, genName );
 				}

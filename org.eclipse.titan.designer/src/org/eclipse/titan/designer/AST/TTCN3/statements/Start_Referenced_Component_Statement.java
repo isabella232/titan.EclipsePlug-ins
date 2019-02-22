@@ -314,7 +314,7 @@ public final class Start_Referenced_Component_Statement extends Statement {
 		referenceChain.release();
 		if (last.getValuetype() == Value_type.FUNCTION_REFERENCE_VALUE) {
 			final Definition definition = ((Function_Reference_Value)last).getReferredFunction();
-			expression.expression.append(MessageFormat.format("{0}(", definition.getGenNameFromScope(aData, source, myScope, "start_")));
+			expression.expression.append(MessageFormat.format("{0}(", definition.getGenNameFromScope(aData, source, "start_")));
 		} else {
 			dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append(".start(");

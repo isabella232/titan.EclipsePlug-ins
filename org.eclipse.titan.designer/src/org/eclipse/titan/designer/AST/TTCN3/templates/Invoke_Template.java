@@ -450,7 +450,7 @@ public final class Invoke_Template extends TTCN3Template {
 
 		if (last.getValuetype() == Value_type.FUNCTION_REFERENCE_VALUE) {
 			final Definition function = ((Function_Reference_Value)last).getReferredFunction();
-			expression.expression.append(MessageFormat.format("{0}(", function.getGenNameFromScope(aData, expression.expression, myScope, "")));
+			expression.expression.append(MessageFormat.format("{0}(", function.getGenNameFromScope(aData, expression.expression, "")));
 			actualParameter_list.generateCodeAlias(aData, expression, null);
 		} else {
 			value.generateCodeExpressionMandatory(aData, expression, true);

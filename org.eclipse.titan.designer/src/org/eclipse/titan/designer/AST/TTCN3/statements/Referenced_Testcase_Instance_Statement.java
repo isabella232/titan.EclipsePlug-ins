@@ -258,7 +258,7 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 			final Testcase_Reference_Value refdValue = (Testcase_Reference_Value)last;
 			final Def_Testcase definition = refdValue.getReferredTestcase();
 
-			expression.expression.append(MessageFormat.format("testcase_{0}(", definition.getGenNameFromScope(aData, source, myScope, "")));
+			expression.expression.append(MessageFormat.format("testcase_{0}(", definition.getGenNameFromScope(aData, source, "")));
 			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
 				actualParameterList2.generateCodeAlias(aData, expression, definition.getFormalParameterList());
 				expression.expression.append(", ");

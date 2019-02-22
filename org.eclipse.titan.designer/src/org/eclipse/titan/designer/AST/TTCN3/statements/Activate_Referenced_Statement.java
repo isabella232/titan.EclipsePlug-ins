@@ -219,7 +219,7 @@ public final class Activate_Referenced_Statement extends Statement {
 			final Altstep_Reference_Value refdValue = (Altstep_Reference_Value)last;
 			final Def_Altstep definition = refdValue.getReferredAltstep();
 
-			expression.expression.append(MessageFormat.format("activate_{0}(", definition.getGenNameFromScope(aData, source, myScope, "")));
+			expression.expression.append(MessageFormat.format("activate_{0}(", definition.getGenNameFromScope(aData, source, "")));
 			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
 				actualParameterList2.generateCodeAlias(aData, expression, definition.getFormalParameterList());
 			}

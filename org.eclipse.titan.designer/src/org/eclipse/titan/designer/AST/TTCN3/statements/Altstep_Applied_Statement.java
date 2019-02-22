@@ -177,7 +177,7 @@ public final class Altstep_Applied_Statement extends Statement {
 			final Altstep_Reference_Value refdValue = (Altstep_Reference_Value)last;
 			final Def_Altstep definition = refdValue.getReferredAltstep();
 
-			expression.expression.append(definition.getGenNameFromScope(aData, source, myScope, ""));
+			expression.expression.append(definition.getGenNameFromScope(aData, source, ""));
 			expression.expression.append("(");
 			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
 				actualParameterList2.generateCodeAlias(aData, expression, null);

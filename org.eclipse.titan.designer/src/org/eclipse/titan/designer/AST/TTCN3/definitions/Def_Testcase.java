@@ -612,7 +612,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			aData.addBuiltinTypeImport( "Ttcn3Float" );
 
 			final StringBuilder executeAllTestcases = aData.getExecuteAllTestcase();
-			executeAllTestcases.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, myScope, "testcase_")));
+			executeAllTestcases.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, "testcase_")));
 		}
 
 		final StringBuilder executeTestcase = aData.getExecuteTestcase();
@@ -620,7 +620,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		if (formalParList == null || formalParList.getNofParameters() == 0) {
 			aData.addBuiltinTypeImport( "Ttcn3Float" );
 
-			executeTestcase.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, myScope, "testcase_")));
+			executeTestcase.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, "testcase_")));
 		} else {
 			executeTestcase.append("throw new TtcnError(MessageFormat.format(\"Test case {0} in module {1} cannot be executed individually (without control part) because it has parameters.\", tescase_name, module_name));\n");
 		}

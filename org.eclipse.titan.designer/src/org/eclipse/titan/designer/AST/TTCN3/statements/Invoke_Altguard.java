@@ -338,7 +338,7 @@ public final class Invoke_Altguard extends AltGuard {
 		if (last.getValuetype() == Value_type.ALTSTEP_REFERENCE_VALUE) {
 			final Def_Altstep altstep = ((Altstep_Reference_Value)last).getReferredAltstep();
 
-			expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, expression.expression, myScope, "")));
+			expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, expression.expression, "")));
 			actualParameterList.generateCodeAlias(aData, expression, altstep.getFormalParameterList());
 		} else {
 			value.generateCodeExpressionMandatory(aData, expression, true);

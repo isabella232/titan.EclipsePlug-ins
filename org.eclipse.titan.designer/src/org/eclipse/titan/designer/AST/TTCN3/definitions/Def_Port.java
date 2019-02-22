@@ -430,7 +430,7 @@ public final class Def_Port extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
-		initComp.append(definition.getGenNameFromScope(aData, initComp, myScope, ""));
+		initComp.append(definition.getGenNameFromScope(aData, initComp, ""));
 		initComp.append(".activate_port(false);\n");
 	}
 }

@@ -688,7 +688,7 @@ public final class Assignment_Statement extends Statement {
 				}
 			} else {
 				// left hand side is a single assignment
-				String name = assignment.getGenNameFromScope(aData, source, myScope, null);
+				String name = assignment.getGenNameFromScope(aData, source, null);
 				if (assignment.getMyScope() instanceof ComponentTypeBody) {
 					switch (assignment.getAssignmentType()) {
 					case A_VAR:
@@ -771,7 +771,7 @@ public final class Assignment_Statement extends Statement {
 				}
 			} else {
 				// left hand side is a single assignment
-				String rhsName = assignment.getGenNameFromScope(aData, source, myScope, "");
+				String rhsName = assignment.getGenNameFromScope(aData, source, "");
 				if (assignment.getMyScope() instanceof ComponentTypeBody) {
 					switch (assignment.getAssignmentType()) {
 					case A_VAR:

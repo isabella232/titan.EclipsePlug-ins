@@ -518,7 +518,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					final Reference reference = ((Referenced_Altguard)altGuard).getGuardReference();
 					altGuard.getLocation().update_location_object(aData, source);
 					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
+					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, "")));
 					final ISubReference subreference = reference.getSubreferences().get(0);
 					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression, ((Def_Altstep)altstep).getFormalParameterList());
 					expression.expression.append(')');
@@ -656,7 +656,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					final Reference reference = ((Referenced_Altguard)altGuard).getGuardReference();
 					altGuard.getLocation().update_location_object(aData, source);
 					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
+					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, "")));
 					final ISubReference subreference = reference.getSubreferences().get(0);
 					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression, ((Def_Altstep)altstep).getFormalParameterList());
 					expression.expression.append(')');

@@ -116,7 +116,7 @@ public class LazyFuzzyParamData {
 		}
 
 		typeVector.add(typeString.toString());
-		referedVector.add(assignment.getGenNameFromScope(aData, source, scope, ""));
+		referedVector.add(assignment.getGenNameFromScope(aData, source, ""));
 		if (parIsLazyOrFuzzy) {
 			return getMemberName(referedVector.size() - 1) + ".evaluate()";
 		} else {
@@ -174,7 +174,7 @@ public class LazyFuzzyParamData {
 				}
 
 				if (eval != parameterEvaluationType.NORMAL_EVAL) {
-					final String refdString = assignment.getGenNameFromScope(aData, expression.expression, scope, "");
+					final String refdString = assignment.getGenNameFromScope(aData, expression.expression, "");
 					if ((eval == parameterEvaluationType.LAZY_EVAL && !lazy) ||
 							(eval == parameterEvaluationType.FUZZY_EVAL && lazy)) {
 						expression.preamble.append(MessageFormat.format("{0}.change();\n", refdString));
@@ -235,7 +235,7 @@ public class LazyFuzzyParamData {
 				}
 
 				if (eval != parameterEvaluationType.NORMAL_EVAL) {
-					final String refdString = assignment.getGenNameFromScope(aData, expression.expression, scope, "");
+					final String refdString = assignment.getGenNameFromScope(aData, expression.expression, "");
 					if ((eval == parameterEvaluationType.LAZY_EVAL && !lazy) ||
 							(eval == parameterEvaluationType.FUZZY_EVAL && lazy)) {
 						expression.preamble.append(MessageFormat.format("{0}.change();\n", refdString));

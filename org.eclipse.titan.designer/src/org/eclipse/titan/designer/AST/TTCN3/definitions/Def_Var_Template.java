@@ -565,7 +565,7 @@ public final class Def_Var_Template extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
 		if (initialValue != null) {
-			initialValue.generateCodeInit(aData, initComp, definition.getGenNameFromScope(aData, initComp, myScope, ""));
+			initialValue.generateCodeInit(aData, initComp, definition.getGenNameFromScope(aData, initComp, ""));
 			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
 				TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName, templateRestriction);
 			}

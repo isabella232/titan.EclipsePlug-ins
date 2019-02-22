@@ -349,10 +349,9 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
+	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final String prefix) {
 		if(myScope == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";

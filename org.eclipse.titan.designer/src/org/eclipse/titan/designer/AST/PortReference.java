@@ -152,14 +152,14 @@ public class PortReference extends Reference {
 		}
 
 		if (subReferences.get(0) instanceof ParameterisedSubReference) {
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, null));
 			expression.expression.append("( ");
 			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
 			temp.getActualParameters().generateCodeAlias(aData, expression, formalParameterList);
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
 			//the reference does not have an actual parameter list, but the assignment has
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, null));
 			expression.expression.append("( ");
 			//FieldSubReference temp = ((FieldSubReference)subReferences.get(0));
 			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
@@ -175,7 +175,7 @@ public class PortReference extends Reference {
 			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
 				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, forcedScope));
 			} else {
-				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
+				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, null));
 			}
 			//expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
 		}

@@ -2131,7 +2131,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 							// Insert the mapping source as the mapped target's target.
 							final Def_Function targetFunction = ((FunctionTypeMappingTarget) mappingTarget).getFunction();
-							final String functionName = targetFunction.getGenNameFromScope(aData, source, myScope, "");
+							final String functionName = targetFunction.getGenNameFromScope(aData, source, "");
 							final String functionDisplayName = targetFunction.getFullName();
 							final Type sourceType = mapping.getSourceType();
 							final String targetType = sourceType.getGenNameValue(aData, source);

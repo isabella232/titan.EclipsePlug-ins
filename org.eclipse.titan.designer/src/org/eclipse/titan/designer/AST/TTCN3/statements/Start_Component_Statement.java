@@ -254,7 +254,7 @@ public final class Start_Component_Statement extends Statement {
 		final Assignment func = functionInstanceReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		final Def_Function function = (Def_Function) func;
 
-		expression.expression.append(MessageFormat.format("{0}(", func.getGenNameFromScope(aData, source, myScope, "start_")));
+		expression.expression.append(MessageFormat.format("{0}(", func.getGenNameFromScope(aData, source, "start_")));
 		componentReference.generateCodeExpression(aData, expression, false);
 		final FormalParameterList formalParameterList = function.getFormalParameterList();
 		if (formalParameterList.getNofParameters() > 0) {

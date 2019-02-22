@@ -178,7 +178,7 @@ public final class Function_Reference_Value extends Value {
 		final Type returnType = functionType.getReturnType();
 		final String moduleName = referredFunction.getMyScope().getModuleScopeGen().getName();
 		final String functionName = referredFunction.getIdentifier().getName();
-		final String functionGenName = referredFunction.getGenNameFromScope(aData, result, getMyScope(), "");
+		final String functionGenName = referredFunction.getGenNameFromScope(aData, result, "");
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result)));
 		result.append("@Override\n");
 		result.append("public String getModuleName() {\n");

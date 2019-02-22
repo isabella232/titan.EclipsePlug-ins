@@ -139,7 +139,7 @@ public final class Activate_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
-		expression.expression.append(assignment.getGenNameFromScope(aData, source, myStatementBlock, "activate_"));
+		expression.expression.append(assignment.getGenNameFromScope(aData, source, "activate_"));
 		expression.expression.append('(');
 
 		if (!reference.getSubreferences().isEmpty()) {

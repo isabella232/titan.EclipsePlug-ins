@@ -212,7 +212,7 @@ public final class Testcase_Instance_Statement extends Statement {
 		source.append( "\t\t" );
 		final ExpressionStruct expression = new ExpressionStruct();
 		final Assignment testcase = testcaseReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, source, myScope, "testcase_")));
+		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, source, "testcase_")));
 
 		final List<ISubReference> subReferences = testcaseReference.getSubreferences();
 		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {
