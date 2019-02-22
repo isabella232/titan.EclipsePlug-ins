@@ -436,7 +436,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 							setParametersString.append(redirCodingExpression.preamble);
 						}
 
-						final String typeDescriptorName = declarationType.getGenNameTypeDescriptor(aData, setParametersString, scope);
+						final String typeDescriptorName = declarationType.getGenNameTypeDescriptor(aData, setParametersString);
 						setParametersString.append(MessageFormat.format("if (ptr_matched_temp.constGet_field_{0}().get_selection() == template_sel.DECODE_MATCH && {1}_descr_ == ptr_matched_temp.constGet_field_{0}().get_decmatch_type_descr()", parameterName, typeDescriptorName));
 						if (redirCodingExpression.expression.length() > 0) {
 							setParametersString.append(MessageFormat.format("&& {0} == ptr_matched_temp.constGet_field_{1}().get_decmatch_str_enc()", redirCodingExpression.expression, parameterName));

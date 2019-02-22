@@ -203,7 +203,7 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 		if (targetType != null) {
 			targetTypeName = targetType.getGenNameValue(aData, source);
 			displayName = targetType.getTypename();
-			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source, scope);
+			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source);
 		}
 
 		final String encodingType = decodeAttribute.getEncodingType().getEncodingName();

@@ -956,13 +956,13 @@ public final class Component_Type extends Type {
 			return;
 		}
 
-		final String globalVariable = MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, internalGetGenNameTypeDescriptor(aData, source, myScope));
+		final String globalVariable = MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, internalGetGenNameTypeDescriptor(aData, source));
 		aData.addGlobalVariable(descriptorName, globalVariable);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanComponent";
 	}

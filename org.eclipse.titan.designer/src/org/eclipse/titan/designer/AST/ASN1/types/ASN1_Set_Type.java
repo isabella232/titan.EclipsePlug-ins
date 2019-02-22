@@ -1032,7 +1032,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate( aData, source ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
-					ofType, compField.getType().getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
+					ofType, compField.getType().getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source));
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}

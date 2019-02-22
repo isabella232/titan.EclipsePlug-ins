@@ -22,7 +22,6 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
@@ -422,7 +421,7 @@ public final class Float_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanFloat";
 	}

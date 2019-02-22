@@ -570,7 +570,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source, myScope));
+					cfType.getGenNameTypeDescriptor(aData, source));
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -628,7 +628,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					tempField.nthfieldname = singleTag.fieldName.getName();
 					tempField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
 					tempField.type = t.getGenNameValue(aData, source);
-					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source, myScope);
+					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source);
 					tempField.unionType = getGenNameValue(aData, source);
 					codingKey.fields.add(tempField);
 
@@ -667,7 +667,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 						final IType field_type = cf2.getType();
 						newField.type = field_type.getGenNameValue(aData, source);
-						newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
+						newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
 						if (field_type.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type)field_type).rawAttribute != null
 								&& (((TTCN3_Sequence_Type)field_type).rawAttribute.pointerto == null || ((TTCN3_Sequence_Type)field_type).rawAttribute.lengthto != null)) {
 							codingKey.start_pos = -1;

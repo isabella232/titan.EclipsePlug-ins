@@ -1000,7 +1000,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( "}\n" );
 		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		source.append( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
-		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName()) );
+		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName()) );
 
 		//FIXME implement JSON and XER specific parts
 		String resultName;
@@ -1108,7 +1108,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				break;
 			}
 		}
-		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName(), generatedEncodingOptions) );
+		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName(), generatedEncodingOptions) );
 
 		// producing debug printout of the result PDU
 		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );

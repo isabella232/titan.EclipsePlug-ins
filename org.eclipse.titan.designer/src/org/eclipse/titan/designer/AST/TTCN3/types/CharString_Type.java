@@ -469,7 +469,7 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanCharString";
 	}

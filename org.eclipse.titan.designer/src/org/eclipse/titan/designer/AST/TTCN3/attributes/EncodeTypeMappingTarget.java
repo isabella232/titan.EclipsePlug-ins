@@ -205,7 +205,7 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 		if (targetType != null) {
 			targetTypeName = targetType.getGenNameValue(aData, source);
 			displayName = targetType.getTypename();
-			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source, scope);
+			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source);
 		}
 
 		final String encodingType = encodeAttribute.getEncodingType().getEncodingName();

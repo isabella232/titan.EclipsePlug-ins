@@ -719,7 +719,7 @@ public final class Open_Type extends ASN1Type {
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source, myScope));
+					cfType.getGenNameTypeDescriptor(aData, source));
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}

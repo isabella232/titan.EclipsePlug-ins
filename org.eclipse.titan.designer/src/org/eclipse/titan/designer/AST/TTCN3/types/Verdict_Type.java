@@ -20,7 +20,6 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -267,7 +266,7 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanVerdictType";
 	}

@@ -1102,10 +1102,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java variable in the generated code.
 	 */
-	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope);
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns the name prefix of the coder function related to this type.
@@ -1152,10 +1151,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source, final Scope scope);
+	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns whether this type can be encoded according to rules

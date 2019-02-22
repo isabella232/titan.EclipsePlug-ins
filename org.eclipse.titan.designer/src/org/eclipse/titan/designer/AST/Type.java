@@ -2440,7 +2440,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement: actually more complicated
 		final String genname = getGenNameOwn();
-		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source, myScope);
+		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source);
 		/* genname{type,ber,raw,text,xer,json,oer}descriptor == gennameown is true if
 		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
 		 * and can't use the descriptor of one of the built-in types.
@@ -2476,11 +2476,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		switch (last.getTypetype()) {
 		case TYPE_SEQUENCE_OF: {
 			final StringBuilder preInit = aData.getPreInit();
-			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
 			break;}
 		case TYPE_SET_OF:{
 			final StringBuilder preInit = aData.getPreInit();
-			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
 			break;}
 		default:
 			break;
@@ -2817,7 +2817,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 			encoderString.append("\t\t}\n");
 			encoderString.append("\t\tfinal TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
-			encoderString.append(MessageFormat.format("\t\tinput_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			encoderString.append(MessageFormat.format("\t\tinput_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source)));
 			encoderString.append("\t\tttcnBuffer.get_string(output_stream);\n");
 		}
 		encoderString.append("\t}\n\n");
@@ -2833,7 +2833,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (checkString.length() > 0) {
 			decoderString.append("\t\t}\n");
 			decoderString.append("\t\tfinal TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
-			decoderString.append(MessageFormat.format("\t\toutput_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			decoderString.append(MessageFormat.format("\t\toutput_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source)));
 			decoderString.append("\t\tswitch (TTCN_EncDec.get_last_error_type()) {\n");
 			decoderString.append("\t\tcase ET_NONE:\n");
 			decoderString.append("\t\t\tttcnBuffer.cut();\n");
@@ -2927,10 +2927,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java variable in the generated code.
 	 */
-	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement the handling of attribute checks
 		if (rawAttribute != null || hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
 			return getGenNameOwn(aData);
@@ -2942,16 +2941,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			refChain.release();
 
 			if (t != null && t != this) {
-				return t.getGenNameTypeDescriptor(aData, source, scope);
+				return t.getGenNameTypeDescriptor(aData, source);
 			}
 		}
 
-		return internalGetGenNameTypeDescriptor(aData, source, scope);
+		return internalGetGenNameTypeDescriptor(aData, source);
 	}
 
 	//FIXME comment
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return getGenNameTypeName(aData, source, scope);
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameTypeName(aData, source);
 	}
 
 	@Override
@@ -3044,10 +3043,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement everywhere
 		return getGenNameValue(aData, source);
 	}

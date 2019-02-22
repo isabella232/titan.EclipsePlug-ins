@@ -1023,7 +1023,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate( aData, source ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
-					ofType, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
+					ofType, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source));
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}

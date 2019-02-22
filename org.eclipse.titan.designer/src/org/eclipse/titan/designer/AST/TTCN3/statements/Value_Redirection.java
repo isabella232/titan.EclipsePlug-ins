@@ -646,7 +646,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 							}
 
 							setValuesString.append(MessageFormat.format("ptr_matched_temp{0}.get_selection() == template_sel.DECODE_MATCH && ", subrefsString));
-							setValuesString.append(MessageFormat.format("{0}_descr_ == ptr_matched_temp{1}.get_decmatch_type_descr()", redirection.getDeclarationType().getGenNameTypeDescriptor(aData, setValuesString, scope), subrefsString));
+							setValuesString.append(MessageFormat.format("{0}_descr_ == ptr_matched_temp{1}.get_decmatch_type_descr()", redirection.getDeclarationType().getGenNameTypeDescriptor(aData, setValuesString), subrefsString));
 							if (redirCodingExpression.expression.length() > 0) {
 								setValuesString.append(MessageFormat.format(" && {0} == ptr_matched_temp{1}.get_decmatch_str_enc()", redirCodingExpression.expression, subrefsString));
 							}

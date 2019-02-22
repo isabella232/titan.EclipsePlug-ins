@@ -299,7 +299,7 @@ public class DecodeMatch_template extends TTCN3Template {
 
 		source.append("@Override\n");
 		source.append("public TTCN_Typedescriptor get_type_descr() {\n");
-		source.append(MessageFormat.format("return {0}_descr_;\n", targetType.getGenNameTypeDescriptor(aData, source, myScope)));
+		source.append(MessageFormat.format("return {0}_descr_;\n", targetType.getGenNameTypeDescriptor(aData, source)));
 		source.append("}\n");
 		source.append( "};\n" );
 

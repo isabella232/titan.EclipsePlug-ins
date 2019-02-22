@@ -800,7 +800,7 @@ public final class Anytype_Type extends Type {
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source, myScope));
+					cfType.getGenNameTypeDescriptor(aData, source));
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}

@@ -629,7 +629,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanInteger";
 	}
