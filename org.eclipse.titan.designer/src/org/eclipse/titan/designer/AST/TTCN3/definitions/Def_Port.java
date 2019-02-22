@@ -371,7 +371,7 @@ public final class Def_Port extends Definition {
 
 		if (getMyScope() instanceof ComponentTypeBody) {
 			if(dimensions == null) {
-				final String portClassName = portType.getClassName(aData, source, getMyScope());
+				final String portClassName = portType.getClassName(aData, source);
 				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", portClassName, genName));
 				source.append("@Override\n" );
 				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", portClassName));
@@ -405,7 +405,7 @@ public final class Def_Port extends Definition {
 			aData.getInitComp().append(MessageFormat.format("{0}.get().activate_port(false);\n", genName));
 		} else {
 			if(dimensions == null) {
-				final String portClassName = portType.getClassName(aData, source, getMyScope());
+				final String portClassName = portType.getClassName(aData, source);
 				source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portClassName, genName, identifier.getDisplayName()));
 			} else {
 				final StringBuilder tempSb = new StringBuilder();

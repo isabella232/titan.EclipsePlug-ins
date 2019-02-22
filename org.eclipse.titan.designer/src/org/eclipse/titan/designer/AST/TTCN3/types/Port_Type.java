@@ -257,16 +257,15 @@ public final class Port_Type extends Type {
 	 *
 	 * @param aData used to access build settings.
 	 * @param source where the source code is to be generated.
-	 * @param scope the scope into which the name needs to be generated.
 	 * */
-	public String getClassName(final JavaGenData aData, final StringBuilder source, final Scope scope){
-		return body.getClassName(aData, source, scope);
+	public String getClassName(final JavaGenData aData, final StringBuilder source){
+		return body.getClassName(aData, source);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		return getClassName(aData, source, aData.getModuleScope());
+		return getClassName(aData, source);
 	}
 
 	@Override

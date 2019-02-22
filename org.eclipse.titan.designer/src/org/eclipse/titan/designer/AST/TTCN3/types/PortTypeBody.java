@@ -1902,9 +1902,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 *
 	 * @param aData used to access build settings.
 	 * @param source where the source code is to be generated.
-	 * @param scope the scope into which the name needs to be generated.
 	 * */
-	public String getClassName(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getClassName(final JavaGenData aData, final StringBuilder source) {
 		final PortDefinition portDefinition = generateDefinitionForCodeGeneration(aData, source);
 
 		return PortGenerator.getClassName(aData, source, portDefinition, myScope);
