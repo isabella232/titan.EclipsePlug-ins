@@ -78,7 +78,7 @@ public class Code {
 	 * @param c input character to convert
 	 * @return str output converted (escaped) string
 	 */
-	public static String translate_character(char c) {
+	public static String translate_character(final char c) {
 		final StringBuilder str = new StringBuilder();
 		translate_character(str, c, false);
 		return str.toString();
