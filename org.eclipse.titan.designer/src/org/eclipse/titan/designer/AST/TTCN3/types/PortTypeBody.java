@@ -1956,7 +1956,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						final ArrayList<PortGenerator.MessageTypeMappingTarget> targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(mapping.getNofTargets());
 						for (int j = 0; j < mapping.getNofTargets(); j++) {
 							final AtomicBoolean hasSliding = new AtomicBoolean();
-							final PortGenerator.MessageTypeMappingTarget tempTarget = mapping.getTargetByIndex(j).fillTypeMappingTarget(aData, source, outType, myScope, hasSliding);
+							final PortGenerator.MessageTypeMappingTarget tempTarget = mapping.getTargetByIndex(j).fillTypeMappingTarget(aData, source, outType, hasSliding);
 
 							tempTarget.targetIndex = -1;
 							targets.add(tempTarget);
@@ -2039,7 +2039,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						for (int j = 0; j < mapping.getNofTargets(); j++) {
 							final TypeMappingTarget target = mapping.getTargetByIndex(j);
 							final AtomicBoolean sliding = new AtomicBoolean();
-							final MessageTypeMappingTarget mtmTarget = target.fillTypeMappingTarget(aData, source, type, myScope, sliding);
+							final MessageTypeMappingTarget mtmTarget = target.fillTypeMappingTarget(aData, source, type, sliding);
 							targets.add(mtmTarget);
 							portDefinition.has_sliding |= sliding.get();
 

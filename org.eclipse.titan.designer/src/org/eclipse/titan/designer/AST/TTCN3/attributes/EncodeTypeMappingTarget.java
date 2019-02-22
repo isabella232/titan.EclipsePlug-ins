@@ -196,7 +196,7 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding) {
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final AtomicBoolean hasSliding) {
 		String targetTypeName = null;
 		String displayName = null;
 		String typeDescriptorName = null;

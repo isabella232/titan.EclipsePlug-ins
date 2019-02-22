@@ -14,7 +14,6 @@ import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappingTarget;
@@ -80,10 +79,9 @@ public abstract class TypeMappingTarget extends ASTNode implements ILocateableNo
 	 * 
 	 * @param aData only used to update imports if needed
 	 * @param source the source to report errors to.
-	 * @param outType the messagetype the mapping belongs to.
-	 * @param scope the scope under which to generate the code.
 	 * @param hasSliding this parameter is used to return if this type mapping target uses sliding decoding.
+	 * @param outType the messagetype the mapping belongs to.
 	 * 
 	 * */
-	public abstract MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding);
+	public abstract MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final AtomicBoolean hasSliding);
 }

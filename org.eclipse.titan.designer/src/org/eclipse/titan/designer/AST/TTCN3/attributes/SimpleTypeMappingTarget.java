@@ -127,7 +127,7 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope myScope, final AtomicBoolean hasSliding) {
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final AtomicBoolean hasSliding) {
 		hasSliding.set(false);
 
 		if (targetType == null) {

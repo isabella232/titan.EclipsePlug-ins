@@ -273,7 +273,7 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding) {
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final AtomicBoolean hasSliding) {
 		String targetTypeName = null;
 		String displayName = null;
 
@@ -288,11 +288,11 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 		FunctionPrototype_Type prototype = null;
 		EncodingPrototype_type prototype_type;
 		if (functionReferenced != null) {
-			functionName = functionReferenced.getGenNameFromScope(aData, source, scope, "");
+			functionName = functionReferenced.getGenNameFromScope(aData, source, aData.getModuleScope(), "");
 			functionDisplayName = functionReferenced.getFullName();
 			prototype_type = functionReferenced.getPrototype();
 		} else {
-			functionName = extfunctionReferenced.getGenNameFromScope(aData, source, scope, "");
+			functionName = extfunctionReferenced.getGenNameFromScope(aData, source, aData.getModuleScope(), "");
 			functionDisplayName = extfunctionReferenced.getFullName();
 			prototype_type = extfunctionReferenced.getPrototype();
 		}
