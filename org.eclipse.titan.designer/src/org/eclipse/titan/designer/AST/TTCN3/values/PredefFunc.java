@@ -232,7 +232,7 @@ public class PredefFunc {
 	public static String remove_bom(final String encoded_value) throws DecodeException {
 		final int length = encoded_value.length();
 		if (0 == length) {
-			return new String();
+			return "";
 		}
 
 		if (length % 2 != 0) {
