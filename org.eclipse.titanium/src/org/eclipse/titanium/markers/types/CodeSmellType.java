@@ -23,10 +23,9 @@ public enum CodeSmellType implements ProblemType{
 	CONSECUTIVE_ASSIGNMENTS("Consecutive assignments", 0.0, 1.0, 6.0),
 	CONVERT_TO_ENUM("Convert to enumeration", 0.5, 3.0, 8.0),
 	EMPTY_STATEMENT_BLOCK("Empty statement block", 0.0 ,2.0, 5.0),
-	DEFINITION_NAME_TOO_LONG("Definition name is too long",0.0, 0.0, 0.0), //FIXME: valid parameters
+	DEFINITION_NAME_TOO_LONG("Definition name is too long",0.5, 1.0, 1.0),
 	GOTO("Goto", 1.0, 5.5, 26.0),
-	//FIXME: PRIVATE_COMPONENT_VARIABLE_ACCESS - Write valid risk Factor parameters.
-	PRIVATE_COMPONENT_VARIABLE_ACCESS("Private Component Variable Access", 0.0, 0.0, 0.0),
+	PRIVATE_COMPONENT_VARIABLE_ACCESS("Private Component Variable Access", 0.5, 2.0, 80.0),
 	IF_INSTEAD_ALTGUARD("If instead altguard", 1.0, 2.0, 8.0),
 	IF_INSTEAD_RECEIVE_TEMPLATE("If instead receive template", 1.0, 2.0, 8.0),
 	IF_WITHOUT_ELSE("If without else", 0.5, 1.0, 8.0),
@@ -54,14 +53,13 @@ public enum CodeSmellType implements ProblemType{
 	RECEIVE_ANY_TEMPLATE("Receive any template", 0.5, 1.0, 6.0),
 	SELECT_COVERAGE("Select coverage", 1.0, 5.0, 15.0),
 	SELECT_UNION("Select union", 1.0, 5.0, 15.0),
-	// numbers copied from select_coverage assuming they are of the same difficulty
 	SELECT_WITH_NUMBERS_SORTED("Select with numbers not sorted", 1.0, 5.0, 15.0),
 	SETVERDICT_WITHOUT_REASON("Setverdict without reason", 0.5, 1.0, 2.0),
 	SHORTHAND("Shorthand statement", 0.5, 5.0, 50.0),
 	SIZECHECK_IN_LOOP("Size check in loop", 0.0, 1.0, 5.0),
 	STOP_IN_FUNCTION("Stop in function", 0.5, 2.5, 50.0),
 	SWITCH_ON_BOOLEAN("Switch on boolean", 0.5, 1.0, 2.0),
-	TOO_COMPLEX_OF_TYPE("Too complex of type", 0.0, 0.0, 0.0), // 0.0, 0.0, 0.0 FIXME
+	TOO_COMPLEX_OF_TYPE("Too complex of type", 0.7, 1.5, 9.0),
 	TOO_COMPLEX_EXPRESSIONS("Too complex expression", 1.0, 2.0, 8.0),
 	TOO_MANY_PARAMETERS("Too many parameters", 1.0, 3.0, 37.0),
 	TOO_MANY_STATEMENTS("Too many statements", 2.0, 6.0, 50.0),
@@ -76,9 +74,9 @@ public enum CodeSmellType implements ProblemType{
 	UNUSED_IMPORT("Unused import", 0.0, 0.5, 1.0),
 	UNUSED_LOCAL_DEFINITION("Unused local definition",0.0, 0.5, 1.5),
 	VISIBILITY_IN_DEFINITION("Visibility in definition", 0.0, 0.5, 4.5),
-	RUNS_ON_SCOPE_REDUCTION("Runs on scope reduction",0.0, 0.0, 0.0), //FIXME: valid parameters 
-	UNNECESSARY_ARRAYS("Unnecessary arrays",0.0,0.0,0.0),//FIXME: valid parameters
-	DUPLICATE_NAME("Duplicate name",0.0,0.0,0.0);//FIXME: valid parameters
+	RUNS_ON_SCOPE_REDUCTION("Runs on scope reduction", 0.5, 2.0, 6.5),
+	UNNECESSARY_ARRAYS("Unnecessary arrays",0.5,1.5, 2.5),
+	DUPLICATE_NAME("Duplicate name", 0.5, 1.0, 80.0);
 
 	public static final String MARKER_ID = "org.eclipse.titanium.markers.CodeSmellMarker";
 	public static final String PROBLEM = "problem";
