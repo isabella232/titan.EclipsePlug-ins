@@ -93,9 +93,8 @@ public class PortReference extends Reference {
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
 	 * @param expression the expression for code generated
-	 * @param forcedScope the scope to be used as the local scope.
 	 */
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final Scope forcedScope ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		if (referredAssignment == null) {
 			return;
 		}
