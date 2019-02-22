@@ -447,7 +447,7 @@ public final class IsChoosenExpression extends Expression_Value {
 		if (value != null) {
 			final Reference reference = value.getReference();
 			if (reference != null) {
-				final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+				final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression);
 				final String field = MessageFormat.format("{0}.union_selection_type.ALT_{1}", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName()));
 				reference.generateCodeIsPresentBoundChosen(aData, expression, false, getOperationType(), field);
 			}
@@ -455,7 +455,7 @@ public final class IsChoosenExpression extends Expression_Value {
 		if (template != null) {
 			final Reference reference = template.getReference();
 			if (reference != null) {
-				final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+				final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression);
 				final String field = MessageFormat.format("{0}.union_selection_type.ALT_{1}", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName()));
 				reference.generateCodeIsPresentBoundChosen(aData, expression, true, getOperationType(), field);
 			}

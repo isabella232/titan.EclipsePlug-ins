@@ -614,10 +614,10 @@ public final class Assignment_Statement extends Statement {
 				source.append("{\n");
 				if (isOptional) {
 					aData.addCommonLibraryImport("Optional");
-					source.append(MessageFormat.format("Optional<{0}> {1} = new Optional<{0}>({0}.class);\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
+					source.append(MessageFormat.format("Optional<{0}> {1} = new Optional<{0}>({0}.class);\n", template.getMyGovernor().getGenNameValue(aData, source), rhsCopy));
 					rhsRef += ".get()";
 				} else {
-					source.append(MessageFormat.format("final {0} {1} = new {0}();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
+					source.append(MessageFormat.format("final {0} {1} = new {0}();\n", template.getMyGovernor().getGenNameValue(aData, source), rhsCopy));
 				}
 			}
 
@@ -635,7 +635,7 @@ public final class Assignment_Statement extends Statement {
 
 					//if (value.getValuetype() != Value_type.OMIT_VALUE && (isOptional || type.getTypetypeTtcn3() != value.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE))) {
 					if (value.getValuetype() != Value_type.OMIT_VALUE && value.getValuetype() != Value_type.REFERENCED_VALUE && (isOptional || type.getTypetypeTtcn3() != value.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE))) {
-						temp = MessageFormat.format("new {0}({1})", value.getMyGovernor().getGenNameValue(aData, source, myScope), value.generateSingleExpression(aData));
+						temp = MessageFormat.format("new {0}({1})", value.getMyGovernor().getGenNameValue(aData, source), value.generateSingleExpression(aData));
 					} else {
 						if (isOptional) {
 							aData.addCommonLibraryImport("Optional");
@@ -654,7 +654,7 @@ public final class Assignment_Statement extends Statement {
 					source.append(expression.postamble);
 				} else {
 					final String tempID = aData.getTemporaryVariableName();
-					final String typeGenname = value.getMyGovernor().getGenNameValue(aData, source, myScope);
+					final String typeGenname = value.getMyGovernor().getGenNameValue(aData, source);
 					final ExpressionStruct leftExpression = new ExpressionStruct();
 					reference.generateCode(aData, leftExpression);
 
@@ -722,7 +722,7 @@ public final class Assignment_Statement extends Statement {
 			final String rhsCopy = aData.getTemporaryVariableName();
 			if(rhsCopied) {
 				source.append("{\n");
-				source.append(MessageFormat.format("final {0} {1} = new {0}();\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), rhsCopy));
+				source.append(MessageFormat.format("final {0} {1} = new {0}();\n", template.getMyGovernor().getGenNameTemplate(aData, source), rhsCopy));
 			}
 			// TODO handle the needs conversion case
 			if (reference.getSubreferences().size() > 1) {
@@ -751,7 +751,7 @@ public final class Assignment_Statement extends Statement {
 					source.append("{\n");
 					source.append(expression.preamble);
 					final IType governor = template.getMyGovernor();
-					source.append(MessageFormat.format("final {0} {1} = {2};\n", governor.getGenNameTemplate(aData, source, template.getMyScope()), tempID, expression.expression));
+					source.append(MessageFormat.format("final {0} {1} = {2};\n", governor.getGenNameTemplate(aData, source), tempID, expression.expression));
 					source.append(expression.postamble);
 					if (rhsCopied) {
 						source.append(MessageFormat.format("{0}.operator_assign({1});\n", tempID, rhsCopy));

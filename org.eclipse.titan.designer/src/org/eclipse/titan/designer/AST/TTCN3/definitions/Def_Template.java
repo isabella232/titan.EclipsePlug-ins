@@ -922,7 +922,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			source.append( " static " );
 		}
 
-		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
+		final String typeName = type.getGenNameTemplate( aData, source );
 		if (formalParList == null) {
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 				final Array_Type arrayType = (Array_Type) type;
@@ -1003,7 +1003,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		final String genName = getGenName();
 
 		if (formalParList == null) {
-			final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
+			final String typeName = type.getGenNameTemplate( aData, source );
 
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {

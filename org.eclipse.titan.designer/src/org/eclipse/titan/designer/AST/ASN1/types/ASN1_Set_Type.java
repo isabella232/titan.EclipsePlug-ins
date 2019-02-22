@@ -989,13 +989,13 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData).concat("_template");
 	}
 
@@ -1029,8 +1029,8 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				ofType = false;
 				break;
 			}
-			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
-					cfType.getGenNameTemplate( aData, source, getMyScope() ),
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
+					cfType.getGenNameTemplate( aData, source ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
 					ofType, compField.getType().getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
@@ -1046,7 +1046,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				final Value defaultValue = compField.getDefault();
 				final StringBuilder defaultValueSource = new StringBuilder();
 				final Type type = compField.getType();
-				final String typeGeneratedName = type.getGenNameValue( aData, defaultValueSource, getMyScope() );
+				final String typeGeneratedName = type.getGenNameValue( aData, defaultValueSource );
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 					final Array_Type arrayType = (Array_Type) type;
 					final StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());

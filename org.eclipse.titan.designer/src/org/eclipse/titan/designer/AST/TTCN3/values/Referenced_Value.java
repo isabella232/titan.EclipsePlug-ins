@@ -715,7 +715,7 @@ public final class Referenced_Value extends Value {
 					// temporary id should be introduced for the lhs
 					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
-					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", referencedValue.getMyGovernor().getGenNameValue(aData, source, myScope), tempId, referencedValue.get_lhs_name()));
+					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", referencedValue.getMyGovernor().getGenNameValue(aData, source), tempId, referencedValue.get_lhs_name()));
 					referencedValue.generateCodeInit(aData, source, tempId);
 					source.append("}\n");
 				} else {

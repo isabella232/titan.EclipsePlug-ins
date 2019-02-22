@@ -324,24 +324,24 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		if (this == referencedLast || referencedLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		return referencedLast.getGenNameValue(aData, source, scope);
+		return referencedLast.getGenNameValue(aData, source);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		if (this == referencedLast || referencedLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		return referencedLast.getGenNameTemplate(aData, source, scope);
+		return referencedLast.getGenNameTemplate(aData, source);
 	}
 
 	@Override
@@ -384,22 +384,22 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 			final String ownName = getGenNameOwn();
 			switch (last.getTypetype()) {
 			case TYPE_PORT:
-				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referencedLast.getGenNameValue(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referencedLast.getGenNameValue(aData, source)));
 				break;
 			case TYPE_SIGNATURE:
-				source.append(MessageFormat.format("\tpublic static class {0}_call extends {1}_call '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source, myScope)));
-				source.append(MessageFormat.format("\tpublic static class {0}_call_redirect extends {1}_call_redirect '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0}_call extends {1}_call '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source)));
+				source.append(MessageFormat.format("\tpublic static class {0}_call_redirect extends {1}_call_redirect '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source)));
 				if (!((Signature_Type) last).isNonblocking()) {
-					source.append(MessageFormat.format("\tpublic static class {0}_reply extends {1}_reply '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source, myScope)));
-					source.append(MessageFormat.format("\tpublic static class {0}_reply_redirect extends {1}_reply_redirect '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source, myScope)));
+					source.append(MessageFormat.format("\tpublic static class {0}_reply extends {1}_reply '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source)));
+					source.append(MessageFormat.format("\tpublic static class {0}_reply_redirect extends {1}_reply_redirect '{' '}'\n", genName, referencedLast.getGenNameValue(aData, source)));
 				}
 				if (((Signature_Type) last).getSignatureExceptions() != null) {
-					source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", genName, referencedLast.getGenNameTemplate(aData, source, myScope)));
+					source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", genName, referencedLast.getGenNameTemplate(aData, source)));
 				}
 				break;
 			default:
-				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referencedLast.getGenNameValue(aData, source, myScope)));
-				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referencedLast.getGenNameTemplate(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referencedLast.getGenNameValue(aData, source)));
+				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referencedLast.getGenNameTemplate(aData, source)));
 			}
 		}
 

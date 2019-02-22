@@ -235,8 +235,8 @@ public final class Verdict_Type extends Type {
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
-			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
 		}
 
 		if (hasDoneAttribute()) {
@@ -251,7 +251,7 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanVerdictType" );
 
 		return "TitanVerdictType";
@@ -259,7 +259,7 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanVerdictType_template" );
 
 		return "TitanVerdictType_template";

@@ -1080,9 +1080,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					tempField.nthfield = codingSingleTag.fieldnum;
 					tempField.nthfieldname = singleTag.fieldName.getName();
 					tempField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-					tempField.type = t.getGenNameValue(aData, source, myScope);
+					tempField.type = t.getGenNameValue(aData, source);
 					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source, myScope);
-					tempField.unionType = getGenNameValue(aData, source, myScope);
+					tempField.unionType = getGenNameValue(aData, source);
 					if (cf.isOptional()) {
 						tempField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
 					} else {
@@ -1104,7 +1104,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							newField.nthfield = comp_index;
 							newField.nthfieldname = idf2.getName();
 							newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-							newField.unionType = t.getGenNameValue(aData, source, myScope);
+							newField.unionType = t.getGenNameValue(aData, source);
 							break;
 						case TYPE_TTCN3_SEQUENCE:
 						case TYPE_TTCN3_SET:
@@ -1124,7 +1124,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						}
 
 						final IType field_type = cf2.getType();
-						newField.type = field_type.getGenNameValue(aData, source, myScope);
+						newField.type = field_type.getGenNameValue(aData, source);
 						newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
 						if (field_type.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type)field_type).rawAttribute != null
 								&& (((TTCN3_Sequence_Type)field_type).rawAttribute.pointerto == null || ((TTCN3_Sequence_Type)field_type).rawAttribute.lengthto != null)) {
@@ -1182,7 +1182,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						newField.nthfield = comp_index;
 						newField.nthfieldname = idf2.getName();
 						newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-						newField.unionType = t.getGenNameValue(aData, source, myScope);
+						newField.unionType = t.getGenNameValue(aData, source);
 						break;
 					case TYPE_TTCN3_SEQUENCE:
 					case TYPE_TTCN3_SET:
@@ -1202,7 +1202,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					}
 
 					final IType field_type = cf2.getType();
-					newField.type = field_type.getGenNameValue(aData, source, myScope);
+					newField.type = field_type.getGenNameValue(aData, source);
 					newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
 
 					t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
@@ -1258,14 +1258,14 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						final Type t_field2 = cf2.getType();
 						if (t_field2.getTypetype() == Type_type.TYPE_TTCN3_CHOICE) {
 							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-							element_i.raw.lengthindex.unionType = t_field2.getGenNameValue(aData, source, myScope);
+							element_i.raw.lengthindex.unionType = t_field2.getGenNameValue(aData, source);
 						} else if (cf2.isOptional()) {
 							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
 						} else {
 							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
 						}
 
-						element_i.raw.lengthindex.type = t_field2.getGenNameValue(aData, source, myScope);
+						element_i.raw.lengthindex.type = t_field2.getGenNameValue(aData, source);
 						element_i.raw.lengthindex.typedesc = t_field2.getGenNameTypeDescriptor(aData, source, myScope);
 					}
 					if (lengthtoNum > 0 && rawpar.lengthindex == null) {
@@ -1276,7 +1276,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							final int componentsNumber = ((TTCN3_Set_Seq_Choice_BaseType)t_field_last).getNofComponents();
 							element_i.raw.union_member_num = componentsNumber;
 							element_i.raw.member_name = new ArrayList<String>(componentsNumber + 1);
-							element_i.raw.member_name.add(t_field_last.getGenNameValue(aData, source, myScope));
+							element_i.raw.member_name.add(t_field_last.getGenNameValue(aData, source));
 							for (int m = 1; m < componentsNumber + 1; m++){
 								final CompField compf = ((TTCN3_Set_Seq_Choice_BaseType)t_field_last).getComponentByIndex(m - 1);
 								element_i.raw.member_name.add(compf.getIdentifier().getName());
@@ -1326,7 +1326,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								newField.nthfield = comp_index;
 								newField.nthfieldname = idf2.getName();
 								newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-								newField.unionType = t.getGenNameValue(aData, source, myScope);
+								newField.unionType = t.getGenNameValue(aData, source);
 								break;
 							case TYPE_TTCN3_SEQUENCE:
 							case TYPE_TTCN3_SET:
@@ -1346,7 +1346,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							}
 
 							final IType field_type = cf2.getType();
-							newField.type = field_type.getGenNameValue(aData, source, myScope);
+							newField.type = field_type.getGenNameValue(aData, source);
 							newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
 
 							t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
@@ -1411,7 +1411,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 									newField.nthfield = comp_index;
 									newField.nthfieldname = idf2.getName();
 									newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-									newField.unionType = t.getGenNameValue(aData, source, myScope);
+									newField.unionType = t.getGenNameValue(aData, source);
 									break;
 								case TYPE_TTCN3_SEQUENCE:
 								case TYPE_TTCN3_SET:
@@ -1431,7 +1431,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								}
 
 								final IType field_type = cf2.getType();
-								newField.type = field_type.getGenNameValue(aData, source, myScope);
+								newField.type = field_type.getGenNameValue(aData, source);
 								newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
 
 								t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
@@ -1529,8 +1529,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		final CompField compField = getComponentByName(fieldId.getName());
 		final Type nextType = compField.getType();
-		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : getGenNameValue(aData, expression.expression, targetScope);
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression) : getGenNameValue(aData, expression.expression);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 		final boolean nextOptional = !isTemplate && compField.isOptional();
 		if (nextOptional) {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));

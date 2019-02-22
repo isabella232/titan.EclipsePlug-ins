@@ -1077,10 +1077,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope);
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns the name of the Java template class that represents this at runtime.
@@ -1092,10 +1091,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope);
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns the name of the type descriptor (- the _descr_ postfix).

@@ -1125,10 +1125,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			returnTypeName = "void";
 			break;
 		case A_FUNCTION_RVAL:
-			returnTypeName = returnType.getGenNameValue( aData, tempSource, getMyScope() );
+			returnTypeName = returnType.getGenNameValue( aData, tempSource );
 			break;
 		case A_FUNCTION_RTEMP:
-			returnTypeName = returnType.getGenNameTemplate( aData, tempSource, getMyScope() );
+			returnTypeName = returnType.getGenNameTemplate( aData, tempSource );
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");

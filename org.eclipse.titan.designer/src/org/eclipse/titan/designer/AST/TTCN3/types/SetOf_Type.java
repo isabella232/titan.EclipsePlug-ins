@@ -17,7 +17,6 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceChain;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
@@ -580,8 +579,8 @@ public final class SetOf_Type extends AbstractOfType {
 		generateCodeTypedescriptor(aData, source);
 
 		if (force_gen_seof) {
-			final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
-			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
+			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
+			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
 
 			final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 			int extension_bit = RawASTStruct.XDEFDEFAULT;
@@ -599,8 +598,8 @@ public final class SetOf_Type extends AbstractOfType {
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 		} else {
-			final String ofTypeGenName = ofType.getGenNameValue( aData, source, getMyScope() );
-			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
+			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
+			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
 			switch (ofType.getTypetype()) {
 			case TYPE_BOOL:
 				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BOOLEAN", ofTypeGenName, true, optimized_memalloc);
@@ -682,13 +681,13 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
+	public String getGenNameValue( final JavaGenData aData, final StringBuilder source ) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData).concat("_template");
 	}
 

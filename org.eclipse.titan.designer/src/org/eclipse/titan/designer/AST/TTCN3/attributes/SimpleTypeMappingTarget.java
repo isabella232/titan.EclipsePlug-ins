@@ -134,6 +134,6 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 			return new PortGenerator.MessageTypeMappingTarget(null, null);
 		}
 
-		return new PortGenerator.MessageTypeMappingTarget(targetType.getGenNameValue(aData, source, myScope), targetType.getTypename());
+		return new PortGenerator.MessageTypeMappingTarget(targetType.getGenNameValue(aData, source), targetType.getTypename());
 	}
 }

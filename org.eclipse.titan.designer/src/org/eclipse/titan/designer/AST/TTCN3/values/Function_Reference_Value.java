@@ -179,7 +179,7 @@ public final class Function_Reference_Value extends Value {
 		final String moduleName = referredFunction.getMyScope().getModuleScopeGen().getName();
 		final String functionName = referredFunction.getIdentifier().getName();
 		final String functionGenName = referredFunction.getGenNameFromScope(aData, result, getMyScope(), "");
-		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
+		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result)));
 		result.append("@Override\n");
 		result.append("public String getModuleName() {\n");
 		result.append(MessageFormat.format("return \"{0}\";\n", moduleName));
@@ -196,9 +196,9 @@ public final class Function_Reference_Value extends Value {
 			result.append("void");
 		} else {
 			if (functionType.returnsTemplate()) {
-				result.append(returnType.getGenNameTemplate(aData, result, myScope));
+				result.append(returnType.getGenNameTemplate(aData, result));
 			} else {
-				result.append(returnType.getGenNameValue(aData, result, myScope));
+				result.append(returnType.getGenNameValue(aData, result));
 			}
 		}
 		result.append(" invoke(");

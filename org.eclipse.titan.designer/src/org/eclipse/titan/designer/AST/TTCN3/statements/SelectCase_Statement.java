@@ -246,7 +246,7 @@ public final class SelectCase_Statement extends Statement {
 		}
 
 		final IType governor = expression.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-		final String type = governor.getGenNameValue(aData, source, myScope);
+		final String type = governor.getGenNameValue(aData, source);
 		final String tmp = aData.getTemporaryVariableName();
 
 		//TODO check if this could be simplified

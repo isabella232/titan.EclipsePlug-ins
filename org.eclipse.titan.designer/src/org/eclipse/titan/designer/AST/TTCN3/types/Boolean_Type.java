@@ -289,8 +289,8 @@ public final class Boolean_Type extends ASN1Type {
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
-			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
 		}
 
 		if (!isAsn()) {
@@ -307,14 +307,14 @@ public final class Boolean_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
+	public String getGenNameValue( final JavaGenData aData, final StringBuilder source ) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
 		return "TitanBoolean";
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanBoolean_template" );
 		return "TitanBoolean_template";
 	}

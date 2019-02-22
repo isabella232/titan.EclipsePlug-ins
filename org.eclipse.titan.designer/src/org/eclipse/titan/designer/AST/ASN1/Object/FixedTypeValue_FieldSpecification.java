@@ -171,7 +171,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 		if (defaultValue != null) {
 			final StringBuilder valueSource = new StringBuilder();
 			final String defValueGenName = defaultValue.getGenNameOwn();
-			final String typeGeneratedName = fixedType.getGenNameValue( aData, valueSource, myObjectClass.getMyScope() );
+			final String typeGeneratedName = fixedType.getGenNameValue( aData, valueSource );
 
 			if (defaultValue.canGenerateSingleExpression() ) {
 				if (defaultValue.returnsNative()) {

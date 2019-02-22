@@ -306,7 +306,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 					condition.append(" || ");
 				}
 				if(isValue) {
-					final String genName = last.getGenNameValue(aData, expression.expression, getMyScope());
+					final String genName = last.getGenNameValue(aData, expression.expression);
 					expression.expression.append(MessageFormat.format("final {0} {1} = new {0} (", genName, tmp));
 
 					final IValue value = templateBody.getValue();
@@ -317,7 +317,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 
 					condition.append(MessageFormat.format("{0}.operator_equals({1})", tmp, name));
 				} else {
-					final String genName = last.getGenNameTemplate(aData, expression.expression, getMyScope());
+					final String genName = last.getGenNameTemplate(aData, expression.expression);
 					expression.expression.append(MessageFormat.format("final {0} {1} = new {0} (", genName, tmp));
 					templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 					expression.expression.append(");\n");

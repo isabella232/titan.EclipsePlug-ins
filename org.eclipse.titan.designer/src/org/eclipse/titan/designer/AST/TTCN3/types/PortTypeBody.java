@@ -1912,6 +1912,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		return PortGenerator.getClassName(aData, source, portDefinition, myScope, scope);
 	}
+
 	/**
 	 * Add generated java code on this level.
 	 *
@@ -1943,7 +1944,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 				final IType inType = inMessages.getTypeByIndex(i);
 
-				final messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope), inType.getTypename());
+				final messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source), inType.getGenNameTemplate(aData, source), inType.getTypename());
 				portDefinition.inMessages.add(info);
 			}
 		}
@@ -1951,7 +1952,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (outMessages != null) {
 			for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
 				final IType outType = outMessages.getTypeByIndex(i);
-				final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
+				final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(outType.getGenNameValue(aData, source), outType.getGenNameTemplate(aData, source), outType.getTypename());
 
 				if (portType == PortType_type.PT_USER && (legacy || outMappings != null)) {
 					if (legacy || outMappings.hasMappingForType(CompilationTimeStamp.getBaseTimestamp(), outType)) {
@@ -1969,7 +1970,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					} else if (!legacy){
 						final ArrayList<PortGenerator.MessageTypeMappingTarget> targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
 
-						final PortGenerator.MessageTypeMappingTarget tempTarget = new PortGenerator.MessageTypeMappingTarget(outType.getGenNameValue(aData, source, myScope), outType.getTypename());
+						final PortGenerator.MessageTypeMappingTarget tempTarget = new PortGenerator.MessageTypeMappingTarget(outType.getGenNameValue(aData, source), outType.getTypename());
 						targets.add(tempTarget);
 						mappedType.addTargets(targets);
 					}
@@ -1984,7 +1985,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				final IType outType = inSignatures.getTypeByIndex(i);
 				final Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-				final procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, false);
+				final procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, false);
 				portDefinition.inProcedures.add(info);
 			}
 		}
@@ -1994,7 +1995,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				final IType outType = outSignatures.getTypeByIndex(i);
 				final Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-				final procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, signature.getSignatureReturnType() != null);
+				final procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, signature.getSignatureReturnType() != null);
 				portDefinition.outProcedures.add(info);
 			}
 		}
@@ -2009,7 +2010,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		case TP_ADDRESS: {
 			portDefinition.testportType = TestportType.ADDRESS;
 			final IType address = getAddressType(CompilationTimeStamp.getBaseTimestamp());
-			portDefinition.addressName = address.getGenNameValue(aData, source, myScope);
+			portDefinition.addressName = address.getGenNameValue(aData, source);
 			break;
 		}
 		default:
@@ -2025,15 +2026,15 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				final PortTypeBody providerBody = providerTypes.get(0).getPortBody();
 
 				portDefinition.providerMessageOutList = new ArrayList<PortGenerator.portMessageProvider>();
-				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerTypes.get(0).getGenNameValue(aData, source, myScope), null, providerBody.realtime);
+				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerTypes.get(0).getGenNameValue(aData, source), null, providerBody.realtime);
 				portDefinition.providerMessageOutList.add(temp);
 
 				if (providerBody.inMessages != null) {
 					portDefinition.providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>(providerBody.inMessages.getNofTypes());
 					for (int i = 0; i < providerBody.inMessages.getNofTypes(); i++) {
 						final IType type = providerBody.inMessages.getTypeByIndex(i);
-						final String typeName = type.getGenNameValue(aData, source, myScope);
-						final String templateName = type.getGenNameTemplate(aData, source, myScope);
+						final String typeName = type.getGenNameValue(aData, source);
+						final String templateName = type.getGenNameTemplate(aData, source);
 						final String displayName = type.getTypename();
 						final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(typeName, templateName, displayName);
 
@@ -2068,13 +2069,13 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				portDefinition.providerMessageOutList = new ArrayList<PortGenerator.portMessageProvider>(providerTypes.size());
 				for (int i = 0; i < providerTypes.size(); i++) {
 					final Port_Type providerType = providerTypes.get(i);
-					final String name = providerType.getGenNameValue(aData, source, myScope);
+					final String name = providerType.getGenNameValue(aData, source);
 					final PortTypeBody providerTypeBody = providerType.getPortBody();
 					ArrayList<String> names = null;
 					if (providerTypeBody.outMessages != null) {
 						names = new ArrayList<String>(providerTypeBody.outMessages.getNofTypes());
 						for (int j = 0; j < providerTypeBody.outMessages.getNofTypes(); j++) {
-							names.add(providerTypeBody.outMessages.getTypeByIndex(j).getGenNameValue(aData, source, myScope));
+							names.add(providerTypeBody.outMessages.getTypeByIndex(j).getGenNameValue(aData, source));
 						}
 					}
 
@@ -2088,13 +2089,13 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					// into a set called pdef.provider_msg_in.elements
 					for (int i = 0; i < inMessages.getNofTypes(); i++) {
 						final IType type = inMessages.getTypeByIndex(i);
-						final String typeName = type.getGenNameValue(aData, source, myScope);
-						final String templateName = type.getGenNameTemplate(aData, source, myScope);
+						final String typeName = type.getGenNameValue(aData, source);
+						final String templateName = type.getGenNameTemplate(aData, source);
 						final String displayName = type.getTypename();
 						final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(typeName, templateName, displayName);
 
 						final ArrayList<PortGenerator.MessageTypeMappingTarget> targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
-						final String targetType = type.getGenNameValue(aData, source, myScope);
+						final String targetType = type.getGenNameValue(aData, source);
 						final String targetDisplayName = type.getTypename();
 						final MessageTypeMappingTarget mtmTarget = new MessageTypeMappingTarget(targetType, targetDisplayName);
 						mtmTarget.targetIndex = inMessages.getIndexByType(type);
@@ -2125,8 +2126,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 							if (mappedType == null) {
 								// Mapping target not found. Create new port_msg_mapped_type
-								final String typeName = mappingTargetType.getGenNameValue(aData, source, myScope);
-								final String templeName = mappingTargetType.getGenNameTemplate(aData, source, myScope);
+								final String typeName = mappingTargetType.getGenNameValue(aData, source);
+								final String templeName = mappingTargetType.getGenNameTemplate(aData, source);
 								final String displayName = mappingTargetType.getTypename();
 								mappedType = new MessageMappedTypeInfo(typeName, templeName, displayName);
 								portDefinition.providerInMessages.add(mappedType);
@@ -2137,7 +2138,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							final String functionName = targetFunction.getGenNameFromScope(aData, source, myScope, "");
 							final String functionDisplayName = targetFunction.getFullName();
 							final Type sourceType = mapping.getSourceType();
-							final String targetType = sourceType.getGenNameValue(aData, source, myScope);
+							final String targetType = sourceType.getGenNameValue(aData, source);
 							final String targetDisplayName = sourceType.getTypename();
 
 							final MessageTypeMappingTarget newTarget = new MessageTypeMappingTarget(targetType, targetDisplayName, functionName, functionDisplayName, FunctionPrototype_Type.FAST);
@@ -2157,7 +2158,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						String type = "";
 						switch (def.getAssignmentType()) {
 						case A_VAR:
-							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
+							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source);
 							if(((Def_Var)def).getInitialValue() == null) {
 								portDefinition.varInit.append(MessageFormat.format("{0}.clean_up();\n", def.getGenName()));
 							} else {
@@ -2165,11 +2166,11 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							}
 							break;
 						case A_CONST:
-							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
+							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source);
 							def.generateCodeInitComp(aData, portDefinition.varInit, def);
 							break;
 						case A_VAR_TEMPLATE:
-							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate(aData, source, myScope);
+							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate(aData, source);
 							if(((Def_Var_Template)def).getInitialValue() == null) {
 								portDefinition.varInit.append(MessageFormat.format("{0}.clean_up();\n", def.getGenName()));
 							} else {

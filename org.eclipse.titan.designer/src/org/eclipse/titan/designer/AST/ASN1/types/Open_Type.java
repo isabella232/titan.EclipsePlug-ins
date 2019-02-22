@@ -640,14 +640,14 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return getGenNameValue(aData, source, scope).concat("_template");
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameValue(aData, source).concat("_template");
 	}
 
 	@Override
@@ -716,8 +716,8 @@ public final class Open_Type extends ASN1Type {
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
 		for ( final CompField compField : map.values() ) {
 			final IType cfType = compField.getType();
-			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
-					cfType.getGenNameTemplate(aData, source, getMyScope()),
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
+					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
 					cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
@@ -807,8 +807,8 @@ public final class Open_Type extends ASN1Type {
 			return;
 		}
 
-		final String valueTypeGenName = getGenNameValue(aData, expression.expression, targetScope);
-		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : valueTypeGenName;
+		final String valueTypeGenName = getGenNameValue(aData, expression.expression);
+		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression) : valueTypeGenName;
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, valueTypeGenName, FieldSubReference.getJavaGetterName( fieldId.getName())));
@@ -822,7 +822,7 @@ public final class Open_Type extends ASN1Type {
 
 		final String temporalId = aData.getTemporaryVariableName();
 		final String temporalId2 = aData.getTemporaryVariableName();
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 		expression.expression.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", currentTypeGenName, temporalId, externalId));
 		expression.expression.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", nextTypeGenName, temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 

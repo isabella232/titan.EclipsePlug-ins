@@ -625,7 +625,7 @@ public final class Named_Template_List extends TTCN3Template {
 		}
 
 		final StringBuilder result = new StringBuilder();
-		final String genName = myGovernor.getGenNameTemplate(aData, result, myScope);
+		final String genName = myGovernor.getGenNameTemplate(aData, result);
 		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
 		return result;
 
@@ -656,7 +656,7 @@ public final class Named_Template_List extends TTCN3Template {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String genName = governor.getGenNameTemplate(aData, expression.expression);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -794,7 +794,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 				final String tempId = aData.getTemporaryVariableName();
 				source.append("{\n");
-				source.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
+				source.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", fieldType.getGenNameTemplate(aData, source), tempId, name, generatedFieldName));
 				template.generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {

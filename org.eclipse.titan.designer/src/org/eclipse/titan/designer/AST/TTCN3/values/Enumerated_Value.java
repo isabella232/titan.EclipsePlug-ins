@@ -199,7 +199,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	@Override
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		source.append(MessageFormat.format("{0}.operator_assign({1}.enum_type.{2});\n", name,
-				getMyGovernor().getGenNameValue(aData, source, myScope), getValue().getName()));
+				getMyGovernor().getGenNameValue(aData, source), getValue().getName()));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
@@ -231,7 +231,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		final StringBuilder source = new StringBuilder();
 		//default implementation
-		source.append(MessageFormat.format("{0}.enum_type.{1}", getMyGovernor().getGenNameValue(aData, source, aData.getModuleScope()), getValue().getName()));
+		source.append(MessageFormat.format("{0}.enum_type.{1}", getMyGovernor().getGenNameValue(aData, source), getValue().getName()));
 
 		return source;
 	}

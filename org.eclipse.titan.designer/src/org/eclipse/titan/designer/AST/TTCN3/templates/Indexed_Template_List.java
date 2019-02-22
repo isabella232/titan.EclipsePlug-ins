@@ -470,7 +470,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		}
 
 		final StringBuilder result = new StringBuilder();
-		final String genName = myGovernor.getGenNameTemplate(aData, result, myScope);
+		final String genName = myGovernor.getGenNameTemplate(aData, result);
 		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
 		return result;
 
@@ -501,7 +501,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String genName = governor.getGenNameTemplate(aData, expression.expression);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -548,13 +548,13 @@ public final class Indexed_Template_List extends TTCN3Template {
 		String ofTypeName;
 		switch(type.getTypetype()) {
 		case TYPE_SEQUENCE_OF:
-			ofTypeName = ((SequenceOf_Type) type).getOfType().getGenNameTemplate(aData, source, myScope);
+			ofTypeName = ((SequenceOf_Type) type).getOfType().getGenNameTemplate(aData, source);
 			break;
 		case TYPE_SET_OF:
-			ofTypeName = ((SetOf_Type) type).getOfType().getGenNameTemplate(aData, source, myScope);
+			ofTypeName = ((SetOf_Type) type).getOfType().getGenNameTemplate(aData, source);
 			break;
 		case TYPE_ARRAY:
-			ofTypeName = ((Array_Type) type).getElementType().getGenNameTemplate(aData, source, myScope);
+			ofTypeName = ((Array_Type) type).getElementType().getGenNameTemplate(aData, source);
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing indexed template `" + getFullName() + "''");

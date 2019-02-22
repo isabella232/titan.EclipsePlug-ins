@@ -484,13 +484,13 @@ public final class Altstep_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData).concat("_template");
 	}
 
@@ -524,12 +524,12 @@ public final class Altstep_Type extends Type {
 			case A_PAR_VAL_IN:
 			case A_PAR_VAL_INOUT:
 			case A_PAR_VAL_OUT:
-				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue( aData, source, getMyScope() ) );
+				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue( aData, source ) );
 				break;
 			case A_PAR_TEMP_IN:
 			case A_PAR_TEMP_INOUT:
 			case A_PAR_TEMP_OUT:
-				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate( aData, source, getMyScope() ) );
+				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate( aData, source ) );
 				break;
 			default:
 				break;

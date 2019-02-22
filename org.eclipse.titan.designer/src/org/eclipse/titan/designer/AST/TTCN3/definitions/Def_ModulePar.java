@@ -407,7 +407,7 @@ public final class Def_ModulePar extends Definition {
 			globalVariable.append( " static " );
 		}
 		globalVariable.append( "final " );
-		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable );
 		globalVariable.append( typeGeneratedName );
 		globalVariable.append( ' ' );
 		globalVariable.append( genName );

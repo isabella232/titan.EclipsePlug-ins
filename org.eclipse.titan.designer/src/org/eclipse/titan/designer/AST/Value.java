@@ -583,7 +583,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			if (returnsNative() && forceObject) {
 				final IType gov = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 
-				expression.expression.append(MessageFormat.format("new {0}(", gov.getGenNameValue(aData, new StringBuilder(), aData.getModuleScope())));
+				expression.expression.append(MessageFormat.format("new {0}(", gov.getGenNameValue(aData, new StringBuilder())));
 				expression.expression.append(generateSingleExpression(aData));
 				expression.expression.append(")");
 			} else {
@@ -680,7 +680,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype())) {
 				typeName = "boolean";
 			} else {
-				typeName = myGovernor.getGenNameValue(aData, init, myScope);
+				typeName = myGovernor.getGenNameValue(aData, init);
 			}
 			init.append(MessageFormat.format("{0} {1};\n", typeName, tempId));
 			init.append("{\n");

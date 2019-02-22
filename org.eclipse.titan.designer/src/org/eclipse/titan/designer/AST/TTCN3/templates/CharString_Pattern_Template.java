@@ -204,7 +204,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		final String escaped = Charstring_Value.get_stringRepr(returnValue);
 
 		source.append(preamble);
-		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, new TitanCharString(\"{2}\")));\n", name, myGovernor.getGenNameTemplate(aData, source, myScope), escaped));
+		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, new TitanCharString(\"{2}\")));\n", name, myGovernor.getGenNameTemplate(aData, source), escaped));
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
@@ -237,7 +237,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		final String escaped = Charstring_Value.get_stringRepr(patternstring.getFullString());
-		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result, myScope), escaped ) );
+		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result), escaped ) );
 
 		//TODO handle cast needed
 

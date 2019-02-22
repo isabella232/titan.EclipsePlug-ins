@@ -769,13 +769,13 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData).concat("_template");
 	}
 
@@ -797,8 +797,8 @@ public final class Anytype_Type extends Type {
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final IType cfType = compField.getType();
-			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
-					cfType.getGenNameTemplate(aData, source, getMyScope()),
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
+					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
 					cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
@@ -881,7 +881,7 @@ public final class Anytype_Type extends Type {
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		final CompField compField = getComponentByName(fieldId.getName());
 		final Type nextType = compField.getType();
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 		final boolean nextOptional = !isTemplate && compField.isOptional();
 		if (nextOptional) {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
@@ -943,7 +943,7 @@ public final class Anytype_Type extends Type {
 
 			final String temporalId = aData.getTemporaryVariableName();
 			final String temporalId2 = aData.getTemporaryVariableName();
-			final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : getGenNameValue(aData, expression.expression, targetScope);
+			final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression) : getGenNameValue(aData, expression.expression);
 			expression.expression.append(MessageFormat.format("final {0} {1} = {2};\n", currentTypeGenName, temporalId, externalId));
 			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", nextTypeGenName, temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 

@@ -647,7 +647,7 @@ public final class SetOf_Value extends Value {
 		}
 
 		final StringBuilder result = new StringBuilder();
-		final String genName = governor.getGenNameValue(aData, result, myScope);
+		final String genName = governor.getGenNameValue(aData, result);
 		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
 		return result;
 	}
@@ -663,7 +663,7 @@ public final class SetOf_Value extends Value {
 				source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
-				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
+				final String ofTypeName = ofType.getGenNameValue(aData, source);
 				for (int i = 0; i < nofIndexedValues; i++) {
 					final IndexedValue indexedValue = values.getIndexedValueByIndex(i);
 					final String tempId1 = aData.getTemporaryVariableName();
@@ -690,7 +690,7 @@ public final class SetOf_Value extends Value {
 			} else {
 				source.append(MessageFormat.format("{0}.set_size({1});\n", name, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
-				final String embeddedTypeName = ofType.getGenNameValue(aData, source, myScope);
+				final String embeddedTypeName = ofType.getGenNameValue(aData, source);
 
 				for (int i = 0; i < nofValues; i++) {
 					final IValue value = values.getValueByIndex(i);
@@ -732,7 +732,7 @@ public final class SetOf_Value extends Value {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		final String genName = myLastSetGovernor.getGenNameValue(aData, expression.expression, myScope);
+		final String genName = myLastSetGovernor.getGenNameValue(aData, expression.expression);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);

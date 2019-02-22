@@ -134,7 +134,7 @@ public final class Value_ActualParameter extends ActualParameter {
 					// function call itself (needed if the value contains function calls
 					// with lazy or fuzzy parameters)
 					final String tempId = aData.getTemporaryVariableName();
-					value.getMyGovernor().getGenNameValue(aData, expression.preamble, myScope);
+					value.getMyGovernor().getGenNameValue(aData, expression.preamble);
 					expression.preamble.append(MessageFormat.format(" {0}({1})", tempId, valueExpression.expression));
 					expression.preamble.append(valueExpression.postamble);
 					expressionExpression.append(tempId);

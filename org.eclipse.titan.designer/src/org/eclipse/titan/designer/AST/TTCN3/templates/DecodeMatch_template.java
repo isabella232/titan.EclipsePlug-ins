@@ -255,8 +255,8 @@ public class DecodeMatch_template extends TTCN3Template {
 		final String tempVariableName = aData.getTemporaryVariableName();
 		final IType targetType = target.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 
-		final String targetTypeName = targetType.getGenNameValue(aData, source, myScope);
-		final String targetTemplateName = targetType.getGenNameTemplate(aData, source, myScope);
+		final String targetTypeName = targetType.getGenNameValue(aData, source);
+		final String targetTemplateName = targetType.getGenNameTemplate(aData, source);
 		source.append(MessageFormat.format("class dec_match_{0} implements IDecode_Match '{'\n", tempVariableName));
 		source.append(MessageFormat.format("{0} target;\n", targetTemplateName));
 		source.append(MessageFormat.format("{0} dec_val;\n", targetTypeName));

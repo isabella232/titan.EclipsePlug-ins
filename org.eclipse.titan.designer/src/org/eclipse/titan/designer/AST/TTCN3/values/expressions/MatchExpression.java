@@ -336,7 +336,7 @@ public final class MatchExpression extends Expression_Value {
 
 			final String tempId = aData.getTemporaryVariableName();
 			final IType governor = templateInstance.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
-			expression.preamble.append(MessageFormat.format("{0} {1} = {2};\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId, expression.expression));
+			expression.preamble.append(MessageFormat.format("{0} {1} = {2};\n", governor.getGenNameTemplate(aData, expression.expression), tempId, expression.expression));
 			expression.expression = expressionBackup.append(tempId);
 		} else {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);

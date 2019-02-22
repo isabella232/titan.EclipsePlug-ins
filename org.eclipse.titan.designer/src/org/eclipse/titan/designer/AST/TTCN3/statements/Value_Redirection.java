@@ -425,7 +425,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				// store a pointer to the matched template, the decoding results from
 				// decmatch templates might be reused to optimize decoded value redirects
 				instanceParameterList.append(MessageFormat.format("{0}, ", lastGenTIExpression));
-				final String templateName = valueType.getGenNameTemplate(aData, expression.expression, getMyScope());
+				final String templateName = valueType.getGenNameTemplate(aData, expression.expression);
 				membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", templateName));
 				constructorParameters.append(MessageFormat.format("{0} par_matched_temp, ", templateName));
 				constructorInitializers.append("ptr_matched_temp = par_matched_temp;\n");
@@ -469,7 +469,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				IType referenceType = variableReference.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
 				referenceType = referenceType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				final IType memberType = redirection.isDecoded() ? redirection.getDeclarationType() : referenceType;
-				final String typeName = memberType.getGenNameValue(aData, expression.expression, myScope);
+				final String typeName = memberType.getGenNameValue(aData, expression.expression);
 				membersString.append(MessageFormat.format("{0} ptr_{1};\n", typeName, i));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}", typeName, i));
 				constructorInitializers.append(MessageFormat.format("ptr_{0} = par_{0};\n", i));
@@ -752,7 +752,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			expression.preamble.append("\t@Override\n");
 			expression.preamble.append("\tpublic void set_values(final Base_Type values) {\n");
 			if (needPar) {
-				expression.preamble.append(MessageFormat.format("final {0} par = ({0})values;\n", valueType.getGenNameValue(aData, expression.preamble, scope)));
+				expression.preamble.append(MessageFormat.format("final {0} par = ({0})values;\n", valueType.getGenNameValue(aData, expression.preamble)));
 			}
 
 			expression.preamble.append(setValuesString);

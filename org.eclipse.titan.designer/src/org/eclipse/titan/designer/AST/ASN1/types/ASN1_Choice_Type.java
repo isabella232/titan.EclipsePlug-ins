@@ -525,13 +525,13 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData).concat("_template");
 	}
 
@@ -558,8 +558,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		for ( int i = 0 ; i < components.getNofComps(); i++ ) {
 			final CompField compField = components.getCompByIndex(i);
 			final IType cfType = compField.getType();
-			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
-					cfType.getGenNameTemplate(aData, source, getMyScope()),
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
+					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
 					cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
@@ -638,8 +638,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			return;
 		}
 
-		final String valueTypeGenName = getGenNameValue(aData, expression.expression, targetScope);
-		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : valueTypeGenName;
+		final String valueTypeGenName = getGenNameValue(aData, expression.expression);
+		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression) : valueTypeGenName;
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, valueTypeGenName, FieldSubReference.getJavaGetterName( fieldId.getName())));
@@ -647,7 +647,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		final CompField compField = getComponentByName(fieldId);
 		final Type nextType = compField.getType();
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		closingBrackets.insert(0, "}\n");

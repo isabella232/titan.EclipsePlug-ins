@@ -74,10 +74,10 @@ public class LazyFuzzyParamData {
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT:
-			typeString.append(assignmentType.getGenNameTemplate(aData, source, scope));
+			typeString.append(assignmentType.getGenNameTemplate(aData, source));
 			break;
 		default:
-			typeString.append(assignmentType.getGenNameValue(aData, source, scope));
+			typeString.append(assignmentType.getGenNameValue(aData, source));
 			break;
 		}
 
@@ -151,7 +151,7 @@ public class LazyFuzzyParamData {
 			}
 
 			aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
-			expression.preamble.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1} = new Lazy_Fuzzy_ValueExpr<{0}>({2}, {3});\n", value.getMyGovernor().getGenNameValue(aData, expression.preamble, scope), paramId, lazy ? "false" : "true", valueExpression.expression));
+			expression.preamble.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1} = new Lazy_Fuzzy_ValueExpr<{0}>({2}, {3});\n", value.getMyGovernor().getGenNameValue(aData, expression.preamble), paramId, lazy ? "false" : "true", valueExpression.expression));
 			expression.expression.append(paramId);
 
 			return;
@@ -193,7 +193,7 @@ public class LazyFuzzyParamData {
 		final ExpressionStruct valueExpression = new ExpressionStruct();
 		generateCodeForValue(aData, valueExpression, value, scope);
 		final String param_id = aData.getTemporaryVariableName();
-		final String typeName = value.getMyGovernor().getGenNameValue(aData, expression.expression, scope);
+		final String typeName = value.getMyGovernor().getGenNameValue(aData, expression.expression);
 		generateCodeParameterClass(aData, expression, valueExpression, param_id, typeName, true, lazy);
 	}
 
@@ -212,7 +212,7 @@ public class LazyFuzzyParamData {
 			}
 
 			aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
-			expression.preamble.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1} = new Lazy_Fuzzy_TemplateExpr<{0}>({2}, {3});\n", template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble, scope), paramId, lazy ? "false" : "true", templateExpression.expression));
+			expression.preamble.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1} = new Lazy_Fuzzy_TemplateExpr<{0}>({2}, {3});\n", template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble), paramId, lazy ? "false" : "true", templateExpression.expression));
 			expression.expression.append(paramId);
 
 			return;
@@ -254,7 +254,7 @@ public class LazyFuzzyParamData {
 		final ExpressionStruct templateExpression = new ExpressionStruct();
 		generateCodeForTemplate(aData, templateExpression, template, genRestrictionCheck, scope);
 		final String param_id = aData.getTemporaryVariableName();
-		final String typeName = template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.expression, scope);
+		final String typeName = template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.expression);
 		generateCodeParameterClass(aData, expression, templateExpression, param_id, typeName, false, lazy);
 
 	}

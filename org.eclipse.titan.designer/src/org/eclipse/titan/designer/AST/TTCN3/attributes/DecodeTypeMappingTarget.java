@@ -201,7 +201,7 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 
 		hasSliding.set(false);
 		if (targetType != null) {
-			targetTypeName = targetType.getGenNameValue(aData, source, scope);
+			targetTypeName = targetType.getGenNameValue(aData, source);
 			displayName = targetType.getTypename();
 			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source, scope);
 		}

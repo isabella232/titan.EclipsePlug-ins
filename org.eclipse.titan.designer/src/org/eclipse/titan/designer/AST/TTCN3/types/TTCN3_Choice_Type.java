@@ -539,13 +539,13 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData).concat("_template");
 	}
 
@@ -567,8 +567,8 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final IType cfType = compField.getType();
-			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
-					cfType.getGenNameTemplate(aData, source, getMyScope()),
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
+					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
 					cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
@@ -627,9 +627,9 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					tempField.nthfield = codingSingleTag.fieldnum;
 					tempField.nthfieldname = singleTag.fieldName.getName();
 					tempField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-					tempField.type = t.getGenNameValue(aData, source, myScope);
+					tempField.type = t.getGenNameValue(aData, source);
 					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source, myScope);
-					tempField.unionType = getGenNameValue(aData, source, myScope);
+					tempField.unionType = getGenNameValue(aData, source);
 					codingKey.fields.add(tempField);
 
 					for (int b = 0; b < key.keyField.names.size(); b++) {
@@ -646,7 +646,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 							newField.nthfield = comp_index;
 							newField.nthfieldname = idf2.getName();
 							newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-							newField.unionType = t.getGenNameValue(aData, source, myScope);
+							newField.unionType = t.getGenNameValue(aData, source);
 							break;
 						case TYPE_TTCN3_SEQUENCE:
 						case TYPE_TTCN3_SET:
@@ -666,7 +666,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						}
 
 						final IType field_type = cf2.getType();
-						newField.type = field_type.getGenNameValue(aData, source, myScope);
+						newField.type = field_type.getGenNameValue(aData, source);
 						newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
 						if (field_type.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type)field_type).rawAttribute != null
 								&& (((TTCN3_Sequence_Type)field_type).rawAttribute.pointerto == null || ((TTCN3_Sequence_Type)field_type).rawAttribute.lengthto != null)) {
@@ -768,8 +768,8 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return;
 		}
 
-		final String valueTypeGenName = getGenNameValue(aData, expression.expression, targetScope);
-		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : valueTypeGenName;
+		final String valueTypeGenName = getGenNameValue(aData, expression.expression);
+		final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression) : valueTypeGenName;
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		expression.expression.append(MessageFormat.format("{0} = {1}.ischosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, valueTypeGenName, FieldSubReference.getJavaGetterName( fieldId.getName())));
@@ -783,7 +783,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		final String temporalId = aData.getTemporaryVariableName();
 		final String temporalId2 = aData.getTemporaryVariableName();
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 		expression.expression.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", currentTypeGenName, temporalId, externalId));
 		expression.expression.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", nextTypeGenName, temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 

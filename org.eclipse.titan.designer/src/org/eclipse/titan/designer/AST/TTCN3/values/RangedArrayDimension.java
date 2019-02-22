@@ -257,7 +257,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 
 		aData.addBuiltinTypeImport("TitanValue_Array");
 
-		return MessageFormat.format("TitanValue_Array<{0}>", elementType.getGenNameValue(aData, source, scope));
+		return MessageFormat.format("TitanValue_Array<{0}>", elementType.getGenNameValue(aData, source));
 	}
 
 	@Override
@@ -270,6 +270,6 @@ public final class RangedArrayDimension extends ArrayDimension {
 
 		aData.addBuiltinTypeImport("TitanTemplate_Array");
 
-		return MessageFormat.format("TitanTemplate_Array<{0}, {1}>", elementType.getGenNameValue(aData, source, scope), elementType.getGenNameTemplate(aData, source, scope));
+		return MessageFormat.format("TitanTemplate_Array<{0}, {1}>", elementType.getGenNameValue(aData, source), elementType.getGenNameTemplate(aData, source));
 	}
 }

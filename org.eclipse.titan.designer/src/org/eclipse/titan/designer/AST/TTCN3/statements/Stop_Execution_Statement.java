@@ -78,11 +78,11 @@ public final class Stop_Execution_Statement extends Statement {
 		final Definition definition = myStatementBlock.getMyDefinition();
 		if (definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL) {
 			final IType type = definition.getType(CompilationTimeStamp.getBaseTimestamp());
-			final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+			final String typeGeneratedName = type.getGenNameValue( aData, source );
 			source.append(MessageFormat.format("return new {0}();\n", typeGeneratedName));
 		} else if (definition.getAssignmentType() == Assignment_type.A_FUNCTION_RTEMP) {
 			final IType type = definition.getType(CompilationTimeStamp.getBaseTimestamp());
-			final String typeGeneratedName = type.getGenNameTemplate(aData, source, getMyScope());
+			final String typeGeneratedName = type.getGenNameTemplate(aData, source);
 			source.append(MessageFormat.format("return new {0}();\n", typeGeneratedName));
 		}
 	}

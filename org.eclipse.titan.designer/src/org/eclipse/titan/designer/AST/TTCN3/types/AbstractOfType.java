@@ -766,7 +766,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalId = aData.getTemporaryVariableName();
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 		expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextTypeGenName,
 				temporalId, externalId, temporalIndexId));
 

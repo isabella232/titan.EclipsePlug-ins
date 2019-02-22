@@ -467,7 +467,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		final CompField compField = getComponentByName(fieldId);
 		final Type nextType = compField.getType();
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 		final boolean nextOptional = !isTemplate && compField.isOptional();
 		if (nextOptional) {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
@@ -529,7 +529,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 			final String temporalId = aData.getTemporaryVariableName();
 			final String temporalId2 = aData.getTemporaryVariableName();
-			final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression, targetScope) : getGenNameValue(aData, expression.expression, targetScope);
+			final String currentTypeGenName = isTemplate ? getGenNameTemplate(aData, expression.expression) : getGenNameValue(aData, expression.expression);
 			expression.expression.append(MessageFormat.format("final {0} {1} = {2};\n", currentTypeGenName, temporalId, externalId));
 			expression.expression.append(MessageFormat.format("final {0} {1} = {2}.get_field_{3}();\n", nextTypeGenName, temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 

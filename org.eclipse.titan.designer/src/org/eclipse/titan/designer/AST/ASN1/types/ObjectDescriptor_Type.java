@@ -236,7 +236,7 @@ public final class ObjectDescriptor_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
 		return "TitanUniversalCharString";
@@ -244,7 +244,7 @@ public final class ObjectDescriptor_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
 
 		return "TitanUniversalCharString_template";

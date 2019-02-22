@@ -734,7 +734,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			// enumeration values are stored as Integer_Value
 			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempValue).getValue()));
 		}
-		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source, myScope), hasRaw);
+		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw);
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 
@@ -750,13 +750,13 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return  getGenNameOwn(aData).concat("_template");
 	}
 

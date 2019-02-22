@@ -174,7 +174,7 @@ public final class Template_ActualParameter extends ActualParameter {
 					// function call itself (needed if the template contains function calls
 					// with lazy or fuzzy parameters)
 					final String tempId = aData.getTemporaryVariableName();
-					template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble, myScope);
+					template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble);
 					expression.preamble.append(" ");
 					expression.preamble.append(tempId);
 					expression.preamble.append("(");

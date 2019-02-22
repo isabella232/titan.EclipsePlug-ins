@@ -412,11 +412,11 @@ public final class Invoke_Template extends TTCN3Template {
 		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
 			//The single expression must be tried first because this rule might cover some referenced templates.
 			if (hasSingleExpression()) {
-				final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+				final String genName = governor.getGenNameTemplate(aData, expression.expression);
 				expression.expression.append(MessageFormat.format("new {0}(", genName) );
 				if(governor.getTypetype() == Type_type.TYPE_ARRAY){
 					final Array_Type array_type = (Array_Type) governor;
-					expression.expression.append(MessageFormat.format(" {0}.class, ",array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
+					expression.expression.append(MessageFormat.format(" {0}.class, ",array_type.getElementType().getGenNameTemplate(aData, expression.expression)));
 				}
 				expression.expression.append(getSingleExpression(aData, true));
 				expression.expression.append(')');
@@ -428,7 +428,7 @@ public final class Invoke_Template extends TTCN3Template {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression), tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);
 

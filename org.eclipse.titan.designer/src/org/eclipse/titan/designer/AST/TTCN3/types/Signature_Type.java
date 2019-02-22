@@ -704,13 +704,13 @@ public final class Signature_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData).concat("_template");
 	}
 
@@ -743,12 +743,12 @@ public final class Signature_Type extends Type {
 				break;
 			}
 
-			final SignatureParameter temp = new SignatureParameter(direction, type.getGenNameValue(aData, source, myScope), type.getGenNameTemplate(aData, source, myScope), formalPar.getIdentifier().getName());
+			final SignatureParameter temp = new SignatureParameter(direction, type.getGenNameValue(aData, source), type.getGenNameTemplate(aData, source), formalPar.getIdentifier().getName());
 			parameters.add(temp);
 		}
 		SignatureReturnType signatueReturnType = null;
 		if (returnType != null) {
-			signatueReturnType = new SignatureReturnType(returnType.getGenNameValue(aData, source, myScope), returnType.getGenNameTemplate(aData, source, myScope));
+			signatueReturnType = new SignatureReturnType(returnType.getGenNameValue(aData, source), returnType.getGenNameTemplate(aData, source));
 		}
 
 		final ArrayList<SignatureException> signatureExceptions = new ArrayList<SignatureGenerator.SignatureException>();
@@ -757,7 +757,7 @@ public final class Signature_Type extends Type {
 				final Type exceptionType = exceptions.getExceptionByIndex(i);
 				final IType last = exceptionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-				final SignatureException temp = new SignatureException(last.getGenNameValue(aData, source, myScope), last.getGenNameTemplate(aData, source, myScope), last.getFullName());
+				final SignatureException temp = new SignatureException(last.getGenNameValue(aData, source), last.getGenNameTemplate(aData, source), last.getFullName());
 				signatureExceptions.add(temp);
 			}
 		}

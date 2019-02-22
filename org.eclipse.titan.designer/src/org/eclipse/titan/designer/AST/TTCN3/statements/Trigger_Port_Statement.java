@@ -384,7 +384,7 @@ public final class Trigger_Port_Statement extends Statement {
 				aData.addBuiltinTypeImport("TitanComponent_template");
 				expression.expression.append("TitanComponent_template.any_compref");
 			} else {
-				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression)));
 			}
 		} else {
 			aData.addBuiltinTypeImport("TitanComponent_template");

@@ -401,7 +401,7 @@ public final class Check_Catch_Statement extends Statement {
 			expression.expression.append(".check_catch(");
 			if (signatureReference != null) {
 				// the signature reference and the exception template is present
-				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
+				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression)));
 				final boolean hasDecodedRedirect = redirectValue != null && redirectValue.hasDecodedModifier();
 				final int expressionStart = expression.expression.length();
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE, hasDecodedRedirect);
@@ -462,7 +462,7 @@ public final class Check_Catch_Statement extends Statement {
 				aData.addBuiltinTypeImport("TitanComponent_template");
 				expression.expression.append("TitanComponent_template.any_compref");
 			} else {
-				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression)));
 			}
 		} else {
 			// neither from clause nor sender redirect is present

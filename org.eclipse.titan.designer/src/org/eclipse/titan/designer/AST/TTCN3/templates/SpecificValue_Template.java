@@ -683,7 +683,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return;
 		}
 
-		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String genName = governor.getGenNameTemplate(aData, expression.expression);
 
 		if (realTemplate != null && realTemplate != this) {
 			realTemplate.generateCodeExpression(aData, expression, templateRestriction);
@@ -696,7 +696,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 				expression.expression.append(MessageFormat.format("new {0}(", genName) );
 				if(governor.getTypetype() == Type_type.TYPE_ARRAY){
 					final Array_Type array_type = (Array_Type) governor;
-					expression.expression.append(MessageFormat.format(" {0}.class, ", array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
+					expression.expression.append(MessageFormat.format(" {0}.class, ", array_type.getElementType().getGenNameTemplate(aData, expression.expression)));
 				}
 				expression.expression.append(getSingleExpression(aData, true));
 				expression.expression.append(')');

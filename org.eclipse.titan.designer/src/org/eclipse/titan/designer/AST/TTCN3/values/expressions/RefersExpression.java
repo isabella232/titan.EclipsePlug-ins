@@ -291,7 +291,7 @@ public final class RefersExpression extends Expression_Value {
 		final String moduleName = referredAssignment.getMyScope().getModuleScopeGen().getName();
 		final String functionName = referredAssignment.getIdentifier().getName();
 
-		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression, myScope)));
+		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression)));
 		expression.expression.append("@Override\n");
 		expression.expression.append("public String getModuleName() {\n");
 		expression.expression.append(MessageFormat.format("return \"{0}\";\n", moduleName));
@@ -311,9 +311,9 @@ public final class RefersExpression extends Expression_Value {
 				expression.expression.append("void");
 			} else {
 				if (functionType.returnsTemplate()) {
-					expression.expression.append(returnType.getGenNameTemplate(aData, expression.expression, myScope));
+					expression.expression.append(returnType.getGenNameTemplate(aData, expression.expression));
 				} else {
-					expression.expression.append(returnType.getGenNameValue(aData, expression.expression, myScope));
+					expression.expression.append(returnType.getGenNameValue(aData, expression.expression));
 				}
 			}
 			expression.expression.append(" invoke(");

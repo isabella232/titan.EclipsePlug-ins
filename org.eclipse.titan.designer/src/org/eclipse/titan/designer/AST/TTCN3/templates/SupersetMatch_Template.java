@@ -122,7 +122,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 			return;
 		}
 
-		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String genName = governor.getGenNameTemplate(aData, expression.expression);
 		final String tempId = aData.getTemporaryVariableName();
 
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
@@ -158,13 +158,13 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 		String ofTypeName;
 		switch (myGovernor.getTypetype()) {
 		case TYPE_SEQUENCE_OF:
-			ofTypeName = ((SequenceOf_Type) myGovernor).getOfType().getGenNameTemplate(aData, source, myScope);
+			ofTypeName = ((SequenceOf_Type) myGovernor).getOfType().getGenNameTemplate(aData, source);
 			break;
 		case TYPE_SET_OF:
-			ofTypeName = ((SetOf_Type) myGovernor).getOfType().getGenNameTemplate(aData, source, myScope);
+			ofTypeName = ((SetOf_Type) myGovernor).getOfType().getGenNameTemplate(aData, source);
 			break;
 		case TYPE_ARRAY:
-			ofTypeName = ((Array_Type) myGovernor).getElementType().getGenNameTemplate(aData, source, myScope);
+			ofTypeName = ((Array_Type) myGovernor).getElementType().getGenNameTemplate(aData, source);
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing superset match template `" + getFullName() + "''");

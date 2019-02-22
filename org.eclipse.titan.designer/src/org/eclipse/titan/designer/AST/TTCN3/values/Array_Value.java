@@ -578,7 +578,7 @@ public final class Array_Value extends Value {
 				source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
-				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
+				final String ofTypeName = ofType.getGenNameValue(aData, source);
 				for (int i = 0; i < nofIndexedValues; i++) {
 					final IndexedValue indexedValue = values.getIndexedValueByIndex(i);
 					final String tempId1 = aData.getTemporaryVariableName();
@@ -605,7 +605,7 @@ public final class Array_Value extends Value {
 			}
 
 			final long indexOffset = ((Array_Type) lastType).getDimension().getOffset();
-			final String embeddedTypeName = ((Array_Type)lastType).getElementType().getGenNameValue(aData, source, myScope);
+			final String embeddedTypeName = ((Array_Type)lastType).getElementType().getGenNameValue(aData, source);
 
 			for (int i = 0; i < nofValues; i++) {
 				final IValue value = values.getValueByIndex(i);
@@ -647,7 +647,7 @@ public final class Array_Value extends Value {
 
 		final IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		final String tempId = aData.getTemporaryVariableName();
-		final String genName = lastType.getGenNameValue(aData, expression.expression, myScope);
+		final String genName = lastType.getGenNameValue(aData, expression.expression);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 
 		setGenNamePrefix(tempId);

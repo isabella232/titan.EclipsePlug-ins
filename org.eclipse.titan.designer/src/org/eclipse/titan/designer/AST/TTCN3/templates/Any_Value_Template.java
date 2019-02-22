@@ -131,7 +131,7 @@ public final class Any_Value_Template extends TTCN3Template {
 		}
 
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		result.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", myGovernor.getGenNameTemplate(aData, result, myScope)));
+		result.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", myGovernor.getGenNameTemplate(aData, result)));
 
 		//TODO handle cast needed
 

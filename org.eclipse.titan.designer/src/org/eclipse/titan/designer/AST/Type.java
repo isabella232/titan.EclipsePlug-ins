@@ -2728,7 +2728,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		encoderString.append("\t * @param coding_name\n");
 		encoderString.append("\t *                the name of the coding to use.\n");
 		encoderString.append("\t * */\n");
-		encoderString.append(MessageFormat.format("\tpublic static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+		encoderString.append(MessageFormat.format("\tpublic static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source)));
 
 		final StringBuilder decoderString = new StringBuilder();
 		decoderString.append("\t/**\n");
@@ -2745,7 +2745,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		decoderString.append("\t * @return 0 if nothing could be decoded, 1 in case of success, 2 in\n");
 		decoderString.append("\t *         case of error (incomplete message or length)\n");
 		decoderString.append("\t * */\n");
-		decoderString.append(MessageFormat.format("\tpublic static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+		decoderString.append(MessageFormat.format("\tpublic static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source)));
 
 		// user defined codecs
 		for (int i = 0; i < tempCodingTable.size(); i++) {
@@ -2902,10 +2902,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public abstract String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope);
+	public abstract String getGenNameValue(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns the name of the Java template class that represents this at runtime.
@@ -2917,10 +2916,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public abstract String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope);
+	public abstract String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns the name of the type descriptor (- the _descr_ postfix).
@@ -3051,7 +3049,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		//FIXME implement everywhere
-		return getGenNameValue(aData, source, scope);
+		return getGenNameValue(aData, source);
 	}
 
 	/**
@@ -3063,7 +3061,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param source the source code generated
 	 * */
 	public void generateCodeDone(final JavaGenData aData, final StringBuilder source) {
-		final String genName = getGenNameValue(aData, source, myScope);
+		final String genName = getGenNameValue(aData, source);
 		final String displayName = getTypename();
 
 		aData.addImport("java.util.concurrent.atomic.AtomicReference");

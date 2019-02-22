@@ -130,7 +130,7 @@ public class GetPortReferenceExpression extends Expression_Value {
 		aData.addBuiltinTypeImport("TitanPort");
 
 		final String tempId = aData.getTemporaryVariableName();
-		final String portName = type.getGenNameValue(aData, expression.expression, myScope);
+		final String portName = type.getGenNameValue(aData, expression.expression);
 		expression.preamble.append(MessageFormat.format("TitanPort {0} = TTCN_Runtime.get_translation_port();\n", tempId));
 		expression.preamble.append(MessageFormat.format("if (!({0} instanceof {1})) '{'\n", tempId, portName));
 		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Internal error: Conversion of port reference to type `{0}' failed.\");\n", type.getTypename()));

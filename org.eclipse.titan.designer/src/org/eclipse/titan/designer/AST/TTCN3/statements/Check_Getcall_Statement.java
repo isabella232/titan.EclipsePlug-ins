@@ -367,10 +367,10 @@ public final class Check_Getcall_Statement extends Statement {
 					final String tempID = aData.getTemporaryVariableName();
 					redirectParameter.generateCodeDecoded(aData, expression.preamble, parameter, tempID, false);
 					final IType lastSignatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-					final String signatureName = signature.getGenNameValue(aData, expression.expression, lastSignatureType.getMyScope());
+					final String signatureName = signature.getGenNameValue(aData, expression.expression);
 					expression.expression.append(MessageFormat.format(", new {0}_call_redirect_{1}(", signatureName, tempID));
 				} else {
-					expression.expression.append(MessageFormat.format(", new {0}_call_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
+					expression.expression.append(MessageFormat.format(", new {0}_call_redirect(", signature.getGenNameValue(aData, expression.expression)));
 				}
 				if (redirectParameter != null) {
 					redirectParameter.generateCode(aData, expression, parameter, lastGenExpression, false);
@@ -441,7 +441,7 @@ public final class Check_Getcall_Statement extends Statement {
 				aData.addBuiltinTypeImport("TitanComponent_template");
 				expression.expression.append("TitanComponent_template.any_compref");
 			} else {
-				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression)));
 			}
 		} else {
 			// neither from clause nor sender redirect is present

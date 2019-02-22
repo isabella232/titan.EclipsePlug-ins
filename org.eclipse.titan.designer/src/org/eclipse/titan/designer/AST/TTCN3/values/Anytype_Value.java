@@ -281,7 +281,7 @@ public final class Anytype_Value extends Value {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		final String genName = governor.getGenNameValue(aData, expression.expression);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);

@@ -21,7 +21,6 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -303,8 +302,8 @@ public final class Address_Type extends Type implements IReferencingType {
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, address.getGenNameValue(aData, source, myScope)));
-			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, address.getGenNameTemplate(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, address.getGenNameValue(aData, source)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, address.getGenNameTemplate(aData, source)));
 		}
 
 		if (hasDoneAttribute()) {
@@ -319,13 +318,13 @@ public final class Address_Type extends Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
-		return address.getGenNameValue(aData, source, scope);
+	public String getGenNameValue( final JavaGenData aData, final StringBuilder source ) {
+		return address.getGenNameValue(aData, source);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return address.getGenNameTemplate(aData, source, scope);
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
+		return address.getGenNameTemplate(aData, source);
 	}
 }

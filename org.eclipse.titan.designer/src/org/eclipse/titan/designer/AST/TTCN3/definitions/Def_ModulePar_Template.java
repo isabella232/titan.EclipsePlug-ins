@@ -442,7 +442,7 @@ public final class Def_ModulePar_Template extends Definition {
 			source.append( " static " );
 		}
 		source.append( "final " );
-		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameTemplate( aData, source );
 		source.append( typeGeneratedName );
 		source.append( ' ' );
 		source.append( genName );

@@ -204,7 +204,7 @@ public final class ValueList_Template extends CompositeTemplate {
 			}
 		}
 
-		final String typeName = myGovernor.getGenNameTemplate(aData, source, myScope);
+		final String typeName = myGovernor.getGenNameTemplate(aData, source);
 
 		if (variables.size() > 0) {
 			final StringBuilder preamble = new StringBuilder();

@@ -277,7 +277,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 			baseConstructorParameters.append("return_redirect");
 		}
 
-		final String sigTypeGenTempName = sigType.getGenNameTemplate(aData, source, scope);
+		final String sigTypeGenTempName = sigType.getGenNameTemplate(aData, source);
 		membersString.append(MessageFormat.format("{0} ptr_matched_temp;\n", sigTypeGenTempName));
 		constructorParameters.append(MessageFormat.format("{0} par_matched_temp", sigTypeGenTempName));
 		constructorInitList.append("ptr_matched_temp = par_matched_temp;\n");
@@ -297,7 +297,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 
 			if (variableEntry.isDecoded()) {
 				final IType declarationType = variableEntry.getDeclarationType();
-				final String veGenName = declarationType.getGenNameValue(aData, source, scope);
+				final String veGenName = declarationType.getGenNameValue(aData, source);
 				membersString.append(MessageFormat.format("private {0} ptr_{1}_dec;\n", veGenName, parameterName));
 				constructorParameters.append(MessageFormat.format("{0} par_{1}_dec", veGenName, parameterName));
 				baseConstructorParameters.append("null");
@@ -445,7 +445,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 					}
 				}
 				if (useDecmatchResult) {
-					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, declarationType.getGenNameValue(aData, setParametersString, scope), parameterName));
+					setParametersString.append(MessageFormat.format("ptr_{0}_dec.operator_assign(({1})ptr_matched_temp.constGet_field_{2}().get_decmatch_dec_res());\n", parameterName, declarationType.getGenNameValue(aData, setParametersString), parameterName));
 				}
 				if (needsDecode) {
 					if (useDecmatchResult) {
@@ -512,13 +512,13 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 
 				setParametersString.append("}\n");
 			} else {
-				constructorParameters.append(MessageFormat.format("{0} par_{1}", parameter.getType().getGenNameValue(aData, source, scope), parameterName));
+				constructorParameters.append(MessageFormat.format("{0} par_{1}", parameter.getType().getGenNameValue(aData, source), parameterName));
 				baseConstructorParameters.append(MessageFormat.format("par_{0}", parameterName));
 			}
 		}
 
-		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source, scope);
-		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source, sigType.getMyScope());
+		final String qualifiedSignatureName = sigType.getGenNameValue(aData, source);
+		final String unqualifiedSignatureName = sigType.getGenNameValue(aData, source);
 		final String opName = is_out ? "reply" : "call";
 		source.append(MessageFormat.format("class {0}_{1}_redirect_{2} extends {3}_{1}_redirect '{'\n", unqualifiedSignatureName, opName, tempID, qualifiedSignatureName));
 		source.append(membersString);

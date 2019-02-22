@@ -893,7 +893,7 @@ public final class Sequence_Value extends Value {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		final String genName = governor.getGenNameValue(aData, expression.expression);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -1000,7 +1000,7 @@ public final class Sequence_Value extends Value {
 				if (fieldValue.needsTemporaryReference()) {
 					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
-					final String embeddedTypeName = compField.getType().getGenNameValue(aData, source, myScope);
+					final String embeddedTypeName = compField.getType().getGenNameValue(aData, source);
 					source.append(MessageFormat.format("{0} {1} = {2}.get_field_{3}()", embeddedTypeName, tempId, name, javaGetterName));
 					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
 						source.append(".get()");

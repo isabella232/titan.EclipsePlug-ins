@@ -1101,7 +1101,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		if (inTypeDefinition) {
 			lastBuildTimestamp = aData.getBuildTimstamp();
 			lastGenName = getGenNameOwn(aData);
@@ -1115,7 +1115,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		if (inTypeDefinition) {
 			lastBuildTimestamp = aData.getBuildTimstamp();
 			lastGenName = getGenNameOwn(aData);
@@ -1144,10 +1144,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		elementType.generateCode(aData, source);
 
-		final String ownName = getGenNameValue(aData, source, myScope);
+		final String ownName = getGenNameValue(aData, source);
 		final String valueName = dimension.getValueType(aData, source, elementType, myScope);
 		final String templateName = dimension.getTemplateType(aData, source, elementType, myScope);
-		final String elementName = elementType.getGenNameValue(aData, source, myScope);
+		final String elementName = elementType.getGenNameValue(aData, source);
 
 		generateCodeTypedescriptor(aData, source);
 
@@ -1245,10 +1245,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	 * @param source where the source code should be generated
 	 */
 	public void generateCodeValue( final JavaGenData aData, final StringBuilder source) {
-		final String className = getGenNameValue(aData, source, myScope);
+		final String className = getGenNameValue(aData, source);
 
 		final IType elementType = getElementType();
-		final String ofType = elementType.getGenNameValue( aData, source, getMyScope() );
+		final String ofType = elementType.getGenNameValue( aData, source );
 		if ( elementType.getTypetype() == Type_type.TYPE_ARRAY ) {
 			((Array_Type)elementType).generateCodeValue( aData, source);
 		}
@@ -1278,12 +1278,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	 * @param source where the source code should be generated
 	 */
 	public void generateCodeTemplate( final JavaGenData aData, final StringBuilder source) {
-		final String className = getGenNameValue(aData, source, myScope);
-		final String classTemplateName = getGenNameTemplate(aData, source, myScope);
+		final String className = getGenNameValue(aData, source);
+		final String classTemplateName = getGenNameTemplate(aData, source);
 
 		final IType elementType = getElementType();
-		final String ofValueType = elementType.getGenNameValue(aData, source, getMyScope());
-		final String ofTemplateType = elementType.getGenNameTemplate(aData, source, getMyScope());
+		final String ofValueType = elementType.getGenNameValue(aData, source);
+		final String ofTemplateType = elementType.getGenNameTemplate(aData, source);
 
 		if(elementType.getTypetype() == Type_type.TYPE_ARRAY) {
 			((Array_Type)elementType).generateCodeTemplate(aData, source);
@@ -1392,7 +1392,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		closingBrackets.insert(0, "}\n");
 
 		final String temporalId = aData.getTemporaryVariableName();
-		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression, targetScope) : nextType.getGenNameValue(aData, expression.expression, targetScope);
+		final String nextTypeGenName = isTemplate ? nextType.getGenNameTemplate(aData, expression.expression) : nextType.getGenNameValue(aData, expression.expression);
 		expression.expression.append(MessageFormat.format("final {0} {1} = {2}.constGet_at({3});\n", nextTypeGenName,
 				temporalId, externalId, temporalIndexId));
 

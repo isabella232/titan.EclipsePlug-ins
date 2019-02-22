@@ -265,13 +265,13 @@ public final class Port_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return getClassName(aData, source, scope);
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
+		return getClassName(aData, source, aData.getModuleScope());
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
 		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 	}

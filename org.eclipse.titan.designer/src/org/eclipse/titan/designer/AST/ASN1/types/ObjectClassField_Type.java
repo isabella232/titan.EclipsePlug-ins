@@ -27,7 +27,6 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
@@ -339,24 +338,24 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		if (this == referred_type || referred_type == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous object class field type `" + getFullName() + "''");
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		return referred_type.getGenNameValue(aData, source, scope);
+		return referred_type.getGenNameValue(aData, source);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		if (this == referred_type || referred_type == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous object class field type `" + getFullName() + "''");
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		return referred_type.getGenNameTemplate(aData, source, scope);
+		return referred_type.getGenNameTemplate(aData, source);
 	}
 
 	@Override
@@ -381,8 +380,8 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 			final String ownName = getGenNameOwn();
 			last.generateCode(aData, source);
 
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referred_type.getGenNameValue(aData, source, myScope)));
-			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referred_type.getGenNameTemplate(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referred_type.getGenNameValue(aData, source)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referred_type.getGenNameTemplate(aData, source)));
 		}
 
 		generateCodeForCodingHandlers(aData, source);

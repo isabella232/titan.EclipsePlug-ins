@@ -521,7 +521,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			final String tempId = aData.getTemporaryVariableName();
 
 			expression.preamble.append(derivedExpression.preamble);
-			expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2});\n", templateBody.getMyGovernor().getGenNameTemplate(aData, expression.expression, myScope), tempId, derivedExpression.expression));
+			expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2});\n", templateBody.getMyGovernor().getGenNameTemplate(aData, expression.expression), tempId, derivedExpression.expression));
 
 			// perform the modifications on the temporary variable
 			templateBody.generateCodeInit(aData, expression.preamble, tempId);
@@ -545,7 +545,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 				// create a temporary variable and move the template's initialization code
 				// after it
 				final String tempID = aData.getTemporaryVariableName();
-				final String templateName = templateBody.getMyGovernor().getGenNameTemplate(aData, expression.preamble, templateBody.getMyScope());
+				final String templateName = templateBody.getMyGovernor().getGenNameTemplate(aData, expression.preamble);
 				expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2});\n", templateName, tempID, newExpression.expression));
 
 				expression.expression.append(tempID);

@@ -1062,28 +1062,28 @@ public final class FormalParameter extends Definition {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
-				source.append( type.getGenNameValue( aData, source, aData.getModuleScope() ) );
+				source.append( type.getGenNameValue( aData, source ) );
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
-				source.append(MessageFormat.format("Lazy_Fuzzy_ValueExpr<{0}>", type.getGenNameValue(aData, aData.getSrc(), aData.getModuleScope())));
+				source.append(MessageFormat.format("Lazy_Fuzzy_ValueExpr<{0}>", type.getGenNameValue(aData, aData.getSrc())));
 			}
 			break;
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
 		case A_PAR_PORT:
-			source.append( type.getGenNameValue( aData, source, aData.getModuleScope() ) );
+			source.append( type.getGenNameValue( aData, source ) );
 			break;
 		case A_PAR_TEMP_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
-				source.append( type.getGenNameTemplate( aData, source, aData.getModuleScope() ) );
+				source.append( type.getGenNameTemplate( aData, source ) );
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
-				source.append(MessageFormat.format("Lazy_Fuzzy_TemplateExpr<{0}>", type.getGenNameTemplate(aData, aData.getSrc(), aData.getModuleScope())));
+				source.append(MessageFormat.format("Lazy_Fuzzy_TemplateExpr<{0}>", type.getGenNameTemplate(aData, aData.getSrc())));
 			}
 			break;
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
-			source.append( type.getGenNameTemplate( aData, source, aData.getModuleScope() ) );
+			source.append( type.getGenNameTemplate( aData, source ) );
 			break;
 		case A_PAR_TIMER:
 			aData.addBuiltinTypeImport("TitanTimer");
@@ -1114,13 +1114,13 @@ public final class FormalParameter extends Definition {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
-				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName()));
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source ), prefix, getIdentifier().getName()));
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
 				if (generateInitialized) {
-					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2} = new Lazy_Fuzzy_ValueExpr<{0}>({3});\n", type.getGenNameValue(aData, aData.getSrc(), aData.getModuleScope()), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
+					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2} = new Lazy_Fuzzy_ValueExpr<{0}>({3});\n", type.getGenNameValue(aData, aData.getSrc()), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
 				} else {
-					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2};\n", type.getGenNameValue(aData, aData.getSrc(), aData.getModuleScope()), prefix, getIdentifier().getName()));
+					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2};\n", type.getGenNameValue(aData, aData.getSrc()), prefix, getIdentifier().getName()));
 				}
 			}
 			break;
@@ -1128,29 +1128,29 @@ public final class FormalParameter extends Definition {
 		case A_PAR_VAL_OUT:
 		case A_PAR_PORT:
 			if (referenced) {
-				source.append(MessageFormat.format("final {0} {1}{2};\n", type.getGenNameValue( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName()));
+				source.append(MessageFormat.format("final {0} {1}{2};\n", type.getGenNameValue( aData, source ), prefix, getIdentifier().getName()));
 			} else {
-				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName()));
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source ), prefix, getIdentifier().getName()));
 			}
 			break;
 		case A_PAR_TEMP_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
-				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName()));
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source ), prefix, getIdentifier().getName()));
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
 				if (generateInitialized) {
-					source.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}{2} = new Lazy_Fuzzy_TemplateExpr<{0}>({3});\n", type.getGenNameTemplate( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
+					source.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}{2} = new Lazy_Fuzzy_TemplateExpr<{0}>({3});\n", type.getGenNameTemplate( aData, source ), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
 				} else {
-					source.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}{2};\n", type.getGenNameTemplate( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName()));
+					source.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}{2};\n", type.getGenNameTemplate( aData, source ), prefix, getIdentifier().getName()));
 				}
 			}
 			break;
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
 			if (referenced) {
-				source.append(MessageFormat.format("final {0} {1}{2};\n", type.getGenNameTemplate( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName()));
+				source.append(MessageFormat.format("final {0} {1}{2};\n", type.getGenNameTemplate( aData, source ), prefix, getIdentifier().getName()));
 			} else {
-				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, aData.getModuleScope() ), prefix, getIdentifier().getName()));
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source ), prefix, getIdentifier().getName()));
 			}
 			break;
 		case A_PAR_TIMER:
@@ -1177,10 +1177,10 @@ public final class FormalParameter extends Definition {
 			switch (assignmentType) {
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
-				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type.getGenNameValue(aData, source, aData.getModuleScope()), getGenName(), identifier.getName()));
+				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type.getGenNameValue(aData, source), getGenName(), identifier.getName()));
 				break;
 			case A_PAR_TEMP_IN:
-				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type.getGenNameTemplate(aData, source, aData.getModuleScope()), getGenName(), identifier.getName()));
+				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type.getGenNameTemplate(aData, source), getGenName(), identifier.getName()));
 				break;
 			default:
 				break;
@@ -1233,28 +1233,28 @@ public final class FormalParameter extends Definition {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
-				result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), aData.getModuleScope()), identifier.getName()));
+				result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc()), identifier.getName()));
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
-				result.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}", type.getGenNameValue(aData, aData.getSrc(), aData.getModuleScope()), identifier.getName()));
+				result.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}", type.getGenNameValue(aData, aData.getSrc()), identifier.getName()));
 			}
 			break;
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT:
 		case A_PAR_PORT:
-			result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), aData.getModuleScope()), identifier.getName()));
+			result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc()), identifier.getName()));
 			break;
 		case A_PAR_TEMP_IN:
 			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
-				result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), aData.getModuleScope()), identifier.getName()));
+				result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc()), identifier.getName()));
 			} else {
 				aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
-				result.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}", type.getGenNameTemplate(aData, aData.getSrc(), aData.getModuleScope()), identifier.getName()));
+				result.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}", type.getGenNameTemplate(aData, aData.getSrc()), identifier.getName()));
 			}
 			break;
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT:
-			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), aData.getModuleScope()), identifier.getName()));
+			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc()), identifier.getName()));
 			break;
 		case A_PAR_TIMER:
 			aData.addBuiltinTypeImport("TitanTimer");

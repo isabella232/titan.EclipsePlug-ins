@@ -280,7 +280,7 @@ public final class Value_Assignment extends ASN1Assignment {
 
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
-		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, source );
 		if (value.canGenerateSingleExpression() ) {
 			if (value.returnsNative()) {
 				source.append(MessageFormat.format("\tpublic static final {0} {1} = new {0}({2});\n", typeGeneratedName, genName, value.generateSingleExpression(aData)));

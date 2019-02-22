@@ -483,7 +483,7 @@ public final class Def_Const extends Definition {
 		referenceChain.release();
 
 		final StringBuilder globalVariable = new StringBuilder();
-		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, globalVariable );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
@@ -515,7 +515,7 @@ public final class Def_Const extends Definition {
 		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, source );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());

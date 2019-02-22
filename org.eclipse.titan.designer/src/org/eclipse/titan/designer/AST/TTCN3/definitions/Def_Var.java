@@ -478,7 +478,7 @@ public final class Def_Var extends Definition {
 			source.append( "\tpublic static final " );
 		}
 
-		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, source );
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
@@ -516,7 +516,7 @@ public final class Def_Var extends Definition {
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
 
-		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, source );
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());

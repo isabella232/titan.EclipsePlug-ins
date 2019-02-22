@@ -940,10 +940,10 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			source.append( "void" );
 			break;
 		case A_EXT_FUNCTION_RVAL:
-			source.append( returnType.getGenNameValue( aData, source, getMyScope() ) );
+			source.append( returnType.getGenNameValue( aData, source ) );
 			break;
 		case A_EXT_FUNCTION_RTEMP:
-			source.append( returnType.getGenNameTemplate( aData, source, getMyScope() ) );
+			source.append( returnType.getGenNameTemplate( aData, source ) );
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
@@ -1008,7 +1008,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		case CONVERT:
 			resultName = "ret_val";
 			// creating a local variable for the result stream
-			source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )));
+			source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source )));
 			break;
 		case FAST:
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
@@ -1083,7 +1083,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 		String resultName;
 		if (prototype == EncodingPrototype_type.CONVERT) {
-			source.append( MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )) );
+			source.append( MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source )) );
 			resultName = "ret_val";
 		} else {
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();

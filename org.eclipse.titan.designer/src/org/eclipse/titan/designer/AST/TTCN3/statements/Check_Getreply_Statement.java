@@ -435,7 +435,7 @@ public final class Check_Getreply_Statement extends Statement {
 					} else {
 						// the value match is not present
 						// we must substitute it with ? in the signature template
-						expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", returnType.getGenNameTemplate(aData, expression.expression, myScope)));
+						expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", returnType.getGenNameTemplate(aData, expression.expression)));
 					}
 					expression.expression.append(')');
 				}
@@ -446,10 +446,10 @@ public final class Check_Getreply_Statement extends Statement {
 					final String tempID = aData.getTemporaryVariableName();
 					redirectParameter.generateCodeDecoded(aData, expression.preamble, parameter, tempID, true);
 					final IType lastSignatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-					final String signatureName = signature.getGenNameValue(aData, expression.expression, lastSignatureType.getMyScope());
+					final String signatureName = signature.getGenNameValue(aData, expression.expression);
 					expression.expression.append(MessageFormat.format(", new {0}_reply_redirect_{1}(", signatureName, tempID));
 				} else {
-					expression.expression.append(MessageFormat.format(", new {0}_reply_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
+					expression.expression.append(MessageFormat.format(", new {0}_reply_redirect(", signature.getGenNameValue(aData, expression.expression)));
 				}
 
 				if (returnType != null) {
@@ -533,7 +533,7 @@ public final class Check_Getreply_Statement extends Statement {
 				aData.addBuiltinTypeImport("TitanComponent_template");
 				expression.expression.append("TitanComponent_template.any_compref");
 			} else {
-				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression)));
 			}
 		} else {
 			// neither from clause nor sender redirect is present

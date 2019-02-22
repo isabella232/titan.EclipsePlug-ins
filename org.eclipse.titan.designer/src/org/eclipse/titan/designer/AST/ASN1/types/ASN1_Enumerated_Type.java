@@ -714,7 +714,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempItem.getValue()).getValue()));
 		}
 
-		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source, myScope), hasRaw);
+		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw);
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 
@@ -723,13 +723,13 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return  getGenNameOwn(aData).concat("_template");
 	}
 }

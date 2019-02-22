@@ -583,7 +583,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 		final String tempId = aData.getTemporaryVariableName();
 		final IType typeReference = indexRedirection.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
-		expression.preamble.append(MessageFormat.format("final {0} {1} = {2};\n", typeReference.getGenNameValue(aData, expression.expression, scope), tempId, refExpression.expression));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = {2};\n", typeReference.getGenNameValue(aData, expression.expression), tempId, refExpression.expression));
 
 		aData.addBuiltinTypeImport("Index_Redirect");
 
