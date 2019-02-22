@@ -896,15 +896,13 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * @param myScope
 	 *                the scope of the port.
-	 * @param targetScope
-	 *                the scope into which the name needs to be generated.
 	 * */
-	public static String getClassName(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final Scope myScope, final Scope targetScope) {
+	public static String getClassName(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final Scope myScope) {
 		String className;
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			final StringBuilder returnValue = new StringBuilder();
 			final Module myModule = myScope.getModuleScopeGen();
-			if(!myModule.equals(targetScope.getModuleScopeGen())) {
+			if(!myModule.equals(aData.getModuleScope())) {
 				//when the definition is referred from another module
 				// the reference shall be qualified with the namespace of my module
 				returnValue.append(myModule.getName()).append('.');
@@ -919,7 +917,7 @@ public final class PortGenerator {
 				if (portDefinition.legacy) {
 					final StringBuilder returnValue = new StringBuilder();
 					final Module myModule = myScope.getModuleScopeGen();
-					if(!myModule.equals(targetScope.getModuleScopeGen())) {
+					if(!myModule.equals(aData.getModuleScope())) {
 						//when the definition is referred from another module
 						// the reference shall be qualified with the namespace of my module
 						returnValue.append(myModule.getName()).append('.');
@@ -942,7 +940,7 @@ public final class PortGenerator {
 			case PROVIDER: {
 				final StringBuilder returnValue = new StringBuilder();
 				final Module myModule = myScope.getModuleScopeGen();
-				if(!myModule.equals(targetScope.getModuleScopeGen())) {
+				if(!myModule.equals(aData.getModuleScope())) {
 					//when the definition is referred from another module
 					// the reference shall be qualified with the namespace of my module
 					returnValue.append(myModule.getName()).append('.');
