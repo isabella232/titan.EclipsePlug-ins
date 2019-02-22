@@ -998,7 +998,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(" )");
 		} else {
 			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
-				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, aData.getModuleScope()));
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment));
 			} else {
 				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, null));
 			}
@@ -1156,7 +1156,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(" )");
 		} else {
 			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
-				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, aData.getModuleScope()));
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment));
 			} else {
 				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, null));
 			}

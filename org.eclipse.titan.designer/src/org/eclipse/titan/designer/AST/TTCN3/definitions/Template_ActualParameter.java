@@ -190,7 +190,7 @@ public final class Template_ActualParameter extends ActualParameter {
 			} else {
 				final boolean used_as_lvalue = formalParameter == null ? false : formalParameter.getUsedAsLvalue();
 				LazyFuzzyParamData.init(used_as_lvalue);
-				LazyFuzzyParamData.generateCode(aData, expression, template, genRestrictionCheck, myScope, eval == parameterEvaluationType.LAZY_EVAL);
+				LazyFuzzyParamData.generateCode(aData, expression, template, genRestrictionCheck, eval == parameterEvaluationType.LAZY_EVAL);
 				LazyFuzzyParamData.clean();
 			}
 		}

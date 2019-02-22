@@ -173,7 +173,7 @@ public class PortReference extends Reference {
 			expression.expression.append(" )");
 		} else {
 			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
-				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, forcedScope));
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment));
 			} else {
 				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, null));
 			}

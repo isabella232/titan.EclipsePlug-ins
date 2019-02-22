@@ -15,7 +15,6 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Reference;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
@@ -64,7 +63,7 @@ public class LazyFuzzyParamData {
 		return depth > 0;
 	}
 
-	public static String addReferenceGenname(final JavaGenData aData, final StringBuilder source, final Assignment assignment, final Scope scope) {
+	public static String addReferenceGenname(final JavaGenData aData, final StringBuilder source, final Assignment assignment) {
 		final StringBuilder typeString = new StringBuilder();
 		final IType assignmentType = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 		switch (assignment.getAssignmentType()) {
@@ -128,22 +127,22 @@ public class LazyFuzzyParamData {
 		return "lpm_" + index;
 	}
 
-	private static void generateCodeForValue(final JavaGenData aData, final ExpressionStruct valueExpression, final IValue value, final Scope scope) {
+	private static void generateCodeForValue(final JavaGenData aData, final ExpressionStruct valueExpression, final IValue value) {
 		value.generateCodeExpression(aData, valueExpression, true);
 	}
 
 	private static void generateCodeForTemplate(final JavaGenData aData, final ExpressionStruct templateExpression, final TemplateInstance template,
-			final Restriction_type genRestrictionCheck, final Scope scope) {
+			final Restriction_type genRestrictionCheck) {
 		template.generateCode(aData, templateExpression, genRestrictionCheck);
 	}
 
-	public static void generateCode(final JavaGenData aData, final ExpressionStruct expression, final IValue value, final Scope scope, final boolean lazy) {
+	public static void generateCode(final JavaGenData aData, final ExpressionStruct expression, final IValue value, final boolean lazy) {
 		if (depth > 1) {
 			// if a function with lazy parameter(s) was called inside a lazy parameter then don't generate code for
 			// lazy parameter inside a lazy parameter, call the function as a normal call
 			// wrap the calculated parameter value inside a special constructor which calculates the value of its cache immediately
 			final ExpressionStruct valueExpression = new ExpressionStruct();
-			generateCodeForValue(aData, valueExpression, value, scope);
+			generateCodeForValue(aData, valueExpression, value);
 			// the id of the instance of Lazy_Fuzzy_Expr, which will be used as the actual parameter
 			final String paramId = aData.getTemporaryVariableName();
 			if (valueExpression.preamble.length() > 0) {
@@ -191,20 +190,20 @@ public class LazyFuzzyParamData {
 		// generate the code for value in a temporary expr structure, this code is put inside the evaluate() member function
 		aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
 		final ExpressionStruct valueExpression = new ExpressionStruct();
-		generateCodeForValue(aData, valueExpression, value, scope);
+		generateCodeForValue(aData, valueExpression, value);
 		final String param_id = aData.getTemporaryVariableName();
 		final String typeName = value.getMyGovernor().getGenNameValue(aData, expression.expression);
 		generateCodeParameterClass(aData, expression, valueExpression, param_id, typeName, true, lazy);
 	}
 
 	public static void generateCode(final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance template,
-			final Restriction_type genRestrictionCheck, final Scope scope, final boolean lazy) {
+			final Restriction_type genRestrictionCheck, final boolean lazy) {
 		if (depth > 1) {
 			// if a function with lazy parameter(s) was called inside a lazy parameter then don't generate code for
 			// lazy parameter inside a lazy parameter, call the function as a normal call
 			// wrap the calculated parameter value inside a special constructor which calculates the value of its cache immediately
 			final ExpressionStruct templateExpression = new ExpressionStruct();
-			generateCodeForTemplate(aData, templateExpression, template, genRestrictionCheck, scope);
+			generateCodeForTemplate(aData, templateExpression, template, genRestrictionCheck);
 			// the id of the instance of Lazy_Fuzzy_Expr, which will be used as the actual parameter
 			final String paramId = aData.getTemporaryVariableName();
 			if (templateExpression.preamble.length() > 0) {
@@ -252,7 +251,7 @@ public class LazyFuzzyParamData {
 		// generate the code for template in a temporary expr structure, this code is put inside the evaluate() member function
 		aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
 		final ExpressionStruct templateExpression = new ExpressionStruct();
-		generateCodeForTemplate(aData, templateExpression, template, genRestrictionCheck, scope);
+		generateCodeForTemplate(aData, templateExpression, template, genRestrictionCheck);
 		final String param_id = aData.getTemporaryVariableName();
 		final String typeName = template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.expression);
 		generateCodeParameterClass(aData, expression, templateExpression, param_id, typeName, false, lazy);

@@ -145,7 +145,7 @@ public final class Value_ActualParameter extends ActualParameter {
 			} else {
 				final boolean used_as_lvalue = formalParameter == null ? false : formalParameter.getUsedAsLvalue();
 				LazyFuzzyParamData.init(used_as_lvalue);
-				LazyFuzzyParamData.generateCode(aData, expression, value, myScope, eval == parameterEvaluationType.LAZY_EVAL);
+				LazyFuzzyParamData.generateCode(aData, expression, value, eval == parameterEvaluationType.LAZY_EVAL);
 				LazyFuzzyParamData.clean();
 			}
 		}
