@@ -957,6 +957,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			final StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
 			getLocation().create_location_object(aData, source, "TEMPLATE", getIdentifier().getDisplayName());
+			source.append( "\t\ttry {\n" );
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 					final Array_Type arrayType = (Array_Type) type;
@@ -989,8 +990,10 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				}
 			}
 
-			getLocation().release_location_object(aData, source);
 			source.append("return ret_val;\n");
+			source.append( "\t\t} finally {\n" );
+			getLocation().release_location_object(aData, source);
+			source.append( "\t\t}\n" );
 			source.append("}\n\n");
 
 			sb.append(source);
