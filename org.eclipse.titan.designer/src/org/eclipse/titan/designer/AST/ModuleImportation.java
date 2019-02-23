@@ -268,7 +268,6 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	 * @param aData the generated java code with other info
 	 */
 	public void generateCode( final JavaGenData aData ) {
-		aData.addInterModuleImport(identifier.getName());
 		aData.addCommonLibraryImport("Module_List");
 
 		final StringBuilder preInit = aData.getPreInit();

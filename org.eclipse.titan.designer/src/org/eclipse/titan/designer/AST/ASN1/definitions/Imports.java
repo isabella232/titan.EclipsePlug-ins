@@ -411,10 +411,6 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 * @param aData the generated java code with other info
 	 */
 	public void generateCode( final JavaGenData aData ) {
-		if (importedModules_v != null) {
-			for (final ImportModule im : importedModules_v) {
-				aData.addInterModuleImport(im.getIdentifier().getName());
-			}
-		}
+		//we do not need to generate code for imports explicitly.
 	}
 }
