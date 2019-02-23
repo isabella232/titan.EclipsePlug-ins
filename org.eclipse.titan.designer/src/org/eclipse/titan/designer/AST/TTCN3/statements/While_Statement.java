@@ -58,6 +58,7 @@ public final class While_Statement extends Statement {
 	private final StatementBlock statementblock;
 
 	private boolean isInfiniteLoop = false;
+	private StatementBlock.ReturnStatus_type hasReturn = ReturnStatus_type.RS_NO;
 
 	public While_Statement(final Value expression, final StatementBlock statementblock) {
 		this.expression = expression;
@@ -164,11 +165,12 @@ public final class While_Statement extends Statement {
 	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		if (statementblock != null) {
-			if (StatementBlock.ReturnStatus_type.RS_NO.equals(statementblock.hasReturn(timestamp))) {
-				return StatementBlock.ReturnStatus_type.RS_NO;
-			}
-
-			return StatementBlock.ReturnStatus_type.RS_MAYBE;
+//			if (StatementBlock.ReturnStatus_type.RS_NO.equals(statementblock.hasReturn(timestamp))) {
+//				return StatementBlock.ReturnStatus_type.RS_NO;
+//			}
+//
+//			return StatementBlock.ReturnStatus_type.RS_MAYBE;//it is not know if it will execute even once
+			return hasReturn;
 		}
 
 		return StatementBlock.ReturnStatus_type.RS_NO;
@@ -191,6 +193,8 @@ public final class While_Statement extends Statement {
 		}
 
 		isInfiniteLoop = false;
+		hasReturn = ReturnStatus_type.RS_NO;
+		boolean loopAlwaysEntered = false;
 
 		if (expression != null) {
 			final IValue last = expression.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
@@ -206,12 +210,15 @@ public final class While_Statement extends Statement {
 								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
 										GeneralConstants.WARNING, null), NEVERREACH);
-					} else if (ReturnStatus_type.RS_NO.equals(hasReturn(timestamp))) {
-						isInfiniteLoop = true;
-						location.reportConfigurableSemanticProblem(
-								Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-										PreferenceConstants.REPORTINFINITELOOPS, GeneralConstants.WARNING,
-										null), INFINITELOOP);
+					} else {
+						loopAlwaysEntered = true;
+						if (ReturnStatus_type.RS_NO.equals(hasReturn(timestamp))) {
+							isInfiniteLoop = true;
+							location.reportConfigurableSemanticProblem(
+									Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+											PreferenceConstants.REPORTINFINITELOOPS, GeneralConstants.WARNING,
+											null), INFINITELOOP);
+						}
 					}
 				}
 
@@ -221,6 +228,15 @@ public final class While_Statement extends Statement {
 			}
 		}
 		if (statementblock != null) {
+			final ReturnStatus_type blockReturnStatus = statementblock.hasReturn(timestamp);
+			if (ReturnStatus_type.RS_NO.equals(blockReturnStatus)) {
+				hasReturn = ReturnStatus_type.RS_NO;
+			} else if (ReturnStatus_type.RS_YES.equals(blockReturnStatus) && loopAlwaysEntered){
+				hasReturn = ReturnStatus_type.RS_YES;
+			} else {
+				hasReturn = ReturnStatus_type.RS_MAYBE;
+			}
+
 			statementblock.setMyLaicStmt(null, this);
 			statementblock.check(timestamp);
 		}
