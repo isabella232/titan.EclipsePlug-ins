@@ -620,7 +620,6 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					source.append("}\n");
 				}
 				if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
-					getLocation().release_location_object(aData, source);
 					source.append("return TitanAlt_Status.ALT_YES;\n");
 				}
 				break;
@@ -701,17 +700,14 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					source.append("}\n");
 				}
 				if (block == null || block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
-					getLocation().release_location_object(aData, source);
 					source.append("return TitanAlt_Status.ALT_YES;\n");
 				}
 				if (canRepeat) {
 					source.append("case ALT_REPEAT:\n");
-					getLocation().release_location_object(aData, source);
 					source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 				}
 				if (altGuardType == altguard_type.AG_REF || altGuardType == altguard_type.AG_INVOKE) {
 					source.append("case ALT_BREAK:\n");
-					getLocation().release_location_object(aData, source);
 					source.append("return TitanAlt_Status.ALT_BREAK;\n");
 				}
 				if (!hasElse) {
@@ -730,7 +726,6 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		}
 
 		if (!hasElse) {
-			getLocation().release_location_object(aData, source);
 			source.append("return returnValue;\n");
 		}
 	}
