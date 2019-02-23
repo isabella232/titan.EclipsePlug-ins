@@ -370,10 +370,6 @@ class DependencyCollector {
 			IProject sourceProject = f.getProject();
 			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
 			final Module m = projectSourceParser.containedModule(f);
-			if (m == null) {
-				int i = 0;
-				i++;
-			}
 			allFileIds.add(m.getIdentifier());
 		}
 
