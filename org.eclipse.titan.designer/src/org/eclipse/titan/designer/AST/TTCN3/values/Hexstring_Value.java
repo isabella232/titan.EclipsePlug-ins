@@ -25,7 +25,6 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.HexString_Type;
-import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2OctExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2BitExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2OctExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
