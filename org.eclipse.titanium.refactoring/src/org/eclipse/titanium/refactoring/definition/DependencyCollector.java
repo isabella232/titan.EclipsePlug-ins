@@ -93,9 +93,6 @@ class DependencyCollector {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
 				//find all dependencies of the 'selection' definition
-				IProject sourceProject = selection.getLocation().getFile().getProject();
-				final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
-
 				Set<IResource> allFiles = new HashSet<IResource>();
 				Set<IResource> asnFiles = new HashSet<IResource>();
 				NavigableSet<ILocateableNode> dependencies = new TreeSet<ILocateableNode>(new LocationComparator());
@@ -112,13 +109,15 @@ class DependencyCollector {
 						continue;
 					}
 					IFile f = (IFile)r;
-					Module m = projectSourceParser.containedModule(f);
+					IProject localSourceProject = f.getProject();
+					final ProjectSourceParser localParser = GlobalParser.getProjectSourceParser(localSourceProject);
+					Module m = localParser.containedModule(f);
 					ImportFinderVisitor impVisitor = new ImportFinderVisitor();
 					m.accept(impVisitor);
 					List<ImportModule> impDefs = impVisitor.getImportDefs();
 					List<FriendModule> friendDefs = impVisitor.getFriendDefs();
-					filterImportDefinitions(allFiles, impDefs, projectSourceParser);
-					filterFriendDefinitions(allFiles, friendDefs, projectSourceParser);
+					filterImportDefinitions(allFiles, impDefs);
+					filterFriendDefinitions(allFiles, friendDefs);
 					dependencies.addAll(impDefs);
 					dependencies.addAll(friendDefs);
 				}
@@ -153,7 +152,9 @@ class DependencyCollector {
 							is = ((IFile)currFile).getContents();
 							isr = new InputStreamReader(is, ((IFile)currFile).getCharset());
 							currOffset = 0;
-							Module m = projectSourceParser.containedModule((IFile)currFile);
+							IProject localSourceProject = currFile.getProject();
+							final ProjectSourceParser localParser = GlobalParser.getProjectSourceParser(localSourceProject);
+							Module m = localParser.containedModule((IFile)currFile);
 							String moduleName = m.getIdentifier().getTtcnName();
 							addToCopyMap(currFile.getProjectRelativePath(), MessageFormat.format(MODULE_HEADER, moduleName));
 						}
@@ -358,7 +359,7 @@ class DependencyCollector {
 	 * Returns the <code>importDefs</code> list, with the {@link ImportModule}s removed which refer to
 	 * modules that are not contained in the <code>allFiles</code> set.
 	 * */
-	private static void filterImportDefinitions(final Set<IResource> allFiles, final List<ImportModule> importDefs, final ProjectSourceParser projParser) {
+	private static void filterImportDefinitions(final Set<IResource> allFiles, final List<ImportModule> importDefs) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
 		for (IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
@@ -366,7 +367,13 @@ class DependencyCollector {
 			}
 
 			final IFile f = (IFile)r;
-			final Module m = projParser.containedModule(f);
+			IProject sourceProject = f.getProject();
+			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
+			final Module m = projectSourceParser.containedModule(f);
+			if (m == null) {
+				int i = 0;
+				i++;
+			}
 			allFileIds.add(m.getIdentifier());
 		}
 
@@ -383,7 +390,7 @@ class DependencyCollector {
 	 * Returns the <code>friendDefs</code> list, with the {@link FriendModule}s removed which refer to
 	 * modules that are not contained in the <code>allFiles</code> set.
 	 * */
-	private static void filterFriendDefinitions(final Set<IResource> allFiles, final List<FriendModule> friendDefs, final ProjectSourceParser projParser) {
+	private static void filterFriendDefinitions(final Set<IResource> allFiles, final List<FriendModule> friendDefs) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
 		for (IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
@@ -391,7 +398,9 @@ class DependencyCollector {
 			}
 
 			final IFile f = (IFile)r;
-			final Module m = projParser.containedModule(f);
+			IProject sourceProject = f.getProject();
+			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
+			final Module m = projectSourceParser.containedModule(f);
 			allFileIds.add(m.getIdentifier());
 		}
 
