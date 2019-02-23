@@ -243,6 +243,7 @@ public final class Hexstring_Value extends Value {
 			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			switch (type.getTypetype()) {
 			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
 				aData.addBuiltinTypeImport("TitanBitString");
 				result.append(MessageFormat.format("new TitanBitString(\"{0}\")\n", value));
 				return result;
