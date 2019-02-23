@@ -25,6 +25,9 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.HexString_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2OctExpression;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2BitExpression;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2OctExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -243,14 +246,18 @@ public final class Hexstring_Value extends Value {
 			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			switch (type.getTypetype()) {
 			case TYPE_BITSTRING:
-			case TYPE_BITSTRING_A:
+			case TYPE_BITSTRING_A: {
 				aData.addBuiltinTypeImport("TitanBitString");
-				result.append(MessageFormat.format("new TitanBitString(\"{0}\")\n", value));
+				final String bitValue = Hex2BitExpression.hex2bit(value);
+				result.append(MessageFormat.format("new TitanBitString(\"{0}\")\n", bitValue));
 				return result;
-			case TYPE_OCTETSTRING:
+			}
+			case TYPE_OCTETSTRING: {
 				aData.addBuiltinTypeImport("TitanOctetString");
-				result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", value));
+				final String octetValue = Hex2OctExpression.hex2oct(value);
+				result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", octetValue));
 				return result;
+			}
 			default:
 				break;
 			}
