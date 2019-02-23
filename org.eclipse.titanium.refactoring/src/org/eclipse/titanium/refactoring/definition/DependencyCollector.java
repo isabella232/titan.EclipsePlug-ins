@@ -133,6 +133,10 @@ class DependencyCollector {
 					int currOffset = 0;
 					for (ILocateableNode d: dependencies) {
 						currFile = d.getLocation().getFile();
+						if (asnFiles.contains(currFile)) {
+							//the file will be copied as a whole
+							continue;
+						}
 						if (!(currFile instanceof IFile)) {
 							ErrorReporter.logError("ExtractDefinition/DependencyCollector: IResource `" + currFile.getName() + "' is not an IFile.");
 							continue;
@@ -216,14 +220,14 @@ class DependencyCollector {
 	}
 
 	private void collectDependencies(final Definition start, final Set<ILocateableNode> allDefs, final Set<IResource> imports, final Set<IResource> asnFiles) {
-		Set<Definition> currDefs;
-		Set<Definition> prevDefs = new HashSet<Definition>();
+		Set<Assignment> currDefs;
+		Set<Assignment> prevDefs = new HashSet<Assignment>();
 		prevDefs.add(start);
 		//TODO containsAll(): is this ok for sure?
 		while (!(allDefs.containsAll(prevDefs))) {
-			currDefs = new HashSet<Definition>();
+			currDefs = new HashSet<Assignment>();
 			allDefs.addAll(prevDefs);
-			for (Definition d: prevDefs) {
+			for (Assignment d: prevDefs) {
 				final DependencyFinderVisitor vis = new DependencyFinderVisitor(currDefs, imports, asnFiles);
 				d.accept(vis);
 			}
@@ -257,11 +261,11 @@ class DependencyCollector {
 	 * */
 	static class DependencyFinderVisitor extends ASTVisitor {
 
-		private final Set<Definition> definitions;
+		private final Set<Assignment> definitions;
 		private final Set<IResource> imports;
 		private final Set<IResource> asnFiles;
 
-		DependencyFinderVisitor(final Set<Definition> definitions, final Set<IResource> imports, final Set<IResource> asnFiles) {
+		DependencyFinderVisitor(final Set<Assignment> definitions, final Set<IResource> imports, final Set<IResource> asnFiles) {
 			this.definitions = definitions;
 			this.imports = imports;
 			this.asnFiles = asnFiles;
@@ -287,6 +291,7 @@ class DependencyCollector {
 					//copy .asn files completely
 					imports.add(asFile);
 					asnFiles.add(asFile);
+					definitions.add(as);
 				} else if (as instanceof Definition) {
 					//only for .ttcn files
 					final Definition def = (Definition)as;
