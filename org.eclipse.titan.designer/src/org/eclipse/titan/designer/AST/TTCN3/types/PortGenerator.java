@@ -1001,7 +1001,6 @@ public final class PortGenerator {
 				abstractNess = "abstract";
 
 				aData.addBuiltinTypeImport( "TitanPort" );
-				aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + portDefinition.javaName);
 				break;
 			case PROVIDER:
 				className = portDefinition.javaName;
