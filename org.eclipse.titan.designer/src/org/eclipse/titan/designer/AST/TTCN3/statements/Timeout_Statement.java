@@ -183,9 +183,9 @@ public final class Timeout_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
-		aData.addBuiltinTypeImport("TitanTimer");
-
 		if (timerReference == null) {
+			aData.addBuiltinTypeImport("TitanTimer");
+
 			expression.expression.append("TitanTimer.any_timeout()");
 		} else {
 			timerReference.generateCode(aData, expression);
