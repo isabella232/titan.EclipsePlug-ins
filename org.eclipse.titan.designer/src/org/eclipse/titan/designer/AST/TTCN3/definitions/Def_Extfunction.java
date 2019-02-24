@@ -917,9 +917,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
-			final Module genModule = myScope.getModuleScopeGen();
-			final String packageRoot = ProjectSourceCompiler.getPackageUserProvidedRoot(genModule.getProject());
-			aData.addImport(packageRoot + "." + genModule.getIdentifier().getName() + "_externalfunctions");
 			// external functions are implemented elsewhere
 
 			return;
