@@ -2440,7 +2440,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement: actually more complicated
 		final String genname = getGenNameOwn();
-		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source);
+//		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source);
 		/* genname{type,ber,raw,text,xer,json,oer}descriptor == gennameown is true if
 		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
 		 * and can't use the descriptor of one of the built-in types.
