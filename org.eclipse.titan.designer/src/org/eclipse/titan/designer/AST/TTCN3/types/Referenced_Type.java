@@ -741,11 +741,6 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		final Module refdModule = refdLast.getMyScope().getModuleScopeGen();
-		if (refdModule != aData.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
-			aData.addInterModuleImport(refdModule.getName());
-		}
-
 		return refd.getGenNameValue(aData, source);
 	}
 
@@ -755,11 +750,6 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
-		}
-
-		final Module refdModule = refdLast.getMyScope().getModuleScopeGen();
-		if (refdModule != aData.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
-			aData.addInterModuleImport(refdModule.getName());
 		}
 
 		return refd.getGenNameTemplate(aData, source);
