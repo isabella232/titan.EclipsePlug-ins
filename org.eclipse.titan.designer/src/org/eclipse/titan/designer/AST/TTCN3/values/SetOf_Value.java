@@ -690,13 +690,17 @@ public final class SetOf_Value extends Value {
 			} else {
 				source.append(MessageFormat.format("{0}.set_size({1});\n", name, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
-				final String embeddedTypeName = ofType.getGenNameValue(aData, source);
+				String embeddedTypeName = null;
 
 				for (int i = 0; i < nofValues; i++) {
 					final IValue value = values.getValueByIndex(i);
 					if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
 						continue;
 					} else if (value.needsTemporaryReference()) {
+						if (embeddedTypeName == null) {
+							embeddedTypeName = ofType.getGenNameValue(aData, source);
+						}
+
 						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
 						source.append(MessageFormat.format("{0} {1} = {2}.get_at({3});\n", embeddedTypeName, tempId, name, i));
