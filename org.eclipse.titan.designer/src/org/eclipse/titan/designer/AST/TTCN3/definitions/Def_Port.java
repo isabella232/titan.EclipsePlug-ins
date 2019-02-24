@@ -365,10 +365,6 @@ public final class Def_Port extends Definition {
 			source.append( "public static " );
 		}
 
-		aData.addBuiltinTypeImport( "TitanPort" );
-		aData.addBuiltinTypeImport("Base_Template.template_sel");
-		aData.addBuiltinTypeImport("TtcnError");
-
 		if (getMyScope() instanceof ComponentTypeBody) {
 			if(dimensions == null) {
 				final String portClassName = portType.getClassName(aData, source);
