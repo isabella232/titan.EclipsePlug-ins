@@ -306,14 +306,14 @@ public final class Check_Port_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
-		aData.addCommonLibraryImport("TitanPort");
-
 		if (portReference != null) {
 			// the operation refers to a specific port
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".check");
 		} else {
 			// the operation refers to any port
+			aData.addBuiltinTypeImport("TitanPort");
+
 			expression.expression.append("TitanPort.any_check");
 		}
 
