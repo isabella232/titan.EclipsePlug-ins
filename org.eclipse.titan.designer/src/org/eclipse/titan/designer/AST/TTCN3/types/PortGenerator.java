@@ -326,7 +326,6 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	public static void generateClass(final JavaGenData aData, final StringBuilder source, final IProject project, final PortDefinition portDefinition) {
-		aData.addImport("java.util.LinkedList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Index_Redirect");
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
@@ -1051,7 +1050,9 @@ public final class PortGenerator {
 			if (portDefinition.has_sliding) {
 				source.append("TitanOctetString sliding_buffer;\n");
 			}
-			
+
+			aData.addImport("java.util.LinkedList");
+
 			source.append("private LinkedList<Message_queue_item> message_queue = new LinkedList<Message_queue_item>();\n\n");
 
 			source.append("private void remove_msg_queue_head() {\n");
@@ -1141,7 +1142,9 @@ public final class PortGenerator {
 			if (portDefinition.has_sliding) {
 				source.append("TitanOctetString sliding_buffer;\n");
 			}
-			
+
+			aData.addImport("java.util.LinkedList");
+
 			source.append("private LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
