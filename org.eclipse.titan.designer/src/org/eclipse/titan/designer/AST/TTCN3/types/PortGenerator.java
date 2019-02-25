@@ -327,8 +327,6 @@ public final class PortGenerator {
 	 * */
 	public static void generateClass(final JavaGenData aData, final StringBuilder source, final IProject project, final PortDefinition portDefinition) {
 		aData.addImport("java.text.MessageFormat");
-		aData.addBuiltinTypeImport("Index_Redirect");
-		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "TitanComponent");
 		aData.addBuiltinTypeImport( "TitanFloat");
 		aData.addBuiltinTypeImport( "TitanOctetString");
@@ -371,8 +369,10 @@ public final class PortGenerator {
 		}
 
 		if (portDefinition.inMessages.size() > 0) {
+			aData.addBuiltinTypeImport( "TitanAlt_Status" );
 			aData.addBuiltinTypeImport("TitanCharString");
 			aData.addBuiltinTypeImport("TitanComponent_template");
+			aData.addBuiltinTypeImport("Index_Redirect");
 			aData.addBuiltinTypeImport("Value_Redirect_Interface");
 
 			generateGenericReceive(source, portDefinition, false, false);
@@ -746,6 +746,9 @@ public final class PortGenerator {
 		}
 
 		if (portDefinition.inProcedures.size() > 0) {
+			aData.addBuiltinTypeImport("Index_Redirect");
+			aData.addBuiltinTypeImport( "TitanAlt_Status" );
+
 			generateGenericGetcall(source, portDefinition, false, false);
 			generateGenericGetcall(source, portDefinition, true, false);
 			if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -766,6 +769,9 @@ public final class PortGenerator {
 		}
 
 		if (hasIncomingReply) {
+			aData.addBuiltinTypeImport( "TitanAlt_Status" );
+			aData.addBuiltinTypeImport("Index_Redirect");
+
 			generateGenericGetreply(source, portDefinition, false, false);
 			generateGenericGetreply(source, portDefinition, true, false);
 			if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -788,6 +794,8 @@ public final class PortGenerator {
 		}
 
 		if (hasIncomingException) {
+			aData.addBuiltinTypeImport( "TitanAlt_Status" );
+
 			generateGenericGetexception(source, portDefinition, false, false);
 			generateGenericGetexception(source, portDefinition, true, false);
 			if (portDefinition.testportType == TestportType.ADDRESS) {
