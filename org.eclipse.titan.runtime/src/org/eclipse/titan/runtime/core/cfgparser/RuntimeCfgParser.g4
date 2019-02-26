@@ -1021,7 +1021,7 @@ pr_HostName:
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	}
-|	macro2 = MACRO
+|	MACRO
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	}
@@ -1041,8 +1041,19 @@ pr_MacroAssignment:
 
 pr_DefinitionRValue:
 (	pr_SimpleValue+
-|	pr_StructuredValue
+|	BEGINCHAR
+	pr_StructuredValueList?
+	ENDCHAR
 )
+;
+
+pr_StructuredValueList:
+	(	pr_DefinitionRValue
+	|	pr_MacroAssignment	)
+	(	COMMA
+		(	pr_DefinitionRValue
+		|	pr_MacroAssignment	)
+	)*
 ;
 
 pr_SimpleValue:
@@ -1060,7 +1071,7 @@ pr_SimpleValue:
 	|	MACRO_HOSTNAME
 	|	MACRO
 	)
-	{	// runtime cfg parser should have resolved the macros already, so raise error
+	{	// runtime cfg preparser have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	}
 |	IPV6
@@ -1071,19 +1082,8 @@ pr_SimpleValue:
 |	BITSTRINGMATCH
 |	HEXSTRINGMATCH
 |	OCTETSTRINGMATCH
+|	FSTRING
 )
-;
-
-pr_StructuredValue:
-	BEGINCHAR
-	(pr_StructuredValue | pr_StructuredValue2)
-	ENDCHAR
-;
-
-pr_StructuredValue2:
-(	pr_MacroAssignment
-|	pr_SimpleValue
-)?
 ;
 
 pr_TestportName:
@@ -1096,7 +1096,7 @@ pr_TestportName:
 ;
 
 pr_Identifier returns [String identifier]:
-(	macro = MACRO_ID
+(	MACRO_ID
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	}

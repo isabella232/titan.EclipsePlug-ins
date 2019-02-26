@@ -1168,8 +1168,19 @@ pr_MacroAssignment returns [ DefineSectionHandler.Definition definition ]
 
 pr_DefinitionRValue:
 (	pr_SimpleValue+
-|	pr_StructuredValue
+|	BEGINCHAR
+	pr_StructuredValueList?
+	ENDCHAR
 )
+;
+
+pr_StructuredValueList:
+	(	pr_DefinitionRValue
+	|	pr_MacroAssignment	)
+	(	COMMA
+		(	pr_DefinitionRValue
+		|	pr_MacroAssignment	)
+	)*
 ;
 
 pr_SimpleValue:
@@ -1194,19 +1205,8 @@ pr_SimpleValue:
 |	BITSTRINGMATCH
 |	HEXSTRINGMATCH
 |	OCTETSTRINGMATCH
+|	FSTRING
 )
-;
-
-pr_StructuredValue:
-	BEGINCHAR
-	(pr_StructuredValue | pr_StructuredValue2)
-	ENDCHAR
-;
-
-pr_StructuredValue2:
-(	pr_MacroAssignment
-|	pr_SimpleValue
-)?
 ;
 
 pr_TestportName:

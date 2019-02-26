@@ -17,7 +17,7 @@ options {
 @header {
 }
 
-@members{
+@members {
 
 	private DefineSectionHandler defineSectionHandler = new DefineSectionHandler();
 
@@ -659,8 +659,19 @@ pr_MacroAssignment returns [ String name, String value ]:
 
 pr_DefinitionRValue:
 (	pr_SimpleValue+
-|	pr_StructuredValue
+|	BEGINCHAR
+	pr_StructuredValueList?
+	ENDCHAR
 )
+;
+
+pr_StructuredValueList:
+	(	pr_DefinitionRValue
+	|	pr_MacroAssignment	)
+	(	COMMA
+		(	pr_DefinitionRValue
+		|	pr_MacroAssignment	)
+	)*
 ;
 
 pr_SimpleValue:
@@ -685,19 +696,8 @@ pr_SimpleValue:
 |	BITSTRINGMATCH
 |	HEXSTRINGMATCH
 |	OCTETSTRINGMATCH
+|	FSTRING
 )
-;
-
-pr_StructuredValue:
-	BEGINCHAR
-	(	pr_StructuredValue	|	pr_StructuredValue2	)
-	ENDCHAR
-;
-
-pr_StructuredValue2:
-(	pr_MacroAssignment
-|	pr_SimpleValue
-)?
 ;
 
 pr_TestportName:
@@ -1035,8 +1035,7 @@ pr_Boolean:
 pr_ObjIdValue:
 	OBJIDKEYWORD
 	BEGINCHAR
-	(	pr_ObjIdComponent
-	)+
+	pr_ObjIdComponent+
 	ENDCHAR
 ;
 

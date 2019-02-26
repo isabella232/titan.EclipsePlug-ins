@@ -515,7 +515,13 @@ fragment FR_HEXDIGITMATCH5:	( FR_HEXDIGIT5 | '?' | '*' );
 HEXSTRINGMATCH5:	'\'' FR_HEXDIGITMATCH5* '\'' 'H' -> type(HEXSTRINGMATCH);
 fragment FR_OCTDIGITMATCH5:	( FR_OCTDIGIT5 | '?' | '*' );
 OCTETSTRINGMATCH5:	'\'' FR_OCTDIGITMATCH5* '\'' 'O' -> type(OCTETSTRINGMATCH);
-
+COMMA5:				',' -> type(COMMA);
+FSTRING:
+(	'\\"' // \" is handled separately in the structured definitions
+|	'\\' .   // Handle escaped characters
+|	~[{}"\\$,:=\n\r\t #/]+  // Anything except {,},'"',\,$,',',:,=,#,/ and whitespace
+|	'/'
+);
 
 //external command section
 mode EXTERNAL_COMMANDS_SECTION_MODE;
