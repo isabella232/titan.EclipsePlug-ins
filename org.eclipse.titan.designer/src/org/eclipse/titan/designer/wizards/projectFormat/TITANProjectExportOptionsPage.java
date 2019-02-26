@@ -53,7 +53,7 @@ class TITANProjectExportOptionsPage extends WizardPage {
 		isExcludedDotResources =
 				preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.EXPORT_EXCLUDE_DOT_RESOURCES, true, null);
 		isExcludeLinkedContents =
-				preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.EXPORT_EXCLUDE_LINKED_CONTENTS, true, null);
+				preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.EXPORT_EXCLUDE_LINKED_CONTENTS, false, null);
 		isSaveDefaultValues =
 				preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.EXPORT_SAVE_DEFAULT_VALUES, true, null);
 		isPackAllProjectsIntoOne = 
@@ -127,7 +127,7 @@ class TITANProjectExportOptionsPage extends WizardPage {
 
 		excludeLinkedContents = new Button(pageComposite, SWT.CHECK);
 		excludeLinkedContents.setText("Do not generate information on resources which are contained in a linked resource.");
-		excludeLinkedContents.setEnabled(false);
+		excludeLinkedContents.setEnabled(true);
 		excludeLinkedContents.setSelection(isExcludeLinkedContents);
 		excludeLinkedContents.addSelectionListener(new SelectionAdapter() {
 			@Override
