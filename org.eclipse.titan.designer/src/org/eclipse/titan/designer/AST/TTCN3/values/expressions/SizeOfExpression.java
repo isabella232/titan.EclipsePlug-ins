@@ -862,8 +862,9 @@ public final class SizeOfExpression extends Expression_Value {
 		final TTCN3Template templateBody = templateInstance.getTemplateBody();
 		// FIXME actually a bit more complex
 		if (templateInstance.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())
-				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
-			final IValue value = ((SpecificValue_Template) templateBody).getValue();
+				&& templateBody.getLengthRestriction() == null
+				&& !templateBody.getIfPresent()) {
+			final IValue value = ((SpecificValue_Template) templateBody).getSpecificValue();
 			// FIXME implement support for cast
 			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
