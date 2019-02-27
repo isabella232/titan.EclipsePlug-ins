@@ -491,6 +491,19 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
+	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
+	public boolean match(final TitanCharString_Element otherValue, final boolean legacy) {
+		return match(new TitanCharString(otherValue), legacy);
+	}
+
 	@Override
 	public TitanCharString valueof() {
 		if (template_selection != template_sel.SPECIFIC_VALUE) {
