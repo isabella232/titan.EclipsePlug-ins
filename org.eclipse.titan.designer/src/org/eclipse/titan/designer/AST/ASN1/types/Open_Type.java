@@ -778,7 +778,7 @@ public final class Open_Type extends ASN1Type {
 			boolean anyvalueReturnValue = true;
 			if (optype == Operation_type.ISPRESENT_OPERATION) {
 				anyvalueReturnValue = isPresentAnyvalueEmbeddedField(expression, subreferences, subReferenceIndex);
-			} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
+			} else if (optype == Operation_type.ISCHOOSEN_OPERATION || optype == Operation_type.ISVALUE_OPERATION) {
 				anyvalueReturnValue = false;
 			}
 
@@ -828,6 +828,8 @@ public final class Open_Type extends ASN1Type {
 
 		if (optype == Operation_type.ISBOUND_OPERATION) {
 			expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
+		} else if (optype == Operation_type.ISVALUE_OPERATION) {
+			expression.expression.append(MessageFormat.format("{0} = {1}.is_value();\n", globalId, temporalId2));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
 			expression.expression.append(MessageFormat.format("{0} = {1}.is_present({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {

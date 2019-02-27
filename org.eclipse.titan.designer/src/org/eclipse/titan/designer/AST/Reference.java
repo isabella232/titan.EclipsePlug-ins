@@ -1399,6 +1399,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			case ISBOUND_OPERATION:
 				expression.expression.append(MessageFormat.format("{0}.is_bound()", ass_id2));
 				break;
+			case ISVALUE_OPERATION:
+				expression.expression.append(MessageFormat.format("{0}.is_value()", ass_id2));
+				break;
 			case ISPRESENT_OPERATION:
 				expression.expression.append(MessageFormat.format("{0}.is_present({1})", ass_id2, isTemplate && aData.getAllowOmitInValueList()? "true":""));
 				break;

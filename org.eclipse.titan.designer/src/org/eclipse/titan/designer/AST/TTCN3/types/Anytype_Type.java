@@ -849,7 +849,7 @@ public final class Anytype_Type extends Type {
 			boolean anyvalueReturnValue = true;
 			if (optype == Operation_type.ISPRESENT_OPERATION) {
 				anyvalueReturnValue = isPresentAnyvalueEmbeddedField(expression, subreferences, subReferenceIndex);
-			} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
+			} else if (optype == Operation_type.ISCHOOSEN_OPERATION || optype == Operation_type.ISVALUE_OPERATION) {
 				anyvalueReturnValue = false;
 			}
 
@@ -907,6 +907,8 @@ public final class Anytype_Type extends Type {
 
 				if (optype == Operation_type.ISBOUND_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
+				} else if (optype == Operation_type.ISVALUE_OPERATION) {
+					expression.expression.append(MessageFormat.format("{0} = {1}.is_value();\n", globalId, temporalId2));
 				} else if (optype == Operation_type.ISPRESENT_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.is_present({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 				} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
@@ -949,6 +951,8 @@ public final class Anytype_Type extends Type {
 
 			if (optype == Operation_type.ISBOUND_OPERATION) {
 				expression.expression.append(MessageFormat.format("{0} = {1}.is_bound();\n", globalId, temporalId2));
+			} else if (optype == Operation_type.ISVALUE_OPERATION) {
+				expression.expression.append(MessageFormat.format("{0} = {1}.is_value();\n", globalId, temporalId2));
 			} else if (optype == Operation_type.ISPRESENT_OPERATION) {
 				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, subReferenceIndex!=subreferences.size()-1?"is_bound":"is_present", subReferenceIndex==subreferences.size()-1 && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 			} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {

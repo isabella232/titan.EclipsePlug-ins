@@ -17,6 +17,8 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -30,6 +32,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -341,6 +344,14 @@ public final class IsValueExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (templateInstance != null) {
+			templateInstance.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean returnsNative() {
 		return true;
 	}
@@ -348,19 +359,56 @@ public final class IsValueExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return templateInstance.hasSingleExpression();
+		return false;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		final TTCN3Template templateBody = templateInstance.getTemplateBody();
-		// FIXME actually a bit more complex
-		if (templateInstance.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())
-				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
-			final IValue value = ((SpecificValue_Template) templateBody).getValue();
-			// FIXME implement support for cast
-			value.generateCodeExpression(aData, expression, true);
+		final TTCN3Template template = templateInstance.getTemplateBody();
+		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
+			final IValue value = ((SpecificValue_Template) template).getSpecificValue();
+			if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
+				final Reference reference = ((Referenced_Value) value).getReference();
+				if (reference != null) {
+					final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					if (assignment != null) {
+						switch(assignment.getAssignmentType()) {
+						case A_TEMPLATE:
+						case A_VAR_TEMPLATE:
+						case A_MODULEPAR_TEMPLATE:
+						case A_EXT_FUNCTION_RTEMP:
+						case A_FUNCTION_RTEMP:
+						case A_PAR_TEMP_IN:
+						case A_PAR_TEMP_OUT:
+						case A_PAR_TEMP_INOUT:
+							reference.generateCodeIsPresentBoundChosen(aData, expression, true, getOperationType(), null);
+							return;
+						default:
+							break;
+						}
+					}
+					reference.generateCodeIsPresentBoundChosen(aData, expression, false, getOperationType(), null);
+					return;
+				}
+			}
+
+			if (templateInstance.getDerivedReference() == null
+					&& template.getLengthRestriction() == null
+					&& !template.getIfPresent()) {
+				// FIXME implement support for cast
+				value.generateCodeExpressionMandatory(aData, expression, true);
+			} else {
+				templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+			}
+		} else if (Template_type.TEMPLATE_REFD.equals(template.getTemplatetype())) {
+			final Reference reference = ((Referenced_Template) template).getReference();
+			if (reference != null) {
+				reference.generateCodeIsPresentBoundChosen(aData, expression, true, getOperationType(), null);
+				return;
+			}
+
+			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		} else {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
