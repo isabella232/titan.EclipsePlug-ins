@@ -482,9 +482,15 @@ public final class IsBoundExpression extends Expression_Value {
 					reference.generateCodeIsPresentBoundChosen(aData, expression, false, getOperationType(), null);
 					return;
 				}
-			} else {
-				//FIXME cast_needed case
+			}
+
+			if (templateInstance.getDerivedReference() == null
+					&& template.getLengthRestriction() == null
+					&& !template.getIfPresent()) {
+				// FIXME implement support for cast
 				value.generateCodeExpressionMandatory(aData, expression, true);
+			} else {
+				templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 			}
 		} else if (Template_type.TEMPLATE_REFD.equals(template.getTemplatetype())) {
 			final Reference reference = ((Referenced_Template) template).getReference();
@@ -492,6 +498,8 @@ public final class IsBoundExpression extends Expression_Value {
 				reference.generateCodeIsPresentBoundChosen(aData, expression, true, getOperationType(), null);
 				return;
 			}
+
+			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		} else {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
