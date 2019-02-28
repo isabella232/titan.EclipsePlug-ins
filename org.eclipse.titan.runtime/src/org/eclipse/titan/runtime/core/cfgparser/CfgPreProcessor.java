@@ -358,7 +358,7 @@ public class CfgPreProcessor {
 		final StringBuilder outInclude = new StringBuilder();
 		final AtomicBoolean modified = new AtomicBoolean(false);
 		final IncludeSectionHandler orderedIncludeSectionHandler = new IncludeSectionHandler();
-		// this file will NOT be included
+		// this file will NOT be included again
 		orderedIncludeSectionHandler.addFile(file.getName());
 		preparseInclude(file, outInclude, modified, listener, orderedIncludeSectionHandler, 0);
 
