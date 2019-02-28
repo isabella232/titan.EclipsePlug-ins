@@ -129,6 +129,7 @@ public final class CfgAnalyzer {
 		final CFGListener lexerListener = new CFGListener(fileName);
 		final CommonTokenStream tokenStream = createTokenStream(reader, lexerListener);
 		final RuntimeCfgParser parser = new RuntimeCfgParser( tokenStream );
+		RuntimeCfgParser.reset_configuration_options();
 		parser.setActualFile( file );
 
 		// remove ConsoleErrorListener

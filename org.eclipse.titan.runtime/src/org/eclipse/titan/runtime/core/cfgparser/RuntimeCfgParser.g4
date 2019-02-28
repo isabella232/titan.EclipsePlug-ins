@@ -247,6 +247,53 @@ import java.util.regex.Pattern;
 	private void config_process_error(final String errorMsg)	{
 		//TODO: implement
 	}
+
+	//TODO: use these variables
+	private static boolean file_name_set = false;
+	private static boolean file_mask_set = true;
+	private static boolean console_mask_set = true;
+	private static boolean timestamp_format_set = false;
+	private static boolean source_info_format_set = false;
+	private static boolean append_file_set = false;
+	private static boolean log_event_types_set = false;
+	private static boolean log_entity_name_set = false;
+	private static boolean begin_controlpart_command_set = false;
+	private static boolean end_controlpart_command_set = false;
+	private static boolean begin_testcase_command_set = false;
+	private static boolean end_testcase_command_set = false;
+	private static boolean log_file_size_set = true;
+	private static boolean log_file_number_set = true;
+	private static boolean log_disk_full_action_set = true;
+	private static boolean matching_verbosity_set = false;
+	private static boolean logger_plugins_set = false;
+	private static boolean plugin_specific_set = false;
+
+	public static void reset_configuration_options() {
+		/* Section [MODULE_PARAMETERS] */
+		/** \todo reset module parameters to their default values */
+		/* Section [LOGGING] */
+		TTCN_Logger.close_file();
+		TTCN_Logger.reset_configuration();
+		file_name_set = false;
+		file_mask_set = true;
+		console_mask_set = true;
+		timestamp_format_set = false;
+		source_info_format_set = false;
+		append_file_set = false;
+		log_event_types_set = false;
+		log_entity_name_set = false;
+		/* Section [TESTPORT_PARAMETERS] */
+		TitanPort.clear_parameters();
+		/* Section [EXTERNAL_COMMANDS] */
+
+		//TODO: implement
+		//TTCN_Runtime.clear_external_commands();
+
+		begin_controlpart_command_set = false;
+		end_controlpart_command_set = false;
+		begin_testcase_command_set = false;
+		end_testcase_command_set = false;
+	}
 }
 
 pr_ConfigFile:

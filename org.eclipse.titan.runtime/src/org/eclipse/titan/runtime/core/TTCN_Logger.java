@@ -1393,6 +1393,19 @@ public final class TTCN_Logger {
 		return get_logger_plugin_manager().set_disk_full_action(disk_full_action);
 	}
 
+	public static void reset_configuration()	{
+		file_log_mask.mask = Logging_Bits.log_all;
+		console_log_mask.mask = Logging_Bits.default_console_mask;
+		emergency_log_mask.mask = Logging_Bits.log_all;
+
+		timestamp_format = timestamp_format_t.TIMESTAMP_TIME;
+		source_info_format = source_info_format_t.SINFO_NONE;
+		log_event_types = log_event_types_t.LOGEVENTTYPES_NO;
+		log_entity_name = log_event_types_t.LOGEVENTTYPES_NO;
+
+		get_logger_plugin_manager().reset();
+	}
+
 	public static void set_executable_name() {
 		//TODO: initial implementation, more complex
 		executable_name = "";
