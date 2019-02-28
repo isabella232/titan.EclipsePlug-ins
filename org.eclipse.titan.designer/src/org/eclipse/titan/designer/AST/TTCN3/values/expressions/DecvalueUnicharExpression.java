@@ -57,7 +57,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	private static final String OPERAND1_ERROR4 = "Reference to `{0}'' cannot be used as the first operand of the `decvalue_unichar' operation";
 
 	private static final String OPERAND2_ERROR1 = "The 2nd operand of the `decvalue_unichar' operation is unable to hold a decoded value";
-	private static final String OPERAND3_ERROR1 = "The 3rd operand of the `encvalue_unichar' operation should be a charstring value";
+	private static final String OPERAND3_ERROR1 = "The 3rd operand of the `decvalue_unichar' operation should be a charstring value";
+	private static final String OPERAND3_ERROR2 = "The 3rd operand of the `decvalue_unichar' can only be UTF-8, UTF-16, UTF-16LE, UTF-16BE, UTF-32, UTF-32LE or UTF-32BE";
 	private static final String OPERAND4_ERROR1 = "The 4th operand of the `decvalue_unichar' operation should be a (universal) charstring value";
 	private static final String OPERAND5_ERROR1 = "The 5th operand of the `decvalue_unichar' operation should be a (universal) charstring value";
 
@@ -459,6 +460,12 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
+			if (serialization.getValuetype() == Value_type.CHARSTRING_VALUE) {
+				final String temp = ((Charstring_Value)serialization).getValue();
+				if (!"UTF-8".equals(temp) && !"UTF-16".equals(temp) && !"UTF-16LE".equals(temp) && !"UTF-16BE".equals(temp) && !"UTF-32".equals(temp) && !"UTF-32LE".equals(temp) && !"UTF-32BE".equals(temp)) {
+					location.reportSemanticError(OPERAND3_ERROR2);
+				}
+			}
 			break;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);
@@ -740,6 +747,9 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		String v3_code;
 		if (serialization == null) {
 			v3_code = "\"UTF-8\"";
+		} else if (serialization.getValuetype() == Value_type.CHARSTRING_VALUE) {
+			final String encoding = ((Charstring_Value)serialization).getValue();
+			v3_code = MessageFormat.format("\"{0}\"", encoding);
 		} else {
 			final ExpressionStruct tempExpression = new ExpressionStruct();
 			serialization.generateCodeExpressionMandatory(aData, tempExpression, true);
