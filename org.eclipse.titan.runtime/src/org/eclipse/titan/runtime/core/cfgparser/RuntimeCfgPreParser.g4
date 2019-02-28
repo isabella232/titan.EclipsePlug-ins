@@ -19,7 +19,7 @@ options {
 
 @members {
 
-	private DefineSectionHandler defineSectionHandler = new DefineSectionHandler();
+	private DefineSectionHandler defineSectionHandler = new DefineSectionHandler((CommonTokenStream)getTokenStream());
 
 	public DefineSectionHandler getDefineSectionHandler() {
 		return defineSectionHandler;
@@ -650,10 +650,10 @@ pr_HostNameIpV6:
 	IPV6
 ;
 
-pr_MacroAssignment returns [ String name, String value ]:
+pr_MacroAssignment returns [ String name, ParserRuleContext value ]:
 (	n = TTCN3IDENTIFIER { $name = $n.getText(); }
 	ASSIGNMENTCHAR
-	v = pr_DefinitionRValue { $value = $v.text; }
+	v = pr_DefinitionRValue { $value = $v.ctx; }
 )
 ;
 

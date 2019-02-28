@@ -112,10 +112,9 @@ public final class CfgAnalyzer {
 			reader = new StringReader(code);
 		} else if (null != file) {
 			try {
-				final CfgPreProcessor preparser = new CfgPreProcessor();
 				final File preparsedFile = new File(file.getParent(), TEMP_CFG_FILENAME);
-				if ( preparser.preparse( file, preparsedFile, preparseListener ) ) {
-					// if the cfg file is modified during the preparsing process, file is updated
+				if ( CfgPreProcessor.preparse( file, preparsedFile, preparseListener ) ) {
+					// if the cfg file is modified during the preparsing process, file is updated,
 					// preparsing modified the cfg file, so use the temp.cfg instead
 					file = preparsedFile;
 				}

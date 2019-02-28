@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.antlr.v4.runtime.CommonToken;
@@ -30,8 +31,9 @@ public class CfgPreProcessor {
 
 	private static final int RECURSION_LIMIT = 20;
 
-	private IncludeSectionHandler orderedIncludeSectionHandler = new IncludeSectionHandler();
-	private DefineSectionHandler defineSectionHandler = new DefineSectionHandler();
+	private CfgPreProcessor() {
+		// Hide constructor
+	}
 
 	/**
 	 * RECURSIVE
@@ -43,13 +45,16 @@ public class CfgPreProcessor {
 	 * @param modified (out) true, if CFG file was changed during preparsing,
 	 *     <br>false otherwise, so when the CFG file did not contain any [INCLUDE] or [ORDERED_INCLUDE] sections
 	 * @param listener listener for ANTLR lexer/parser errors
+	 * @param orderedIncludeSectionHandler list of the files which were already included to avoid duplication and infinite recursion
 	 * @param recursionDepth counter of the recursion depth
 	 */
-	private void preparseInclude(final File file, final StringBuilder out, AtomicBoolean modified, final CFGListener listener, final int recursionDepth) {
+	private static void preparseInclude(final File file, final StringBuilder out, AtomicBoolean modified, final CFGListener listener,
+										final IncludeSectionHandler orderedIncludeSectionHandler, final int recursionDepth) {
 		if (recursionDepth > RECURSION_LIMIT) {
 			// dumb but safe defense against infinite recursion, default value from gcc
 			throw new TtcnError("Maximum include recursion depth reached in file: " + file.getName());
 		}
+
 		final String dir = file.getParent();
 		final Reader reader;
 		try {
@@ -79,7 +84,7 @@ public class CfgPreProcessor {
 				if ( !orderedIncludeSectionHandler.isFileAdded( orderedIncludeFilename ) ) {
 					orderedIncludeSectionHandler.addFile( orderedIncludeFilename );
 					final File orderedIncludeFile = new File(dir, orderedIncludeFilename);
-					preparseInclude(orderedIncludeFile, out, modified, listener, recursionDepth + 1);
+					preparseInclude(orderedIncludeFile, out, modified, listener, orderedIncludeSectionHandler, recursionDepth + 1);
 					modified.set(true);
 				}
 				break;
@@ -105,7 +110,7 @@ public class CfgPreProcessor {
 	 * @param listener listener for ANTLR lexer/parser errors
 	 * @return output string buffer, where the resolved content is written
 	 */
-	private StringBuilder preparseDefine(final StringBuilder in, final AtomicBoolean modified, final CFGListener listener) {
+	private static StringBuilder preparseDefine(final StringBuilder in, final AtomicBoolean modified, final CFGListener listener) {
 		// collect defines
 		StringReader reader = new StringReader( in.toString() );
 		CommonTokenStream tokenStream = CfgAnalyzer.createTokenStream(reader, listener);
@@ -120,13 +125,16 @@ public class CfgPreProcessor {
 		// parse tree is built by default
 		parser.setBuildParseTree(false);
 		parser.pr_ConfigFile();
-		defineSectionHandler = parser.getDefineSectionHandler();
+		final DefineSectionHandler defineSectionHandler = parser.getDefineSectionHandler();
+		final Map<String, List<Token>> defs = defineSectionHandler.getDefinitions();
 		parser = null;
+		
+		checkCircularReferences(defs);
 
 		// modified during macro resolving
 		AtomicBoolean modifiedMacro = new AtomicBoolean(false);
 		// in the 1st round we can use the lexer which was created for the parser
-		StringBuilder out = resolveMacros(tokenStream, modifiedMacro);
+		StringBuilder out = resolveMacros(tokenStream, modifiedMacro, defineSectionHandler);
 		reader.close();
 		while ( modifiedMacro.get() ) {
 			modified.set(true);
@@ -134,10 +142,57 @@ public class CfgPreProcessor {
 			tokenStream = CfgAnalyzer.createTokenStream(reader, listener);
 			tokenStream.fill();
 			modifiedMacro = new AtomicBoolean(false);
-			out = resolveMacros( tokenStream, modifiedMacro );
+			out = resolveMacros(tokenStream, modifiedMacro, defineSectionHandler);
 			reader.close();
 		}
 		return out;
+	}
+
+	private static void checkCircularReferences(final Map<String, List<Token>> defs) {
+		for (final Map.Entry<String, List<Token>> entry : defs.entrySet()) {
+			final String defName = entry.getKey();
+			checkCircularReferences(defName, defName, defs);
+		}
+	}
+
+	private static void checkCircularReferences(final String first, final String defName, final Map<String, List<Token>> defs) {
+		final List<Token> defValue = defs.get(defName);
+		if (defValue == null) {
+			throw new TtcnError("Unknown define "+defName);
+		}
+		for ( final Token token : defValue ) {
+			final int tokenType = token.getType();
+			switch (tokenType) {
+			case RuntimeCfgLexer.MACRO:
+			case RuntimeCfgLexer.MACRO_BINARY:
+			case RuntimeCfgLexer.MACRO_BOOL:
+			case RuntimeCfgLexer.MACRO_BSTR:
+			case RuntimeCfgLexer.MACRO_EXP_CSTR:
+			case RuntimeCfgLexer.MACRO_FLOAT:
+			case RuntimeCfgLexer.MACRO_HOSTNAME:
+			case RuntimeCfgLexer.MACRO_HSTR:
+			case RuntimeCfgLexer.MACRO_ID:
+			case RuntimeCfgLexer.MACRO_INT:
+			case RuntimeCfgLexer.MACRO_OSTR:
+				final String tokenText = token.getText();
+				// get macro name: ${MACRO_1_0} -> MACRO_1_0
+				String macroName = DefineSectionHandler.getMacroName(tokenText);
+				if (macroName == null) {
+					macroName = DefineSectionHandler.getTypedMacroName(tokenText);
+				}
+				if (macroName == null) {
+					throw new TtcnError("Invalid macro name: "+tokenText);
+				}
+				if (first.equals(macroName)) {
+					throw new TtcnError("Circular reference in define "+first);
+				}
+				checkCircularReferences(first, macroName, defs);
+				break;
+			default:
+				break;
+			}
+		}
+		
 	}
 
 	/**
@@ -145,9 +200,10 @@ public class CfgPreProcessor {
 	 * @param tokenStream input tokens
 	 * @param modified (in/out) set to true, if the cfg file content is modified during preparsing,
 	 *                 otherwise the value is left untouched
+	 * @param defineSectionHandler define handler for getting collection of definition name value pairs
 	 * @return output string buffer, where the resolved content is written
 	 */
-	private StringBuilder resolveMacros(final CommonTokenStream tokenStream, final AtomicBoolean modified) {
+	private static StringBuilder resolveMacros(final CommonTokenStream tokenStream, final AtomicBoolean modified, final DefineSectionHandler defineSectionHandler) {
 		final List<Token> tokens = tokenStream.getTokens();
 		final ListIterator<Token> iter = tokens.listIterator();
 		boolean defineSection = false;
@@ -228,7 +284,7 @@ public class CfgPreProcessor {
 	 * @param macroValue new value
 	 * @param iter iterator for getting previous and next token
 	 */
-	private void resolveMacro(CommonToken commonToken, String macroValue, ListIterator<Token> iter) {
+	private static void resolveMacro(CommonToken commonToken, String macroValue, ListIterator<Token> iter) {
 		final String stringWithoutQuotes = DefineSectionHandler.removeQuotes(macroValue);
 		if ( stringWithoutQuotes == null ) {
 			// not a string, we don't need to handle it as a special case
@@ -292,15 +348,19 @@ public class CfgPreProcessor {
 	 * where the content of the include files are copied into the place of the include file names,
 	 * macro references are resolved as they are defined in the [DEFINE] section.
 	 * @param file actual file to preparse
-	 * @param resultFile result file name
+	 * @param resultFile result file
 	 * @param listener listener for ANTLR lexer/parser errors
 	 * @return <code>true</code>, if CFG file was changed during preparsing,
-	 *     <br><code>false</code> otherwise, so when the CFG file did not contain any [INCLUDE] or [ORDERED_INCLUDE] sections
+	 *     <br><code>false</code> otherwise, so when the CFG file did not contain
+	 *         any [INCLUDE], [ORDERED_INCLUDE] or [DEFINE] sections
 	 */
-	boolean preparse(final File file, final File resultFile, final CFGListener listener) {
+	static boolean preparse(final File file, final File resultFile, final CFGListener listener) {
 		final StringBuilder outInclude = new StringBuilder();
 		final AtomicBoolean modified = new AtomicBoolean(false);
-		preparseInclude(file, outInclude, modified, listener, 0);
+		final IncludeSectionHandler orderedIncludeSectionHandler = new IncludeSectionHandler();
+		// this file will NOT be included
+		orderedIncludeSectionHandler.addFile(file.getName());
+		preparseInclude(file, outInclude, modified, listener, orderedIncludeSectionHandler, 0);
 
 		if ( listener != null ) {
 			listener.setFilename(null);
@@ -329,5 +389,4 @@ public class CfgPreProcessor {
 			}
 		}
 	}
-
 }

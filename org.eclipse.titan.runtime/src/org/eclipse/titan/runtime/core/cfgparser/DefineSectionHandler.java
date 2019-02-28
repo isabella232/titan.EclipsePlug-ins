@@ -8,10 +8,13 @@
 package org.eclipse.titan.runtime.core.cfgparser;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.eclipse.titan.runtime.core.TtcnError;
 
@@ -22,14 +25,35 @@ import org.eclipse.titan.runtime.core.TtcnError;
  */
 public final class DefineSectionHandler {
 
-	private Map<String, String> definitions = new HashMap<String, String>();
+	private Map<String, List<Token>> definitions = new HashMap<String, List<Token>>();
+	private CommonTokenStream tokenStream;
+	public DefineSectionHandler(CommonTokenStream tokenStream) {
+		this.tokenStream = tokenStream;
+	}
 
-	public Map<String, String> getDefinitions() {
+	public Map<String, List<Token>> getDefinitions() {
 		return definitions;
 	}
 
-	public void addDefinition(final String name, final String value) {
-		definitions.put(name, value);
+	public void addDefinition(final String name, final ParserRuleContext def) {
+		final List<Token> tokenList = getTokenList(def, tokenStream); 
+		definitions.put(name, tokenList);
+	}
+
+	private List<Token> getTokenList(final ParserRuleContext def, final CommonTokenStream tokenStream) {
+		final Token startToken = def.start;
+		final int startIndex = startToken.getTokenIndex();
+		final Token stopToken = def.stop;
+		final int stopIndex = stopToken.getTokenIndex();
+		return tokenStream.getTokens(startIndex, stopIndex);
+	}
+
+	private static String getTokenListText(final List<Token> tokenList) {
+		final StringBuilder sb = new  StringBuilder();
+		for (final Token token : tokenList) {
+			sb.append(token.getText());
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -37,9 +61,9 @@ public final class DefineSectionHandler {
 	 * @param aDefinition macro or environment variable
 	 * @return macro or environment variable value, or null if there is no such definition
 	 */
-	private String getDefinitionValue(String aDefinition){
+	public String getDefinitionValue(String aDefinition){
 		if ( definitions != null && definitions.containsKey( aDefinition ) ) {
-			return definitions.get( aDefinition );
+			return getTokenListText(definitions.get( aDefinition ));
 		} else {
 			return null;
 		}
@@ -80,7 +104,7 @@ public final class DefineSectionHandler {
 	 * @param macroString macro string, for example: \$a, \${a}
 	 * @return extracted macro name without extra characters, for example: a
 	 */
-	private static String getMacroName( final String macroString ) {
+	public static String getMacroName( final String macroString ) {
 		Matcher m = PATTERN_MACRO.matcher( macroString );
 		if ( m.find() ) {
 			return m.group(1);
@@ -155,7 +179,7 @@ public final class DefineSectionHandler {
 	 * @param aMacroString macro string, for example: \${a, float}
 	 * @return extracted macro name without extra characters, for example: a
 	 */
-	private static String getTypedMacroName( final String aMacroString ) {
+	public static String getTypedMacroName( final String aMacroString ) {
 		final Matcher m = PATTERN_TYPED_MACRO.matcher( aMacroString );
 		if ( m.find() ) {
 			return m.group(1);
