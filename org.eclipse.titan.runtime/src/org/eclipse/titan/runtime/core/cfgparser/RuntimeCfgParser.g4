@@ -442,10 +442,11 @@ pr_TestportParametersSection:
 
 pr_TestportParameter
 @init {
+	final String portName;
 }:
 	comp = pr_ComponentID
 	DOT
-	pn = pr_TestportName	{	final String portName = "*".equals($pn.text) ? null : $pn.text;	}
+	pn = pr_TestportName	{	portName = "*".equals($pn.text) ? null : $pn.text;	}
 	DOT
 	paramname = pr_Identifier
 	ASSIGNMENTCHAR
