@@ -1393,7 +1393,7 @@ public final class TTCN_Logger {
 		return get_logger_plugin_manager().set_disk_full_action(disk_full_action);
 	}
 
-	public static void reset_configuration()	{
+	public static void reset_configuration() {
 		file_log_mask.mask = Logging_Bits.log_all;
 		console_log_mask.mask = Logging_Bits.default_console_mask;
 		emergency_log_mask.mask = Logging_Bits.log_all;
