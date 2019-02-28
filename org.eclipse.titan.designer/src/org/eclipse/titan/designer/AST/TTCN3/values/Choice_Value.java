@@ -419,10 +419,9 @@ public final class Choice_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		final StringBuilder embeddedName = new StringBuilder();
-		embeddedName.append(MessageFormat.format("{0}.get_field_{1}()", parameterGenName, name.getName()));
-
-		if (value != null) {
+		if (name != null && value != null) {
+			final StringBuilder embeddedName = new StringBuilder();
+			embeddedName.append(MessageFormat.format("{0}.get_field_{1}()", parameterGenName, name.getName()));
 			value.setGenNameRecursive(embeddedName.toString());
 		}
 	}
