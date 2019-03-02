@@ -23,7 +23,6 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -36,7 +35,6 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Type_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.Undefined_Assignment;
-import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
@@ -855,5 +853,17 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		return refdLast.isPresentAnyvalueEmbeddedField(expression, subreferences, beginIndex);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		if (this == refdLast || refdLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
+			return expression;
+		}
+
+		return refdLast.generateConversion(aData, fromType, expression);
 	}
 }
