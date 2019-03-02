@@ -526,6 +526,19 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
+	public boolean match(final TitanOctetString_Element otherValue, final boolean legacy) {
+		return match(new TitanOctetString(otherValue), legacy);
+	}
+
+	/**
 	 * This is the same algorithm that match_array uses
 	 * to match 'record of' types.
 	 * The only differences are: how two elements are matched and

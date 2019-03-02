@@ -620,6 +620,19 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	/**
+	 * Matches the provided value against this template. In legacy mode
+	 * omitted value fields are not matched against the template field.
+	 *
+	 * @param otherValue
+	 *                the value to be matched.
+	 * @param legacy
+	 *                use legacy mode.
+	 * */
+	public boolean match(final TitanUniversalCharString_Element otherValue, final boolean legacy) {
+		return match(new TitanUniversalCharString(otherValue), legacy);
+	}
+
+	/**
 	 * Returns the number of elements, that is, the largest used index plus
 	 * one and zero for the empty value.
 	 *
