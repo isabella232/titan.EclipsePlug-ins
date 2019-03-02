@@ -365,4 +365,12 @@ public final class BitString_Type extends Type {
 			return getGenNameOwn(aData) + "_raw_";
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		aData.addBuiltinTypeImport( "TitanBitString" );
+
+		return new StringBuilder(MessageFormat.format("TitanBitString.convert_to_BitString({0})", expression));
+	}
 }

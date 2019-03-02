@@ -1294,4 +1294,31 @@ public class TitanBitString extends Base_Type {
 
 		return decode_length + prepaddlength;
 	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 * <p>
+	 * This particular function can be easily optimized away in during
+	 * execution.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanBitString.
+	 * @return the converted value.
+	 * */
+	public static TitanBitString convert_to_BitString(final TitanBitString otherValue) {
+		return otherValue;
+	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanBitString.
+	 * @return the converted value.
+	 * */
+	public static TitanBitString convert_to_BitString(final TitanBitString_Element otherValue) {
+		return new TitanBitString(otherValue);
+	}
 }
