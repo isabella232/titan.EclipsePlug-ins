@@ -1222,4 +1222,18 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Indicates that the type needs to have any from done support.
 	 * */
 	public void set_needs_any_from_done();
+
+	/**
+	 * Generates a conversion function around to provided expression, that
+	 * converts it from the fromType into this type.
+	 * 
+	 * @param aData
+	 *                build related information and structures.
+	 * @param fromType
+	 *                the type to convert from to this type.
+	 * @param expression
+	 *                the expression to be converted.
+	 * @return the expression wrapped into the conversion call.
+	 * */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression);
 }

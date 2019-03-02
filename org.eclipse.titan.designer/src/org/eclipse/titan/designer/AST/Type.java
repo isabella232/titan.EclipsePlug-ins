@@ -3285,4 +3285,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public void set_needs_any_from_done() {
 		needs_any_from_done = true;
 	}
+
+	@Override
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		// the default implementation does nothing
+		return expression;
+	}
 }
