@@ -499,4 +499,12 @@ public final class UniversalCharstring_Type extends Type {
 			return getGenNameOwn(aData) + "_raw_";
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(JavaGenData aData, IType fromType, StringBuilder expression) {
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+
+		return new StringBuilder(MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", expression));
+	}
 }
