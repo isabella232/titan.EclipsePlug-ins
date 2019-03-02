@@ -1193,4 +1193,31 @@ public class TitanOctetString extends Base_Type {
 
 		return decode_length + prepaddlength;
 	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 * <p>
+	 * This particular function can be easily optimized away in during
+	 * execution.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanOctetString.
+	 * @return the converted value.
+	 * */
+	public static TitanOctetString convert_to_OctetString(final TitanOctetString otherValue) {
+		return otherValue;
+	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanOctetString.
+	 * @return the converted value.
+	 * */
+	public static TitanOctetString convert_to_OctetString(final TitanOctetString_Element otherValue) {
+		return new TitanOctetString(otherValue);
+	}
 }
