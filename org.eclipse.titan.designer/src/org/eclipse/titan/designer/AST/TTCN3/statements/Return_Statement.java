@@ -11,11 +11,14 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -27,6 +30,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -249,7 +253,41 @@ public final class Return_Statement extends Statement {
 
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			final IValue value = template.getValue();
-			value.generateCodeExpressionMandatory(aData, expression, true);
+			final IValue realValue = value.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
+
+			boolean needsConversion = false;
+			IType fromType = null;
+			IType toType = null;
+			if (realValue instanceof Referenced_Value) {
+				Reference reference = ((Referenced_Value)realValue).getReference();
+				Assignment ass = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				IType assType = ass.getType(CompilationTimeStamp.getBaseTimestamp());
+				fromType = assType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_TEMPLATE, false);
+				toType = ((Def_Function)definition).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				if (!toType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), fromType)) {
+					needsConversion = true;
+				}
+				if(reference.refersToStringElement()) {
+					needsConversion = true;
+				}
+			} else {
+				fromType = value.getMyGovernor();
+				toType = ((Def_Function)definition).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				if (!toType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), fromType)) {
+					needsConversion = true;
+				}
+			}
+
+			final ExpressionStruct valueExpression = new ExpressionStruct();
+			value.generateCodeExpressionMandatory(aData, valueExpression, true);
+
+			if (needsConversion) {
+				valueExpression.expression = toType.generateConversion(aData, fromType, valueExpression.expression);
+			}
+
+			expression.preamble.append(valueExpression.preamble);
+			expression.expression.append(valueExpression.expression);
+			expression.postamble.append(valueExpression.postamble);
 		} else {
 			final Definition myDefinition = myStatementBlock.getMyDefinition();
 			if (myDefinition.getTemplateRestriction() != TemplateRestriction.Restriction_type.TR_NONE
@@ -258,6 +296,7 @@ public final class Return_Statement extends Statement {
 			} else {
 				template.generateCodeExpression( aData, expression, Restriction_type.TR_NONE );
 			}
+			//TODO might need conversion
 		}
 
 		expression.mergeExpression(source);
