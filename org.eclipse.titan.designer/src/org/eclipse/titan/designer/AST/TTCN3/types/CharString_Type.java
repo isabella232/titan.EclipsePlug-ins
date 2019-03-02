@@ -487,4 +487,12 @@ public final class CharString_Type extends Type {
 			return getGenNameOwn(aData) + "_raw_";
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		aData.addBuiltinTypeImport( "TitanCharString" );
+
+		return new StringBuilder(MessageFormat.format("TitanCharString.convert_to_CharString({0})", expression));
+	}
 }

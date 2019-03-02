@@ -1251,4 +1251,32 @@ public class TitanCharString extends Base_Type {
 	public void set_param(final Module_Parameter param) {
 		set_param_internal(param, false);
 	}
+
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 * <p>
+	 * This particular function can be easily optimized away in during
+	 * execution.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanCharString.
+	 * @return the converted value.
+	 * */
+	public static TitanCharString convert_to_CharString(final TitanCharString otherValue) {
+		return otherValue;
+	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanCharString.
+	 * @return the converted value.
+	 * */
+	public static TitanCharString convert_to_CharString(final TitanCharString_Element otherValue) {
+		return new TitanCharString(otherValue);
+	}
 }
