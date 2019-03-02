@@ -1186,4 +1186,31 @@ public class TitanHexString extends Base_Type {
 		errorcontext.leave_context();
 		return decode_length + prepaddlength;
 	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 * <p>
+	 * This particular function can be easily optimized away in during
+	 * execution.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanHexString.
+	 * @return the converted value.
+	 * */
+	public static TitanHexString convert_to_HexString(final TitanHexString otherValue) {
+		return otherValue;
+	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanHexString.
+	 * @return the converted value.
+	 * */
+	public static TitanHexString convert_to_HexString(final TitanHexString_Element otherValue) {
+		return new TitanHexString(otherValue);
+	}
 }

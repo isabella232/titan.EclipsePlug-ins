@@ -370,4 +370,12 @@ public final class HexString_Type extends Type {
 			return getGenNameOwn(aData) + "_raw_";
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		aData.addBuiltinTypeImport( "TitanHexString" );
+
+		return new StringBuilder(MessageFormat.format("TitanHexString.convert_to_HexString({0})", expression));
+	}
 }
