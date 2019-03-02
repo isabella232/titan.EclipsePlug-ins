@@ -343,7 +343,8 @@ public final class DoWhile_Statement extends Statement {
 		//FIXME this is a bit more complex (iterate_once branch, loop label, etc..)
 		source.append("for ( ; ; ) { \n");
 		statementblock.generateCode(aData, source);
-		if(!isInfiniteLoop) {
+		final ReturnStatus_type blockReturnStatus = statementblock.hasReturn(CompilationTimeStamp.getBaseTimestamp());
+		if(!isInfiniteLoop && !ReturnStatus_type.RS_YES.equals(blockReturnStatus)) {
 			getLocation().update_location_object(aData, source);
 			generateCodeConditional(aData,source);
 		}
