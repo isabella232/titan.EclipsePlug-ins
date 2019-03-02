@@ -1252,7 +1252,6 @@ public class TitanCharString extends Base_Type {
 		set_param_internal(param, false);
 	}
 
-
 	/**
 	 * This static function is used to help with implicit conversion, where
 	 * there is no better to way.
