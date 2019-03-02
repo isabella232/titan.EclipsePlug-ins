@@ -2290,4 +2290,55 @@ public class TitanUniversalCharString extends Base_Type {
 
 		return newCoding;
 	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 * <p>
+	 * This particular function can be easily optimized away in during
+	 * execution.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanUniversalCharString.
+	 * @return the converted value.
+	 * */
+	public static TitanUniversalCharString convert_to_UniversalCharString(final TitanUniversalCharString otherValue) {
+		return otherValue;
+	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanUniversalCharString.
+	 * @return the converted value.
+	 * */
+	public static TitanUniversalCharString convert_to_UniversalCharString(final TitanUniversalCharString_Element otherValue) {
+		return new TitanUniversalCharString(otherValue);
+	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanUniversalCharString.
+	 * @return the converted value.
+	 * */
+	public static TitanUniversalCharString convert_to_UniversalCharString(final TitanCharString otherValue) {
+		return new TitanUniversalCharString(otherValue);
+	}
+
+	/**
+	 * This static function is used to help with implicit conversion, where
+	 * there is no better to way.
+	 *
+	 * @param otherValue
+	 *                the other value to convert into a TitanUniversalCharString.
+	 * @return the converted value.
+	 * */
+	public static TitanUniversalCharString convert_to_UniversalCharString(final TitanCharString_Element otherValue) {
+		return new TitanUniversalCharString(new TitanCharString(otherValue));
+	}
 }
