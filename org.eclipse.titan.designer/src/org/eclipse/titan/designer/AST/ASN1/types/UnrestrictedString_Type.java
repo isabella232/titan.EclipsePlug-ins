@@ -253,4 +253,12 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanCharacter_String";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		aData.addBuiltinTypeImport( "TitanCharString" );
+
+		return new StringBuilder(MessageFormat.format("TitanCharString.convert_to_CharString({0})", expression));
+	}
 }

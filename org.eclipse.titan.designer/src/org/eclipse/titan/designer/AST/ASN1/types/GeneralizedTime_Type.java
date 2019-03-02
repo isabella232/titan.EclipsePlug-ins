@@ -261,4 +261,12 @@ public final class GeneralizedTime_Type extends ASN1Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanCharString";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		aData.addBuiltinTypeImport( "TitanCharString" );
+
+		return new StringBuilder(MessageFormat.format("TitanCharString.convert_to_CharString({0})", expression));
+	}
 }

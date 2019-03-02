@@ -286,4 +286,12 @@ public final class GeneralString_Type extends ASN1Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanGeneralString";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+
+		return new StringBuilder(MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", expression));
+	}
 }
