@@ -502,7 +502,7 @@ public final class UniversalCharstring_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(JavaGenData aData, IType fromType, StringBuilder expression) {
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
 		return new StringBuilder(MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", expression));
