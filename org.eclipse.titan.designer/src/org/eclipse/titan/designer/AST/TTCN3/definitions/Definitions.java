@@ -270,11 +270,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 		//(rebuild) definitionMap and doubleDefinitions from the updated field "definitions"
 		definitionMap = new HashMap<String, Definition>(definitions.size());
-		String definitionName;
-		Definition definition;
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			definition = iterator.next();
-			definitionName = definition.getIdentifier().getName();
+		for (final Definition definition : definitions) {
+			final String definitionName = definition.getIdentifier().getName();
 			if (definitionMap.containsKey(definitionName)) {
 				if (doubleDefinitions == null) {
 					doubleDefinitions = new ArrayList<Definition>();
@@ -289,13 +286,9 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	//reports the found double definitions. It is supposed doubleDefinition to be created already
 	private void reportDoubleDefinitions() {
 		if (doubleDefinitions != null && !doubleDefinitions.isEmpty()) {
-			String definitionName;
-			Definition definition;
-			Identifier identifier;
-			for (int i = 0, size = doubleDefinitions.size(); i < size; i++) {
-				definition = doubleDefinitions.get(i);
-				identifier = definition.getIdentifier();
-				definitionName = identifier.getName();
+			for (final Definition definition : doubleDefinitions) {
+				final Identifier identifier = definition.getIdentifier();
+				final String definitionName = identifier.getName();
 				try {
 					final Location otherLocation = definitionMap.get(definitionName).getIdentifier().getLocation();
 					otherLocation.reportSingularSemanticError(MessageFormat.format(DUPLICATEDEFINITIONFIRST,
@@ -322,6 +315,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				((Def_Type)definition).setHasSimilarName(false);
 			}
 		}
+
 		for (final Definition definition : definitions) {
 			if (definition instanceof Def_Type) {
 				final String definitionName = definition.getIdentifier().getName();
