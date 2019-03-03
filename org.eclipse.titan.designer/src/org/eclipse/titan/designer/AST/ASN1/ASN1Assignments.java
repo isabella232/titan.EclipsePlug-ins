@@ -277,21 +277,21 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	 * */
 	private void checkSimilarTypeNames() {
 		HashMap<String, Type_Assignment> similarityMap = new HashMap<String, Type_Assignment>(assignments.size());
-		for (final ASN1Assignment definition : assignments) {
-			if (definition instanceof Type_Assignment) {
-				((Type_Assignment)definition).setHasSimilarName(false);
+		for (final ASN1Assignment assignment : assignments) {
+			if (assignment instanceof Type_Assignment) {
+				((Type_Assignment)assignment).setHasSimilarName(false);
 			}
 		}
-		for (final ASN1Assignment definition : assignments) {
-			if (definition instanceof Type_Assignment) {
-				String definitionName = definition.getIdentifier().getName();
-				final String lowerCaseName = definitionName.toLowerCase();
+		for (final ASN1Assignment assignment : assignments) {
+			if (assignment instanceof Type_Assignment) {
+				String assignmentName = assignment.getIdentifier().getName();
+				final String lowerCaseName = assignmentName.toLowerCase();
 				if (similarityMap.containsKey(lowerCaseName)) {
 					final Type_Assignment similarDef = similarityMap.get(lowerCaseName);
 					((Type_Assignment)similarDef).setHasSimilarName(true);
-					((Type_Assignment)definition).setHasSimilarName(true);
+					((Type_Assignment)assignment).setHasSimilarName(true);
 				} else {
-					similarityMap.put(lowerCaseName, (Type_Assignment)definition);
+					similarityMap.put(lowerCaseName, (Type_Assignment)assignment);
 				}
 			}
 		}
