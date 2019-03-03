@@ -138,7 +138,7 @@ public final class Type_Assignment extends ASN1Assignment {
 
 		checkTTCNIdentifier();
 		if (null != type) {
-			type.setGenName(getGenName() + (hasSimilarName ? getLocation().getOffset() : ""));
+			type.setGenName(getGenName() + (hasSimilarName ? "_at_offset" + getLocation().getOffset() : ""));
 			type.check(timestamp);
 
 			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);

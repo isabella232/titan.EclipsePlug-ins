@@ -213,7 +213,7 @@ public final class Def_Type extends Definition {
 
 		T3Doc.check(this.getCommentLocation(), type.getTypetypeTtcn3().toString());
 
-		type.setGenName(getGenName() + (hasSimilarName ? getLocation().getOffset() : ""));
+		type.setGenName(getGenName() + (hasSimilarName ? "_at_offset" + getLocation().getOffset() : ""));
 		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 			((Component_Type)type).getComponentBody().setGenName(getGenName() + "_component_");
 		}
