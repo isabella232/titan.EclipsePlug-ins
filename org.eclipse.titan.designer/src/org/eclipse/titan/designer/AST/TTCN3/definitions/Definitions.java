@@ -251,8 +251,10 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		if (lastUniquenessCheckTimeStamp != null && !lastUniquenessCheckTimeStamp.isLess(timestamp)) {
 			return;
 		}
+
 		createDefinitionMap(timestamp); //creates a hash map
 		reportDoubleDefinitions();
+		checkSimilarTypeNames();
 	}
 
 	// creates or refreshes DefinitionMap and doubleDefinitions but not reports the found double definitons
@@ -304,6 +306,41 @@ public final class Definitions extends Assignments implements ILocateableNode {
 					ErrorReporter.logError("Nullpointer was detected when reporting duplication error for definition: "
 							+ definitionName);
 					throw e;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks and marks type definitions inside this definition list, whose name might cause problems during code generation.
+	 * Aka. the names only differ in the capitality of their letters.
+	 * */
+	private void checkSimilarTypeNames() {
+		HashMap<String, Def_Type> similarityMap = new HashMap<String, Def_Type>(definitions.size());
+		Definition definition;
+		String definitionName;
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+			definition = iterator.next();
+			if (definition instanceof Def_Type) {
+				((Def_Type)definition).setHasSimilarName(false);
+			}
+		}
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+			definition = iterator.next();
+			if (definition instanceof Def_Type) {
+				definitionName = definition.getIdentifier().getName();
+				final String lowerCaseName = definitionName.toLowerCase();
+				if (similarityMap.containsKey(lowerCaseName)) {
+					final Def_Type similarDef = similarityMap.get(lowerCaseName);
+					((Def_Type)similarDef).setHasSimilarName(true);
+					((Def_Type)definition).setHasSimilarName(true);
+				} else {
+					similarityMap.put(lowerCaseName, (Def_Type)definition);
+				}
+				//make sure not to hit internally generated embedded class names.
+				//TODO might be extended to a list later
+				if ("anytype".equals(lowerCaseName)) {
+					((Def_Type)definition).setHasSimilarName(true);
 				}
 			}
 		}

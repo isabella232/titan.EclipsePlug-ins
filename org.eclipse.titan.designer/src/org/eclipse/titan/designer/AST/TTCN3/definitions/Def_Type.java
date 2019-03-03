@@ -62,6 +62,12 @@ public final class Def_Type extends Definition {
 
 	private NamedBridgeScope bridgeScope = null;
 
+	/**
+	 * Helper for the code generator. Indicates if the name of this type
+	 * would collide with an other type's name in the same module.
+	 * */
+	private boolean hasSimilarName = false;
+
 	public Def_Type(final Identifier identifier, final Type type) {
 		super(identifier);
 		this.type = type;
@@ -102,6 +108,18 @@ public final class Def_Type extends Definition {
 			result += type.category();
 		}
 		return result;
+	}
+
+	/**
+	 * Indicates for the code generation if the name of this type would
+	 * collide with an other type's name in the same module.
+	 *
+	 * @param status
+	 *                {@code true} to indicate collision, {@code false}
+	 *                otherwise.
+	 * */
+	public final void setHasSimilarName(final boolean status) {
+		hasSimilarName = status;
 	}
 
 	/**
@@ -195,7 +213,7 @@ public final class Def_Type extends Definition {
 
 		T3Doc.check(this.getCommentLocation(), type.getTypetypeTtcn3().toString());
 
-		type.setGenName(getGenName());
+		type.setGenName(getGenName() + (hasSimilarName ? getLocation().getOffset() : ""));
 		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 			((Component_Type)type).getComponentBody().setGenName(getGenName() + "_component_");
 		}

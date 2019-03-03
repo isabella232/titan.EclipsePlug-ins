@@ -39,6 +39,12 @@ public final class Type_Assignment extends ASN1Assignment {
 	/** right. */
 	private final IASN1Type type;
 
+	/**
+	 * Helper for the code generator. Indicates if the name of this type
+	 * would collide with an other type's name in the same module.
+	 * */
+	private boolean hasSimilarName = false;
+
 	public Type_Assignment(final Identifier id, final Ass_pard assPard, final IASN1Type type) {
 		super(id, assPard);
 		this.type = type;
@@ -58,6 +64,18 @@ public final class Type_Assignment extends ASN1Assignment {
 	@Override
 	protected ASN1Assignment internalNewInstance(final Identifier identifier) {
 		return new Type_Assignment(identifier, null, type.newInstance());
+	}
+
+	/**
+	 * Indicates for the code generation if the name of this type would
+	 * collide with an other type's name in the same module.
+	 *
+	 * @param status
+	 *                {@code true} to indicate collision, {@code false}
+	 *                otherwise.
+	 * */
+	public final void setHasSimilarName(final boolean status) {
+		hasSimilarName = status;
 	}
 
 	@Override
@@ -120,7 +138,7 @@ public final class Type_Assignment extends ASN1Assignment {
 
 		checkTTCNIdentifier();
 		if (null != type) {
-			type.setGenName(getGenName());
+			type.setGenName(getGenName() + (hasSimilarName ? getLocation().getOffset() : ""));
 			type.check(timestamp);
 
 			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
