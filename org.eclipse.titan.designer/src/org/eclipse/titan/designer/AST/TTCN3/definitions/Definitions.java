@@ -316,7 +316,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * Aka. the names only differ in the capitality of their letters.
 	 * */
 	private void checkSimilarTypeNames() {
-		HashMap<String, Def_Type> similarityMap = new HashMap<String, Def_Type>(definitions.size());
+		final HashMap<String, Def_Type> similarityMap = new HashMap<String, Def_Type>(definitions.size());
 		for (final Definition definition : definitions) {
 			if (definition instanceof Def_Type) {
 				((Def_Type)definition).setHasSimilarName(false);
@@ -324,7 +324,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 		for (final Definition definition : definitions) {
 			if (definition instanceof Def_Type) {
-				String definitionName = definition.getIdentifier().getName();
+				final String definitionName = definition.getIdentifier().getName();
 				final String lowerCaseName = definitionName.toLowerCase();
 				if (similarityMap.containsKey(lowerCaseName)) {
 					final Def_Type similarDef = similarityMap.get(lowerCaseName);
@@ -333,8 +333,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				} else {
 					similarityMap.put(lowerCaseName, (Def_Type)definition);
 				}
+
 				//make sure not to hit internally generated embedded class names.
-				//TODO might be extended to a list later
 				if ("anytype".equals(lowerCaseName)) {
 					((Def_Type)definition).setHasSimilarName(true);
 				}

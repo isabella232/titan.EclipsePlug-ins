@@ -276,7 +276,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	 * Aka. the names only differ in the capitality of their letters.
 	 * */
 	private void checkSimilarTypeNames() {
-		HashMap<String, Type_Assignment> similarityMap = new HashMap<String, Type_Assignment>(assignments.size());
+		final HashMap<String, Type_Assignment> similarityMap = new HashMap<String, Type_Assignment>(assignments.size());
 		for (final ASN1Assignment assignment : assignments) {
 			if (assignment instanceof Type_Assignment) {
 				((Type_Assignment)assignment).setHasSimilarName(false);
@@ -284,7 +284,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		}
 		for (final ASN1Assignment assignment : assignments) {
 			if (assignment instanceof Type_Assignment) {
-				String assignmentName = assignment.getIdentifier().getName();
+				final String assignmentName = assignment.getIdentifier().getName();
 				final String lowerCaseName = assignmentName.toLowerCase();
 				if (similarityMap.containsKey(lowerCaseName)) {
 					final Type_Assignment similarDef = similarityMap.get(lowerCaseName);
