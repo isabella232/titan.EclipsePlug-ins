@@ -317,18 +317,16 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * */
 	private void checkSimilarTypeNames() {
 		HashMap<String, Def_Type> similarityMap = new HashMap<String, Def_Type>(definitions.size());
-		Definition definition;
-		String definitionName;
 		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			definition = iterator.next();
+			Definition definition = iterator.next();
 			if (definition instanceof Def_Type) {
 				((Def_Type)definition).setHasSimilarName(false);
 			}
 		}
 		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			definition = iterator.next();
+			Definition definition = iterator.next();
 			if (definition instanceof Def_Type) {
-				definitionName = definition.getIdentifier().getName();
+				String definitionName = definition.getIdentifier().getName();
 				final String lowerCaseName = definitionName.toLowerCase();
 				if (similarityMap.containsKey(lowerCaseName)) {
 					final Def_Type similarDef = similarityMap.get(lowerCaseName);
