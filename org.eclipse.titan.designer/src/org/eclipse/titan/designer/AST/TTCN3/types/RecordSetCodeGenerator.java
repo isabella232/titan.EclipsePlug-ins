@@ -410,7 +410,7 @@ public final class RecordSetCodeGenerator {
 			aSb.append( "\t\t * */\n" );
 		}
 		aSb.append( MessageFormat.format( "\t\tpublic {0}( final {0} otherValue) '{'\n", aClassName ) );
-		aSb.append( MessageFormat.format( "\t\t\t\totherValue.must_bound(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
+		aSb.append( MessageFormat.format( "\t\t\totherValue.must_bound(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append(MessageFormat.format("\t\t\t{0} = new Optional<{1}>({1}.class);\n", fi.mVarName, fi.mJavaTypeName));
