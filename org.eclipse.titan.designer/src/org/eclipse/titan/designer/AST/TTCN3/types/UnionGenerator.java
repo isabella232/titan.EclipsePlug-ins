@@ -1808,6 +1808,45 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("\t\t}\n\n");
 
+		/*
+		 * Should the union have more than 200 fields, we will generate helper functions.
+		 * Each of which will handle 200 fields on its own.
+		 * This is done as in the case of Diameter a union with 1666 fields
+		 *  would generate too much code into a single function.
+		 **/ 
+		final int maxLength = 200;
+		if (fieldInfos.size() > maxLength) {
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxLength ;
+				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				source.append("\t\t// Internal helper function.\n");
+				source.append(MessageFormat.format("\t\tprivate void log_match_helper_{0,number,#}_{1,number,#}(final {2} match_value, final boolean legacy) '{'\n", start, end, genName));
+				// template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()
+				// already checked in the main log_match
+				source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
+				for (int i = start ; i <= end; i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+					source.append("\t\t\t\t\tif (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
+					source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
+
+					source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
+					source.append("\t\t\t\t\t} else {\n");
+					source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
+					source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
+					source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
+					source.append("\t\t\t\t\t}\n");
+					source.append("\t\t\t\t\tbreak;\n");
+				}
+				source.append("\t\t\t\tdefault:\n");
+				source.append("\t\t\t\t\tbreak;\n");
+				source.append("\t\t\t\t}\n");
+				source.append("\t\t}\n\n");
+			}
+		}
+
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Logs the matching of the provided value to this template, to help\n");
@@ -1827,26 +1866,45 @@ public final class UnionGenerator {
 		source.append("\t\t\t\treturn;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
-		source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\t\tif (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
-			source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
 
-			source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\t\t} else {\n");
-			source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
-			source.append("\t\t\t\t\t}\n");
+		if (fieldInfos.size() > maxLength) {
+			source.append("\t\t\t\tif (single_value_union_selection.ordinal() == 0 ) {\n");
+			source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxLength;
+				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				source.append(MessageFormat.format("\t\t\t\t} else if (single_value_union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+				source.append(MessageFormat.format("\t\t\t\t\tlog_match_helper_{0,number,#}_{1,number,#}(match_value, legacy);\n", start, end));
+			}
+			source.append("\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
+			source.append("\t\t\t\t}\n");
+		} else {
+			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append("\t\t\t\t\tif (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
+				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
+	
+				source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
+				source.append("\t\t\t\t\t} else {\n");
+				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
+				source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
+				source.append("\t\t\t\t\t}\n");
+				source.append("\t\t\t\t\tbreak;\n");
+			}
+			source.append("\t\t\t\tdefault:\n");
+			source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
 			source.append("\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t}\n");
 		}
-		source.append("\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
-		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t} else {\n");
 		source.append("\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
 		source.append("\t\t\t\tmatch_value.log();\n");
