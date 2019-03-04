@@ -688,7 +688,14 @@ public final class SetOf_Value extends Value {
 
 				source.append(MessageFormat.format("{0}.operator_assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
-				source.append(MessageFormat.format("{0}.set_size({1});\n", name, nofValues));
+				String tempId;
+				if (name.contains(".")) {
+					tempId = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("final {0} {1} = {2};\n", getMyGovernor().getGenNameValue(aData, source), tempId, name));
+				} else {
+					tempId = name;
+				}
+				source.append(MessageFormat.format("{0}.set_size({1});\n", tempId, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
 				String embeddedTypeName = null;
 
@@ -701,13 +708,13 @@ public final class SetOf_Value extends Value {
 							embeddedTypeName = ofType.getGenNameValue(aData, source);
 						}
 
-						final String tempId = aData.getTemporaryVariableName();
+						final String tempId2 = aData.getTemporaryVariableName();
 						source.append("{\n");
-						source.append(MessageFormat.format("{0} {1} = {2}.get_at({3});\n", embeddedTypeName, tempId, name, i));
-						value.generateCodeInit(aData, source, tempId);
+						source.append(MessageFormat.format("{0} {1} = {2}.get_at({3});\n", embeddedTypeName, tempId2, tempId, i));
+						value.generateCodeInit(aData, source, tempId2);
 						source.append("}\n");
 					} else {
-						final String embeddedName = MessageFormat.format("{0}.get_at({1})", name, i);
+						final String embeddedName = MessageFormat.format("{0}.get_at({1})", tempId, i);
 						value.generateCodeInit(aData, source, embeddedName);
 					}
 				}
