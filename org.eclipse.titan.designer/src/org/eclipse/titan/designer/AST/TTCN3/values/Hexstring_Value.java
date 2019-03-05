@@ -199,31 +199,7 @@ public final class Hexstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (myGovernor != null) {
-			final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-			switch (type.getTypetype()) {
-			case TYPE_BITSTRING:
-				aData.addBuiltinTypeImport("TitanBitString");
-				source.append(MessageFormat.format("{0}.operator_assign(new TitanBitString(\"{1}\"));\n", name, value));
-
-				lastTimeGenerated = aData.getBuildTimstamp();
-
-				return source;
-			case TYPE_OCTETSTRING:
-				aData.addBuiltinTypeImport("TitanOctetString");
-				source.append(MessageFormat.format("{0}.operator_assign(new TitanOctetString(\"{1}\"));\n", name, value));
-
-				lastTimeGenerated = aData.getBuildTimstamp();
-
-				return source;
-			default:
-				break;
-			}
-		}
-
-		aData.addBuiltinTypeImport("TitanHexString");
-
-		source.append(MessageFormat.format("{0}.operator_assign(new TitanHexString(\"{1}\"));\n", name, value));
+		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, generateSingleExpression(aData)));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 

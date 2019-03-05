@@ -203,9 +203,7 @@ public final class Bitstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport("TitanBitString");
-
-		source.append(MessageFormat.format("{0}.operator_assign(new TitanBitString(\"{1}\"));\n", name, value));
+		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, generateSingleExpression(aData)));
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
