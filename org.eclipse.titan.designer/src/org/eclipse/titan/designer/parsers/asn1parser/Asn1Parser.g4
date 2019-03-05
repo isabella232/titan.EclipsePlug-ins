@@ -542,7 +542,9 @@ locals [Token endcol, Identifier identifier, Reference reference, Reference refe
 			|	a15 = pr_LowerIdValue		{ $value = $a15.value; $endcol = $a15.stop; }
 			)
 			{
-				$assignment = new Value_Assignment($identifier, $formalParameters, $type, $value);
+				if ($value != null) {
+					$assignment = new Value_Assignment($identifier, $formalParameters, $type, $value);
+				}
 			}
 		)
 	|	a20 = pr_FromObjs { $reference = $a20.fromObj; }
@@ -1380,13 +1382,15 @@ locals [Reference reference]
 	a = pr_RefdLower_reg { $reference = $a.reference; }
 )
 {
-	if ($reference != null && $reference.getModuleIdentifier() == null && $reference.getSubreferences().size() == 1) {
-		Identifier identifier = $reference.getId();
-		$value = new Undefined_LowerIdentifier_Value(identifier);
-	} else {
-		$value = new Referenced_Value($reference);
+	if ($reference != null) {
+		if ($reference.getModuleIdentifier() == null && $reference.getSubreferences().size() == 1) {
+			Identifier identifier = $reference.getId();
+			$value = new Undefined_LowerIdentifier_Value(identifier);
+		} else {
+			$value = new Referenced_Value($reference);
+		}
+		$value.setLocation(getLocation($a.start, $a.stop));
 	}
-	$value.setLocation(getLocation($a.start, $a.stop));
 };
 
 pr_BuiltinType_reg returns [ASN1Type type]
