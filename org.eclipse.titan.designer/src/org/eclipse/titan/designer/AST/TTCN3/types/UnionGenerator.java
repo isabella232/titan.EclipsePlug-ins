@@ -880,6 +880,52 @@ public final class UnionGenerator {
 				}
 			}
 
+			/*
+			 * Should the union have more than 200 fields, we will generate helper functions.
+			 * Each of which will handle 200 fields on its own.
+			 * This is done as in the case of Diameter a union with 1666 fields
+			 *  would generate too much code into a single function.
+			 **/ 
+			final int maxLength = 200;
+			if (fieldInfos.size() > maxLength) {
+				final int fullSize = fieldInfos.size();
+				final int iterations = fullSize / maxLength;
+				for (int iteration = 0; iteration <= iterations; iteration++) {
+					final int start = iteration * maxLength ;
+					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					source.append("\t\t// Internal helper function.\n");
+					source.append(MessageFormat.format("\t\tprivate int RAW_encode_helper_{0,number,#}_{1,number,#}(final RAW_enc_tree myleaf) '{'\n", start, end));
+					source.append("\t\t\tint encoded_length = 0;\n");
+					source.append("\t\t\tswitch (union_selection) {\n");
+					for (int i = start ; i <= end; i++) {
+						final FieldInfo fieldInfo = fieldInfos.get(i);
+
+						source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+						source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0,number,#}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0,number,#}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("\t\t\t\tencoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1,number,#}]);\n", fieldInfo.mTypeDescriptorName, i));
+						source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0,number,#}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+
+						final int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
+						if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
+							final rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
+							source.append(" if (");
+							genRawFieldChecker(source, cur_choice, false);
+							source.append(" ) {\n");
+							genRawTagChecker(source, cur_choice);
+							source.append("}\n");
+						}
+
+						source.append("\t\t\t\tbreak;\n");
+					}
+					source.append("\t\t\tdefault:\n");
+					source.append("\t\t\t\tbreak;\n");
+					source.append("\t\t\t}\n");
+					source.append("\t\t\treturn encoded_length;\n");
+					source.append("\t\t}\n\n");
+				}
+			}
+
+
 			source.append("@Override\n");
 			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
@@ -887,31 +933,100 @@ public final class UnionGenerator {
 			source.append("myleaf.isleaf = false;\n");
 			source.append(MessageFormat.format("myleaf.num_of_nodes = {0,number,#};\n", fieldInfos.size()));
 			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0,number,#}];\n", fieldInfos.size()));
-			source.append("switch (union_selection) {\n");
-			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("myleaf.nodes[{0,number,#}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0,number,#}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
-				source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1,number,#}]);\n", fieldInfo.mTypeDescriptorName, i));
-				source.append(MessageFormat.format("myleaf.nodes[{0,number,#}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
-
-				final int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
-				if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
-					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
-					source.append(" if (");
-					genRawFieldChecker(source, cur_choice, false);
-					source.append(" ) {\n");
-					genRawTagChecker(source, cur_choice);
-					source.append("}\n");
+			if (fieldInfos.size() > maxLength) {
+				source.append("\t\t\t\tif (union_selection.ordinal() == 0 ) {\n");
+				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
+				final int fullSize = fieldInfos.size();
+				final int iterations = fullSize / maxLength;
+				for (int iteration = 0; iteration <= iterations; iteration++) {
+					final int start = iteration * maxLength;
+					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					source.append(MessageFormat.format("\t\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+					source.append(MessageFormat.format("\t\t\t\t\tencoded_length = RAW_encode_helper_{0,number,#}_{1,number,#}(myleaf);\n", start, end));
 				}
+				source.append("\t\t\t\t} else {\n");
+				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
+				source.append("\t\t\t\t}\n");
+			} else {
+				source.append("switch (union_selection) {\n");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("myleaf.nodes[{0,number,#}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0,number,#}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1,number,#}]);\n", fieldInfo.mTypeDescriptorName, i));
+					source.append(MessageFormat.format("myleaf.nodes[{0,number,#}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
-				source.append("break;\n");
+					final int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
+					if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
+						final rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
+						source.append(" if (");
+						genRawFieldChecker(source, cur_choice, false);
+						source.append(" ) {\n");
+						genRawTagChecker(source, cur_choice);
+						source.append("}\n");
+					}
+
+					source.append("break;\n");
+				}
+				source.append("default:\n");
+				source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
+				source.append("}\n");
 			}
-			source.append("default:\n");
-			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
-			source.append("}\n");
+
 			source.append("return encoded_length;\n");
 			source.append("}\n\n");
+
+
+			/*
+			 * Should the union have more than 200 fields, we will generate helper functions.
+			 * Each of which will handle 200 fields on its own.
+			 * This is done as in the case of Diameter a union with 1666 fields
+			 *  would generate too much code into a single function.
+			 **/
+			if (fieldInfos.size() > maxLength) {
+				final int fullSize = fieldInfos.size();
+				final int iterations = fullSize / maxLength;
+				for (int iteration = 0; iteration <= iterations; iteration++) {
+					final int start = iteration * maxLength ;
+					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					source.append("\t\t// Internal helper function.\n");
+					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) '{'\n", start, end));
+					source.append("\t\t\tint decoded_length = 0;\n");
+					source.append("\t\t\tswitch (sel_field) {\n");
+					for (int i = start ; i <= end; i++) {
+						final FieldInfo fieldInfo = fieldInfos.get(i);
+
+						source.append(MessageFormat.format("\t\t\tcase {0,number,#}: '{'\n", i));
+						source.append(MessageFormat.format("\t\t\t\tfinal RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("\t\t\t\tdecoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+						source.append("\t\t\t\tbreak;\n");
+						source.append("\t\t\t}\n");
+					}
+					source.append("\t\t\tdefault:\n");
+					source.append("\t\t\t\tbreak;\n");
+					source.append("\t\t\t}\n");
+					source.append("\t\t\treturn decoded_length;\n");
+					source.append("\t\t}\n\n");
+
+					source.append("\t\t// Internal helper function.\n");
+					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper2_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit, final int starting_pos) '{'\n", start, end));
+					source.append("\t\t\tint decoded_length = 0;\n");
+					for (int i = start ; i <= end; i++) {
+						if (tag_type[i] == 0) {
+							final FieldInfo fieldInfo = fieldInfos.get(i);
+							source.append("buff.set_pos_bit(starting_pos);\n");
+							source.append(MessageFormat.format("final RAW_Force_Omit field_{0,number,#}_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2,number,#}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
+							source.append("if (decoded_length >= 0) {\n");
+							source.append("return decoded_length;\n");
+							source.append("}\n");
+						}
+					}
+
+					source.append("\t\t\treturn -1;\n");
+					source.append("\t\t}\n\n");
+				}
+			}
 
 			source.append("@Override\n");
 			source.append("/** {@inheritDoc} */\n");
@@ -921,18 +1036,31 @@ public final class UnionGenerator {
 			source.append("int decoded_length = 0;\n");
 			source.append("final int starting_pos = buff.get_pos_bit();\n");
 			source.append("if (sel_field != -1) {\n");
-			source.append("switch (sel_field) {\n");
-			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case {0,number,#}: '{'\n", i));
-				source.append(MessageFormat.format("final RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-				source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+			if (fieldInfos.size() > maxLength) {
+				source.append("\t\t\t\tif (sel_field == 0 ) {\n");
+				final int fullSize = fieldInfos.size();
+				final int iterations = fullSize / maxLength;
+				for (int iteration = 0; iteration <= iterations; iteration++) {
+					final int start = iteration * maxLength;
+					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					source.append(MessageFormat.format("\t\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+					source.append(MessageFormat.format("\t\t\t\t\tdecoded_length = RAW_decode_helper_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit);\n", start, end));
+				}
+				source.append("\t\t\t\t}\n");
+			} else {
+				source.append("switch (sel_field) {\n");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					source.append(MessageFormat.format("case {0,number,#}: '{'\n", i));
+					source.append(MessageFormat.format("final RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("break;\n");
+					source.append("}\n");
+				}
+				source.append("default:\n");
 				source.append("break;\n");
 				source.append("}\n");
 			}
-			source.append("default:\n");
-			source.append("break;\n");
-			source.append("}\n");
 			source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 			source.append("} else {\n");
 			for(int i = 0; i < fieldInfos.size(); i++) {
@@ -1082,15 +1210,28 @@ public final class UnionGenerator {
 					source.append("}\n");
 				}
 			}
-			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				if (tag_type[i] == 0) {
-					final FieldInfo fieldInfo = fieldInfos.get(i);
-					source.append("buff.set_pos_bit(starting_pos);\n");
-					source.append(MessageFormat.format("final RAW_Force_Omit field_{0,number,#}_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-					source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2,number,#}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
-					source.append("if (decoded_length >= 0) {\n");
-					source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
-					source.append("}\n");
+			if (fieldInfos.size() > maxLength) {
+				final int fullSize = fieldInfos.size();
+				final int iterations = fullSize / maxLength;
+				for (int iteration = 0; iteration <= iterations; iteration++) {
+					final int start = iteration * maxLength;
+					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					source.append(MessageFormat.format("\t\t\t\tdecoded_length = RAW_decode_helper2_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit, starting_pos);\n", start, end));
+					source.append("\t\t\t\tif (decoded_length >= 0) {\n");
+					source.append("\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+					source.append("\t\t\t\t}\n");
+				}
+			} else {
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					if (tag_type[i] == 0) {
+						final FieldInfo fieldInfo = fieldInfos.get(i);
+						source.append("buff.set_pos_bit(starting_pos);\n");
+						source.append(MessageFormat.format("final RAW_Force_Omit field_{0,number,#}_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2,number,#}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
+						source.append("if (decoded_length >= 0) {\n");
+						source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+						source.append("}\n");
+					}
 				}
 			}
 
