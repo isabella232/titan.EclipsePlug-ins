@@ -860,6 +860,71 @@ public final class RecordSetCodeGenerator {
 			final AtomicBoolean has_ext_bit = new AtomicBoolean();
 			set_raw_options(isSet, fieldInfos, raw != null, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
 
+			/*
+			 * Should the union have more than 200 fields, we will generate helper functions.
+			 * Each of which will handle 200 fields on its own.
+			 * This is done as in the case of Diameter a union with 1666 fields
+			 *  would generate too much code into a single function.
+			 **/ 
+			final int maxLength = 200;
+
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+
+				final int crosstagLength = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
+				if (fieldInfo.hasRaw && crosstagLength > 0) {
+					if (crosstagLength > maxLength) {
+						// it needs to have helper functions.
+						final int fullSize = crosstagLength;
+						final int iterations = fullSize / maxLength;
+						for (int iteration = 0; iteration <= iterations; iteration++) {
+							final int start = iteration * maxLength ;
+							final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+							source.append("\t\t// Internal helper function.\n");
+							// TODO
+							source.append(MessageFormat.format("\t\tprivate void RAW_encode_helper_{0}_{1,number,#}_{2,number,#}(final RAW_enc_tree myleaf) '{'\n", fieldInfo.mVarName, start, end));
+							source.append(MessageFormat.format("\t\t\tswitch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
+							for (int j = start ; j <= end; j++) {
+								final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+								final int curSize = cur_choice == null || cur_choice.fields == null ? 0 : cur_choice.fields.size();
+								if(curSize > 0) {
+									source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", cur_choice.varName));
+									source.append("\t\t\t\tif (");
+									genRawFieldChecker(source, cur_choice, false);
+									source.append(") {\n");
+									if (cur_choice.fields.get(0).isOmitValue) {
+										source.append(MessageFormat.format("\t\t\t\t\tencoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+										source.append(MessageFormat.format("\t\t\t\t\tmyleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+										
+									} else {
+										source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
+										for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
+											if (ll > 0) {
+												source.append(',');
+											}
+											source.append(cur_choice.fields.get(0).fields.get(ll).nthfield);
+										}
+										source.append("});\n");
+										source.append("\t\t\t\t\tfinal RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
+										source.append("\t\t\t\t\tif (temp_leaf != null) {\n");
+										source.append(MessageFormat.format("\t\t\t\t\t\t{0}.RAW_encode({1}_descr_, temp_leaf);\n", cur_choice.fields.get(0).expression.expression, cur_choice.fields.get(0).fields.get(cur_choice.fields.get(0).fields.size()-1).typedesc));
+										source.append("\t\t\t\t\t} else {\n");
+										source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
+										source.append("\t\t\t\t\t}\n");
+									}
+									source.append("\t\t\t\t}\n");
+									source.append("\t\t\t\tbreak;\n");
+								}
+							}
+							source.append("\t\t\tdefault:\n");
+							source.append("\t\t\t\tbreak;\n");
+							source.append("\t\t\t}\n");
+							source.append("\t\t}\n");
+						}
+					}
+				}
+			}
+
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
 			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
@@ -1066,42 +1131,56 @@ public final class RecordSetCodeGenerator {
 					if (fieldInfo.isOptional) {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
-					source.append(MessageFormat.format("\t\t\tswitch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
-					for (int a = 0; a < crosstagLength; a++) {
-						final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(a);
-						final int curSize = cur_choice == null || cur_choice.fields == null ? 0 : cur_choice.fields.size();
-						if(curSize > 0) {
-							source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", cur_choice.varName));
-							source.append("\t\t\t\tif (");
-							genRawFieldChecker(source, cur_choice, false);
-							source.append(") {\n");
-							if (cur_choice.fields.get(0).isOmitValue) {
-								source.append(MessageFormat.format("\t\t\t\t\tencoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
-								source.append(MessageFormat.format("\t\t\t\t\tmyleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
-								
-							} else {
-								source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
-								for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
-									if (ll > 0) {
-										source.append(',');
-									}
-									source.append(cur_choice.fields.get(0).fields.get(ll).nthfield);
-								}
-								source.append("});\n");
-								source.append("\t\t\t\t\tfinal RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
-								source.append("\t\t\t\t\tif (temp_leaf != null) {\n");
-								source.append(MessageFormat.format("\t\t\t\t\t\t{0}.RAW_encode({1}_descr_, temp_leaf);\n", cur_choice.fields.get(0).expression.expression, cur_choice.fields.get(0).fields.get(cur_choice.fields.get(0).fields.size()-1).typedesc));
-								source.append("\t\t\t\t\t} else {\n");
-								source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
-								source.append("\t\t\t\t\t}\n");
-							}
-							source.append("\t\t\t\t}\n");
-							source.append("\t\t\t\tbreak;\n");
+					//TODO should be extracted to helper function
+					if (crosstagLength > maxLength) {
+						source.append(MessageFormat.format("\t\t\t\tif ({0}{1}.get_selection().ordinal() == 0 ) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
+						final int fullSize = crosstagLength;
+						final int iterations = fullSize / maxLength;
+						for (int iteration = 0; iteration <= iterations; iteration++) {
+							final int start = iteration * maxLength;
+							final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+							source.append(MessageFormat.format("\t\t\t\t} else if ({0}{1}.get_selection().ordinal() <= {2,number,#}) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", end + 1));
+							source.append(MessageFormat.format("\t\t\t\t\tRAW_encode_helper_{0}_{1,number,#}_{2,number,#}(myleaf);\n", fieldInfo.mVarName, start, end));
 						}
+						source.append("\t\t\t\t}\n");
+					} else {
+						source.append(MessageFormat.format("\t\t\tswitch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
+						for (int a = 0; a < crosstagLength; a++) {
+							final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(a);
+							final int curSize = cur_choice == null || cur_choice.fields == null ? 0 : cur_choice.fields.size();
+							if(curSize > 0) {
+								source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", cur_choice.varName));
+								source.append("\t\t\t\tif (");
+								genRawFieldChecker(source, cur_choice, false);
+								source.append(") {\n");
+								if (cur_choice.fields.get(0).isOmitValue) {
+									source.append(MessageFormat.format("\t\t\t\t\tencoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+									source.append(MessageFormat.format("\t\t\t\t\tmyleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+									
+								} else {
+									source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
+									for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
+										if (ll > 0) {
+											source.append(',');
+										}
+										source.append(cur_choice.fields.get(0).fields.get(ll).nthfield);
+									}
+									source.append("});\n");
+									source.append("\t\t\t\t\tfinal RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
+									source.append("\t\t\t\t\tif (temp_leaf != null) {\n");
+									source.append(MessageFormat.format("\t\t\t\t\t\t{0}.RAW_encode({1}_descr_, temp_leaf);\n", cur_choice.fields.get(0).expression.expression, cur_choice.fields.get(0).fields.get(cur_choice.fields.get(0).fields.size()-1).typedesc));
+									source.append("\t\t\t\t\t} else {\n");
+									source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
+									source.append("\t\t\t\t\t}\n");
+								}
+								source.append("\t\t\t\t}\n");
+								source.append("\t\t\t\tbreak;\n");
+							}
+						}
+						source.append("\t\t\tdefault:\n");
+						source.append("\t\t\t\tbreak;\n");
+						source.append("\t\t\t}\n");
 					}
-					source.append("\t\t\tdefault:\n");
-					source.append("\t\t\t\tbreak;\n");
-					source.append("\t\t\t}\n");
 					if (fieldInfo.isOptional) {
 						source.append("}\n");
 					}
@@ -3937,6 +4016,7 @@ public final class RecordSetCodeGenerator {
 		final FieldInfo fieldInfo = fieldInfos.get(i);
 		final int crosstagsize = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
 		if (crosstagsize > 0) {
+			//TODO extract to pieces
 			int other = -1;
 			boolean first_value = true;
 			for (int j = 0; j < crosstagsize; j++) {
