@@ -109,6 +109,13 @@ public final class RecordSetCodeGenerator {
 		public ArrayList<Integer> dependentFields;
 	}
 
+	/*
+	 * Should the union have more than 200 crosstag attributes, we will generate helper functions.
+	 * Each of which will handle 200 crosstags on its own.
+	 * This happened in Diamater (1.667 crosstag attributes on one type)
+	 **/ 
+	private static final int maxCrosstagLength = 200;
+
 	private RecordSetCodeGenerator() {
 		// private to disable instantiation
 	}
@@ -860,26 +867,18 @@ public final class RecordSetCodeGenerator {
 			final AtomicBoolean has_ext_bit = new AtomicBoolean();
 			set_raw_options(isSet, fieldInfos, raw != null, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
 
-			/*
-			 * Should the union have more than 200 fields, we will generate helper functions.
-			 * Each of which will handle 200 fields on its own.
-			 * This is done as in the case of Diameter a union with 1666 fields
-			 *  would generate too much code into a single function.
-			 **/ 
-			final int maxLength = 200;
-
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 
 				final int crosstagLength = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
 				if (fieldInfo.hasRaw && crosstagLength > 0) {
-					if (crosstagLength > maxLength) {
+					if (crosstagLength > maxCrosstagLength) {
 						// it needs to have helper functions.
 						final int fullSize = crosstagLength;
-						final int iterations = fullSize / maxLength;
+						final int iterations = fullSize / maxCrosstagLength;
 						for (int iteration = 0; iteration <= iterations; iteration++) {
-							final int start = iteration * maxLength ;
-							final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+							final int start = iteration * maxCrosstagLength ;
+							final int end = Math.min((iteration + 1) * maxCrosstagLength - 1, fullSize - 1);
 							source.append("\t\t// Internal helper function.\n");
 							source.append(MessageFormat.format("\t\tprivate void RAW_encode_helper_{0}_{1,number,#}_{2,number,#}(final RAW_enc_tree myleaf) '{'\n", fieldInfo.mVarName, start, end));
 							source.append(MessageFormat.format("\t\t\tswitch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
@@ -1154,13 +1153,13 @@ public final class RecordSetCodeGenerator {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
 
-					if (crosstagLength > maxLength) {
+					if (crosstagLength > maxCrosstagLength) {
 						source.append(MessageFormat.format("\t\t\t\tif ({0}{1}.get_selection().ordinal() == 0 ) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
 						final int fullSize = crosstagLength;
-						final int iterations = fullSize / maxLength;
+						final int iterations = fullSize / maxCrosstagLength;
 						for (int iteration = 0; iteration <= iterations; iteration++) {
-							final int start = iteration * maxLength;
-							final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+							final int start = iteration * maxCrosstagLength;
+							final int end = Math.min((iteration + 1) * maxCrosstagLength - 1, fullSize - 1);
 							source.append(MessageFormat.format("\t\t\t\t} else if ({0}{1}.get_selection().ordinal() <= {2,number,#}) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", end + 1));
 							source.append(MessageFormat.format("\t\t\t\t\tRAW_encode_helper_{0}_{1,number,#}_{2,number,#}(myleaf);\n", fieldInfo.mVarName, start, end));
 						}
@@ -4037,13 +4036,12 @@ public final class RecordSetCodeGenerator {
 
 		final FieldInfo fieldInfo = fieldInfos.get(i);
 		final int crosstagsize = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
-		final int maxLength = 200;
-		if (crosstagsize > maxLength) {
+		if (crosstagsize > maxCrosstagLength) {
 			final int fullSize = crosstagsize;
-			final int iterations = fullSize / maxLength;
+			final int iterations = fullSize / maxCrosstagLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
-				final int start = iteration * maxLength;
-				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				final int start = iteration * maxCrosstagLength;
+				final int end = Math.min((iteration + 1) * maxCrosstagLength - 1, fullSize - 1);
 				source.append("if(selected_field == -1) {\n");
 				source.append(MessageFormat.format("selected_field = RAW_decode_helper_{0}_{1,number,#}_{2,number,#}();\n", fieldInfo.mVarName, start, end));
 				source.append("}\n");
