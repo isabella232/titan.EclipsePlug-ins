@@ -3430,25 +3430,25 @@ public final class RecordOfGenerator {
 		source.append(MessageFormat.format("\t\tpublic {0}(final PreGenRecordOf.PREGEN__{1}__OF__{2}{3} other_value) '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
 		source.append("\t\t\tsuper(other_value);\n");
 		source.append("\t\t}\n");
-		source.append("\t@Override\n");
+		source.append("\t\t@Override\n");
 		source.append(MessageFormat.format("\t\tpublic {0} operator_concatenate(PreGenRecordOf.PREGEN__{1}__OF__{2}{3} other_value) '{'\n", genName, isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : ""));
 		source.append(MessageFormat.format("\t\t\tmust_bound(\"Unbound operand of {0} concatenation.\");\n", displayName));
 		source.append(MessageFormat.format("\t\t\tother_value.must_bound(\"Unbound operand of {0} concatenation.\");\n", displayName));
-		source.append(MessageFormat.format("\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName));
-		source.append("\t\tfor (int i=0; i < valueElements.size(); i++) {\n");
-		source.append(MessageFormat.format("\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeGenName));
-		source.append("\t\t\tif (elem != null) {\n");
-		source.append(MessageFormat.format("\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeGenName));
+		source.append(MessageFormat.format("\t\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName));
+		source.append("\t\t\tfor (int i=0; i < valueElements.size(); i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeGenName));
+		source.append("\t\t\t\tif (elem != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeGenName));
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
-		source.append("\t\tfor (int i = 0; i < other_value.lengthof().get_int(); i++) {\n");
-		source.append(MessageFormat.format("\t\t\tfinal {0} elem = other_value.get_at(i);\n", ofTypeGenName));
-		source.append("\t\t\tif (elem != null) {\n");
-		source.append(MessageFormat.format("\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeGenName));
+		source.append("\t\t\tfor (int i = 0; i < other_value.lengthof().get_int(); i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\tfinal {0} elem = other_value.get_at(i);\n", ofTypeGenName));
+		source.append("\t\t\t\tif (elem != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeGenName));
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn ret_val;\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn ret_val;\n");
-		source.append("\t}\n");
 		source.append("\t}\n");
 	}
 
