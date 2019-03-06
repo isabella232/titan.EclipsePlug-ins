@@ -80,6 +80,14 @@ public final class UnionGenerator {
 		int decoded_for_element;
 	}
 
+	/*
+	 * Should the union have more than 200 fields, we will generate helper functions.
+	 * Each of which will handle 200 fields on its own.
+	 * This is done as in the case of Diameter a union with 1666 fields
+	 *  would generate too much code into a single function.
+	 **/ 
+	private static final int maxFieldsLength = 200;
+
 	private UnionGenerator() {
 		// private to disable instantiation
 	}
@@ -880,19 +888,12 @@ public final class UnionGenerator {
 				}
 			}
 
-			/*
-			 * Should the union have more than 200 fields, we will generate helper functions.
-			 * Each of which will handle 200 fields on its own.
-			 * This is done as in the case of Diameter a union with 1666 fields
-			 *  would generate too much code into a single function.
-			 **/ 
-			final int maxLength = 200;
-			if (fieldInfos.size() > maxLength) {
+			if (fieldInfos.size() > maxFieldsLength) {
 				final int fullSize = fieldInfos.size();
-				final int iterations = fullSize / maxLength;
+				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
-					final int start = iteration * maxLength ;
-					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					final int start = iteration * maxFieldsLength ;
+					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 					source.append("\t\t// Internal helper function.\n");
 					source.append(MessageFormat.format("\t\tprivate int RAW_encode_helper_{0,number,#}_{1,number,#}(final RAW_enc_tree myleaf) '{'\n", start, end));
 					source.append("\t\t\tint encoded_length = 0;\n");
@@ -933,14 +934,14 @@ public final class UnionGenerator {
 			source.append("myleaf.isleaf = false;\n");
 			source.append(MessageFormat.format("myleaf.num_of_nodes = {0,number,#};\n", fieldInfos.size()));
 			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0,number,#}];\n", fieldInfos.size()));
-			if (fieldInfos.size() > maxLength) {
+			if (fieldInfos.size() > maxFieldsLength) {
 				source.append("\t\t\t\tif (union_selection.ordinal() == 0 ) {\n");
 				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
 				final int fullSize = fieldInfos.size();
-				final int iterations = fullSize / maxLength;
+				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
-					final int start = iteration * maxLength;
-					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					final int start = iteration * maxFieldsLength;
+					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 					source.append(MessageFormat.format("\t\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
 					source.append(MessageFormat.format("\t\t\t\t\tencoded_length = RAW_encode_helper_{0,number,#}_{1,number,#}(myleaf);\n", start, end));
 				}
@@ -976,19 +977,12 @@ public final class UnionGenerator {
 			source.append("return encoded_length;\n");
 			source.append("}\n\n");
 
-
-			/*
-			 * Should the union have more than 200 fields, we will generate helper functions.
-			 * Each of which will handle 200 fields on its own.
-			 * This is done as in the case of Diameter a union with 1666 fields
-			 *  would generate too much code into a single function.
-			 **/
-			if (fieldInfos.size() > maxLength) {
+			if (fieldInfos.size() > maxFieldsLength) {
 				final int fullSize = fieldInfos.size();
-				final int iterations = fullSize / maxLength;
+				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
-					final int start = iteration * maxLength ;
-					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					final int start = iteration * maxFieldsLength ;
+					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 					source.append("\t\t// Internal helper function.\n");
 					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) '{'\n", start, end));
 					source.append("\t\t\tint decoded_length = 0;\n");
@@ -1036,13 +1030,13 @@ public final class UnionGenerator {
 			source.append("int decoded_length = 0;\n");
 			source.append("final int starting_pos = buff.get_pos_bit();\n");
 			source.append("if (sel_field != -1) {\n");
-			if (fieldInfos.size() > maxLength) {
+			if (fieldInfos.size() > maxFieldsLength) {
 				source.append("\t\t\t\tif (sel_field == 0 ) {\n");
 				final int fullSize = fieldInfos.size();
-				final int iterations = fullSize / maxLength;
+				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
-					final int start = iteration * maxLength;
-					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					final int start = iteration * maxFieldsLength;
+					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 					source.append(MessageFormat.format("\t\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
 					source.append(MessageFormat.format("\t\t\t\t\tdecoded_length = RAW_decode_helper_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit);\n", start, end));
 				}
@@ -1210,12 +1204,12 @@ public final class UnionGenerator {
 					source.append("}\n");
 				}
 			}
-			if (fieldInfos.size() > maxLength) {
+			if (fieldInfos.size() > maxFieldsLength) {
 				final int fullSize = fieldInfos.size();
-				final int iterations = fullSize / maxLength;
+				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
-					final int start = iteration * maxLength;
-					final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+					final int start = iteration * maxFieldsLength;
+					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 					source.append(MessageFormat.format("\t\t\t\tdecoded_length = RAW_decode_helper2_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit, starting_pos);\n", start, end));
 					source.append("\t\t\t\tif (decoded_length >= 0) {\n");
 					source.append("\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
@@ -1949,19 +1943,12 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("\t\t}\n\n");
 
-		/*
-		 * Should the union have more than 200 fields, we will generate helper functions.
-		 * Each of which will handle 200 fields on its own.
-		 * This is done as in the case of Diameter a union with 1666 fields
-		 *  would generate too much code into a single function.
-		 **/ 
-		final int maxLength = 200;
-		if (fieldInfos.size() > maxLength) {
+		if (fieldInfos.size() > maxFieldsLength) {
 			final int fullSize = fieldInfos.size();
-			final int iterations = fullSize / maxLength;
+			final int iterations = fullSize / maxFieldsLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
-				final int start = iteration * maxLength ;
-				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				final int start = iteration * maxFieldsLength ;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 				source.append("\t\t// Internal helper function.\n");
 				source.append(MessageFormat.format("\t\tprivate void log_match_helper_{0,number,#}_{1,number,#}(final {2} match_value, final boolean legacy) '{'\n", start, end, genName));
 				// template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()
@@ -2008,15 +1995,15 @@ public final class UnionGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
 
-		if (fieldInfos.size() > maxLength) {
+		if (fieldInfos.size() > maxFieldsLength) {
 			source.append("\t\t\t\tif (single_value_union_selection.ordinal() == 0 ) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
 			final int fullSize = fieldInfos.size();
-			final int iterations = fullSize / maxLength;
+			final int iterations = fullSize / maxFieldsLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
-				final int start = iteration * maxLength;
-				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 				source.append(MessageFormat.format("\t\t\t\t} else if (single_value_union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
 				source.append(MessageFormat.format("\t\t\t\t\tlog_match_helper_{0,number,#}_{1,number,#}(match_value, legacy);\n", start, end));
 			}
@@ -2151,19 +2138,12 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 * */
 	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
-		/*
-		 * Should the union have more than 200 fields, we will generate helper functions.
-		 * Each of which will handle 200 fields on its own.
-		 * This is done as in the case of Diameter a union with 1666 fields
-		 *  would generate too much code into a single function.
-		 **/ 
-		final int maxLength = 200;
-		if (fieldInfos.size() > maxLength) {
+		if (fieldInfos.size() > maxFieldsLength) {
 			final int fullSize = fieldInfos.size();
-			final int iterations = fullSize / maxLength;
+			final int iterations = fullSize / maxFieldsLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
-				final int start = iteration * maxLength ;
-				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				final int start = iteration * maxFieldsLength ;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 				source.append("\t\t// Internal helper function.\n");
 				source.append(MessageFormat.format("\t\tprivate boolean set_param_single_helper_{0,number,#}_{1,number,#}(final String name, final Module_Parameter param) '{'\n", start, end));
 				for (int i = start ; i <= end; i++) {
@@ -2199,12 +2179,12 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}'\");\n", displayName));
 		source.append("\t\t\t\t}\n");
-		if (fieldInfos.size() > maxLength) {
+		if (fieldInfos.size() > maxFieldsLength) {
 			final int fullSize = fieldInfos.size();
-			final int iterations = fullSize / maxLength;
+			final int iterations = fullSize / maxFieldsLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
-				final int start = iteration * maxLength;
-				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 
 				source.append(MessageFormat.format("\t\t\t\tif(set_param_single_helper_{0,number,#}_{1,number,#}(param_field, param)) '{'\n", start, end));
 				source.append("\t\t\t\t\treturn;\n");
@@ -2263,12 +2243,12 @@ public final class UnionGenerator {
 		source.append("\t\t\tcase MP_Assignment_List: {\n");
 		source.append("\t\t\t\tfinal Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
 		source.append("\t\t\t\tfinal String last_name = mp_last.get_id().get_name();\n");
-		if (fieldInfos.size() > maxLength) {
+		if (fieldInfos.size() > maxFieldsLength) {
 			final int fullSize = fieldInfos.size();
-			final int iterations = fullSize / maxLength;
+			final int iterations = fullSize / maxFieldsLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
-				final int start = iteration * maxLength;
-				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 				source.append(MessageFormat.format("\t\t\t\tif(set_param_list_helper_{0,number,#}_{1,number,#}(last_name, mp_last)) '{'\n", start, end));
 				source.append("\t\t\t\t\tbreak;\n");
 				source.append("\t\t\t\t}\n");
