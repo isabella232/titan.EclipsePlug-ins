@@ -2955,7 +2955,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("if (getreply_template.return_value().get_selection() == template_sel.ANY_OR_OMIT) {\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '*' as return value matching template\");\n", printedFunctionName));
+			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '''*''' as return value matching template\");\n", printedFunctionName));
 			source.append("}\n");
 		}
 		source.append("if (procedure_queue.size() == 0) {\n");
