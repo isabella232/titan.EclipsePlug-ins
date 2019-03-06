@@ -51,7 +51,16 @@ public final class CompilerVersionInformationCollector {
 			+ "Build date: (.+)\\n"
 			+ "Compiled with: ([^\\n]+)\\n?\\n"
 			+ "(.+)", Pattern.MULTILINE | Pattern.DOTALL);
+
 	private static final Pattern BASE_TITAN_HEADER_PATTERN2 = Pattern.compile(
+			"TTCN\\-3 and ASN\\.1 Compiler for the TTCN\\-3 Test Executor\\n"
+			+ "Product number: (.+)\\n"
+			+ "Version: (.+)\\n"
+			+ "Build date: (.+)\\n"
+			+ "Compiled with: ([^\\n]+)\\n?\\n"
+			+ "(.+)", Pattern.MULTILINE | Pattern.DOTALL);
+
+	private static final Pattern BASE_TITAN_HEADER_PATTERN3 = Pattern.compile(
 			"TTCN\\-3 and ASN\\.1 Compiler for the TTCN\\-3 Test Executor\\n"
 			+ "Product number: (.+)\\n"
 			+ "Build date: (.+)\\n"
@@ -61,7 +70,8 @@ public final class CompilerVersionInformationCollector {
 	private static final class CompilerInfoStruct {
 		private String compilerProductNumber;
 		private String buildDate;
-		private String cCompilerVersion;
+		private String cCompilerVersion; // version of the c++ compiler
+		private String compilerVersion;
 
 		private CompilerInfoStruct() {
 		}
@@ -251,6 +261,7 @@ public final class CompilerVersionInformationCollector {
 		final Matcher baseTITANErrorMatcher = BASE_TITAN_HEADER_PATTERN.matcher(readLines.toString());
 		if (baseTITANErrorMatcher.matches()) {
 			final CompilerInfoStruct temp = new CompilerInfoStruct();
+			temp.compilerVersion = baseTITANErrorMatcher.group(1);//TODO: display
 			temp.compilerProductNumber = baseTITANErrorMatcher.group(2);
 			temp.buildDate = baseTITANErrorMatcher.group(3);
 			temp.cCompilerVersion = baseTITANErrorMatcher.group(4);
@@ -262,12 +273,23 @@ public final class CompilerVersionInformationCollector {
 		if (baseTITANErrorMatcher2.matches()) {
 			final CompilerInfoStruct temp = new CompilerInfoStruct();
 			temp.compilerProductNumber = baseTITANErrorMatcher2.group(1);
-			temp.buildDate = baseTITANErrorMatcher2.group(2);
-			temp.cCompilerVersion = baseTITANErrorMatcher2.group(3);
+			temp.compilerVersion = baseTITANErrorMatcher2.group(2); //TODO: display
+			temp.buildDate = baseTITANErrorMatcher2.group(3);
+			temp.cCompilerVersion = baseTITANErrorMatcher2.group(4);
 
 			return temp;
 		}
 
+		final Matcher baseTITANErrorMatcher3 = BASE_TITAN_HEADER_PATTERN3.matcher(readLines.toString());
+		if (baseTITANErrorMatcher3.matches()) {
+			final CompilerInfoStruct temp = new CompilerInfoStruct();
+			temp.compilerProductNumber = baseTITANErrorMatcher2.group(1);
+			temp.buildDate = baseTITANErrorMatcher3.group(2);
+			temp.cCompilerVersion = baseTITANErrorMatcher3.group(3);
+			temp.compilerVersion = null;
+
+			return temp;
+		}
 		return null;
 	}
 
