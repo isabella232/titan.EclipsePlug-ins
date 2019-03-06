@@ -424,7 +424,7 @@ pr_IncludeSection:
 	INCLUDE_SECTION
 	( f = INCLUDE_FILENAME
 		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
-			mCfgParseResult.getIncludeFiles().add( fileName );
+			mCfgParseResult.addIncludeFile( fileName, new CfgLocation( mActualFile, $f, $f ) );
 			final TerminalNodeImpl node = new TerminalNodeImpl( $f );
 			node.parent = $ctx;
 			//another solution for the same thing
@@ -438,7 +438,7 @@ pr_OrderedIncludeSection:
 	ORDERED_INCLUDE_SECTION
 	( f = ORDERED_INCLUDE_FILENAME
 		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
-			mCfgParseResult.getIncludeFiles().add( fileName );
+			mCfgParseResult.addIncludeFile( fileName, new CfgLocation( mActualFile, $f, $f ) );
 			final TerminalNodeImpl node = new TerminalNodeImpl( $f );
 			node.parent = $ctx;
 			//another solution for the same thing

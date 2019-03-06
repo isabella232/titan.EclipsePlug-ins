@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.parsers.cfg.CfgParseResult.IncludeFileEntry;
 import org.eclipse.titan.common.parsers.cfg.CfgParseTreePrinter.ResolveMode;
 import org.eclipse.titan.common.path.PathConverter;
 
@@ -235,9 +236,10 @@ public final class ConfigFileHandler {
 		if ( rootNode != null ) {
 			originalASTs.put( actualFile, cfgParseResult );
 
-			final List<String> includeFiles = cfgParseResult.getIncludeFiles();
-			for ( String filename:includeFiles ) {
-				filename = PathConverter.getAbsolutePath( actualFile.toOSString(), filename );
+			final List<IncludeFileEntry> includeFiles = cfgParseResult.getIncludeFiles();
+			for ( final IncludeFileEntry includeFile : includeFiles ) {
+				final String includeFileName = includeFile.getIncludeFileName();
+				final String filename = PathConverter.getAbsolutePath( actualFile.toOSString(), includeFileName );
 				if ( filename != null ) {
 					final Path filePath = new Path( filename );
 					if ( !processedFiles.contains( filePath ) &&

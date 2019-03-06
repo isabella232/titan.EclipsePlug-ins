@@ -38,8 +38,27 @@ public class CfgParseResult {
 	 */
 	private List<TITANMarker> mWarningsAndErrors = new ArrayList<TITANMarker>();
 
+	public class IncludeFileEntry {
+
+		private final String includeFileName;
+		private final CfgLocation location;
+
+		public IncludeFileEntry(final String includeFileName, final CfgLocation location) {
+			this.includeFileName = includeFileName;
+			this.location = location;
+		}
+
+		public String getIncludeFileName() {
+			return includeFileName;
+		}
+
+		public CfgLocation getLocation() {
+			return location;
+		}
+	}
+
 	/** included file names from [INCLUDE] section */
-	private List<String> mIncludeFiles = new ArrayList<String>();
+	private List<IncludeFileEntry> mIncludeFiles = new ArrayList<IncludeFileEntry>();
 
 	/**
 	 * true if and only if LogFile parameter is defined in [LOGGING] section
@@ -174,12 +193,12 @@ public class CfgParseResult {
 		this.mWarningsAndErrors = aWarningsAndErrors;
 	}
 
-	public List<String> getIncludeFiles() {
+	public List<IncludeFileEntry> getIncludeFiles() {
 		return mIncludeFiles;
 	}
 
-	public void setIncludeFiles(List<String> aIncludeFiles) {
-		this.mIncludeFiles = aIncludeFiles;
+	public void addIncludeFile( final String includeFileName, final CfgLocation location) {
+		mIncludeFiles.add( new IncludeFileEntry(includeFileName, location) );
 	}
 
 	public boolean isLogFileDefined() {

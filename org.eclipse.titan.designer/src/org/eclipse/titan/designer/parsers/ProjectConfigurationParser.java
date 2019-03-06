@@ -40,6 +40,7 @@ import org.eclipse.titan.common.parsers.cfg.CfgAnalyzer;
 import org.eclipse.titan.common.parsers.cfg.CfgDefinitionInformation;
 import org.eclipse.titan.common.parsers.cfg.CfgLocation;
 import org.eclipse.titan.common.parsers.cfg.CfgParseResult;
+import org.eclipse.titan.common.parsers.cfg.CfgParseResult.IncludeFileEntry;
 import org.eclipse.titan.common.parsers.cfg.CfgParseResult.Macro;
 import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.designer.GeneralConstants;
@@ -406,22 +407,34 @@ public final class ProjectConfigurationParser {
 			definitions.putAll( cfgParseResult.getDefinitions() );
 
 			// add included files to the aFilesToCheck list
-			final List<String> includeFilenames = cfgParseResult.getIncludeFiles();
-			for ( final String includeFilename : includeFilenames ) {
-				// example value: includeFilename == MyExample2.cfg
+			final List<IncludeFileEntry> includeFiles = cfgParseResult.getIncludeFiles();
+			for ( final IncludeFileEntry includeFileEntry : includeFiles ) {
+				final String includeFileName = includeFileEntry.getIncludeFileName();
+				// example value: includeFileName == MyExample2.cfg
 				// example value: file == L/hw/src/MyExample.cfg
-				final IPath includeFilePath = PathConverter.getProjectRelativePath( file, includeFilename );
+				final IPath includeFilePath = PathConverter.getProjectRelativePath( file, includeFileName );
 				// example value: includeFilePath == src/MyExample2.cfg
 				if ( includeFilePath != null ) {
-					final IFile includeFile = project.getFile( includeFilePath );
-					// example value: includeFile == L/hw/src/MyExample2.cfg
-					// includeFile is null if the file does not exist in the project
-					if ( includeFile != null &&
-						 !uptodateFiles.containsKey( includeFile ) &&
-						 !aFilesChecked.contains( includeFile ) &&
-						 !aFilesToCheck.contains( includeFile ) ) {
-						removeMarkersAndDefinitions( includeFile );
-						aFilesToCheck.add( includeFile );
+					try {
+						final IFile includeFile = project.getFile( includeFilePath );
+						// example value: includeFile == L/hw/src/MyExample2.cfg
+						// includeFile is null if the file does not exist in the project
+						if ( includeFile != null ) {
+							if( !uptodateFiles.containsKey( includeFile ) &&
+								!aFilesChecked.contains( includeFile ) &&
+								!aFilesToCheck.contains( includeFile ) ) {
+								removeMarkersAndDefinitions( includeFile );
+								aFilesToCheck.add( includeFile );
+							}
+						} else {
+							final CfgLocation cfgLocation = includeFileEntry.getLocation();
+							final Location location = new Location(file, cfgLocation.getLine(), cfgLocation.getOffset(), cfgLocation.getEndOffset());
+							location.reportSemanticError("The file " + includeFileName + " does not exist.");
+						}
+					} catch ( final IllegalArgumentException e ) {
+						final CfgLocation cfgLocation = includeFileEntry.getLocation();
+						final Location location = new Location(file, cfgLocation.getLine(), cfgLocation.getOffset(), cfgLocation.getEndOffset());
+						location.reportSemanticError(e.getMessage());
 					}
 				}
 			}
