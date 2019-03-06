@@ -881,7 +881,6 @@ public final class RecordSetCodeGenerator {
 							final int start = iteration * maxLength ;
 							final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
 							source.append("\t\t// Internal helper function.\n");
-							// TODO
 							source.append(MessageFormat.format("\t\tprivate void RAW_encode_helper_{0}_{1,number,#}_{2,number,#}(final RAW_enc_tree myleaf) '{'\n", fieldInfo.mVarName, start, end));
 							source.append(MessageFormat.format("\t\t\tswitch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
 							for (int j = start ; j <= end; j++) {
@@ -919,6 +918,29 @@ public final class RecordSetCodeGenerator {
 							source.append("\t\t\tdefault:\n");
 							source.append("\t\t\t\tbreak;\n");
 							source.append("\t\t\t}\n");
+							source.append("\t\t}\n");
+
+							source.append("\t\t// Internal helper function.\n");
+							source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0}_{1,number,#}_{2,number,#}() '{'\n", fieldInfo.mVarName, start, end));
+							source.append("int selected_field = -1;\n");
+							boolean first_value = true;
+							for (int j = start ; j <= end; j++) {
+								final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+								if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+									if (first_value) {
+										source.append("if (");
+										first_value = false;
+									} else {
+										source.append(" else if (");
+									}
+									genRawFieldChecker(source, cur_choice, true);
+									source.append(") {\n");
+									source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
+									source.append('}');
+								}
+							}
+							source.append("\n");
+							source.append("return selected_field;\n");
 							source.append("\t\t}\n");
 						}
 					}
@@ -1131,7 +1153,7 @@ public final class RecordSetCodeGenerator {
 					if (fieldInfo.isOptional) {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
-					//TODO should be extracted to helper function
+
 					if (crosstagLength > maxLength) {
 						source.append(MessageFormat.format("\t\t\t\tif ({0}{1}.get_selection().ordinal() == 0 ) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
 						final int fullSize = crosstagLength;
@@ -4015,8 +4037,28 @@ public final class RecordSetCodeGenerator {
 
 		final FieldInfo fieldInfo = fieldInfos.get(i);
 		final int crosstagsize = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
-		if (crosstagsize > 0) {
-			//TODO extract to pieces
+		final int maxLength = 200;
+		if (crosstagsize > maxLength) {
+			final int fullSize = crosstagsize;
+			final int iterations = fullSize / maxLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxLength;
+				final int end = Math.min((iteration + 1) * maxLength - 1, fullSize - 1);
+				source.append("if(selected_field == -1) {\n");
+				source.append(MessageFormat.format("selected_field = RAW_decode_helper_{0}_{1,number,#}_{2,number,#}();\n", fieldInfo.mVarName, start, end));
+				source.append("}\n");
+			}
+			source.append("if(selected_field == -1) {\n");
+			int other = -1;
+			for (int j = 0; j < crosstagsize; j++) {
+				final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+				if (cur_choice.fields == null || cur_choice.fields.size() == 0) {
+					other = cur_choice.fieldnum;
+				}
+			}
+			source.append(MessageFormat.format("selected_field = {0,number,#};\n", other));
+			source.append("}\n");
+		} else if (crosstagsize > 0) {
 			int other = -1;
 			boolean first_value = true;
 			for (int j = 0; j < crosstagsize; j++) {
