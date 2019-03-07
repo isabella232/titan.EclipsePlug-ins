@@ -804,6 +804,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tswitch (p_coding) {\n");
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\ttry{\n");
 		source.append("\t\t\t\tif (p_td.raw == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -811,7 +812,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
 		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
 		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\t} finally {\n");
 		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
@@ -824,6 +827,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tswitch (p_coding) {\n");
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\ttry{\n");
 		source.append("\t\t\t\tif (p_td.raw == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -851,7 +855,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\t} finally {\n");
 		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
@@ -3166,6 +3172,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tswitch (p_coding) {\n");
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\ttry{\n");
 		source.append("\t\t\t\tif (p_td.raw == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -3173,7 +3180,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
 		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
 		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\t} finally {\n");
 		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
@@ -3186,6 +3195,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tswitch (p_coding) {\n");
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\ttry{\n");
 		source.append("\t\t\t\tif (p_td.raw == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -3213,7 +3223,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\t} finally {\n");
 		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
