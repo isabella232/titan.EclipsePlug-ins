@@ -66,7 +66,7 @@ public final class TTCN_EncDec_ErrorContext {
 			} else if (temp.arguments == null) {
 				err_msg.append(temp.format);
 			} else {
-				err_msg.append(String.format(temp.format, temp.arguments)).append(' ');
+				err_msg.append(String.format(temp.format, temp.arguments));
 			}
 		}
 
