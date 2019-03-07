@@ -18,7 +18,7 @@ Some of the default settings of antlr4ide need to be changed.
   Go to Window / Preferences / ANTLR4 / Tool
 
 2)
-  In the antlr tool region of the preference page ass and enable the antlr compiler (version 4.3)
+  In the antlr tool region of the preference page add and enable the antlr compiler (version 4.3)
 
 3)
   In the Options section:
