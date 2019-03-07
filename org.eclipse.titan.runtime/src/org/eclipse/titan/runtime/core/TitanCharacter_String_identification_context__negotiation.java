@@ -54,7 +54,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	 *                the value to initialize to.
 	 * */
 	public TitanCharacter_String_identification_context__negotiation( final TitanCharacter_String_identification_context__negotiation otherValue) {
-			otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.context-negotiation.");
+		otherValue.must_bound("Copying of an unbound value of type CHARACTER STRING.identification.context-negotiation.");
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
 		operator_assign( otherValue );
@@ -282,14 +282,17 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try{
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+				final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+				final RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);
+				RAW_encode(p_td, root);
+				root.put_to_buf(p_buf);
+			} finally {
+				errorContext.leave_context();
 			}
-			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);
-			RAW_encode(p_td, root);
-			root.put_to_buf(p_buf);
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -302,34 +305,37 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-			}
-			raw_order_t order;
-			switch (p_td.raw.top_bit_order) {
-			case TOP_BIT_LEFT:
-				order = raw_order_t.ORDER_LSB;
-				break;
-			case TOP_BIT_RIGHT:
-			default:
-				order = raw_order_t.ORDER_MSB;
-				break;
-			}
-			final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
-			if (rawr < 0) {
-				final error_type temp = error_type.values()[-rawr];
-				switch (temp) {
-				case ET_INCOMPL_MSG:
-				case ET_LEN_ERR:
-					TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			try{
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+				raw_order_t order;
+				switch (p_td.raw.top_bit_order) {
+				case TOP_BIT_LEFT:
+					order = raw_order_t.ORDER_LSB;
 					break;
-				case ET_UNBOUND:
+				case TOP_BIT_RIGHT:
 				default:
-					TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+					order = raw_order_t.ORDER_MSB;
 					break;
 				}
+				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+				if (rawr < 0) {
+					final error_type temp = error_type.values()[-rawr];
+					switch (temp) {
+					case ET_INCOMPL_MSG:
+					case ET_LEN_ERR:
+						TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+						break;
+					case ET_UNBOUND:
+					default:
+						TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+						break;
+					}
+				}
+			} finally {
+				errorContext.leave_context();
 			}
-			errorContext.leave_context();
 			break;
 		}
 		default:
