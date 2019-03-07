@@ -573,7 +573,6 @@ public final class SetOf_Type extends AbstractOfType {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 		final IType ofType = getOfType();
-		final boolean optimized_memalloc = false;//TODO add support for optimized memalloc
 		final boolean force_gen_seof = aData.getForceGenSeof();
 
 		generateCodeTypedescriptor(aData, source);
@@ -602,26 +601,11 @@ public final class SetOf_Type extends AbstractOfType {
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
 			switch (ofType.getTypetype()) {
 			case TYPE_BOOL:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BOOLEAN", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BOOLEAN", ofTemplateTypeName, true, optimized_memalloc);
-				break;
 			case TYPE_BITSTRING:
 			case TYPE_BITSTRING_A:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BITSTRING", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BITSTRING", ofTemplateTypeName, true, optimized_memalloc);
-				break;
 			case TYPE_HEXSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "HEXSTRING", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "HEXSTRING", ofTemplateTypeName, true, optimized_memalloc);
-				break;
 			case TYPE_OCTETSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "OCTETSTRING", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "OCTETSTRING", ofTemplateTypeName, true, optimized_memalloc);
-				break;
 			case TYPE_CHARSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "CHARSTRING", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "CHARSTRING", ofTemplateTypeName, true, optimized_memalloc);
-				break;
 			case TYPE_UCHARSTRING:
 			case TYPE_UTF8STRING:
 			case TYPE_TELETEXSTRING:
@@ -631,18 +615,14 @@ public final class SetOf_Type extends AbstractOfType {
 			case TYPE_UNIVERSALSTRING:
 			case TYPE_BMPSTRING:
 			case TYPE_OBJECTDESCRIPTOR:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", ofTemplateTypeName, true, optimized_memalloc);
-				break;
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "INTEGER", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "INTEGER", ofTemplateTypeName, true, optimized_memalloc);
+			case TYPE_REAL: {
+				String ownName = getGenNameOwn(aData);
+				String valueName = getGenNameValue(aData, source);
+				source.append(MessageFormat.format("\t// code for type {0} is not generated, {1} is used instead\n", ownName, valueName));
 				break;
-			case TYPE_REAL:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "FLOAT", ofTypeGenName, true, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "FLOAT", ofTemplateTypeName, true, optimized_memalloc);
-				break;
+			}
 			default: {
 				final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 				int extension_bit = RawASTStruct.XDEFDEFAULT;
@@ -682,13 +662,49 @@ public final class SetOf_Type extends AbstractOfType {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source ) {
-		return getGenNameOwn(aData);
+		final boolean force_gen_seof = aData.getForceGenSeof();
+		if (force_gen_seof) {
+			return getGenNameOwn(aData);
+		} else {
+			final boolean optimized_memalloc = false;//TODO add support for optimized memalloc
+			final IType ofType = getOfType();
+			switch (ofType.getTypetype()) {
+			case TYPE_BOOL:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "BOOLEAN", true, optimized_memalloc);
+			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "BITSTRING", true, optimized_memalloc);
+			case TYPE_HEXSTRING:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "HEXSTRING", true, optimized_memalloc);
+			case TYPE_OCTETSTRING:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "OCTETSTRING", true, optimized_memalloc);
+			case TYPE_CHARSTRING:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "CHARSTRING", true, optimized_memalloc);
+			case TYPE_UCHARSTRING:
+			case TYPE_UTF8STRING:
+			case TYPE_TELETEXSTRING:
+			case TYPE_VIDEOTEXSTRING:
+			case TYPE_GRAPHICSTRING:
+			case TYPE_GENERALSTRING:
+			case TYPE_UNIVERSALSTRING:
+			case TYPE_BMPSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "UNIVERSAL__CHARSTRING", true, optimized_memalloc);
+			case TYPE_INTEGER:
+			case TYPE_INTEGER_A:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "INTEGER", true, optimized_memalloc);
+			case TYPE_REAL:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "FLOAT", true, optimized_memalloc);
+			default:
+				return getGenNameOwn(aData);
+			}
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData).concat("_template");
+		return getGenNameValue(aData, source).concat("_template");
 	}
 
 	@Override

@@ -891,7 +891,6 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 		final IType ofType = getOfType();
-		final boolean optimized_memalloc = false;//TODO add support for optimized memalloc
 		final boolean force_gen_seof = aData.getForceGenSeof();
 
 		generateCodeTypedescriptor(aData, source);
@@ -919,26 +918,11 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
 			switch (ofType.getTypetype()) {
 			case TYPE_BOOL:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BOOLEAN", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BOOLEAN", "", false, optimized_memalloc);
-				break;
 			case TYPE_BITSTRING:
 			case TYPE_BITSTRING_A:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "BITSTRING", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "BITSTRING", "", false, optimized_memalloc);
-				break;
 			case TYPE_HEXSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "HEXSTRING", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "HEXSTRING", "", false, optimized_memalloc);
-				break;
 			case TYPE_OCTETSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "OCTETSTRING", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "OCTETSTRING", "", false, optimized_memalloc);
-				break;
 			case TYPE_CHARSTRING:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "CHARSTRING", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "CHARSTRING", "", false, optimized_memalloc);
-				break;
 			case TYPE_UCHARSTRING:
 			case TYPE_UTF8STRING:
 			case TYPE_TELETEXSTRING:
@@ -948,18 +932,14 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_UNIVERSALSTRING:
 			case TYPE_BMPSTRING:
 			case TYPE_OBJECTDESCRIPTOR:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "UNIVERSAL__CHARSTRING", "", false, optimized_memalloc);
-				break;
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "INTEGER", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "INTEGER", "", false, optimized_memalloc);
+			case TYPE_REAL: {
+				String ownName = getGenNameOwn(aData);
+				String valueName = getGenNameValue(aData, source);
+				source.append(MessageFormat.format("\t// code for type {0} is not generated, {1} is used instead\n", ownName, valueName));
 				break;
-			case TYPE_REAL:
-				RecordOfGenerator.generatePreGenBasedValueClass(aData, source, genName, displayName, "FLOAT", ofTypeGenName, false, optimized_memalloc);
-				RecordOfGenerator.generatePreGenBasedTemplateClass(aData, source, genName, displayName, "FLOAT", "", false, optimized_memalloc);
-				break;
+			}
 			default: {
 				final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
 
@@ -1001,13 +981,49 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source ) {
-		return getGenNameOwn(aData);
+		final boolean force_gen_seof = aData.getForceGenSeof();
+		if (force_gen_seof) {
+			return getGenNameOwn(aData);
+		} else {
+			final boolean optimized_memalloc = false;//TODO add support for optimized memalloc
+			final IType ofType = getOfType();
+			switch (ofType.getTypetype()) {
+			case TYPE_BOOL:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "BOOLEAN", false, optimized_memalloc);
+			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "BITSTRING", false, optimized_memalloc);
+			case TYPE_HEXSTRING:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "HEXSTRING", false, optimized_memalloc);
+			case TYPE_OCTETSTRING:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "OCTETSTRING", false, optimized_memalloc);
+			case TYPE_CHARSTRING:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "CHARSTRING", false, optimized_memalloc);
+			case TYPE_UCHARSTRING:
+			case TYPE_UTF8STRING:
+			case TYPE_TELETEXSTRING:
+			case TYPE_VIDEOTEXSTRING:
+			case TYPE_GRAPHICSTRING:
+			case TYPE_GENERALSTRING:
+			case TYPE_UNIVERSALSTRING:
+			case TYPE_BMPSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "UNIVERSAL__CHARSTRING", false, optimized_memalloc);
+			case TYPE_INTEGER:
+			case TYPE_INTEGER_A:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "INTEGER", false, optimized_memalloc);
+			case TYPE_REAL:
+				return RecordOfGenerator.getPreGenBasedNameValue(aData, source, "FLOAT", false, optimized_memalloc);
+			default:
+				return getGenNameOwn(aData);
+			}
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData).concat("_template");
+		return getGenNameValue(aData, source).concat("_template");
 	}
 
 	@Override
