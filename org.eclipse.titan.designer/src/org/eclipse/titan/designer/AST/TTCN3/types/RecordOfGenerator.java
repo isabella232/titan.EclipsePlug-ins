@@ -3383,6 +3383,20 @@ public final class RecordOfGenerator {
 		source.append("\t\t}\n");
 	}
 
+	public static String getPreGenBasedNameValue(final JavaGenData aData, final StringBuilder source, final String ofTypeName, final boolean isSetOf,
+			final boolean optimized_memalloc) {
+		aData.addBuiltinTypeImport("PreGenRecordOf");
+
+		return MessageFormat.format("PreGenRecordOf.PREGEN__{0}__OF__{1}{2}", isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : "");
+	}
+
+	public static String getPreGenBasedNameTemplate(final JavaGenData aData, final StringBuilder source, final String ofTypeName, final boolean isSetOf,
+			final boolean optimized_memalloc) {
+		aData.addBuiltinTypeImport("PreGenRecordOf");
+
+		return MessageFormat.format("PreGenRecordOf.PREGEN__{0}__OF__{1}{2}_template", isSetOf ? "SET" : "RECORD", ofTypeName, optimized_memalloc ? "__OPTIMIZED" : "");
+	}
+
 	/**
 	 * Generate "record of/set of" class
 	 * 
