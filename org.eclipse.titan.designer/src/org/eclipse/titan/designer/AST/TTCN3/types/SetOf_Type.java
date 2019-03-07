@@ -698,4 +698,18 @@ public final class SetOf_Type extends AbstractOfType {
 
 		return getGenNameOwn(aData) + "_raw_";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if (refdType == null || this == refdType) {
+			//no need to convert
+			return expression;
+		}
+
+		final String name = getGenNameValue(aData, expression);
+
+		return new StringBuilder(MessageFormat.format("new {0}({1})", name, expression));
+	}
 }
