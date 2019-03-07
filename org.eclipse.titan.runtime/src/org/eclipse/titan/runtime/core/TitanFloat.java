@@ -931,16 +931,18 @@ public class TitanFloat extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+
+				final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+				final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
+				RAW_encode(p_td, root);
+				root.put_to_buf(p_buf);
+			} finally {
+				errorContext.leave_context();
 			}
-
-			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
-			RAW_encode(p_td, root);
-			root.put_to_buf(p_buf);
-
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -954,25 +956,27 @@ public class TitanFloat extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-			}
-			raw_order_t order;
-			switch (p_td.raw.top_bit_order) {
-			case TOP_BIT_LEFT:
-				order = raw_order_t.ORDER_LSB;
-				break;
-			case TOP_BIT_RIGHT:
-			default:
-				order = raw_order_t.ORDER_MSB;
-				break;
-			}
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+				raw_order_t order;
+				switch (p_td.raw.top_bit_order) {
+				case TOP_BIT_LEFT:
+					order = raw_order_t.ORDER_LSB;
+					break;
+				case TOP_BIT_RIGHT:
+				default:
+					order = raw_order_t.ORDER_MSB;
+					break;
+				}
 
-			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+			} finally {
+				errorContext.leave_context();
 			}
-
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -1067,88 +1071,88 @@ public class TitanFloat extends Base_Type {
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength;
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
-		if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
-			if (no_err) {
-				errorcontext.leave_context();
-				return -1;
+		try {
+			if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
+				if (no_err) {
+					return -1;
+				}
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
+				decode_length = limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit;
+				float_value = new Ttcn3Float(0.0);
+				decode_length += buff.increase_pos_padd(p_td.raw.padding);
+				return decode_length + prepaddlength;
 			}
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
-			decode_length = limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit;
-			float_value = new Ttcn3Float(0.0);
+
+			double tmp = 0.0;
+			final char[] data = new char[16];
+			final RAW_coding_par cp = new RAW_coding_par();
+			boolean orders = false;
+			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+				orders = true;
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			orders = false;
+			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+				orders = true;
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			cp.fieldorder = p_td.raw.fieldorder;
+			cp.hexorder = raw_order_t.ORDER_LSB;
+			buff.get_b(decode_length, data, cp, top_bit_ord);
+			if (decode_length == 64) {
+				final byte[] tmp_dv = new byte[8];
+				char[] dv = new char[8];
+				for (int i = 0, k = 7; i < 8; i++, k--) {
+					dv[i] = data[k];
+				}
+				for (int i = 0; i < tmp_dv.length; i++) {
+					tmp_dv[i] = (byte) dv[i];
+				}
+				tmp = ByteBuffer.wrap(tmp_dv).getDouble();
+				if (Double.isNaN(tmp)) {
+					if (no_err) {
+						return -1;
+					}
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
+					tmp = 0.0;
+				}
+			} else if (decode_length == 32) {
+				final int sign = (data[0] & 0x80) >> 7;
+				int exponent = ((data[0] & 0x7F) << 1) | ((data[1] & 0x80) >> 7);
+				int fraction = ((data[1] & 0x7F) << 1) | ((data[2] & 0x80) >> 7);
+				fraction <<= 8;
+				fraction += ((data[2] & 0x7F) << 1) | ((data[3] & 0x80) >> 7);
+				fraction <<= 7;
+				fraction += data[3] & 0x7F;
+				if (exponent == 0 && fraction == 0) {
+					tmp = sign != 0 ? -0.0 : 0.0;
+				} else if (exponent == 0xFF && fraction != 0) {
+					if (no_err) {
+						return -1;
+					}
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
+					tmp = 0.0;
+				}  else if (exponent == 0 && fraction != 0) {
+					final double sign_v = sign != 0 ? -1.0 : 1.0;
+					tmp = sign_v * ((double)(fraction) / 8388608.0) * Math.pow(2.0, -126.0);
+				} else {
+					final double sign_v = sign != 0 ? -1.0 : 1.0;
+					exponent -= 127;
+					tmp = sign_v * (1.0 + (double)(fraction) / 8388608.0) * Math.pow(2.0,(double)(exponent));
+				}
+			}
 			decode_length += buff.increase_pos_padd(p_td.raw.padding);
+			float_value = new Ttcn3Float(tmp);
+		} finally {
 			errorcontext.leave_context();
-			return decode_length + prepaddlength;
 		}
 
-		double tmp = 0.0;
-		final char[] data = new char[16];
-		final RAW_coding_par cp = new RAW_coding_par();
-		boolean orders = false;
-		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-			orders = true;
-		}
-		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-			orders = !orders;
-		}
-		cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		orders = false;
-		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-			orders = true;
-		}
-		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-			orders = !orders;
-		}
-		cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		cp.fieldorder = p_td.raw.fieldorder;
-		cp.hexorder = raw_order_t.ORDER_LSB;
-		buff.get_b(decode_length, data, cp, top_bit_ord);
-		if (decode_length == 64) {
-			final byte[] tmp_dv = new byte[8];
-			char[] dv = new char[8];
-			for (int i = 0, k = 7; i < 8; i++, k--) {
-				dv[i] = data[k];
-			}
-			for (int i = 0; i < tmp_dv.length; i++) {
-				tmp_dv[i] = (byte) dv[i];
-			}
-			tmp = ByteBuffer.wrap(tmp_dv).getDouble();
-			if (Double.isNaN(tmp)) {
-				if (no_err) {
-					errorcontext.leave_context();
-					return -1;
-				}
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
-				tmp = 0.0;
-			}
-		} else if (decode_length == 32) {
-			final int sign = (data[0] & 0x80) >> 7;
-			int exponent = ((data[0] & 0x7F) << 1) | ((data[1] & 0x80) >> 7);
-			int fraction = ((data[1] & 0x7F) << 1) | ((data[2] & 0x80) >> 7);
-			fraction <<= 8;
-			fraction += ((data[2] & 0x7F) << 1) | ((data[3] & 0x80) >> 7);
-			fraction <<= 7;
-			fraction += data[3] & 0x7F;
-			if (exponent == 0 && fraction == 0) {
-				tmp = sign != 0 ? -0.0 : 0.0;
-			} else if (exponent == 0xFF && fraction != 0) {
-				if (no_err) {
-					errorcontext.leave_context();
-					return -1;
-				}
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
-				tmp = 0.0;
-			}  else if (exponent == 0 && fraction != 0) {
-				final double sign_v = sign != 0 ? -1.0 : 1.0;
-				tmp = sign_v * ((double)(fraction) / 8388608.0) * Math.pow(2.0, -126.0);
-			} else {
-				final double sign_v = sign != 0 ? -1.0 : 1.0;
-				exponent -= 127;
-				tmp = sign_v * (1.0 + (double)(fraction) / 8388608.0) * Math.pow(2.0,(double)(exponent));
-			}
-		}
-		decode_length += buff.increase_pos_padd(p_td.raw.padding);
-		float_value = new Ttcn3Float(tmp);
-		errorcontext.leave_context();
 		return decode_length + prepaddlength;
 	}
 

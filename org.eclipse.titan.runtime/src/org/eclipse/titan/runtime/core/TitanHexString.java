@@ -570,16 +570,18 @@ public class TitanHexString extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+
+				final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+				final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
+				RAW_encode(p_td, root);
+				root.put_to_buf(p_buf);
+			} finally {
+				errorContext.leave_context();
 			}
-
-			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
-			RAW_encode(p_td, root);
-			root.put_to_buf(p_buf);
-
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -593,24 +595,26 @@ public class TitanHexString extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW:
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+				raw_order_t order;
+				switch (p_td.raw.top_bit_order) {
+				case TOP_BIT_LEFT:
+					order = raw_order_t.ORDER_LSB;
+					break;
+				case TOP_BIT_RIGHT:
+				default:
+					order = raw_order_t.ORDER_MSB;
+					break;
+				}
+				if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+			} finally {
+				errorContext.leave_context();
 			}
-			raw_order_t order;
-			switch (p_td.raw.top_bit_order) {
-			case TOP_BIT_LEFT:
-				order = raw_order_t.ORDER_LSB;
-				break;
-			case TOP_BIT_RIGHT:
-			default:
-				order = raw_order_t.ORDER_MSB;
-				break;
-			}
-			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-			}
-
-			errorContext.leave_context();
 			break;
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
@@ -1120,70 +1124,73 @@ public class TitanHexString extends Base_Type {
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 4) * 4 : p_td.raw.fieldlength;
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
-		if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
-			if (no_err) {
-				errorcontext.leave_context();
-				return -error_type.ET_LEN_ERR.ordinal();
-			}
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
-			decode_length = ((limit > buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 4) * 4;
-		}
-
-		final RAW_coding_par cp = new RAW_coding_par();
-		boolean orders = false;
-		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-			orders = true; 
-		}
-		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-			orders = !orders;
-		}
-		cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		orders = false;
-		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-			orders = true;
-		}
-		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-			orders = !orders;
-		}
-		cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		cp.fieldorder = p_td.raw.fieldorder;
-		cp.hexorder = p_td.raw.hexorder;
-		nibbles_ptr = null;
-		nibbles_ptr = new byte[decode_length / 4];
-		final char[] tmp_nibbles = new char[decode_length / 4];
-		buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
-		if(tmp_nibbles.length == 1) {
-			nibbles_ptr[0] = (byte) tmp_nibbles[0];
-		} else {
-			for (int i = 0, j = 0; i < nibbles_ptr.length; i += 2, j++) {
-				nibbles_ptr[i] = (byte) (tmp_nibbles[j] & 0x0F);
-				
-				if(i + 1 == nibbles_ptr.length){ //if decode_length % 2 == 1
-					continue;
+		try {
+			if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
+				if (no_err) {
+					return -error_type.ET_LEN_ERR.ordinal();
 				}
-				nibbles_ptr[i + 1] = (byte) ((tmp_nibbles[j] >> 4) & 0x0F);
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
+				decode_length = ((limit > buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 4) * 4;
 			}
-		}
 
-		if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
-			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
-				if ((decode_length - nibbles_ptr.length * 4) % 8 != 0) {
-					final int bound = (decode_length - nibbles_ptr.length * 4) % 8;
-					final int maxindex = (decode_length - 1) / 8;
-					for (int a = 0, b = (decode_length - nibbles_ptr.length * 4 - 1) / 8; a < (nibbles_ptr.length * 4 + 7) / 8; a++, b++) {
-						nibbles_ptr[a] = (byte) (nibbles_ptr[b] >> bound);
-						if (b < maxindex) {
-							nibbles_ptr[a] = (byte) (nibbles_ptr[b + 1] << (8 - bound));
-						}
+			final RAW_coding_par cp = new RAW_coding_par();
+			boolean orders = false;
+			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+				orders = true; 
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			orders = false;
+			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+				orders = true;
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			cp.fieldorder = p_td.raw.fieldorder;
+			cp.hexorder = p_td.raw.hexorder;
+			nibbles_ptr = null;
+			nibbles_ptr = new byte[decode_length / 4];
+			final char[] tmp_nibbles = new char[decode_length / 4];
+			buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
+			if(tmp_nibbles.length == 1) {
+				nibbles_ptr[0] = (byte) tmp_nibbles[0];
+			} else {
+				for (int i = 0, j = 0; i < nibbles_ptr.length; i += 2, j++) {
+					nibbles_ptr[i] = (byte) (tmp_nibbles[j] & 0x0F);
+
+					if(i + 1 == nibbles_ptr.length){ //if decode_length % 2 == 1
+						continue;
 					}
-				} else {
-					System.arraycopy(nibbles_ptr, (decode_length - nibbles_ptr.length * 4) / 8, nibbles_ptr, 0, nibbles_ptr.length * 8);
+					nibbles_ptr[i + 1] = (byte) ((tmp_nibbles[j] >> 4) & 0x0F);
 				}
 			}
+
+			if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
+				if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+					if ((decode_length - nibbles_ptr.length * 4) % 8 != 0) {
+						final int bound = (decode_length - nibbles_ptr.length * 4) % 8;
+						final int maxindex = (decode_length - 1) / 8;
+						for (int a = 0, b = (decode_length - nibbles_ptr.length * 4 - 1) / 8; a < (nibbles_ptr.length * 4 + 7) / 8; a++, b++) {
+							nibbles_ptr[a] = (byte) (nibbles_ptr[b] >> bound);
+							if (b < maxindex) {
+								nibbles_ptr[a] = (byte) (nibbles_ptr[b + 1] << (8 - bound));
+							}
+						}
+					} else {
+						System.arraycopy(nibbles_ptr, (decode_length - nibbles_ptr.length * 4) / 8, nibbles_ptr, 0, nibbles_ptr.length * 8);
+					}
+				}
+			}
+			decode_length += buff.increase_pos_padd(p_td.raw.padding);
+			clearUnusedNibble();
+		} finally {
+			errorcontext.leave_context();
 		}
-		decode_length += buff.increase_pos_padd(p_td.raw.padding);
-		clearUnusedNibble();
-		errorcontext.leave_context();
+
 		return decode_length + prepaddlength;
 	}
 

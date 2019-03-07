@@ -512,16 +512,18 @@ public class TitanBoolean extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+
+				final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+				final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
+				RAW_encode(p_td, root);
+				root.put_to_buf(p_buf);
+			} finally {
+				errorContext.leave_context();
 			}
-
-			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
-			RAW_encode(p_td, root);
-			root.put_to_buf(p_buf);
-
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -535,25 +537,27 @@ public class TitanBoolean extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-			}
-			raw_order_t order;
-			switch (p_td.raw.top_bit_order) {
-			case TOP_BIT_LEFT:
-				order = raw_order_t.ORDER_LSB;
-				break;
-			case TOP_BIT_RIGHT:
-			default:
-				order = raw_order_t.ORDER_MSB;
-				break;
-			}
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+				raw_order_t order;
+				switch (p_td.raw.top_bit_order) {
+				case TOP_BIT_LEFT:
+					order = raw_order_t.ORDER_LSB;
+					break;
+				case TOP_BIT_RIGHT:
+				default:
+					order = raw_order_t.ORDER_MSB;
+					break;
+				}
 
-			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+			} finally {
+				errorContext.leave_context();
 			}
-
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -596,62 +600,62 @@ public class TitanBoolean extends Base_Type {
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength : 1;
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
-		if (decode_length > limit) {
-			if (no_err) {
-				errorcontext.leave_context();
-				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
+		try {
+			if (decode_length > limit) {
+				if (no_err) {
+					return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
+				}
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, limit);
+				decode_length = limit;
 			}
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, limit);
-			decode_length = limit;
-		}
-		final int nof_unread_bits = buff.unread_len_bit();
-		if (decode_length > nof_unread_bits) {
-			if (no_err) {
-				errorcontext.leave_context();
-				return -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();
+			final int nof_unread_bits = buff.unread_len_bit();
+			if (decode_length > nof_unread_bits) {
+				if (no_err) {
+					return -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();
+				}
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, nof_unread_bits);
+				decode_length = nof_unread_bits;
 			}
-			TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, nof_unread_bits);
-			decode_length = nof_unread_bits;
-		}
-		if (decode_length < 0) {
+			if (decode_length < 0) {
+				return -1;
+			} else if (decode_length == 0) {
+				boolean_value = false;
+			} else {
+				final RAW_coding_par cp = new RAW_coding_par();
+				boolean orders = false;
+				if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+					orders = true;
+				}
+				if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+					orders = !orders;
+				}
+				cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+				orders = false;
+				if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+					orders = true;
+				}
+				if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+					orders = !orders;
+				}
+				cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+				cp.fieldorder = p_td.raw.fieldorder;
+				cp.hexorder = raw_order_t.ORDER_LSB;
+				final int length = (decode_length + 7) / 8;
+				char[] data = new char[length];
+				buff.get_b(decode_length, data, cp, top_bit_ord);
+				if (decode_length % 8 != 0) {
+					data[length - 1] &= RAW.BitMaskTable[decode_length % 8];
+				}
+				char ch = '\0';
+				for (int i = 0; i < length; i++) {
+					ch |= data[i];
+				}
+				boolean_value = ch != '\0';
+			}
+			decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		} finally {
 			errorcontext.leave_context();
-			return -1;
-		} else if (decode_length == 0) {
-			boolean_value = false;
-		} else {
-			final RAW_coding_par cp = new RAW_coding_par();
-			boolean orders = false;
-			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
-			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-				orders = !orders;
-			}
-			cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-			orders = false;
-			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
-			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-				orders = !orders;
-			}
-			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-			cp.fieldorder = p_td.raw.fieldorder;
-			cp.hexorder = raw_order_t.ORDER_LSB;
-			final int length = (decode_length + 7) / 8;
-			char[] data = new char[length];
-			buff.get_b(decode_length, data, cp, top_bit_ord);
-			if (decode_length % 8 != 0) {
-				data[length - 1] &= RAW.BitMaskTable[decode_length % 8];
-			}
-			char ch = '\0';
-			for (int i = 0; i < length; i++) {
-				ch |= data[i];
-			}
-			boolean_value = ch != '\0';
 		}
-		decode_length += buff.increase_pos_padd(p_td.raw.padding);
-		errorcontext.leave_context();
 
 		return decode_length + prepaddlength;
 	}

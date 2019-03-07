@@ -2001,124 +2001,130 @@ public class TitanUniversalCharString extends Base_Type {
 		//add BOM
 		boolean isBig = true;
 		final TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
-		switch (expected_coding) {
-		case UTF16:
-		case UTF16BE:
-			isBig = true;
-			break;
-		case UTF16LE:
-			isBig = false;
-			break;
-		default:
-			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-16 encoding");
-			break;
-		}
-		buf.put_c((char) (isBig ? 0xFE : 0xFF));
-		buf.put_c((char) (isBig ? 0xFF : 0xFE));
-
-		if(charstring) {
-			for (int i = 0; i < cstr.length(); ++i) {
-				buf.put_c(isBig ? 0 : cstr.charAt(i));
-				buf.put_c(isBig ? cstr.charAt(i) : 0);
+		try {
+			switch (expected_coding) {
+			case UTF16:
+			case UTF16BE:
+				isBig = true;
+				break;
+			case UTF16LE:
+				isBig = false;
+				break;
+			default:
+				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-16 encoding");
+				break;
 			}
-		} else {
-			for (int i = 0; i < val_ptr.size(); i++) {
-				final char g = val_ptr.get(i).getUc_group();
-				final char p = val_ptr.get(i).getUc_plane();
-				final char r = val_ptr.get(i).getUc_row();
-				final char c = val_ptr.get(i).getUc_cell();
-				if (g != 0 || (0x10 < p)) {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X%02X%02X) to be encoded into UTF-16 shall not be greater than 0x10FFFF", g, p, r, c);
-				} else if (0x00 == g && 0x00 ==p && 0xD8 <= r && 0xDF >= r) {
-					// Values between 0xD800 and 0xDFFF are specifically reserved for use with UTF-16,
-					// and don't have any characters assigned to them.
-					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X) between 0xD800 and 0xDFFF is ill-formed", r, c);
-				} else if (0x00 == g && 0x00 == p) {
-					buf.put_c((char) ((isBig ? r : c) & 0xFF) );
-					buf.put_c((char) ((isBig ? c : r) & 0xFF) );
-				} else if (g != 0 || p != 0) {
-					int univc = g;
-					univc <<= 24;
-					int temp = p;
-					temp <<= 16;
-					univc |= temp;
-					temp = r;
-					temp <<= 8;
-					univc |= temp;
-					univc |= c; // universal char filled in univc 
-					int W1 = 0xD800;
-					int W2 = 0xDC00;
-					final int univcmod = univc - 0x10000;
-					final int WH = univcmod >> 10;
-					final int WL = univcmod & 0x3ff;
-					W1 |= WH;
-					W2 |= WL;
-					char uc;
-					uc = (char) (isBig ? W1 >> 8 : W1);
-					buf.put_c((char) (uc & 0xFF));
-					uc = (char) (isBig ? W1 : W1 >> 8);
-					buf.put_c((char) (uc & 0xFF));
-					uc = (char) (isBig ? W2 >> 8 : W2);
-					buf.put_c((char) (uc & 0xFF));
-					uc = (char) (isBig ? W2 : W2 >> 8);
-					buf.put_c((char) (uc & 0xFF));
+			buf.put_c((char) (isBig ? 0xFE : 0xFF));
+			buf.put_c((char) (isBig ? 0xFF : 0xFE));
+
+			if(charstring) {
+				for (int i = 0; i < cstr.length(); ++i) {
+					buf.put_c(isBig ? 0 : cstr.charAt(i));
+					buf.put_c(isBig ? cstr.charAt(i) : 0);
+				}
+			} else {
+				for (int i = 0; i < val_ptr.size(); i++) {
+					final char g = val_ptr.get(i).getUc_group();
+					final char p = val_ptr.get(i).getUc_plane();
+					final char r = val_ptr.get(i).getUc_row();
+					final char c = val_ptr.get(i).getUc_cell();
+					if (g != 0 || (0x10 < p)) {
+						TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X%02X%02X) to be encoded into UTF-16 shall not be greater than 0x10FFFF", g, p, r, c);
+					} else if (0x00 == g && 0x00 ==p && 0xD8 <= r && 0xDF >= r) {
+						// Values between 0xD800 and 0xDFFF are specifically reserved for use with UTF-16,
+						// and don't have any characters assigned to them.
+						TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X) between 0xD800 and 0xDFFF is ill-formed", r, c);
+					} else if (0x00 == g && 0x00 == p) {
+						buf.put_c((char) ((isBig ? r : c) & 0xFF) );
+						buf.put_c((char) ((isBig ? c : r) & 0xFF) );
+					} else if (g != 0 || p != 0) {
+						int univc = g;
+						univc <<= 24;
+						int temp = p;
+						temp <<= 16;
+						univc |= temp;
+						temp = r;
+						temp <<= 8;
+						univc |= temp;
+						univc |= c; // universal char filled in univc 
+						int W1 = 0xD800;
+						int W2 = 0xDC00;
+						final int univcmod = univc - 0x10000;
+						final int WH = univcmod >> 10;
+						final int WL = univcmod & 0x3ff;
+						W1 |= WH;
+						W2 |= WL;
+						char uc;
+						uc = (char) (isBig ? W1 >> 8 : W1);
+						buf.put_c((char) (uc & 0xFF));
+						uc = (char) (isBig ? W1 : W1 >> 8);
+						buf.put_c((char) (uc & 0xFF));
+						uc = (char) (isBig ? W2 >> 8 : W2);
+						buf.put_c((char) (uc & 0xFF));
+						uc = (char) (isBig ? W2 : W2 >> 8);
+						buf.put_c((char) (uc & 0xFF));
+					}
 				}
 			}
+		} finally {
+			error.leave_context();
 		}
-		error.leave_context();
 	}
 
 	public void encode_utf32(final TTCN_Buffer buf, final CharCoding expected_coding) {
 		boolean isBig = true;
 		final TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
-		switch (expected_coding) {
-		case UTF32:
-		case UTF32BE:
-			isBig = true;
-			break;
-		case UTF32LE:
-			isBig = false;
-			break;
-		default:
-			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-32 encoding");
-			break;
-		}
-		//add BOM
-		buf.put_c((char) (isBig ? 0x00 : 0xFF));
-		buf.put_c((char) (isBig ? 0x00 : 0xFE));
-		buf.put_c((char) (isBig ? 0xFE : 0x00));
-		buf.put_c((char) (isBig ? 0xFF : 0x00));
-		if (charstring) {
-			for (int i = 0; i < cstr.length(); i++) {
-				buf.put_c(isBig ? 0 : cstr.charAt(i));
-				buf.put_c((char) 0);
-				buf.put_c((char) 0);
-				buf.put_c(isBig ? cstr.charAt(i) : 0);
+		try {
+			switch (expected_coding) {
+			case UTF32:
+			case UTF32BE:
+				isBig = true;
+				break;
+			case UTF32LE:
+				isBig = false;
+				break;
+			default:
+				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-32 encoding");
+				break;
 			}
-		} else {
-			for (int i = 0; i < val_ptr.size(); i++) {
-				final char g = val_ptr.get(i).getUc_group();
-				final char p = val_ptr.get(i).getUc_plane();
-				final char r = val_ptr.get(i).getUc_row();
-				final char c = val_ptr.get(i).getUc_cell();
-				int DW = g << 8 | p;
-				DW <<= 8;
-				DW |= r;
-				DW <<= 8;
-				DW |= c;
-				if (0x0000D800 <= DW && 0x0000DFFF >= DW) {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%08X) between 0x0000D800 and 0x0000DFFF is ill-formed", DW);
-				} else if (0x0010FFFF < DW) {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%08X) greater than 0x0010FFFF is ill-formed", DW);
-				} else {
-					buf.put_c(isBig ? g : c);
-					buf.put_c(isBig ? p : r);
-					buf.put_c(isBig ? r : p);
-					buf.put_c(isBig ? c : g);
+			//add BOM
+			buf.put_c((char) (isBig ? 0x00 : 0xFF));
+			buf.put_c((char) (isBig ? 0x00 : 0xFE));
+			buf.put_c((char) (isBig ? 0xFE : 0x00));
+			buf.put_c((char) (isBig ? 0xFF : 0x00));
+			if (charstring) {
+				for (int i = 0; i < cstr.length(); i++) {
+					buf.put_c(isBig ? 0 : cstr.charAt(i));
+					buf.put_c((char) 0);
+					buf.put_c((char) 0);
+					buf.put_c(isBig ? cstr.charAt(i) : 0);
+				}
+			} else {
+				for (int i = 0; i < val_ptr.size(); i++) {
+					final char g = val_ptr.get(i).getUc_group();
+					final char p = val_ptr.get(i).getUc_plane();
+					final char r = val_ptr.get(i).getUc_row();
+					final char c = val_ptr.get(i).getUc_cell();
+					int DW = g << 8 | p;
+					DW <<= 8;
+					DW |= r;
+					DW <<= 8;
+					DW |= c;
+					if (0x0000D800 <= DW && 0x0000DFFF >= DW) {
+						TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%08X) between 0x0000D800 and 0x0000DFFF is ill-formed", DW);
+					} else if (0x0010FFFF < DW) {
+						TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%08X) greater than 0x0010FFFF is ill-formed", DW);
+					} else {
+						buf.put_c(isBig ? g : c);
+						buf.put_c(isBig ? p : r);
+						buf.put_c(isBig ? r : p);
+						buf.put_c(isBig ? c : g);
+					}
 				}
 			}
+		} finally {
+			error.leave_context();
 		}
-		error.leave_context();
 	}
 
 	@Override
@@ -2127,16 +2133,18 @@ public class TitanUniversalCharString extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW:
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+
+				final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+				final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
+				RAW_encode(p_td, root);
+				root.put_to_buf(p_buf);
+			} finally {
+				errorContext.leave_context();
 			}
-
-			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
-			RAW_encode(p_td, root);
-			root.put_to_buf(p_buf);
-
-			errorContext.leave_context();
 			break;
 
 		default:
@@ -2150,24 +2158,26 @@ public class TitanUniversalCharString extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW:
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+				raw_order_t order;
+				switch (p_td.raw.top_bit_order) {
+				case TOP_BIT_LEFT:
+					order = raw_order_t.ORDER_LSB;
+					break;
+				case TOP_BIT_RIGHT:
+				default:
+					order = raw_order_t.ORDER_MSB;
+					break;
+				}
+				if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+			} finally {
+				errorContext.leave_context();
 			}
-			raw_order_t order;
-			switch (p_td.raw.top_bit_order) {
-			case TOP_BIT_LEFT:
-				order = raw_order_t.ORDER_LSB;
-				break;
-			case TOP_BIT_RIGHT:
-			default:
-				order = raw_order_t.ORDER_MSB;
-				break;
-			}
-			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-			}
-
-			errorContext.leave_context();
 			break;
 
 		default:
@@ -2232,40 +2242,43 @@ public class TitanUniversalCharString extends Base_Type {
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
 		final TitanCharString buff_str = new TitanCharString();
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
-		final int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
-		final char[] tmp_val_ptr = buff_str.get_value().toString().toCharArray();
-		if(buff_str.is_bound()) {
-			charstring = true;
-			for (int i = 0; i < buff_str.lengthof().get_int(); ++i) {
-				if(buff_str.get_value().charAt(i) > 127) {
-					charstring = false;
+		try {
+			final int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
+			final char[] tmp_val_ptr = buff_str.get_value().toString().toCharArray();
+			if(buff_str.is_bound()) {
+				charstring = true;
+				for (int i = 0; i < buff_str.lengthof().get_int(); ++i) {
+					if(buff_str.get_value().charAt(i) > 127) {
+						charstring = false;
+						break;
+					}
+				}
+
+				switch (p_td.raw.stringformat) {
+				case UNKNOWN: //default is UTF-8
+				case UTF_8:
+					if(charstring) {
+						cstr = buff_str.get_value();
+					} else {
+						decode_utf8(tmp_val_ptr, CharCoding.UTF_8 , false);
+					}
+					break;
+				case UTF16:
+					if(!charstring) {
+						decode_utf16(tmp_val_ptr.length, tmp_val_ptr, CharCoding.UTF16);
+					} else {
+						TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Invalid string format. Buffer contains only ASCII characters.");
+					}
+					break;
+				default:
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INTERNAL, "Invalid string serialization type.");
 					break;
 				}
 			}
-
-			switch (p_td.raw.stringformat) {
-			case UNKNOWN: //default is UTF-8
-			case UTF_8:
-				if(charstring) {
-					cstr = buff_str.get_value();
-				} else {
-					decode_utf8(tmp_val_ptr, CharCoding.UTF_8 , false);
-				}
-				break;
-			case UTF16:
-				if(!charstring) {
-					decode_utf16(tmp_val_ptr.length, tmp_val_ptr, CharCoding.UTF16);
-				} else {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Invalid string format. Buffer contains only ASCII characters.");
-				}
-				break;
-			default:
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INTERNAL, "Invalid string serialization type.");
-				break;
-			}
+			return dec_len;
+		} finally {
+			errorcontext.leave_context();
 		}
-		errorcontext.leave_context();
-		return dec_len;
 	}
 
 	public static CharCoding get_character_coding(final String codingString, final String contextString) {

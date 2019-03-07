@@ -1066,16 +1066,18 @@ public class TitanInteger extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+
+				final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
+				final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
+				RAW_encode(p_td, root);
+				root.put_to_buf(p_buf);
+			} finally {
+				errorContext.leave_context();
 			}
-
-			final RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);
-			final RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);
-			RAW_encode(p_td, root);
-			root.put_to_buf(p_buf);
-
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -1089,25 +1091,27 @@ public class TitanInteger extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if (p_td.raw == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			try {
+				if (p_td.raw == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+				}
+				raw_order_t order;
+				switch (p_td.raw.top_bit_order) {
+				case TOP_BIT_LEFT:
+					order = raw_order_t.ORDER_LSB;
+					break;
+				case TOP_BIT_RIGHT:
+				default:
+					order = raw_order_t.ORDER_MSB;
+					break;
+				}
+	
+				if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+			} finally {
+				errorContext.leave_context();
 			}
-			raw_order_t order;
-			switch (p_td.raw.top_bit_order) {
-			case TOP_BIT_LEFT:
-				order = raw_order_t.ORDER_LSB;
-				break;
-			case TOP_BIT_RIGHT:
-			default:
-				order = raw_order_t.ORDER_MSB;
-				break;
-			}
-
-			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-			}
-
-			errorContext.leave_context();
 			break;
 		}
 		default:
@@ -1464,129 +1468,132 @@ public class TitanInteger extends Base_Type {
 		}
 
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
-		char bc[];
-		int length; // total length, in bytes
-		int val_bits = 0; // only for IntX
-		int len_bits = 0; // only for IntX
-		int value = get_int();
-		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if (!is_bound()) {
-			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
-			value = 0;
-			neg_sgbit = false;
-		}
-
-		if (value == Integer.MIN_VALUE) {
-			final TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
-			errorContext.leave_context();
-			return big_value.RAW_encode_openssl(p_td, myleaf);
-		}
-
-		if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
-			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: %s", p_td.name);
-			value = -value;
-		}
-		if (neg_sgbit) {
-			value = -value;
-		}
-		if (p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
-			val_bits = (p_td.raw.comp != raw_sign_t.SG_NO) ? 1 : 0; // bits needed to store the value
-			int v2 = value;
-			if (v2 < 0 && p_td.raw.comp == raw_sign_t.SG_2COMPL) {
-				v2 = ~v2;
+		try {
+			char bc[];
+			int length; // total length, in bytes
+			int val_bits = 0; // only for IntX
+			int len_bits = 0; // only for IntX
+			int value = get_int();
+			boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
+				value = 0;
+				neg_sgbit = false;
 			}
-			do {
-				v2 >>= 1;
+
+			if (value == Integer.MIN_VALUE) {
+				final TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
+
+				return big_value.RAW_encode_openssl(p_td, myleaf);
+			}
+
+			if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: %s", p_td.name);
+				value = -value;
+			}
+			if (neg_sgbit) {
+				value = -value;
+			}
+			if (p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
+				val_bits = (p_td.raw.comp != raw_sign_t.SG_NO) ? 1 : 0; // bits needed to store the value
+				int v2 = value;
+				if (v2 < 0 && p_td.raw.comp == raw_sign_t.SG_2COMPL) {
+					v2 = ~v2;
+				}
+				do {
+					v2 >>= 1;
 				++val_bits;
-			} while (v2 != 0);
-			len_bits = 1 + val_bits / 8; // bits needed to store the length
-			if (val_bits % 8 + len_bits % 8 > 8) {
-				// the remainder of the value bits and the length bits do not fit into
-				// an octet => an extra octet is needed and the length must be increased
-				++len_bits;
+				} while (v2 != 0);
+				len_bits = 1 + val_bits / 8; // bits needed to store the length
+				if (val_bits % 8 + len_bits % 8 > 8) {
+					// the remainder of the value bits and the length bits do not fit into
+					// an octet => an extra octet is needed and the length must be increased
+					++len_bits;
+				}
+				length = (len_bits + val_bits + 7) / 8;
+				if (len_bits % 8 == 0 && val_bits % 8 != 0) {
+					// special case: the value can be stored on 8k - 1 octets plus the partial octet
+					// - len_bits = 8k is not enough, since there's no partial octet in that case
+					// and the length would then be followed by 8k octets (and it only indicates
+					// 8k - 1 further octets)
+					// - len_bits = 8k + 1 is too much, since there are only 8k - 1 octets
+					// following the partial octet (and 8k are indicated)
+					// solution: len_bits = 8k + 1 and insert an extra empty octet
+					++len_bits;
+					++length;
+				}
+			} else { // not IntX, use the field length
+				length = (p_td.raw.fieldlength + 7) / 8;
+				int min_bits = RAW.min_bits(value);
+				if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
+					min_bits++;
+				}
+				if (min_bits > p_td.raw.fieldlength) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode %s: ", p_td.name);
+					value = 0; // substitute with zero
+				}
 			}
-			length = (len_bits + val_bits + 7) / 8;
-			if (len_bits % 8 == 0 && val_bits % 8 != 0) {
-				// special case: the value can be stored on 8k - 1 octets plus the partial octet
-				// - len_bits = 8k is not enough, since there's no partial octet in that case
-				// and the length would then be followed by 8k octets (and it only indicates
-				// 8k - 1 further octets)
-				// - len_bits = 8k + 1 is too much, since there are only 8k - 1 octets
-				// following the partial octet (and 8k are indicated)
-				// solution: len_bits = 8k + 1 and insert an extra empty octet
-				++len_bits;
-				++length;
-			}
-		} else { // not IntX, use the field length
-			length = (p_td.raw.fieldlength + 7) / 8;
-			int min_bits = RAW.min_bits(value);
-			if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
-				min_bits++;
-			}
-			if (min_bits > p_td.raw.fieldlength) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode %s: ", p_td.name);
-				value = 0; // substitute with zero
-			}
-		}
 
-		myleaf.data_array = bc = new char[length];
-		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
-			int i = 0;
-			// treat the empty space between the value and the length as if it was part
-			// of the value, too
-			val_bits = length * 8 - len_bits;
-			// first, encode the value
-			do {
-				bc[i] = (char) (value & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
-				++i;
-				value >>= 8;
-				val_bits -= 8;
-			} while (val_bits > 0);
-			if (neg_sgbit) {
-				// the sign bit is the first bit after the length
-				final char mask = (char)(0x80 >> len_bits % 8);
-				bc[i - 1] |= mask;
-			}
-			// second, encode the length (ignore the last zero)
-			--len_bits;
-			if (val_bits != 0) {
-				// the remainder of the length is in the same octet as the remainder of the
-				// value => step back onto it
-				--i;
+			myleaf.data_array = bc = new char[length];
+			if (p_td.raw.fieldlength == RAW.RAW_INTX) {
+				int i = 0;
+				// treat the empty space between the value and the length as if it was part
+				// of the value, too
+				val_bits = length * 8 - len_bits;
+				// first, encode the value
+				do {
+					bc[i] = (char) (value & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
+					++i;
+					value >>= 8;
+					val_bits -= 8;
+				} while (val_bits > 0);
+				if (neg_sgbit) {
+					// the sign bit is the first bit after the length
+					final char mask = (char)(0x80 >> len_bits % 8);
+					bc[i - 1] |= mask;
+				}
+				// second, encode the length (ignore the last zero)
+				--len_bits;
+				if (val_bits != 0) {
+					// the remainder of the length is in the same octet as the remainder of the
+					// value => step back onto it
+					--i;
+				} else {
+					// the remainder of the length is in a separate octet
+					bc[i] = 0;
+				}
+				// insert the length's partial octet
+				int mask = 0x80;
+				for (int j = 0; j < len_bits % 8; ++j) {
+					bc[i] |= mask;
+					mask >>= 1;
+				}
+				if (len_bits % 8 > 0 || val_bits != 0) {
+					// there was a partial octet => step onto the first full octet
+					++i;
+				}
+				// insert the length's full octets
+				while (len_bits >= 8) {
+					// octets containing only ones in the length
+					bc[i] = 0xFF;
+					++i;
+					len_bits -= 8;
+				}
+				myleaf.length = length * 8;
 			} else {
-				// the remainder of the length is in a separate octet
-				bc[i] = 0;
+				for (int a = 0; a < length; a++) {
+					bc[a] = (char)(value & 0xFF);
+					value >>= 8;
+				}
+				if (neg_sgbit) {
+					final int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
+					bc[length - 1] |= mask;
+				}
+				myleaf.length = p_td.raw.fieldlength;
 			}
-			// insert the length's partial octet
-			int mask = 0x80;
-			for (int j = 0; j < len_bits % 8; ++j) {
-				bc[i] |= mask;
-				mask >>= 1;
-			}
-			if (len_bits % 8 > 0 || val_bits != 0) {
-				// there was a partial octet => step onto the first full octet
-				++i;
-			}
-			// insert the length's full octets
-			while (len_bits >= 8) {
-				// octets containing only ones in the length
-				bc[i] = 0xFF;
-				++i;
-				len_bits -= 8;
-			}
-			myleaf.length = length * 8;
-		} else {
-			for (int a = 0; a < length; a++) {
-				bc[a] = (char)(value & 0xFF);
-				value >>= 8;
-			}
-			if (neg_sgbit) {
-				final int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
-				bc[length - 1] |= mask;
-			}
-			myleaf.length = p_td.raw.fieldlength;
+		} finally {
+			errorContext.leave_context();
 		}
-		errorContext.leave_context();
 
 		return myleaf.length;
 	}
@@ -1598,125 +1605,128 @@ public class TitanInteger extends Base_Type {
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
-		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if (!is_bound()) {
-			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
-			neg_sgbit = false;
-		}
-		if ((D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
-			TTCN_EncDec_ErrorContext.error(error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: %s", p_td.name);
-			D = D.negate();
-			neg_sgbit = false;
-		}
-		// `if (neg_sgbit) tmp->neg = tmp->neg == 0;' is not needed, because the
-		// sign is stored separately from the number.  Default encoding of negative
-		// values in 2's complement form.
-		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
-			val_bits = D.bitLength(); // bits needed to store the value
-			len_bits = 1 + val_bits / 8; // bits needed to store the length
-			if (val_bits % 8 + len_bits % 8 > 8) {
-				// the remainder of the value bits and the length bits do not fit into
-				// an octet => an extra octet is needed and the length must be increased
-				++len_bits;
-			}
-			length = (len_bits + val_bits + 7) / 8;
-			if (len_bits % 8 == 0 && val_bits % 8 != 0) {
-				// special case: the value can be stored on 8k - 1 octets plus the partial octet
-				// - len_bits = 8k is not enough, since there's no partial octet in that case
-				// and the length would then be followed by 8k octets (and it only indicates
-				// 8k - 1 further octets)
-				// - len_bits = 8k + 1 is too much, since there are only 8k - 1 octets
-				// following the partial octet (and 8k are indicated)
-				// solution: len_bits = 8k + 1 and insert an extra empty octet
-				++len_bits;
-				++length;
-			}
-		} else {
-			length = (p_td.raw.fieldlength + 7) / 8;
-			final int min_bits = RAW.min_bits(D);
-			if (min_bits > p_td.raw.fieldlength) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: %s", p_td.name);
-				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
-				// at all for negative values.  Just simply clear the value.
+		try {
+			boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 				neg_sgbit = false;
 			}
-		}
-		if (length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_array = bc = new char[length];
-		} else {
-			bc = myleaf.data_array;
-		}
-
-		final boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
-
-		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
-			int i = 0;
-			// treat the empty space between the value and the length as if it was part
-			// of the value, too
-			val_bits = length * 8 - len_bits;
-			// first, encode the value
-			final byte[] tmp = neg_sgbit ? D.abs().toByteArray() : D.toByteArray();
-			final int num_bytes = tmp.length;
-			do {
-				bc[i] = (char) (((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]) & 0xFF);
-				++i;
-				val_bits -= 8;
-			} while (val_bits > 0);
-			if (neg_sgbit) {
-				// the sign bit is the first bit after the length
-				final int mask = 0x80 >> len_bits % 8;
-				bc[i - 1] |= mask;
+			if ((D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: %s", p_td.name);
+				D = D.negate();
+				neg_sgbit = false;
 			}
-			// second, encode the length (ignore the last zero)
-			--len_bits;
-			if (val_bits != 0) {
-				// the remainder of the length is in the same octet as the remainder of the
-				// value => step back onto it
-				--i;
+			// `if (neg_sgbit) tmp->neg = tmp->neg == 0;' is not needed, because the
+			// sign is stored separately from the number.  Default encoding of negative
+			// values in 2's complement form.
+			if (p_td.raw.fieldlength == RAW.RAW_INTX) {
+				val_bits = D.bitLength(); // bits needed to store the value
+				len_bits = 1 + val_bits / 8; // bits needed to store the length
+				if (val_bits % 8 + len_bits % 8 > 8) {
+					// the remainder of the value bits and the length bits do not fit into
+					// an octet => an extra octet is needed and the length must be increased
+					++len_bits;
+				}
+				length = (len_bits + val_bits + 7) / 8;
+				if (len_bits % 8 == 0 && val_bits % 8 != 0) {
+					// special case: the value can be stored on 8k - 1 octets plus the partial octet
+					// - len_bits = 8k is not enough, since there's no partial octet in that case
+					// and the length would then be followed by 8k octets (and it only indicates
+					// 8k - 1 further octets)
+					// - len_bits = 8k + 1 is too much, since there are only 8k - 1 octets
+					// following the partial octet (and 8k are indicated)
+					// solution: len_bits = 8k + 1 and insert an extra empty octet
+					++len_bits;
+					++length;
+				}
 			} else {
-				// the remainder of the length is in a separate octet
-				bc[i] = 0;
-			}
-			// insert the length's partial octet
-			int mask = 0x80;
-			for (int j = 0; j < len_bits % 8; ++j) {
-				bc[i] |= mask;
-				mask >>= 1;
-			}
-			if (len_bits % 8 > 0 || val_bits != 0) {
-				// there was a partial octet => step onto the first full octet
-				++i;
-			}
-			// insert the length's full octets
-			while (len_bits >= 8) {
-				// octets containing only ones in the length
-				bc[i] = 0xFF;
-				++i;
-				len_bits -= 8;
-			}
-			myleaf.length = length * 8;
-		} else {
-			final byte[] tmp;
-			if (twos_compl) {
-				tmp = D.toByteArray();
-			} else {
-				tmp = D.abs().toByteArray();
-			}
-			final int num_bytes = tmp.length;
-			for (int a = 0; a < length; a++) {
-				if (twos_compl && num_bytes - 1 < a) {
-					bc[a] = 0xff;
-				} else {
-					bc[a] = (char) ((num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff);
+				length = (p_td.raw.fieldlength + 7) / 8;
+				final int min_bits = RAW.min_bits(D);
+				if (min_bits > p_td.raw.fieldlength) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: %s", p_td.name);
+					// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
+					// at all for negative values.  Just simply clear the value.
+					neg_sgbit = false;
 				}
 			}
-			if (neg_sgbit) {
-				final int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
-				bc[length - 1] |= mask;
+			if (length > RAW.RAW_INT_ENC_LENGTH) {
+				myleaf.data_array = bc = new char[length];
+			} else {
+				bc = myleaf.data_array;
 			}
-			myleaf.length = p_td.raw.fieldlength;
+
+			final boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
+
+			if (p_td.raw.fieldlength == RAW.RAW_INTX) {
+				int i = 0;
+				// treat the empty space between the value and the length as if it was part
+				// of the value, too
+				val_bits = length * 8 - len_bits;
+				// first, encode the value
+				final byte[] tmp = neg_sgbit ? D.abs().toByteArray() : D.toByteArray();
+				final int num_bytes = tmp.length;
+				do {
+					bc[i] = (char) (((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]) & 0xFF);
+					++i;
+					val_bits -= 8;
+				} while (val_bits > 0);
+				if (neg_sgbit) {
+					// the sign bit is the first bit after the length
+					final int mask = 0x80 >> len_bits % 8;
+					bc[i - 1] |= mask;
+				}
+				// second, encode the length (ignore the last zero)
+				--len_bits;
+				if (val_bits != 0) {
+					// the remainder of the length is in the same octet as the remainder of the
+					// value => step back onto it
+					--i;
+				} else {
+					// the remainder of the length is in a separate octet
+					bc[i] = 0;
+				}
+				// insert the length's partial octet
+				int mask = 0x80;
+				for (int j = 0; j < len_bits % 8; ++j) {
+					bc[i] |= mask;
+					mask >>= 1;
+				}
+				if (len_bits % 8 > 0 || val_bits != 0) {
+					// there was a partial octet => step onto the first full octet
+					++i;
+				}
+				// insert the length's full octets
+				while (len_bits >= 8) {
+					// octets containing only ones in the length
+					bc[i] = 0xFF;
+					++i;
+					len_bits -= 8;
+				}
+				myleaf.length = length * 8;
+			} else {
+				final byte[] tmp;
+				if (twos_compl) {
+					tmp = D.toByteArray();
+				} else {
+					tmp = D.abs().toByteArray();
+				}
+				final int num_bytes = tmp.length;
+				for (int a = 0; a < length; a++) {
+					if (twos_compl && num_bytes - 1 < a) {
+						bc[a] = 0xff;
+					} else {
+						bc[a] = (char) ((num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff);
+					}
+				}
+				if (neg_sgbit) {
+					final int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
+					bc[length - 1] |= mask;
+				}
+				myleaf.length = p_td.raw.fieldlength;
+			}
+		} finally {
+			errorContext.leave_context();
 		}
-		errorContext.leave_context();
 
 		return myleaf.length;
 	}
@@ -1730,205 +1740,200 @@ public class TitanInteger extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
-		boundFlag = false;
-		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
-		limit -= prepaddlength;
-		final RAW_coding_par cp = new RAW_coding_par();
-		boolean orders = false;
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
-		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-			orders = true;
-		}
-		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-			orders = !orders;
-		}
-		cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		orders = false;
-		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-			orders = true;
-		}
-		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-			orders = !orders;
-		}
-		cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		cp.fieldorder = p_td.raw.fieldorder;
-		cp.hexorder = raw_order_t.ORDER_LSB;
-		int decode_length = 0;
-		int len_bits = 0; // only for IntX (amount of bits used to store the length)
-		char len_data = 0; // only for IntX (an octet used to store the length)
-		int partial_octet_bits = 0; // only for IntX (amount of value bits in the partial octet)
-		final char[] tmp_len_data = new char[1];
-		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
-			// extract the length
-			do {
-				// check if at least 8 bits are available in the buffer
-				if (8 > limit) {
-					if (!no_err) {
-						TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + limit);
-					}
-					errorContext.leave_context();
-
-					return -error_type.ET_LEN_ERR.ordinal();
-				} else {
-					limit -= 8;
-				}
-				final int nof_unread_bits = buff.unread_len_bit();
-				if (nof_unread_bits < 8) {
-					if (!no_err) {
-						TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + nof_unread_bits);
-					}
-					errorContext.leave_context();
-
-					return -error_type.ET_INCOMPL_MSG.ordinal();
-				}
-
-				// extract the next length octet (or partial length octet)
-				buff.get_b(8, tmp_len_data, cp, top_bit_ord);
-				int mask = 0x80;
-				len_data = tmp_len_data[0];
+		try {
+			boundFlag = false;
+			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+			limit -= prepaddlength;
+			final RAW_coding_par cp = new RAW_coding_par();
+			boolean orders = false;
+			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+				orders = true;
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			orders = false;
+			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+				orders = true;
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			cp.fieldorder = p_td.raw.fieldorder;
+			cp.hexorder = raw_order_t.ORDER_LSB;
+			int decode_length = 0;
+			int len_bits = 0; // only for IntX (amount of bits used to store the length)
+			char len_data = 0; // only for IntX (an octet used to store the length)
+			int partial_octet_bits = 0; // only for IntX (amount of value bits in the partial octet)
+			final char[] tmp_len_data = new char[1];
+			if (p_td.raw.fieldlength == RAW.RAW_INTX) {
+				// extract the length
 				do {
-					++len_bits;
-					if ((tmp_len_data[0] & mask) != 0) {
-						mask >>= 1;
+					// check if at least 8 bits are available in the buffer
+					if (8 > limit) {
+						if (!no_err) {
+							TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + limit);
+						}
+
+						return -error_type.ET_LEN_ERR.ordinal();
 					} else {
-						// the first zero signals the end of the length
-						// the rest of the bits in the octet are part of the value
-						partial_octet_bits = (8 - len_bits % 8) % 8;
-
-						// decode_length only stores the amount of bits in full octets needed
-						// by the value, the bits in the partial octet are stored by len_data
-						decode_length = 8 * (len_bits - 1);
-						break;
+						limit -= 8;
 					}
-				} while (len_bits % 8 != 0);
-			} while (decode_length == 0 && partial_octet_bits == 0);
-		} else {
-			// not IntX, use the static field length
-			decode_length = p_td.raw.fieldlength;
-		}
-		if (decode_length > limit) {
-			if (!no_err) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR,
-						"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, limit);
-			}
-			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
-				errorContext.leave_context();
+					final int nof_unread_bits = buff.unread_len_bit();
+					if (nof_unread_bits < 8) {
+						if (!no_err) {
+							TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + nof_unread_bits);
+						}
 
-				return -error_type.ET_LEN_ERR.ordinal();
-			}
-			decode_length = limit;
-		}
+						return -error_type.ET_INCOMPL_MSG.ordinal();
+					}
 
-		final int nof_unread_bits = buff.unread_len_bit();
-		if (decode_length > nof_unread_bits) {
-			if (!no_err) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,
-						"There are not enough bits in the buffer to decode %s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, nof_unread_bits);
-			}
-			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
-				errorContext.leave_context();
+					// extract the next length octet (or partial length octet)
+					buff.get_b(8, tmp_len_data, cp, top_bit_ord);
+					int mask = 0x80;
+					len_data = tmp_len_data[0];
+					do {
+						++len_bits;
+						if ((tmp_len_data[0] & mask) != 0) {
+							mask >>= 1;
+						} else {
+							// the first zero signals the end of the length
+							// the rest of the bits in the octet are part of the value
+							partial_octet_bits = (8 - len_bits % 8) % 8;
 
-				return error_type.ET_INCOMPL_MSG.ordinal();
-			}
-			decode_length = nof_unread_bits;
-		}
-		clean_up();
-		if (decode_length < 0) {
-			errorContext.leave_context();
-			return -1;
-		} else if (decode_length == 0 && partial_octet_bits == 0) {
-			boundFlag = true;
-			nativeFlag = true;
-			nativeInt = 0;
-		} else {
-			int tmp = 0;
-			int twos_compl = 0;
-			char[] data = new char[ (decode_length + partial_octet_bits + 7) / 8];
-			buff.get_b(decode_length, data, cp, top_bit_ord);
-			if (partial_octet_bits != 0) {
-				// in case there are value bits in the last length octet (only for IntX),
-				// these need to be appended to the extracted data
-				data[decode_length / 8] = len_data;
-				decode_length += partial_octet_bits;
-			}
-			int end_pos = decode_length;
-			int idx = (end_pos - 1) / 8;
-			boolean negativ_num = false;
-			switch (p_td.raw.comp) {
-			case SG_2COMPL:
-				if ((data[idx] >> ((end_pos - 1) % 8) & 0x01) != 0) {
-					tmp = -1;
-					twos_compl = 1;
-				}
-				break;
-			case SG_NO:
-				break;
-			case SG_SG_BIT:
-				negativ_num = ((data[idx] >> ((end_pos - 1) % 8)) & 0x01) != 0;
-				end_pos--;
-				break;
-			default:
-				break;
-			}
-			if (end_pos < 9) {
-				tmp <<= end_pos;
-				tmp |= data[0] & RAW.BitMaskTable[end_pos];
+							// decode_length only stores the amount of bits in full octets needed
+							// by the value, the bits in the partial octet are stored by len_data
+							decode_length = 8 * (len_bits - 1);
+							break;
+						}
+					} while (len_bits % 8 != 0);
+				} while (decode_length == 0 && partial_octet_bits == 0);
 			} else {
-				idx = (end_pos - 1) / 8;
-				tmp <<= (end_pos - 1) % 8 + 1;
-				tmp |= data[idx--] & RAW.BitMaskTable[(end_pos - 1) % 8 + 1];
-				if (decode_length >  32 - 1) {
-					BigInteger D = BigInteger.valueOf(tmp);
-					int pad = tmp == 0 ? 1 : 0;
-					for (; idx >= 0; idx--) {
-						if (pad != 0 && data[idx] != 0) {
-							D = BigInteger.valueOf(data[idx] & 0xFF);
-							pad = 0;
-							continue;
-						}
-						if (pad != 0) {
-							continue;
-						}
+				// not IntX, use the static field length
+				decode_length = p_td.raw.fieldlength;
+			}
+			if (decode_length > limit) {
+				if (!no_err) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR,
+							"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, limit);
+				}
+				if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
+					return -error_type.ET_LEN_ERR.ordinal();
+				}
+				decode_length = limit;
+			}
 
-						D = D.shiftLeft(8);
-						D = D.add(BigInteger.valueOf(data[idx] & 0xFF));
+			final int nof_unread_bits = buff.unread_len_bit();
+			if (decode_length > nof_unread_bits) {
+				if (!no_err) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,
+							"There are not enough bits in the buffer to decode %s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, nof_unread_bits);
+				}
+				if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
+					return error_type.ET_INCOMPL_MSG.ordinal();
+				}
+				decode_length = nof_unread_bits;
+			}
+			clean_up();
+			if (decode_length < 0) {
+				return -1;
+			} else if (decode_length == 0 && partial_octet_bits == 0) {
+				boundFlag = true;
+				nativeFlag = true;
+				nativeInt = 0;
+			} else {
+				int tmp = 0;
+				int twos_compl = 0;
+				char[] data = new char[ (decode_length + partial_octet_bits + 7) / 8];
+				buff.get_b(decode_length, data, cp, top_bit_ord);
+				if (partial_octet_bits != 0) {
+					// in case there are value bits in the last length octet (only for IntX),
+					// these need to be appended to the extracted data
+					data[decode_length / 8] = len_data;
+					decode_length += partial_octet_bits;
+				}
+				int end_pos = decode_length;
+				int idx = (end_pos - 1) / 8;
+				boolean negativ_num = false;
+				switch (p_td.raw.comp) {
+				case SG_2COMPL:
+					if ((data[idx] >> ((end_pos - 1) % 8) & 0x01) != 0) {
+						tmp = -1;
+						twos_compl = 1;
 					}
-					if (twos_compl != 0) {
-						final BigInteger D_tmp = BigInteger.ZERO;
-						D = D.subtract(D_tmp);
-					} else if (negativ_num) {
-						D = D.negate();
-					}
-					if (D.bitLength() > 31) {
-						boundFlag = true;
-						nativeFlag = false;
-						openSSL = D;
-					} else {
-						boundFlag = true;
-						nativeFlag = true;
-						nativeInt = D.intValue();
-					}
-					decode_length += buff.increase_pos_padd(p_td.raw.padding);
-					boundFlag = true;
-					errorContext.leave_context();
-
-					return decode_length + prepaddlength + len_bits;
+					break;
+				case SG_NO:
+					break;
+				case SG_SG_BIT:
+					negativ_num = ((data[idx] >> ((end_pos - 1) % 8)) & 0x01) != 0;
+					end_pos--;
+					break;
+				default:
+					break;
+				}
+				if (end_pos < 9) {
+					tmp <<= end_pos;
+					tmp |= data[0] & RAW.BitMaskTable[end_pos];
 				} else {
-					for (; idx >= 0; idx--) {
-						tmp <<= 8;
-						tmp |= data[idx] & 0xff;
+					idx = (end_pos - 1) / 8;
+					tmp <<= (end_pos - 1) % 8 + 1;
+					tmp |= data[idx--] & RAW.BitMaskTable[(end_pos - 1) % 8 + 1];
+					if (decode_length >  32 - 1) {
+						BigInteger D = BigInteger.valueOf(tmp);
+						int pad = tmp == 0 ? 1 : 0;
+						for (; idx >= 0; idx--) {
+							if (pad != 0 && data[idx] != 0) {
+								D = BigInteger.valueOf(data[idx] & 0xFF);
+								pad = 0;
+								continue;
+							}
+							if (pad != 0) {
+								continue;
+							}
+
+							D = D.shiftLeft(8);
+							D = D.add(BigInteger.valueOf(data[idx] & 0xFF));
+						}
+						if (twos_compl != 0) {
+							final BigInteger D_tmp = BigInteger.ZERO;
+							D = D.subtract(D_tmp);
+						} else if (negativ_num) {
+							D = D.negate();
+						}
+						if (D.bitLength() > 31) {
+							boundFlag = true;
+							nativeFlag = false;
+							openSSL = D;
+						} else {
+							boundFlag = true;
+							nativeFlag = true;
+							nativeInt = D.intValue();
+						}
+						decode_length += buff.increase_pos_padd(p_td.raw.padding);
+						boundFlag = true;
+
+						return decode_length + prepaddlength + len_bits;
+					} else {
+						for (; idx >= 0; idx--) {
+							tmp <<= 8;
+							tmp |= data[idx] & 0xff;
+						}
 					}
 				}
+				boundFlag = true;
+				nativeFlag = true;
+				nativeInt = negativ_num ? -tmp : tmp;
 			}
+			decode_length += buff.increase_pos_padd(p_td.raw.padding);
 			boundFlag = true;
-			nativeFlag = true;
-			nativeInt = negativ_num ? -tmp : tmp;
-		}
-		decode_length += buff.increase_pos_padd(p_td.raw.padding);
-		boundFlag = true;
-		errorContext.leave_context();
 
-		return decode_length + prepaddlength + len_bits;
+			return decode_length + prepaddlength + len_bits;
+		} finally {
+			errorContext.leave_context();
+		}
 	}
 
 	@Override
