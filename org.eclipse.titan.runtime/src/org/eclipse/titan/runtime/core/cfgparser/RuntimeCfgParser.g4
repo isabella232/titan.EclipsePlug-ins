@@ -796,11 +796,12 @@ pr_PlainLoggingParam
 |	APPENDFILE ASSIGNMENTCHAR af = pr_YesNoOrBoolean
 	{	TTCN_Logger.set_append_file( $af.bool );
 	}
-|	LOGEVENTTYPES ASSIGNMENTCHAR pr_LogEventTypesValue
-|	LOGENTITYNAME ASSIGNMENTCHAR len = pr_YesNoOrBoolean
-	{	//TODO: change to TTCN_Logger.set_log_entity_name(boolean)
-		//TTCN_Logger.set_log_entity_name( $len.bool );
-	}
+|	LOGEVENTTYPES ASSIGNMENTCHAR let = pr_LogEventTypesValue
+		{	TTCN_Logger.set_log_event_types( $let.type );
+		}
+|	LOGENTITYNAME ASSIGNMENTCHAR len = pr_LogEventTypesValue
+		{	TTCN_Logger.set_log_entity_name( $len.type );
+		}
 |	MATCHINGHINTS ASSIGNMENTCHAR pr_MatchingHintsValue
 |	o1 = pr_PluginSpecificParamName ASSIGNMENTCHAR o2 = pr_StringValue
 	{	final logging_setting_t logging_setting = new logging_setting_t();
@@ -914,10 +915,9 @@ pr_YesNoOrBoolean returns [Boolean bool]:
 |	b = pr_Boolean { $bool = $b.bool; }
 ;
 
-pr_LogEventTypesValue:
-	b = pr_YesNoOrBoolean	{	TTCN_Logger.set_log_event_types( $b.bool ?
-									log_event_types_t.LOGEVENTTYPES_YES : log_event_types_t.LOGEVENTTYPES_NO );	}
-|	pr_Detailed				{	TTCN_Logger.set_log_event_types( log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES );	}
+pr_LogEventTypesValue returns [ log_event_types_t type ]:
+	b = pr_YesNoOrBoolean	{	$type = $b.bool ? log_event_types_t.LOGEVENTTYPES_YES : log_event_types_t.LOGEVENTTYPES_NO;	}
+|	pr_Detailed				{	$type = log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES;	}
 ;
 
 pr_MatchingHintsValue:

@@ -889,7 +889,7 @@ pr_PlainLoggingParam
 	{	logParamEntry.setLogeventTypesRoot( $ctx );
 		logParamEntry.setLogeventTypes( $let.ctx );
 	}
-|	LOGENTITYNAME ASSIGNMENTCHAR len = pr_YesNoOrBoolean
+|	LOGENTITYNAME ASSIGNMENTCHAR len = pr_LogEventTypesValue
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setLogEntityName( $len.ctx );
 	}
