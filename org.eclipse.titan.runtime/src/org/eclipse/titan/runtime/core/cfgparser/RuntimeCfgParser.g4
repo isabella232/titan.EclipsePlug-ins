@@ -1510,12 +1510,9 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 			$fr.min_exclusive, $fr.max_exclusive );
 	}
 |	sr = pr_StringRange	{	$moduleparameter = $sr.stringrange;	}
-|	PATTERNKEYWORD pcl = pr_PatternChunkList
-	{
-		//TODO: handle nocase
-		boolean nocase = false;
-		$moduleparameter = new Module_Param_Pattern($pcl.ucstr.to_utf(), nocase);
-	}
+|	PATTERNKEYWORD		{	boolean nocase = false;	}
+	(	NOCASEKEYWORD	{	nocase = true;	}	)?
+	pcl = pr_PatternChunkList		{	$moduleparameter = new Module_Param_Pattern($pcl.ucstr.to_utf(), nocase);	}
 |	bsm = pr_BStringMatch			{	$moduleparameter = new Module_Param_Bitstring_Template($bsm.string);	}
 |	hsm = pr_HStringMatch			{	$moduleparameter = new Module_Param_Hexstring_Template($hsm.string);	}
 |	osm = pr_OStringMatch			{	$moduleparameter = new Module_Param_Octetstring_Template($osm.string);	}

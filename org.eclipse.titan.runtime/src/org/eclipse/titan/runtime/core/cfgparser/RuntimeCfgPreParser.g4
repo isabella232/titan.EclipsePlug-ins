@@ -950,7 +950,7 @@ pr_SimpleParameterValue:
 |	pr_IntegerRange
 |	pr_FloatRange
 |	pr_StringRange
-|	PATTERNKEYWORD	pr_PatternChunkList
+|	PATTERNKEYWORD	NOCASEKEYWORD?	pr_PatternChunkList
 |	pr_BStringMatch
 |	pr_HStringMatch
 |	pr_OStringMatch
