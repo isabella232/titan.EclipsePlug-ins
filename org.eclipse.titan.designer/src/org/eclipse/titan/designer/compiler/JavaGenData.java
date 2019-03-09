@@ -99,6 +99,12 @@ public class JavaGenData {
 	public HashMap<String, String> RAW_attibute_registry;
 
 	/**
+	 * encoding registry is used to generate a static default encoding value
+	 * only once.
+	 * */
+	public HashMap<String, String> encoding_registry;
+
+	/**
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
 	private boolean mDebug;
@@ -119,6 +125,7 @@ public class JavaGenData {
 		mGlobalVariablesGenerated = new HashSet<String>();
 		mGlobalVariables = new StringBuilder();
 		RAW_attibute_registry = new HashMap<String, String>();
+		encoding_registry = new HashMap<String, String>();
 		constructor = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
