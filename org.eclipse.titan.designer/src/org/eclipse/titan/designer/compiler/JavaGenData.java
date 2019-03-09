@@ -91,6 +91,13 @@ public class JavaGenData {
 
 	/** is generating seof types fully, forced? */
 	private boolean forceGenSeof = false;
+
+	/**
+	 * RAW attribute registry is used to generate a static RAW attribute
+	 * only once.
+	 * */
+	public HashMap<String, String> RAW_attibute_registry;
+
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
@@ -111,6 +118,7 @@ public class JavaGenData {
 		classHeader = new StringBuilder();
 		mGlobalVariablesGenerated = new HashSet<String>();
 		mGlobalVariables = new StringBuilder();
+		RAW_attibute_registry = new HashMap<String, String>();
 		constructor = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();

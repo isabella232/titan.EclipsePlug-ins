@@ -2512,8 +2512,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return;
 		}
 
-		final StringBuilder globalVariable = new StringBuilder();
-		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
+		final StringBuilder RAW_value = new StringBuilder();
+		RAW_value.append(MessageFormat.format("new TTCN_RAWdescriptor(", genname));
 
 		final boolean dummyRaw = rawAttribute == null;
 		if (dummyRaw) {
@@ -2522,96 +2522,96 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (rawAttribute.intX) {
 			aData.addBuiltinTypeImport("RAW");
 
-			globalVariable.append("RAW.RAW_INTX,");
+			RAW_value.append("RAW.RAW_INTX,");
 		} else {
-			globalVariable.append(rawAttribute.fieldlength).append(',');
+			RAW_value.append(rawAttribute.fieldlength).append(',');
 		}
 		if (rawAttribute.comp == RawAST.XDEFCOMPL) {
-			globalVariable.append("raw_sign_t.SG_2COMPL,");
+			RAW_value.append("raw_sign_t.SG_2COMPL,");
 		} else if (rawAttribute.comp == RawAST.XDEFSIGNBIT) {
-			globalVariable.append("raw_sign_t.SG_SG_BIT,");
+			RAW_value.append("raw_sign_t.SG_SG_BIT,");
 		} else {
-			globalVariable.append("raw_sign_t.SG_NO,");
+			RAW_value.append("raw_sign_t.SG_NO,");
 		}
 		if (rawAttribute.byteorder == RawAST.XDEFLAST) {
-			globalVariable.append("raw_order_t.ORDER_MSB,");
+			RAW_value.append("raw_order_t.ORDER_MSB,");
 		} else {
-			globalVariable.append("raw_order_t.ORDER_LSB,");
+			RAW_value.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.align == RawAST.XDEFLEFT) {
-			globalVariable.append("raw_order_t.ORDER_MSB,");
+			RAW_value.append("raw_order_t.ORDER_MSB,");
 		} else {
-			globalVariable.append("raw_order_t.ORDER_LSB,");
+			RAW_value.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.bitorderinfield == RawAST.XDEFMSB) {
-			globalVariable.append("raw_order_t.ORDER_MSB,");
+			RAW_value.append("raw_order_t.ORDER_MSB,");
 		} else {
-			globalVariable.append("raw_order_t.ORDER_LSB,");
+			RAW_value.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.bitorderinoctet == RawAST.XDEFMSB) {
-			globalVariable.append("raw_order_t.ORDER_MSB,");
+			RAW_value.append("raw_order_t.ORDER_MSB,");
 		} else {
-			globalVariable.append("raw_order_t.ORDER_LSB,");
+			RAW_value.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.extension_bit == RawAST.XDEFYES) {
-			globalVariable.append("ext_bit_t.EXT_BIT_YES,");
+			RAW_value.append("ext_bit_t.EXT_BIT_YES,");
 		} else if (rawAttribute.extension_bit == RawAST.XDEFREVERSE) {
-			globalVariable.append("ext_bit_t.EXT_BIT_REVERSE,");
+			RAW_value.append("ext_bit_t.EXT_BIT_REVERSE,");
 		} else {
-			globalVariable.append("ext_bit_t.EXT_BIT_NO,");
+			RAW_value.append("ext_bit_t.EXT_BIT_NO,");
 		}
 		if (rawAttribute.hexorder == RawAST.XDEFHIGH) {
-			globalVariable.append("raw_order_t.ORDER_MSB,");
+			RAW_value.append("raw_order_t.ORDER_MSB,");
 		} else {
-			globalVariable.append("raw_order_t.ORDER_LSB,");
+			RAW_value.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.fieldorder == RawAST.XDEFMSB) {
-			globalVariable.append("raw_order_t.ORDER_MSB,");
+			RAW_value.append("raw_order_t.ORDER_MSB,");
 		} else {
-			globalVariable.append("raw_order_t.ORDER_LSB,");
+			RAW_value.append("raw_order_t.ORDER_LSB,");
 		}
 		if (rawAttribute.toplevelind > 0) {
 			if (rawAttribute.toplevel.bitorder == RawAST.XDEFLSB) {
-				globalVariable.append("top_bit_order_t.TOP_BIT_LEFT,");
+				RAW_value.append("top_bit_order_t.TOP_BIT_LEFT,");
 			} else {
-				globalVariable.append("top_bit_order_t.TOP_BIT_RIGHT,");
+				RAW_value.append("top_bit_order_t.TOP_BIT_RIGHT,");
 			}
 		} else {
-			globalVariable.append("top_bit_order_t.TOP_BIT_INHERITED,");
+			RAW_value.append("top_bit_order_t.TOP_BIT_INHERITED,");
 		}
-		globalVariable.append(rawAttribute.padding).append(',');
-		globalVariable.append(rawAttribute.prepadding).append(',');
-		globalVariable.append(rawAttribute.ptroffset).append(',');
-		globalVariable.append(rawAttribute.unit).append(',');
-		globalVariable.append(rawAttribute.padding_pattern_length).append(',');
+		RAW_value.append(rawAttribute.padding).append(',');
+		RAW_value.append(rawAttribute.prepadding).append(',');
+		RAW_value.append(rawAttribute.ptroffset).append(',');
+		RAW_value.append(rawAttribute.unit).append(',');
+		RAW_value.append(rawAttribute.padding_pattern_length).append(',');
 		if (rawAttribute.padding_pattern_length > 0 && rawAttribute.padding_pattern != null) {
-			globalVariable.append("new char[] {");
+			RAW_value.append("new char[] {");
 			final String temp = Bit2OctExpression.bit2oct(rawAttribute.padding_pattern);
 			boolean first = true;
 			for (int i = temp.length() - 1; i > 0; i-=2) {
 				if (first) {
 					first = false;
 				} else {
-					globalVariable.append(", ");
+					RAW_value.append(", ");
 				}
-				globalVariable.append("0x").append(temp.charAt(i - 1)).append(temp.charAt(i));
+				RAW_value.append("0x").append(temp.charAt(i - 1)).append(temp.charAt(i));
 			}
-			globalVariable.append("},");
+			RAW_value.append("},");
 		} else {
-			globalVariable.append("null,");
+			RAW_value.append("null,");
 		}
-		globalVariable.append(rawAttribute.length_restriction).append(',');
+		RAW_value.append(rawAttribute.length_restriction).append(',');
 		if (rawAttribute.stringformat == CharCoding.UTF_8) {
-			globalVariable.append("CharCoding.UTF_8");
+			RAW_value.append("CharCoding.UTF_8");
 		} else if (rawAttribute.stringformat == CharCoding.UTF16) {
-			globalVariable.append("CharCoding.UTF16");
+			RAW_value.append("CharCoding.UTF16");
 		} else {
-			globalVariable.append("CharCoding.UNKNOWN");
+			RAW_value.append("CharCoding.UNKNOWN");
 		}
 
-		globalVariable.append(',');
+		RAW_value.append(',');
 		if (rawAttribute.forceOmit.lists.size() == 0) {
-			globalVariable.append(" null");
+			RAW_value.append(" null");
 		} else {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 
@@ -2660,10 +2660,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				preInit.append(");\n");
 			}
 
-			globalVariable.append(force_omit_name);
+			RAW_value.append(force_omit_name);
 		}
-		globalVariable.append(");\n");
+		RAW_value.append(")");
 
+		final StringBuilder globalVariable = new StringBuilder();
+		final String raw_value_string = RAW_value.toString();
+		if (aData.RAW_attibute_registry.containsKey(raw_value_string)) {
+			final String previousName = aData.RAW_attibute_registry.get(raw_value_string);
+			globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, previousName));
+		} else {
+			aData.RAW_attibute_registry.put(raw_value_string, MessageFormat.format("{0}_raw_", genname));
+			globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, raw_value_string));
+		}
 		aData.addGlobalVariable(descriptorName, globalVariable.toString());
 
 		if (dummyRaw) {
