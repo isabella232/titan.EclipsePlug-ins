@@ -137,10 +137,9 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			return;
 		}
 
-		SingleWithAttribute tempAttribute;
 		if (!erroneousAllowed) {
 			for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-				tempAttribute = attributes.getAttribute(i);
+				final SingleWithAttribute tempAttribute = attributes.getAttribute(i);
 				if (tempAttribute.getAttributeType() == Attribute_Type.Erroneous_Attribute) {
 					tempAttribute.getLocation().reportSemanticError(
 							"The `erroneous' attribute can be used only on template and constant definitions");
@@ -154,7 +153,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 		boolean hasOverrideOptional = false;
 
 		for (int i = attributes.getNofElements() - 1; i >= 0; i--) {
-			tempAttribute = attributes.getAttribute(i);
+			final SingleWithAttribute tempAttribute = attributes.getAttribute(i);
 			switch (tempAttribute.getAttributeType()) {
 			case Erroneous_Attribute:
 				if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
@@ -167,7 +166,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 		}
 
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-			tempAttribute = attributes.getAttribute(i);
+			final SingleWithAttribute tempAttribute = attributes.getAttribute(i);
 			if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_LOCAL) {
 				if (tempAttribute.getAttributeType() != Attribute_Type.Encode_Attribute ) {
 					tempAttribute.getLocation().reportSemanticWarning(
