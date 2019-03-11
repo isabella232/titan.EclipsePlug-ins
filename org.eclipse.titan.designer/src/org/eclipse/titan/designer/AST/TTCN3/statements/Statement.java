@@ -590,7 +590,6 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		expression.expression.append("new Index_Redirect() {\n");
 		expression.expression.append("@Override\n");
 		expression.expression.append("public void add_index(int p_index) {\n");
-		expression.expression.append("super.add_index(p_index);\n");
 		final IType last = typeReference.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		switch(last.getTypetypeTtcn3()) {
 		case TYPE_INTEGER:

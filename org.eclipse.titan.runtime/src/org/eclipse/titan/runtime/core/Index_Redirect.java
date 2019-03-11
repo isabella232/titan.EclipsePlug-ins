@@ -24,7 +24,7 @@ package org.eclipse.titan.runtime.core;
 **/
 
 
-public class Index_Redirect {
+public abstract class Index_Redirect {
 	/** If the port, timer or component operation in question succeeds, then the
 	 * index in the current dimension of the port, timer or component array is
 	 * stored in the array/record of element indicated by this member. Only used
@@ -47,7 +47,5 @@ public class Index_Redirect {
 		--pos;
 	}
 
-	public void add_index(final int p_index) {
-		pos = p_index;
-	}
+	public abstract void add_index(final int p_index);
 }
