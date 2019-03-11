@@ -2689,8 +2689,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param source the source code generated
 	 * */
 	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source) {
+		final String genname = getGenNameOwn();
 		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
-		if (t == null || !getGenNameOwn().equals(getGenNameDefaultCoding(aData, source, myScope))) {
+		if (t == null || !genname.equals(getGenNameDefaultCoding(aData, source, myScope))) {
 			return;
 		}
 
@@ -2714,15 +2715,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		String globalVariable;
 		if (aData.encoding_registry.containsKey(defaultCoding)) {
 			final String previousName = aData.encoding_registry.get(defaultCoding);
-			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = {1};\n", getGenNameOwn(), previousName);
+			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = {1};\n", genname, previousName);
 		} else {
-			aData.encoding_registry.put(defaultCoding, MessageFormat.format("{0}_default_coding", getGenNameOwn()));
-			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding);
+			aData.encoding_registry.put(defaultCoding, MessageFormat.format("{0}_default_coding", genname));
+			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
 		}
 
-		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", getGenNameOwn()), globalVariable);
+		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", genname), globalVariable);
 
-		if (!getGenNameCoder(aData, source, myScope).equals(getGenNameOwn()) ) {
+		if (!getGenNameCoder(aData, source, myScope).equals(genname) ) {
 			return;
 		}
 
@@ -2745,7 +2746,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		encoderString.append("\t * @param coding_name\n");
 		encoderString.append("\t *                the name of the coding to use.\n");
 		encoderString.append("\t * */\n");
-		encoderString.append(MessageFormat.format("\tpublic static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source)));
+		encoderString.append(MessageFormat.format("\tpublic static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", genname, getGenNameValue(aData, source)));
 
 		final StringBuilder decoderString = new StringBuilder();
 		decoderString.append("\t/**\n");
@@ -2762,7 +2763,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		decoderString.append("\t * @return 0 if nothing could be decoded, 1 in case of success, 2 in\n");
 		decoderString.append("\t *         case of error (incomplete message or length)\n");
 		decoderString.append("\t * */\n");
-		decoderString.append(MessageFormat.format("\tpublic static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source)));
+		decoderString.append(MessageFormat.format("\tpublic static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", genname, getGenNameValue(aData, source)));
 
 		// user defined codecs
 		for (int i = 0; i < tempCodingTable.size(); i++) {
