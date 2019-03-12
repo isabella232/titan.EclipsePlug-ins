@@ -655,8 +655,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param delayed
 	 *                in some case it is needed to delay this check till the
 	 *                end of the semantic checking.
+	 * @param errorLocation
+	 *                The location to report error messages to in case of
+	 *                need.
 	 * */
-	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed);
+	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed, final Location errorLocation);
 
 	/**
 	 * If the type does not have its raw attribute, generate and check a default one.

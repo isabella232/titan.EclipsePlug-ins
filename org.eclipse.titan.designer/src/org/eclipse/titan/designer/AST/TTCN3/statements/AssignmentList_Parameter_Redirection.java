@@ -219,7 +219,7 @@ public final class AssignmentList_Parameter_Redirection extends Parameter_Redire
 						// be extracted from the value type with the sub-references)
 						final IType declarationType = varType.getTypeRefdLast(timestamp);
 						assignment.setDeclarationType(declarationType);
-						varType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false);
+						varType.checkCoding(timestamp, false, variableReference.getMyScope().getModuleScope(), false, variableReference.getLocation());
 					}
 				} else {
 					checkVariableReference(timestamp, assignment.getReference(), parameterTemplate.getType());

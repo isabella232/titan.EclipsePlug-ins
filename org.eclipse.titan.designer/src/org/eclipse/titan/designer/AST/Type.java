@@ -901,10 +901,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed) {
+	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed, final Location errorLocation) {
 		final IType type = getTypeWithCodingTable(timestamp, false);
 		if (type == null) {
-			getLocation().reportSemanticError(MessageFormat.format("No coding rule specified for type `{0}''", getTypename()));
+			errorLocation.reportSemanticError(MessageFormat.format("No coding rule specified for type `{0}''", getTypename()));
 			return;
 		}
 
@@ -921,10 +921,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				final CoderFunction_Type codingFunction = tempCoders.get(this);
 				if (codingFunction == null) {
 					if (!type.isAsn()) {
-						getLocation().reportSemanticWarning(MessageFormat.format("No `{0}'' {1}coder function defined for type `{2}''", tempCoding.customCoding.name, encode ? "en" : "de", getTypename()));
+						errorLocation.reportSemanticWarning(MessageFormat.format("No `{0}'' {1}coder function defined for type `{2}''", tempCoding.customCoding.name, encode ? "en" : "de", getTypename()));
 					}
 				} else if (codingFunction.conflict){
-					getLocation().reportSemanticWarning(MessageFormat.format("Multiple `{0}'' {1}coder functions defined for type `{2}''", tempCoding.customCoding.name, encode ? "en" : "de", getTypename()));
+					errorLocation.reportSemanticWarning(MessageFormat.format("Multiple `{0}'' {1}coder functions defined for type `{2}''", tempCoding.customCoding.name, encode ? "en" : "de", getTypename()));
 				}
 			}
 		}

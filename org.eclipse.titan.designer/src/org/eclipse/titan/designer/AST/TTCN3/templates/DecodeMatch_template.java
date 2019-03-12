@@ -214,7 +214,7 @@ public class DecodeMatch_template extends TTCN3Template {
 
 		targetBody.setMyGovernor(targetType);
 		boolean selfReference = targetBody.checkThisTemplateGeneric(timestamp, targetType, target.getDerivedReference() == null ? false : true, false, true, true, implicitOmit, lhs);
-		targetType.checkCoding(timestamp, false, getMyScope().getModuleScope(), false);
+		targetType.checkCoding(timestamp, false, getMyScope().getModuleScope(), false, target.getLocation());
 
 		if (stringEncoding != null) {
 			if (type.getTypetype() != Type_type.TYPE_UCHARSTRING) {
