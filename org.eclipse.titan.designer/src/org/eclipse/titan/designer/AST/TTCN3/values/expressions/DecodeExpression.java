@@ -557,7 +557,7 @@ public final class DecodeExpression extends Expression_Value {
 		}
 
 		final Scope scope = reference2.getMyScope();
-		final boolean isOptional = fieldType.fieldIsOptional(reference2.getSubreferences());
+		final boolean isOptional = type.fieldIsOptional(reference2.getSubreferences());
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
 		if (dynamicEncoding == null) {
