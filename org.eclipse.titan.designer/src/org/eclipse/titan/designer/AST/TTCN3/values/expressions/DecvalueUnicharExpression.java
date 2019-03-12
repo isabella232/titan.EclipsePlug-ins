@@ -228,8 +228,6 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			final IReferenceChain referenceChain) {
 		// check reference1
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
-		// check reference2
-		checkExpressionOperand2(timestamp, expectedValue, referenceChain);
 
 		if (reference1 == null) {
 			setIsErroneous(true);
@@ -387,60 +385,6 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 				setIsErroneous(true);
 			}
 			return;
-		}
-	}
-
-	/**
-	 * Checks the 2nd operand
-	 * out any_type
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param expectedValue
-	 *                the kind of value expected.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 */
-	private void checkExpressionOperand2( final CompilationTimeStamp timestamp,
-			final Expected_Value_type expectedValue,
-			final IReferenceChain referenceChain ) {
-		if (reference1 == null) {
-			setIsErroneous(true);
-			return;
-		}
-
-		final Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
-
-		if (temporalAssignment == null) {
-			setIsErroneous(true);
-			return;
-		}
-
-		IType temporalType = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference2, 1,
-				Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-		if (temporalType == null) {
-			setIsErroneous(true);
-			return;
-		}
-		temporalType = temporalType.getTypeRefdLast(timestamp);
-		switch (temporalType.getTypetype()) {
-		case TYPE_UNDEFINED:
-		case TYPE_NULL:
-		case TYPE_REFERENCED:
-		case TYPE_REFD_SPEC:
-		case TYPE_SELECTION:
-		case TYPE_VERDICT:
-		case TYPE_PORT:
-		case TYPE_COMPONENT:
-		case TYPE_DEFAULT:
-		case TYPE_SIGNATURE:
-		case TYPE_FUNCTION:
-		case TYPE_ALTSTEP:
-		case TYPE_TESTCASE:
-			reference2.getLocation().reportSemanticError(OPERAND2_ERROR1);
-			setIsErroneous(true);
-			break;
-		default:
-			break;
 		}
 	}
 
