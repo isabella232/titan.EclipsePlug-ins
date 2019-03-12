@@ -2566,8 +2566,9 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
 		}
 
-		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
-		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
+		final VerdictTypeEnum localVerdictEnum = localVerdict.get();
+		TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+		TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 
 		final int n_PTCS = text_buf.pull_int().get_int();
 		if (n_PTCS > 0) {
@@ -2581,17 +2582,17 @@ public final class TTCN_Runtime {
 				}
 
 				final VerdictTypeEnum ptc_verdict = VerdictTypeEnum.values()[verdictInt];
-				VerdictTypeEnum newVerdict = localVerdict.get();
-				if (ptc_verdict.ordinal() > localVerdict.get().ordinal()) {
+				VerdictTypeEnum newVerdict = localVerdictEnum;
+				if (ptc_verdict.ordinal() > localVerdictEnum.ordinal()) {
 					newVerdict = ptc_verdict;
 					verdictReason.set(ptc_verdict_reason);
 				}
 
-				TTCN_Logger.log_final_verdict(true, ptc_verdict, localVerdict.get(), newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
+				TTCN_Logger.log_final_verdict(true, ptc_verdict, localVerdictEnum, newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
 				localVerdict.set(newVerdict);
 			}
 		} else {
-			TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+			TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		}
 
 		final boolean continueExecution = text_buf.pull_int().get_int() == 0 ? false : true;
