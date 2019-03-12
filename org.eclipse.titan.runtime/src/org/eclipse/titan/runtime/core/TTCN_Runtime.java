@@ -1254,8 +1254,9 @@ public final class TTCN_Runtime {
 		// the operation is successful if there is a component reference with a successful done or killed operation
 		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
 		for ( int i = 0; i < local_status_table.size(); i++) {
-			if (local_status_table.get(i).done_status == TitanAlt_Status.ALT_YES ||
-					local_status_table.get(i).killed_status == TitanAlt_Status.ALT_YES) {
+			final component_status_table_struct componentStatus = local_status_table.get(i);
+			if (componentStatus.done_status == TitanAlt_Status.ALT_YES ||
+					componentStatus.killed_status == TitanAlt_Status.ALT_YES) {
 				TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
 
 				return TitanAlt_Status.ALT_YES;
@@ -1474,8 +1475,9 @@ public final class TTCN_Runtime {
 		if (in_component_status_table(component_reference)) {
 			final int index = get_component_status_table_index(component_reference);
 			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
-			if (local_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
-					local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
+			final component_status_table_struct tempComponent = local_status_table.get(index);
+			if (tempComponent.done_status == TitanAlt_Status.ALT_YES ||
+					tempComponent.killed_status == TitanAlt_Status.ALT_YES) {
 				return false;
 			}
 		}
@@ -1679,8 +1681,9 @@ public final class TTCN_Runtime {
 		if (in_component_status_table(component_reference)) {
 			final int index = get_component_status_table_index(component_reference);
 			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
-			if (local_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
-					local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
+			final component_status_table_struct tempComponent = local_status_table.get(index);
+			if (tempComponent.done_status == TitanAlt_Status.ALT_YES ||
+					tempComponent.killed_status == TitanAlt_Status.ALT_YES) {
 				TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not running. Stop operation had no effect.", component_reference));
 
 				return;
@@ -2707,8 +2710,10 @@ public final class TTCN_Runtime {
 		case TitanComponent.MTC_COMPREF:
 		case TitanComponent.SYSTEM_COMPREF:
 			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.set_component_killed: invalid component reference: {0}.", component_reference));
-		default:
-			component_status_table.get().get(get_component_status_table_index(component_reference)).killed_status = TitanAlt_Status.ALT_YES;
+		default:{
+			final int index = get_component_status_table_index(component_reference);
+			component_status_table.get().get(index).killed_status = TitanAlt_Status.ALT_YES;
+		}
 		}
 	}
 
@@ -2798,7 +2803,8 @@ public final class TTCN_Runtime {
 	}
 
 	private static TitanAlt_Status get_killed_status(final int component_reference) {
-		return component_status_table.get().get(get_component_status_table_index(component_reference)).killed_status;
+		final int index = get_component_status_table_index(component_reference);
+		return component_status_table.get().get(index).killed_status;
 	}
 
 	private static boolean in_component_status_table(final int component_reference) {
