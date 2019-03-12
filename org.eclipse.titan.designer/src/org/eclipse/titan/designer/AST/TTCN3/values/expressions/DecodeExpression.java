@@ -296,7 +296,8 @@ public final class DecodeExpression extends Expression_Value {
 			break;
 		}
 
-		//TODO check coding
+		//TODO add support for disabled attribute validation
+		type.checkCoding(timestamp, false, getMyScope().getModuleScope(), false, reference2.getLocation());
 
 		if (encodingInfo != null) {
 			encodingInfo.setLoweridToReference(timestamp);

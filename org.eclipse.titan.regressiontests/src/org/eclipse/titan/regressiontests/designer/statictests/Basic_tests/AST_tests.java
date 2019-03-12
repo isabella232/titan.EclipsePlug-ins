@@ -410,7 +410,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1495);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1498);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1882,19 +1882,20 @@ public class AST_tests {
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `encvalue' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The operand of the `encvalue' operation cannot be encoded",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("No coding rule specified for type `verdicttype'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The operand of the `encvalue' operation cannot be encoded",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to `function' cannot be used as the first operand of the `decvalue operation",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to parameterized definition `f_encvalueTests' without actual parameter list",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to `constant' cannot be used as the first operand of the `decvalue' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Reference to `template' cannot be used as the first operand of the `decvalue' operation", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("The second operand of the `decvalue' operation is unable to hold a decoded value",  --lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to `template' cannot be used as the first operand of the `decvalue' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("No coding rule specified for type `@expression_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to `template' cannot be used as the first operand of the `decvalue' operation",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The second operand of the `decvalue' operation is unable to hold a decoded value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `encdecres1' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `vl_i' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("No coding rule specified for type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `decvalue' operation is unable to hold a decoded value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `t_encdecvar3' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;

@@ -270,8 +270,9 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 
-		//TODO check coding
-		
+		//TODO add support for disabled attribute validation
+		type.checkCoding(timestamp, false, getMyScope().getModuleScope(), false, reference2.getLocation());
+
 		// check value3
 		checkExpressionOperand3(timestamp, expectedValue, referenceChain);
 		// check value4

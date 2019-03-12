@@ -206,7 +206,10 @@ public final class EncodeExpression extends Expression_Value {
 		template.checkSpecificValue(timestamp, false);
 
 		final IType lastType = type.getTypeRefdLast(timestamp);
-		//TODO check coding
+
+		//TODO add support for disabled attribute validation
+		type.checkCoding(timestamp, true, getMyScope().getModuleScope(), false, templateInstance.getLocation());
+
 		switch (lastType.getTypetype()) {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:

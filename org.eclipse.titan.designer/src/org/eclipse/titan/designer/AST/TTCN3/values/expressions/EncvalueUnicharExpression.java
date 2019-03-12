@@ -231,7 +231,9 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		template.checkSpecificValue(timestamp, false);
 
 		final IType lastType = type.getTypeRefdLast(timestamp);
-		//TODO check coding
+		//TODO add support for disabled attribute validation
+		type.checkCoding(timestamp, true, getMyScope().getModuleScope(), false, templateInstance1.getLocation());
+
 		switch (lastType.getTypetype()) {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
