@@ -279,6 +279,8 @@ public final class DecodeExpression extends Expression_Value {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
 		case TYPE_REFERENCED:
+		case TYPE_REFD_SPEC:
+		case TYPE_SELECTION:
 		case TYPE_VERDICT:
 		case TYPE_PORT:
 		case TYPE_COMPONENT:
@@ -293,6 +295,8 @@ public final class DecodeExpression extends Expression_Value {
 		default:
 			break;
 		}
+
+		//TODO check coding
 
 		if (encodingInfo != null) {
 			encodingInfo.setLoweridToReference(timestamp);

@@ -255,6 +255,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
 		case TYPE_REFERENCED:
+		case TYPE_REFD_SPEC:
+		case TYPE_SELECTION:
 		case TYPE_VERDICT:
 		case TYPE_PORT:
 		case TYPE_COMPONENT:
@@ -270,6 +272,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 
+		//TODO check coding
+		
 		// check value3
 		checkExpressionOperand3(timestamp, expectedValue, referenceChain);
 		// check value4
@@ -422,6 +426,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
 		case TYPE_REFERENCED:
+		case TYPE_REFD_SPEC:
+		case TYPE_SELECTION:
 		case TYPE_VERDICT:
 		case TYPE_PORT:
 		case TYPE_COMPONENT:

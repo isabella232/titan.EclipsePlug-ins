@@ -205,11 +205,14 @@ public final class EncodeExpression extends Expression_Value {
 
 		template.checkSpecificValue(timestamp, false);
 
-		type = type.getTypeRefdLast(timestamp);
-		switch (type.getTypetype()) {
+		final IType lastType = type.getTypeRefdLast(timestamp);
+		//TODO check coding
+		switch (lastType.getTypetype()) {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
 		case TYPE_REFERENCED:
+		case TYPE_REFD_SPEC:
+		case TYPE_SELECTION:
 		case TYPE_VERDICT:
 		case TYPE_PORT:
 		case TYPE_COMPONENT:
