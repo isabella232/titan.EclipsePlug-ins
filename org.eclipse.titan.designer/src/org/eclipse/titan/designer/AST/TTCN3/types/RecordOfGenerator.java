@@ -401,6 +401,9 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t\tif (this == otherValue) {\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\t}\n");
 		source.append('\n');
 		if ( isSetOf ) {
 			source.append("\t\t\treturn RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);\n");
@@ -486,6 +489,9 @@ public final class RecordOfGenerator {
 		}
 		source.append( MessageFormat.format( "\t\tpublic {0} operator_assign( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format("\t\t\totherValue.must_bound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
+		source.append("\t\t\tif (this == otherValue) {\n");
+		source.append("\t\t\t\treturn this;\n");
+		source.append("\t\t\t}\n");
 		source.append('\n');
 		source.append("\t\t\tvalueElements = copy_list( otherValue.valueElements );\n");
 		source.append("\t\t\treturn this;\n");
