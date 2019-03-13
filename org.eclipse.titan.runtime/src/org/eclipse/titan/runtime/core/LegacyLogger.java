@@ -700,71 +700,73 @@ public class LegacyLogger implements ILoggerPlugin {
 
 	private static String event_to_string(final TitanLoggerApi.TitanLogEvent event, final boolean without_header) {
 		final StringBuilder returnValue = new StringBuilder(100);
-		final StringBuilder sourceInfo = new StringBuilder();
-		final TitanLogEvent_sourceInfo__list sourceInfoList = event.get_field_sourceInfo__list();
-		if (sourceInfoList.is_bound()) {
-			final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
-			final int stack_size = sourceInfoList.size_of().get_int();
-			if (stack_size > 0) {
-				int i = 0;
-				switch (source_info_format) {
-				case SINFO_NONE:
-					i = stack_size;
-					break;
-				case SINFO_SINGLE:
-					i = stack_size - 1;
-					break;
-				case SINFO_STACK:
-					break;
-				}
-				boolean firstLocation = true;
-				for (; i < stack_size; i++) {
-					final LocationInfo loc = sourceInfoList.get_at(i);
-					if (firstLocation) {
-						firstLocation = false;
-					} else {
-						sourceInfo.append("->");
+		if (!without_header) {
+			final StringBuilder sourceInfo = new StringBuilder();
+			final TitanLogEvent_sourceInfo__list sourceInfoList = event.get_field_sourceInfo__list();
+			if (sourceInfoList.is_bound()) {
+				final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
+				final int stack_size = sourceInfoList.size_of().get_int();
+				if (stack_size > 0) {
+					int i = 0;
+					switch (source_info_format) {
+					case SINFO_NONE:
+						i = stack_size;
+						break;
+					case SINFO_SINGLE:
+						i = stack_size - 1;
+						break;
+					case SINFO_STACK:
+						break;
 					}
+					boolean firstLocation = true;
+					for (; i < stack_size; i++) {
+						final LocationInfo loc = sourceInfoList.get_at(i);
+						if (firstLocation) {
+							firstLocation = false;
+						} else {
+							sourceInfo.append("->");
+						}
 
-					sourceInfo.append(loc.get_field_filename().get_value()).append(':').append(loc.get_field_line().get_int());
+						sourceInfo.append(loc.get_field_filename().get_value()).append(':').append(loc.get_field_line().get_int());
 
-					switch (loc.get_field_ent__type().enum_value) {
-					case controlpart:
-						sourceInfo.append(MessageFormat.format("(controlpart:{0})", loc.get_field_ent__name()));
-						break;
-					case testcase__:
-						sourceInfo.append(MessageFormat.format("(testcase:{0})", loc.get_field_ent__name()));
-						break;
-					case altstep__:
-						sourceInfo.append(MessageFormat.format("(altstep:{0})", loc.get_field_ent__name()));
-						break;
-					case function__:
-						sourceInfo.append(MessageFormat.format("(function:{0})", loc.get_field_ent__name()));
-						break;
-					case external__function:
-						sourceInfo.append(MessageFormat.format("(externalfunction:{0})", loc.get_field_ent__name()));
-						break;
-					case template__:
-						sourceInfo.append(MessageFormat.format("(template:{0})", loc.get_field_ent__name()));
-						break;
-					case UNBOUND_VALUE:
-					case UNKNOWN_VALUE:
-					case unknown:
-						break;
-					} 
-				}
-			} else {
-				if (source_info_format == source_info_format_t.SINFO_SINGLE ||
-						source_info_format == source_info_format_t.SINFO_STACK) {
-					sourceInfo.append('-');
+						switch (loc.get_field_ent__type().enum_value) {
+						case controlpart:
+							sourceInfo.append(MessageFormat.format("(controlpart:{0})", loc.get_field_ent__name()));
+							break;
+						case testcase__:
+							sourceInfo.append(MessageFormat.format("(testcase:{0})", loc.get_field_ent__name()));
+							break;
+						case altstep__:
+							sourceInfo.append(MessageFormat.format("(altstep:{0})", loc.get_field_ent__name()));
+							break;
+						case function__:
+							sourceInfo.append(MessageFormat.format("(function:{0})", loc.get_field_ent__name()));
+							break;
+						case external__function:
+							sourceInfo.append(MessageFormat.format("(externalfunction:{0})", loc.get_field_ent__name()));
+							break;
+						case template__:
+							sourceInfo.append(MessageFormat.format("(template:{0})", loc.get_field_ent__name()));
+							break;
+						case UNBOUND_VALUE:
+						case UNKNOWN_VALUE:
+						case unknown:
+							break;
+						} 
+					}
+				} else {
+					if (source_info_format == source_info_format_t.SINFO_SINGLE ||
+							source_info_format == source_info_format_t.SINFO_STACK) {
+						sourceInfo.append('-');
+					}
 				}
 			}
-		}
 
-		final int severityIndex = event.get_field_severity().get_int();
-		final Severity severity = Severity.values()[severityIndex];
-		final TimestampType timestamp = event.get_field_timestamp__();
-		append_header(returnValue, timestamp.get_field_seconds().get_int(), timestamp.get_field_microSeconds().get_int(), severity, sourceInfo);
+			final int severityIndex = event.get_field_severity().get_int();
+			final Severity severity = Severity.values()[severityIndex];
+			final TimestampType timestamp = event.get_field_timestamp__();
+			append_header(returnValue, timestamp.get_field_seconds().get_int(), timestamp.get_field_microSeconds().get_int(), severity, sourceInfo);
+		}
 
 		final LogEventType_choice choice = event.get_field_logEvent().get_field_choice();
 		switch (choice.get_selection()) {
