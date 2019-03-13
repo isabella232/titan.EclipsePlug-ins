@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -153,7 +154,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasSingleExpression() {
+	public boolean hasSingleExpression(final FormalParameterList formalParameterList) {
 		if (value != null) {
 			if (!value.canGenerateSingleExpression()) {
 				return false;

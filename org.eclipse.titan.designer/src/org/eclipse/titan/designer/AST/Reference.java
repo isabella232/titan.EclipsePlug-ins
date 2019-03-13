@@ -1031,7 +1031,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		for (int i = 0; i < subReferences.size(); i++) {
 			final ISubReference temp = subReferences.get(i);
-			if (!temp.hasSingleExpression()) {
+			if (!temp.hasSingleExpression(null)) {
 				return false;
 			}
 		}
@@ -1061,6 +1061,11 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			}
 
 			if (formalParameterList != null) {
+				if (subReferences.size() > 0) {
+					if (!subReferences.get(0).hasSingleExpression(formalParameterList)) {
+						return false;
+					}
+				}
 				for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
 					if (formalParameterList.getParameterByIndex(i).getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
 						return false;

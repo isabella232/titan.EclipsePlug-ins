@@ -50,6 +50,9 @@ public final class ActivateDereferedExpression extends Expression_Value {
 
 	private ActualParameterList actualParameters;
 
+	/* not owned! */
+	private FormalParameterList lastFormalParameterList;
+
 	public ActivateDereferedExpression(final Value value, final ParsedActualParameters actualParameterList) {
 		this.value = value;
 		this.actualParameterList = actualParameterList;
@@ -177,15 +180,15 @@ public final class ActivateDereferedExpression extends Expression_Value {
 		}
 
 		actualParameters = new ActualParameterList();
-		final FormalParameterList formalParameterList = ((Altstep_Type) type).getFormalParameters();
-		if (formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameters)) {
+		lastFormalParameterList = ((Altstep_Type) type).getFormalParameters();
+		if (lastFormalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameters)) {
 			setIsErroneous(true);
 			return;
 		}
 
 		actualParameters.setFullNameParent(this);
 		actualParameters.setMyScope(getMyScope());
-		if (!formalParameterList.checkActivateArgument(timestamp, actualParameters, createStringRepresentation())) {
+		if (!lastFormalParameterList.checkActivateArgument(timestamp, actualParameters, createStringRepresentation())) {
 			setIsErroneous(true);
 		}
 
@@ -256,7 +259,7 @@ public final class ActivateDereferedExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return value.canGenerateSingleExpression() && actualParameters.hasSingleExpression();
+		return value.canGenerateSingleExpression() && actualParameters.hasSingleExpression(lastFormalParameterList);
 	}
 
 	@Override

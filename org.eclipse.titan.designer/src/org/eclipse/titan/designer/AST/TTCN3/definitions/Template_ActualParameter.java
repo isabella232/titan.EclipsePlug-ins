@@ -67,9 +67,9 @@ public final class Template_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasSingleExpression() {
+	public boolean hasSingleExpression(final FormalParameter formalParameter) {
 		if(genRestrictionCheck != Restriction_type.TR_NONE) {
-			// TODO needs t check post restriction check generation
+			// TODO needs to check post restriction check generation
 			return true;
 		}
 		if (template != null) {

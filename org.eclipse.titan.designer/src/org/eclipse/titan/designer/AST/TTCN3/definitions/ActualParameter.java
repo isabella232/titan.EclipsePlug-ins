@@ -57,8 +57,11 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 
 	/**
 	 * originally has_single_expr
+	 *
+	 * @param formalParameter
+	 *                the formal parameter it will be assigned to.
 	 * */
-	public abstract boolean hasSingleExpression();
+	public abstract boolean hasSingleExpression(final FormalParameter formalParameter);
 
 	/**
 	 * Sets the code_section attribute of this actual parameter to the provided value.

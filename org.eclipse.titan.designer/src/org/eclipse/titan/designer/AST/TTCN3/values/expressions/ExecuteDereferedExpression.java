@@ -54,6 +54,9 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 
 	private ActualParameterList actualParameters;
 
+	/* not owned! */
+	private FormalParameterList lastFormalParameterList;
+
 	public ExecuteDereferedExpression(final Value value, final ParsedActualParameters actualParameterList, final Value timerValue) {
 		this.value = value;
 		this.actualParameterList = actualParameterList;
@@ -195,9 +198,9 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 			if (type == null || type.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
 			} else if (Type_type.TYPE_TESTCASE.equals(type.getTypetype())) {
-				final FormalParameterList formalParameters = ((Testcase_Type) type).getFormalParameters();
+				lastFormalParameterList = ((Testcase_Type) type).getFormalParameters();
 				actualParameters = new ActualParameterList();
-				final boolean isErroneous = formalParameters.checkActualParameterList(timestamp, actualParameterList, actualParameters);
+				final boolean isErroneous = lastFormalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameters);
 				if (isErroneous) {
 					setIsErroneous(true);
 				}
@@ -319,7 +322,7 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return value.canGenerateSingleExpression() && actualParameters.hasSingleExpression() &&
+		return value.canGenerateSingleExpression() && actualParameters.hasSingleExpression(lastFormalParameterList) &&
 				(timerValue == null || timerValue.canGenerateSingleExpression());
 	}
 

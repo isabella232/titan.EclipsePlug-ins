@@ -7,14 +7,20 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -46,12 +52,32 @@ public final class Referenced_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasSingleExpression() {
+	public boolean hasSingleExpression(final FormalParameter formalParameter) {
 //		if(genRestrictionCheck != Restriction_type.TR_NONE) {
 			// TODO needs t check post restriction check generation
 //			return true;
 //		}
+
 		if (reference != null) {
+			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER
+					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT) {
+				boolean isTemplateParamater = false;
+				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT ||
+						formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT) {
+					isTemplateParamater = true;
+				}
+
+				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
+				final IType fieldType = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, isTemplateParamater ? Expected_Value_type.EXPECTED_TEMPLATE : Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+				final IType actualParType = fieldType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType formalParType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				//FIXME actually check for the need of conversion
+				if (!actualParType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), formalParType)) {
+					return false;
+				}
+			}
+
 			return reference.hasSingleExpression();
 		}
 
@@ -104,9 +130,66 @@ public final class Referenced_ActualParameter extends ActualParameter {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final FormalParameter formalParameter) {
 		if (reference != null) {
-			// TODO implement properly
-			reference.generateCode(aData, expression);
-			Value.generateCodeExpressionOptionalFieldReference(aData, expression, reference);
+			boolean needsConversion = false;
+			IType formalParType = null;
+			IType actualParType = null;
+			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER
+					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT) {
+				boolean isTemplateParamater = false;
+				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT ||
+						formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT) {
+					isTemplateParamater = true;
+				}
+
+				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
+				final IType fieldType = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, isTemplateParamater ? Expected_Value_type.EXPECTED_TEMPLATE : Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+				actualParType = fieldType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				formalParType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				//FIXME actually check for the need of conversion
+				if (!actualParType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), formalParType)) {
+					needsConversion = true;
+				}
+			}
+
+			StringBuilder expressionExpression = new StringBuilder();
+			final String tempId;
+			// FIXME handle conversion case
+			final ExpressionStruct valueExpression = new ExpressionStruct();
+			reference.generateCode(aData, valueExpression);
+			Value.generateCodeExpressionOptionalFieldReference(aData, valueExpression, reference);
+			if(valueExpression.preamble.length() > 0) {
+				expression.preamble.append(valueExpression.preamble);
+			}
+			if(valueExpression.postamble.length() == 0) {
+				expressionExpression.append(valueExpression.expression);
+			} else {
+				// make sure the postambles of the parameters are executed before the
+				// function call itself (needed if the value contains function calls
+				// with lazy or fuzzy parameters)
+				tempId = aData.getTemporaryVariableName();
+				expression.preamble.append(MessageFormat.format(" {0}({1})", tempId, valueExpression.expression));
+				expression.preamble.append(valueExpression.postamble);
+				expressionExpression.append(tempId);
+			}
+
+			if (needsConversion) {
+				final String tempId2 = aData.getTemporaryVariableName();
+				final String formalParTypeName = formalParType.getGenNameValue(aData, expression.preamble);
+				StringBuilder oldExpressionExpression = expressionExpression;
+				StringBuilder convertedExpression = formalParType.generateConversion(aData, actualParType, expressionExpression);
+				final String finalExpression = MessageFormat.format("final {0} {1} = {2};\n", formalParTypeName, tempId2, convertedExpression.toString());
+				//TODO copy might be needed here
+				expression.preamble.append(finalExpression);
+				expression.expression.append(tempId2);
+
+				expressionExpression = new StringBuilder(tempId2);
+				convertedExpression = actualParType.generateConversion(aData, formalParType, expressionExpression);
+				expression.postamble.append(MessageFormat.format("{0}.operator_assign({1});\n", oldExpressionExpression, convertedExpression));
+			} else {
+				//TODO copy might be needed here
+				expression.expression.append(expressionExpression);
+			}
 		}
 	}
 
