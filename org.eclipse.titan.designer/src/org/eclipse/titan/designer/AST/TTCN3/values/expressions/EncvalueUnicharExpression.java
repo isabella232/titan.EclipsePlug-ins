@@ -10,6 +10,9 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -33,6 +36,8 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
+import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
 
 /**
  * Expression type for
@@ -231,8 +236,16 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		template.checkSpecificValue(timestamp, false);
 
 		final IType lastType = type.getTypeRefdLast(timestamp);
-		//TODO add support for disabled attribute validation
-		type.checkCoding(timestamp, true, getMyScope().getModuleScope(), false, templateInstance1.getLocation());
+		boolean attributeValidationDisabled = false;
+		try {
+			String property = getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY));
+			attributeValidationDisabled = property != null && "true".equals(property);
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		if (!attributeValidationDisabled){
+			type.checkCoding(timestamp, true, getMyScope().getModuleScope(), false, templateInstance1.getLocation());
+		}
 
 		switch (lastType.getTypetype()) {
 		case TYPE_UNDEFINED:
