@@ -724,6 +724,40 @@ public final class SetOf_Type extends AbstractOfType {
 			return expression;
 		}
 
+		boolean simpleOfType;
+		final IType ofType = getOfType();
+		switch (ofType.getTypetype()) {
+		case TYPE_BOOL:
+		case TYPE_BITSTRING:
+		case TYPE_BITSTRING_A:
+		case TYPE_HEXSTRING:
+		case TYPE_OCTETSTRING:
+		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
+		case TYPE_UTF8STRING:
+		case TYPE_TELETEXSTRING:
+		case TYPE_VIDEOTEXSTRING:
+		case TYPE_GRAPHICSTRING:
+		case TYPE_GENERALSTRING:
+		case TYPE_UNIVERSALSTRING:
+		case TYPE_BMPSTRING:
+		case TYPE_OBJECTDESCRIPTOR:
+		case TYPE_INTEGER:
+		case TYPE_INTEGER_A:
+		case TYPE_REAL:
+			simpleOfType = true;
+			break;
+		default:
+			simpleOfType = false;
+			break;
+		}
+
+		if (!aData.getForceGenSeof() && fromType.getTypetype() == Type_type.TYPE_SET_OF && simpleOfType) {
+			// happens to map to the same type
+			return expression;
+		}
+
+		//heavy conversion is needed
 		final String name = getGenNameValue(aData, expression);
 
 		return new StringBuilder(MessageFormat.format("new {0}({1})", name, expression));
