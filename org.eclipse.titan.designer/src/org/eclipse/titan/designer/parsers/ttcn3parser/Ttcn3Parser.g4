@@ -2476,17 +2476,18 @@ pr_CharStringMatch returns[PatternString patternString]
 	StringBuilder builder = new StringBuilder();
 	boolean[] uni = new boolean[1];
 	uni[0] = false;
-	boolean noCase = false;
+	boolean noCase = false; 
 }:
 (	pr_PatternKeyword
 	(	pr_NoCaseModifier	{	noCase = true;	}	)?
-	pr_PatternChunk[builder, uni, noCase] { if (uni[0]) { $patternString.setPatterntype(PatternType.UNIVCHARSTRING_PATTERN); } }
+	p = pr_PatternChunk[builder, uni, noCase] { if (uni[0]) { $patternString.setPatterntype(PatternType.UNIVCHARSTRING_PATTERN); } }
 	(	STRINGOP
-		pr_PatternChunk[builder, uni, noCase]
+		p = pr_PatternChunk[builder, uni, noCase]
 	)*
 )
 {
 	$patternString.setContent(builder.toString());
+	$patternString.setLocation(getLocation($p.start, $p.stop));
 };
 
 pr_PatternKeyword:
