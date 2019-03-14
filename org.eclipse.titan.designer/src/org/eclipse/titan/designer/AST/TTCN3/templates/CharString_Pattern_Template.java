@@ -350,6 +350,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			s.append("new TitanCharString(\"");
 			s.append(ttcnPattern);
 			s.append("\")");
+			return s.toString();
 		}
 		while ( m.matches() ) {
 			if (m.group(1) != null && !m.group(1).isEmpty()) {
