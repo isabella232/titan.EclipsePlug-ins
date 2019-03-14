@@ -8,18 +8,33 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
+import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReferenceAnalyzer;
 
 /**
  * Represents a template that holds a charstring pattern.
@@ -30,6 +45,10 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public final class CharString_Pattern_Template extends TTCN3Template {
 
 	private final PatternString patternstring;
+
+	private List<Reference> references = new ArrayList<>();
+
+	private static final Pattern PATTERN_DYNAMIC_REFERENCE = Pattern.compile( "(.*?)\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
 
 	public CharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.CHARSTRING_PATTERN);
@@ -42,6 +61,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		if (patternstring != null) {
 			patternstring.setFullNameParent(this);
 		}
+
 	}
 
 	public PatternString getPatternstring() {
@@ -204,7 +224,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		final String escaped = Charstring_Value.get_stringRepr(returnValue);
 
 		source.append(preamble);
-		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, new TitanCharString(\"{2}\")));\n", name, myGovernor.getGenNameTemplate(aData, source), escaped));
+		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, {2}));\n", name, myGovernor.getGenNameTemplate(aData, source), create_charstring_literals(null, aData)));
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
@@ -237,10 +257,141 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		final String escaped = Charstring_Value.get_stringRepr(patternstring.getFullString());
-		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result), escaped ) );
+		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result), create_charstring_literals(null, aData) /*escaped*/ ) );
 
 		//TODO handle cast needed
 
 		return result;
+	}
+
+	//TODO: comments
+	public void generateCodeStrPattern(final JavaGenData aData, final StringBuilder source) {
+		source.append(create_charstring_literals(null, aData));
+	}
+
+	//TODO: comments
+	public Reference parseRegexp(final String refToParse) {
+		TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
+		Reference valami1 = analyzer.parse((IFile) patternstring.getLocation().getFile(), refToParse, false, patternstring.getLocation().getLine(), patternstring.getLocation().getOffset());
+		valami1.setCodeSection(getCodeSection());
+		valami1.setMyScope(getMyScope());
+		return valami1;
+	}
+
+	//TODO: comments
+	public void checkRef(final Reference reference, final PatternType pstr_type, final Expected_Value_type expected_value, final CompilationTimeStamp timestamp) {
+		IValue v = null;
+		IValue v_last = null;
+		if (reference.getId().getName() == "CHARSTRING") {
+			return;
+		}
+		Assignment ass = reference.getRefdAssignment(timestamp, false);
+		if (ass == null) {
+			return;
+		}
+		IType ref_type = ass.getType(timestamp).getTypeRefdLast(timestamp).getFieldType(timestamp, reference, 1, expected_value, null, false);
+		Type_type tt;
+		if (pstr_type == PatternType.CHARSTRING_PATTERN && ref_type.getTypetype() != Type_type.TYPE_CHARSTRING) {
+			reference.getLocation().reportSemanticError("Type of the referenced %s '%s' should be 'charstring'");
+		} else {
+			tt = Type_type.TYPE_CHARSTRING;
+		}
+		IType refcheckertype = null;
+		refcheckertype = new CharString_Type();
+		switch (ass.getAssignmentType()) {
+		case A_TYPE:
+			Type t = (Type) ass.getType(timestamp);
+			break;
+		case A_MODULEPAR_TEMPLATE:
+		case A_VAR_TEMPLATE:
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_OUT:
+		case A_PAR_TEMP_INOUT:
+			// error reporting moved up
+			break;
+		case A_TEMPLATE:
+			ITTCN3Template templ = null;
+			templ = ((Def_Template) ass).getTemplate(timestamp);
+			refcheckertype.checkThisTemplateRef(timestamp, templ);
+			switch (templ.getTemplatetype()) {
+			case SPECIFIC_VALUE:
+				v_last = templ.getValue();
+				break;
+				//TODO: template concat in RT2
+			case CSTR_PATTERN:
+				v_last = this.getPatternstring().get_value();
+				break;
+			default:
+				//TODO:error report
+				System.err.println("Unable to resolve referenced '%s' to character string type. '%s' template cannot be used.");
+				break;
+			}
+			break;
+		case A_VAR:
+
+		default:
+			v = new Referenced_Value(reference);
+			v.setMyGovernor(refcheckertype);
+			v.setMyScope(reference.getMyScope());
+			v.setLocation(reference.getLocation());
+			refcheckertype.checkThisValueRef(lastTimeChecked, v);
+			v_last = v.getValueRefdLast(timestamp, null);
+		}
+		v = null;
+	}
+
+	//TODO: comments
+	public String create_charstring_literals(final StringBuilder preamble, final JavaGenData aData) {
+		int parent = 0; 
+		StringBuilder s = new StringBuilder();
+		String ttcnPattern = Charstring_Value.get_stringRepr(patternstring.getFullString());
+		Matcher m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
+		if (!m.matches()) {
+			s.append("new TitanCharString(\"");
+			s.append(ttcnPattern);
+			s.append("\")");
+		}
+		while ( m.matches() ) {
+			if (m.group(1) != null && !m.group(1).isEmpty()) {
+				if (m.group(2) != null && !m.group(2).isEmpty()) {
+					s.append("new TitanCharString(\"");
+					s.append(m.group(1));
+					s.append("\").operator_concatenate(");
+					parent++;
+				} else {
+					s.append("new TitanCharString(\"");
+					s.append(m.group(1));
+					s.append("\")");
+				}
+			}
+			String ref = m.group(2);
+			Reference parsedRef = parseRegexp(ref);
+			checkRef(parsedRef, PatternType.CHARSTRING_PATTERN, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
+			ExpressionStruct expr = new ExpressionStruct();
+			parsedRef.generateCode(aData, expr);
+			if (expr.postamble == null || expr.postamble == null) {
+				//TODO: check
+			}
+			s.append("new TitanCharString(");
+			s.append(expr.expression);
+			if (m.group(3) != null && !m.group(3).isEmpty()) { 
+				s.append(").operator_concatenate(");
+				parent++;	
+			} else {
+				s.append(")");
+			}
+			ttcnPattern = m.group(3);
+			m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
+		}
+		if (ttcnPattern != null && !ttcnPattern.isEmpty()) {
+			s.append("new TitanCharString(\"");
+			s.append(ttcnPattern);
+			s.append("\")");
+		}
+		while(parent > 0) {
+			s.append(")");
+			parent--;
+		}
+		return s.toString();
 	}
 }
