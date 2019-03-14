@@ -329,7 +329,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	public List<ISubReference> getSubreferences(final int from, final int till) {
 		final List<ISubReference> result = new ArrayList<ISubReference>();
 
-		for (int i = Math.max(0, from), size = Math.min(subReferences.size() - 1, till); i <= size; i++) {
+		final int size = Math.min(subReferences.size() - 1, till);
+		for (int i = Math.max(0, from); i <= size; i++) {
 			result.add(subReferences.get(i));
 		}
 
@@ -730,8 +731,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 *         sub-references, false otherwise.
 	 * */
 	public final boolean hasUnfoldableIndexSubReference(final CompilationTimeStamp timestamp) {
-		for (int i = 0, size = subReferences.size(); i < size; i++) {
-			final ISubReference subReference = subReferences.get(i);
+		for (final ISubReference subReference: subReferences) {
 			if (Subreference_type.arraySubReference.equals(subReference.getReferenceType())) {
 				IValue value = ((ArraySubReference) subReference).getValue();
 				if (value != null) {
@@ -836,10 +836,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			reparser.updateLocation(modid.getLocation());
 		}
 
-		ISubReference subreference;
-		for (int i = 0, size = subReferences.size(); i < size; i++) {
-			subreference = subReferences.get(i);
-
+		for (final ISubReference subreference : subReferences) {
 			subreference.updateSyntax(reparser, false);
 			reparser.updateLocation(subreference.getLocation());
 		}
