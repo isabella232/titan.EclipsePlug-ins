@@ -638,6 +638,9 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 				result = returnValue;
 				break;
+			} else if (returnValue == TitanAlt_Status.ALT_REPEAT ||
+					(returnValue == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
+				result = returnValue;
 			}
 		}
 
