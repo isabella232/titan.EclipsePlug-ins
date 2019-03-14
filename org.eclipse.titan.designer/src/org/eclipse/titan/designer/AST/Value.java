@@ -227,13 +227,13 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 
 			if (last.getValuetype() == Value_type.CHARSTRING_VALUE) {
 				final String encodingName = ((Charstring_Value)last).getValue();
-				if (!encodingName.equals("UTF-8")
-					&& !encodingName.equals("UTF-16")
-					&& !encodingName.equals("UTF-16LE")
-					&& !encodingName.equals("UTF-16BE")
-					&& !encodingName.equals("UTF-32")
-					&& !encodingName.equals("UTF-32LE")
-					&& !encodingName.equals("UTF-32BE")) {
+				if (!"UTF-8".equals(encodingName)
+					&& !"UTF-16".equals(encodingName)
+					&& !"UTF-16LE".equals(encodingName)
+					&& !"UTF-16BE".equals(encodingName)
+					&& !"UTF-32".equals(encodingName)
+					&& !"UTF-32LE".equals(encodingName)
+					&& !"UTF-32BE".equals(encodingName)) {
 					getLocation().reportSemanticError(MessageFormat.format("`{0}'' is not a valid encoding format", encodingName));
 				}
 			} else {
