@@ -132,7 +132,6 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 		op.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		op.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
 		op.schedule();
-
 	}
 
 	private class ExcluderWorkspaceJob extends WorkspaceJob {
