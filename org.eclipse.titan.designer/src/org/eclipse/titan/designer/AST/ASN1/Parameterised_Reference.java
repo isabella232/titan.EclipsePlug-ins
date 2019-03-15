@@ -237,110 +237,111 @@ public final class Parameterised_Reference extends Defined_Reference {
 	 * @param aCompilationTimeStamp compilation timestamp
 	 */
 	private void addAssignments(final Ass_pard aAssPard, final CompilationTimeStamp aCompilationTimeStamp) {
+		if (null == mBlock) {
+			return;
+		}
+
 		final List<FormalParameter_Helper> formalParameters = aAssPard.getFormalParameters(aCompilationTimeStamp);
-
 		final int nofFormalParameters = formalParameters.size();
-		if (null != mBlock) {
-			final List<List<Token>> actualParameters = new ArrayList<List<Token>>();
-			List<Token> temporalBuffer = new ArrayList<Token>();
+		final List<List<Token>> actualParameters = new ArrayList<List<Token>>();
+		List<Token> temporalBuffer = new ArrayList<Token>();
 
-			//TODO: implement according to the C++ code:
-			//See AST_asn1.cc/void Ass_pard::preparse_pars()
-			//The java version handles only the list of references.
-			//The tokens containing assignments are not handled properly
+		//TODO: implement according to the C++ code:
+		//See AST_asn1.cc/void Ass_pard::preparse_pars()
+		//The java version handles only the list of references.
+		//The tokens containing assignments are not handled properly
 
-			/* splitting the list of actual parameters */
-			final List<Token> unprocessParameters = mBlock.getTokenList();
-			int beginChars = 0;
+		/* splitting the list of actual parameters */
+		final List<Token> unprocessParameters = mBlock.getTokenList();
+		int beginChars = 0;
 
-			for (int i = 0; i < unprocessParameters.size(); i++) {
-				final Token tempToken = unprocessParameters.get(i);
-				switch(tempToken.getType()) {
-				case Asn1Lexer.BEGINCHAR:
-					beginChars++;
+		for (int i = 0; i < unprocessParameters.size(); i++) {
+			final Token tempToken = unprocessParameters.get(i);
+			switch(tempToken.getType()) {
+			case Asn1Lexer.BEGINCHAR:
+				beginChars++;
+				temporalBuffer.add(tempToken);
+				break;
+			case Asn1Lexer.ENDCHAR:
+				beginChars--;
+				temporalBuffer.add(tempToken);
+				break;
+			case Asn1Lexer.COMMA:
+				if (beginChars == 0) {
+					temporalBuffer.add(new TokenWithIndexAndSubTokens(Token.EOF));
+					actualParameters.add(temporalBuffer);
+					temporalBuffer = new ArrayList<Token>();
+				} else {
 					temporalBuffer.add(tempToken);
-					break;
-				case Asn1Lexer.ENDCHAR:
-					beginChars--;
-					temporalBuffer.add(tempToken);
-					break;
-				case Asn1Lexer.COMMA:
-					if (beginChars == 0) {
-						temporalBuffer.add(new TokenWithIndexAndSubTokens(Token.EOF));
-						actualParameters.add(temporalBuffer);
-						temporalBuffer = new ArrayList<Token>();
-					} else {
-						temporalBuffer.add(tempToken);
-					}
-					break;
-				default:
-					temporalBuffer.add(tempToken);
-					break;
 				}
+				break;
+			default:
+				temporalBuffer.add(tempToken);
+				break;
 			}
+		}
 
-			if (!temporalBuffer.isEmpty()) {
-				temporalBuffer.add(new TokenWithIndexAndSubTokens(Token.EOF));
-				actualParameters.add(temporalBuffer);
-			}
+		if (!temporalBuffer.isEmpty()) {
+			temporalBuffer.add(new TokenWithIndexAndSubTokens(Token.EOF));
+			actualParameters.add(temporalBuffer);
+		}
 
-			/* checking the number of parameters */
-			final int nofActualParameters = actualParameters.size();
-			if (nofActualParameters != nofFormalParameters) {
-				location.reportSemanticError(MessageFormat.format(DIFFERENTPARAMETERNUMBERS,
-						(nofActualParameters < nofFormalParameters) ? "few" : "many", nofFormalParameters,
-								nofActualParameters));
-			}
+		/* checking the number of parameters */
+		final int nofActualParameters = actualParameters.size();
+		if (nofActualParameters != nofFormalParameters) {
+			location.reportSemanticError(MessageFormat.format(DIFFERENTPARAMETERNUMBERS,
+					(nofActualParameters < nofFormalParameters) ? "few" : "many", nofFormalParameters,
+							nofActualParameters));
+		}
 
-			assignments = new ASN1Assignments();
+		assignments = new ASN1Assignments();
 
-			for (int i = 0; i < nofFormalParameters; i++) {
-				final Identifier tempIdentifier = formalParameters.get(i).identifier;
-				ASN1Assignment temporalAssignment = null;
+		for (int i = 0; i < nofFormalParameters; i++) {
+			final Identifier tempIdentifier = formalParameters.get(i).identifier;
+			ASN1Assignment temporalAssignment = null;
 
-				if (i < nofActualParameters) {
-					final List<Token> temporalTokenBuffer = new ArrayList<Token>();
-					temporalTokenBuffer.add(formalParameters.get(i).formalParameterToken);
-					final Token temporalToken = formalParameters.get(i).governorToken;
-					if (null != temporalToken) {
-						temporalTokenBuffer.add(temporalToken);
-					}
+			if (i < nofActualParameters) {
+				final List<Token> temporalTokenBuffer = new ArrayList<Token>();
+				temporalTokenBuffer.add(formalParameters.get(i).formalParameterToken);
+				final Token temporalToken = formalParameters.get(i).governorToken;
+				if (null != temporalToken) {
+					temporalTokenBuffer.add(temporalToken);
+				}
 
-					temporalTokenBuffer.add(new TokenWithIndexAndSubTokens(Asn1Lexer.ASSIGNMENT));
-					temporalTokenBuffer.addAll(actualParameters.get(i));
+				temporalTokenBuffer.add(new TokenWithIndexAndSubTokens(Asn1Lexer.ASSIGNMENT));
+				temporalTokenBuffer.addAll(actualParameters.get(i));
 
-					// parse temp_tokenBuffer as an assignment
-					//List<ANTLRException> exceptions = null;
-					final Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(new Block(temporalTokenBuffer,
-							location));
+				// parse temp_tokenBuffer as an assignment
+				//List<ANTLRException> exceptions = null;
+				final Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(new Block(temporalTokenBuffer,
+						location));
 
-					if (null != parser) {
-						temporalAssignment = parser.pr_special_Assignment().assignment;
-						final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
-						if (null != errors && !errors.isEmpty()) {
-							isErroneous = true;
-							temporalAssignment = null;
-							for (int j = 0; j < errors.size(); j++) {
-								ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) mBlock.getLocation().getFile(), errors.get(j),
-										IMarker.SEVERITY_ERROR);
-							}
+				if (null != parser) {
+					temporalAssignment = parser.pr_special_Assignment().assignment;
+					final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
+					if (null != errors && !errors.isEmpty()) {
+						isErroneous = true;
+						temporalAssignment = null;
+						for (int j = 0; j < errors.size(); j++) {
+							ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) mBlock.getLocation().getFile(), errors.get(j),
+									IMarker.SEVERITY_ERROR);
 						}
 					}
 				}
-
-				if (null == temporalAssignment) {
-					temporalAssignment = new Type_Assignment(tempIdentifier, null, null);
-				}
-				temporalAssignment.setLocation(location);
-				assignments.addAssignment(temporalAssignment);
 			}
 
-			for (final List<Token> temporalActualParamater : actualParameters) {
-				temporalActualParamater.clear();
+			if (null == temporalAssignment) {
+				temporalAssignment = new Type_Assignment(tempIdentifier, null, null);
 			}
-
-			actualParameters.clear();
+			temporalAssignment.setLocation(location);
+			assignments.addAssignment(temporalAssignment);
 		}
+
+		for (final List<Token> temporalActualParamater : actualParameters) {
+			temporalActualParamater.clear();
+		}
+
+		actualParameters.clear();
 	}
 
 	@Override
