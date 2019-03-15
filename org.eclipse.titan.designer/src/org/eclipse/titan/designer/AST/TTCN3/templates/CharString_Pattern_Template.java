@@ -46,7 +46,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 
 	private final PatternString patternstring;
 
-	private List<Reference> references = new ArrayList<>();
+	private List<Reference> references = new ArrayList<Reference>();
 
 	private static final Pattern PATTERN_DYNAMIC_REFERENCE = Pattern.compile( "(.*?)\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
 
