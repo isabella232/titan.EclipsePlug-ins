@@ -161,7 +161,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	/**
-	 * Creates and returns a string representation if the universal charstring.
+	 * Creates and returns a string representation of the universal charstring.
 	 *
 	 * @return the string representation of the universal charstring.
 	 * */
@@ -177,6 +177,29 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 			}
 		}
 
+		return builder.toString();
+	}
+
+	/**
+	 * Creates and returns a string representation of the universal charstring for patterns
+	 *
+	 * @return the string representation of the universal charstring for patterns.
+	 * */
+	public String getStringRepresentationForPattern() {
+		final StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < value.size(); i++) {
+			final UniversalChar uchar = value.get(i);
+			if (uchar.group() == 0 && uchar.plane() == 0 && uchar.row() == 0 ) {
+				final char tmp_c = (char)uchar.cell();
+				if (Character.isWhitespace(tmp_c) || (uchar.cell() >= 32 && uchar.cell() < 127)) {
+					builder.append(tmp_c);
+				} else {
+					builder.append("\\q{").append(uchar.group()).append(',').append(uchar.plane()).append(',')
+					.append(uchar.row()).append(',').append(uchar.cell()).append('}');
+				}
+			}
+		}
+		
 		return builder.toString();
 	}
 
