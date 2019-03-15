@@ -2476,7 +2476,7 @@ pr_CharStringMatch returns[PatternString patternString]
 	StringBuilder builder = new StringBuilder();
 	boolean[] uni = new boolean[1];
 	uni[0] = false;
-	boolean noCase = false; 
+	boolean noCase = false;
 }:
 (	pr_PatternKeyword
 	(	pr_NoCaseModifier	{	noCase = true;	}	)?
