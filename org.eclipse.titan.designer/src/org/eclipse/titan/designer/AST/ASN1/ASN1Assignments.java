@@ -231,6 +231,19 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	/**
+	 * Removes a previously registered dynamically created assignment.
+	 *
+	 * @param assignment the assignment to be removed.
+	 * */
+	public void removeDynamicAssignment(final ASN1Assignment assignment) {
+		if (assignment == null) {
+			return;
+		}
+
+		dynamic_assignments.remove(assignment);
+	}
+
+	/**
 	 * Checks the uniqueness of the definitions, and also builds a hashmap
 	 * of them to speed up further searches.
 	 *
@@ -248,7 +261,6 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 
 		lastUniqueNessCheckTimeStamp = timestamp;
 
-		dynamic_assignments.clear();
 		assignmentMap.clear();
 
 		final Assignments specialAssignments = SpecialASN1Module.getSpecialModule().getAssignments();

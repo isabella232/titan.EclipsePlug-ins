@@ -65,6 +65,15 @@ public final class Parameterised_Reference extends Defined_Reference {
 
 	private Location location;
 
+	/**
+	 * Not owned here, by definition outdated. Used only to check if the
+	 * reference still points to the exact same java object. Aka. the actual
+	 * parameters don't need to be parsed.
+	 * */
+	private Assignment oldParass = null;
+	// generated + always outdated
+	private ASN1Assignment oldDynamicAssignment = null;
+
 	public Parameterised_Reference(final Defined_Reference reference, final Block aBlock) {
 		super(null);
 		assignmentReference = reference;
@@ -178,6 +187,19 @@ public final class Parameterised_Reference extends Defined_Reference {
 		lastCheckTimeStamp = compilationTimeStamp;
 
 		final Assignment parass = assignmentReference.getRefdAssignment(compilationTimeStamp, true, null);
+		if (oldParass == parass && parass != null) {
+			// was already checked and found ok + actual parameters
+			// are the same + the reference points to the exact same
+			// java object.
+			// but have to do the administration still.
+			((ASN1Assignment) parass).getAssPard().newInstanceNumber(myScope.getModuleScopeGen());
+			((ASN1Assignments) module.getAssignments()).removeDynamicAssignment(oldDynamicAssignment);
+			((ASN1Assignments) module.getAssignments()).addDynamicAssignment(compilationTimeStamp, oldDynamicAssignment);
+			oldDynamicAssignment.setMyScope(assignments);
+			oldDynamicAssignment.check(compilationTimeStamp);
+			return finalReference;
+		}
+		oldParass = parass;
 		if (null == parass) {
 			isErroneous = true;
 			return null;
@@ -217,10 +239,12 @@ public final class Parameterised_Reference extends Defined_Reference {
 		newAssignment.setLocation(location);
 		newAssignment.getIdentifier().setLocation(assignmentReference.getLocation());
 
+		((ASN1Assignments) module.getAssignments()).removeDynamicAssignment(oldDynamicAssignment);
 		((ASN1Assignments) module.getAssignments()).addDynamicAssignment(compilationTimeStamp, newAssignment);
 		newAssignment.setMyScope(assignments);
 		newAssignment.setDontGenerate();
 		newAssignment.check(compilationTimeStamp);
+		oldDynamicAssignment = newAssignment;
 
 		final List<ISubReference> subreferences = new ArrayList<ISubReference>(1);
 		subreferences.add(new FieldSubReference(newAssignment.getIdentifier()));
