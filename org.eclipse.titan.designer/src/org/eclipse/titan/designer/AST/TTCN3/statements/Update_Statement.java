@@ -117,12 +117,20 @@ public class Update_Statement extends Statement {
 			ref.getLocation().reportSemanticError(MessageFormat.format("Type `{0}' cannot have erroneous attributes", refd_type.getTypename()));
 		}
 		if (attr != null) {
+			//TODO check only erroneous
 			err_attrib = Definition.checkErroneousAttributes(attr, refd_type, myScope, refd_type.getFullName(), false, timestamp, ref);
+			if (err_attrib != null) {
+				//TODO add error descriptor handling
+			}
 		}
-		//TODO: Runtime 2
-		/*if (ref.getSubreferences() != null) {
+
+		if (ref.getSubreferences() != null) {
 			ref.getLocation().reportSemanticError("Field names and array indexes are not allowed in this context");
-		}*/
+		}
+
+		if (!useRuntime2) {
+			getLocation().reportSemanticError("The @update statement is only available in the Function Test runtime");
+		}
 	}
 
 	@Override
