@@ -1158,6 +1158,10 @@ public final class PortGenerator {
 			source.append("procedure_queue.removeFirst();\n");
 			source.append("TTCN_Logger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(\"\"), new TitanCharString(\"\"));");
 			source.append("}\n\n");
+
+			source.append("protected void clear_queue() {\n");
+			source.append("procedure_queue.clear();\n");
+			source.append("}\n\n");
 		}
 
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
