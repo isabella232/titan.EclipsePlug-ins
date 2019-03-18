@@ -115,7 +115,8 @@ public final class ImportModule extends ModuleImportation {
 			for (int i = 0; i < symbols.size(); i++) {
 				final Identifier id = symbols.getNthElement(i);
 
-				if (((ASN1Module) referredModule).getAssignments().hasAssignmentWithId(timestamp, id) || referredModule.hasImportedAssignmentWithID(timestamp, id)) {//TODO inkabb valami hasLocalAssignment jellegu kellene ami nem ellenoriz.
+				if (((ASN1Module) referredModule).getAssignments().hasAssignmentWithId(timestamp, id)
+						|| referredModule.hasImportedAssignmentWithID(timestamp, id)) {
 					if (!((ASN1Module) referredModule).exportsSymbol(timestamp, id)) {
 						identifier.getLocation().reportSemanticError(
 								MessageFormat.format(SYMBOLNOTEXPORTED, id.getDisplayName(), referredModule
