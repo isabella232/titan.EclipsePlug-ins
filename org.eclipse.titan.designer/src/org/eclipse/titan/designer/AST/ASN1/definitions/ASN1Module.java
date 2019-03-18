@@ -48,7 +48,7 @@ public final class ASN1Module extends Module {
 	private static final String FULLNAMEPART2 = ".<imports>";
 
 	private static final String NOASSIGNMENT = "There is no assignment with name `{0}'' in module `{1}''";
-	private static final String NOASSIGNMENTORSYMBOL = "There is no assignment or imported symbol with name `{0}'' in module `{1}''";
+	public static final String NOASSIGNMENTORSYMBOL = "There is no assignment or imported symbol with name `{0}'' in module `{1}''";
 	private static final String MORESYMBOLS = "There are more imported symbols with name `{0}'' in module `{1}''";
 	private static final String NOIMPORTEDMODULE = "There is no imported module with name `{0}''";
 	private static final String NOSYMBOLSIMPORTED = "There is no symbol with name `{0}'' imported from module `{1}''";
