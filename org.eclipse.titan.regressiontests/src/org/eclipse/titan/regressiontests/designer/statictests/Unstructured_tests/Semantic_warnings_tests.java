@@ -18,6 +18,7 @@ public class Semantic_warnings_tests {
 	
 	//SemanticErrors1_asn
 	//SemanticErrors2_asn
+	//SemanticErrors3_asn
 	//Semantic_errors_ttcn
 	//Semantic_errors3_ttcn
 	//Semantic_errors4_ttcn
@@ -32,6 +33,11 @@ public class Semantic_warnings_tests {
 	@Test
 	public void SemanticErrors2_asn() throws Exception {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(SemanticErrors2_asn_initializer(), "src/Unstructured_tests/SemanticErrors2.asn");
+	}
+
+	@Test
+	public void SemanticErrors3_asn() throws Exception {
+		Designer_plugin_tests.checkSemanticMarkersOnFile(SemanticErrors3_asn_initializer(), "src/Unstructured_tests/SemanticErrors3.asn");
 	}
 
 	@Test
@@ -62,7 +68,9 @@ public class Semantic_warnings_tests {
 	private ArrayList<MarkerToCheck> SemanticErrors1_asn_initializer() {
 		//SemanticErrors1.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(17);
-		int lineNum = 8;
+		int lineNum = 5;
+		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 3;
 		int i = 0;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Possibly unused importation", lineNum++, IMarker.SEVERITY_WARNING));
@@ -104,9 +112,20 @@ public class Semantic_warnings_tests {
 	 private ArrayList<MarkerToCheck> SemanticErrors2_asn_initializer() {
 		//SemanticErrors2.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
-		int lineNum = 3;
+		int lineNum = 1;
+		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 2;
 		int i = 0;
 		for (i = 0; i < 5; i++) { markersToCheck.add(new MarkerToCheck("Possibly unused importation", lineNum++, IMarker.SEVERITY_WARNING)); }
+
+		return markersToCheck;
+	}
+
+	 private ArrayList<MarkerToCheck> SemanticErrors3_asn_initializer() {
+		//SemanticErrors3.asn
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>();
+		int lineNum = 0;
+		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  ++lineNum, IMarker.SEVERITY_WARNING));
 
 		return markersToCheck;
 	}

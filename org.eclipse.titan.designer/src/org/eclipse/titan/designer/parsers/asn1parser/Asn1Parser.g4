@@ -236,7 +236,7 @@ locals [Identifier identifier, Tag_types defaultTagging, boolean extensionImplie
 	DEFINITIONS
 	b = pr_TagDefault { $defaultTagging = $b.defaultTagging; }
 	c = pr_ExtensionDefault { $extensionImplied = $c.implied; 
-					//reportUnsupportedConstruct( "Extensibility implied is not yet supported.", $c.start, $c.stop );
+					reportUnsupportedConstruct( "EXTENSIBILITY IMPLIED is not supported.", $c.start, $c.stop );
 				}
 	ASSIGNMENT
 	{
