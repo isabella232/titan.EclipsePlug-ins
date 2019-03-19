@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -375,6 +376,21 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			}
 			s.append("new TitanCharString(");
 			s.append(expr.expression);
+			Assignment refd_last = parsedRef.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			switch (refd_last.getAssignmentType()) {
+			case A_TEMPLATE:
+			case A_VAR_TEMPLATE:
+			case A_MODULEPAR_TEMPLATE:
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_OUT:
+			case A_PAR_TEMP_INOUT:
+				if (refd_last.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_CHARSTRING) {
+					s.append(".castForPatterns()");
+				}
+				break;
+			default:
+				break;
+			}
 			if (m.group(3) != null && !m.group(3).isEmpty()) { 
 				s.append(").operator_concatenate(");
 				parent++;	
