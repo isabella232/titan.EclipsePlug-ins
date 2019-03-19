@@ -345,8 +345,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	public String create_charstring_literals(final StringBuilder preamble, final JavaGenData aData) {
 		int parent = 0; 
 		StringBuilder s = new StringBuilder();
+		//escaped value
 		String ttcnPattern = Charstring_Value.get_stringRepr(patternstring.getFullString());
 		Matcher m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
+		//no reference in the pattern
 		if (!m.matches()) {
 			s.append("new TitanCharString(\"");
 			s.append(ttcnPattern);
