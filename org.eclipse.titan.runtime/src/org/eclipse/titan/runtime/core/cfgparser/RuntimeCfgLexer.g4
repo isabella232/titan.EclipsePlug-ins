@@ -4,50 +4,6 @@ lexer grammar RuntimeCfgLexer;
 }
 
 @members{
-
-	/**
-	 * the LAST NON HIDDEN token
-	 */
-	private Token mNonHiddenToken = null;
-
-	/**
-	 * What character index in the stream did the LAST NON HIDDEN token start at?
-	 */
-	private int mNonHiddenTokenStartCharIndex = -1;
-
-	/**
-	 * The line on which the first character of the LAST NON HIDDEN token resides
-	 */
-	private int mNonHiddenTokenStartLine = -1;
-
-	/**
-	 * The character position of first character within the line
-	 * of the LAST NON HIDDEN token
-	 */
-	private int mNonHiddenTokenStartCharPositionInLine = -1;
-
-	@Override
-	public Token nextToken() {
-		final Token next = super.nextToken();
-		if ( next.getChannel() == 0 ) {
-			// non hidden
-			mNonHiddenToken = _token;
-			mNonHiddenTokenStartCharIndex = _tokenStartCharIndex;
-			mNonHiddenTokenStartCharPositionInLine = _tokenStartCharPositionInLine;
-			mNonHiddenTokenStartLine = _tokenStartLine;
-		}
-		return next;
-	}
-
-	@Override
-	public void reset() {
-		super.reset();
-		mNonHiddenToken = null;
-		mNonHiddenTokenStartCharIndex = -1;
-		mNonHiddenTokenStartCharPositionInLine = -1;
-		mNonHiddenTokenStartLine = -1;
-	}
-
 }
 
 tokens {
