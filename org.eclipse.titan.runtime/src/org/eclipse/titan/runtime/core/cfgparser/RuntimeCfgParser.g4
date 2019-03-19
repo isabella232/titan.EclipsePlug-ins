@@ -1153,6 +1153,8 @@ pr_Identifier returns [String identifier]:
 )
 ;
 
+// integers outside of the [MODULE_PARAMETERS] section
+//IntegerValue in titan.core/config_process.y
 pr_IntegerValueExpression returns [CFGNumber integer]:
 	a = pr_IntegerAddExpression	{	$integer = $a.integer;	}
 ;
@@ -1944,9 +1946,8 @@ pr_FloatValueExpression returns [CFGNumber floatnum]:
 
 pr_FloatAddExpression returns [CFGNumber floatnum]:
 	a = pr_FloatMulExpression	{	$floatnum = $a.floatnum;	}
-	(	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum.add($b1.floatnum);	}
-		|	MINUS	b2 = pr_FloatMulExpression	{	$b2.floatnum.mul(-1); $floatnum.add($b2.floatnum);	}
-		)
+	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum.add($b1.floatnum);	}
+	|	MINUS	b2 = pr_FloatMulExpression	{	$b2.floatnum.mul(-1); $floatnum.add($b2.floatnum);	}
 	)*
 ;
 

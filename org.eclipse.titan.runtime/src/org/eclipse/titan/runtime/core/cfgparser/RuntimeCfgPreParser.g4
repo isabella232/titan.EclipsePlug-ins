@@ -1232,9 +1232,8 @@ pr_FloatValueExpression:
 
 pr_FloatAddExpression:
 	pr_FloatMulExpression
-	(	(	PLUS	pr_FloatMulExpression
-		|	MINUS	pr_FloatMulExpression
-		)
+	(	PLUS	pr_FloatMulExpression
+	|	MINUS	pr_FloatMulExpression
 	)*
 ;
 
