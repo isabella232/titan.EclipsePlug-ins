@@ -144,19 +144,58 @@ tokens {
 	YES
 }
 
+// Common fragments
+
+fragment FR_WS:		[ \t\r\n\f]+;
+fragment FR_LINE_COMMENT:
+	'//' ~[\r\n]*
+|	'#' ~[\r\n]*
+;
+fragment FR_BLOCK_COMMENT:	'/*' .*? '*/';
+fragment FR_DIGIT:		[0-9];
+fragment FR_INT:		'0'|[1-9][0-9]*;
+// float fractional part
+fragment FR_FRAC:		'.' FR_DIGIT+;
+// float exponent part
+fragment FR_EXP:		[Ee] [+-]? FR_INT;
+fragment FR_FLOAT:
+(	FR_INT FR_FRAC
+|	FR_INT FR_FRAC? FR_EXP
+|	       FR_FRAC  FR_EXP
+);
+fragment FR_HOSTNAME:
+	('A'..'Z' | 'a'..'z' | '0'..'9' | ':')
+	(	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
+	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
+	)*
+;
+fragment FR_LETTER:	[A-Za-z];
+fragment FR_TTCN3IDENTIFIER:	FR_LETTER (FR_LETTER | FR_DIGIT+ | '_')*;
+fragment FR_BINDIGIT:	[01];
+fragment FR_HEXDIGIT:	[0-9A-Fa-f];
+fragment FR_OCTDIGIT:	FR_HEXDIGIT FR_HEXDIGIT;
+fragment FR_BINDIGITMATCH:	( FR_BINDIGIT | '?' | '*' );
+fragment FR_HEXDIGITMATCH:	( FR_HEXDIGIT | '?' | '*' );
+fragment FR_OCTDIGITMATCH:	( FR_OCTDIGIT | '?' | '*' );
+fragment FR_STRING:
+'"'
+(	'\\' .
+|	'""'
+|	~( '\\' | '"' )
+)*
+'"'
+;
+fragment FR_MACRO:
+	'$' FR_TTCN3IDENTIFIER
+|	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? '}'
+;
+
 // DEFAULT MODE
 // These lexer rules are used only before the first section
 
-WS:		[ \t\r\n\f]+ -> channel(HIDDEN);
-
-LINE_COMMENT:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> channel(HIDDEN);
-
-BLOCK_COMMENT:	'/*' .*? '*/'
-	-> channel(HIDDEN);
+WS:	FR_WS -> channel(HIDDEN);
+LINE_COMMENT: FR_LINE_COMMENT -> channel(HIDDEN);
+BLOCK_COMMENT:	FR_BLOCK_COMMENT -> channel(HIDDEN);
 
 MAIN_CONTROLLER_SECTION:	'[MAIN_CONTROLLER]'
 	-> mode(MAIN_CONTROLLER_SECTION_MODE);
@@ -210,14 +249,9 @@ LOGGING_SECTION1:				'[LOGGING]'
 PROFILER_SECTION1:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS1:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT1:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT1:	'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS1:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT1:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT1:	FR_BLOCK_COMMENT -> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON1:		';' -> type(SEMICOLON);
 PLUS1:			'+' -> type(PLUS);
 MINUS1:			'-' -> type(MINUS);
@@ -236,53 +270,25 @@ UNIXSOCKETS1: ( 'UnixSocketsEnabled' | 'UnixSocketsenabled' | 'UnixsocketsEnable
 ASSIGNMENTCHAR1:	':'? '=' -> type(ASSIGNMENTCHAR);
 YES1: 				( 'yes' | 'Yes' | 'YES' ) -> type(YES);
 NO1: 				( 'no' | 'No' | 'NO' ) -> type(NO);
-NATURAL_NUMBER1:	[0-9]+ -> type(NATURAL_NUMBER);
+NATURAL_NUMBER1:	FR_INT -> type(NATURAL_NUMBER);
 STRINGOP1:			'&'	'='? -> type(STRINGOP);
-fragment FR_DIGIT1:	[0-9];
-FLOAT1:
-(
-	FR_DIGIT1+
-	(
-		'.' FR_DIGIT1+ (('E' | 'e') ('+' | '-')? FR_DIGIT1+)?
-	)
-|	'.' FR_DIGIT1+ (('E' | 'e') ('+' | '-')? FR_DIGIT1+)?
-|	FR_DIGIT1+ ('E' | 'e') ('+' | '-')? FR_DIGIT1+
-) -> type(FLOAT);
-fragment FR_HOSTNAME1:
-	('A'..'Z' | 'a'..'z' | '0'..'9' | ':')
-	(	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
-	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
-	)*
-;
+FLOAT1:				FR_FLOAT -> type(FLOAT);
 
 DNSNAME1:
-(	FR_HOSTNAME1
-	('/' FR_DIGIT1+)?
+(	FR_HOSTNAME
+	('/' FR_DIGIT+)?
 ) -> type(DNSNAME);
-fragment FR_LETTER1:	[A-Za-z];
-fragment FR_TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_DIGIT1+ | '_')*;
-TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_DIGIT1+ | '_')* -> type(TTCN3IDENTIFIER);
+TTCN3IDENTIFIER1:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 HN1:					'hostname' -> type(HN);
-MACRO_HOSTNAME1: 		'$' '{' WS1? FR_TTCN3IDENTIFIER10 WS1? ',' WS1? HN1 WS1? '}' -> type(MACRO_HOSTNAME);
+MACRO_HOSTNAME1: 		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HN1 FR_WS? '}' -> type(MACRO_HOSTNAME);
 INT1:					'integer' -> type(INT);
-MACRO_INT1:				'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? INT1 WS1? '}' -> type(MACRO_INT);
-MACRO1:
-(
-	'$' FR_TTCN3IDENTIFIER1
-|	'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? '}'
-) -> type(MACRO);
+MACRO_INT1:				'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT1 FR_WS? '}' -> type(MACRO_INT);
+MACRO1:					FR_MACRO -> type(MACRO);
 CSTR1: 					'charstring' -> type(CSTR);
-MACRO_EXP_CSTR1:		'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? CSTR1 WS1? '}' -> type(MACRO_EXP_CSTR);
-STRING1:
-'"'
-(	'\\' .
-|	'""'
-|	~( '\\' | '"' )
-)*
-'"'
- -> type(STRING);
+MACRO_EXP_CSTR1:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR1 FR_WS? '}' -> type(MACRO_EXP_CSTR);
+STRING1:				FR_STRING -> type(STRING);
 FL1:					'float' -> type(FL);
-MACRO_FLOAT1:			'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? FL1 WS1? '}' -> type(MACRO_FLOAT);
+MACRO_FLOAT1:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? FL1 FR_WS? '}' -> type(MACRO_FLOAT);
 
 //include section
 mode INCLUDE_SECTION_MODE;
@@ -311,14 +317,9 @@ LOGGING_SECTION2:				'[LOGGING]'
 PROFILER_SECTION2:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS2:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT2:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT2:	'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS2:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT2:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT2:	FR_BLOCK_COMMENT -> type(BLOCK_COMMENT), channel(HIDDEN);
 
 //same as STRING, but it is handled differently
 INCLUDE_FILENAME:		'"' .*? '"';
@@ -350,20 +351,13 @@ LOGGING_SECTION3:				'[LOGGING]'
 PROFILER_SECTION3:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS3:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT3:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT3:		'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS3:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT3:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT3:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON3:			';' -> type(SEMICOLON);
 DOT3:				'.' -> type(DOT);
 STAR3:				'*' -> type(STAR);
-fragment FR_LETTER3:	[A-Z|a-z];
-fragment FR_DIGIT3:	[0-9];
-TTCN3IDENTIFIER3:	FR_LETTER3 (FR_LETTER3 | FR_DIGIT3 | '_')* -> type(TTCN3IDENTIFIER);
+TTCN3IDENTIFIER3:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 
 //ordered include section
 mode ORDERED_INCLUDE_SECTION_MODE;
@@ -392,14 +386,9 @@ LOGGING_SECTION4:				'[LOGGING]'
 PROFILER_SECTION4:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS4:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT4:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT4:	'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS4:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT4:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT4:	FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 //same as STRING, but it is handled differently
 ORDERED_INCLUDE_FILENAME:		'"' .*? '"';
@@ -431,14 +420,9 @@ LOGGING_SECTION5:				'[LOGGING]'
 PROFILER_SECTION5:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS5:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT5:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT5:	'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS5:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT5:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT5:	FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 IPV6_5:
 	( 'A'..'F' | 'a'..'f' | '0'..'9' )*
 	':'
@@ -451,10 +435,7 @@ IPV6_5:
 	( '/' ( '0'..'9' )+ )?
  -> type(IPV6);
 
-fragment FR_LETTER5:	[A-Z|a-z];
-fragment FR_DIGIT5:	[0-9];
-fragment FR_TTCN3IDENTIFIER5:	FR_LETTER5 (FR_LETTER5 | FR_DIGIT5 | '_')*;
-TTCN3IDENTIFIER5:	FR_TTCN3IDENTIFIER5 -> type(TTCN3IDENTIFIER);
+TTCN3IDENTIFIER5:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 BEGINCHAR5:			'{'
  -> type(BEGINCHAR);
 ENDCHAR5:			'}'
@@ -462,17 +443,9 @@ ENDCHAR5:			'}'
 MACRORVALUE5:		[0-9|A-Z|a-z|.|_|-]+ -> type(MACRORVALUE);
 ASSIGNMENTCHAR5:	':'? '=' -> type(ASSIGNMENTCHAR);
 fragment FR_ESCAPE_WO_QUOTE5:	'\\' ( '\\' | '\'' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
-fragment FR_ESCAPE5:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 STRING5:
-(
-	'"'
-	(	'\\' .
-	|	'""'
-	|	~( '\\' | '"' )
-	)*
-	'"'
-|
-	'\\"'
+(	FR_STRING
+|	'\\"'
 	(	FR_ESCAPE_WO_QUOTE5
 	|	~( '\\' | '"' )
 	)*
@@ -480,42 +453,32 @@ STRING5:
 ) -> type(STRING);
 
 ID5:				'identifier' -> type(ID);
-MACRO_ID5:			'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? ID5 WS5? '}' -> type(MACRO_ID);
+MACRO_ID5:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID5 FR_WS? '}' -> type(MACRO_ID);
 INT5:				'integer' -> type(INT);
-MACRO_INT5:			'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? INT5 WS5? '}' -> type(MACRO_INT);
+MACRO_INT5:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT5 FR_WS? '}' -> type(MACRO_INT);
 BOOL5:				'boolean' -> type(BOOL);
-MACRO_BOOL5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? BOOL5 WS5? '}' -> type(MACRO_BOOL);
+MACRO_BOOL5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BOOL5 FR_WS? '}' -> type(MACRO_BOOL);
 FL5:				'float' -> type(FL);
-MACRO_FLOAT5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? FL5 WS5? '}' -> type(MACRO_FLOAT);
+MACRO_FLOAT5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? FL5 FR_WS? '}' -> type(MACRO_FLOAT);
 CSTR5:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR5:	'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? CSTR5 WS5? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR5:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR5 FR_WS? '}' -> type(MACRO_EXP_CSTR);
 BS5:				'bitstring' -> type(BS);
-MACRO_BSTR5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? BS5 WS5? '}' -> type(MACRO_BSTR);
+MACRO_BSTR5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BS5 FR_WS? '}' -> type(MACRO_BSTR);
 HS5:				'hexstring' -> type(HS);
-MACRO_HSTR5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? HS5 WS5? '}' -> type(MACRO_HSTR);
+MACRO_HSTR5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HS5 FR_WS? '}' -> type(MACRO_HSTR);
 OS5:				'octetstring' -> type(OS);
-MACRO_OSTR5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? OS5 WS5? '}' -> type(MACRO_OSTR);
+MACRO_OSTR5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? OS5 FR_WS? '}' -> type(MACRO_OSTR);
 BINO5:				'binaryoctet' -> type(BINO);
-MACRO_BINARY5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? BINO5 WS5? '}' -> type(MACRO_BINARY);
+MACRO_BINARY5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BINO5 FR_WS? '}' -> type(MACRO_BINARY);
 HN5:				'hostname' -> type(HN);
-MACRO_HOSTNAME5: 	'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? HN5 WS5? '}' -> type(MACRO_HOSTNAME);
-MACRO5:
-(
-	'$' FR_TTCN3IDENTIFIER5
-|	'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? '}'
-) -> type(MACRO);
-fragment FR_BINDIGIT5:	[01];
-BITSTRING5:			'\'' FR_BINDIGIT5* '\'' 'B' -> type(BITSTRING);
-fragment FR_HEXDIGIT5:	[0-9A-Fa-f];
-HEXSTRING5:			'\'' FR_HEXDIGIT5* '\'' 'H' -> type(HEXSTRING);
-fragment FR_OCTDIGIT5:	FR_HEXDIGIT5 FR_HEXDIGIT5;
-OCTETSTRING5:		'\'' FR_OCTDIGIT5* '\'' 'O' -> type(OCTETSTRING);
-fragment FR_BINDIGITMATCH5:	( FR_BINDIGIT5 | '?' | '*' );
-BITSTRINGMATCH5:	'\'' FR_BINDIGITMATCH5* '\'' 'B' -> type(BITSTRINGMATCH);
-fragment FR_HEXDIGITMATCH5:	( FR_HEXDIGIT5 | '?' | '*' );
-HEXSTRINGMATCH5:	'\'' FR_HEXDIGITMATCH5* '\'' 'H' -> type(HEXSTRINGMATCH);
-fragment FR_OCTDIGITMATCH5:	( FR_OCTDIGIT5 | '?' | '*' );
-OCTETSTRINGMATCH5:	'\'' FR_OCTDIGITMATCH5* '\'' 'O' -> type(OCTETSTRINGMATCH);
+MACRO_HOSTNAME5: 	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HN5 FR_WS? '}' -> type(MACRO_HOSTNAME);
+MACRO5:				FR_MACRO -> type(MACRO);
+BITSTRING5:			'\'' FR_BINDIGIT* '\'' 'B' -> type(BITSTRING);
+HEXSTRING5:			'\'' FR_HEXDIGIT* '\'' 'H' -> type(HEXSTRING);
+OCTETSTRING5:		'\'' FR_OCTDIGIT* '\'' 'O' -> type(OCTETSTRING);
+BITSTRINGMATCH5:	'\'' FR_BINDIGITMATCH* '\'' 'B' -> type(BITSTRINGMATCH);
+HEXSTRINGMATCH5:	'\'' FR_HEXDIGITMATCH* '\'' 'H' -> type(HEXSTRINGMATCH);
+OCTETSTRINGMATCH5:	'\'' FR_OCTDIGITMATCH* '\'' 'O' -> type(OCTETSTRINGMATCH);
 COMMA5:				',' -> type(COMMA);
 FSTRING:
 (	'\\"' // \" is handled separately in the structured definitions
@@ -551,24 +514,12 @@ LOGGING_SECTION6:				'[LOGGING]'
 PROFILER_SECTION6:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS6:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT6:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT6:		'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS6:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT6:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT6:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON6: 		';' -> type(SEMICOLON);
 ASSIGNMENTCHAR6:	':'? '=' -> type(ASSIGNMENTCHAR);
-STRING6:
-'"'
-(	'\\' .
-|	'""'
-|	~( '\\' | '"' )
-)*
-'"'
- -> type(STRING);
+STRING6:			FR_STRING -> type(STRING);
 STRINGOP6:			'&' -> type(STRINGOP);
 BEGINCONTROLPART6:	( 'begincontrolpart' | 'Begincontrolpart' | 'beginControlpart' | 'BeginControlpart'
 | 'begincontrolPart' | 'BeginControlPart' | 'beginControlPart' | 'BegincontrolPart' ) -> type(BEGINCONTROLPART);
@@ -579,16 +530,9 @@ BEGINTESTCASE6:		( 'begintestcase' | 'Begintestcase' | 'beginTestcase' | 'BeginT
 ENDTESTCASE6:		( 'endtestcase' | 'Endtestcase' | 'endTestcase' | 'EndTestcase' | 'endtestCase'
 | 'EndTestCase' | 'endTestCase' | 'EndtestCase' ) -> type(ENDTESTCASE);
 
-fragment FR_LETTER6:	[A-Za-z];
-fragment FR_DIGIT6:	[0-9];
-fragment FR_TTCN3IDENTIFIER6:	FR_LETTER6 (FR_LETTER6 | FR_DIGIT6 | '_')*;
 CSTR6:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR6:	'$' '{' WS6? FR_TTCN3IDENTIFIER6 WS6? ',' WS6? CSTR6 WS6? '}' -> type(MACRO_EXP_CSTR);
-MACRO6:
-(
-	'$' FR_TTCN3IDENTIFIER6
-|	'$' '{' WS6? FR_TTCN3IDENTIFIER6 WS6? '}'
-) -> type(MACRO);
+MACRO_EXP_CSTR6:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR6 FR_WS? '}' -> type(MACRO_EXP_CSTR);
+MACRO6:				FR_MACRO -> type(MACRO);
 
 //testport parameters
 mode TESTPORT_PARAMETERS_SECTION_MODE;
@@ -617,18 +561,10 @@ LOGGING_SECTION7:				'[LOGGING]'
 PROFILER_SECTION7:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS7:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT7:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT7:		'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
-fragment FR_LETTER7:	[A-Za-z];
-fragment FR_DIGIT7:	[0-9];
-fragment FR_TTCN3IDENTIFIER7:	FR_LETTER7 (FR_LETTER7 | FR_DIGIT7 | '_')*;
-TTCN3IDENTIFIER7:	FR_LETTER7 (FR_LETTER7 | FR_DIGIT7 | '_')* -> type(TTCN3IDENTIFIER);
+WS7:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT7:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT7:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
+TTCN3IDENTIFIER7:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 STAR7:				'*' -> type(STAR);
 PLUS7:				'+' -> type(PLUS);
 MINUS7:				'-' -> type(MINUS);
@@ -645,29 +581,17 @@ LPAREN7:			'('
  -> type(LPAREN);
 RPAREN7:			')'
  -> type(RPAREN);
-MTCKEYWORD7:		'mtc' -> type(MTCKEYWORD);
-SYSTEMKEYWORD7:		'system' -> type(SYSTEMKEYWORD);
-fragment FR_ESCAPE7:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
-STRING7:
-'"'
-(	'\\' .
-|	'""'
-|	~( '\\' | '"' )
-)*
-'"'
- -> type(STRING);
-STRINGOP7:	'&'	'='? -> type(STRINGOP);
-MACRO7:
-(
-	'$' FR_TTCN3IDENTIFIER7
-|	'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? '}'
-) -> type(MACRO);
-ID7: 'identifier' -> type(ID);
-INT7: 'integer' -> type(INT);
-CSTR7: 'charstring' -> type(CSTR);
-MACRO_INT7:		'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? ',' WS7? INT7 WS7? '}' -> type(MACRO_INT);
-MACRO_ID7:		'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? ',' WS7? ID7 WS7? '}' -> type(MACRO_ID);
-MACRO_EXP_CSTR7:'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? ',' WS7? CSTR7 WS7? '}' -> type(MACRO_EXP_CSTR);
+MTC7KEYWORD:		'mtc' -> type(MTCKEYWORD);
+SYSTEM7KEYWORD:		'system' -> type(SYSTEMKEYWORD);
+STRING7:			FR_STRING -> type(STRING);
+STRINGOP7:			'&'	'='? -> type(STRINGOP);
+MACRO7:				FR_MACRO -> type(MACRO);
+ID7:				'identifier' -> type(ID);
+INT7:				'integer' -> type(INT);
+CSTR7:				'charstring' -> type(CSTR);
+MACRO_INT7:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT7 FR_WS? '}' -> type(MACRO_INT);
+MACRO_ID7:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID7 FR_WS? '}' -> type(MACRO_ID);
+MACRO_EXP_CSTR7:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR7 FR_WS? '}' -> type(MACRO_EXP_CSTR);
 
 //groups parameters
 mode GROUPS_SECTION_MODE;
@@ -696,45 +620,23 @@ LOGGING_SECTION8:				'[LOGGING]'
 PROFILER_SECTION8:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS8:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT8:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT8:		'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
-fragment FR_LETTER8:	[A-Za-z];
-fragment FR_DIGIT8:	[0-9];
-fragment FR_TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_DIGIT8+ | '_')*;
-TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_DIGIT8+ | '_')* -> type(TTCN3IDENTIFIER);
+WS8:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT8:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT8:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
+TTCN3IDENTIFIER8:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 SEMICOLON8:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR8:	':'? '=' -> type(ASSIGNMENTCHAR);
 STAR8:				'*' -> type(STAR);
 COMMA8:				',' -> type(COMMA);
-NATURAL_NUMBER8:	[0-9]+ -> type(NATURAL_NUMBER);
-FLOAT8:
-(
-	FR_DIGIT8+
-	(
-		'.' FR_DIGIT8+ (('E' | 'e') ('+' | '-')? FR_DIGIT8+)?
-	)
-|	'.' FR_DIGIT8+ (('E' | 'e') ('+' | '-')? FR_DIGIT8+)?
-|	FR_DIGIT8+ ('E' | 'e') ('+' | '-')? FR_DIGIT8+
-) -> type(FLOAT);
-fragment FR_HOSTNAME8:
-	('A'..'Z' | 'a'..'z' | '0'..'9' | ':')
-	(	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
-	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
-	)*
-;
+NATURAL_NUMBER8:	FR_INT -> type(NATURAL_NUMBER);
+FLOAT8:				FR_FLOAT -> type(FLOAT);
 
 DNSNAME8:
-(	FR_HOSTNAME8
-	('/' FR_DIGIT8+)?
+(	FR_HOSTNAME
+	('/' FR_DIGIT+)?
 ) -> type(DNSNAME);
 ID8: 'identifier' -> type(ID);
-MACRO_ID8:		'$' '{' WS8? FR_TTCN3IDENTIFIER8 WS8? ',' WS8? ID8 WS8? '}' -> type(MACRO_ID);
+MACRO_ID8:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID8 FR_WS? '}' -> type(MACRO_ID);
 
 //module parameters
 mode MODULE_PARAMETERS_SECTION_MODE;
@@ -763,14 +665,9 @@ LOGGING_SECTION9:				'[LOGGING]'
 PROFILER_SECTION9:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS9:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT9:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT9:		'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS9:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT9:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT9:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON9:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR9:	':'? '=' -> type(ASSIGNMENTCHAR);
 CONCATCHAR9:		'&=' -> type(CONCATCHAR);
@@ -796,7 +693,6 @@ SQUARECLOSE9:		']'
 	-> type(SQUARECLOSE);
 AND9:				'&' -> type(AND);
 EXCLUSIVE9:			'!' -> type(EXCLUSIVE);
-fragment FR_ESCAPE9:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 
 NONE_VERDICT9:		'none' -> type(NONE_VERDICT);
 PASS_VERDICT9:		'pass' -> type(PASS_VERDICT);
@@ -822,64 +718,36 @@ NOCASEKEYWORD9:		'@nocase' -> type(NOCASEKEYWORD);
 TRUE9:				'true' -> type(TRUE);
 FALSE9:				'false' -> type(FALSE);
 ANYVALUE9:			'?' -> type(ANYVALUE);
-fragment FR_LETTER9:[A-Za-z];
-fragment FR_DIGIT9:	[0-9];
-fragment FR_TTCN3IDENTIFIER9:	FR_LETTER9 (FR_LETTER9 | FR_DIGIT9+ | '_')*;
-TTCN3IDENTIFIER9:	FR_TTCN3IDENTIFIER9 -> type(TTCN3IDENTIFIER);
+TTCN3IDENTIFIER9:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 ID9:				'identifier' -> type(ID);
-MACRO_ID9:			'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? ID9 WS9? '}' -> type(MACRO_ID);
-NATURAL_NUMBER9:	[0-9]+ -> type(NATURAL_NUMBER);
+MACRO_ID9:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID9 FR_WS? '}' -> type(MACRO_ID);
+NATURAL_NUMBER9:	FR_INT -> type(NATURAL_NUMBER);
 INT9:				'integer' -> type(INT);
-MACRO_INT9:			'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? INT9 WS9? '}' -> type(MACRO_INT);
+MACRO_INT9:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT9 FR_WS? '}' -> type(MACRO_INT);
 BOOL9:				'boolean' -> type(BOOL);
-MACRO_BOOL9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? BOOL9 WS9? '}' -> type(MACRO_BOOL);
+MACRO_BOOL9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BOOL9 FR_WS? '}' -> type(MACRO_BOOL);
 FL9:				'float' -> type(FL);
-MACRO_FLOAT9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? FL9 WS9? '}' -> type(MACRO_FLOAT);
+MACRO_FLOAT9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? FL9 FR_WS? '}' -> type(MACRO_FLOAT);
 CSTR9:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR9:	'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? CSTR9 WS9? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR9:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR9 FR_WS? '}' -> type(MACRO_EXP_CSTR);
 
-FLOAT9:
-(
-	FR_DIGIT9+
-	(
-		'.' FR_DIGIT9+ (('E' | 'e') ('+' | '-')? FR_DIGIT9+)?
-	)
-|	'.' FR_DIGIT9+ (('E' | 'e') ('+' | '-')? FR_DIGIT9+)?
-|	FR_DIGIT9+ ('E' | 'e') ('+' | '-')? FR_DIGIT9+
-) -> type(FLOAT);
-fragment FR_BINDIGIT9:	[01];
-BITSTRING9:			'\'' FR_BINDIGIT9* '\'' 'B' -> type(BITSTRING);
+FLOAT9:				FR_FLOAT -> type(FLOAT);
+BITSTRING9:			'\'' FR_BINDIGIT* '\'' 'B' -> type(BITSTRING);
 BS9:				'bitstring' -> type(BS);
-MACRO_BSTR9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? BS9 WS9? '}' -> type(MACRO_BSTR);
-fragment FR_HEXDIGIT9:	[0-9A-Fa-f];
-HEXSTRING9:			'\'' FR_HEXDIGIT9* '\'' 'H' -> type(HEXSTRING);
+MACRO_BSTR9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BS9 FR_WS? '}' -> type(MACRO_BSTR);
+HEXSTRING9:			'\'' FR_HEXDIGIT* '\'' 'H' -> type(HEXSTRING);
 HS9:				'hexstring' -> type(HS);
-MACRO_HSTR9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? HS9 WS9? '}' -> type(MACRO_HSTR);
-fragment FR_OCTDIGIT9:	FR_HEXDIGIT9 FR_HEXDIGIT9;
-OCTETSTRING9:		'\'' FR_OCTDIGIT9* '\'' 'O' -> type(OCTETSTRING);
+MACRO_HSTR9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HS9 FR_WS? '}' -> type(MACRO_HSTR);
+OCTETSTRING9:		'\'' FR_OCTDIGIT* '\'' 'O' -> type(OCTETSTRING);
 OS9:				'octetstring' -> type(OS);
-MACRO_OSTR9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? OS9 WS9? '}' -> type(MACRO_OSTR);
+MACRO_OSTR9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? OS9 FR_WS? '}' -> type(MACRO_OSTR);
 BINO9:				'binaryoctet' -> type(BINO);
-MACRO_BINARY9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? BINO9 WS9? '}' -> type(MACRO_BINARY);
-fragment FR_BINDIGITMATCH9:	( FR_BINDIGIT9 | '?' | '*' );
-BITSTRINGMATCH9:	'\'' FR_BINDIGITMATCH9* '\'' 'B' -> type(BITSTRINGMATCH);
-fragment FR_HEXDIGITMATCH9:	( FR_HEXDIGIT9 | '?' | '*' );
-HEXSTRINGMATCH9:	'\'' FR_HEXDIGITMATCH9* '\'' 'H' -> type(HEXSTRINGMATCH);
-fragment FR_OCTDIGITMATCH9:	( FR_OCTDIGIT9 | '?' | '*' );
-OCTETSTRINGMATCH9:	'\'' FR_OCTDIGITMATCH9* '\'' 'O' -> type(OCTETSTRINGMATCH);
-MACRO9:
-(
-	'$' FR_TTCN3IDENTIFIER9
-|	'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? '}'
-) -> type(MACRO);
-STRING9:
-'"'
-(	'\\' .
-|	'""'
-|	~( '\\' | '"' )
-)*
-'"'
- -> type(STRING);
+MACRO_BINARY9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BINO9 FR_WS? '}' -> type(MACRO_BINARY);
+BITSTRINGMATCH9:	'\'' FR_BINDIGITMATCH* '\'' 'B' -> type(BITSTRINGMATCH);
+HEXSTRINGMATCH9:	'\'' FR_HEXDIGITMATCH* '\'' 'H' -> type(HEXSTRINGMATCH);
+OCTETSTRINGMATCH9:	'\'' FR_OCTDIGITMATCH* '\'' 'O' -> type(OCTETSTRINGMATCH);
+MACRO9:				FR_MACRO -> type(MACRO);
+STRING9:			FR_STRING -> type(STRING);
 
 //components section
 mode COMPONENTS_SECTION_MODE;
@@ -908,20 +776,12 @@ LOGGING_SECTION10:				'[LOGGING]'
 PROFILER_SECTION10:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS10:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT10:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT10:		'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS10:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT10:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT10:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON10:			';' -> type(SEMICOLON);
 STAR10:					'*' -> type(STAR);
 ASSIGNMENTCHAR10:		':'? '=' -> type(ASSIGNMENTCHAR);
-fragment FR_LETTER10:	[A-Za-z];
-fragment FR_DIGIT10:	[0-9];
-fragment FR_TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_DIGIT10+ | '_')*;
 
 IPV6_10:
 	( 'A'..'F' | 'a'..'f' | '0'..'9' )*
@@ -935,38 +795,20 @@ IPV6_10:
 	( '/' ( '0'..'9' )+ )?
  -> type(IPV6);
 
-NATURAL_NUMBER10:	[0-9]+ -> type(NATURAL_NUMBER);
-FLOAT10:
-(
-	FR_DIGIT10+
-	(
-		'.' FR_DIGIT10+ (('E' | 'e') ('+' | '-')? FR_DIGIT10+)?
-	)
-|	'.' FR_DIGIT10+ (('E' | 'e') ('+' | '-')? FR_DIGIT10+)?
-|	FR_DIGIT10+ ('E' | 'e') ('+' | '-')? FR_DIGIT10+
-) -> type(FLOAT);
+NATURAL_NUMBER10:	FR_INT -> type(NATURAL_NUMBER);
+FLOAT10:			FR_FLOAT -> type(FLOAT);
 
-TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_DIGIT10+ | '_')* -> type(TTCN3IDENTIFIER);
-fragment FR_HOSTNAME10:
-	('A'..'Z' | 'a'..'z' | '0'..'9' | ':')
-	(	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
-	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
-	)*
-;
+TTCN3IDENTIFIER10:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 
 DNSNAME10:
-(	FR_HOSTNAME10
-	('/' FR_DIGIT10+)?
+(	FR_HOSTNAME
+	('/' FR_DIGIT+)?
 ) -> type(DNSNAME);
 ID10:					'identifier' -> type(ID);
-MACRO_ID10:				'$' '{' WS10? FR_TTCN3IDENTIFIER10 WS10? ',' WS10? ID10 WS10? '}' -> type(MACRO_ID);
+MACRO_ID10:				'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID10 FR_WS? '}' -> type(MACRO_ID);
 HN10:					'hostname' -> type(HN);
-MACRO_HOSTNAME10: 		'$' '{' WS10? FR_TTCN3IDENTIFIER10 WS10? ',' WS10? HN10 WS10? '}' -> type(MACRO_HOSTNAME);
-MACRO10:
-(
-	'$' FR_TTCN3IDENTIFIER10
-|	'$' '{' WS10? FR_TTCN3IDENTIFIER10 WS10? '}'
-) -> type(MACRO);
+MACRO_HOSTNAME10: 		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HN10 FR_WS? '}' -> type(MACRO_HOSTNAME);
+MACRO10:				FR_MACRO -> type(MACRO);
 
 //logging section
 mode LOGGING_SECTION_MODE;
@@ -995,14 +837,9 @@ LOGGING_SECTION11:				'[LOGGING]'
 PROFILER_SECTION11:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS11:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT11:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT11:	'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS11:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT11:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT11:	FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 TTCN_EXECUTOR1:		'TTCN_EXECUTOR';	TTCN_ERROR1:	'TTCN_ERROR';		TTCN_WARNING1:		'TTCN_WARNING';
 TTCN_PORTEVENT1:	'TTCN_PORTEVENT';	TTCN_TIMEROP1:	'TTCN_TIMEROP';		TTCN_VERDICTOP1:	'TTCN_VERDICTOP';
@@ -1109,42 +946,20 @@ RPAREN11:				')'
 	-> type(RPAREN);
 
 
-fragment FR_LETTER11:	[A-Za-z];
-fragment FR_DIGIT11:	[0-9];
-fragment FR_TTCN3IDENTIFIER11:	FR_LETTER11 (FR_LETTER11 | FR_DIGIT11+ | '_')*;
-TTCN3IDENTIFIER11:	FR_LETTER11 (FR_LETTER11 | FR_DIGIT11+ | '_')* -> type(TTCN3IDENTIFIER);
-NATURAL_NUMBER11:		[0-9]+ -> type(NATURAL_NUMBER);
-FLOAT11:
-(
-	FR_DIGIT11+
-	(
-		'.' FR_DIGIT11+ (('E' | 'e') ('+' | '-')? FR_DIGIT11+)?
-	)
-|	'.' FR_DIGIT11+ (('E' | 'e') ('+' | '-')? FR_DIGIT11+)?
-|	FR_DIGIT11+ ('E' | 'e') ('+' | '-')? FR_DIGIT11+
-) -> type(FLOAT);
+TTCN3IDENTIFIER11:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
+NATURAL_NUMBER11:	FR_INT -> type(NATURAL_NUMBER);
+FLOAT11:			FR_FLOAT -> type(FLOAT);
 
 BOOL11:				'boolean' -> type(BOOL);
-MACRO_BOOL11:		'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? BOOL11 WS11? '}' -> type(MACRO_BOOL);
+MACRO_BOOL11:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BOOL11 FR_WS? '}' -> type(MACRO_BOOL);
 ID11:				'identifier' -> type(ID);
-MACRO_ID11:			'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? ID11 WS11? '}' -> type(MACRO_ID);
+MACRO_ID11:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID11 FR_WS? '}' -> type(MACRO_ID);
 INT11:				'integer' -> type(INT);
-MACRO_INT11:		'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? INT11 WS11? '}' -> type(MACRO_INT);
+MACRO_INT11:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT11 FR_WS? '}' -> type(MACRO_INT);
 CSTR11:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR11:	'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? CSTR11 WS11? '}' -> type(MACRO_EXP_CSTR);
-MACRO11:
-(
-	'$' FR_TTCN3IDENTIFIER11
-|	'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? '}'
-) -> type(MACRO);
-STRING11:
-'"'
-(	'\\' .
-|	'""'
-|	~( '\\' | '"' )
-)*
-'"'
- -> type(STRING);
+MACRO_EXP_CSTR11:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR11 FR_WS? '}' -> type(MACRO_EXP_CSTR);
+MACRO11:			FR_MACRO -> type(MACRO);
+STRING11:			FR_STRING -> type(STRING);
 
 //profiler section
 mode PROFILER_SECTION_MODE;
@@ -1173,18 +988,12 @@ LOGGING_SECTION12:				'[LOGGING]'
 PROFILER_SECTION12:				'[PROFILER]'
 	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS12:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
-LINE_COMMENT12:
-(
-	'//' ~[\r\n]*
-|	'#' ~[\r\n]*
-) -> type(LINE_COMMENT), channel(HIDDEN);
-BLOCK_COMMENT12:		'/*' .*? '*/'
-	-> type(BLOCK_COMMENT), channel(HIDDEN);
+WS12:	FR_WS -> type(WS), channel(HIDDEN);
+LINE_COMMENT12:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT12:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 CONCATCHAR12:			'&=' -> type(CONCATCHAR);
-fragment FR_HEX12:		[0-9|A-F|a-f];
-HEXFILTER12:			FR_HEX12+ -> type(HEXFILTER);
+HEXFILTER12:			FR_HEXDIGIT+ -> type(HEXFILTER);
 SEMICOLON12:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR12:		':'? '=' -> type(ASSIGNMENTCHAR);
 LOGICALOR12:			'|' -> type(LOGICALOR);
@@ -1217,23 +1026,8 @@ LINEDATASORTED: 'LineDataSorted'; FUNCDATASORTED: 'FuncDataSorted'; ALLDATASORTE
 TOP10LINEDATA: 'Top10LineData'; TOP10FUNCDATA: 'Top10FuncData'; TOP10ALLDATA: 'Top10AllData';
 UNUSEDATA: 'UnusedData'; ALL: 'All';
 
-TRUE12:							'true' -> type(TRUE);
-FALSE12:						'false' -> type(FALSE);
-STRING12:
-'"'
-(	'\\' .
-|	'""'
-|	~( '\\' | '"' )
-)*
-'"'
- -> type(STRING);
-fragment FR_LETTER12:			[A-Za-z];
-fragment FR_DIGIT12:			[0-9];
-fragment FR_TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_DIGIT12+ | '_')*;
-TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_DIGIT12+ | '_')* -> type(TTCN3IDENTIFIER);
-
-MACRO12:
-(
-	'$' FR_TTCN3IDENTIFIER12
-|	'$' '{' WS12? FR_TTCN3IDENTIFIER12 WS12? '}'
-) -> type(MACRO);
+TRUE12:				'true' -> type(TRUE);
+FALSE12:			'false' -> type(FALSE);
+STRING12:			FR_STRING -> type(STRING);
+TTCN3IDENTIFIER12:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
+MACRO12:			FR_MACRO -> type(MACRO);
