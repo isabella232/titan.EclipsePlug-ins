@@ -898,6 +898,18 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			set_length_range(param);
 		}
 	}
+	
+	//We cannot cast TitanCharStringTemplates to TitanCharString like C++
+	public TitanCharString castForPatterns() {
+		if (template_selection == template_sel.STRING_PATTERN) {
+			return new TitanCharString(single_value);
+		} else if (template_selection == template_sel.SPECIFIC_VALUE) {
+			return new TitanCharString(single_value);
+		} else {
+			//TODO: better error message
+			throw new TtcnError("Internal error: using a non-acceptable template for pattern cast.");
+		}
+	}
 
 	private enum LogPatternState {
 		INITIAL, BACKSLASH, BACKSLASH_Q, QUADRUPLE, HASHMARK, REPETITIONS
