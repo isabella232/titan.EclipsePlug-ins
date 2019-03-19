@@ -130,16 +130,12 @@ tokens {
 	BEGINCHAR,
 	BEGINCONTROLPART,
 	BEGINTESTCASE,
-	BINO,
 	BITSTRING,
 	BITSTRINGMATCH,
-	BOOL,
-	BS,
 	CHARKEYWORD,
 	COMMA,
 	COMPLEMENTKEYWORD,
 	CONCATCHAR,
-	CSTR,
 	DNSNAME,
 	DOT,
 	DOTDOT,
@@ -150,18 +146,13 @@ tokens {
 	EXCLUSIVE,
 	FAIL_VERDICT,
 	FALSE,
-	FL,
 	FLOAT,
 	HEXFILTER,
 	HEXSTRING,
 	HEXSTRINGMATCH,
-	HN,
-	HS,
-	ID,
 	IFPRESENTKEYWORD,
 	INCONC_VERDICT,
 	INFINITYKEYWORD,
-	INT,
 	IPV6,
 	KILLTIMER,
 	LENGTHKEYWORD,
@@ -194,7 +185,6 @@ tokens {
 	OCTETSTRING,
 	OCTETSTRINGMATCH,
 	OMITKEYWORD,
-	OS,
 	PASS_VERDICT,
 	PATTERNKEYWORD,
 	PERMUTATIONKEYWORD,
@@ -262,6 +252,16 @@ fragment FR_MACRO:
 	'$' FR_TTCN3IDENTIFIER
 |	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? '}'
 ;
+fragment FR_MACRO_ID:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'identifier' FR_WS? '}';
+fragment FR_MACRO_INT:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'integer' FR_WS? '}';
+fragment FR_MACRO_BOOL:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'boolean' FR_WS? '}';
+fragment FR_MACRO_FLOAT:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'float' FR_WS? '}';
+fragment FR_MACRO_EXP_CSTR:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'charstring' FR_WS? '}';
+fragment FR_MACRO_HOSTNAME: 	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'hostname' FR_WS? '}';
+fragment FR_MACRO_BSTR:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'bitstring' FR_WS? '}';
+fragment FR_MACRO_HSTR:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'hexstring' FR_WS? '}';
+fragment FR_MACRO_OSTR:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'octetstring' FR_WS? '}';
+fragment FR_MACRO_BINARY:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'binaryoctet' FR_WS? '}';
 
 // DEFAULT MODE
 // These lexer rules are used only before the first section
@@ -408,16 +408,12 @@ DNSNAME1:
 	('/' FR_DIGIT+)?
 ) -> type(DNSNAME);
 TTCN3IDENTIFIER1:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
-HN1:					'hostname' -> type(HN);
-MACRO_HOSTNAME1: 		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HN1 FR_WS? '}' -> type(MACRO_HOSTNAME);
-INT1:					'integer' -> type(INT);
-MACRO_INT1:				'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT1 FR_WS? '}' -> type(MACRO_INT);
-MACRO1:					FR_MACRO -> type(MACRO);
-CSTR1: 					'charstring' -> type(CSTR);
-MACRO_EXP_CSTR1:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR1 FR_WS? '}' -> type(MACRO_EXP_CSTR);
-STRING1:				FR_STRING -> type(STRING);
-FL1:					'float' -> type(FL);
-MACRO_FLOAT1:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? FL1 FR_WS? '}' -> type(MACRO_FLOAT);
+STRING1:			FR_STRING -> type(STRING);
+MACRO1:				FR_MACRO -> type(MACRO);
+MACRO_HOSTNAME1: 	FR_MACRO_HOSTNAME -> type(MACRO_HOSTNAME);
+MACRO_INT1:			FR_MACRO_INT -> type(MACRO_INT);
+MACRO_EXP_CSTR1:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
+MACRO_FLOAT1:		FR_MACRO_FLOAT -> type(MACRO_FLOAT);
 
 //include section
 mode INCLUDE_SECTION_MODE;
@@ -691,26 +687,16 @@ STRING5:
 	'\\"'
 ) -> type(STRING);
 
-ID5:				'identifier' -> type(ID);
-MACRO_ID5:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID5 FR_WS? '}' -> type(MACRO_ID);
-INT5:				'integer' -> type(INT);
-MACRO_INT5:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT5 FR_WS? '}' -> type(MACRO_INT);
-BOOL5:				'boolean' -> type(BOOL);
-MACRO_BOOL5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BOOL5 FR_WS? '}' -> type(MACRO_BOOL);
-FL5:				'float' -> type(FL);
-MACRO_FLOAT5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? FL5 FR_WS? '}' -> type(MACRO_FLOAT);
-CSTR5:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR5:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR5 FR_WS? '}' -> type(MACRO_EXP_CSTR);
-BS5:				'bitstring' -> type(BS);
-MACRO_BSTR5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BS5 FR_WS? '}' -> type(MACRO_BSTR);
-HS5:				'hexstring' -> type(HS);
-MACRO_HSTR5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HS5 FR_WS? '}' -> type(MACRO_HSTR);
-OS5:				'octetstring' -> type(OS);
-MACRO_OSTR5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? OS5 FR_WS? '}' -> type(MACRO_OSTR);
-BINO5:				'binaryoctet' -> type(BINO);
-MACRO_BINARY5:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BINO5 FR_WS? '}' -> type(MACRO_BINARY);
-HN5:				'hostname' -> type(HN);
-MACRO_HOSTNAME5: 	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HN5 FR_WS? '}' -> type(MACRO_HOSTNAME);
+MACRO_ID5:			FR_MACRO_ID -> type(MACRO_ID);
+MACRO_INT5:			FR_MACRO_INT -> type(MACRO_INT);
+MACRO_BOOL5:		FR_MACRO_BOOL -> type(MACRO_BOOL);
+MACRO_FLOAT5:		FR_MACRO_FLOAT -> type(MACRO_FLOAT);
+MACRO_EXP_CSTR5:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
+MACRO_BSTR5:		FR_MACRO_BSTR -> type(MACRO_BSTR);
+MACRO_HSTR5:		FR_MACRO_HSTR -> type(MACRO_HSTR);
+MACRO_OSTR5:		FR_MACRO_OSTR -> type(MACRO_OSTR);
+MACRO_BINARY5:		FR_MACRO_BINARY -> type(MACRO_BINARY);
+MACRO_HOSTNAME5: 	FR_MACRO_HOSTNAME -> type(MACRO_HOSTNAME);
 MACRO5:				FR_MACRO -> type(MACRO);
 BITSTRING5:			'\'' FR_BINDIGIT* '\'' 'B' -> type(BITSTRING);
 HEXSTRING5:			'\'' FR_HEXDIGIT* '\'' 'H' -> type(HEXSTRING);
@@ -796,8 +782,7 @@ BEGINTESTCASE6:		( 'begintestcase' | 'Begintestcase' | 'beginTestcase' | 'BeginT
 ENDTESTCASE6:		( 'endtestcase' | 'Endtestcase' | 'endTestcase' | 'EndTestcase' | 'endtestCase'
 | 'EndTestCase' | 'endTestCase' | 'EndtestCase' ) -> type(ENDTESTCASE);
 
-CSTR6:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR6:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR6 FR_WS? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR6:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
 MACRO6:				FR_MACRO -> type(MACRO);
 
 //testport parameters
@@ -883,12 +868,9 @@ SYSTEM7KEYWORD:		'system' -> type(SYSTEMKEYWORD);
 STRING7:			FR_STRING -> type(STRING);
 STRINGOP7:			'&'	'='? -> type(STRINGOP);
 MACRO7:				FR_MACRO -> type(MACRO);
-ID7:				'identifier' -> type(ID);
-INT7:				'integer' -> type(INT);
-CSTR7:				'charstring' -> type(CSTR);
-MACRO_INT7:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT7 FR_WS? '}' -> type(MACRO_INT);
-MACRO_ID7:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID7 FR_WS? '}' -> type(MACRO_ID);
-MACRO_EXP_CSTR7:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR7 FR_WS? '}' -> type(MACRO_EXP_CSTR);
+MACRO_INT7:			FR_MACRO_INT -> type(MACRO_INT);
+MACRO_ID7:			FR_MACRO_ID -> type(MACRO_ID);
+MACRO_EXP_CSTR7:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
 
 //groups parameters
 mode GROUPS_SECTION_MODE;
@@ -959,8 +941,7 @@ DNSNAME8:
 (	FR_HOSTNAME
 	('/' FR_DIGIT+)?
 ) -> type(DNSNAME);
-ID8: 'identifier' -> type(ID);
-MACRO_ID8:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID8 FR_WS? '}' -> type(MACRO_ID);
+MACRO_ID8:		FR_MACRO_ID -> type(MACRO_ID);
 
 //module parameters
 mode MODULE_PARAMETERS_SECTION_MODE;
@@ -1070,33 +1051,23 @@ TRUE9:				'true' -> type(TRUE);
 FALSE9:				'false' -> type(FALSE);
 ANYVALUE9:			'?' -> type(ANYVALUE);
 TTCN3IDENTIFIER9:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
-ID9:				'identifier' -> type(ID);
-MACRO_ID9:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID9 FR_WS? '}' -> type(MACRO_ID);
 NATURAL_NUMBER9:	FR_INT -> type(NATURAL_NUMBER);
-INT9:				'integer' -> type(INT);
-MACRO_INT9:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT9 FR_WS? '}' -> type(MACRO_INT);
-BOOL9:				'boolean' -> type(BOOL);
-MACRO_BOOL9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BOOL9 FR_WS? '}' -> type(MACRO_BOOL);
-FL9:				'float' -> type(FL);
-MACRO_FLOAT9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? FL9 FR_WS? '}' -> type(MACRO_FLOAT);
-CSTR9:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR9:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR9 FR_WS? '}' -> type(MACRO_EXP_CSTR);
-
 FLOAT9:				FR_FLOAT -> type(FLOAT);
 BITSTRING9:			'\'' FR_BINDIGIT* '\'' 'B' -> type(BITSTRING);
-BS9:				'bitstring' -> type(BS);
-MACRO_BSTR9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BS9 FR_WS? '}' -> type(MACRO_BSTR);
 HEXSTRING9:			'\'' FR_HEXDIGIT* '\'' 'H' -> type(HEXSTRING);
-HS9:				'hexstring' -> type(HS);
-MACRO_HSTR9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HS9 FR_WS? '}' -> type(MACRO_HSTR);
 OCTETSTRING9:		'\'' FR_OCTDIGIT* '\'' 'O' -> type(OCTETSTRING);
-OS9:				'octetstring' -> type(OS);
-MACRO_OSTR9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? OS9 FR_WS? '}' -> type(MACRO_OSTR);
-BINO9:				'binaryoctet' -> type(BINO);
-MACRO_BINARY9:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BINO9 FR_WS? '}' -> type(MACRO_BINARY);
 BITSTRINGMATCH9:	'\'' FR_BINDIGITMATCH* '\'' 'B' -> type(BITSTRINGMATCH);
 HEXSTRINGMATCH9:	'\'' FR_HEXDIGITMATCH* '\'' 'H' -> type(HEXSTRINGMATCH);
 OCTETSTRINGMATCH9:	'\'' FR_OCTDIGITMATCH* '\'' 'O' -> type(OCTETSTRINGMATCH);
+MACRO_ID9:			FR_MACRO_ID -> type(MACRO_ID);
+MACRO_INT9:			FR_MACRO_INT -> type(MACRO_INT);
+MACRO_BOOL9:		FR_MACRO_BOOL -> type(MACRO_BOOL);
+MACRO_FLOAT9:		FR_MACRO_FLOAT -> type(MACRO_FLOAT);
+MACRO_EXP_CSTR9:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
+MACRO_BSTR9:		FR_MACRO_BSTR -> type(MACRO_BSTR);
+MACRO_HSTR9:		FR_MACRO_HSTR -> type(MACRO_HSTR);
+MACRO_OSTR9:		FR_MACRO_OSTR -> type(MACRO_OSTR);
+MACRO_BINARY9:		FR_MACRO_BINARY -> type(MACRO_BINARY);
 MACRO9:				FR_MACRO -> type(MACRO);
 STRING9:			FR_STRING -> type(STRING);
 
@@ -1182,10 +1153,8 @@ DNSNAME10:
 (	FR_HOSTNAME
 	('/' FR_DIGIT+)?
 ) -> type(DNSNAME);
-ID10:					'identifier' -> type(ID);
-MACRO_ID10:				'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID10 FR_WS? '}' -> type(MACRO_ID);
-HN10:					'hostname' -> type(HN);
-MACRO_HOSTNAME10: 		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? HN10 FR_WS? '}' -> type(MACRO_HOSTNAME);
+MACRO_ID10:				FR_MACRO_ID -> type(MACRO_ID);
+MACRO_HOSTNAME10: 		FR_MACRO_HOSTNAME -> type(MACRO_HOSTNAME);
 MACRO10:				FR_MACRO -> type(MACRO);
 
 //logging section
@@ -1359,14 +1328,10 @@ TTCN3IDENTIFIER11:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 NATURAL_NUMBER11:	FR_INT -> type(NATURAL_NUMBER);
 FLOAT11:			FR_FLOAT -> type(FLOAT);
 
-BOOL11:				'boolean' -> type(BOOL);
-MACRO_BOOL11:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? BOOL11 FR_WS? '}' -> type(MACRO_BOOL);
-ID11:				'identifier' -> type(ID);
-MACRO_ID11:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? ID11 FR_WS? '}' -> type(MACRO_ID);
-INT11:				'integer' -> type(INT);
-MACRO_INT11:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? INT11 FR_WS? '}' -> type(MACRO_INT);
-CSTR11:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR11:	'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? CSTR11 FR_WS? '}' -> type(MACRO_EXP_CSTR);
+MACRO_BOOL11:		FR_MACRO_BOOL -> type(MACRO_BOOL);
+MACRO_ID11:			FR_MACRO_ID -> type(MACRO_ID);
+MACRO_INT11:		FR_MACRO_INT -> type(MACRO_INT);
+MACRO_EXP_CSTR11:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
 MACRO11:			FR_MACRO -> type(MACRO);
 STRING11:			FR_STRING -> type(STRING);
 
