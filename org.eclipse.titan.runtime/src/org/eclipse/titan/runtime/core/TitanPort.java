@@ -1565,7 +1565,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		final AtomicInteger end_index = new AtomicInteger();
 		final AtomicInteger end_len = new AtomicInteger();
 		incoming_buffer.get_end(end_index, end_len);
-		final ByteBuffer buffer = ByteBuffer.allocate(1024);
+		final ByteBuffer buffer = ByteBuffer.allocate(end_len.get());
 		try {
 			final int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
 			if (recv_len < 0) {
