@@ -1497,6 +1497,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private boolean send_data_stream(final port_connection connection, final Text_Buf outgoing_data, final boolean ignore_peer_disconnect) {
+		boolean would_block_warning = false;
 		outgoing_data.calculate_length();
 		final byte[] msg_ptr = outgoing_data.get_data();
 		final int msg_len = outgoing_data.get_len();
@@ -1510,13 +1511,18 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			try {
 				((SocketChannel)connection.stream_socket).write(buffer);
 			} catch (final IOException e) {
+				//TODO how to detect full output buffer?
 				throw new TtcnError(e);
 			}
 		}
-		TtcnError.TtcnWarningBegin(MessageFormat.format("The message finally was sent on port {0} to ", port_name));
-		TitanComponent.log_component_reference(connection.remote_component);
-		TTCN_Logger.log_event(":%s.", connection.remote_port);
-		TtcnError.TtcnWarningEnd();
+
+		if (would_block_warning) {
+			TtcnError.TtcnWarningBegin(MessageFormat.format("The message finally was sent on port {0} to ", port_name));
+			TitanComponent.log_component_reference(connection.remote_component);
+			TTCN_Logger.log_event(":%s.", connection.remote_port);
+			TtcnError.TtcnWarningEnd();
+		}
+
 		return true;
 	}
 
