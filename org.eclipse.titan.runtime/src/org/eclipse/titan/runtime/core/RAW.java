@@ -643,7 +643,7 @@ public class RAW {
 		my_raw.unit = p_td.raw.unit;
 		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
 		final TitanInteger i = new TitanInteger();
-		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord);
+		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord, no_err, -1, true, null);
 		if(fl < 0) {
 			return fl;
 		}
