@@ -28,7 +28,7 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 
 public class UnusedStartedRefFuncRetVal extends BaseModuleCodeSmellSpotter {
 	private static final String PROBLEM = "Return type of function type `{0}'' is `{1}'', which does not have the `done'' extension attibute."
-			+ "When the test component terminates the returnes value cannot be retrived with a `done'' operation";
+			+ "When the test component terminates the returned value cannot be retrived with a `done'' operation";
 
 	public UnusedStartedRefFuncRetVal() {
 		super(CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES);
