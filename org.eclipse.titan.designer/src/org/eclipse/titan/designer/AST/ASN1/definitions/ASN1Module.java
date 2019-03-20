@@ -60,7 +60,7 @@ public final class ASN1Module extends Module {
 	 * Extensibility implied means in ASN.1 that all assignments in that
 	 * module should be treated as extendable.
 	 * <p>
-	 * The information is only stored, but not supported for now.
+	 * The information is only stored, but not supported for now (documented limitation).
 	 * */
 	private final boolean extensibilityImplied;
 
@@ -235,6 +235,7 @@ public final class ASN1Module extends Module {
 		if (null != lastCompilationTimeStamp && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
 		}
+
 		lastCompilationTimeStamp = timestamp;
 
 		if (!SpecialASN1Module.INTERNAL_MODULE.equals(identifier.getAsnName())) {
