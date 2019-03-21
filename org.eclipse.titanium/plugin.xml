@@ -24,6 +24,12 @@
       default="false" icon="resources/icons/titan.gif"
       id="org.eclipse.titanium.graph.editors.ComponentGraphEditor" name="component dependency graph">
     </editor>
+    <editor
+      class="org.eclipse.titanium.graph.gui.windows.ComponentFinderGraphEditor"
+      contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+      default="false" icon="resources/icons/titan.gif"
+      id="org.eclipse.titanium.graph.editors.ComponentFinderGraphEditor" name="testcase components">
+    </editor>
   </extension>
   <extension point="org.eclipse.ui.views">
     <category id="org.eclipse.titanium" name="Titanium">
