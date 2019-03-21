@@ -343,7 +343,7 @@ public class TitanCharString extends Base_Type {
 		final int n_chars = val_ptr.length();
 		text_buf.push_int(n_chars);
 		if (n_chars > 0) {
-			byte[] temp = new byte[n_chars];
+			final byte[] temp = new byte[n_chars];
 			for (int i = 0; i < n_chars; i++) {
 				temp[i] = (byte)val_ptr.charAt(i);
 			}
