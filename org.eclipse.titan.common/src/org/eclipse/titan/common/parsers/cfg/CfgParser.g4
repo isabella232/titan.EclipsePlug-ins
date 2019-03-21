@@ -1807,17 +1807,15 @@ pr_FloatValueExpression:
 
 pr_FloatAddExpression:
 	pr_FloatMulExpression
-	(	(	PLUS	pr_FloatMulExpression
-		|	MINUS	pr_FloatMulExpression
-		)
+	(	PLUS	pr_FloatMulExpression
+	|	MINUS	pr_FloatMulExpression
 	)*
 ;
 
 pr_FloatMulExpression:
 	pr_FloatUnaryExpression
-	(	(	STAR	pr_FloatUnaryExpression
-		|	SLASH	pr_FloatUnaryExpression
-		)
+	(	STAR	pr_FloatUnaryExpression
+	|	SLASH	pr_FloatUnaryExpression
 	)*
 ;
 
