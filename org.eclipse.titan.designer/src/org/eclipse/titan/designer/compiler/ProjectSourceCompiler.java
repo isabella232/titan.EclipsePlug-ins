@@ -547,11 +547,14 @@ public class ProjectSourceCompiler {
 		}
 
 		if (aData.getStartPTCFunction().length() > 0) {
-			aSb.append("@Override\n");
-			aSb.append("public boolean start_ptc_function(final String function_name, final Text_Buf function_arguments) {\n");
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic boolean start_ptc_function(final String function_name, final Text_Buf function_arguments) {\n");
+			aSb.append("\t\t");
 			aSb.append(aData.getStartPTCFunction());
-			aSb.append("throw new TtcnError(MessageFormat.format(\"Internal error: Startable function {0} does not exist in module {1}.\", function_name, module_name));\n");
-			aSb.append("}\n\n");
+			aSb.append("{\n");
+			aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal error: Startable function {0} does not exist in module {1}.\", function_name, module_name));\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getExecuteTestcase().length() > 0) {
