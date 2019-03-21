@@ -8,8 +8,6 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,11 +15,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
-import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -46,8 +42,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReferenceAnalyzer;
 public final class CharString_Pattern_Template extends TTCN3Template {
 
 	private final PatternString patternstring;
-
-	private List<Reference> references = new ArrayList<Reference>();
 
 	private static final Pattern PATTERN_DYNAMIC_REFERENCE = Pattern.compile( "(.*?)\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
 
@@ -225,8 +219,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		final String escaped = Charstring_Value.get_stringRepr(returnValue);
 
 		source.append(preamble);
-		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, {2}));\n", name, myGovernor.getGenNameTemplate(aData, source), create_charstring_literals(null, aData)));
-
+		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, {2}, {3}));\n", name, myGovernor.getGenNameTemplate(aData, source), create_charstring_literals(null, aData), patternstring.get_nocase()));
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
 				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
@@ -258,7 +251,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		final String escaped = Charstring_Value.get_stringRepr(patternstring.getFullString());
-		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result), create_charstring_literals(null, aData) /*escaped*/ ) );
+		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"), {2})", myGovernor.getGenNameTemplate(aData, result), create_charstring_literals(null, aData), patternstring.get_nocase()));	
 
 		//TODO handle cast needed
 
@@ -273,10 +266,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	//TODO: comments
 	public Reference parseRegexp(final String refToParse) {
 		TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
-		Reference valami1 = analyzer.parse((IFile) patternstring.getLocation().getFile(), refToParse, false, patternstring.getLocation().getLine(), patternstring.getLocation().getOffset());
-		valami1.setCodeSection(getCodeSection());
-		valami1.setMyScope(getMyScope());
-		return valami1;
+		Reference parsedReference = analyzer.parse((IFile) patternstring.getLocation().getFile(), refToParse, false, patternstring.getLocation().getLine(), patternstring.getLocation().getOffset());
+		parsedReference.setCodeSection(getCodeSection());
+		parsedReference.setMyScope(getMyScope());
+		return parsedReference;
 	}
 
 	//TODO: comments
