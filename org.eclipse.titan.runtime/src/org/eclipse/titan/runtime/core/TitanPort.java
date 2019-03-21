@@ -1501,12 +1501,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		outgoing_data.calculate_length();
 		final byte[] msg_ptr = outgoing_data.get_data();
 		final int msg_len = outgoing_data.get_len();
-		final ByteBuffer buffer = ByteBuffer.allocate(msg_len);
-		buffer.clear();
-		final byte[] temp_msg_ptr = new byte[msg_len];
-		System.arraycopy(msg_ptr, outgoing_data.get_begin(), temp_msg_ptr, 0, msg_len);
-		buffer.put(temp_msg_ptr);
-		buffer.flip();
+		final ByteBuffer buffer = ByteBuffer.wrap(msg_ptr, outgoing_data.get_begin(), msg_len);
 		while (buffer.hasRemaining()) {
 			try {
 				((SocketChannel)connection.stream_socket).write(buffer);
