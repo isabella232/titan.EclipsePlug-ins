@@ -1061,7 +1061,7 @@ public final class PortGenerator {
 
 			aData.addImport("java.util.LinkedList");
 
-			source.append("private LinkedList<Message_queue_item> message_queue = new LinkedList<Message_queue_item>();\n\n");
+			source.append("private final LinkedList<Message_queue_item> message_queue = new LinkedList<Message_queue_item>();\n\n");
 
 			source.append("private void remove_msg_queue_head() {\n");
 			source.append("message_queue.removeFirst();\n");
@@ -1153,7 +1153,7 @@ public final class PortGenerator {
 
 			aData.addImport("java.util.LinkedList");
 
-			source.append("private LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
+			source.append("private final LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
 			source.append("TTCN_Logger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(\"\"), new TitanCharString(\"\"));");
