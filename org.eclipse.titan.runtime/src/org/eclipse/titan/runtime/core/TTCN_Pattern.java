@@ -241,11 +241,13 @@ public class TTCN_Pattern {
 				convert_repetition( ttcnPattern, pos, javaPattern );
 				break;
 			}
+			//FIXME:don't need any converts because references are already resolved
 			case '{': {
-				final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
-				if ( c2 == '\\' ) {
-					convert_static_reference( ttcnPattern, pos, javaPattern, refs );
-				}
+				javaPattern.append("\\{");
+				//final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
+				//if ( c2 == '\\' ) {
+				//	convert_static_reference( ttcnPattern, pos, javaPattern, refs );
+				//}
 				// else is not needed, because dynamic references are already resolved
 				break;
 			}
