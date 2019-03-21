@@ -43,7 +43,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 
 	private final PatternString patternstring;
 
-	private static final Pattern PATTERN_DYNAMIC_REFERENCE = Pattern.compile( "(.*?)\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
+	private static final Pattern PATTERN_DYNAMIC_REFERENCE = Pattern.compile( "(.*?)\\{([A-Za-z].*?[A-Za-z0-9_]*)\\}(.*)" );
 
 	public CharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.CHARSTRING_PATTERN);
@@ -263,7 +263,12 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		source.append(create_charstring_literals(null, aData));
 	}
 
-	//TODO: comments
+	/**
+	 * Parse a String to a Reference type.
+	 * 
+	 * @param refToParse - the reference which will be parsed.
+	 * @return the parsed reference
+	 */
 	public Reference parseRegexp(final String refToParse) {
 		TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
 		Reference parsedReference = analyzer.parse((IFile) patternstring.getLocation().getFile(), refToParse, false, patternstring.getLocation().getLine(), patternstring.getLocation().getOffset());
@@ -272,7 +277,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		return parsedReference;
 	}
 
-	//TODO: comments
+	//semantic check for charstring patterns
 	public void checkRef(final Reference reference, final PatternType pstr_type, final Expected_Value_type expected_value, final CompilationTimeStamp timestamp) {
 		IValue v = null;
 		IValue v_last = null;
@@ -282,11 +287,11 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		Assignment ass = reference.getRefdAssignment(timestamp, false);
 		if (ass == null) {
 			return;
-		}
+		}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 		IType ref_type = ass.getType(timestamp).getTypeRefdLast(timestamp).getFieldType(timestamp, reference, 1, expected_value, null, false);
 		Type_type tt;
 		if (pstr_type == PatternType.CHARSTRING_PATTERN && ref_type.getTypetype() != Type_type.TYPE_CHARSTRING) {
-			reference.getLocation().reportSemanticError("Type of the referenced %s '%s' should be 'charstring'");
+			reference.getLocation().reportSemanticError(MessageFormat.format("Type of the referenced {0} {1} should be 'charstring'",  ass.getAssignmentName(), reference.getDisplayName()));
 		} else {
 			tt = Type_type.TYPE_CHARSTRING;
 		}
@@ -294,7 +299,6 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		refcheckertype = new CharString_Type();
 		switch (ass.getAssignmentType()) {
 		case A_TYPE:
-			Type t = (Type) ass.getType(timestamp);
 			break;
 		case A_MODULEPAR_TEMPLATE:
 		case A_VAR_TEMPLATE:
@@ -316,13 +320,11 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 				v_last = this.getPatternstring().get_value();
 				break;
 			default:
-				//TODO:error report
-				System.err.println("Unable to resolve referenced '%s' to character string type. '%s' template cannot be used.");
+				reference.getLocation().reportSemanticError(MessageFormat.format("Unable to resolve referenced '{0}' to character string type. '{1}' template cannot be used.", reference.getDisplayName(), templ.getTemplateTypeName()));
 				break;
 			}
 			break;
 		case A_VAR:
-
 		default:
 			v = new Referenced_Value(reference);
 			v.setMyGovernor(refcheckertype);
@@ -334,7 +336,6 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		v = null;
 	}
 
-	//TODO: comments
 	public String create_charstring_literals(final StringBuilder preamble, final JavaGenData aData) {
 		int parent = 0; 
 		StringBuilder s = new StringBuilder();
@@ -349,6 +350,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			return s.toString();
 		}
 		while ( m.matches() ) {
+			//characters before reference
 			if (m.group(1) != null && !m.group(1).isEmpty()) {
 				if (m.group(2) != null && !m.group(2).isEmpty()) {
 					s.append("new TitanCharString(\"");
@@ -361,12 +363,13 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 					s.append("\")");
 				}
 			}
+			//the reference
 			String ref = m.group(2);
 			Reference parsedRef = parseRegexp(ref);
 			checkRef(parsedRef, PatternType.CHARSTRING_PATTERN, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
 			ExpressionStruct expr = new ExpressionStruct();
 			parsedRef.generateCode(aData, expr);
-			if (expr.postamble == null || expr.postamble == null) {
+			if (expr.preamble == null || expr.postamble == null) {
 				//TODO: check
 			}
 			s.append("new TitanCharString(");
@@ -379,13 +382,12 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			case A_PAR_TEMP_IN:
 			case A_PAR_TEMP_OUT:
 			case A_PAR_TEMP_INOUT:
-				if (refd_last.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_CHARSTRING) {
 					s.append(".castForPatterns()");
-				}
 				break;
 			default:
 				break;
 			}
+			//characters after the reference
 			if (m.group(3) != null && !m.group(3).isEmpty()) { 
 				s.append(").operator_concatenate(");
 				parent++;	
@@ -395,6 +397,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			ttcnPattern = m.group(3);
 			m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
 		}
+		//remaining characters
 		if (ttcnPattern != null && !ttcnPattern.isEmpty()) {
 			s.append("new TitanCharString(\"");
 			s.append(ttcnPattern);
