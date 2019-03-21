@@ -2487,6 +2487,7 @@ pr_CharStringMatch returns[PatternString patternString]
 )
 {
 	$patternString.setContent(builder.toString());
+	$patternString.set_nocase(noCase);
 	$patternString.setLocation(getLocation($p.start, $p.stop));
 };
 
