@@ -1197,7 +1197,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 			//entry into start function
 			final StringBuilder startFunction = aData.getStartPTCFunction();
-			startFunction.append(MessageFormat.format("if(function_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
+			startFunction.append(MessageFormat.format("if(\"{0}\".equals(function_name)) '{'\n", identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
 					final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
