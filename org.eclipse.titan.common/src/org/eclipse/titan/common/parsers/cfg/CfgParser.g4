@@ -1518,7 +1518,7 @@ pr_SimpleParameterValue:
 |	pr_HStringValue
 |	pr_OStringValue
 |	pr_MPCString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 |	OMITKEYWORD
 |	pr_NULLKeyword
 |	MTCKEYWORD
@@ -1703,13 +1703,18 @@ pr_OString returns [String string]:
 
 pr_UniversalOrNotStringValue:
 (	pr_CString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 )
 (	STRINGOP
 	(	pr_CString
-	|	pr_Quadruple
+	|	pr_UniversalCharstringValue
 	)
 )*
+;
+
+pr_UniversalCharstringValue:
+	pr_Quadruple
+|	pr_USI
 ;
 
 pr_Quadruple:
@@ -1717,6 +1722,21 @@ pr_Quadruple:
 	LPAREN
 	pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression
 	RPAREN
+;
+
+pr_USI:
+	CHARKEYWORD
+	LPAREN
+	pr_UID
+	(	COMMA
+		pr_UID
+	)*
+	RPAREN
+;
+
+pr_UID:
+	UID
+|	TTCN3IDENTIFIER
 ;
 
 pr_EnumeratedValue:
@@ -1848,7 +1868,7 @@ pr_PatternChunkList:
 
 pr_PatternChunk:
 	pr_CString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 ;
 
 pr_BStringMatch:

@@ -244,8 +244,9 @@ import java.util.regex.Pattern;
 	 * Logs error during the process
 	 * @param errorMsg error message
 	 */
-	private void config_process_error(final String errorMsg)	{
+	private static void config_process_error(final String errorMsg)	{
 		//TODO: implement
+		System.err.println(errorMsg);
 	}
 
 	//TODO: use these variables
@@ -294,6 +295,49 @@ import java.util.regex.Pattern;
 		begin_testcase_command_set = false;
 		end_testcase_command_set = false;
 	}
+
+	/**
+	 * Converts USI format to universal char
+	 * @param text hexadecimal string starting with [Uu][+]?, example: U+123, uAA0A
+	 * @return converted universal char, or null on error 
+	 */
+	private TitanUniversalChar usiToUc( final String text ) {
+		if (null == text) {
+			config_process_error("USI string is null ");
+			return null;
+		}
+		if (text.length() < 2) {
+			config_process_error("USI string is too short: " + text);
+			return null;
+		}
+		// Always starts with u or U
+		if ('u' != text.charAt(0) && 'U' != text.charAt(0) ) {
+			config_process_error("Invalid USI format: " + text);
+			return null;
+		}
+		// Optional '+'
+		final int offset = '+' == text.charAt(1) ? 2 : 1;
+		final String hex = text.substring(offset);
+		if (hex.length() > 8) {
+			//Error, should not happen
+			config_process_error("Hexadecimal string " + hex + " is too long. Maximum 8 hex digits are allowed.");
+			return null;
+		}
+		try {
+			long int_val = Long.parseLong(hex, 16);
+			//Fill in the quadruple
+			final char uc_group = (char) ((int_val >> 24) & 0xFF);
+			final char uc_plane = (char) ((int_val >> 16) & 0xFF);
+			final char uc_row   = (char) ((int_val >> 8) & 0xFF);
+			final char uc_cell  = (char) (int_val & 0xFF);
+			return new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell);
+		} catch (NumberFormatException e) {
+			//Error, should not happen
+			config_process_error("Invalid hexadecimal string " + hex);
+			return null;
+		}
+}
+
 }
 
 pr_ConfigFile:
@@ -1483,7 +1527,7 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	hstr = pr_HStringValue			{	$moduleparameter = new Module_Param_Hexstring($hstr.string);	}
 |	ostr = pr_OStringValue			{	$moduleparameter = new Module_Param_Octetstring($ostr.string);	}
 |	cs = pr_MPCString				{	$moduleparameter = new Module_Param_Charstring(new TitanCharString($cs.string));	}
-|	ucs = pr_Quadruple				{	$moduleparameter = new Module_Param_Universal_Charstring($ucs.ucstr);	}
+|	ucs = pr_UniversalCharstringValue	{	$moduleparameter = new Module_Param_Universal_Charstring($ucs.ucstr);	}
 |	OMITKEYWORD						{	$moduleparameter = new Module_Param_Omit();	}
 |	nulltext = pr_NULLKeyword
 	{	if ("null".equals($nulltext.text)) {
@@ -1736,7 +1780,7 @@ pr_OString returns [String string]:
 //returns TitanCharString or TitanUniversalCharString
 pr_UniversalOrNotStringValue returns [Base_Type cstr]:
 (	c = pr_CString	{ 	$cstr = new TitanCharString($c.string);	}
-|	q = pr_Quadruple	{ 	$cstr = $q.ucstr;	}
+|	q = pr_UniversalCharstringValue	{ 	$cstr = $q.ucstr;	}
 )
 (	STRINGOP
 	(	c = pr_CString
@@ -1748,7 +1792,7 @@ pr_UniversalOrNotStringValue returns [Base_Type cstr]:
 				$cstr = ucs.operator_concatenate($c.string);
 			}
 		}
-	|	q = pr_Quadruple
+	|	q = pr_UniversalCharstringValue
 		{	if ($cstr instanceof TitanCharString) {
 				final TitanCharString cs = (TitanCharString)$cstr;
 				$cstr = cs.operator_concatenate($q.ucstr);
@@ -1759,6 +1803,11 @@ pr_UniversalOrNotStringValue returns [Base_Type cstr]:
 		}
 	)
 )*
+;
+
+pr_UniversalCharstringValue returns [TitanUniversalCharString ucstr]:
+	q = pr_Quadruple {	$ucstr = $q.ucstr;	}
+|	u = pr_USI {	$ucstr = $u.ucstr;	}
 ;
 
 pr_Quadruple returns [TitanUniversalCharString ucstr]:
@@ -1772,11 +1821,40 @@ pr_Quadruple returns [TitanUniversalCharString ucstr]:
 	COMMA
 	i4 = pr_IntegerValueExpression
 	RPAREN
-	{	$ucstr = new TitanUniversalCharString(	(char)$i1.integer.getIntegerValue().intValue(),
-												(char)$i2.integer.getIntegerValue().intValue(),
-												(char)$i3.integer.getIntegerValue().intValue(),
-												(char)$i4.integer.getIntegerValue().intValue()	);
+	{	if ( $i1.integer != null && $i2.integer != null && $i3.integer != null && $i4.integer != null ) {
+			$ucstr = new TitanUniversalCharString(	(char)$i1.integer.getIntegerValue().intValue(),
+													(char)$i2.integer.getIntegerValue().intValue(),
+													(char)$i3.integer.getIntegerValue().intValue(),
+													(char)$i4.integer.getIntegerValue().intValue()	);
+		} else {
+			config_process_error("Invalid quadruple: char("+$i1.text+","+$i2.text+","+$i3.text+","+$i4.text+")");
+			$ucstr = new TitanUniversalCharString();
+		}
 	}
+;
+
+pr_USI returns [TitanUniversalCharString ucstr]
+@init {
+	$ucstr = new TitanUniversalCharString();
+}:
+	CHARKEYWORD
+	LPAREN
+	u = pr_UID	{	if ( null == $u.uc ) {	$ucstr.operator_concatenate($u.uc);	}	}
+	(	COMMA
+		u = pr_UID	{	if ( null == $u.uc ) {	$ucstr.operator_concatenate($u.uc);	}	}
+	)*
+	RPAREN
+;
+
+pr_UID returns [TitanUniversalChar uc]:
+(	//min 1 max 8 hex digits
+	u = UID
+	{	$uc = usiToUc( $u.text );
+	}
+|	i = TTCN3IDENTIFIER
+	{	$uc = usiToUc( $i.text );
+	}
+)
 ;
 
 pr_EnumeratedValue returns [String identifier]:
@@ -2061,7 +2139,7 @@ pr_PatternChunk returns [TitanUniversalCharString ucstr]:
 			$ucstr = new TitanUniversalCharString($cstr.text.replaceAll("^\"|\"$", ""));
 		}
 	}
-|	q = pr_Quadruple	{	$ucstr = $q.ucstr;	}
+|	q = pr_UniversalCharstringValue	{	$ucstr = $q.ucstr;	}
 ;
 
 pr_BStringMatch returns [String string]:

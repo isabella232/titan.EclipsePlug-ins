@@ -86,6 +86,7 @@ tokens {
 	TCPPORT,
 	TRUE,
 	TTCN3IDENTIFIER,
+	UID,
 	UNIXSOCKETS,
 	YES
 }
@@ -675,6 +676,7 @@ MACRO_OSTR9:		FR_MACRO_OSTR -> type(MACRO_OSTR);
 MACRO_BINARY9:		FR_MACRO_BINARY -> type(MACRO_BINARY);
 MACRO9:				FR_MACRO -> type(MACRO);
 STRING9:			FR_STRING -> type(STRING);
+UID9:				[uU][+]?[0-9A-Fa-f]+ -> type(UID);
 
 //components section
 mode COMPONENTS_SECTION_MODE;
