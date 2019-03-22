@@ -15,17 +15,23 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -264,7 +270,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	}
 
 	/**
-	 * Parse a String to a Reference type.
+	 * Parse a S
 	 * 
 	 * @param refToParse - the reference which will be parsed.
 	 * @return the parsed reference
@@ -375,38 +381,65 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			s.append("new TitanCharString(");
 			s.append(expr.expression);
 			Assignment refd_last = parsedRef.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-			switch (refd_last.getAssignmentType()) {
-			case A_TEMPLATE:
-			case A_VAR_TEMPLATE:
-			case A_MODULEPAR_TEMPLATE:
-			case A_PAR_TEMP_IN:
-			case A_PAR_TEMP_OUT:
-			case A_PAR_TEMP_INOUT:
+			IType type = null;
+			//checking for optional field 
+			for (int i = 0; i < parsedRef.getSubreferences().size(); i++) {
+				type = refd_last.getType(CompilationTimeStamp.getBaseTimestamp());
+				if (type != null) {
+					type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				}
+				final ISubReference subreference = parsedRef.getSubreferences().get(i);
+				if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
+					final Identifier id = ((FieldSubReference) subreference).getId();
+					if (type != null) {
+						CompField compField = null;
+						switch(type.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							compField = ((TTCN3_Set_Seq_Choice_BaseType)type).getComponentByName(id.getName());
+							break;
+						default:
+							break;
+						}
+						if (compField != null && compField.isOptional()) {
+							s.append(".constGet()");
+						}
+					}
+				}
+			}
+				switch (refd_last.getAssignmentType()) {
+				case A_TEMPLATE:
+				case A_VAR_TEMPLATE:
+				case A_MODULEPAR_TEMPLATE:
+				case A_PAR_TEMP_IN:
+				case A_PAR_TEMP_OUT:
+				case A_PAR_TEMP_INOUT:
 					s.append(".castForPatterns()");
-				break;
-			default:
-				break;
+					break;
+				default:
+					break;
+				}
+				//characters after the reference
+				if (m.group(3) != null && !m.group(3).isEmpty()) { 
+					s.append(").operator_concatenate(");
+					parent++;	
+				} else {
+					s.append(")");
+				}
+				ttcnPattern = m.group(3);
+				m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
 			}
-			//characters after the reference
-			if (m.group(3) != null && !m.group(3).isEmpty()) { 
-				s.append(").operator_concatenate(");
-				parent++;	
-			} else {
+			//remaining characters
+			if (ttcnPattern != null && !ttcnPattern.isEmpty()) {
+				s.append("new TitanCharString(\"");
+				s.append(ttcnPattern);
+				s.append("\")");
+			}
+			while(parent > 0) {
 				s.append(")");
+				parent--;
 			}
-			ttcnPattern = m.group(3);
-			m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
+			return s.toString();
 		}
-		//remaining characters
-		if (ttcnPattern != null && !ttcnPattern.isEmpty()) {
-			s.append("new TitanCharString(\"");
-			s.append(ttcnPattern);
-			s.append("\")");
-		}
-		while(parent > 0) {
-			s.append(")");
-			parent--;
-		}
-		return s.toString();
 	}
-}
