@@ -408,38 +408,38 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 					}
 				}
 			}
-				switch (refd_last.getAssignmentType()) {
-				case A_TEMPLATE:
-				case A_VAR_TEMPLATE:
-				case A_MODULEPAR_TEMPLATE:
-				case A_PAR_TEMP_IN:
-				case A_PAR_TEMP_OUT:
-				case A_PAR_TEMP_INOUT:
-					s.append(".castForPatterns()");
-					break;
-				default:
-					break;
-				}
-				//characters after the reference
-				if (m.group(3) != null && !m.group(3).isEmpty()) { 
-					s.append(").operator_concatenate(");
-					parent++;	
-				} else {
-					s.append(")");
-				}
-				ttcnPattern = m.group(3);
-				m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
+			switch (refd_last.getAssignmentType()) {
+			case A_TEMPLATE:
+			case A_VAR_TEMPLATE:
+			case A_MODULEPAR_TEMPLATE:
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_OUT:
+			case A_PAR_TEMP_INOUT:
+				s.append(".castForPatterns()");
+				break;
+			default:
+				break;
 			}
-			//remaining characters
-			if (ttcnPattern != null && !ttcnPattern.isEmpty()) {
-				s.append("new TitanCharString(\"");
-				s.append(ttcnPattern);
-				s.append("\")");
-			}
-			while(parent > 0) {
+			//characters after the reference
+			if (m.group(3) != null && !m.group(3).isEmpty()) { 
+				s.append(").operator_concatenate(");
+				parent++;	
+			} else {
 				s.append(")");
-				parent--;
 			}
-			return s.toString();
+			ttcnPattern = m.group(3);
+			m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
 		}
+		//remaining characters
+		if (ttcnPattern != null && !ttcnPattern.isEmpty()) {
+			s.append("new TitanCharString(\"");
+			s.append(ttcnPattern);
+			s.append("\")");
+		}
+		while(parent > 0) {
+			s.append(")");
+			parent--;
+		}
+		return s.toString();
 	}
+}
