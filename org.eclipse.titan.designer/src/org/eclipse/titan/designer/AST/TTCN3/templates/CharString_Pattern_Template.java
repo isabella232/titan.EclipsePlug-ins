@@ -270,7 +270,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	}
 
 	/**
-	 * Parse a S
+	 * Parse a String to a Reference type.
 	 * 
 	 * @param refToParse - the reference which will be parsed.
 	 * @return the parsed reference
