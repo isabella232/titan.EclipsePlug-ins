@@ -399,12 +399,13 @@ public final class Text_Buf {
 		if (bytes_needed == 1) {
 			data_ptr[buf_begin - bytes_needed] = (byte) (value & 0x3F);
 		} else {
-			for (int i = bytes_needed - 1; i > 0; i--) {
+			//i == bytes_needed - 1 case
+			data_ptr[buf_begin - bytes_needed + bytes_needed - 1] = (byte) (value & 0x7F);
+			value >>= 7;
+			for (int i = bytes_needed - 2; i > 0; i--) {
 				data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x7F);
 				value >>= 7;
-				if (i < bytes_needed - 1) {
-					data_ptr[buf_begin - bytes_needed + i] |= 0x80;
-				}
+				data_ptr[buf_begin - bytes_needed + i] |= 0x80;
 			}
 			// i == 0 case
 			data_ptr[buf_begin - bytes_needed] = (byte) (value & 0x3F);
