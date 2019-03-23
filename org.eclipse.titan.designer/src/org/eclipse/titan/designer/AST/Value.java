@@ -723,7 +723,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
-	 * Adds the character sequence "get()" to expression->expression if reference points to
+	 * Adds the character sequence "constGet()" to expression->expression if reference points to
 	 * an optional field of a record/set value.
 	 *
 	 * generate_code_expr_optional_field_ref in the compiler
