@@ -1568,7 +1568,8 @@ public final class LoggerPluginManager {
 	}
 
 	public void reset() {
-		for (int i = 0; i < plugins_.size(); i++)
+		for (int i = 0; i < plugins_.size(); i++) {
 			plugins_.get(i).reset();
+		}
 	}
 }
