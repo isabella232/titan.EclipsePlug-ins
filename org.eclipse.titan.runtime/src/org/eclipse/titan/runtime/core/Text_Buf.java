@@ -395,18 +395,23 @@ public final class Text_Buf {
 		if (buf_begin < bytes_needed) {
 			throw new TtcnError("Text encoder: There is not enough space to calculate message length.");
 		}
-		for (int i = bytes_needed - 1;; i--) {
-			if (i > 0) {
-				data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x7F);
-				value >>= 7;
-			} else {
-				data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x3F);
-			}
-			if (i < bytes_needed - 1) {
-				data_ptr[buf_begin - bytes_needed + i] |= 0x80;
-			}
-			if (i == 0) {
-				break;
+
+		if (bytes_needed == 1) {
+			data_ptr[buf_begin - bytes_needed] = (byte) (value & 0x3F);
+		} else {
+			for (int i = bytes_needed - 1;; i--) {
+				if (i > 0) {
+					data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x7F);
+					value >>= 7;
+				} else {
+					data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x3F);
+				}
+				if (i < bytes_needed - 1) {
+					data_ptr[buf_begin - bytes_needed + i] |= 0x80;
+				}
+				if (i == 0) {
+					break;
+				}
 			}
 		}
 
