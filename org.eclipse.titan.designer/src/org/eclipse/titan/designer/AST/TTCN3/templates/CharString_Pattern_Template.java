@@ -15,23 +15,17 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
-import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Identifier;
-import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.Type;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
-import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
-import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -411,40 +405,14 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			Reference parsedRef = parseRegexp(ref);
 			checkRef(parsedRef, PatternType.CHARSTRING_PATTERN, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
 			ExpressionStruct expr = new ExpressionStruct();
-			parsedRef.generateCode(aData, expr);
+			parsedRef.generateConstRef(aData, expr);
+			Value.generateCodeExpressionOptionalFieldReference(aData, expr, parsedRef);
 			if (expr.preamble == null || expr.postamble == null) {
 				//TODO: check
 			}
 			s.append("new TitanCharString(");
 			s.append(expr.expression);
 			Assignment refd_last = parsedRef.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-			IType type = null;
-			//checking for optional field 
-			for (int i = 0; i < parsedRef.getSubreferences().size(); i++) {
-				type = refd_last.getType(CompilationTimeStamp.getBaseTimestamp());
-				if (type != null) {
-					type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				}
-				final ISubReference subreference = parsedRef.getSubreferences().get(i);
-				if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-					final Identifier id = ((FieldSubReference) subreference).getId();
-					if (type != null) {
-						CompField compField = null;
-						switch(type.getTypetype()) {
-						case TYPE_TTCN3_CHOICE:
-						case TYPE_TTCN3_SEQUENCE:
-						case TYPE_TTCN3_SET:
-							compField = ((TTCN3_Set_Seq_Choice_BaseType)type).getComponentByName(id.getName());
-							break;
-						default:
-							break;
-						}
-						if (compField != null && compField.isOptional()) {
-							s.append(".constGet()");
-						}
-					}
-				}
-			}
 			switch (refd_last.getAssignmentType()) {
 			case A_TEMPLATE:
 			case A_VAR_TEMPLATE:
