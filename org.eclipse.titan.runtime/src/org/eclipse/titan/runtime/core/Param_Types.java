@@ -349,7 +349,7 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_operand2()");
 		}
 
-		public void error(final String err, Object... args) {
+		public void error(final String err, final Object... args) {
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 			TTCN_Logger.log_event_str("Error while ");
 			switch (operation_type) {
@@ -363,6 +363,7 @@ public final class Param_Types {
 				TTCN_Logger.log_event_str("???");
 				break;
 			}
+
 			TTCN_Logger.log_event_str(" ");
 			if (id != null && id.is_custom()) {
 				final String custom_ctx = id.get_str();
@@ -374,6 +375,7 @@ public final class Param_Types {
 				TTCN_Logger.log_event_str(param_ctx);
 				TTCN_Logger.log_event_str("'");
 			}
+
 			switch (operation_type) {
 			case OT_ASSIGN:
 				TTCN_Logger.log_event_str(" to '");
@@ -385,6 +387,7 @@ public final class Param_Types {
 				TTCN_Logger.log_event_str("' ??? '");
 				break;
 			}
+
 			log(false);
 			TTCN_Logger.log_event_str("': ");
 			TTCN_Logger.log_event_va_list(err, args);
