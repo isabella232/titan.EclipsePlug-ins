@@ -27,7 +27,7 @@ public class ConfigFileTest {
 	private ArrayList<MarkerToCheck> config_cfg_initializer_errors() {
 		//config.cfg
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(3);
-		int lineNum = 329;
+		int lineNum = 328;
 		markersToCheck.add(new MarkerToCheck("Could not resolve integer definition: d_integer_nonexi using 0 as replacement.",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 37;
 		markersToCheck.add(new MarkerToCheck("Could not resolve definition: d_boolean_nonexi using \"true\" as a replacement.",  lineNum, IMarker.SEVERITY_ERROR));
@@ -40,7 +40,7 @@ public class ConfigFileTest {
 	private ArrayList<MarkerToCheck> config_cfg_initializer_warnings() {
 		//config.cfg
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(30);
-		int lineNum = 277;
+		int lineNum = 276;
 		markersToCheck.add(new MarkerToCheck("Deprecated logging option TTCN_ACTION",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Deprecated logging option TTCN_DEBUG",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Deprecated logging option TTCN_DEFAULTOP",  lineNum, IMarker.SEVERITY_WARNING));
