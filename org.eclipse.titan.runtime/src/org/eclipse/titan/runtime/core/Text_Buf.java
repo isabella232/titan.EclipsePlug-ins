@@ -400,10 +400,8 @@ public final class Text_Buf {
 			data_ptr[buf_begin - bytes_needed] = (byte) (value & 0x3F);
 		} else {
 			for (int i = bytes_needed - 1; i > 0; i--) {
-				if (i > 0) {
-					data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x7F);
-					value >>= 7;
-				}
+				data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x7F);
+				value >>= 7;
 				if (i < bytes_needed - 1) {
 					data_ptr[buf_begin - bytes_needed + i] |= 0x80;
 				}
