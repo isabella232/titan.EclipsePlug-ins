@@ -51,6 +51,9 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 
 	private static final Pattern PATTERN_DYNAMIC_REFERENCE = Pattern.compile( "(.*?)\\{([A-Za-z].*?[A-Za-z0-9_]*)\\}(.*)" );
 
+	// if assigned to a universal charstring the semantic checking will create a converted value.
+	private TTCN3Template converted = null;
+
 	public CharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.CHARSTRING_PATTERN);
 		patternstring.setFullNameParent(this);
@@ -134,18 +137,35 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public TTCN3Template setTemplatetype(final CompilationTimeStamp timestamp, final Template_type newType) {
-		TTCN3Template realTemplate;
-
 		switch (newType) {
 		case USTR_PATTERN:
-			realTemplate = new UnivCharString_Pattern_Template(patternstring);
-			realTemplate.copyGeneralProperties(this);
+			converted = new UnivCharString_Pattern_Template(patternstring);
+			converted.copyGeneralProperties(this);
 			break;
 		default:
-			realTemplate = super.setTemplatetype(timestamp, newType);
+			return super.setTemplatetype(timestamp, newType);
 		}
 
-		return realTemplate;
+		return converted;
+	}
+
+	/**
+	 * Calculates the referenced template, and while doing so checks the
+	 * reference too.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param referenceChain
+	 *                the reference chain used to detect cyclic references.
+	 *
+	 * @return the template referenced
+	 * */
+	public TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
+		if (converted == null || converted.getIsErroneous(timestamp)) {
+			return this;
+		}
+
+		return converted.getTemplateReferencedLast(timestamp, referenceChain);
 	}
 
 	@Override
@@ -153,6 +173,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
+		}
+
+		if (converted != null) {
+			return converted.getExpressionReturntype(timestamp, expectedValue);
 		}
 
 		return Type_type.TYPE_CHARSTRING;
@@ -204,6 +228,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
+		if (converted != null) {
+			return converted.hasSingleExpression();
+		}
+
 		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
 			return false;
 		}
@@ -216,6 +244,11 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		lastTimeBuilt = aData.getBuildTimstamp();
+
+		if (converted != null) {
+			converted.generateCodeInit(aData, source, name);
+			return;
+		}
 
 		final StringBuilder preamble = new StringBuilder();
 		final String returnValue = patternstring.create_charstring_literals(myScope.getModuleScopeGen(), preamble);
@@ -242,6 +275,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		if (converted != null) {
+			return converted.getSingleExpression(aData, castIsNeeded);
+		}
+
 		final StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
