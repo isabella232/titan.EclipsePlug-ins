@@ -403,13 +403,11 @@ public final class Text_Buf {
 			data_ptr[buf_begin - bytes_needed + bytes_needed - 1] = (byte) (value & 0x7F);
 			value >>= 7;
 			for (int i = bytes_needed - 2; i > 0; i--) {
-				data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x7F);
+				data_ptr[buf_begin - bytes_needed + i] = (byte) ((value & 0x7F) | 0x80);
 				value >>= 7;
-				data_ptr[buf_begin - bytes_needed + i] |= 0x80;
 			}
 			// i == 0 case
-			data_ptr[buf_begin - bytes_needed] = (byte) (value & 0x3F);
-			data_ptr[buf_begin - bytes_needed] |= 0x80;
+			data_ptr[buf_begin - bytes_needed] = (byte) ((value & 0x3F) | 0x80);
 		}
 
 		buf_begin -= bytes_needed;
