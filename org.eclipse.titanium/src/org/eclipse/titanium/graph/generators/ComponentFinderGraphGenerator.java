@@ -75,10 +75,10 @@ public class ComponentFinderGraphGenerator extends GraphGenerator {
 			components.put(ct, new ArrayList<Component_Type>());
 			TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>(), components, ct);
 			tc.accept(vis);
-			TITANDebugConsole.println("Eredmeny: ---------------------------------------------------------");
+			//TITANDebugConsole.println("Eredmeny: ---------------------------------------------------------");
 			for (Entry<Component_Type, List<Component_Type>> entry : vis.getComponents().entrySet()) {
 				for (Component_Type comp : entry.getValue()) {
-					TITANDebugConsole.println(entry.getKey().getFullName()+": "+comp.getFullName());
+					//TITANDebugConsole.println(entry.getKey().getFullName()+": "+comp.getFullName());
 				}
 			}
 			

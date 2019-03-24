@@ -206,12 +206,12 @@ class ChangeCreator {
 	private void findFunctionUses(FunctionData function) {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		for(Module m : projectSourceParser.getModules()) {
-			if (!m.equals(function.getFinalDestination())) {
+			if (!m.equals(function.getFinalDestination().getModule())) {
 				ModuleVisitor vis = new ModuleVisitor(function.getDefiniton());
 				m.accept(vis);
 				if (vis.getIsUsed() 
-						& !m.getImportedModules().contains(function.getFinalDestination()) 
-						& !m.equals(function.getFinalDestination())) {
+						& !m.getImportedModules().contains(function.getFinalDestination().getModule()) 
+						& !m.equals(function.getFinalDestination().getModule())) {
 					function.addUsedBy(m);
 				}
 			}
