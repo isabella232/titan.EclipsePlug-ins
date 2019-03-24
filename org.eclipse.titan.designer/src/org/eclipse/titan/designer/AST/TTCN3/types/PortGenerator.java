@@ -887,7 +887,7 @@ public final class PortGenerator {
 			generateProcessException(source, portDefinition);
 		}
 
-		source.append("}\n\n");
+		source.append("\t}\n\n");
 	}
 
 	/**
@@ -1021,7 +1021,7 @@ public final class PortGenerator {
 				break;
 			}
 		}
-		source.append(MessageFormat.format("public static{0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
+		source.append(MessageFormat.format("\tpublic static{0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
 		if(portDefinition.inMessages.size() > 0) {
 			source.append("enum message_selection { ");
