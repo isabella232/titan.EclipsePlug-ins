@@ -1005,7 +1005,7 @@ public final class PortGenerator {
 			case REGULAR:
 				className = portDefinition.javaName + "_BASE";
 				baseClassName = "TitanPort";
-				abstractNess = "abstract";
+				abstractNess = " abstract";
 
 				aData.addBuiltinTypeImport( "TitanPort" );
 				break;
@@ -1021,7 +1021,7 @@ public final class PortGenerator {
 				break;
 			}
 		}
-		source.append(MessageFormat.format("public static {0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
+		source.append(MessageFormat.format("public static{0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
 		if(portDefinition.inMessages.size() > 0) {
 			source.append("enum message_selection { ");
