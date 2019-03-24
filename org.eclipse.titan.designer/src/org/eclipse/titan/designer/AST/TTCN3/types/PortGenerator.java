@@ -1024,7 +1024,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("\tpublic static{0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
 		if(portDefinition.inMessages.size() > 0) {
-			source.append("enum message_selection { ");
+			source.append("\t\tenum message_selection { ");
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 				if (i > 0) {
 					source.append(", ");
@@ -1033,9 +1033,9 @@ public final class PortGenerator {
 			}
 			source.append("};\n");
 
-			source.append("private class Message_queue_item {\n");
-			source.append("message_selection item_selection;\n");
-			source.append("// base type could be: ");
+			source.append("\t\tprivate class Message_queue_item {\n");
+			source.append("\t\t\tmessage_selection item_selection;\n");
+			source.append("\t\t\t// base type could be: ");
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 				final messageTypeInfo inType = portDefinition.inMessages.get(i);
 
@@ -1045,34 +1045,34 @@ public final class PortGenerator {
 				source.append(inType.mJavaTypeName);
 			}
 			source.append('\n');
-			source.append("Base_Type message;\n");
-			source.append("int sender_component;\n");
+			source.append("\t\t\tBase_Type message;\n");
+			source.append("\t\t\tint sender_component;\n");
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
+				source.append(MessageFormat.format("\t\t\t{0} sender_address;\n", portDefinition.addressName));
 			}
 			if (portDefinition.realtime) {
-				source.append("TitanFloat timestamp;\n");
+				source.append("\t\t\tTitanFloat timestamp;\n");
 			}
-			source.append("}\n");
+			source.append("\t\t}\n");
 
 			if (portDefinition.has_sliding) {
-				source.append("TitanOctetString sliding_buffer;\n");
+				source.append("\t\tTitanOctetString sliding_buffer;\n");
 			}
 
 			aData.addImport("java.util.LinkedList");
 
-			source.append("private final LinkedList<Message_queue_item> message_queue = new LinkedList<Message_queue_item>();\n\n");
+			source.append("\t\tprivate final LinkedList<Message_queue_item> message_queue = new LinkedList<Message_queue_item>();\n\n");
 
-			source.append("private void remove_msg_queue_head() {\n");
-			source.append("message_queue.removeFirst();\n");
-			source.append("}\n\n");
+			source.append("\t\tprivate void remove_msg_queue_head() {\n");
+			source.append("\t\t\tmessage_queue.removeFirst();\n");
+			source.append("\t\t}\n\n");
 
-			source.append("protected void clear_queue() {\n");
-			source.append("message_queue.clear();\n");
+			source.append("\t\tprotected void clear_queue() {\n");
+			source.append("\t\t\tmessage_queue.clear();\n");
 			if (portDefinition.has_sliding) {
-				source.append("sliding_buffer = new TitanOctetString(\"\");\n");
+				source.append("\t\t\tsliding_buffer = new TitanOctetString(\"\");\n");
 			}
-			source.append("}\n\n");
+			source.append("\t\t}\n\n");
 		}
 
 		final boolean hasIncomingCall = portDefinition.inProcedures.size() > 0;
@@ -1091,7 +1091,7 @@ public final class PortGenerator {
 
 		final boolean hasProcedureQueue = hasIncomingCall || hasIncomingReply || hasIncomingException;
 		if (hasProcedureQueue) {
-			source.append("enum proc_selection { ");
+			source.append("\t\tenum proc_selection { ");
 			boolean isFirst = true;
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				if (!isFirst) {
@@ -1120,102 +1120,102 @@ public final class PortGenerator {
 			}
 			source.append("};\n");
 
-			source.append("private class Procedure_queue_item {\n");
-			source.append("proc_selection item_selection;\n");
-			source.append("// TODO check if an object would be enough \n");
+			source.append("\t\tprivate class Procedure_queue_item {\n");
+			source.append("\t\t\tproc_selection item_selection;\n");
+			source.append("\t\t\t// TODO check if an object would be enough \n");
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-				source.append(MessageFormat.format("{0}_call call_{1};\n", portDefinition.inProcedures.get(i).mJavaTypeName, i));
+				source.append(MessageFormat.format("\t\t\t{0}_call call_{1};\n", portDefinition.inProcedures.get(i).mJavaTypeName, i));
 			}
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 				if (!info.isNoBlock) {
-					source.append(MessageFormat.format("{0}_reply reply_{1};\n", info.mJavaTypeName, i));
+					source.append(MessageFormat.format("\t\t\t{0}_reply reply_{1};\n", info.mJavaTypeName, i));
 				}
 			}
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 				if (info.hasExceptions) {
-					source.append(MessageFormat.format("{0}_exception exception_{1};\n", info.mJavaTypeName, i));
+					source.append(MessageFormat.format("\t\t\t{0}_exception exception_{1};\n", info.mJavaTypeName, i));
 				}
 			}
-			source.append("int sender_component;\n");
+			source.append("\t\t\tint sender_component;\n");
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
+				source.append(MessageFormat.format("\t\t\t{0} sender_address;\n", portDefinition.addressName));
 			}
 			if (portDefinition.realtime) {
-				source.append("TitanFloat timestamp;\n");
+				source.append("\t\t\tTitanFloat timestamp;\n");
 			}
-			source.append("}\n");
+			source.append("\t\t}\n");
 			
 			if (portDefinition.has_sliding) {
-				source.append("TitanOctetString sliding_buffer;\n");
+				source.append("\t\tTitanOctetString sliding_buffer;\n");
 			}
 
 			aData.addImport("java.util.LinkedList");
 
-			source.append("private final LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
-			source.append("private void remove_proc_queue_head() {\n");
-			source.append("procedure_queue.removeFirst();\n");
-			source.append("TTCN_Logger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(\"\"), new TitanCharString(\"\"));");
-			source.append("}\n\n");
+			source.append("\t\tprivate final LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
+			source.append("\t\tprivate void remove_proc_queue_head() {\n");
+			source.append("\t\t\tprocedure_queue.removeFirst();\n");
+			source.append("\t\t\tTTCN_Logger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(\"\"), new TitanCharString(\"\"));");
+			source.append("\t\t}\n\n");
 
-			source.append("protected void clear_queue() {\n");
-			source.append("procedure_queue.clear();\n");
-			source.append("}\n\n");
+			source.append("\t\tprotected void clear_queue() {\n");
+			source.append("\t\t\tprocedure_queue.clear();\n");
+			source.append("\t\t}\n\n");
 		}
 
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
-				source.append(MessageFormat.format("private ArrayList<{0}> p_{1};\n", portDefinition.providerMessageOutList.get(i).name, i));
-				source.append(MessageFormat.format("private int n_{0};\n", i));
+				source.append(MessageFormat.format("\t\tprivate ArrayList<{0}> p_{1};\n", portDefinition.providerMessageOutList.get(i).name, i));
+				source.append(MessageFormat.format("\t\tprivate int n_{0};\n", i));
 			}
-			source.append("private translation_port_state port_state = translation_port_state.UNSET;\n");
+			source.append("\t\tprivate translation_port_state port_state = translation_port_state.UNSET;\n");
 
 			if (portDefinition.varDefs != null) {
 				source.append(portDefinition.varDefs);
 			}
 			if (portDefinition.varInit != null) {
 				source.append('\n');
-				source.append("@Override\n");
-				source.append("protected void init_port_variables() {\n");
+				source.append("\t\t@Override\n");
+				source.append("\t\tprotected void init_port_variables() {\n");
 				source.append(portDefinition.varInit);
-				source.append("}\n\n");
+				source.append("\t\t}\n\n");
 			}
 
-			source.append("//translation functions with port clause belonging to this port type\n");
+			source.append("\t\t//translation functions with port clause belonging to this port type\n");
 			source.append(portDefinition.translationFunctions);
 		}
 
 		if (portDefinition.portType == PortType.PROVIDER) {
 			aData.addBuiltinTypeImport("TitanPort");
 
-			source.append("private ArrayList<TitanPort> mapped_ports;\n");
+			source.append("\t\tprivate ArrayList<TitanPort> mapped_ports;\n");
 		}
 
-		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
-		source.append("super(port_name);\n");
+		source.append(MessageFormat.format("\t\tpublic {0}( final String port_name) '{'\n", className));
+		source.append("\t\t\tsuper(port_name);\n");
 		if (portDefinition.has_sliding) {
-			source.append("sliding_buffer = new TitanOctetString(\"\");\n");
+			source.append("\t\t\tsliding_buffer = new TitanOctetString(\"\");\n");
 		}
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
-				source.append(MessageFormat.format("p_{0} = null;\n", i));
-				source.append(MessageFormat.format("n_{0} = 0;\n", i));
+				source.append(MessageFormat.format("\t\t\tp_{0} = null;\n", i));
+				source.append(MessageFormat.format("\t\t\tn_{0} = 0;\n", i));
 			}
 
-			source.append("port_state = translation_port_state.UNSET;\n");
+			source.append("\t\t\tport_state = translation_port_state.UNSET;\n");
 		}
 
 		if (portDefinition.portType == PortType.PROVIDER) {
-			source.append("mapped_ports = new ArrayList<TitanPort>();\n");
+			source.append("\t\t\tmapped_ports = new ArrayList<TitanPort>();\n");
 		}
-		source.append("}\n\n");
+		source.append("\t\t}\n\n");
 
 		if (portDefinition.testportType == TestportType.INTERNAL || portDefinition.portType != PortType.REGULAR) {
 			// the default argument is needed if the generated class implements the port type (i.e. it is not a base class)
-			source.append(MessageFormat.format("public {0}( ) '{'\n", className));
-			source.append(MessageFormat.format("this((String)null);\n", className));
-			source.append("}\n\n");
+			source.append(MessageFormat.format("\t\tpublic {0}( ) '{'\n", className));
+			source.append(MessageFormat.format("\t\t\tthis((String)null);\n", className));
+			source.append("\t\t}\n\n");
 		}
 	}
 
