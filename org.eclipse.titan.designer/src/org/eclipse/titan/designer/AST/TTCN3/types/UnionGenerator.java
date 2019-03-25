@@ -446,6 +446,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tswitch (union_selection) {\n");
 		source.append("\t\t\tcase UNBOUND_VALUE:\n");
 		source.append("\t\t\t\treturn false;\n");
+		//TODO could this be optimized?
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -507,6 +508,7 @@ public final class UnionGenerator {
 
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tswitch (union_selection) {\n");
+		//TODO could this be optimized?
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -656,6 +658,7 @@ public final class UnionGenerator {
 		source.append("\t\tpublic void log() {\n");
 		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			//TODO could this be optimized?
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
@@ -753,6 +756,7 @@ public final class UnionGenerator {
 		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
 		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			//TODO could this be optimized?
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0,number,#});\n", i + 1));
@@ -1428,6 +1432,7 @@ public final class UnionGenerator {
 		if (!fieldInfos.isEmpty()) {
 			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				//TODO could this be optimized?
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append(MessageFormat.format("\t\t\t\t\t(({0})single_value).clean_up();\n", fieldInfo.mJavaTemplateName));
@@ -1687,6 +1692,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tswitch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			//TODO could this be optimized?
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\treturn (({0})single_value).is_value();\n", fieldInfo.mJavaTemplateName));
