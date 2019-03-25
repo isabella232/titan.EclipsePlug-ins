@@ -121,6 +121,8 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 			return;
 		}
 		
+		
+		
 		final IFile selectedFile = (IFile)def.getLocation().getFile();
 		final IProject project = selectedFile.getProject();
 
@@ -129,15 +131,18 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 		Map<String, NodeDescriptor> labels = new HashMap<String, NodeDescriptor>();
 
 		final Def_Testcase tc = (Def_Testcase) def;
+		
+		System.out.println("dOCFGFS: "+tc.getFullName());
+		
 		HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
 		Component_Type ct = tc.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 		components.put(ct, new ArrayList<Component_Type>());
 		TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>(), components, ct);
 		tc.accept(vis);
-		TITANDebugConsole.println("Eredmeny: ---------------------------------------------------------");
+		//TITANDebugConsole.println("Eredmeny: ---------------------------------------------------------");
 		for (Entry<Component_Type, List<Component_Type>> entry : vis.getComponents().entrySet()) {
 			for (Component_Type comp : entry.getValue()) {
-				TITANDebugConsole.println(entry.getKey().getFullName()+": "+comp.getFullName());
+				//TITANDebugConsole.println(entry.getKey().getFullName()+": "+comp.getFullName());
 			}
 		}
 		
@@ -164,52 +169,55 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 				}
 			}
 			
-			String path = "";
-			try {
-				path = project.getPersistentProperty(
-						new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "Graph_Save_Path"));
-			} catch (CoreException exc) {
-				System.out.println("hiba");
-			}
-			final String oldPath = path;
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					FileDialog dialog = new FileDialog(new Shell(), SWT.SAVE);
-					dialog.setText("Save graph");
-					dialog.setFilterPath(oldPath);
-					dialog.setFilterExtensions(new String[] { "*.dot" });
-					String graphFilePath = dialog.open();
-					if (graphFilePath == null) {
-						return;
-					}
-					String newPath = graphFilePath.substring(0, graphFilePath.lastIndexOf(File.separator) + 1);
-					try {
-						QualifiedName name = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "Graph_Save_Path");
-						project.setPersistentProperty(name, newPath);
-						GraphHandler.saveGraphToDot(graph, graphFilePath, tc.getFullName());
-					} catch (BadLayoutException be) {
-						ErrorReporter.logExceptionStackTrace("Error while saving image to " + newPath, be);
-					} catch (Exception ce) {
-						ErrorReporter.logExceptionStackTrace("Error while saving image to " + newPath, ce);
-					}
+			
+		}
+		
+		String path = "";
+		try {
+			path = project.getPersistentProperty(
+					new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "Graph_Save_Path"));
+		} catch (CoreException exc) {
+			System.out.println("hiba");
+		}
+		final String oldPath = path;
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Dialog: "+tc.getFullName());
+				FileDialog dialog = new FileDialog(new Shell(), SWT.SAVE);
+				dialog.setText("Save graph");
+				dialog.setFilterPath(oldPath);
+				dialog.setFilterExtensions(new String[] { "*.dot" });
+				String graphFilePath = dialog.open();
+				if (graphFilePath == null) {
+					return;
 				}
-			});
-			
-			
-			
-			try {
-				final IEditorPart editor = page.findEditor(new FileEditorInput(selectedFile));
-				if (editor instanceof ComponentFinderGraphEditor) {
-					((ComponentFinderGraphEditor) editor).refreshGraph();
-				} else {
-					page.openEditor(new FileEditorInput(selectedFile), ComponentFinderGraphEditor.ID, true, IWorkbenchPage.MATCH_ID
-							| IWorkbenchPage.MATCH_INPUT);
+				String newPath = graphFilePath.substring(0, graphFilePath.lastIndexOf(File.separator) + 1);
+				try {
+					QualifiedName name = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "Graph_Save_Path");
+					project.setPersistentProperty(name, newPath);
+					GraphHandler.saveGraphToDot(graph, graphFilePath, tc.getFullName());
+				} catch (BadLayoutException be) {
+					ErrorReporter.logExceptionStackTrace("Error while saving image to " + newPath, be);
+				} catch (Exception ce) {
+					ErrorReporter.logExceptionStackTrace("Error while saving image to " + newPath, ce);
 				}
-			} catch (Exception exc) {
-				final ErrorHandler errorHandler = new GUIErrorHandler();
-				errorHandler.reportException("Error while parsing the project", exc);
 			}
+		});
+		
+		
+		
+		try {
+			final IEditorPart editor = page.findEditor(new FileEditorInput(selectedFile));
+			if (editor instanceof ComponentFinderGraphEditor) {
+				((ComponentFinderGraphEditor) editor).refreshGraph();
+			} else {
+				page.openEditor(new FileEditorInput(selectedFile), ComponentFinderGraphEditor.ID, true, IWorkbenchPage.MATCH_ID
+						| IWorkbenchPage.MATCH_INPUT);
+			}
+		} catch (Exception exc) {
+			final ErrorHandler errorHandler = new GUIErrorHandler();
+			errorHandler.reportException("Error while parsing the project", exc);
 		}
 	}
 			
