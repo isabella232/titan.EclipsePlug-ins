@@ -176,6 +176,8 @@ You may add additional accurate notices of copyright ownership.
       <import plugin="org.eclipse.ltk.core.refactoring"/>
       <import plugin="org.eclipse.ltk.ui.refactoring"/>
       <import plugin="org.eclipse.search"/>
+      <import plugin="org.eclipse.jdt.core" version="3.10.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.pde.core" version="3.10.2" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -197,6 +199,13 @@ You may add additional accurate notices of copyright ownership.
          download-size="532"
          install-size="0"
          version="6.5.1.CRL_113_200_6_R5B_20190117-1100"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.titan.runtime"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.20190117-1100"
          unpack="false"/>
 
 </feature>
