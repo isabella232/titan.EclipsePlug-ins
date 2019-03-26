@@ -394,12 +394,8 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	@Override
 	/** {@inheritDoc} */
 	public String getOutlineText() {
-		if (lastTimeChecked == null) {
-			check(CompilationTimeStamp.getBaseTimestamp());
-		}
-
 		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
-		if (formalParList == null) {
+		if (formalParList == null || lastTimeChecked == null) {
 			return text.toString();
 		}
 
