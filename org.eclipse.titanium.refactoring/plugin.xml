@@ -170,14 +170,14 @@
           name="ChangeToSelectUnionFromBrowser">
     </command>
     <command
-          defaultHandler="org.eclipse.titanium.refactoring.slicing.SlicingActionFromEditor"
-          id="org.eclipse.titanium.commands.SlicingModule"
-          name="SlicingModule">
+          defaultHandler="org.eclipse.titanium.refactoring.movefunction.MoveFunctionActionFromEditor"
+          id="org.eclipse.titanium.commands.MoveFunctionModule"
+          name="MoveFunction">
     </command>
     <command
-          defaultHandler="org.eclipse.titanium.refactoring.slicing.SlicingActionFromBrowser"
-          id="org.eclipse.titanium.commands.SlicingProject"
-          name="SlicingProject">
+          defaultHandler="org.eclipse.titanium.refactoring.movefunction.MoveFunctionActionFromBrowser"
+          id="org.eclipse.titanium.commands.MoveFunctionProject"
+          name="MoveFunction">
     </command>
   </extension>
   <extension
@@ -272,10 +272,10 @@
                  label="Change union to select union">
            </command>
            <command
-                 commandId="org.eclipse.titanium.commands.SlicingModule"
+                 commandId="org.eclipse.titanium.commands.MoveFunctionModule"
                  icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.SlicingModule"
-                 label="Slicing">
+                 id="org.eclipse.titanium.commands.MoveFunctionModule"
+                 label="Move function">
            </command>
         </menu>
      </menuContribution>
@@ -427,8 +427,8 @@
                    </visibleWhen>
            </command>
            <command
-                 commandId="org.eclipse.titanium.commands.SlicingProject"
-                 label="Slicing">
+                 commandId="org.eclipse.titanium.commands.MoveFunctionProject"
+                 label="Move function">
                  <visibleWhen checkEnabled="false">
                      <with variable="selection">  
                         <iterate operator="and">
@@ -569,8 +569,8 @@
 	                   </visibleWhen>
 	           </command>
 	           <command
-	                  commandId="org.eclipse.titanium.commands.SlicingProject"
-	                  label="Slicing">
+	                  commandId="org.eclipse.titanium.commands.MoveFunctionProject"
+	                  label="Move function">
 	                  <visibleWhen checkEnabled="false">
                         <with variable="selection">  
                            <iterate operator="and">
