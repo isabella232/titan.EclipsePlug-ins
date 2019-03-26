@@ -307,17 +307,17 @@ public final class Port_Type extends Type {
 				elementName = aData.getTemporaryVariableName();
 			}
 
-			source.append(MessageFormat.format("public static class {0} extends TitanPort_Array<{1}> '{'\n", className, elementName));
-			source.append(MessageFormat.format("public {0}() '{'\n", className));
-			source.append(MessageFormat.format("super({0}.class, {1} , {2});\n", elementName, dimension.getSize(), dimension.getOffset()));
-			source.append("}\n");
-			source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
-			source.append("super(otherValue);\n");
-			source.append("}\n");
+			source.append(MessageFormat.format("\tpublic static class {0} extends TitanPort_Array<{1}> '{'\n", className, elementName));
+			source.append(MessageFormat.format("\t\tpublic {0}() '{'\n", className));
+			source.append(MessageFormat.format("\t\t\tsuper({0}.class, {1} , {2});\n", elementName, dimension.getSize(), dimension.getOffset()));
+			source.append("\t\t}\n");
+			source.append(MessageFormat.format("\t\tpublic {0}({0} otherValue) '{'\n", className));
+			source.append("\t\t\tsuper(otherValue);\n");
+			source.append("\t\t}\n");
 
 			PortGenerator.generatePortArrayBodyMembers(aData, source, body.generateDefinitionForCodeGeneration(aData, source), dimension.getSize(), dimension.getOffset());
 
-			source.append("}\n\n");
+			source.append("\t}\n\n");
 
 			className = elementName;
 		}

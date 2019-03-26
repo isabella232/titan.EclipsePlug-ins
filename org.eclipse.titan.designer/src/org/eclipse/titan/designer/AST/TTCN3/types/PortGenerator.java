@@ -3771,30 +3771,30 @@ public final class PortGenerator {
 		final String typeTemplateName = inType.mJavaTemplateName;
 		final String functionName = isCheck ? "check_receive" : "receive";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName));
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incr_pos();\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName));
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.incr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
-		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
-		source.append("}\n");
-		source.append("result = ret_val;\n");
-		source.append("break;\n");
-		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
-		source.append("result = ret_val;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decr_pos();\n");
-		source.append("}\n");
+		source.append("\t\t\tTitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("\t\t\t\tfinal TitanAlt_Status ret_val = get_at(i).{0}(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append("\t\t\t\tif (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("\t\t\t\t\tif (index_redirect != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\t\tindex_redirect.add_index(i + {0});\n", indexOffset));
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.decr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("return result;\n");
-		source.append("}\n");
+		source.append("\t\t\treturn result;\n");
+		source.append("\t\t}\n");
 	}
 
 	/**
@@ -3819,30 +3819,30 @@ public final class PortGenerator {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 
-		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName));
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incr_pos();\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status trigger(final {0} value_template, final Value_Redirect_Interface value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", typeTemplateName));
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.incr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append("final TitanAlt_Status ret_val = get_at(i).trigger(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n");
-		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
-		source.append("}\n");
-		source.append("result = ret_val;\n");
-		source.append("break;\n");
-		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
-		source.append("result = ret_val;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decr_pos();\n");
-		source.append("}\n");
+		source.append("\t\t\tTitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append("\t\t\t\tfinal TitanAlt_Status ret_val = get_at(i).trigger(value_template, value_redirect, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n");
+		source.append("\t\t\t\tif (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("\t\t\t\t\tif (index_redirect != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\t\tindex_redirect.add_index(i + {0});\n", indexOffset));
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.decr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("return result;\n");
-		source.append("}\n");
+		source.append("\t\t\treturn result;\n");
+		source.append("\t\t}\n");
 	}
 
 	/**
@@ -3872,30 +3872,30 @@ public final class PortGenerator {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incr_pos();\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.incr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
-		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
-		source.append("}\n");
-		source.append("result = ret_val;\n");
-		source.append("break;\n");
-		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
-		source.append("result = ret_val;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decr_pos();\n");
-		source.append("}\n");
+		source.append("\t\t\tTitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("\t\t\t\tfinal TitanAlt_Status ret_val = get_at(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append("\t\t\t\tif (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("\t\t\t\t\tif (index_redirect != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\t\tindex_redirect.add_index(i + {0});\n", indexOffset));
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.decr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("return result;\n");
-		source.append("}\n");
+		source.append("\t\t\treturn result;\n");
+		source.append("\t\t}\n");
 	}
 
 	/**
@@ -3925,30 +3925,30 @@ public final class PortGenerator {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incr_pos();\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.incr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
-		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
-		source.append("}\n");
-		source.append("result = ret_val;\n");
-		source.append("break;\n");
-		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
-		source.append("result = ret_val;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decr_pos();\n");
-		source.append("}\n");
+		source.append("\t\t\tTitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("\t\t\t\tfinal TitanAlt_Status ret_val = get_at(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append("\t\t\t\tif (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("\t\t\t\t\tif (index_redirect != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\t\tindex_redirect.add_index(i + {0});\n", indexOffset));
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.decr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("return result;\n");
-		source.append("}\n");
+		source.append("\t\t\treturn result;\n");
+		source.append("\t\t}\n");
 	}
 
 	/**
@@ -3977,29 +3977,29 @@ public final class PortGenerator {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.incr_pos();\n");
-		source.append("}\n");
+		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.incr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
-		source.append(MessageFormat.format("final TitanAlt_Status ret_val = get_at(i).{0}(catch_template, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
-		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append(MessageFormat.format("index_redirect.add_index(i + {0});\n", indexOffset));
-		source.append("}\n");
-		source.append("result = ret_val;\n");
-		source.append("break;\n");
-		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
-		source.append("result = ret_val;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("if (index_redirect != null) {\n");
-		source.append("index_redirect.decr_pos();\n");
-		source.append("}\n");
+		source.append("\t\t\tTitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("\t\t\t\tfinal TitanAlt_Status ret_val = get_at(i).{0}(catch_template, sender_template, sender_pointer, timestamp_redirect, index_redirect);\n", functionName));
+		source.append("\t\t\t\tif (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("\t\t\t\t\tif (index_redirect != null) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\t\tindex_redirect.add_index(i + {0});\n", indexOffset));
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("\t\t\t\t\tresult = ret_val;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (index_redirect != null) {\n");
+		source.append("\t\t\t\tindex_redirect.decr_pos();\n");
+		source.append("\t\t\t}\n");
 
-		source.append("return result;\n");
-		source.append("}\n");
+		source.append("\t\t\treturn result;\n");
+		source.append("\t\t}\n");
 	}
 }
