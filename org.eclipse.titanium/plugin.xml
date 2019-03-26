@@ -25,10 +25,10 @@
       id="org.eclipse.titanium.graph.editors.ComponentGraphEditor" name="component dependency graph">
     </editor>
     <editor
-      class="org.eclipse.titanium.graph.gui.windows.ComponentFinderGraphEditor"
+      class="org.eclipse.titanium.graph.gui.windows.ComponentTopologyGraphEditor"
       contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
       default="false" icon="resources/icons/titan.gif"
-      id="org.eclipse.titanium.graph.editors.ComponentFinderGraphEditor" name="testcase components">
+      id="org.eclipse.titanium.graph.editors.ComponentTopologyGraphEditor" name="testcase components">
     </editor>
   </extension>
   <extension point="org.eclipse.ui.views">
@@ -247,8 +247,8 @@
     <command defaultHandler="org.eclipse.titanium.actions.OrganizeFromEditor"
       id="org.eclipse.titanium.commands.OrganizeImports" name="OrganizeImports">
     </command>
-    <command defaultHandler="org.eclipse.titanium.actions.ComponentFinderFromEditor"
-      id="org.eclipse.titanium.commands.ComponentFinder" name="ComponentFinder">
+    <command defaultHandler="org.eclipse.titanium.actions.ExportComponentTopologyFromEditor"
+      id="org.eclipse.titanium.commands.ComponentTopology" name="ComponentTopology">
     </command>
   </extension>
 
@@ -443,9 +443,9 @@
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.OrganizeImports"
           label="Organize imports">
         </command>
-        <command commandId="org.eclipse.titanium.commands.ComponentFinder"
-          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentFinder"
-          label="Component finder">
+        <command commandId="org.eclipse.titanium.commands.ComponentTopology"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentTopology"
+          label="Export component topology">
         </command>
       </menu>
     </menuContribution>
