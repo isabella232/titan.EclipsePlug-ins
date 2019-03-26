@@ -191,7 +191,7 @@ public final class Testcase_Reference_Value extends Value {
 			testcaseType.getFormalParameters().generateCode(aData, result);
 			result.append(", ");
 		}
-		result.append("boolean has_timer, TitanFloat timer_value");
+		result.append("final boolean has_timer, final TitanFloat timer_value");
 		result.append(") {\n");
 		result.append(MessageFormat.format("return {0}.testcase_{1}(", moduleName, testcaseName));
 		if (testcaseType.getFormalParameters().getNofParameters() > 0) {

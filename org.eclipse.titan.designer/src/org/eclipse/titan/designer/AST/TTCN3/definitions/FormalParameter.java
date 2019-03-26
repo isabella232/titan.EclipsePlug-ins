@@ -1258,7 +1258,7 @@ public final class FormalParameter extends Definition {
 			break;
 		case A_PAR_TIMER:
 			aData.addBuiltinTypeImport("TitanTimer");
-			result.append(MessageFormat.format("TitanTimer {0}", identifier.getName()));
+			result.append(MessageFormat.format("final TitanTimer {0}", identifier.getName()));
 			break;
 		default:
 			break;

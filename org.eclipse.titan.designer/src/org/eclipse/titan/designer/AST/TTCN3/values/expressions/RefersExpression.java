@@ -389,7 +389,7 @@ public final class RefersExpression extends Expression_Value {
 				testcaseType.getFormalParameters().generateCode(aData, expression.expression);
 				expression.expression.append(", ");
 			}
-			expression.expression.append("boolean has_timer, TitanFloat timer_value");
+			expression.expression.append("final boolean has_timer, final TitanFloat timer_value");
 			expression.expression.append(") {\n");
 			expression.expression.append("return testcase_");
 			expression.expression.append(referredAssignment.getIdentifier().getName());

@@ -221,7 +221,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(Base_Type otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final Base_Type otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0})otherValue);\n", def.genName));
 		source.append("\t\t\t}\n");
@@ -805,7 +805,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(Base_Type otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Type otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0})otherValue);\n", def.genName));
 		source.append("\t\t\t}\n");
@@ -813,7 +813,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(Base_Template otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Template otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}_template) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template)otherValue);\n", def.genName));
 		source.append("\t\t\t}\n");
@@ -821,7 +821,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic boolean match(Base_Type otherValue, final boolean legacy) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn match(({0})otherValue, legacy);\n", def.genName));
 		source.append("\t\t\t}\n");
