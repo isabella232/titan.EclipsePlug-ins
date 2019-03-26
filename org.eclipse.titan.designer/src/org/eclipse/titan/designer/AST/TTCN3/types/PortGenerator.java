@@ -1849,7 +1849,7 @@ public final class PortGenerator {
 		source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_severity)) {\n");
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event_log2str();\n");
 		source.append("\t\t\t\t\tvalue_template.log_match(my_head.message, true);\n");
-		source.append("\t\t\t\t\tTitanCharString temp = TTCN_Logger.end_event_log2str();\n");
+		source.append("\t\t\t\t\tfinal TitanCharString temp = TTCN_Logger.end_event_log2str();\n");
 		source.append("\t\t\t\t\tTTCN_Logger.log_matching_success(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, temp);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tlog_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMRECV : TTCN_Logger.Severity.PORTEVENT_MCRECV;\n");
@@ -1857,7 +1857,7 @@ public final class PortGenerator {
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event_log2str();\n");
 		source.append(MessageFormat.format("\t\t\t\t\tTTCN_Logger.log_event_str(\": {0} : \");\n", inType.mDisplayName));
 		source.append("\t\t\t\t\tmy_head.message.log();\n");
-		source.append("\t\t\t\t\tTitanCharString temp = TTCN_Logger.end_event_log2str();\n");
+		source.append("\t\t\t\t\tfinal TitanCharString temp = TTCN_Logger.end_event_log2str();\n");
 		source.append(MessageFormat.format("\t\t\t\t\tTTCN_Logger.log_msgport_recv(port_name, TitanLoggerApi.Msg__port__recv_operation.enum_type.{0}, my_head.sender_component, new TitanCharString(\"\"), temp, msg_head_count + 1);\n", operationName));
 		source.append("\t\t\t\t}\n");
 		if (!isCheck) {
@@ -1944,7 +1944,7 @@ public final class PortGenerator {
 		source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_severity)) {\n");
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event_log2str();\n");
 		source.append("\t\t\t\t\tvalue_template.log_match(my_head.message, true);\n");
-		source.append("\t\t\t\t\tTitanCharString temp = TTCN_Logger.end_event_log2str();\n");
+		source.append("\t\t\t\t\tfinal TitanCharString temp = TTCN_Logger.end_event_log2str();\n");
 		source.append("\t\t\t\t\tTTCN_Logger.log_matching_success(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, temp);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tlog_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMRECV : TTCN_Logger.Severity.PORTEVENT_MCRECV;\n");
@@ -1952,7 +1952,7 @@ public final class PortGenerator {
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event_log2str();\n");
 		source.append(MessageFormat.format("\t\t\t\t\tTTCN_Logger.log_event_str(\": {0} : \");\n", inType.mDisplayName));
 		source.append("\t\t\t\t\tmy_head.message.log();\n");
-		source.append("\t\t\t\t\tTitanCharString temp = TTCN_Logger.end_event_log2str();\n");
+		source.append("\t\t\t\t\tfinal TitanCharString temp = TTCN_Logger.end_event_log2str();\n");
 		source.append("\t\t\t\t\tTTCN_Logger.log_msgport_recv(port_name, TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, my_head.sender_component, new TitanCharString(\"\"), temp, msg_head_count + 1);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tremove_msg_queue_head();\n");
@@ -2480,7 +2480,7 @@ public final class PortGenerator {
 			source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_PMOUT)) {");
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("\t\t\t\tdestination_address.log();\n");
-			source.append("\t\t\t\tTitanCharString log_temp = TTCN_Logger.end_event_log2str();\n");
+			source.append("\t\t\t\tfinal TitanCharString log_temp = TTCN_Logger.end_event_log2str();\n");
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("\t\t\t\tcall_template.log();\n");
 			source.append("\t\t\t\tTTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
@@ -2555,7 +2555,7 @@ public final class PortGenerator {
 				source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_PMOUT)) {");
 				source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 				source.append("\t\t\t\tdestination_address.log();\n");
-				source.append("\t\t\t\tTitanCharString log_temp = TTCN_Logger.end_event_log2str();\n");
+				source.append("\t\t\t\tfinal TitanCharString log_temp = TTCN_Logger.end_event_log2str();\n");
 				source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 				source.append("\t\t\t\treply_template.log();\n");
 				source.append("\t\t\t\tTTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
@@ -2630,7 +2630,7 @@ public final class PortGenerator {
 				source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_PMOUT)) {");
 				source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 				source.append("\t\t\t\tdestination_address.log();\n");
-				source.append("\t\t\t\tTitanCharString log_temp = TTCN_Logger.end_event_log2str();\n");
+				source.append("\t\t\t\tfinal TitanCharString log_temp = TTCN_Logger.end_event_log2str();\n");
 				source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 				source.append("\t\t\t\traise_exception.log();\n");
 				source.append("\t\t\t\tTTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, TitanComponent.SYSTEM_COMPREF, log_temp, TTCN_Logger.end_event_log2str());\n");
