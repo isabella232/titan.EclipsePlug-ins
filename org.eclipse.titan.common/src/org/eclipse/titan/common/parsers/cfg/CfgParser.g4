@@ -1276,9 +1276,6 @@ pr_IntegerPrimaryExpression returns [CFGNumber number]:
 pr_NaturalNumber returns [CFGNumber number]:
 (	a = NATURAL_NUMBER	{$number = new CFGNumber($a.text);}
 |	macro = pr_MacroNaturalNumber { $number = $macro.number; }
-|	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
-		}
 )
 ;
 
@@ -1327,9 +1324,6 @@ pr_CString returns [String string]:
 		}
 |	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
 |	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$string = ""; // value is unknown yet, but it should not be null
-		}
 )
 ;
 
@@ -1610,9 +1604,6 @@ pr_Float returns [CFGNumber number]:
 |	macro = MACRO_FLOAT
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
 			$number = new CFGNumber( value.length() > 0 ? value : "0.0" );
-		}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}
 )
 ;

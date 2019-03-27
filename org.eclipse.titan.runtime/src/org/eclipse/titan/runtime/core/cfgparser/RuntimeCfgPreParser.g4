@@ -749,7 +749,6 @@ pr_IntegerPrimaryExpression:
 pr_NaturalNumber:
 (	NATURAL_NUMBER
 |	pr_MacroNaturalNumber
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
@@ -776,15 +775,13 @@ pr_CString:
 (	STRING
 |	pr_MacroCString
 |	pr_MacroExpliciteCString
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
 pr_MPCString:
 (	STRING
-|	(	pr_MacroCString
-	|	pr_MacroExpliciteCString
-	)
+|	pr_MacroCString
+|	pr_MacroExpliciteCString
 )
 ;
 
@@ -1013,7 +1010,6 @@ pr_ArithmeticPrimaryExpression:
 pr_Float:
 (	FLOAT
 |	MACRO_FLOAT
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
