@@ -120,6 +120,7 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t\t\tthrow new TtcnError(\"null reference cannot be invoked.\");\n");
 			source.append("\t\t\t}\n");
 			if (def.isStartable) {
+				source.append("\t\t\t@Override\n");
 				source.append("\t\t\tpublic void start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
@@ -459,6 +460,7 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t\t\t\tpublic String getDefinitionName() {\n");
 			source.append("\t\t\t\t\t\treturn definitionName;\n");
 			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\t@Override\n");
 			source.append("\t\t\t\t\tpublic ");
 			if (def.returnType == null) {
 				source.append("void");
@@ -484,6 +486,7 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t\t\t\t}\n");
 
 			if (def.isStartable) {
+				source.append("\t\t\t\t\t@Override\n");
 				source.append("\t\t\t\t\tpublic void start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
