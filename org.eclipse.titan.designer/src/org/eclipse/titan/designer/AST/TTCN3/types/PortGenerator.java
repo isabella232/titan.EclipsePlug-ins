@@ -2420,7 +2420,9 @@ public final class PortGenerator {
 			}
 		}
 
-		source.append("return false;\n");
+		source.append("{\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 	}
 
