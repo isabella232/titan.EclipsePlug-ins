@@ -1601,13 +1601,15 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when matching a template of union type {0}.\");\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor(int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tif(value_list.get(i).match(other_value, legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
 		source.append("\t\t\t}\n");
@@ -1657,17 +1659,19 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn single_value_union_selection == checked_selection;\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tif (value_list.isEmpty()) {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");\n", displayName));
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tif(!value_list.get(i).ischosen(checked_selection)) {\n");
 						//FIXME this is incorrect in the compiler
 		source.append("\t\t\t\t\t\treturn false;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
@@ -1814,7 +1818,8 @@ public final class UnionGenerator {
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tif (legacy) {\n");
-		source.append("\t\t\t\t\tfor (int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\t\tfor (int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\t\tif (value_list.get(i).match_omit(legacy)) {\n");
 		source.append("\t\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t\t}\n");
@@ -1912,9 +1917,10 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -1922,6 +1928,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -2088,12 +2095,14 @@ public final class UnionGenerator {
 		}
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(value_list.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tvalue_list.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");

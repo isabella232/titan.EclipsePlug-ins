@@ -2331,7 +2331,8 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\tcase VALUE_LIST:\n");
 		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		aSb.append("\t\t\t\tif (legacy) {\n");
-		aSb.append("\t\t\t\t\tfor (int l_idx=0; l_idx<list_value.size(); l_idx++) {\n");
+		aSb.append("\t\t\t\t\tfinal int list_size = list_value.size();\n");
+		aSb.append("\t\t\t\t\tfor (int l_idx = 0; l_idx < list_size; l_idx++) {\n");
 		aSb.append("\t\t\t\t\t\tif (list_value.get(l_idx).match_omit_(legacy)) {\n");
 		aSb.append("\t\t\t\t\t\t\treturn template_selection==template_sel.VALUE_LIST;\n");
 		aSb.append("\t\t\t\t\t\t}\n");
@@ -2498,13 +2499,15 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_value.get(list_count).match(other_value, legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
@@ -2571,17 +2574,19 @@ public final class RecordSetCodeGenerator {
 			aSb.append( "\t\t\t\treturn new TitanInteger(sizeof);\n" );
 		}
 
-		aSb.append( "\t\t\tcase VALUE_LIST:\n" );
+		aSb.append( "\t\t\tcase VALUE_LIST: {\n" );
 		aSb.append( "\t\t\t\tif (list_value.isEmpty()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing sizeof() operation on a template of type {0} containing an empty list.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\tfinal int item_size = list_value.get(0).size_of().get_int();\n" );
-		aSb.append( "\t\t\t\tfor (int l_idx = 1; l_idx < list_value.size(); l_idx++) {\n" );
+		aSb.append( "\t\t\t\tfinal int list_size = list_value.size();\n");
+		aSb.append( "\t\t\t\tfor (int l_idx = 1; l_idx < list_size; l_idx++) {\n" );
 		aSb.append( "\t\t\t\t\tif (list_value.get(l_idx).size_of().get_int() != item_size) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing a value list with different sizes.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\treturn new TitanInteger(item_size);\n" );
+		aSb.append( "\t\t\t}\n" );
 		aSb.append( "\t\t\tcase OMIT_VALUE:\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing omit value.\");\n", displayName ) );
 		aSb.append( "\t\t\tcase ANY_VALUE:\n" );
@@ -2630,9 +2635,10 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -2640,6 +2646,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -2780,12 +2787,14 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(list_value.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < list_value.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tlist_value.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
@@ -3538,7 +3547,8 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tif (legacy) {\n");
-		source.append("\t\t\t\t\tfor (int l_idx=0; l_idx<list_value.size(); l_idx++) {\n");
+		source.append("\t\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\t\tfor (int l_idx = 0; l_idx < list_size; l_idx++) {\n");
 		source.append("\t\t\t\t\t\tif (list_value.get(l_idx).match_omit_(legacy)) {\n");
 		source.append("\t\t\t\t\t\t\treturn template_selection==template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t\t}\n");
@@ -3623,13 +3633,15 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_value.get(list_count).match(other_value, legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
@@ -3651,9 +3663,10 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -3661,6 +3674,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -3723,12 +3737,14 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(list_value.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < list_value.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tlist_value.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", classDisplayName));
 		source.append("\t\t\t}\n");
