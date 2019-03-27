@@ -1147,11 +1147,15 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.generateCodeSetUnbound(aData, tempSource);
 			formalParList.generateCodeShadowObjects(aData, tempSource);
 		}
-		tempSource.append( "try {\n" );
+		if (aData.getAddSourceInfo()) {
+			tempSource.append( "try {\n" );
+		}
 		block.generateCode(aData, tempSource);
-		tempSource.append( "} finally {\n" );
-		getLocation().release_location_object(aData, tempSource);
-		tempSource.append( "}\n" );
+		if (aData.getAddSourceInfo()) {
+			tempSource.append( "} finally {\n" );
+			getLocation().release_location_object(aData, tempSource);
+			tempSource.append( "}\n" );
+		}
 		tempSource.append( "}\n" );
 
 		if (isStartable) {

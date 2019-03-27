@@ -675,12 +675,16 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		final StringBuilder body = new StringBuilder();
 		getLocation().create_location_object(aData, body, "ALTSTEP", getIdentifier().getDisplayName());
-		body.append( "try {\n" );
+		if (aData.getAddSourceInfo()) {
+			body.append( "try {\n" );
+		}
 		block.generateCode(aData, body);
 		altGuards.generateCodeAltstep(aData, body);
-		body.append( "} finally {\n" );
-		getLocation().release_location_object(aData, body);
-		body.append( "}\n" );
+		if (aData.getAddSourceInfo()) {
+			body.append( "} finally {\n" );
+			getLocation().release_location_object(aData, body);
+			body.append( "}\n" );
+		}
 
 		final StringBuilder formalParListCode = new StringBuilder();
 		formalParList.generateCode(aData, formalParListCode);

@@ -390,7 +390,9 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 		sb.append( "\tpublic void control() {\n" );
 		getLocation().create_location_object(aData, sb, "CONTROLPART", getModuleScopeGen().getIdentifier().getDisplayName());
 		sb.append(MessageFormat.format("\t\tTTCN_Runtime.begin_controlpart(\"{0}\");\n", getModuleScopeGen().getIdentifier().getDisplayName()));
-		sb.append( "\t\ttry {\n" );
+		if (aData.getAddSourceInfo()) {
+			sb.append( "\t\ttry {\n" );
+		}
 		final StringBuilder body = new StringBuilder();
 		final int size = statementblock.getSize();
 		for ( int i = 0; i < size; i++ ) {
@@ -399,10 +401,14 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 			statement.generateCode( aData, body );
 		}
 		sb.append(body);
-		sb.append( "\t\t} finally {\n" );
-		sb.append( "\t\tTTCN_Runtime.end_controlpart();\n" );
-		getLocation().release_location_object(aData, sb);
-		sb.append( "\t\t}\n" );
+		if (aData.getAddSourceInfo()) {
+			sb.append( "\t\t} finally {\n" );
+			sb.append( "\t\tTTCN_Runtime.end_controlpart();\n" );
+			getLocation().release_location_object(aData, sb);
+			sb.append( "\t\t}\n" );
+		} else {
+			sb.append( "\t\tTTCN_Runtime.end_controlpart();\n" );
+		}
 		sb.append( "\t}\n" );
 	}
 }

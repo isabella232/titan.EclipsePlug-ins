@@ -597,8 +597,10 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("// intentionally empty\n");
 		source.append("} catch (TC_End error) {\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_str(TTCN_Logger.Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
-		source.append("} finally {\n");
-		getLocation().release_location_object(aData, source);
+		if (aData.getAddSourceInfo()) {
+			source.append("} finally {\n");
+			getLocation().release_location_object(aData, source);
+		}
 		source.append("}\n");
 		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
 		source.append( "}\n" );
