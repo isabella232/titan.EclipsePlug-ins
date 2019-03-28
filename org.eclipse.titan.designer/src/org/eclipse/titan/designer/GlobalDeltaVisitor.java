@@ -68,6 +68,7 @@ public final class GlobalDeltaVisitor implements IResourceDeltaVisitor {
 			}
 			return false;
 		case IResource.FOLDER:
+			//TODO the working directories are different in C++ and Java
 			for (final IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(resource)) {
 					return false;
