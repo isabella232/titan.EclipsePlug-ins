@@ -18,6 +18,7 @@ import java.util.Set;
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -136,13 +137,22 @@ public final class ProjectBasedBuilder {
 	 *         directory, or an empty array if none.
 	 * */
 	public IContainer[] getWorkingDirectoryResources(final boolean reportError) {
-		final URI uri = getWorkingDirectoryURI(reportError);
-		if (uri == null) {
-			return new IContainer[0];
+		if (TITANJavaBuilder.isBuilderEnabled(project)) {
+			final IFolder folder = project.getFolder("java_bin");
+			final IContainer containers[] = new IContainer[1];
+			containers[0] = folder;
+			return containers;
+		} else if (TITANBuilder.isBuilderEnabled(project)) {
+			final URI uri = getWorkingDirectoryURI(reportError);
+			if (uri == null) {
+				return new IContainer[0];
+			}
+	
+			final IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
+			return wroot.findContainersForLocationURI(uri);
 		}
 
-		final IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
-		return wroot.findContainersForLocationURI(uri);
+		return new IContainer[0];
 	}
 
 	public IProject[] getReferencedProjects() {
