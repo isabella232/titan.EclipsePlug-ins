@@ -40,11 +40,16 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.wizards.projectFormat.TITANAutomaticProjectExporter;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
@@ -453,8 +458,16 @@ public final class ProjectFileHandler {
 			}
 		};
 		saveJob.setPriority(Job.LONG);
-		saveJob.setUser(false);
-		saveJob.setSystem(true);
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		if (GeneralConstants.DEBUG
+				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+						true, null)) {
+			saveJob.setSystem(false);
+			saveJob.setUser(true);
+		} else {
+			saveJob.setSystem(true);
+			saveJob.setUser(false);
+		}
 		saveJob.setRule(project.getWorkspace().getRuleFactory().refreshRule(project));
 		saveJob.schedule();
 
@@ -704,8 +717,16 @@ public final class ProjectFileHandler {
 		};
 
 		loadJob.setPriority(Job.LONG);
-		loadJob.setUser(false);
-		loadJob.setSystem(true);
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		if (GeneralConstants.DEBUG
+				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+						true, null)) {
+			loadJob.setSystem(false);
+			loadJob.setUser(true);
+		} else {
+			loadJob.setSystem(true);
+			loadJob.setUser(false);
+		}
 		loadJob.setRule(project.getWorkspace().getRuleFactory().refreshRule(project));
 		loadJob.schedule();
 	}
