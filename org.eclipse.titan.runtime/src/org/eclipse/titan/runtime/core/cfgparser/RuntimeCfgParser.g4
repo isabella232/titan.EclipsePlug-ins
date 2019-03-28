@@ -1248,6 +1248,9 @@ pr_IntegerPrimaryExpression returns [CFGNumber integer]:
 pr_NaturalNumber returns [CFGNumber integer]:
 (	a = NATURAL_NUMBER	{$integer = new CFGNumber($a.text);}
 |	pr_MacroNaturalNumber
+|	TTCN3IDENTIFIER // module parameter name
+		{	$integer = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
+		}//TODO: incorrect behaviour
 )
 ;
 
@@ -1295,6 +1298,9 @@ pr_CString returns [String string]:
 		}
 |	pr_MacroCString
 |	pr_MacroExpliciteCString
+|	TTCN3IDENTIFIER // module parameter name
+		{	$string = ""; // value is unknown yet, but it should not be null
+		}
 )
 ;
 
@@ -1648,6 +1654,9 @@ pr_Float returns [CFGNumber floatnum]:
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	}
+|	TTCN3IDENTIFIER // module parameter name
+		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
+		}//TODO: incorrect behaviour
 )
 ;
 
