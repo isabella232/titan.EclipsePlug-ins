@@ -86,8 +86,8 @@ public final class ProjectFileHandler {
 	public static final String ACTIVECONFIGURATIONXMLNODE = "ActiveConfiguration";
 	public static final String DEFAULTCONFIGURATIONNAME = "Default";
 
-	private static final String SAVING_PROPERTIES = "saving TITAN properties";
-	private static final String LOADING_PROPERTIES = "loading TITAN properties";
+	private static final String SAVING_PROPERTIES = "saving TITAN properties for project ";
+	private static final String LOADING_PROPERTIES = "loading TITAN properties for project ";
 	private static final String ENCODING = "UTF-8";
 
 	private static StringBuilder xmlFormatterString = new StringBuilder("\n           ");
@@ -433,7 +433,7 @@ public final class ProjectFileHandler {
 			return null;
 		}
 
-		WorkspaceJob saveJob = new WorkspaceJob(SAVING_PROPERTIES) {
+		WorkspaceJob saveJob = new WorkspaceJob(SAVING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				if (!project.isAccessible()) {
@@ -691,7 +691,7 @@ public final class ProjectFileHandler {
 			return;
 		}
 
-		WorkspaceJob loadJob = new WorkspaceJob(LOADING_PROPERTIES) {
+		WorkspaceJob loadJob = new WorkspaceJob(LOADING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				if (!project.isAccessible()) {
