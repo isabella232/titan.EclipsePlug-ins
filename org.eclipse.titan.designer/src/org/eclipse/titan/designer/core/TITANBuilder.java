@@ -697,7 +697,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 	 *                a table of builder-specific arguments keyed by
 	 *                argument name
 	 * @param monitor
-	 *                the progress monitor to report errors to.
+	 *                the progress monitor to report progress to.
 	 * @return the list of projects for which this builder would like deltas
 	 *         the next time it is run or <code>null</code> if none
 	 * @exception CoreException
