@@ -507,7 +507,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public void initAttributes(final CompilationTimeStamp timestamp) {
-		codingTable.clear();
+//		codingTable.clear();
 		hasDone = false;
 
 		checkDoneAttribute(timestamp);
