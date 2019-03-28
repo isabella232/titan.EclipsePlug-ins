@@ -101,6 +101,7 @@ public final class ProjectSourceParser {
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastFullAnalyzes = null;
+	private volatile WorkspaceJob lastExtension = null;
 	// Internal variable to mark when project is being analyzed. Might not
 	// be useful any longer, but hard to check.
 	// TODO check if still required
@@ -1007,7 +1008,8 @@ public final class ProjectSourceParser {
 		final ISchedulingRule rule = getSchedulingRule();
 		analyzes.setRule(rule);
 
-		if (fullAnalyzersRunning.get() > 0) {
+		final boolean alreadyRunning = fullAnalyzersRunning.get() > 0;
+		if (alreadyRunning) {
 			if (lastFullAnalyzes != null && lastFullAnalyzes.getState() != Job.RUNNING) {
 				lastFullAnalyzes.cancel();
 			}
@@ -1062,6 +1064,12 @@ public final class ProjectSourceParser {
 			extensions.setUser(false);
 		}
 		extensions.setRule(rule);
+		if (alreadyRunning) {
+			if (lastExtension != null && lastExtension.getState() != Job.RUNNING) {
+				lastExtension.cancel();
+			}
+			lastExtension = extensions;
+		}
 		extensions.schedule();
 
 		return extensions;
