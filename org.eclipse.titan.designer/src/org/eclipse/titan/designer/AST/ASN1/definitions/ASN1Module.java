@@ -71,6 +71,8 @@ public final class ASN1Module extends Module {
 
 	private ASN1Assignments assignments;
 
+	private boolean needsTobeBuilt = true;
+
 	public ASN1Module(final Identifier identifier, final IProject project, final Tag_types tagdef, final boolean extensibilityImplied) {
 		super(identifier, project);
 		this.tagdef = tagdef;
@@ -237,6 +239,7 @@ public final class ASN1Module extends Module {
 		}
 
 		lastCompilationTimeStamp = timestamp;
+		needsTobeBuilt = true;
 
 		if (!SpecialASN1Module.INTERNAL_MODULE.equals(identifier.getAsnName())) {
 			NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_ASN1MODULE, identifier, "ASN.1 module");
@@ -443,6 +446,13 @@ public final class ASN1Module extends Module {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean shouldBeGenerated() {
+		// TODO for now ASN.1 files always need to be built.
+		return needsTobeBuilt;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
 		aData.addBuiltinTypeImport("TTCN_Module");
 
@@ -458,5 +468,7 @@ public final class ASN1Module extends Module {
 		if ( assignments != null ) {
 			assignments.generateCode( aData );
 		}
+
+		needsTobeBuilt = false;
 	}
 }

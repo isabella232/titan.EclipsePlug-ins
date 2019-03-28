@@ -117,6 +117,8 @@ public final class TTCN3Module extends Module {
 	//The MD5 hash of the module
 	private byte[] digest;
 
+	private boolean needsTobeBuilt = true;
+
 	public TTCN3Module(final Identifier identifier, final IProject project) {
 		super(identifier, project);
 
@@ -447,6 +449,7 @@ public final class TTCN3Module extends Module {
 		T3Doc.check(this.getCommentLocation(), MODULE);
 
 		lastCompilationTimeStamp = timestamp;
+		needsTobeBuilt = true;
 
 		if (getSkippedFromSemanticChecking()) {
 			return;
@@ -494,6 +497,7 @@ public final class TTCN3Module extends Module {
 		T3Doc.check(this.getCommentLocation(), MODULE);
 
 		lastCompilationTimeStamp = timestamp;
+		needsTobeBuilt = true;
 
 		NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_TTCN3MODULE, identifier, "TTCN-3 module");
 
@@ -1073,6 +1077,8 @@ public final class TTCN3Module extends Module {
 	 *                ASN.1 files, to efficiently handle module renaming.
 	 * */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final ProjectSourceParser sourceParser) throws ReParseException {
+		needsTobeBuilt = true;
+
 		if (reparser.getShift() < 0) {
 			throw new ReParseException();
 		}
@@ -1274,6 +1280,12 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean shouldBeGenerated() {
+		return needsTobeBuilt;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
 		aData.addBuiltinTypeImport("TTCN_Module");
 
@@ -1311,5 +1323,7 @@ public final class TTCN3Module extends Module {
 		if ( controlpart != null ) {
 			controlpart.generateCode( aData );
 		}
+
+		needsTobeBuilt = false;
 	}
 }

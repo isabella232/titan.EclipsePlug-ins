@@ -13,10 +13,8 @@ import java.util.Set;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -69,9 +67,14 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		final Set<String> knownModuleNames = sourceParser.getKnownModuleNames();
 		codeGeneratorMonitor.beginTask("Checking prerequisites", localModules.size() + 1);
 		int generatedCount = 0;
-		for(Module module : localModules) {
+		for(final Module module : localModules) {
 			if (codeGeneratorMonitor.isCanceled()) {
 				break;
+			}
+
+			//TODO enable the forcing of re-generation of all modules
+			if ((kind == INCREMENTAL_BUILD || kind == AUTO_BUILD) && !module.shouldBeGenerated()) {
+				continue;
 			}
 
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");

@@ -375,6 +375,17 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	}
 
 	/**
+	 * Tells if the modules should be generated or not.
+	 * <p>
+	 * This is an overestimation helping with pre-filtering. The actual code
+	 * generated might still be the one as before.
+	 *
+	 * @return {@code true} if the module should be generated, {@code false}
+	 *         otherwise.
+	 * */
+	public abstract boolean shouldBeGenerated();
+
+	/**
 	 * Add generated java code for this module.
 	 * 
 	 * @param aData the generated java code with other info.
