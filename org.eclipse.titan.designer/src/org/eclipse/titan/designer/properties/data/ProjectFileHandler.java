@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -99,6 +101,9 @@ public final class ProjectFileHandler {
 	private DOMConfiguration config;
 
 	private static final List<IProject> PROJECTS_LOCKED_FOR_LOADING = new ArrayList<IProject>();
+
+	private static final ConcurrentHashMap<IProject, AtomicInteger> savesRunning = new ConcurrentHashMap<IProject, AtomicInteger>();
+	private static final ConcurrentHashMap<IProject, WorkspaceJob> lastSaves = new ConcurrentHashMap<IProject, WorkspaceJob>();
 
 	/**
 	 * Inner class for visiting file and folder resources during project
@@ -436,25 +441,32 @@ public final class ProjectFileHandler {
 		WorkspaceJob saveJob = new WorkspaceJob(SAVING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
-				if (!project.isAccessible()) {
+				try {
+					if (monitor.isCanceled() || !project.isAccessible()) {
+						return Status.OK_STATUS;
+					}
+
+					Document document = ProjectDocumentHandlingUtility.getDocument(project);
+					if (document == null) {
+						document = ProjectDocumentHandlingUtility.createDocument(project);
+					}
+
+					saveProjectInfoToDocument(document);
+
+					clearNode(document.getDocumentElement());
+					indentNode(document, document.getDocumentElement(), 1);
+
+					ProjectDocumentHandlingUtility.saveDocument(project);
+					//this is the only place to save file modifications (add,remove,rename)
+					TITANAutomaticProjectExporter.saveAllAutomatically(project);
+
 					return Status.OK_STATUS;
+				} finally {
+					final AtomicInteger projectSavesRunning = savesRunning.get(project);
+					if (projectSavesRunning != null) {
+						projectSavesRunning.decrementAndGet();
+					}
 				}
-
-				Document document = ProjectDocumentHandlingUtility.getDocument(project);
-				if (document == null) {
-					document = ProjectDocumentHandlingUtility.createDocument(project);
-				}
-
-				saveProjectInfoToDocument(document);
-
-				clearNode(document.getDocumentElement());
-				indentNode(document, document.getDocumentElement(), 1);
-
-				ProjectDocumentHandlingUtility.saveDocument(project);
-				//this is the only place to save file modifications (add,remove,rename)
-				TITANAutomaticProjectExporter.saveAllAutomatically(project);
-
-				return Status.OK_STATUS;
 			}
 		};
 		saveJob.setPriority(Job.LONG);
@@ -469,7 +481,25 @@ public final class ProjectFileHandler {
 			saveJob.setUser(false);
 		}
 		saveJob.setRule(project.getWorkspace().getRuleFactory().refreshRule(project));
+
+		AtomicInteger projectSavesRunning = savesRunning.get(project);
+		if (projectSavesRunning == null) {
+			projectSavesRunning = new AtomicInteger(0);
+			savesRunning.put(project, projectSavesRunning);
+		}
+		final boolean alreadyRunning = projectSavesRunning.get() > 0;
+		if (alreadyRunning) {
+			final WorkspaceJob lastSaveJob = lastSaves.get(project);
+			if (lastSaveJob != null && lastSaveJob.getState() != Job.RUNNING) {
+				if (lastSaveJob.getState() != Job.RUNNING) {
+					lastSaveJob.cancel();
+				}
+			}
+			lastSaves.put(project, saveJob);
+		}
+
 		saveJob.schedule();
+		projectSavesRunning.incrementAndGet();
 
 		return saveJob;
 	}
@@ -694,7 +724,7 @@ public final class ProjectFileHandler {
 		WorkspaceJob loadJob = new WorkspaceJob(LOADING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
-				if (!project.isAccessible()) {
+				if (monitor.isCanceled() || !project.isAccessible()) {
 					PROJECTS_LOCKED_FOR_LOADING.remove(project);
 					return Status.OK_STATUS;
 				}
