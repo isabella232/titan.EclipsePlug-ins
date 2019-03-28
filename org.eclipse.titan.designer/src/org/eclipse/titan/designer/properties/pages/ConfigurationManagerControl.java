@@ -220,7 +220,7 @@ public class ConfigurationManagerControl {
 							configurationRoot = newConfiguration;
 						}
 
-						ProjectFileHandler.saveProjectInfoToNode(project, configurationRoot, document);
+						ProjectFileHandler.saveProjectInfoToNode(project, configurationRoot, document, new NullProgressMonitor());
 
 						configurations = ProjectFileHandler.getConfigurations(ProjectDocumentHandlingUtility
 								.getDocument(project));
@@ -512,7 +512,7 @@ public class ConfigurationManagerControl {
 		if (configurationNode == null) {
 			configurationNode = ProjectFileHandler.createConfigurationNode(document, getActualSelection());
 		}
-		ProjectFileHandler.saveProjectInfoToNode(project, configurationNode, document);
+		ProjectFileHandler.saveProjectInfoToNode(project, configurationNode, document, new NullProgressMonitor());
 		ProjectFileHandler.saveActualConfigurationInfoToNode(project, document);
 	}
 

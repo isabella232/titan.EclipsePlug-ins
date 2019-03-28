@@ -45,6 +45,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
@@ -345,10 +346,14 @@ public final class ProjectFileHandler {
 	 *                the working directories of the project
 	 * @param folders
 	 *                the folders to process
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * 
 	 * @return the tree containing the data
 	 * */
-	private static Element saveFolderProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFolder> folders) {
+	private static Element saveFolderProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFolder> folders, final IProgressMonitor monitor) {
+		final SubMonitor progress = SubMonitor.convert(monitor);
+		progress.beginTask("Save folders", folders.size());
 		Element root = null;
 
 		for (Iterator<Map.Entry<String, IFolder>> iterator = folders.entrySet().iterator(); iterator.hasNext();) {
@@ -356,6 +361,7 @@ public final class ProjectFileHandler {
 			final IFolder folder = entry.getValue();
 			for (IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(folder)) {
+					progress.worked(1);
 					continue;
 				}
 			}
@@ -367,7 +373,11 @@ public final class ProjectFileHandler {
 
 				root.appendChild(FolderBuildPropertyData.saveFolderProperties(document, folder));
 			}
+
+			progress.worked(1);
 		}
+
+		progress.done();
 
 		return root;
 	}
@@ -389,10 +399,14 @@ public final class ProjectFileHandler {
 	 *                the working directories of the project
 	 * @param files
 	 *                the files to process.
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * 
 	 * @return the tree containing the data
 	 * */
-	private static Element saveFileProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFile> files) {
+	private static Element saveFileProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFile> files, final IProgressMonitor monitor) {
+		final SubMonitor progress = SubMonitor.convert(monitor);
+		progress.beginTask("Save files", files.size());
 		Element root = null;
 
 		for (Iterator<Map.Entry<String, IFile>> iterator = files.entrySet().iterator(); iterator.hasNext();) {
@@ -400,6 +414,7 @@ public final class ProjectFileHandler {
 			final IFile file = entry.getValue();
 			for (IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(file.getParent())) {
+					progress.worked(1);
 					continue;
 				}
 			}
@@ -410,7 +425,11 @@ public final class ProjectFileHandler {
 				}
 				root.appendChild(FileBuildPropertyData.saveFileProperties(document, file));
 			}
+
+			progress.worked(1);
 		}
+
+		progress.done();
 
 		return root;
 	}
@@ -451,7 +470,7 @@ public final class ProjectFileHandler {
 						document = ProjectDocumentHandlingUtility.createDocument(project);
 					}
 
-					saveProjectInfoToDocument(document);
+					saveProjectInfoToDocument(document, monitor);
 
 					clearNode(document.getDocumentElement());
 					indentNode(document, document.getDocumentElement(), 1);
@@ -510,13 +529,15 @@ public final class ProjectFileHandler {
 	 * 
 	 * @param document
 	 *                the document to store the information.
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * */
-	public void saveProjectInfoToDocument(final Document document) {
+	public void saveProjectInfoToDocument(final Document document, final IProgressMonitor monitor) {
 		saveActualConfigurationInfoToNode(project, document);
 		String activeConfigurationName = getActiveConfigurationName(project);
 
 		if (DEFAULTCONFIGURATIONNAME.equals(activeConfigurationName)) {
-			saveProjectInfoToNode(project, document.getDocumentElement(), document);
+			saveProjectInfoToNode(project, document.getDocumentElement(), document, monitor);
 		} else {
 
 			Node configurationsRoot = getNodebyName(document.getDocumentElement().getChildNodes(), CONFIGURATIONSXMLNODE);
@@ -534,7 +555,7 @@ public final class ProjectFileHandler {
 				configurationRoot = temp;
 			}
 
-			saveProjectInfoToNode(project, configurationRoot, document);
+			saveProjectInfoToNode(project, configurationRoot, document, monitor);
 		}
 	}
 
@@ -949,8 +970,10 @@ public final class ProjectFileHandler {
 	 *                the root node for saving the data.
 	 * @param document
 	 *                the document, used to create text nodes.
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * */
-	public static void saveProjectInfoToNode(final IProject project, final Node root, final Document document) {
+	public static void saveProjectInfoToNode(final IProject project, final Node root, final Document document, final IProgressMonitor monitor) {
 		final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
 		final ResourceVisitor saveVisitor = new ResourceVisitor(workingDirectories);
 		// collect the resources
@@ -962,16 +985,23 @@ public final class ProjectFileHandler {
 		final Map<String, IFile> files = saveVisitor.getFiles();
 		final Map<String, IFolder> folders = saveVisitor.getFolders();
 
+		final SubMonitor progress = SubMonitor.convert(monitor);
+		progress.beginTask("Save", 3);
+
+		IProgressMonitor projectMonitor = progress.newChild(1);
 		final Node oldProjectRoot = getNodebyName(root.getChildNodes(), PROJECTPROPERTIESXMLNODE);
 		final Node newProjectRoot = saveProjectProperties(project, document);
+		projectMonitor.worked(1);
 		if (oldProjectRoot == null) {
 			root.appendChild(newProjectRoot);
 		} else {
 			root.replaceChild(newProjectRoot, oldProjectRoot);
 		}
 
+		IProgressMonitor folderMonitor = progress.newChild(1);
 		final Node oldFolderRoot = getNodebyName(root.getChildNodes(), FOLDERPROPERTIESXMLNODE);
-		final Node newFolderRoot = saveFolderProperties(document, workingDirectories, folders);
+		final Node newFolderRoot = saveFolderProperties(document, workingDirectories, folders, folderMonitor);
+		folderMonitor.worked(1);
 		if (newFolderRoot != null) {
 			if (oldFolderRoot == null) {
 				root.appendChild(newFolderRoot);
@@ -982,8 +1012,10 @@ public final class ProjectFileHandler {
 			root.removeChild(oldFolderRoot);
 		}
 
+		IProgressMonitor fileMonitor = progress.newChild(1);
 		final Node oldFileRoot = getNodebyName(root.getChildNodes(), FILEPROPERTIESXMLNODE);
-		final Node newFileRoot = saveFileProperties(document, workingDirectories, files);
+		final Node newFileRoot = saveFileProperties(document, workingDirectories, files, fileMonitor);
+		//fileMonitor.worked(1);
 		if (newFileRoot != null) {
 			if (oldFileRoot == null) {
 				root.appendChild(newFileRoot);
