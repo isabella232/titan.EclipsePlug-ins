@@ -1287,6 +1287,8 @@ public final class TTCN3Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
+		needsTobeBuilt = false;
+
 		aData.addBuiltinTypeImport("TTCN_Module");
 
 		for (final ImportModule importModule : importedModules) {
@@ -1323,7 +1325,5 @@ public final class TTCN3Module extends Module {
 		if ( controlpart != null ) {
 			controlpart.generateCode( aData );
 		}
-
-		needsTobeBuilt = false;
 	}
 }

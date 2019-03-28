@@ -454,6 +454,8 @@ public final class ASN1Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
+		needsTobeBuilt = false;
+
 		aData.addBuiltinTypeImport("TTCN_Module");
 
 		imports.generateCode(aData);
@@ -468,7 +470,5 @@ public final class ASN1Module extends Module {
 		if ( assignments != null ) {
 			assignments.generateCode( aData );
 		}
-
-		needsTobeBuilt = false;
 	}
 }
