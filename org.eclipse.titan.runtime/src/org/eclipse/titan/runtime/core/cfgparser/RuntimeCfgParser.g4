@@ -1832,13 +1832,29 @@ pr_Quadruple returns [TitanUniversalCharString ucstr]:
 
 pr_USI returns [TitanUniversalCharString ucstr]
 @init {
-	$ucstr = new TitanUniversalCharString();
+	$ucstr = null;
 }:
 	CHARKEYWORD
 	LPAREN
-	u = pr_UID	{	if ( null == $u.uc ) {	$ucstr.operator_concatenate($u.uc);	}	}
+	u = pr_UID
+		{	if ( null != $u.uc ) {
+				if ( null == $ucstr ) {
+					$ucstr = new TitanUniversalCharString($u.uc);
+				} else {
+					$ucstr.operator_concatenate($u.uc);
+				}
+			}
+		}
 	(	COMMA
-		u = pr_UID	{	if ( null == $u.uc ) {	$ucstr.operator_concatenate($u.uc);	}	}
+		u = pr_UID
+		{	if ( null != $u.uc ) {
+				if ( null == $ucstr ) {
+					$ucstr = new TitanUniversalCharString($u.uc);
+				} else {
+					$ucstr.operator_concatenate($u.uc);
+				}
+			}
+		}
 	)*
 	RPAREN
 ;
