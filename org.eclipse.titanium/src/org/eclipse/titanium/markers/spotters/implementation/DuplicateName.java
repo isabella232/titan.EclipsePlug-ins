@@ -54,12 +54,9 @@ public class DuplicateName extends BaseModuleCodeSmellSpotter {
 			} else {
 				names.put(sUp, assignment);
 			}
-
-			if (i == assignments.getNofAssignments() - 1) {
-				names.clear();
-			}
 		}
 
+		names.clear();
 	}
 
 	@Override
