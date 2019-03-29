@@ -357,7 +357,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 				v_last = this.getPatternstring().get_value();
 				break;
 			default:
-				reference.getLocation().reportSemanticError(MessageFormat.format("Unable to resolve referenced '{0}' to character string type. '{1}' template cannot be used.", reference.getDisplayName(), templ.getTemplateTypeName()));
+				reference.getLocation().reportSemanticError(MessageFormat.format("Unable to resolve referenced {0} to character string type. {1} template cannot be used.", reference.getDisplayName(), templ.getTemplateTypeName()));
 				break;
 			}
 			break;

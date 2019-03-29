@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_behavior_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
@@ -1092,7 +1094,34 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			pattern_value_nocase = param.get_nocase();
 			set_selection(template_sel.STRING_PATTERN);
 			break;
+		case MP_Expression:
+			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
+				final TitanUniversalCharString operand1 = new TitanUniversalCharString();
+				final TitanUniversalCharString operand2 = new TitanUniversalCharString();
+				TitanUniversalCharString result = new TitanUniversalCharString();
+				boolean nocase = false;
+				boolean is_pattern = operand1.set_param_internal(param.get_operand1(), true, nocase);
+				operand2.set_param(param.get_operand2());
+				result.operator_assign(operand1.operator_concatenate(operand2));
+				if (is_pattern) {
+					clean_up();
+					if (result.charstring) {
+						pattern_string = new TitanCharString(result.cstr);
+					} else {
+						pattern_string = new TitanCharString(result.get_stringRepr_for_pattern());
+					}
+					pattern_value_regexp_init = false;
+					pattern_value_nocase = param.get_nocase();
+					set_selection(template_sel.STRING_PATTERN);
+				} else {
+					this.operator_assign(result);
+				}
+			} else {
+				param.expr_type_error("a charstring");
+			}
+			break;
 		default:
+			param.type_error("universal charstring template");
 			break;
 		}
 	}
@@ -1247,5 +1276,16 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 
 		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "universal charstring" : name));
+	}
+	
+	public TitanCharString castForPatterns() {
+		if (template_selection == template_sel.STRING_PATTERN) {
+			return new TitanCharString(pattern_string);
+		} else if (template_selection == template_sel.SPECIFIC_VALUE) {
+			return new TitanCharString(single_value);
+		} else {
+			//TODO: better error message
+			throw new TtcnError("Internal error: using a non-acceptable template for pattern cast.");
+		}
 	}
 }

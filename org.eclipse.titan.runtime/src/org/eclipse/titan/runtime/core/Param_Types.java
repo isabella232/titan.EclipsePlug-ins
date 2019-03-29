@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
@@ -421,6 +422,7 @@ public final class Param_Types {
 		private final expression_operand_t expr_type;
 		private final Module_Parameter operand1;
 		private final Module_Parameter operand2;
+		private boolean no_case = false;
 
 		public Module_Param_Expression(final expression_operand_t p_type, final Module_Parameter p_op1, final Module_Parameter p_op2) {
 			expr_type = p_type;
@@ -508,6 +510,19 @@ public final class Param_Types {
 			}
 			if (expr_type != expression_operand_t.EXPR_NEGATE) {
 				operand2.log_value();
+			}
+		}
+		
+		public boolean get_nocase() {
+			return no_case;
+		}
+		
+		public void set_nocase(final boolean nocase) {
+			no_case = nocase;
+			if (parent != null && parent != this) {
+				if (parent.get_type() == type_t.MP_Expression) {
+					((Module_Param_Expression)(parent)).set_nocase(no_case);
+				}
 			}
 		}
 	}

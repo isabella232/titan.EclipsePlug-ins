@@ -11,10 +11,12 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -1172,6 +1174,9 @@ public class TitanUniversalCharString extends Base_Type {
 				//TODO: need to check later
 				this.operator_assign(new TitanCharString(param.get_pattern()));
 				is_pattern = true;
+				if (param.parent.get_type() == type_t.MP_Expression) {
+					((Module_Param_Expression)(param.parent)).set_nocase(param.get_nocase());
+				}
 				break;
 			}
 			// else fall through
@@ -1416,6 +1421,40 @@ public class TitanUniversalCharString extends Base_Type {
 		rotate_count.must_bound("Unbound right operand of octetstring rotate left operator.");
 
 		return rotate_right(rotate_count.get_int());
+	}
+	
+	public TitanCharString get_stringRepr_for_pattern() {
+		this.must_bound("Performing pattern conversion operation on an unbound universal charstring value.");
+		StringBuilder ret_val = new StringBuilder();
+		if (charstring)
+			for (int i = 0; i < cstr.length(); i++) {
+				final char chr = cstr.charAt(i);
+				if (TTCN_Logger.is_printable(chr)) {
+					ret_val.append(chr);
+				} else {
+					ret_val.append("\\q{0,0,0,");
+					ret_val.append(AdditionalFunctions.int2str(chr));
+					ret_val.append("}");
+				}
+			} else {
+				for (int i = 0; i < val_ptr.size(); i++) {
+					final TitanUniversalChar uchar = val_ptr.get(i);
+					if (uchar.is_char()) {
+						ret_val.append(uchar.getUc_cell());
+					} else {
+						ret_val.append("\\q{");
+						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_group()));
+						ret_val.append(",");
+						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_plane()));
+						ret_val.append(",");
+						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_row()));
+						ret_val.append(",");
+						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_cell()));
+						ret_val.append("}");
+					}
+				}	
+			}
+		return new TitanCharString(ret_val.toString());
 	}
 
 	public void convert_cstr_to_uni() {
