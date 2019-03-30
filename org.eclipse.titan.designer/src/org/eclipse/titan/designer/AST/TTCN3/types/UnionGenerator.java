@@ -1041,13 +1041,19 @@ public final class UnionGenerator {
 			source.append("final int starting_pos = buff.get_pos_bit();\n");
 			source.append("if (sel_field != -1) {\n");
 			if (fieldInfos.size() > maxFieldsLength) {
-				source.append("\t\t\t\tif (sel_field == 0 ) {\n");
+				boolean first = true;
 				final int fullSize = fieldInfos.size();
 				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
 					final int start = iteration * maxFieldsLength;
 					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-					source.append(MessageFormat.format("\t\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+					if (first) {
+						first = false;
+						source.append("\t\t\t\t");
+					} else {
+						source.append("\t\t\t\t} else ");
+					}
+					source.append(MessageFormat.format("if (sel_field <= {0,number,#}) '{'\n", end + 1));
 					source.append(MessageFormat.format("\t\t\t\t\tdecoded_length = RAW_decode_helper_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit);\n", start, end));
 				}
 				source.append("\t\t\t\t}\n");
