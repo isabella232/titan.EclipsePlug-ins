@@ -627,7 +627,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob updateSyntax(final IFile file, final TTCN3ReparseUpdater reparser) {
-		final WorkspaceJob op = new WorkspaceJob("Updating the syntax incremantally for: " + file.getName()) {
+		final WorkspaceJob op = new WorkspaceJob("Updating the syntax incrementally for: " + file.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				syntacticAnalyzer.updateSyntax(file, reparser);
