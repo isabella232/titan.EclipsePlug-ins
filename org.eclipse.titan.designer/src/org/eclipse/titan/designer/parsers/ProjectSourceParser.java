@@ -37,7 +37,9 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.OutOfMemoryCheck;
 import org.eclipse.titan.designer.AST.Location;
@@ -630,7 +632,15 @@ public final class ProjectSourceParser {
 		final WorkspaceJob op = new WorkspaceJob("Updating the syntax incrementally for: " + file.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
+				final double parserStart = System.nanoTime();
+
 				syntacticAnalyzer.updateSyntax(file, reparser);
+
+				final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+				if (store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION)) {
+					TITANDebugConsole.println("Refreshing the syntax took " + (System.nanoTime() - parserStart) * (1e-9) + " secs");
+				}
+
 				return Status.OK_STATUS;
 			}
 		};
