@@ -19,10 +19,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.UnbufferedCharStream;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.atn.PredictionMode;
+import org.antlr.v4.runtime.dfa.DFA;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
@@ -33,6 +40,8 @@ import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 import org.eclipse.titan.designer.parsers.ParserUtilities;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * This class directs the incremental parsing. Stores all information about the nature and size of the damage done to the system, helps in reparsing
@@ -504,11 +513,17 @@ public final class TTCN3ReparseUpdater {
 			substring = code.substring(modificationStartOffset, modificationEndOffset + shift);
 		}
 
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);
+
 		final Reader reader = new StringReader(substring);
 		final CharStream charStream = new UnbufferedCharStream(reader);
 		final Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval(modificationEndOffset - modificationStartOffset + 1);
+		if (realtimeEnabled) {
+			lexer.enableRealtime();
+		}
 
 		// lexer and parser listener
 		final TitanListener parserListener = new TitanListener();
@@ -536,10 +551,42 @@ public final class TTCN3ReparseUpdater {
 		parser.removeErrorListeners();
 		parser.addErrorListener( parserListener );
 
-		userDefined.reparse(parser);
-		mErrors = parserListener.getErrorsStored();
-		warningsAndErrors = parser.getWarningsAndErrors();
-		unsupportedConstructs.addAll(parser.getUnsupportedConstructs());
+		// This is added because of the following ANTLR 4 bug:
+		// Memory Leak in PredictionContextCache #499
+		// https://github.com/antlr/antlr4/issues/499
+		final DFA[] decisionToDFA = parser.getInterpreter().decisionToDFA;
+		parser.setInterpreter(new ParserATNSimulator(parser, parser.getATN(), decisionToDFA, new PredictionContextCache()));
+
+		//try SLL mode
+		try {
+			parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
+	
+			userDefined.reparse(parser);
+			mErrors = parserListener.getErrorsStored();
+			warningsAndErrors = parser.getWarningsAndErrors();
+			unsupportedConstructs.addAll(parser.getUnsupportedConstructs());
+		} catch (RecognitionException e) {
+			// quit
+		}
+
+		if (!warningsAndErrors.isEmpty() || !mErrors.isEmpty()) {
+			//SLL mode might have failed, try LL mode
+			try {
+				final CharStream charStream2 = new UnbufferedCharStream( reader );
+				lexer.setInputStream(charStream2);
+				//lexer.reset();
+				parser.reset();
+				parserListener.reset();
+				parser.getInterpreter().setPredictionMode(PredictionMode.LL);
+				userDefined.reparse(parser);
+				mErrors = parserListener.getErrorsStored();
+				warningsAndErrors = parser.getWarningsAndErrors();
+				unsupportedConstructs.addAll(parser.getUnsupportedConstructs());
+
+			} catch(RecognitionException e) {
+
+			}
+		}
 
 		int result = measureIntervallDamage();
 		if(!parser.isErrorListEmpty()){
