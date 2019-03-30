@@ -512,11 +512,11 @@ public final class Param_Types {
 				operand2.log_value();
 			}
 		}
-		
+
 		public boolean get_nocase() {
 			return no_case;
 		}
-		
+
 		public void set_nocase(final boolean nocase) {
 			no_case = nocase;
 			if (parent != null && parent != this) {

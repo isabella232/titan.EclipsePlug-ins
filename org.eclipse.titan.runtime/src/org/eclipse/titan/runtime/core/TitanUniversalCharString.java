@@ -1422,7 +1422,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 		return rotate_right(rotate_count.get_int());
 	}
-	
+
 	public TitanCharString get_stringRepr_for_pattern() {
 		this.must_bound("Performing pattern conversion operation on an unbound universal charstring value.");
 		StringBuilder ret_val = new StringBuilder();

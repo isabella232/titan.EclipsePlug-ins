@@ -1277,7 +1277,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "universal charstring" : name));
 	}
-	
+
 	public TitanCharString castForPatterns() {
 		if (template_selection == template_sel.STRING_PATTERN) {
 			return new TitanCharString(pattern_string);
