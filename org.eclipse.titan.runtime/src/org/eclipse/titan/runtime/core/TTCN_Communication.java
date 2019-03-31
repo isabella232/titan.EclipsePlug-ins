@@ -1016,9 +1016,10 @@ public final class TTCN_Communication {
 		buffer.put(temp_msg);
 		buffer.flip();
 
+		final SocketChannel localChannel = mc_socketchannel.get();
 		try {
 			while (buffer.hasRemaining()) {
-				mc_socketchannel.get().write(buffer);
+				localChannel.write(buffer);
 			}
 		} catch (IOException e) {
 			throw new TtcnError(e);
