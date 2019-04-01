@@ -8,6 +8,8 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -1523,9 +1525,19 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	private void handle_incoming_connection(final port_connection connection) {
 		final ServerSocketChannel serverSocketChannel = (ServerSocketChannel) connection.stream_socket;
+		SocketChannel com_channel;
 		try {
-			final SocketChannel com_channel = serverSocketChannel.accept();
-			//FIXME only a prototype
+			com_channel = serverSocketChannel.accept();
+		} catch (final IOException e) {
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter( sw );
+			e.printStackTrace(pw);
+			TTCN_Communication.send_connect_error(port_name, connection.remote_component, connection.remote_port, "Accepting of incoming TCP connection failed." + sw.toString());
+			remove_connection(connection);
+			return;
+		}
+
+		try {
 			TTCN_Snapshot.channelMap.get().remove(serverSocketChannel);
 
 			connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
@@ -1536,7 +1548,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				remove_connection(connection);
 				return;
 			}
-			
+
 			if (connection.transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(com_channel, true)) {
 				com_channel.close();
 				TTCN_Communication.send_connect_error(port_name, connection.remote_component, connection.remote_port, "Setting the TCP_NODELAY flag failed on the server-side TCP socket.");
