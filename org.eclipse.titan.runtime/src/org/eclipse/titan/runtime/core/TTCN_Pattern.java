@@ -490,7 +490,7 @@ public class TTCN_Pattern {
 				final int row = Integer.parseInt(rowStr);
 				final int cell = Integer.parseInt(cellStr);
 				final TitanUniversalChar uc = new TitanUniversalChar( (char)group, (char)plane, (char)row, (char)cell);
-				javaPattern.append(uc.to_utf());
+				javaPattern.append(uc.to_utf(true));
 			} else {
 				throw new TtcnError("Invalid unichar list at position " + pos.get());
 			}
