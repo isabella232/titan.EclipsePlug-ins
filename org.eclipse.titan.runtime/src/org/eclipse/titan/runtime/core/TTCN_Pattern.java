@@ -134,10 +134,20 @@ public class TTCN_Pattern {
 	 */
 	public static String regexp( final String s, final Pattern javaPattern, final int groupno, final boolean nocase ) {
 		String result = "";
+		String regexpPatternString = javaPattern.pattern();
+		//nocase pattern
+		if (nocase) {
+			regexpPatternString = "(?i)" + regexpPatternString;
+		}
+		//multiline string
+		if (s.contains("\n") || s.contains("\r")) {
+			regexpPatternString = "(?s)" + regexpPatternString;
+		}
+		Pattern tempPattern = Pattern.compile(regexpPatternString);
 		try {
-			final Matcher m = javaPattern.matcher( nocase ? s.toLowerCase() : s );
+			final Matcher m = tempPattern.matcher(s);
 			if ( m.matches() ) {
-				result = m.group( groupno );
+				result = m.group( groupno + 1 );
 			}
 		} catch (Exception e) {
 			throw new TtcnError( MessageFormat.format( "Pattern matching error: {0}", e.toString() ) );
@@ -224,6 +234,9 @@ public class TTCN_Pattern {
 				final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
 				if ( c2 == '"' ) {
 					javaPattern.append('"');
+				} else {
+					pos.decrementAndGet();
+					javaPattern.append("\"");
 				}
 				// else is not needed, because single '"' is the end of the string, which is handled by the parser
 				break;
