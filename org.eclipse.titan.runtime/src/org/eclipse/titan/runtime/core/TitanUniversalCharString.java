@@ -1227,7 +1227,7 @@ public class TitanUniversalCharString extends Base_Type {
 			final StringBuilder str = new StringBuilder();
 
 			for (int i = 0; i < val_ptr.size(); ++i) {
-				str.append(val_ptr.get(i).to_utf());
+				str.append(val_ptr.get(i).to_utf(val_ptr.size() == 1 ? true : false));
 			}
 
 			return str.toString();
