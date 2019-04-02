@@ -314,7 +314,7 @@ public final class TTCN_Communication {
 			throw new TtcnError("TTCN_Communication.set_mc_address: internal error: invalid host name.");
 		}
 		if (MC_port < 0) {
-			throw new TtcnError(MessageFormat.format("TTCN_Communication.set_mc_address: internal error: invalid TCP port. {0}", MC_port));
+			throw new TtcnError(MessageFormat.format("TTCN_Communication.set_mc_address: internal error: invalid TCP port. {0,number,#}", MC_port));
 		}
 		hcnh.set_family(new InetSocketAddress(MC_host, MC_port));
 		if (!hcnh.set_mc_addr(MC_host, MC_port)) {
@@ -342,7 +342,7 @@ public final class TTCN_Communication {
 		}
 		mc_socketchannel.set(hcnh.connect_to_mc());
 		if (mc_socketchannel.get() == null) {
-			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
+			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1,number,#} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
 		}
 		//FIXME register
 		mc_connection.set(new MC_Connection(mc_socketchannel.get(), incoming_buf.get()));
