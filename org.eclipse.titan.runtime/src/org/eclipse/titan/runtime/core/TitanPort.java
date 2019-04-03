@@ -1419,7 +1419,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return;
 			}
 			
-			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(socketChannel, true)) {
+			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(socketChannel, Boolean.TRUE)) {
 				socketChannel.close();
 				TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, "Setting the TCP_NODELAY flag failed on the TCP client socket.");
 				return;
@@ -1549,7 +1549,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return;
 			}
 
-			if (connection.transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(com_channel, true)) {
+			if (connection.transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(com_channel, Boolean.TRUE)) {
 				com_channel.close();
 				TTCN_Communication.send_connect_error(port_name, connection.remote_component, connection.remote_port, "Setting the TCP_NODELAY flag failed on the server-side TCP socket.");
 				remove_connection(connection);

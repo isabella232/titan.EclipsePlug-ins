@@ -383,7 +383,7 @@ public final class TTCN_Communication {
 	}
 
 	//use NetworkChannel instead of file descriptor
-	public static boolean set_tcp_nodelay(final NetworkChannel fd, final boolean enable_nodelay) {
+	public static boolean set_tcp_nodelay(final NetworkChannel fd, final Boolean enable_nodelay) {
 		try {
 			fd.setOption(StandardSocketOptions.TCP_NODELAY, enable_nodelay);
 			return true;
