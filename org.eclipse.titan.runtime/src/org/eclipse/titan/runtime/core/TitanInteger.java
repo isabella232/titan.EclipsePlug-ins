@@ -336,8 +336,8 @@ public class TitanInteger extends Base_Type {
 	 * @return this - other_value
 	 */
 	public TitanInteger sub(final TitanInteger other_value) {
-		this.must_bound("Unbound left operand of integer addition. ");
-		other_value.must_bound("Unbound right operand of integer addition. ");
+		this.must_bound("Unbound left operand of integer subtraction. ");
+		other_value.must_bound("Unbound right operand of integer subtraction. ");
 
 		if (nativeFlag) {
 			if (other_value.nativeFlag) {
