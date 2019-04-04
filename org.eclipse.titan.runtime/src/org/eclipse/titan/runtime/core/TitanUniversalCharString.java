@@ -1434,7 +1434,7 @@ public class TitanUniversalCharString extends Base_Type {
 				} else {
 					ret_val.append("\\q{0,0,0,");
 					ret_val.append(AdditionalFunctions.int2str(chr));
-					ret_val.append("}");
+					ret_val.append('}');
 				}
 			} else {
 				for (int i = 0; i < val_ptr.size(); i++) {
@@ -1444,13 +1444,13 @@ public class TitanUniversalCharString extends Base_Type {
 					} else {
 						ret_val.append("\\q{");
 						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_group()));
-						ret_val.append(",");
+						ret_val.append(',');
 						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_plane()));
-						ret_val.append(",");
+						ret_val.append(',');
 						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_row()));
-						ret_val.append(",");
+						ret_val.append(',');
 						ret_val.append(AdditionalFunctions.int2str(uchar.getUc_cell()));
-						ret_val.append("}");
+						ret_val.append('}');
 					}
 				}	
 			}

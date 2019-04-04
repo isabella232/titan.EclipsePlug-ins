@@ -236,7 +236,7 @@ public class TTCN_Pattern {
 					javaPattern.append('"');
 				} else {
 					pos.decrementAndGet();
-					javaPattern.append("\"");
+					javaPattern.append('\"');
 				}
 				// else is not needed, because single '"' is the end of the string, which is handled by the parser
 				break;
