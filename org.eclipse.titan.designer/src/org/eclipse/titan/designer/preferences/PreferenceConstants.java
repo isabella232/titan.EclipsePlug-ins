@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -48,7 +48,7 @@ public final class PreferenceConstants {
 	public static final String ORIG_TPD_URI = ProductConstants.PRODUCT_ID_DESIGNER + ".origTpdURI";
 	public static final String COPYRIGHT_DEFAULT_STRING =
 	"\n" +
-	" Copyright (c) 2000-2018 Ericsson Telecom AB\n" +
+	" Copyright (c) 2000-2019 Ericsson Telecom AB\n" +
 	" All rights reserved. This program and the accompanying materials\n" +
 	" are made available under the terms of the Eclipse Public License v2.0\n" +
 	" which accompanies this distribution, and is available at\n" +
