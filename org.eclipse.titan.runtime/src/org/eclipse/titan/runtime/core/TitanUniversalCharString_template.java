@@ -1098,11 +1098,10 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
 				final TitanUniversalCharString operand1 = new TitanUniversalCharString();
 				final TitanUniversalCharString operand2 = new TitanUniversalCharString();
-				TitanUniversalCharString result = new TitanUniversalCharString();
 				boolean nocase = false;
 				boolean is_pattern = operand1.set_param_internal(param.get_operand1(), true, nocase);
 				operand2.set_param(param.get_operand2());
-				result.operator_assign(operand1.operator_concatenate(operand2));
+				final TitanUniversalCharString result = operand1.operator_concatenate(operand2);
 				if (is_pattern) {
 					clean_up();
 					if (result.charstring) {
