@@ -1426,7 +1426,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanCharString get_stringRepr_for_pattern() {
 		this.must_bound("Performing pattern conversion operation on an unbound universal charstring value.");
 		final StringBuilder ret_val = new StringBuilder();
-		if (charstring)
+		if (charstring) {
 			for (int i = 0; i < cstr.length(); i++) {
 				final char chr = cstr.charAt(i);
 				if (TTCN_Logger.is_printable(chr)) {
@@ -1436,24 +1436,25 @@ public class TitanUniversalCharString extends Base_Type {
 					ret_val.append((int)chr);
 					ret_val.append('}');
 				}
-			} else {
-				for (int i = 0; i < val_ptr.size(); i++) {
-					final TitanUniversalChar uchar = val_ptr.get(i);
-					if (uchar.is_char()) {
-						ret_val.append(uchar.getUc_cell());
-					} else {
-						ret_val.append("\\q{");
-						ret_val.append((int)uchar.getUc_group());
-						ret_val.append(',');
-						ret_val.append((int)uchar.getUc_plane());
-						ret_val.append(',');
-						ret_val.append((int)uchar.getUc_row());
-						ret_val.append(',');
-						ret_val.append((int)uchar.getUc_cell());
-						ret_val.append('}');
-					}
-				}	
 			}
+		} else {
+			for (int i = 0; i < val_ptr.size(); i++) {
+				final TitanUniversalChar uchar = val_ptr.get(i);
+				if (uchar.is_char()) {
+					ret_val.append(uchar.getUc_cell());
+				} else {
+					ret_val.append("\\q{");
+					ret_val.append((int)uchar.getUc_group());
+					ret_val.append(',');
+					ret_val.append((int)uchar.getUc_plane());
+					ret_val.append(',');
+					ret_val.append((int)uchar.getUc_row());
+					ret_val.append(',');
+					ret_val.append((int)uchar.getUc_cell());
+					ret_val.append('}');
+				}
+			}	
+		}
 		return new TitanCharString(ret_val.toString());
 	}
 
