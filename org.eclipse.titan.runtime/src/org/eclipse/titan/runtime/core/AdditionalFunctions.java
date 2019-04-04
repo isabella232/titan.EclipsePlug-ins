@@ -5136,11 +5136,11 @@ public final class AdditionalFunctions {
 	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString expression, final int groupno, final boolean nocase) {
 		instr.must_bound("The first argument (instr) of function regexp() is an unbound charstring value.");
 		expression.must_bound("The second argument (expression) of function regexp() is an unbound charstring value.");
-		
+
 		if (groupno < 0) {
 			throw new TtcnError(MessageFormat.format("The third argument (groupno) of function regexp() is a negative integer value: {0}.", groupno));
 		}
-		
+
 		final String instr_str = instr.get_value().toString();
 		for (int i = 0; i < instr_str.length(); i++) {
 			if (instr_str.charAt(i) == '\0') {
@@ -5151,6 +5151,7 @@ public final class AdditionalFunctions {
 				break;
 			}
 		}
+
 		final String expression_str = expression.get_value().toString();
 		for (int i = 0; i < expression_str.length(); i++) {
 			if (expression_str.charAt(i) == '\0') {
@@ -5178,7 +5179,6 @@ public final class AdditionalFunctions {
 			TTCN_Logger.end_event();
 		}
 		return new TitanCharString(TTCN_Pattern.regexp(instr_str, posix_str, groupno, nocase));
-		//throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
 	}
 
 	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString expression, final TitanInteger groupno, final boolean nocase) {
