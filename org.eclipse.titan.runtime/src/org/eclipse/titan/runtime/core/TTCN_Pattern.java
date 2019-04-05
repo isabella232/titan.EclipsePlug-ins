@@ -37,7 +37,7 @@ public class TTCN_Pattern {
 	 * "\N{IDENTIFIER}"
 	 * NOTE: \N is already parsed
 	 */
-	private static final Pattern PATTERN_CHARSET_REFERENCE = Pattern.compile( "\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
+	private static final Pattern PATTERN_CHARSET_REFERENCE = Pattern.compile( "\\N\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
 
 	/**
 	 * Pattern for universal char quadruple
@@ -424,11 +424,13 @@ public class TTCN_Pattern {
 		if ( m.matches() ) {
 			final int offset = m.toMatchResult().start(2);
 			pos.getAndAdd(offset);
-			final String ref = m.group(1);
-			final String refValue = refs.get(ref);
-			javaPattern.append( isSet ? refValue : '[' + refValue + ']' );
-		} else {
+			javaPattern.append( isSet ? m.group(1) : '[' + m.group(1) + ']' );
+			pos.getAndAdd(m.group(1).length());
+		} else if(input == null) {
 			throw new TtcnError("Invalid character set reference at position " + pos.get());
+		} else {
+			javaPattern.append( isSet ? input : '[' + input + ']' );
+			pos.getAndAdd(input.length());
 		}
 	}
 
