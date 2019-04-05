@@ -45,8 +45,8 @@ public final class MakefileCreationData {
 	public static final String DEFAULT_TARGET_PROPERTY = "defaultTarget";
 
 	public static final boolean USE_ABSOLUTEPATH_DEFAULT_VALUE       = false;
-	public static final boolean GNU_MAKE_DEFAULT_VALUE               = true;
-	public static final boolean INCREMENTAL_DEPENDENCY_DEFAULT_VALUE = true;
+	public static final boolean GNU_MAKE_DEFAULT_VALUE               = false;
+	public static final boolean INCREMENTAL_DEPENDENCY_DEFAULT_VALUE = false;
 	public static final boolean DYNAMIC_LINKING_DEFAULT_VALUE        = false;
 	public static final boolean FUNCTIONTESTRUNTIME_DEFAULT_VALUE    = false;
 	public static final boolean SINGLEMODE_DEFAULT_VALUE	         = false;
