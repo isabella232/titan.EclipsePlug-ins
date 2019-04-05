@@ -37,7 +37,7 @@ public class TTCN_Pattern {
 	 * "\N{IDENTIFIER}"
 	 * NOTE: \N is already parsed
 	 */
-	private static final Pattern PATTERN_CHARSET_REFERENCE = Pattern.compile( "\\N\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
+	private static final Pattern PATTERN_CHARSET_REFERENCE = Pattern.compile( "\\\\N\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
 
 	/**
 	 * Pattern for universal char quadruple

@@ -460,7 +460,7 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 
 				for (int i = 0; i < otherValue.val_ptr.size(); ++i) {
-					if (!otherValue.val_ptr.get(i).is_char() || otherValue.val_ptr.get(i).getUc_cell() != cstr.charAt(i)){
+					if (otherValue.val_ptr.get(i).getUc_plane() != 0 || otherValue.val_ptr.get(i).getUc_row() != 0 || otherValue.val_ptr.get(i).getUc_group() != 0 || otherValue.val_ptr.get(i).getUc_cell() != cstr.charAt(i)){
 						return false;
 					}
 				}
@@ -555,7 +555,7 @@ public class TitanUniversalCharString extends Base_Type {
 			return false;
 		}
 
-		return val_ptr.get(0).is_char() && val_ptr.get(0).getUc_cell() == otherValue.get_char();
+		return val_ptr.get(0).getUc_plane() == 0 && val_ptr.get(0).getUc_row() == 0 && val_ptr.get(0).getUc_group() == 0 && val_ptr.get(0).getUc_cell() == otherValue.get_char();
 	}
 
 	@Override
@@ -1735,7 +1735,7 @@ public class TitanUniversalCharString extends Base_Type {
 			} else {
 				// not used code points: FE and FF => malformed
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
-						MessageFormat.format("Malformed: At character position {0}, octet position {1}: unused/reserved octet {2}.", lenghtUnichars, i, valueStr[i]));
+						String.format("Malformed: At character position %d, octet position %d: unused/reserved octet %02X.", lenghtUnichars, i, (int)valueStr[i]));
 				i++;
 			}
 		}
