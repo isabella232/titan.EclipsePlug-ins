@@ -460,7 +460,8 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 
 				for (int i = 0; i < otherValue.val_ptr.size(); ++i) {
-					if (otherValue.val_ptr.get(i).getUc_plane() != 0 || otherValue.val_ptr.get(i).getUc_row() != 0 || otherValue.val_ptr.get(i).getUc_group() != 0 || otherValue.val_ptr.get(i).getUc_cell() != cstr.charAt(i)){
+					final TitanUniversalChar temp = otherValue.val_ptr.get(i);
+					if (temp.getUc_plane() != 0 || temp.getUc_row() != 0 || temp.getUc_group() != 0 || temp.getUc_cell() != cstr.charAt(i)){
 						return false;
 					}
 				}
@@ -526,8 +527,9 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 
 		for (int i = 0; i < val_ptr.size(); ++i) {
-			if (val_ptr.get(i).getUc_group() != 0 || val_ptr.get(i).getUc_plane() != 0 || val_ptr.get(i).getUc_row() != 0
-					|| val_ptr.get(i).getUc_cell() != otherValue.get_value().charAt(i)) {
+			final TitanUniversalChar temp = val_ptr.get(i);
+			if (temp.getUc_group() != 0 || temp.getUc_plane() != 0 || temp.getUc_row() != 0
+					|| temp.getUc_cell() != otherValue.get_value().charAt(i)) {
 				return false;
 			}
 		}
@@ -555,7 +557,8 @@ public class TitanUniversalCharString extends Base_Type {
 			return false;
 		}
 
-		return val_ptr.get(0).getUc_plane() == 0 && val_ptr.get(0).getUc_row() == 0 && val_ptr.get(0).getUc_group() == 0 && val_ptr.get(0).getUc_cell() == otherValue.get_char();
+		final TitanUniversalChar temp = val_ptr.get(0);
+		return temp.getUc_plane() == 0 && temp.getUc_row() == 0 && temp.getUc_group() == 0 && temp.getUc_cell() == otherValue.get_char();
 	}
 
 	@Override
@@ -610,8 +613,9 @@ public class TitanUniversalCharString extends Base_Type {
 			return false;
 		}
 		for (int i = 0; i < val_ptr.size(); ++i) {
-			if (val_ptr.get(i).getUc_group() != 0 || val_ptr.get(i).getUc_plane() != 0 || val_ptr.get(i).getUc_row() != 0
-					|| val_ptr.get(i).getUc_cell() != otherValue.charAt(i)) {
+			final TitanUniversalChar temp = val_ptr.get(i);
+			if (temp.getUc_group() != 0 || temp.getUc_plane() != 0 || temp.getUc_row() != 0
+					|| temp.getUc_cell() != otherValue.charAt(i)) {
 				return false;
 			}
 		}
@@ -1567,9 +1571,10 @@ public class TitanUniversalCharString extends Base_Type {
 			return false;
 		}
 		for (int i = 0; i < rightValue.val_ptr.size(); ++i) {
-			if (rightValue.val_ptr.get(i).getUc_group() != 0 || rightValue.val_ptr.get(i).getUc_plane() != 0
-					|| rightValue.val_ptr.get(i).getUc_row() != 0
-					|| rightValue.val_ptr.get(i).getUc_cell() != otherValue.charAt(i)) {
+			final TitanUniversalChar temp = rightValue.val_ptr.get(i);
+			if (temp.getUc_group() != 0 || temp.getUc_plane() != 0
+					|| temp.getUc_row() != 0
+					|| temp.getUc_cell() != otherValue.charAt(i)) {
 				return false;
 			}
 		}
@@ -1986,10 +1991,11 @@ public class TitanUniversalCharString extends Base_Type {
 			// put_s avoids the check for boundness in put_cs
 		} else {
 			for (int i = 0; i < val_ptr.size(); i++) {
-				final char g = val_ptr.get(i).getUc_group();
-				final char p = val_ptr.get(i).getUc_plane();
-				final char r = val_ptr.get(i).getUc_row();
-				final char c = val_ptr.get(i).getUc_cell();
+				final TitanUniversalChar temp = val_ptr.get(i);
+				final char g = temp.getUc_group();
+				final char p = temp.getUc_plane();
+				final char r = temp.getUc_row();
+				final char c = temp.getUc_cell();
 				if (g == 0x00 && p <= 0x1F) {
 					if (p == 0x00) {
 						if (r == 0x00 && c <= 0x7F) {
@@ -2064,10 +2070,11 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 			} else {
 				for (int i = 0; i < val_ptr.size(); i++) {
-					final char g = val_ptr.get(i).getUc_group();
-					final char p = val_ptr.get(i).getUc_plane();
-					final char r = val_ptr.get(i).getUc_row();
-					final char c = val_ptr.get(i).getUc_cell();
+					final TitanUniversalChar temp_char = val_ptr.get(i);
+					final char g = temp_char.getUc_group();
+					final char p = temp_char.getUc_plane();
+					final char r = temp_char.getUc_row();
+					final char c = temp_char.getUc_cell();
 					if (g != 0 || (0x10 < p)) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X%02X%02X) to be encoded into UTF-16 shall not be greater than 0x10FFFF", g, p, r, c);
 					} else if (0x00 == g && 0x00 ==p && 0xD8 <= r && 0xDF >= r) {
@@ -2141,10 +2148,11 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 			} else {
 				for (int i = 0; i < val_ptr.size(); i++) {
-					final char g = val_ptr.get(i).getUc_group();
-					final char p = val_ptr.get(i).getUc_plane();
-					final char r = val_ptr.get(i).getUc_row();
-					final char c = val_ptr.get(i).getUc_cell();
+					final TitanUniversalChar temp = val_ptr.get(i);
+					final char g = temp.getUc_group();
+					final char p = temp.getUc_plane();
+					final char r = temp.getUc_row();
+					final char c = temp.getUc_cell();
 					int DW = g << 8 | p;
 					DW <<= 8;
 					DW |= r;
