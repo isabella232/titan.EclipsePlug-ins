@@ -30,14 +30,14 @@ import org.w3c.dom.NodeList;
 public final class TITANFlagsOptionsData {
 	public static final String SEMANTIC_CHECK_ONLY_PROPERTY = "semanticCheckOnly";
 	public static final String DISABLE_ATTRIBUTE_VALIDATION_PROPERTY = "disableAttributeValidation";
-	
+
 	public static final String DISABLE_BER_PROPERTY = "disableBER";
 	public static final String DISABLE_RAW_PROPERTY = "disableRAW";
 	public static final String DISABLE_TEXT_PROPERTY = "disableTEXT";
 	public static final String DISABLE_XER_PROPERTY = "disableXER";
 	public static final String DISABLE_JSON_PROPERTY = "disableJSON";
 	public static final String DISABLE_OER_PROPERTY = "disableOER";
-	
+
 	public static final String FORCE_XER_IN_ASN1_PROPERTY = "forceXERinASN.1";
 	public static final String DEFAULT_AS_OMIT_PROPERTY = "defaultasOmit";
 	public static final String FORCE_OLD_FUNC_OUT_PAR_PROPERTY = "forceOldFuncOutParHandling";
@@ -54,10 +54,10 @@ public final class TITANFlagsOptionsData {
 	public static final String ACTIVATE_DEBUGGER_PROPERTY = "activateDebugger";
 	public static final String ENABLE_LEGACY_ENCODING_PROPERTY ="enableLegacyEncoding";
 	public static final String DISABLE_USER_INFORMATION_PROPERTY ="disableUserInformation";
-	
+
 	public static final String ENABLE_REALTIME = "enableRealtimeTesting";
 	public static final String FORCE_GEN_SEOF = "forceGenSeof";
-	
+
 	public static final String DISABLE_SUBTYPE_CHECKING_PROPERTY = "disableSubtypeChecking";
 
 	//The order of items of the next array defines the order of items in the tpd file within the "MakefileSettings".
@@ -96,7 +96,7 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.SEMANTIC_CHECK_ONLY_PROPERTY));
 			builder.append("true".equals(temp) ? "s" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_BER_PROPERTY));
 			builder.append("true".equals(temp) ? "b" : "");
