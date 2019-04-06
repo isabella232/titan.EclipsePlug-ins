@@ -36,6 +36,10 @@
 		<pathelement location="${build.dir}/${titanium.name}/bin"/>
 	</path>
 
+	<path id="titanium.refactoring.classpath">
+		<pathelement location="${build.dir}/${titanium.refactoring.name}/bin"/>
+	</path>
+
 	<path id="junit.classpath">
 		<pathelement location="${lib.dir}/org.junit_4.11.0.v201303080030/junit.jar"/>
 	</path>
