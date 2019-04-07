@@ -51,7 +51,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 	private IFile selectedFile;
 	
 	
-	public ComponentTopologyGraphGenerator(IFile selectedFile, IProject project, final ErrorHandler eHandler) {
+	public ComponentTopologyGraphGenerator(final IFile selectedFile, final IProject project, final ErrorHandler eHandler) {
 		super(project, eHandler);
 		this.selectedFile = selectedFile;
 	}
@@ -116,7 +116,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 		private boolean cce;
 		private Component_Type comp;
 		
-		TestcaseVisitor(List<Def_Function> checkedFunctions, HashMap<Component_Type, List<Component_Type>> components, Component_Type comp) {
+		TestcaseVisitor(final List<Def_Function> checkedFunctions, final HashMap<Component_Type, List<Component_Type>> components, final Component_Type comp) {
 			this.components.putAll(components);
 			this.checkedFunctions = checkedFunctions;
 			counter = -1;
@@ -184,7 +184,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 			return V_CONTINUE;
 		}
 		
-		public void analyzeFunction(Assignment assignment, Component_Type component) {
+		public void analyzeFunction(final Assignment assignment, final Component_Type component) {
 			if (assignment != null && assignment instanceof Def_Function) {
 				Def_Function df = (Def_Function)assignment;
 				if (!checkedFunctions.contains(df)) {
@@ -217,7 +217,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 		private List<Component_Type> comps = new ArrayList<Component_Type>();
 		private Def_Port port;
 		
-		ModuleVisitor(Def_Port port) {
+		ModuleVisitor(final Def_Port port) {
 			comps = new ArrayList<Component_Type>();
 			this.port = port;
 		}
