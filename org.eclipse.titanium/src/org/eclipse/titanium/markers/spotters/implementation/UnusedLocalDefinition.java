@@ -46,7 +46,7 @@ public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 		node.accept(chekUsed);
 		unused.removeAll(chekUsed.getDefinitions());
 		
-		for (Assignment ass : unused) {
+		for (final Assignment ass : unused) {
 			final String name = ass.getIdentifier().getDisplayName();
 			final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used locally (new)", ass.getAssignmentName(), name);
 			problems.report(ass.getIdentifier().getLocation(), msg);

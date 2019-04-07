@@ -46,13 +46,13 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 		final List<Module> modules = new ArrayList<Module>();
 		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-			Module module = projectSourceParser.getModuleByName(moduleName);
+			final Module module = projectSourceParser.getModuleByName(moduleName);
 			modules.add(module);
 		}
 
 		final Set<Module> setOfImportedModules = new HashSet<Module>();
 
-		for (Module module : modules) {
+		for (final Module module : modules) {
 			setOfImportedModules.clear();
 			setOfImportedModules.addAll( module.getImportedModules());
 
@@ -62,9 +62,9 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			setOfImportedModules.removeAll(check.getModules());
 
 			if (module instanceof TTCN3Module) {
-				for (ImportModule mod : ((TTCN3Module)module).getImports()){
+				for (final ImportModule mod : ((TTCN3Module)module).getImports()){
 					final Identifier importIdentifier = mod.getIdentifier();
-					for (Module m : setOfImportedModules) {
+					for (final Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(importIdentifier)) {
 							problems.report(importIdentifier.getLocation(), "Possibly unused importation");
 						}
@@ -73,9 +73,9 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			} else {
 				final ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
-				for (ModuleImportation im : importsCheck.getImports()) {
+				for (final ModuleImportation im : importsCheck.getImports()) {
 					final Identifier importIdentifier = im.getIdentifier();
-					for (Module m : setOfImportedModules) {
+					for (final Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(importIdentifier)) {
 							problems.report(importIdentifier.getLocation(), "Possibly unused importation");
 						}
@@ -131,7 +131,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 		@Override
 		public int visit(final IVisitableNode node) {
 			if(node instanceof ModuleImportation){
-				ModuleImportation mod = (ModuleImportation) node;
+				final ModuleImportation mod = (ModuleImportation) node;
 				setOfModules.add(mod);
 			}
 			return V_CONTINUE;

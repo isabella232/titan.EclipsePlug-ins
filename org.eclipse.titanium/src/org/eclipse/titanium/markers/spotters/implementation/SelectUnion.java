@@ -79,9 +79,9 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 
 		// Check the union, get the types.
 		final UnionItemVisitor unionVisitor = new UnionItemVisitor();
-		List<Identifier> foundIds = new ArrayList<Identifier>();
-		for(Reference ref : caseVisitor.getReferenceList()){
-			List<ISubReference> reflist = ref.getSubreferences();
+		final List<Identifier> foundIds = new ArrayList<Identifier>();
+		for(final Reference ref : caseVisitor.getReferenceList()){
+			final List<ISubReference> reflist = ref.getSubreferences();
 			if(reflist.isEmpty()){
 				continue;
 			}
@@ -96,11 +96,11 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 		caseVisitor.getUnionType().accept(unionVisitor);
 
 		// Check if the found types are the same as the union types.
-		List<Identifier> unionItems = unionVisitor.getItemsFound();
+		final List<Identifier> unionItems = unionVisitor.getItemsFound();
 		if(unionItems.isEmpty()){
 			return;
 		}
-		for(Identifier item : unionItems){
+		for(final Identifier item : unionItems){
 			foundIds.remove(item);
 		}
 		if(foundIds.isEmpty()){
@@ -142,13 +142,13 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 				return V_CONTINUE;
 			} else if (node instanceof TemplateInstance) {
 				final TemplateInstance ti = (TemplateInstance)node;
-				IValue val = ti.getTemplateBody().getValue();
+				final IValue val = ti.getTemplateBody().getValue();
 				if (val == null || val.getIsErroneous(timestamp) || !(val instanceof IsChoosenExpression)) {
 					errorDuringVisiting = true;
 					return V_ABORT;
 				}
 
-				IsChoosenExpression expr = (IsChoosenExpression)val;
+				final IsChoosenExpression expr = (IsChoosenExpression)val;
 				final IsChoosenItemVisitor itemVisitor = new IsChoosenItemVisitor();
 				expr.accept(itemVisitor);
 				if(itemVisitor.getReference() == null){
@@ -210,9 +210,9 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 			} else if (node instanceof WithAttributesPath) {
 				return V_CONTINUE;
 			} else if (node instanceof CompFieldMap){
-				CompFieldMap cm = (CompFieldMap) node;
-				Map<String, CompField> map = cm.getComponentFieldMap(timestamp);
-				for(Map.Entry<String, CompField> entry : map.entrySet()) {
+				final CompFieldMap cm = (CompFieldMap) node;
+				final Map<String, CompField> map = cm.getComponentFieldMap(timestamp);
+				for(final Map.Entry<String, CompField> entry : map.entrySet()) {
 					itemsFound.add(entry.getValue().getIdentifier());
 				}
 				return V_CONTINUE;

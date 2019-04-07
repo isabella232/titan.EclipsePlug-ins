@@ -94,11 +94,11 @@ final class SuspiciouslyUsedIf extends ASTVisitor {
 			for (final If_Clause clause : ifs) {
 				final Value cond = clause.getExpression();
 				if (cond != null) {
-					ReferenceCollector refCollector = new ReferenceCollector();
+					final ReferenceCollector refCollector = new ReferenceCollector();
 					redirectValue.accept(refCollector);
-					ArrayList<Reference> foundReferences = refCollector.getReferences();
+					final ArrayList<Reference> foundReferences = refCollector.getReferences();
 
-					for (Reference reference : foundReferences) {
+					for (final Reference reference : foundReferences) {
 						final RefUsedInMatching mv = new RefUsedInMatching(reference);
 						cond.accept(mv);
 						if (mv.getUsed()) {
