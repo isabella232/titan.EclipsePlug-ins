@@ -85,8 +85,6 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 public class ExportComponentTopologyFromEditor extends AbstractHandler implements IObjectActionDelegate {
 
 	private ISelection selection;
-	private Definition def;
-
 
 	public ExportComponentTopologyFromEditor() {
 	}
@@ -115,13 +113,11 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 
 	
 	private void doOpenComponentTopologyGraphForSelected() {
-		def = findSelection();
+		final Definition def = findSelection();
 		if (! (def instanceof Def_Testcase)) {
 			return;
 		}
-		
-		
-		
+
 		final IFile selectedFile = (IFile)def.getLocation().getFile();
 		final IProject project = selectedFile.getProject();
 

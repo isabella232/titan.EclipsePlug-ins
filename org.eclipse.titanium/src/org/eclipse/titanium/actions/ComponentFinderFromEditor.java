@@ -86,8 +86,6 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 public class ComponentFinderFromEditor extends AbstractHandler implements IObjectActionDelegate {
 
 	private ISelection selection;
-	private Definition def;
-
 
 	public ComponentFinderFromEditor() {
 	}
@@ -116,13 +114,11 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 
 	
 	private void doOpenComponentFinderGraphForSelected() {
-		def = findSelection();
+		final Definition def = findSelection();
 		if (! (def instanceof Def_Testcase)) {
 			return;
 		}
-		
-		
-		
+
 		final IFile selectedFile = (IFile)def.getLocation().getFile();
 		final IProject project = selectedFile.getProject();
 
