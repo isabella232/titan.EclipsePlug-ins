@@ -55,14 +55,14 @@ class ChangeCreator {
 	private Change change;
 	
 
-	ChangeCreator(final IFile selectedFile, MoveFunctionSettings settings, List<FunctionData> functions, IProject project) {
+	ChangeCreator(final IFile selectedFile, final MoveFunctionSettings settings, final List<FunctionData> functions, final IProject project) {
 		this.selectedFile = selectedFile;
 		this.settings = settings;
 		this.functions = functions;
 		this.project = project;
 	}
 	
-	ChangeCreator(final IFile selectedFile, MoveFunctionSettings settings, List<FunctionData> functions, IProject project, Map<Module, List<Module>> mi) {
+	ChangeCreator(final IFile selectedFile, final MoveFunctionSettings settings, final List<FunctionData> functions, final IProject project, final Map<Module, List<Module>> mi) {
 		this.selectedFile = selectedFile;
 		this.settings = settings;
 		this.functions = functions;
@@ -105,7 +105,7 @@ class ChangeCreator {
 			return null;
 		}
 		boolean noDestination = true;
-		for (FunctionData fd : functions) {
+		for (final FunctionData fd : functions) {
 			if (fd.isToBeMoved() && fd.getFinalDestination() != null) {
 				noDestination = false;
 			}
@@ -126,36 +126,36 @@ class ChangeCreator {
 		cc.add(tfc);
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		tfc.setEdit(rootEdit);
-		for(FunctionData function : functions) {
+		for(final FunctionData function : functions) {
 			if(function.getFinalDestination() == null || !function.isToBeMoved()) {
 				continue;
 			}
 			
-			TextFileChange tfcDestination = new TextFileChange(function.getFinalDestination().getModule().getName(), (IFile) function.getFinalDestination().getModule().getLocation().getFile());
-			MultiTextEdit rootEdit2 = new MultiTextEdit();
+			final TextFileChange tfcDestination = new TextFileChange(function.getFinalDestination().getModule().getName(), (IFile) function.getFinalDestination().getModule().getLocation().getFile());
+			final MultiTextEdit rootEdit2 = new MultiTextEdit();
 			tfcDestination.setEdit(rootEdit2);
 			cc.add(tfcDestination);
-			int length = function.getDefiniton().getLocation().getEndOffset() - function.getDefiniton().getLocation().getOffset();
-			DeleteEdit deleteEdit = new DeleteEdit(function.getDefiniton().getLocation().getOffset(), length);
+			final int length = function.getDefiniton().getLocation().getEndOffset() - function.getDefiniton().getLocation().getOffset();
+			final DeleteEdit deleteEdit = new DeleteEdit(function.getDefiniton().getLocation().getOffset(), length);
 			rootEdit.addChild(deleteEdit);			
 			if (!moduleImports.containsKey(function.getFinalDestination().getModule())) { 
 				moduleImports.put(function.getFinalDestination().getModule(), new ArrayList<Module>());
 			}
-			InsertEdit importEdit = insertMissingImports(function.getFinalDestination().getModule(), function.getUsedModules());
+			final InsertEdit importEdit = insertMissingImports(function.getFinalDestination().getModule(), function.getUsedModules());
 			if (importEdit != null) {
 				rootEdit2.addChild(importEdit);
 
 			}
 			findFunctionUses(function);
-			for (Module m : function.getUsedBy()) {
-				TextFileChange tfcModuleUsedMethod = new TextFileChange(m.getName(), (IFile) m.getLocation().getFile());
-				MultiTextEdit rootEdit3 = new MultiTextEdit();
+			for (final Module m : function.getUsedBy()) {
+				final TextFileChange tfcModuleUsedMethod = new TextFileChange(m.getName(), (IFile) m.getLocation().getFile());
+				final MultiTextEdit rootEdit3 = new MultiTextEdit();
 				tfcModuleUsedMethod.setEdit(rootEdit3);
 				int offset = m.getLocation().getEndOffset();
-				Assignments assignments = m.getAssignments();
-				int nOfAssignments = assignments.getNofAssignments();
+				final Assignments assignments = m.getAssignments();
+				final int nOfAssignments = assignments.getNofAssignments();
 				for (int i=0; i<nOfAssignments; i++) {
-					int assignmentOffset = assignments.getAssignmentByIndex(i).getLocation().getOffset();
+					final int assignmentOffset = assignments.getAssignmentByIndex(i).getLocation().getOffset();
 					if (offset > assignmentOffset) {
 						offset = assignmentOffset;
 					}
@@ -171,11 +171,11 @@ class ChangeCreator {
 	}
 	
 	
-	private InsertEdit insertMissingImports(Module destinationModule, List<Module> usedModules) {
-		List<Module> importedModules = destinationModule.getImportedModules();
+	private InsertEdit insertMissingImports(final Module destinationModule, final List<Module> usedModules) {
+		final List<Module> importedModules = destinationModule.getImportedModules();
 		String importText = "";
 		
-		for (Module m : usedModules) {
+		for (final Module m : usedModules) {
 			if (!importedModules.contains(m) 
 					&& !m.equals(destinationModule) 
 					&& !moduleImports.get(destinationModule).contains(m)) {
@@ -188,10 +188,10 @@ class ChangeCreator {
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		insertImports.setEdit(rootEdit);
 		int offset = destinationModule.getLocation().getEndOffset();
-		Assignments assignments = destinationModule.getAssignments();
-		int nOfAssignments = assignments.getNofAssignments();
+		final Assignments assignments = destinationModule.getAssignments();
+		final int nOfAssignments = assignments.getNofAssignments();
 		for (int i=0; i<nOfAssignments; i++) {
-			int assignmentOffset = assignments.getAssignmentByIndex(i).getLocation().getOffset();
+			final int assignmentOffset = assignments.getAssignmentByIndex(i).getLocation().getOffset();
 			if (offset > assignmentOffset) {
 				offset = assignmentOffset;
 			}
@@ -203,11 +203,11 @@ class ChangeCreator {
 		return new InsertEdit(offset, importText);
 	}
 	
-	private void findFunctionUses(FunctionData function) {
+	private void findFunctionUses(final FunctionData function) {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
-		for(Module m : projectSourceParser.getModules()) {
+		for(final Module m : projectSourceParser.getModules()) {
 			if (!m.equals(function.getFinalDestination().getModule())) {
-				ModuleVisitor vis = new ModuleVisitor(function.getDefiniton());
+				final ModuleVisitor vis = new ModuleVisitor(function.getDefiniton());
 				m.accept(vis);
 				if (vis.getIsUsed() 
 						& !m.getImportedModules().contains(function.getFinalDestination().getModule()) 
@@ -223,7 +223,7 @@ class ChangeCreator {
 		private Def_Function function;	
 		private boolean isUsed;
 		
-		public ModuleVisitor(Def_Function function) {
+		public ModuleVisitor(final Def_Function function) {
 			this.function = function;
 			this.isUsed = false;
 		}

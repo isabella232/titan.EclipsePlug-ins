@@ -48,7 +48,7 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 	private StyledText functionBody;
 	private CheckboxTreeViewer tree;
 	
-	MoveFunctionWizardFunctionsPage(final String name, MoveFunctionRefactoring refactoring) {
+	MoveFunctionWizardFunctionsPage(final String name, final MoveFunctionRefactoring refactoring) {
 		super(name);
 		this.refactoring = refactoring;
 		refactoring.getSettings().setType(MoveFunctionType.MODULE);
@@ -63,15 +63,15 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 		top.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 	    top.setLayout(new GridLayout(1, false));
 	    
-	    Label title = new Label(top, SWT.NULL);
+	    final Label title = new Label(top, SWT.NULL);
 		title.setText("Select the functions you want to move.");
 		
-	    Composite comp1 = new Composite(top, SWT.NONE);
+		final Composite comp1 = new Composite(top, SWT.NONE);
 		initializeDialogUnits(comp1);
 		comp1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		comp1.setLayout(new FillLayout());
 		
-		Composite comp2 = new Composite(top, SWT.NONE);
+		final Composite comp2 = new Composite(top, SWT.NONE);
 		initializeDialogUnits(comp2);
 		comp2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		comp2.setLayout(new FillLayout());
@@ -86,7 +86,7 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 				if (event.getElement() instanceof Module 
 						&& event.getChecked() 
 						&& refactoring.getFunctions().get(event.getElement()).isEmpty()) {
-					WorkspaceJob wj = new WorkspaceJob("Find functions in module: "+event.getElement()) {
+					final WorkspaceJob wj = new WorkspaceJob("Find functions in module: "+event.getElement()) {
 						@Override
 						public IStatus runInWorkspace(final IProgressMonitor monitor) {
 							try {
@@ -129,9 +129,9 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 		tree.addSelectionChangedListener(new ISelectionChangedListener() {
 			
 			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				for (Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
-					for (FunctionData fd : entry.getValue()) {
+			public void selectionChanged(final SelectionChangedEvent event) {
+				for (final Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
+					for (final FunctionData fd : entry.getValue()) {
 						if (event.getSelection().toString().substring(1, event.getSelection().toString().length()-1).equals(fd.toString())) {
 							functionBody.setText(fd.getFunctionBody());
 						}
@@ -155,8 +155,8 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 	
 	public void refreshTree() {
 		tree.refresh();
-		for (List<FunctionData> list : refactoring.getFunctions().values()) {
-			for (FunctionData fd : list) {
+		for (final List<FunctionData> list : refactoring.getFunctions().values()) {
+			for (final FunctionData fd : list) {
 				if (fd.isToBeMoved()) {
 					tree.setSubtreeChecked(fd, true);
 				}
@@ -174,11 +174,11 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 	}
 	
 	public void setCheckedFunctions() {
-		List<Object> checked = Arrays.asList(tree.getCheckedElements());
+		final List<Object> checked = Arrays.asList(tree.getCheckedElements());
 		
 		boolean isChecked = false;
-		for (Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
-			for (FunctionData fd : entry.getValue()) {
+		for (final Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
+			for (final FunctionData fd : entry.getValue()) {
 				if (checked.contains(fd)) {
 					isChecked = true;
 					fd.setToBeMoved(true);
@@ -199,7 +199,7 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 	
 	@Override
 	public IWizardPage getNextPage() {
-		IWizardPage page2 = super.getNextPage();
+		final IWizardPage page2 = super.getNextPage();
 		if (page2.getControl() != null) {
 			if (page2 instanceof MoveFunctionWizardDestinationsPage) {
 				((MoveFunctionWizardDestinationsPage)page2).refreshTree();
@@ -211,13 +211,13 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 	class DataProvider implements ITreeContentProvider {
 		
 		@Override
-		public Object[] getElements(Object inputElement) {
+		public Object[] getElements(final Object inputElement) {
 			if (inputElement instanceof Map<?, ?>) {
-				Module[] modules = new Module[((Map<Module, List<FunctionData>>)inputElement).keySet().size()];
+				final Module[] modules = new Module[((Map<Module, List<FunctionData>>)inputElement).keySet().size()];
 				((Map<Module, List<FunctionData>>)inputElement).keySet().toArray(modules);
 				Arrays.sort(modules, new Comparator<Module>() {
 			        @Override
-			        public int compare(Module m1, Module m2)
+			        public int compare(final Module m1, final Module m2)
 			        {
 			            return  m1.getIdentifier().getDisplayName().compareToIgnoreCase(m2.getIdentifier().getDisplayName());
 			        }
@@ -231,7 +231,7 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 		}
 
 		@Override
-		public Object[] getChildren(Object parentElement) {
+		public Object[] getChildren(final Object parentElement) {
 			if (parentElement instanceof Module) {
 				if (!refactoring.getFunctions().get(parentElement).isEmpty()) {					
 					Collections.sort(refactoring.getFunctions().get(parentElement));
@@ -242,12 +242,12 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 		}
 
 		@Override
-		public Object getParent(Object element) {
+		public Object getParent(final Object element) {
 			return null;
 		}
 
 		@Override
-		public boolean hasChildren(Object element) {
+		public boolean hasChildren(final Object element) {
 			if (element instanceof Module) {
 				return true;
 			}
@@ -259,7 +259,7 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 		}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {			
+		public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {			
 		}
 	}
 }
@@ -275,7 +275,7 @@ class DataLabelProvider extends LabelProvider {
 			return ((Module)element).getIdentifier().getDisplayName();
 		}
 		else if (element instanceof Destination) {
-			Destination dest = (Destination)element;
+			final Destination dest = (Destination)element;
 			if (dest.getNewImports() != -1) {
 				return dest.getModule().getIdentifier().getDisplayName()+"                     "+dest.getRating()+" ("+dest.getNewImports()+" new import(s))";
 			}

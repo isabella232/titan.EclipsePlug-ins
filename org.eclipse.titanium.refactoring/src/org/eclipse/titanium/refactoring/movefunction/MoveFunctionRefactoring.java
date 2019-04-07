@@ -80,7 +80,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 
 	private Object[] affectedObjects;		//the list of objects affected by the change
 
-	public MoveFunctionRefactoring(final IStructuredSelection selection, MoveFunctionSettings settings) {
+	public MoveFunctionRefactoring(final IStructuredSelection selection, final MoveFunctionSettings settings) {
 		super();
 		this.structSelection = selection;
 		this.settings = settings;
@@ -109,7 +109,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 			
 			// check that there are no ttcnpp files in the
 			// project
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				if (hasTtcnppFiles(project)) {//FIXME actually all referencing and referenced projects need to be checked too !
 					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
 				}
@@ -118,9 +118,9 @@ public class MoveFunctionRefactoring extends Refactoring {
 		    
 		    // check that there are no error markers in the
 		    // project
-		    for (IProject project : projects) {
+		    for (final IProject project : projects) {
 		 		final IMarker[] markers = project.findMarkers(null, true, IResource.DEPTH_INFINITE);
-		 		for (IMarker marker : markers) {
+		 		for (final IMarker marker : markers) {
 		 			if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
 		 				result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
 		 				break;
@@ -147,7 +147,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
 		if (resource instanceof IProject || resource instanceof IFolder) {
 			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (IResource res : children) {
+			for (final IResource res : children) {
 				if (hasTtcnppFiles(res)) {
 					return true;
 				}
@@ -179,7 +179,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 
 		final CompositeChange cchange = new CompositeChange("MoveFunctionRefactoring");
 		boolean  first = true;
-		for (Map.Entry<Module, List<FunctionData>> entry : functions.entrySet()) {
+		for (final Map.Entry<Module, List<FunctionData>> entry : functions.entrySet()) {
 			if (first) {
 				final ChangeCreator chCreator = new ChangeCreator((IFile)entry.getKey().getLocation().getFile(), settings, entry.getValue(), 
 						projects.iterator().next(), new HashMap<Module, List<Module>>());
@@ -230,7 +230,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 	
 
 		functions = new HashMap<Module, List<FunctionData> >();
-		for (Module module : selectedModules) {
+		for (final Module module : selectedModules) {
 			if (module instanceof TTCN3Module) {
 				functions.put(module, new ArrayList<FunctionData>());
 			}
@@ -242,20 +242,21 @@ public class MoveFunctionRefactoring extends Refactoring {
 		return functions;
 	}
 	
-	public List<FunctionData> selectMovableFunctions(TTCN3Module ttcn3module, SubMonitor progress) {
+	public List<FunctionData> selectMovableFunctions(final TTCN3Module ttcn3module, final SubMonitor progress) {
 		if (!functions.get(ttcn3module).isEmpty()) {
 			return functions.get(ttcn3module);
 		}
-		for (ILocateableNode node : ttcn3module.getDefinitions()) {
+		for (final ILocateableNode node : ttcn3module.getDefinitions()) {
 			if (node instanceof Def_Function) {
-				Def_Function fun = (Def_Function)node;
+				final Def_Function fun = (Def_Function)node;
 				if (fun.getVisibilityModifier().equals(VisibilityModifier.Private)) {
 					continue;
 				}
-				ReferenceVisitor refVis = new ReferenceVisitor();
+
+				final ReferenceVisitor refVis = new ReferenceVisitor();
 				fun.accept(refVis);
 				boolean dependent = false;
-				for (ILocateableNode node2 : refVis.getLocations()) {
+				for (final ILocateableNode node2 : refVis.getLocations()) {
 					if (node2 instanceof Reference) {
 						final Assignment assignment = ((Reference) node2).getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
 						if (assignment != null && !assignment.isLocal() && assignment.getMyScope().getModuleScope().equals(fun.getMyScope().getModuleScope())) {
@@ -265,7 +266,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 					}
 				}
 				if (!dependent) {
-					FunctionData fd = new FunctionData(fun, createFunctionBody(fun, ttcn3module));
+					final FunctionData fd = new FunctionData(fun, createFunctionBody(fun, ttcn3module));
 					fd.setModule(ttcn3module);
 					functions.get(ttcn3module).add(fd);
 				}
@@ -277,13 +278,13 @@ public class MoveFunctionRefactoring extends Refactoring {
 	}
 	
 	public Map<Module, List<FunctionData>> chooseDestination() {
-		for (Map.Entry<Module, List<FunctionData> > entry : functions.entrySet()) {
-			for (FunctionData fun : entry.getValue()) {
+		for (final Map.Entry<Module, List<FunctionData> > entry : functions.entrySet()) {
+			for (final FunctionData fun : entry.getValue()) {
 				if (fun.isToBeMoved() && (fun.getRefactoringMethod() == null || settings.isChanged() /*!fun.getRefactoringMethod().equals(settings.getMethod()))*/ /*&& fun.getDestinations().isEmpty()*/)) {
 					fun.clearDestinations();
 					fun.setRefactoringMethod(settings.getMethod());
 					
-					List<Module> usedModules = collectUsedModules(fun.getDefiniton(), entry.getKey());
+					final List<Module> usedModules = collectUsedModules(fun.getDefiniton(), entry.getKey());
 					fun.setUsedModules(usedModules);
 					if (usedModules.size() > 0) {	
 						switch (settings.getMethod()) {
@@ -311,7 +312,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 		return functions;
 	}
 	
-	private String createFunctionBody(Def_Function fun, Module module) {
+	private String createFunctionBody(final Def_Function fun, final Module module) {
 		String body2 = "";
 		try {
 			final IFile file = (IFile)module.getLocation().getFile();
@@ -322,7 +323,8 @@ public class MoveFunctionRefactoring extends Refactoring {
 			br.skip(startOffset);
 			final char[] contentBuf = new char[endOffset-startOffset];
 			br.read(contentBuf, 0, endOffset-startOffset);
-			for (char c : contentBuf) {
+			//TODO maybe just initialize the string
+			for (final char c : contentBuf) {
 				body2 += c;
 			}
 			
@@ -341,28 +343,28 @@ public class MoveFunctionRefactoring extends Refactoring {
 	}
 
 	
-	private void chooseModuleByLength(List<Module> usedModules, FunctionData function) {
-		List<Module> filteredList = filterByExcludedNames(usedModules);
+	private void chooseModuleByLength(final List<Module> usedModules, final FunctionData function) {
+		final List<Module> filteredList = filterByExcludedNames(usedModules);
 		if (filteredList.size() > 0) {
 			Collections.sort(filteredList, new Comparator<Module>() {
 				@Override
-				public int compare(Module m1, Module m2) {
+				public int compare(final Module m1, final Module m2) {
 					return ((m1.getLocation().getEndOffset()-m1.getLocation().getOffset())-(m2.getLocation().getEndOffset()-m2.getLocation().getOffset())); 
 				}
 			});
 			destinationModule = filteredList.get(0);
-			int destLength = destinationModule.getLocation().getEndOffset()-destinationModule.getLocation().getOffset();
+			final int destLength = destinationModule.getLocation().getEndOffset()-destinationModule.getLocation().getOffset();
 			for (int i=1; i<filteredList.size(); i++) {
-				Module m = filteredList.get(i);
+				final Module m = filteredList.get(i);
 				if ((settings.getExcludedModuleNames() != null && settings.getExcludedModuleNames().matcher(m.getIdentifier().getTtcnName()).matches())
 						/*&& (selectedModules.isEmpty() || selectedModules.contains(m))*/) {
 					continue;
 				}
-				int moduleLength = m.getLocation().getEndOffset()-m.getLocation().getOffset();
+
+				final int moduleLength = m.getLocation().getEndOffset()-m.getLocation().getOffset();
 				if (moduleLength == destLength && !m.equals(destinationModule)) {
 					function.addDestination(m, 100, -1);
-				}
-				else {
+				} else {
 					function.addDestination(m, ((int)((double)destLength*100 / (double)moduleLength)), -1);
 				}
 			}
@@ -371,9 +373,9 @@ public class MoveFunctionRefactoring extends Refactoring {
 		//function.setFinalDestination(new Destination(destinationModule, 100, function, -1));
 	}
 	
-	private List<Module> filterByExcludedNames(List<Module> usedModules) {
-		List<Module> filteredList = new ArrayList<Module>();
-		for (Module m : usedModules) {
+	private List<Module> filterByExcludedNames(final List<Module> usedModules) {
+		final List<Module> filteredList = new ArrayList<Module>();
+		for (final Module m : usedModules) {
 			if (!(settings.getExcludedModuleNames() != null && settings.getExcludedModuleNames().matcher(m.getIdentifier().getTtcnName()).matches())
 					/*&& (selectedModules.isEmpty() || selectedModules.contains(m))*/) {
 				
@@ -385,15 +387,15 @@ public class MoveFunctionRefactoring extends Refactoring {
 		return filteredList;
 	}
 	
-	private void chooseModuleByImports(List<Module> usedModules, FunctionData function) {
-		List<Module> filteredList = filterByExcludedNames(usedModules);
+	private void chooseModuleByImports(final List<Module> usedModules, final FunctionData function) {
+		final List<Module> filteredList = filterByExcludedNames(usedModules);
 		if (filteredList.size() > 0) {
-			List<Entry<Module, Integer>> list = countMissingImports(filteredList, function);
+			final List<Entry<Module, Integer>> list = countMissingImports(filteredList, function);
 	        destinationModule = list.get(0).getKey();  
-	        int min = list.get(0).getValue();
+	        final int min = list.get(0).getValue();
 	        function.addDestination(destinationModule, 100, min);
 	        list.remove(0);
-	        for (Entry<Module, Integer> e : list) {
+	        for (final Entry<Module, Integer> e : list) {
 	        	if (e.getValue() == min) {
 	        		function.addDestination(e.getKey(), 100, e.getValue());
 	        	}
@@ -402,9 +404,9 @@ public class MoveFunctionRefactoring extends Refactoring {
 	        	}
 	        }
 	        
-	        List<Module> filteredList2 = filterByExcludedNames(selectedModules);
-	        List<Entry<Module, Integer>> list2 = countMissingImports(filteredList2, function);
-	        for (Entry<Module, Integer> e : list2) {
+	        final  List<Module> filteredList2 = filterByExcludedNames(selectedModules);
+	        final  List<Entry<Module, Integer>> list2 = countMissingImports(filteredList2, function);
+	        for (final Entry<Module, Integer> e : list2) {
 	        	if (!usedModules.contains(e.getKey()) && !function.getModule().equals(e.getKey())) {
 	        		function.addDestination(e.getKey(), 0, e.getValue());
 	        	}
@@ -413,13 +415,13 @@ public class MoveFunctionRefactoring extends Refactoring {
 		}
 	}
 	
-	private List<Entry<Module, Integer>> countMissingImports(List<Module> usedModules, FunctionData function) {
-		Map<Module, Integer> importsCounter = new HashMap<Module, Integer>();
-		for (Module m : usedModules) {
+	private List<Entry<Module, Integer>> countMissingImports(final List<Module> usedModules, final FunctionData function) {
+		final Map<Module, Integer> importsCounter = new HashMap<Module, Integer>();
+		for (final Module m : usedModules) {
 			if (m instanceof TTCN3Module) {
 				int counter = 0;
-				List<Module> imports = ((TTCN3Module)m).getImportedModules();
-				for (Module m2 : usedModules) {
+				final List<Module> imports = ((TTCN3Module)m).getImportedModules();
+				for (final Module m2 : usedModules) {
 					if (!m.equals(m2) && imports.contains(m2)) {
 						counter++;
 					}
@@ -428,47 +430,47 @@ public class MoveFunctionRefactoring extends Refactoring {
 			}
 		}
 		
-		List<Entry<Module, Integer>> list = new ArrayList<Entry<Module, Integer>>(importsCounter.entrySet());
+		final List<Entry<Module, Integer>> list = new ArrayList<Entry<Module, Integer>>(importsCounter.entrySet());
 		Collections.sort(list, new Comparator<Entry<Module, Integer>>() {
 			@Override
-			public int compare(Entry<Module, Integer> e1, Entry<Module, Integer> e2) { 
+			public int compare(final Entry<Module, Integer> e1, final Entry<Module, Integer> e2) { 
 				return e1.getValue().compareTo(e2.getValue()); 
 			}
 		});
 		return list;
 	}
 	
-	private void chooseModuleByLengthAndImports(List<Module> usedModules, FunctionData function) {
-		List<Entry<Module, Integer>> list = countMissingImports(usedModules, function);
-		int leastMissingImports = list.get(0).getValue();
+	private void chooseModuleByLengthAndImports(final List<Module> usedModules, final FunctionData function) {
+		final List<Entry<Module, Integer>> list = countMissingImports(usedModules, function);
+		final int leastMissingImports = list.get(0).getValue();
 		
 		Collections.sort(list, new Comparator<Entry<Module, Integer>>() {
 			@Override
-			public int compare(Entry<Module, Integer> m1, Entry<Module, Integer> m2) {
+			public int compare(final Entry<Module, Integer> m1, final Entry<Module, Integer> m2) {
 				return ((m1.getKey().getLocation().getEndOffset()-m1.getKey().getLocation().getOffset())-(m2.getKey().getLocation().getEndOffset()-m2.getKey().getLocation().getOffset())); 
 			}
 		});
-		Module shortestModule = list.get(0).getKey();
-		int shortestLength = shortestModule.getLocation().getEndOffset()-shortestModule.getLocation().getOffset();
+		final Module shortestModule = list.get(0).getKey();
+		final int shortestLength = shortestModule.getLocation().getEndOffset()-shortestModule.getLocation().getOffset();
 		
-		for (Entry<Module, Integer> entry : list) {
-			int moduleLength = entry.getKey().getLocation().getEndOffset()-entry.getKey().getLocation().getOffset();
-			double value1 = ((double)shortestLength / (double)moduleLength);
-			double value2 = (double)leastMissingImports / (double)entry.getValue();
-			double value3 = value1*value2*100;
+		for (final Entry<Module, Integer> entry : list) {
+			final int moduleLength = entry.getKey().getLocation().getEndOffset()-entry.getKey().getLocation().getOffset();
+			final double value1 = ((double)shortestLength / (double)moduleLength);
+			final double value2 = (double)leastMissingImports / (double)entry.getValue();
+			final double value3 = value1*value2*100;
 			function.addDestination(entry.getKey(), (int)value3, entry.getValue());
 		}
 	}
 	
-	private List<Module> collectUsedModules(Def_Function function, Module ttcn3module) {
-		List<Module> modules = new ArrayList<Module>();
+	private List<Module> collectUsedModules(final Def_Function function, final Module ttcn3module) {
+		final List<Module> modules = new ArrayList<Module>();
 		boolean dependent = false;
-		for (Module m : ttcn3module.getImportedModules()) {
+		for (final Module m : ttcn3module.getImportedModules()) {
 			dependent = false;
 			if (m instanceof TTCN3Module) {
-				ReferenceVisitor refVis = new ReferenceVisitor();
+				final ReferenceVisitor refVis = new ReferenceVisitor();
 				function.accept(refVis);
-				for (ILocateableNode node2 : refVis.getLocations()) {
+				for (final ILocateableNode node2 : refVis.getLocations()) {
 					if (node2 instanceof Reference) {
 						final Assignment assignment = ((Reference) node2).getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
 						if (assignment != null && assignment.getMyScope().getModuleScope().equals(m)) {
@@ -489,48 +491,48 @@ public class MoveFunctionRefactoring extends Refactoring {
 		return projects.iterator().next();
 	}
 	
-	public void chooseModuleByComponent(FunctionData function) {
-		Component_Type comp = function.getDefiniton().getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
+	public void chooseModuleByComponent(final FunctionData function) {
+		final Component_Type comp = function.getDefiniton().getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 		if (comp != null) {
-			Map<Module, Integer> compCounter = new HashMap<Module, Integer>();
-			List<Component_Type> extendedComps = new ArrayList<Component_Type>();
-			for (ComponentTypeBody ctb : comp.getComponentBody().getExtensions().getComponentBodies()) {
+			final Map<Module, Integer> compCounter = new HashMap<Module, Integer>();
+			final List<Component_Type> extendedComps = new ArrayList<Component_Type>();
+			for (final ComponentTypeBody ctb : comp.getComponentBody().getExtensions().getComponentBodies()) {
 				if (!extendedComps.contains(ctb)) {
 					extendedComps.add(ctb.getMyType());
 				}
 			}
 			
 			for (int i=0; i<extendedComps.size(); i++) {
-				Component_Type ct = extendedComps.get(i);
-				for (ComponentTypeBody ctb : ct.getComponentBody().getExtensions().getComponentBodies()) {
+				final Component_Type ct = extendedComps.get(i);
+				for (final ComponentTypeBody ctb : ct.getComponentBody().getExtensions().getComponentBodies()) {
 					if (!extendedComps.contains(ctb)) {
 						extendedComps.add(ctb.getMyType());
 					}
 				}
 			}
 			
-			for(IProject project : projects) {
+			for(final IProject project : projects) {
 				final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
-				List<Module> modules = filterByExcludedNames(new ArrayList<Module>(projectSourceParser.getModules()));
-				for (Module m : modules) {
+				final List<Module> modules = filterByExcludedNames(new ArrayList<Module>(projectSourceParser.getModules()));
+				for (final Module m : modules) {
 					if (!m.equals(function.getModule())) {
-						ModuleVisitor vis = new ModuleVisitor(comp, extendedComps);
+						final ModuleVisitor vis = new ModuleVisitor(comp, extendedComps);
 						m.accept(vis);
 						compCounter.put(m, vis.getCounter());
 					}
 				}
 			}	
 			
-			List<Entry<Module, Integer>> list = new ArrayList<Entry<Module, Integer>>(compCounter.entrySet());
+			final List<Entry<Module, Integer>> list = new ArrayList<Entry<Module, Integer>>(compCounter.entrySet());
 			
 			Collections.sort(list, new Comparator<Entry<Module, Integer>>() {
 				@Override
-				public int compare(Entry<Module, Integer> m1, Entry<Module, Integer> m2) {
+				public int compare(final Entry<Module, Integer> m1, final Entry<Module, Integer> m2) {
 					return (-1)*m1.getValue().compareTo(m2.getValue());
 				}
 			});
 			destinationModule = list.get(0).getKey();
-			int max = list.get(0).getValue();
+			final int max = list.get(0).getValue();
 			if (max > 0) {
 				function.addDestination(list.get(0).getKey(), 100, -1);
 			}
@@ -541,12 +543,10 @@ public class MoveFunctionRefactoring extends Refactoring {
 				if (!(list.get(i).getValue() == 0 & !selectedModules.contains(list.get(i).getKey()))) {
 					if (max == 0) {
 						function.addDestination(list.get(i).getKey(), 0, -1);
-					}
-					else if (list.get(i).getValue() == max) {
+					} else if (list.get(i).getValue() == max) {
 						function.addDestination(list.get(i).getKey(), 100, -1);
-					}
-					else {
-						double val = (double)list.get(i).getValue() / (double)max;
+					} else {
+						final double val = (double)list.get(i).getValue() / (double)max;
 						function.addDestination(list.get(i).getKey(), (int)(val*100), -1);
 					}
 				}
@@ -554,8 +554,8 @@ public class MoveFunctionRefactoring extends Refactoring {
 		}
 	}
 	
-	public void addUnusedModules(FunctionData fun, List<Module> usedModules) {
-		for (Module m : selectedModules) {
+	public void addUnusedModules(final FunctionData fun, final List<Module> usedModules) {
+		for (final Module m : selectedModules) {
 			if (!usedModules.contains(m) && !m.equals(fun.getModule())) {
 				fun.addDestination(m, 0, -1);
 			}
@@ -600,7 +600,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 		private Component_Type comp;
 		private List<Component_Type> components;
 		
-		public ModuleVisitor(Component_Type comp, List<Component_Type> components) {
+		public ModuleVisitor(final Component_Type comp, final List<Component_Type> components) {
 			this.comp = comp;
 			this.components = components;
 			counter = 0;
@@ -609,8 +609,8 @@ public class MoveFunctionRefactoring extends Refactoring {
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Def_Function) {
-				Def_Function fun = (Def_Function)node;
-				Component_Type componentType = fun.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
+				final Def_Function fun = (Def_Function)node;
+				final Component_Type componentType = fun.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 				if (componentType !=null && 
 						( componentType.equals(comp) 
 								|| components.contains(componentType))) {
@@ -815,7 +815,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 		public MoveFunctionType getType() {
 			return type;
 		}
-		public void setType(MoveFunctionType type) {
+		public void setType(final MoveFunctionType type) {
 			this.type = type;
 		}
 		public MoveFunctionMethod getMethod() {
@@ -826,17 +826,17 @@ public class MoveFunctionRefactoring extends Refactoring {
 			return changed;
 		}
 		
-		public void setMethod(MoveFunctionMethod method) {
+		public void setMethod(final MoveFunctionMethod method) {
 			this.method = method;
 		}
 		public Pattern getExcludedModuleNames() {
 			return excludedModuleNames;
 		}
-		public void setExcludedModuleNames(Pattern excludedModuleNames) {
+		public void setExcludedModuleNames(final Pattern excludedModuleNames) {
 			this.excludedModuleNames = excludedModuleNames;
 		}
 		
-		public void setChanged(boolean changed) {
+		public void setChanged(final boolean changed) {
 			this.changed = changed;
 		}
 	}

@@ -41,9 +41,9 @@ public class MoveFunctionWizard extends RefactoringWizard implements
 	@Override
 	protected void addUserInputPages() {
 		setDefaultPageTitle(WIZ_WINDOWTITLE1);
-		MoveFunctionWizardFunctionsPage functionsPage = new MoveFunctionWizardFunctionsPage(WIZ_WINDOWTITLE2, refactoring);
+		final MoveFunctionWizardFunctionsPage functionsPage = new MoveFunctionWizardFunctionsPage(WIZ_WINDOWTITLE2, refactoring);
 		addPage(functionsPage);
-		MoveFunctionWizardDestinationsPage destinationsPage = new MoveFunctionWizardDestinationsPage(WIZ_WINDOWTITLE3, refactoring);
+		final MoveFunctionWizardDestinationsPage destinationsPage = new MoveFunctionWizardDestinationsPage(WIZ_WINDOWTITLE3, refactoring);
 		addPage(destinationsPage);
 	}
 }
