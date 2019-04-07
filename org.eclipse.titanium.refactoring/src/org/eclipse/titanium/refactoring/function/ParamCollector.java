@@ -119,9 +119,6 @@ class ParamCollector {
 					//def is outside of the selection
 					//TODO: does ReferenceFinder handle Undefined_LowerIdentifier_Values?
 
-					//DO NOT use ReferenceFinder.scope, because it returns an incorrect scope for formal parameters
-					final ReferenceFinder refFinder = new ReferenceFinder(def);
-					final Map<Module, List<Hit>> refs = refFinder.findAllReferences(selectedModule, project, null, false);
 					if (!def.isLocal()) {
 						//module parameter, ... -> no param created
 						if (DEBUG) {
@@ -145,6 +142,10 @@ class ParamCollector {
 					} else {
 						params.add(p);
 					}
+
+					//DO NOT use ReferenceFinder.scope, because it returns an incorrect scope for formal parameters
+					final ReferenceFinder refFinder = new ReferenceFinder(def);
+					final Map<Module, List<Hit>> refs = refFinder.findAllReferences(selectedModule, project, null, false);
 					p.setRefs(getRefsInRange(selectedModule, refs));
 					final boolean refsBeyondSelection = isAnyRefsAfterLocation(selectedModule, selectedStatements.getLocation(), refs);
 					if (at == Assignment_type.A_PAR_TEMP_INOUT || at == Assignment_type.A_PAR_TEMP_OUT

@@ -149,11 +149,12 @@ class FunctionCreator implements IModelProvider<ParamTableItem> {
 	 * Call after the user specified param and func names in the wizard
 	 */
 	private void createFunctionText() {
-		final List<StringBuilder> declarationsBeforeFunc = new ArrayList<StringBuilder>();
 		if (params == null) {
 			ErrorReporter.logError("FunctionCreator.createFunctionText(): 'params' is null! ");
 			return;
 		}
+
+		final List<StringBuilder> declarationsBeforeFunc = new ArrayList<StringBuilder>();
 		functionText = new ArrayList<StringBuilder>();
 		functionCallText = new ArrayList<StringBuilder>();
 		//TODO: add private/<default>/public tag

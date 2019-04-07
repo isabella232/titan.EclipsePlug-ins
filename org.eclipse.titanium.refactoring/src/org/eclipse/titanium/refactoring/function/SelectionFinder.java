@@ -306,10 +306,11 @@ class SelectionFinder {
 	}
 
 	private String readFileContents(final IFile toRead) {
-		final StringBuilder sb = new StringBuilder();
 		if (toRead == null || !toRead.exists()) {
 			return null;
 		}
+
+		final StringBuilder sb = new StringBuilder();
 		try {
 			final char[] buf = new char[1024];
 			final InputStream is = toRead.getContents();
@@ -358,17 +359,18 @@ class SelectionFinder {
 		 * only if the semicolon itself is selected).
 		 * */
 		private StatementList createStatementList(final ITextSelection textSel) {
-			final char SEMICOLON = ';';
 			final StatementList sl = new StatementList(statements);
 			if (textSel == null || sl.isEmpty()) {
 				return sl;
 			}
 
-			final String content = textSel.getText();
 			final int ind = sl.getLocation().getEndOffset() - textSel.getOffset();
 			if (ind < 0 || ind >= textSel.getLength()) {
 				return sl;
 			}
+
+			final String content = textSel.getText();
+			final char SEMICOLON = ';';
 			if (content.charAt(ind) != SEMICOLON) {
 				return sl;
 			}
