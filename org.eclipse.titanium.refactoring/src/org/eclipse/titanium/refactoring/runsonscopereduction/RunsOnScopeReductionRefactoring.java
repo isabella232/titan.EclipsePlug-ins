@@ -32,7 +32,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
-import org.eclipse.titanium.refactoring.runsonscopereduction.ChangeCreator;
 
 /**
  * This class represents the 'Runs on scope reduction' refactoring operation.
