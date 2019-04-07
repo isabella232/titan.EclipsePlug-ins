@@ -185,7 +185,7 @@ public class Utils {
 		}
 
 		final Map<IProject, List<IFile>> affectedProjects = new HashMap<IProject, List<IFile>>();
-		for (Object o : affectedObjects) {
+		for (final Object o : affectedObjects) {
 			if (o instanceof IFile) {
 				final IFile f = (IFile) o;
 				final IProject pr = f.getProject();
@@ -203,11 +203,11 @@ public class Utils {
 						"An affected object is not an IFile " + o);
 			}
 		}
-		for (Map.Entry<IProject, List<IFile>> e : affectedProjects.entrySet()) {
+		for (final Map.Entry<IProject, List<IFile>> e : affectedProjects.entrySet()) {
 			final IProject pr = e.getKey();
 			final List<IFile> fs = e.getValue();
 			final ProjectSourceParser psp = GlobalParser.getProjectSourceParser(pr);
-			for (IFile f : fs) {
+			for (final IFile f : fs) {
 				psp.reportOutdating(f);
 			}
 			psp.analyzeAll();
@@ -270,7 +270,7 @@ public class Utils {
 			}
 			monitor.beginTask(name, toUpdate.size());
 			// update AST for each project
-			for (IProject proj : toUpdate) {
+			for (final IProject proj : toUpdate) {
 				monitor.subTask("Waiting for semantic analysis on project " + proj.getName());
 				final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(proj);
 				final WorkspaceJob job = projectSourceParser.analyzeAll();
