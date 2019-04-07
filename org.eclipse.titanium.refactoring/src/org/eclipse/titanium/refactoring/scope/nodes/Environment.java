@@ -56,7 +56,7 @@ public class Environment {
 	//queries
 
 	public Variable getVariable(final Assignment as) {
-		for (Variable var: vars) {
+		for (final Variable var: vars) {
 			if (var.definition.equals(as)) {
 				return var;
 			}
@@ -97,7 +97,7 @@ public class Environment {
 			}
 			//remove references to the removed statement
 			final Set<Variable> refs = declSt.getReferredVars();
-			for (Variable v: refs) {
+			for (final Variable v: refs) {
 				v.removeReference(declSt);
 			}
 			return new Edit(declSt, null);	//remove edit
@@ -198,7 +198,7 @@ public class Environment {
 			final StatementNode declSt = var.getDeclaration();
 			final Set<Variable> refdVars = declSt.getReferredVars();
 			Reference firstLeftRref = null;
-			for (Variable rvar: refdVars) {
+			for (final Variable rvar: refdVars) {
 				final List<Reference> rrefs = rvar.getReferences();
 				final int declRefInd = Reference.indexOf(declSt, rrefs);
 				if (declRefInd < 0) {
@@ -254,7 +254,7 @@ public class Environment {
 	 * */
 	private void updateReferencePositions(final StatementNode declSt) {
 		final Set<Variable> refdVars = declSt.getReferredVars();
-		for (Variable v: refdVars) {
+		for (final Variable v: refdVars) {
 			final List<Reference> refsToV = v.getReferences();
 			final int refInDeclOldInd = Reference.indexOf(declSt, refsToV);
 			final boolean refInDeclLhs = refsToV.get(refInDeclOldInd).isLeftHandSide();
@@ -290,7 +290,7 @@ public class Environment {
 	public String toStringRecursive() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Env {\n").append("  vars:\n");
-		for (Variable var: vars) {
+		for (final Variable var: vars) {
 			sb.append(var.toStringRecursive(false, 4)).append('\n');
 		}
 		sb.append("  TREE:\n");
