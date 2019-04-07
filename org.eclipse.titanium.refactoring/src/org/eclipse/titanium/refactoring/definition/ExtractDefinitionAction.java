@@ -51,8 +51,6 @@ public class ExtractDefinitionAction extends AbstractHandler {
 			return null;
 		}
 
-		final TextSelection textSelection = (TextSelection)sel;
-
 		//getting selected def
 		final ExtractDefinitionRefactoring refactoring = new ExtractDefinitionRefactoring();
 		final Definition selectedDef = refactoring.getSelection();
@@ -64,7 +62,7 @@ public class ExtractDefinitionAction extends AbstractHandler {
 		}
 
 		final ExtractDefinitionWizard wiz = new ExtractDefinitionWizard(selectedDef.getIdentifier().getName());
-		//
+		final TextSelection textSelection = (TextSelection)sel;
 		final StructuredSelection ssel = new StructuredSelection(textSelection);
 		wiz.init(PlatformUI.getWorkbench(), ssel);
 		final WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), wiz);
