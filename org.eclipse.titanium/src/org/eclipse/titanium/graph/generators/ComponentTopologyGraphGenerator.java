@@ -59,7 +59,6 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 
 	@Override
 	protected void createGraph() {
-		HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
 		final TestcaseCollector tcc = new TestcaseCollector();
 		
 		
@@ -69,7 +68,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 		selectedModule.accept(tcc);
 		
 		for (final Def_Testcase tc : tcc.getTestcases()) {
-			components = new HashMap<Component_Type, List<Component_Type>>();
+			final HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
 			final Component_Type ct = tc.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 			components.put(ct, new ArrayList<Component_Type>());
 			final TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>(), components, ct);
