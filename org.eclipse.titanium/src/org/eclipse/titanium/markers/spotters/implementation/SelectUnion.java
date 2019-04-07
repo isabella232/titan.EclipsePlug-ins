@@ -78,7 +78,6 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 		}
 
 		// Check the union, get the types.
-		final UnionItemVisitor unionVisitor = new UnionItemVisitor();
 		final List<Identifier> foundIds = new ArrayList<Identifier>();
 		for(final Reference ref : caseVisitor.getReferenceList()){
 			final List<ISubReference> reflist = ref.getSubreferences();
@@ -93,6 +92,8 @@ public class SelectUnion extends BaseModuleCodeSmellSpotter {
 		if(caseVisitor.getUnionType() == null){
 			return;
 		}
+
+		final UnionItemVisitor unionVisitor = new UnionItemVisitor();
 		caseVisitor.getUnionType().accept(unionVisitor);
 
 		// Check if the found types are the same as the union types.

@@ -39,7 +39,6 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
-		final Set<Identifier> definitions = new HashSet<Identifier>();
 		final Identifier componentIdentifier;
 		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 		final Identifier identifier;
@@ -77,6 +76,8 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 
 		final ReferenceCheck chek = new ReferenceCheck();
 		node.accept(chek);
+
+		final Set<Identifier> definitions = new HashSet<Identifier>();
 		definitions.addAll(chek.getIdentifiers());
 
 		if (definitions.isEmpty()) {

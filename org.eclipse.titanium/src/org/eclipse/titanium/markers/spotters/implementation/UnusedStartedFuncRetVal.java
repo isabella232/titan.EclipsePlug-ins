@@ -37,9 +37,6 @@ public class UnusedStartedFuncRetVal extends BaseModuleCodeSmellSpotter {
 		if (node instanceof Start_Component_Statement) {
 			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			final Start_Component_Statement s = (Start_Component_Statement) node;
-
-			final IType compType = Port_Utility.checkComponentReference(timestamp, s, s.getComponent(), false, false, false);
-
 			final Assignment assignment = s.getFunctionInstanceReference().getRefdAssignment(timestamp, false);
 			if (assignment == null) {
 				return;
@@ -56,7 +53,7 @@ public class UnusedStartedFuncRetVal extends BaseModuleCodeSmellSpotter {
 
 			final Def_Function function = (Def_Function) assignment;
 			final IType runsOnType = function.getRunsOnType(timestamp);
-
+			final IType compType = Port_Utility.checkComponentReference(timestamp, s, s.getComponent(), false, false, false);
 			if (compType == null || runsOnType == null || !function.isStartable()) {
 				return;
 			}
