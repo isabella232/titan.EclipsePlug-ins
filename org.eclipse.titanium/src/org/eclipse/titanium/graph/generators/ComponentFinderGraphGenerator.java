@@ -31,7 +31,6 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.Map_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Start_Component_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ComponentCreateExpression;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
