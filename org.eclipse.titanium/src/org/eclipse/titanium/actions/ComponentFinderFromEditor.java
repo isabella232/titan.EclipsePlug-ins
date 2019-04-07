@@ -124,34 +124,34 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 
 		final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		final DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> graph = new DirectedSparseGraph<NodeDescriptor, EdgeDescriptor>();
-		Map<String, NodeDescriptor> labels = new HashMap<String, NodeDescriptor>();
+		final Map<String, NodeDescriptor> labels = new HashMap<String, NodeDescriptor>();
 
 		final Def_Testcase tc = (Def_Testcase) def;
 		
 		System.out.println("dOCFGFS: "+tc.getFullName());
 		
-		HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
-		Component_Type ct = tc.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
+		final HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
+		final Component_Type ct = tc.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 		components.put(ct, new ArrayList<Component_Type>());
-		TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>(), components, ct);
+		final TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>(), components, ct);
 		tc.accept(vis);
 		//TITANDebugConsole.println("Eredmeny: ---------------------------------------------------------");
-		for (Entry<Component_Type, List<Component_Type>> entry : vis.getComponents().entrySet()) {
-			for (Component_Type comp : entry.getValue()) {
+		for (final Entry<Component_Type, List<Component_Type>> entry : vis.getComponents().entrySet()) {
+			for (final Component_Type comp : entry.getValue()) {
 				//TITANDebugConsole.println(entry.getKey().getFullName()+": "+comp.getFullName());
 			}
 		}
 		
 
-		for (Entry<Component_Type, List<Component_Type>> entry : vis.getComponents().entrySet()) {
-			NodeDescriptor node = new NodeDescriptor(entry.getKey().getFullName(), entry.getKey().getFullName(),
+		for (final Entry<Component_Type, List<Component_Type>> entry : vis.getComponents().entrySet()) {
+			final NodeDescriptor node = new NodeDescriptor(entry.getKey().getFullName(), entry.getKey().getFullName(),
 					NodeColours.LIGHT_GREEN, project, false, entry.getKey().getLocation());
 			if (!graph.containsVertex(node)) {
 				graph.addVertex(node);
 				labels.put(node.getName(), node);
 			}
 
-			for (Component_Type ct2 : entry.getValue()) {
+			for (final Component_Type ct2 : entry.getValue()) {
 				final NodeDescriptor node2 = new NodeDescriptor(ct2.getFullName(), ct2.getFullName(),
 						NodeColours.LIGHT_GREEN, project, false, ct2.getLocation());
 				if (!graph.containsVertex(node2)) {
@@ -180,17 +180,18 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 			@Override
 			public void run() {
 				System.out.println("Dialog: "+tc.getFullName());
-				FileDialog dialog = new FileDialog(new Shell(), SWT.SAVE);
+				final FileDialog dialog = new FileDialog(new Shell(), SWT.SAVE);
 				dialog.setText("Save graph");
 				dialog.setFilterPath(oldPath);
 				dialog.setFilterExtensions(new String[] { "*.dot" });
-				String graphFilePath = dialog.open();
+				final String graphFilePath = dialog.open();
 				if (graphFilePath == null) {
 					return;
 				}
-				String newPath = graphFilePath.substring(0, graphFilePath.lastIndexOf(File.separator) + 1);
+
+				final String newPath = graphFilePath.substring(0, graphFilePath.lastIndexOf(File.separator) + 1);
 				try {
-					QualifiedName name = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "Graph_Save_Path");
+					final QualifiedName name = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "Graph_Save_Path");
 					project.setPersistentProperty(name, newPath);
 					GraphHandler.saveGraphToDot(graph, graphFilePath, tc.getFullName());
 				} catch (BadLayoutException be) {
@@ -235,7 +236,7 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 		}
 
 		final IFile selectedFile = (IFile)selectedRes;
-		IProject sourceProj = selectedFile.getProject();
+		final IProject sourceProj = selectedFile.getProject();
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProj);
 		final Module selectedModule = projectSourceParser.containedModule(selectedFile);
 
@@ -335,15 +336,15 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 			}
 			else if (node instanceof PortReference && (counter == 0 || counter == 1)) {
 				counter++;
-				PortReference pr = ((PortReference)node);
+				final PortReference pr = ((PortReference)node);
 				
-				Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				final Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				if (as != null && as instanceof Def_Port) {
-					Def_Port dp = (Def_Port)as;
-					ModuleVisitor mv = new ModuleVisitor(dp);
-					Module m = dp.getMyScope().getModuleScope();
+					final Def_Port dp = (Def_Port)as;
+					final ModuleVisitor mv = new ModuleVisitor(dp);
+					final Module m = dp.getMyScope().getModuleScope();
 					m.accept(mv);
-					for (Component_Type ct : mv.getComponents()) {
+					for (final Component_Type ct : mv.getComponents()) {
 						if (!components.containsKey(comp)) {
 							components.put(comp, new ArrayList<Component_Type>());
 						}
@@ -356,8 +357,8 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 				}
 			}
 			else if (node instanceof Function_Instance_Statement) {
-				Function_Instance_Statement fis = (Function_Instance_Statement)node;
-				Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				final Function_Instance_Statement fis = (Function_Instance_Statement)node;
+				final Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 				analyzeFunction(as, comp);			
 			}
 			else if (node instanceof ComponentCreateExpression) {
@@ -365,10 +366,10 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 			}
 			else if (node instanceof Reference && cce) {
 				cce = false;
-				Reference ref = (Reference)node;
-				Assignment as = ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				final Reference ref = (Reference)node;
+				final Assignment as = ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 				if (as.getType(CompilationTimeStamp.getBaseTimestamp()) instanceof Component_Type) {
-					Component_Type ct = (Component_Type)as.getType(CompilationTimeStamp.getBaseTimestamp());
+					final Component_Type ct = (Component_Type)as.getType(CompilationTimeStamp.getBaseTimestamp());
 					if (!components.containsKey(comp)) {
 						components.put(comp, new ArrayList<Component_Type>());
 					}
@@ -379,7 +380,7 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 
 			}
 			else if (node instanceof Start_Component_Statement) {
-				Assignment as = ((Start_Component_Statement)node).getFunctionInstanceReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				final Assignment as = ((Start_Component_Statement)node).getFunctionInstanceReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 				analyzeFunction(as, comp);
 			}
 
@@ -388,12 +389,12 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 		
 		public void analyzeFunction(final Assignment assignment, final Component_Type component) {
 			if (assignment != null && assignment instanceof Def_Function) {
-				Def_Function df = (Def_Function)assignment;
+				final Def_Function df = (Def_Function)assignment;
 				if (!checkedFunctions.contains(df)) {
 					checkedFunctions.add(df);
 					TestcaseVisitor tv = null;
 					if (df.getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) != null) {
-						Component_Type fComp = df.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
+						final Component_Type fComp = df.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 						if (!components.containsKey(comp)) {
 							components.put(comp, new ArrayList<Component_Type>());
 						}
@@ -430,9 +431,9 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Component_Type) {
-				Component_Type ct = (Component_Type)node;
-				List<Definition> defs = ct.getComponentBody().getDefinitions();
-				for (Definition def : defs) {
+				final Component_Type ct = (Component_Type)node;
+				final List<Definition> defs = ct.getComponentBody().getDefinitions();
+				for (final Definition def : defs) {
 					if (def != null && def.equals(port)) {
 						comps.add(ct);
 						return V_ABORT;
