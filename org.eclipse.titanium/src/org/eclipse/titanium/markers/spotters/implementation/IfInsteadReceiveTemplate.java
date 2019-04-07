@@ -116,7 +116,7 @@ final class SuspiciouslyUsedIf extends ASTVisitor {
 }
 
 final class ReferenceCollector extends ASTVisitor {
-	private ArrayList<Reference> foundReferences = new ArrayList<Reference>();
+	private final ArrayList<Reference> foundReferences = new ArrayList<Reference>();
 
 	public ArrayList<Reference> getReferences() {
 		return foundReferences;
