@@ -227,7 +227,7 @@ class DependencyCollector {
 		while (!(allDefs.containsAll(prevDefs))) {
 			currDefs = new HashSet<Assignment>();
 			allDefs.addAll(prevDefs);
-			for (Assignment d: prevDefs) {
+			for (final Assignment d: prevDefs) {
 				final DependencyFinderVisitor vis = new DependencyFinderVisitor(currDefs, imports, asnFiles);
 				d.accept(vis);
 			}
@@ -366,13 +366,13 @@ class DependencyCollector {
 	 * */
 	private static void filterImportDefinitions(final Set<IResource> allFiles, final List<ImportModule> importDefs) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
-		for (IResource r: allFiles) {
+		for (final IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
 				continue;
 			}
 
 			final IFile f = (IFile)r;
-			IProject sourceProject = f.getProject();
+			final IProject sourceProject = f.getProject();
 			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
 			final Module m = projectSourceParser.containedModule(f);
 			allFileIds.add(m.getIdentifier());
@@ -393,13 +393,13 @@ class DependencyCollector {
 	 * */
 	private static void filterFriendDefinitions(final Set<IResource> allFiles, final List<FriendModule> friendDefs) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
-		for (IResource r: allFiles) {
+		for (final IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
 				continue;
 			}
 
 			final IFile f = (IFile)r;
-			IProject sourceProject = f.getProject();
+			final IProject sourceProject = f.getProject();
 			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
 			final Module m = projectSourceParser.containedModule(f);
 			allFileIds.add(m.getIdentifier());
