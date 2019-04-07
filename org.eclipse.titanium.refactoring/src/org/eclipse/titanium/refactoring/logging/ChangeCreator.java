@@ -96,7 +96,7 @@ class ChangeCreator {
 		module.accept(vis);
 		final Map<Log_Statement, Context> res = vis.getResult();
 		final MultiTextEdit rootEdit = new MultiTextEdit();
-		for (Map.Entry<Log_Statement, Context> e: res.entrySet()) {
+		for (final Map.Entry<Log_Statement, Context> e: res.entrySet()) {
 			final TextEdit edit = createTextEdit(e.getKey(), e.getValue());
 			if (edit != null) {
 				rootEdit.addChild(edit);
@@ -115,7 +115,7 @@ class ChangeCreator {
 		module.accept(vis);
 		final Map<Log_Statement, Context> res = vis.getResult();
 		final MultiTextEdit rootEdit = new MultiTextEdit();
-		for (Map.Entry<Log_Statement, Context> e: res.entrySet()) {
+		for (final Map.Entry<Log_Statement, Context> e: res.entrySet()) {
 			final TextEdit edit = createTextEdit(e.getKey(), e.getValue());
 			if (edit != null) {
 				rootEdit.addChild(edit);
@@ -215,7 +215,7 @@ class ChangeCreator {
 
 		private int calculateEndOffset() {
 			int endOffset = -1;
-			for (LogArgument la: args) {
+			for (final LogArgument la: args) {
 				if (la.getLocation().getEndOffset() > endOffset) {
 					endOffset = la.getLocation().getEndOffset();
 				}

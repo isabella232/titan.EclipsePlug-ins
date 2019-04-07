@@ -49,7 +49,7 @@ class ForContext extends Context {
 		if (initialAssignmentIds == null) {
 			return ret;
 		}
-		for (Identifier id: initialAssignmentIds) {
+		for (final Identifier id: initialAssignmentIds) {
 			final String idS = id.toString();
 			if (idsAlreadyHandled.contains(idS)) {
 				continue;

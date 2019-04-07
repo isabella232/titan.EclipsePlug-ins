@@ -53,7 +53,7 @@ class FunctionContext extends Context {
 		if (paramIds == null) {
 			return ret;
 		}
-		for (Identifier id: paramIds) {
+		for (final Identifier id: paramIds) {
 			final String idS = id.toString();
 			if (idsAlreadyHandled.contains(idS)) {
 				continue;

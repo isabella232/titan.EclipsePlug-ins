@@ -35,7 +35,7 @@ import org.eclipse.ui.PlatformUI;
  *
  * @author Viktor Varga
  */
-public class ContextLoggingActionFromEditor extends AbstractHandler {
+public final class ContextLoggingActionFromEditor extends AbstractHandler {
 	private static final String ERR_MSG_NO_SELECTION = "Empty selection! ";
 
 	private TextSelection selection;
