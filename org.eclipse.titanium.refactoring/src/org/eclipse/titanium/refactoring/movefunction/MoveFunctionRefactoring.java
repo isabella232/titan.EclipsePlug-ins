@@ -313,7 +313,6 @@ public class MoveFunctionRefactoring extends Refactoring {
 	}
 	
 	private String createFunctionBody(final Def_Function fun, final Module module) {
-		String body2 = "";
 		try {
 			final IFile file = (IFile)module.getLocation().getFile();
 			final InputStream istream = file.getContents();
@@ -323,23 +322,17 @@ public class MoveFunctionRefactoring extends Refactoring {
 			br.skip(startOffset);
 			final char[] contentBuf = new char[endOffset-startOffset];
 			br.read(contentBuf, 0, endOffset-startOffset);
-			//TODO maybe just initialize the string
-			for (final char c : contentBuf) {
-				body2 += c;
-			}
-			
+			final String body2 = new String(contentBuf);
 			br.close();
 			istream.close();
-			
+			return body2;
 		} catch (CoreException ce) {
 			ce.printStackTrace();
-			return "";
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-			return "";
 		}
 
-		return body2;
+		return "";
 	}
 
 	
