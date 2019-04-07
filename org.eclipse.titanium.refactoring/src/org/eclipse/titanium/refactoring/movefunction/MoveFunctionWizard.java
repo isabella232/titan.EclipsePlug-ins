@@ -25,7 +25,7 @@ public class MoveFunctionWizard extends RefactoringWizard implements
 	private static final String WIZ_WINDOWTITLE2 = "Slicing - function selection";
 	private static final String WIZ_WINDOWTITLE3 = "Slicing - destination options";
 
-	private MoveFunctionRefactoring refactoring;
+	private final MoveFunctionRefactoring refactoring;
 
 	MoveFunctionWizard(final Refactoring refactoring) {
 		super(refactoring, DIALOG_BASED_USER_INTERFACE);

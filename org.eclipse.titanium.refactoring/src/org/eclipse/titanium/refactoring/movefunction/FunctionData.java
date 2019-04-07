@@ -17,15 +17,15 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
  * @author Bianka Bekefi
  * */
 public class FunctionData implements Comparable<FunctionData> {
-	private Def_Function definiton;
+	private final Def_Function definiton;
 	private Module module;
-	private String functionBody;
+	private final String functionBody;
 	private boolean toBeMoved;
-	private List<Destination> destinations;
+	private final List<Destination> destinations;
 	private List<Module> usedModules;
 	private Destination finalDestination;
 	private MoveFunctionMethod method;
-	private List<Module> usedBy;
+	private final List<Module> usedBy;
 	
 	public FunctionData(final Def_Function definiton, final String functionBody) {
 		this.definiton = definiton;

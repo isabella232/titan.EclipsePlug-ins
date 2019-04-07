@@ -44,7 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
  * */
 public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 
-	private MoveFunctionRefactoring refactoring;
+	private final MoveFunctionRefactoring refactoring;
 	private StyledText functionBody;
 	private CheckboxTreeViewer tree;
 	

@@ -48,7 +48,7 @@ class ChangeCreator {
 	// in
 	private final IFile selectedFile;
 	private final MoveFunctionSettings settings;
-	private List<FunctionData> functions;
+	private final List<FunctionData> functions;
 	private final IProject project;
 	private static Map<Module, List<Module>> moduleImports = new HashMap<Module, List<Module>>();
 	// out
@@ -220,7 +220,7 @@ class ChangeCreator {
 	
 	private static class ModuleVisitor extends ASTVisitor {
 
-		private Def_Function function;	
+		private final Def_Function function;	
 		private boolean isUsed;
 		
 		public ModuleVisitor(final Def_Function function) {

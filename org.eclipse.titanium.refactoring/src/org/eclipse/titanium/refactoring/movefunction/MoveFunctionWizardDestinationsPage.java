@@ -41,7 +41,7 @@ import org.eclipse.titan.designer.AST.Module;
  * */
 public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 
-	private MoveFunctionRefactoring refactoring;
+	private final MoveFunctionRefactoring refactoring;
 	private CheckboxTreeViewer tree;
 	protected static boolean displayZeros;
 	private Button displayZerosCheckBox;

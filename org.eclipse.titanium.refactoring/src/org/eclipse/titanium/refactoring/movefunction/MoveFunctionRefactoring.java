@@ -70,9 +70,9 @@ public class MoveFunctionRefactoring extends Refactoring {
 	public static final String PROJECTCONTAINSTTCNPPFILES = "The project `{0}'' contains .ttcnpp files, which might corrupt the result of the refactoring";
 	private static final String ONTHEFLYANALAYSISDISABLED = "The on-the-fly analysis is disabled, there is semantic information present to work on";
 	
-	private Set<IProject> projects = new HashSet<IProject>();
+	private final Set<IProject> projects = new HashSet<IProject>();
 	private Module destinationModule;
-	private List<Module> selectedModules = new ArrayList<Module>();
+	private final List<Module> selectedModules = new ArrayList<Module>();
 	private final IStructuredSelection structSelection;
 	private final MoveFunctionSettings settings;
 	private Map<Module, List<FunctionData> > functions;
@@ -562,7 +562,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 	
 	private class SelectedModulesVisitor implements IResourceVisitor {
 
-		private List<Module> selectedModules = new ArrayList<Module>();	
+		private final List<Module> selectedModules = new ArrayList<Module>();	
 		
 		public SelectedModulesVisitor() {
 		}
@@ -590,8 +590,8 @@ public class MoveFunctionRefactoring extends Refactoring {
 	private static class ModuleVisitor extends ASTVisitor {
 
 		private int counter;	
-		private Component_Type comp;
-		private List<Component_Type> components;
+		private final Component_Type comp;
+		private final List<Component_Type> components;
 		
 		public ModuleVisitor(final Component_Type comp, final List<Component_Type> components) {
 			this.comp = comp;
