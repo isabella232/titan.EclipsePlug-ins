@@ -49,7 +49,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * @author Bianka Bekefi
  */
 public class ComponentFinderGraphGenerator extends GraphGenerator {
-	private IFile selectedFile;
+	private final IFile selectedFile;
 	
 	
 	public ComponentFinderGraphGenerator(final IFile selectedFile, final IProject project, final ErrorHandler eHandler) {
@@ -118,11 +118,11 @@ public class ComponentFinderGraphGenerator extends GraphGenerator {
 	
 	private static class TestcaseVisitor extends ASTVisitor {
 
-		private HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
-		private List<Def_Function> checkedFunctions;
+		private final HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
+		private final List<Def_Function> checkedFunctions;
 		private int counter;
 		private boolean cce;
-		private Component_Type comp;
+		private final Component_Type comp;
 		
 		TestcaseVisitor(final List<Def_Function> checkedFunctions, final HashMap<Component_Type, List<Component_Type>> components, final Component_Type comp) {
 			this.components.putAll(components);
@@ -222,11 +222,10 @@ public class ComponentFinderGraphGenerator extends GraphGenerator {
 	
 	private static class ModuleVisitor extends ASTVisitor {
 
-		private List<Component_Type> comps = new ArrayList<Component_Type>();
-		private Def_Port port;
+		private final List<Component_Type> comps = new ArrayList<Component_Type>();
+		private final Def_Port port;
 		
 		ModuleVisitor(final Def_Port port) {
-			comps = new ArrayList<Component_Type>();
 			this.port = port;
 		}
 
@@ -253,10 +252,9 @@ public class ComponentFinderGraphGenerator extends GraphGenerator {
 	
 	private static class TestcaseCollector extends ASTVisitor {
 
-		private List<Def_Testcase> tcs = new ArrayList<Def_Testcase>();
+		private final List<Def_Testcase> tcs = new ArrayList<Def_Testcase>();
 		
 		TestcaseCollector() {
-			tcs = new ArrayList<Def_Testcase>();
 		}
 
 		private List<Def_Testcase> getTestcases() {
