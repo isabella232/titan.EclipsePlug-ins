@@ -89,7 +89,6 @@ class SelectionFinder {
 			+ "return statements. "
 			+ "The operation might produce an erroneous result. ";
 
-	private IStatusLineManager statusLineManager;
 	private ITextSelection textSelection;
 	private ProjectSourceParser sourceParser;
 	private IProject project;
@@ -220,7 +219,7 @@ class SelectionFinder {
 		}
 
 		final TTCN3Editor targetEditor = (TTCN3Editor) editor;
-		statusLineManager = targetEditor.getEditorSite().getActionBars()
+		final IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars()
 				.getStatusLineManager();
 		// getting current selection
 		final ISelectionService selectionService = PlatformUI.getWorkbench().
