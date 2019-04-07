@@ -255,7 +255,7 @@ public class ExtractToFunctionRefactoring extends Refactoring {
 		}
 
 		final StringBuilder ret = new StringBuilder();
-		for (StringBuilder sb: functionText) {
+		for (final StringBuilder sb: functionText) {
 			ret.append(sb);
 		}
 		functionTextReady = ret.toString();
@@ -274,7 +274,7 @@ public class ExtractToFunctionRefactoring extends Refactoring {
 		}
 
 		final StringBuilder ret = new StringBuilder();
-		for (StringBuilder sb: functionCallText) {
+		for (final StringBuilder sb: functionCallText) {
 			ret.append(sb);
 		}
 		functionCallTextReady = ret.toString();

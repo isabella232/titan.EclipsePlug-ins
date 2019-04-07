@@ -28,7 +28,7 @@ class StatementList extends ASTNode implements ILocateableNode {
 	protected List<Statement> statements;
 	protected StatementBlock myStatementBlock;
 
-	protected StatementList(List<Statement> statements) {
+	protected StatementList(final List<Statement> statements) {
 		this.statements = statements;
 		if (statements == null) {
 			this.statements = new ArrayList<Statement>();
@@ -71,7 +71,7 @@ class StatementList extends ASTNode implements ILocateableNode {
 
 	@Override
 	protected boolean memberAccept(final ASTVisitor v) {
-		for (Statement s: statements) {
+		for (final Statement s: statements) {
 			if (!s.accept(v)) {
 				return false;
 			}
@@ -103,7 +103,7 @@ class StatementList extends ASTNode implements ILocateableNode {
 		sb.append("(count: ");
 		sb.append(statements.size());
 		sb.append(") \n");
-		for (Statement s: statements) {
+		for (final Statement s: statements) {
 			sb.append("    ");
 			sb.append(s.getStatementName());
 			sb.append(", loc: ");

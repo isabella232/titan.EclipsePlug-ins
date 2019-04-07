@@ -86,7 +86,7 @@ class ParamCollector {
 	private String createDebugInfo() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("ExtractToFunctionRefactoring->ParamCollector debug info: \n");
-		for (Param p: params) {
+		for (final Param p: params) {
 			sb.append(p.createDebugInfo());
 			sb.append('\n');
 		}
@@ -228,7 +228,7 @@ class ParamCollector {
 		 * @return whether there are any refs that are located in <code>locationModule</code> beyond location <code>loc</code>
 		 */
 		private boolean isAnyRefsAfterLocation(final Module locationModule, final Location loc, final Map<Module, List<Hit>> refs) {
-			for (Map.Entry<Module, List<Hit>> e: refs.entrySet()) {
+			for (final Map.Entry<Module, List<Hit>> e: refs.entrySet()) {
 				if (!e.getKey().equals(locationModule)) {
 					continue;
 				}
@@ -250,7 +250,7 @@ class ParamCollector {
 		 */
 		private List<ISubReference> getRefsInRange(final Module module, final Map<Module, List<Hit>> refs) {
 			final List<ISubReference> subrefs = new ArrayList<ISubReference>();
-			for (Map.Entry<Module, List<Hit>> e: refs.entrySet()) {
+			for (final Map.Entry<Module, List<Hit>> e: refs.entrySet()) {
 				if (!e.getKey().equals(module)) {
 					continue;
 				}
@@ -280,13 +280,13 @@ class ParamCollector {
 				ErrorReporter.logError("ParamFinderVisitor::isAnyReferenceOutsideRange(): StatementList 'toVisit' is null! ");
 				return false;
 			}
-			for (Map.Entry<Module, List<Hit>> e: refs.entrySet()) {
+			for (final Map.Entry<Module, List<Hit>> e: refs.entrySet()) {
 				if (!e.getKey().equals(moduleOfRange)) {
 					return true;
 				}
 
 				final List<Hit> hs = e.getValue();
-				for (Hit h: hs) {
+				for (final Hit h: hs) {
 					if (!isInsideRange(h.reference.getLocation())) {
 						return true;
 					}

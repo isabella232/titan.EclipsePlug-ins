@@ -649,7 +649,7 @@ class SelectionFinder {
 		sb.append("  Return clause: ");
 		sb.append(returnType == null ? "null" : returnType.getIdentifier());
 		sb.append("  Warnings: ");
-		for (RefactoringStatusEntry rse : warnings) {
+		for (final RefactoringStatusEntry rse : warnings) {
 			sb.append("severity: " + rse.getSeverity() + "; msg: "
 					+ rse.getMessage());
 			sb.append('\n');

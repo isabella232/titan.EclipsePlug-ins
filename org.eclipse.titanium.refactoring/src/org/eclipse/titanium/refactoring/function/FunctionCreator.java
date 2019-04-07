@@ -111,7 +111,7 @@ class FunctionCreator implements IModelProvider<ParamTableItem> {
 		if (params == null) {
 			return items;
 		}
-		for (Param p: params) {
+		for (final Param p: params) {
 			if (p.getPassingType() == ArgumentPassingType.NONE) {
 				continue;
 			}
@@ -132,9 +132,9 @@ class FunctionCreator implements IModelProvider<ParamTableItem> {
 		if (params == null) {
 			return hitSet;
 		}
-		for (Param p: params) {
+		for (final Param p: params) {
 			final List<ISubReference> srs = p.getRefs();
-			for (ISubReference isr: srs) {
+			for (final ISubReference isr: srs) {
 				hitSet.add(new TextReplaceItem(isr, p, sourceText, sourceOffset));
 			}
 			if (p.isDeclaredInside()) {
