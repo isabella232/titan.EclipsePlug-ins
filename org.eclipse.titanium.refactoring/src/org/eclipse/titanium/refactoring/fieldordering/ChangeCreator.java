@@ -204,13 +204,13 @@ class ChangeCreator {
 			return;
 		}
 
-		final StringBuilder builder = new StringBuilder();
-		boolean isFirst = true;
 		final Long maxIndex = getIndexUpperBound(sequenceOf_Value);
 		if (maxIndex == null) {
 			return;
 		}
 
+		final StringBuilder builder = new StringBuilder();
+		boolean isFirst = true;
 		for (long i = 0; i < maxIndex; ++i) {
 			final long realIndex = i + 1;
 			final IValue indexedValueByRealIndex = sequenceOf_Value.getValues().getIndexedValueByRealIndex((int) realIndex);
