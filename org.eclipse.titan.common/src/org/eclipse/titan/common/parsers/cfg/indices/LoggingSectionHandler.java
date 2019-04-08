@@ -181,7 +181,7 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 		public void setTimestampFormatRoot(final ParseTree timestampFormatRoot) {
 			this.timestampFormatRoot = timestampFormatRoot;
 		}
-		
+
 		public ParseTree getConsoleTimestampFormat() {
 			return consoleTimestampFormat;
 		}

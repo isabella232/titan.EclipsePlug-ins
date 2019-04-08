@@ -1856,7 +1856,7 @@ pr_StringRange:
 	LPAREN
 	EXCLUSIVE?
 	pr_UniversalOrNotStringValue
-	DOTDOT 
+	DOTDOT
 	EXCLUSIVE?
 	pr_UniversalOrNotStringValue
 	RPAREN

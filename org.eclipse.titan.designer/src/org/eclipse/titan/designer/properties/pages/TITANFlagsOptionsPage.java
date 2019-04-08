@@ -26,7 +26,6 @@ import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
 public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Composite mainComposite;
 
-	
 	private Button disableBER;
 	private Button disableRAW;
 	private Button disableTEXT;
@@ -71,7 +70,6 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			mainComposite = null;
 
 			if (CBuilder) {
-				
 				disableBER.dispose();
 			}
 
@@ -215,7 +213,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		if (CBuilder) {
 			activateDebugger = new Button(mainComposite, SWT.CHECK);
 			activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
-			
+
 			semanticCheckOnly = new Button(mainComposite, SWT.CHECK);
 			semanticCheckOnly.setText("Semantic check only (-s)");
 		}
@@ -506,7 +504,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 				activateDebugger.setSelection("true".equals(temp) ? true : false);
-				
+
 				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						TITANFlagsOptionsData.SEMANTIC_CHECK_ONLY_PROPERTY));
 				semanticCheckOnly.setSelection("true".equals(temp) ? true : false);
