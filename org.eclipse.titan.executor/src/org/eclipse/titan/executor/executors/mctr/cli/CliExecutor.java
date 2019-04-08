@@ -108,7 +108,7 @@ public final class CliExecutor extends BaseExecutor {
 
 	private static final Pattern FULL_SUCCESSFUL_STARTUP_PATTERN = Pattern.compile("(.*?)(\\w+)@(.+): Listening on IP address (.+) and TCP port (\\d+).");
 	private final Matcher fullSuccessfulStartUpMatcher = FULL_SUCCESSFUL_STARTUP_PATTERN.matcher("");
-	
+
 	private static final Pattern COMPONENT_LOG_PATTERN = Pattern.compile("(.*?)(\\w+)@(.+): (.*)$");
 
 	private static final Pattern HC_CONNECTED_PATTERN = Pattern.compile(" New HC connected from (.+)");
@@ -943,12 +943,12 @@ public final class CliExecutor extends BaseExecutor {
 				if (Activator.getMainView() != null) {
 					Activator.getMainView().refreshAll();
 				}
-			} else if (	consoleTimeStampLength < fastLine.length() && 
+			} else if ( consoleTimeStampLength < fastLine.length() &&
 					fastLine.substring(consoleTimeStampLength).startsWith("MTC@")) {
 				fastLine = fastLine.substring(consoleTimeStampLength);
 				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
 				testExecution();
-			} else if (	consoleTimeStampLength < fastLine.length() && 
+			} else if ( consoleTimeStampLength < fastLine.length() &&
 					fastLine.substring(consoleTimeStampLength).startsWith("MC@")) {
 				fastLine = fastLine.substring(consoleTimeStampLength);
 				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
