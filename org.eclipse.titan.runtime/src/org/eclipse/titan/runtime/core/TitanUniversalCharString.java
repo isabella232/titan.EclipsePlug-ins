@@ -1860,7 +1860,7 @@ public class TitanUniversalCharString extends Base_Type {
 			final int second = isBig ? i + 1 : i + 2;
 			final int third  = isBig ? i + 2 : i + 1;
 			final int fourth = isBig ? i + 3 : i;
-			int DW = octets_ptr[first] << 8 | octets_ptr[second];
+			long DW = octets_ptr[first] << 8 | octets_ptr[second];
 			DW <<= 8;
 			DW |= octets_ptr[third];
 			DW <<= 8;
