@@ -65,7 +65,7 @@ public class StatementBlockContext extends Context {
 		if (localVarIds == null) {
 			return ret;
 		}
-		for (Identifier id: localVarIds) {
+		for (final Identifier id: localVarIds) {
 			final String idS = id.toString();
 			if (idsAlreadyHandled.contains(idS)) {
 				continue;

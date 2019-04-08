@@ -37,7 +37,6 @@ public class UnusedStartedRefFuncRetVal extends BaseModuleCodeSmellSpotter {
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Start_Referenced_Component_Statement) {
-			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			final Start_Referenced_Component_Statement s = (Start_Referenced_Component_Statement) node;
 
 			final Value dereferredValue = s.getDereferredValue();
@@ -58,6 +57,7 @@ public class UnusedStartedRefFuncRetVal extends BaseModuleCodeSmellSpotter {
 				break;
 			}
 
+			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			IType type = dereferredValue.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (type != null) {
 				type = type.getTypeRefdLast(timestamp);

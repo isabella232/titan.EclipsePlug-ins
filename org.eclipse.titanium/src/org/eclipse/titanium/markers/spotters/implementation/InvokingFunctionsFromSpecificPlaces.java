@@ -59,8 +59,8 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 		@Override
 		public int visit(final IVisitableNode node) {
 			if(node instanceof Referenced_Value) {
-				Referenced_Value value = (Referenced_Value) node;
-				Assignment_type asst = value.getReference().getAssOld().getAssignmentType();
+				final Referenced_Value value = (Referenced_Value) node;
+				final Assignment_type asst = value.getReference().getAssOld().getAssignmentType();
 				if (asst == Assignment_type.A_FUNCTION_RVAL ||
 						asst == Assignment_type.A_EXT_FUNCTION_RVAL ||
 						asst == Assignment_type.A_FUNCTION_RTEMP ||
@@ -70,26 +70,26 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 			}
 
 			if(node instanceof RNDExpression || node instanceof RNDWithValueExpression ) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "Random number generation change the actual snapshot");
 			}
 
 			if(node instanceof AllComponentAliveExpression || node instanceof AllComponentRunningExpression ||
 					node instanceof AnyComponentAliveExpression || node instanceof AnyComponentRunningExpression ||
 					node instanceof ComponentAliveExpression || node instanceof ComponentRunningExpression ) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "State of component may change during the actual snapshot");
 			}
 
 			if(node instanceof AnyPortCheckStateExpression ||node instanceof AllPortCheckSateExpression || node instanceof  CheckStateExpression) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "State of port may change during the actual snapshot");
 			}
 
 			if(node instanceof AnyTimerRunningExpression || 
 					node instanceof TimerRunningExpression || 
 					node instanceof TimerReadExpression) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "State of timer may change during the actual snapshot");
 			}
 			return V_CONTINUE;
@@ -99,7 +99,7 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
-		FunctionVisitor visitor = new FunctionVisitor(problems);
+		final FunctionVisitor visitor = new FunctionVisitor(problems);
 
 		if (node instanceof AltGuard) {
 			final AltGuard altGuard = (AltGuard) node;

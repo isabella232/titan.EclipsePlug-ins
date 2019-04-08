@@ -39,7 +39,6 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
-		final Set<Identifier> definitions = new HashSet<Identifier>();
 		final Identifier componentIdentifier;
 		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 		final Identifier identifier;
@@ -77,11 +76,13 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 
 		final ReferenceCheck chek = new ReferenceCheck();
 		node.accept(chek);
+
+		final Set<Identifier> definitions = new HashSet<Identifier>();
 		definitions.addAll(chek.getIdentifiers());
 
 		if (definitions.isEmpty()) {
 			if (isTestCase) {
-				List<Definition> attributes = componentType.getComponentBody().getDefinitions();
+				final List<Definition> attributes = componentType.getComponentBody().getDefinitions();
 				if (!attributes.isEmpty()) {
 					problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
 				}
@@ -111,7 +112,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		}
 		final Set<Identifier> setNodes = new HashSet<Identifier>();
 		setNodes.add(component.getIdentifier());
-		for (ComponentTypeBody variable : parentComponentBodies) {
+		for (final ComponentTypeBody variable : parentComponentBodies) {
 			final Set<Identifier> identifiersOfNode = new HashSet<Identifier>();
 			final ComponentTypeBody cb = searchComponent(variable, definitions, identifiersOfNode);
 			if (cb != null) {

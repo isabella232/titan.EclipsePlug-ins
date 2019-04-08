@@ -56,8 +56,6 @@ public class MinimizeVisibilityActionFromBrowser extends AbstractHandler impleme
 	}
 
 	private void performMinimizeVisibility() {
-		// getting the active editor
-		final TTCN3Editor targetEditor = Utils.getActiveEditor();
 		//find selection
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
@@ -69,6 +67,8 @@ public class MinimizeVisibilityActionFromBrowser extends AbstractHandler impleme
 		Utils.updateASTBeforeRefactoring(projsToUpdate, "MinimizeVisibility");
 		Activator.getDefault().pauseHandlingResourceChanges();
 
+		// getting the active editor
+		final TTCN3Editor targetEditor = Utils.getActiveEditor();
 		//create refactoring
 		final MinimizeVisibilityRefactoring refactoring = new MinimizeVisibilityRefactoring(structSelection);
 		//open wizard

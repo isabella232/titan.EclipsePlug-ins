@@ -37,8 +37,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ExtractModuleParActionFromEditor extends AbstractHandler {
 
-	private IProject sourceProj;
-
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 
@@ -54,7 +52,7 @@ public class ExtractModuleParActionFromEditor extends AbstractHandler {
 		}
 
 		//getting current project
-		sourceProj = selectedFile.getProject();
+		final IProject sourceProj = selectedFile.getProject();
 		if (sourceProj == null) {
 			ErrorReporter.logError("ExtractModuleParActionFromEditor: Source project is null. ");
 			return null;

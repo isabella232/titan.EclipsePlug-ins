@@ -43,9 +43,6 @@ public class ExtractToFunctionAction extends AbstractHandler {
 			return null;
 		}
 
-		final IFile selectedFile = refactoring.getSelectedFile();
-		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(selectedFile.getProject());
-
 		Activator.getDefault().pauseHandlingResourceChanges();
 
 		//find params & create function from string builders
@@ -76,6 +73,8 @@ public class ExtractToFunctionAction extends AbstractHandler {
 		}
 
 		//report outdating
+		final IFile selectedFile = refactoring.getSelectedFile();
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(selectedFile.getProject());
 		projectSourceParser.reportOutdating(selectedFile);
 		projectSourceParser.analyzeAll();
 

@@ -109,7 +109,7 @@ class ChangeCreator {
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		tfc.setEdit(rootEdit);
 
-		for (Location l: locations) {
+		for (final Location l: locations) {
 			rootEdit.addChild(new InsertEdit(l.getOffset(), "@lazy "));
 		}
 		return tfc;

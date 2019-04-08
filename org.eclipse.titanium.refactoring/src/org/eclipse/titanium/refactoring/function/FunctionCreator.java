@@ -111,7 +111,7 @@ class FunctionCreator implements IModelProvider<ParamTableItem> {
 		if (params == null) {
 			return items;
 		}
-		for (Param p: params) {
+		for (final Param p: params) {
 			if (p.getPassingType() == ArgumentPassingType.NONE) {
 				continue;
 			}
@@ -132,9 +132,9 @@ class FunctionCreator implements IModelProvider<ParamTableItem> {
 		if (params == null) {
 			return hitSet;
 		}
-		for (Param p: params) {
+		for (final Param p: params) {
 			final List<ISubReference> srs = p.getRefs();
-			for (ISubReference isr: srs) {
+			for (final ISubReference isr: srs) {
 				hitSet.add(new TextReplaceItem(isr, p, sourceText, sourceOffset));
 			}
 			if (p.isDeclaredInside()) {
@@ -149,11 +149,12 @@ class FunctionCreator implements IModelProvider<ParamTableItem> {
 	 * Call after the user specified param and func names in the wizard
 	 */
 	private void createFunctionText() {
-		final List<StringBuilder> declarationsBeforeFunc = new ArrayList<StringBuilder>();
 		if (params == null) {
 			ErrorReporter.logError("FunctionCreator.createFunctionText(): 'params' is null! ");
 			return;
 		}
+
+		final List<StringBuilder> declarationsBeforeFunc = new ArrayList<StringBuilder>();
 		functionText = new ArrayList<StringBuilder>();
 		functionCallText = new ArrayList<StringBuilder>();
 		//TODO: add private/<default>/public tag

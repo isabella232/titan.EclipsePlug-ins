@@ -41,12 +41,12 @@ import org.eclipse.titan.designer.AST.Module;
  * */
 public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 
-	private MoveFunctionRefactoring refactoring;
+	private final MoveFunctionRefactoring refactoring;
 	private CheckboxTreeViewer tree;
 	protected static boolean displayZeros;
 	private Button displayZerosCheckBox;
 	
-	MoveFunctionWizardDestinationsPage(final String name, MoveFunctionRefactoring refactoring) {
+	MoveFunctionWizardDestinationsPage(final String name, final MoveFunctionRefactoring refactoring) {
 		super(name);
 		this.refactoring = refactoring;
 		refactoring.getSettings().setType(MoveFunctionType.MODULE);
@@ -61,17 +61,17 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		initializeDialogUnits(top);
 		top.setLayout(new GridLayout(1, false));
 
-		Composite comp = new Composite(top, SWT.NONE);
+		final Composite comp = new Composite(top, SWT.NONE);
 		initializeDialogUnits(comp);
 		comp.setLayout(new GridLayout(1, false));
 		
-		Label label = new Label(comp, SWT.NONE);
+		final Label label = new Label(comp, SWT.NONE);
 		label.setText("Choose method: ");
-		Button shortestModule = new Button(comp, SWT.RADIO);
+		final Button shortestModule = new Button(comp, SWT.RADIO);
 		shortestModule.setText("choose shortest module");
 		shortestModule.setSelection(true);
 		shortestModule.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
+			public void widgetSelected(final SelectionEvent event) {
 				if (refactoring.getSettings().getMethod().equals(MoveFunctionMethod.LENGTH) && !refactoring.getSettings().isChanged()) {
 					refactoring.getSettings().setChanged(false);
 				}
@@ -85,10 +85,10 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		});
 		
 		
-		Button leastImports = new Button(comp, SWT.RADIO);
+		final Button leastImports = new Button(comp, SWT.RADIO);
 		leastImports.setText("insert the least new imports");
 		leastImports.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
+			public void widgetSelected(final SelectionEvent event) {
 				if (refactoring.getSettings().getMethod().equals(MoveFunctionMethod.IMPORTS) && !refactoring.getSettings().isChanged()) {
 					refactoring.getSettings().setChanged(false);
 				}
@@ -109,10 +109,10 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 	         };
 		});	
 		*/
-		Button component = new Button(comp, SWT.RADIO);
+		final Button component = new Button(comp, SWT.RADIO);
 		component.setText("by component");
 		component.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
+			public void widgetSelected(final SelectionEvent event) {
 				if (refactoring.getSettings().getMethod().equals(MoveFunctionMethod.COMPONENT) && !refactoring.getSettings().isChanged()) {
 					refactoring.getSettings().setChanged(false);
 				}
@@ -135,8 +135,8 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		displayZerosCheckBox.addSelectionListener(new SelectionAdapter() {
 
 	        @Override
-	        public void widgetSelected(SelectionEvent event) {
-	            Button btn = (Button) event.getSource();
+	        public void widgetSelected(final SelectionEvent event) {
+	        	final Button btn = (Button) event.getSource();
 	            displayZeros = btn.getSelection();
 	            tree.refresh();
 	        }
@@ -151,9 +151,9 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		excludedModulesField.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(final ModifyEvent e) {
-				String regex = excludedModulesField.getText().replaceAll(",", "|").replaceAll(" +", " ").trim();
+				final String regex = excludedModulesField.getText().replaceAll(",", "|").replaceAll(" +", " ").trim();
 				try {
-		            Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+					final Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 		            
 		            if (refactoring.getSettings().getExcludedModuleNames().equals(pattern) && !refactoring.getSettings().isChanged()) {
 		            	refactoring.getSettings().setChanged(false);
@@ -173,11 +173,11 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		setErrorMessage(null);
 	}
 	
-	public void displayDestinations(Composite parent) {
-		Composite comp = new Composite(parent, SWT.NONE);
+	public void displayDestinations(final Composite parent) {
+		final Composite comp = new Composite(parent, SWT.NONE);
 		initializeDialogUnits(comp);
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-	    comp.setLayout(new FillLayout());
+		comp.setLayout(new FillLayout());
 	    
 		refactoring.getDestinations();
 		tree = new CheckboxTreeViewer (comp, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -187,7 +187,7 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		tree.expandToLevel(2);
 		
 		tree.addCheckStateListener(new ICheckStateListener() {
-			public void checkStateChanged(CheckStateChangedEvent event) {
+			public void checkStateChanged(final CheckStateChangedEvent event) {
 				if (event.getElement() instanceof FunctionData) {
 					if (event.getChecked()) {
 						tree.setChecked(event.getElement(), event.getChecked());
@@ -200,11 +200,11 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 					}					
 				}
 				else if (event.getElement() instanceof Destination) {
-					Destination dest = (Destination)event.getElement();
+					final Destination dest = (Destination)event.getElement();
 					tree.setChecked(dest, event.getChecked());
-						for (Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
+						for (final Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
 							if (entry.getValue().contains(dest.getFunctionData())) {
-								for (FunctionData fd : entry.getValue()) {
+								for (final FunctionData fd : entry.getValue()) {
 									if (dest.getFunctionData().equals(fd)) {
 										if (fd.getFinalDestination() != null & !dest.equals(fd.getFinalDestination())) {
 											tree.setChecked(fd.getFinalDestination(), false);
@@ -236,8 +236,8 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 	
 	public void setTreeChecked() {
 		boolean hasDestination = false;
-		for (List<FunctionData> list : refactoring.getFunctions().values()) {
-			for (FunctionData fd : list) {
+		for (final List<FunctionData> list : refactoring.getFunctions().values()) {
+			for (final FunctionData fd : list) {
 				if (fd.isToBeMoved()) {
 					tree.setChecked(fd, true);
 					if (fd.getFinalDestination() != null) {
@@ -256,7 +256,7 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 	
 	@Override
 	public IWizardPage getPreviousPage() {
-		IWizardPage page2 = super.getPreviousPage();
+		final IWizardPage page2 = super.getPreviousPage();
 		if (page2 instanceof MoveFunctionWizardFunctionsPage) {
 			((MoveFunctionWizardFunctionsPage)page2).refreshTree();
 		}
@@ -267,12 +267,12 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 class DestinationDataProvider implements ITreeContentProvider {
 	
 	@Override
-	public Object[] getElements(Object inputElement) {
+	public Object[] getElements(final Object inputElement) {
 		if (inputElement instanceof Map<?, ?>) {
-			Map<Module, List<FunctionData>> map = (Map<Module, List<FunctionData>>)inputElement;
-			ArrayList<FunctionData> obj = new ArrayList<FunctionData>();
-			for (Map.Entry<Module, List<FunctionData>> entry : map.entrySet()) {
-				for (FunctionData fd : entry.getValue()) {
+			final Map<Module, List<FunctionData>> map = (Map<Module, List<FunctionData>>)inputElement;
+			final ArrayList<FunctionData> obj = new ArrayList<FunctionData>();
+			for (final Map.Entry<Module, List<FunctionData>> entry : map.entrySet()) {
+				for (final FunctionData fd : entry.getValue()) {
 					if (fd.isToBeMoved() && !fd.getDestinations().isEmpty()) {
 						obj.add(fd);
 					}
@@ -289,23 +289,22 @@ class DestinationDataProvider implements ITreeContentProvider {
 	}
 
 	@Override
-	public Object[] getChildren(Object parentElement) {
+	public Object[] getChildren(final Object parentElement) {
 		if (parentElement instanceof FunctionData) {
 			if (!((FunctionData)parentElement).getDestinations().isEmpty()) {
-				List<Destination> destinations = new ArrayList<Destination>();				
-				for (Destination dest : ((FunctionData)parentElement).getDestinations()) {
+				final List<Destination> destinations = new ArrayList<Destination>();				
+				for (final Destination dest : ((FunctionData)parentElement).getDestinations()) {
 					if (!MoveFunctionWizardDestinationsPage.displayZeros && dest.getRating()!= 0) {
 						destinations.add(dest);
-					}
-					else if (MoveFunctionWizardDestinationsPage.displayZeros) {
+					} else if (MoveFunctionWizardDestinationsPage.displayZeros) {
 						destinations.add(dest);
 					}
 				}
 				Collections.sort(destinations, new Comparator<Destination>() {
 
 					@Override
-					public int compare(Destination arg0, Destination arg1) {
-						int val = (-1)*(arg0.getRating() - arg1.getRating());
+					public int compare(final Destination arg0, final Destination arg1) {
+						final int val = (-1)*(arg0.getRating() - arg1.getRating());
 						int val2 = 0;
 						if (val == 0 && arg0.getNewImports() != -1) {
 							val2 = arg1.getNewImports() - arg0.getNewImports();
@@ -324,12 +323,12 @@ class DestinationDataProvider implements ITreeContentProvider {
 	}
 
 	@Override
-	public Object getParent(Object element) {
+	public Object getParent(final Object element) {
 		return null;
 	}
 
 	@Override
-	public boolean hasChildren(Object element) {
+	public boolean hasChildren(final Object element) {
 		if (element instanceof Module) {
 			return false;
 		}
@@ -346,7 +345,7 @@ class DestinationDataProvider implements ITreeContentProvider {
 	}
 
 	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {		
+	public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {		
 	}
 	
 }

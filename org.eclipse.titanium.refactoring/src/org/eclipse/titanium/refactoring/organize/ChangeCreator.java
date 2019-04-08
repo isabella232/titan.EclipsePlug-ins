@@ -278,7 +278,7 @@ public class ChangeCreator {
 			for (final ImportModule m : module.getImports()) {
 				final Identifier importedIdentifier = m.getIdentifier();
 				boolean isused = false;
-				for (Module m2 : usedModules) {
+				for (final Module m2 : usedModules) {
 					if(m2.getIdentifier().equals(importedIdentifier)) {
 						isused = true;
 					}
@@ -355,7 +355,7 @@ public class ChangeCreator {
 
 	static class ImportsCheck extends ASTVisitor {
 
-		private Set<Module> setOfModules = new HashSet<Module>();
+		private final Set<Module> setOfModules = new HashSet<Module>();
 
 		public ImportsCheck() {
 			setOfModules.clear();

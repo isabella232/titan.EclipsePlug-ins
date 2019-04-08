@@ -55,14 +55,14 @@ class IfContext extends Context {
 				final ClauseVisitor vis = new ClauseVisitor();
 				ic.accept(vis);
 				final List<Reference> refs = vis.getResult();
-				for (Reference ref: refs) {
+				for (final Reference ref: refs) {
 					varNamesInConditions.add(ref.getDisplayName());
 				}
 			}
 		} else {
 			//the log statement is in the else block
 			final List<Reference> refs = extractAllIdsFromClauses(ics);
-			for (Reference ref: refs) {
+			for (final Reference ref: refs) {
 				varNamesInConditions.add(ref.getDisplayName());
 			}
 		}
@@ -71,7 +71,7 @@ class IfContext extends Context {
 	private static List<Reference> extractAllIdsFromClauses(final If_Clauses ics) {
 		final List<If_Clause> icl = ics.getClauses();
 		final List<Reference> ret = new ArrayList<Reference>();
-		for (If_Clause ic: icl) {
+		for (final If_Clause ic: icl) {
 			final ClauseVisitor vis = new ClauseVisitor();
 			ic.accept(vis);
 			ret.addAll(vis.getResult());
@@ -85,7 +85,7 @@ class IfContext extends Context {
 		if (varNamesInConditions == null) {
 			return ret;
 		}
-		for (String s: varNamesInConditions) {
+		for (final String s: varNamesInConditions) {
 			if (idsAlreadyHandled.contains(s)) {
 				continue;
 			}

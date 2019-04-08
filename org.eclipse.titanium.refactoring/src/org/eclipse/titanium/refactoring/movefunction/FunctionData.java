@@ -17,17 +17,17 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
  * @author Bianka Bekefi
  * */
 public class FunctionData implements Comparable<FunctionData> {
-	private Def_Function definiton;
+	private final Def_Function definiton;
 	private Module module;
-	private String functionBody;
+	private final String functionBody;
 	private boolean toBeMoved;
-	private List<Destination> destinations;
+	private final List<Destination> destinations;
 	private List<Module> usedModules;
 	private Destination finalDestination;
 	private MoveFunctionMethod method;
-	private List<Module> usedBy;
+	private final List<Module> usedBy;
 	
-	public FunctionData(Def_Function definiton, String functionBody) {
+	public FunctionData(final Def_Function definiton, final String functionBody) {
 		this.definiton = definiton;
 		this.functionBody = functionBody;
 		toBeMoved = true;
@@ -36,42 +36,42 @@ public class FunctionData implements Comparable<FunctionData> {
 		usedBy = new ArrayList<Module>();
 	}
 	
-	public void setToBeMoved(boolean toBeMoved) {
+	public void setToBeMoved(final boolean toBeMoved) {
 		this.toBeMoved = toBeMoved;
 	}
 	
-	public void setModule(Module module) {
+	public void setModule(final Module module) {
 		this.module = module;
 	}
 	
-	public void addDestination(Module destination, Integer rating, int newImports) {
+	public void addDestination(final Module destination, final Integer rating, final int newImports) {
 		destinations.add(new Destination(destination, rating, this, newImports));
 	}
 	
-	public void addUsedModule(Module module) {
+	public void addUsedModule(final Module module) {
 		usedModules.add(module);
 	}
 	
-	public void addUsedModules(List<Module> modules) {
+	public void addUsedModules(final List<Module> modules) {
 		usedModules.addAll(modules);
 	}
 	
-	public void addUsedBy(Module m) {
+	public void addUsedBy(final Module m) {
 		usedBy.add(m);
 	}
 	
-	public void setUsedModules(List<Module> modules) {
+	public void setUsedModules(final List<Module> modules) {
 		usedModules = modules;
 	}
 	
-	public void setFinalDestination(Destination destination) {
+	public void setFinalDestination(final Destination destination) {
 		this.finalDestination = destination;
 		if(destination != null) {
 			destination.setFunctionData(this);
 		}
 	}
 	
-	public void setRefactoringMethod(MoveFunctionMethod rMethod) {
+	public void setRefactoringMethod(final MoveFunctionMethod rMethod) {
 		this.method = rMethod;
 	}
 	
@@ -112,7 +112,7 @@ public class FunctionData implements Comparable<FunctionData> {
 	}
 
 	@Override
-	public int compareTo(FunctionData arg0) {
+	public int compareTo(final FunctionData arg0) {
 		return this.getDefiniton().getIdentifier().getDisplayName().compareToIgnoreCase(arg0.getDefiniton().getIdentifier().getDisplayName());
 	}
 	
@@ -132,7 +132,7 @@ class Destination implements Comparable<Destination> {
 		
 	}
 	
-	public Destination(Module module, int rating, FunctionData functionData, int newImports) {
+	public Destination(final Module module, final int rating, final FunctionData functionData, final int newImports) {
 		this.module = module;
 		this.rating = rating;
 		this.functionData = functionData;
@@ -156,24 +156,24 @@ class Destination implements Comparable<Destination> {
 		return newImports;
 	}
 	
-	public void setModule(Module module) {
+	public void setModule(final Module module) {
 		this.module = module;
 	}
 	
-	public void setRating(int rating) {
+	public void setRating(final int rating) {
 		this.rating = rating;
 	}
 	
-	public void setFunctionData(FunctionData functionData) {
+	public void setFunctionData(final FunctionData functionData) {
 		this.functionData = functionData;
 	}
 	
-	public void setNewImports(int newImports) {
+	public void setNewImports(final int newImports) {
 		this.newImports = newImports;
 	}
 
 	@Override
-	public int compareTo(Destination arg0) {
+	public int compareTo(final Destination arg0) {
 		return arg0.rating - this.rating;
 	}
 }

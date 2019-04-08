@@ -63,7 +63,7 @@ public class GraphHandler {
 
 	private DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> g;
 	private static final Function<NodeDescriptor, String> NODE_LABELER = new Function<NodeDescriptor, String>() {
-		public String apply(NodeDescriptor o) {
+		public String apply(final NodeDescriptor o) {
 			return o.toString();
 		}
 	};

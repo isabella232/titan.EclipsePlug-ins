@@ -124,7 +124,7 @@ public class ChangeCreator {
 	 * @return The edit, which contains the proper changes.
 	 * @throws CoreException 
 	 */
-	private MultiTextEdit runsOnScopeEdit(final TTCN3Module module, IFile toVisit) throws BadLocationException, CoreException {
+	private MultiTextEdit runsOnScopeEdit(final TTCN3Module module, final IFile toVisit) throws BadLocationException, CoreException {
 		final MultiTextEdit edit = new MultiTextEdit();
 
 		final Set<Definition> list;
@@ -136,7 +136,7 @@ public class ChangeCreator {
 		}
 		list = visit.getLocations();
 
-		for (Definition node : list) {
+		for (final Definition node : list) {
 
 			final Set<Identifier> definitions = new HashSet<Identifier>();
 			final Reference runsOnReference;
@@ -221,7 +221,7 @@ public class ChangeCreator {
 		return edit;
 	}
 
-	private static ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, Set<Identifier> identifiersOfTree) {
+	private static ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, final Set<Identifier> identifiersOfTree) {
 		final List<ComponentTypeBody> parentComponentBodies = component.getExtensions().getComponentBodies();
 		if (parentComponentBodies.isEmpty()) {
 			identifiersOfTree.add(component.getIdentifier());
@@ -229,7 +229,7 @@ public class ChangeCreator {
 		}
 		final Set<Identifier> setNodes = new HashSet<Identifier>();
 		setNodes.add(component.getIdentifier());
-		for (ComponentTypeBody variable : parentComponentBodies) {
+		for (final ComponentTypeBody variable : parentComponentBodies) {
 			final Set<Identifier> identifiersOfNode = new HashSet<Identifier>();
 			final ComponentTypeBody cb = searchComponent(variable, definitions, identifiersOfNode);
 			if (cb != null) {

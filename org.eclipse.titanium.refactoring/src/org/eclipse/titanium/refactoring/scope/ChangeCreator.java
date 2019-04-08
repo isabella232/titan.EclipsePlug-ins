@@ -364,6 +364,16 @@ public class ChangeCreator {
 	 * Returns the {@link Location} of the {@DeleteEdit} to remove a variable from a declaration list
 	 * */
 	private Location calculateMultiDeclarationCutLoc(final String fileContent, final StatementNode declStNode) {
+		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
+		final Location declStmtLoc = declStmt.getLocation();
+		final String stmtContent = fileContent.substring(declStmtLoc.getOffset(), declStmtLoc.getEndOffset());
+		if (!stmtContent.contains(",")) {
+			ErrorReporter.logError("ChangeCreator.calculateMultiDeclarationCutLoc(): Given statement" +
+					" is not a multi-declaration statement; loc: " + declStmtLoc.getOffset() + "-" +
+					declStmtLoc.getEndOffset() + " in file " + declStmtLoc.getFile());
+			return null;
+		}
+
 		/*
 		 * rules for removing multideclaration parts:
 		 * 	if part is only one left: remove statement
@@ -374,16 +384,8 @@ public class ChangeCreator {
 		final MultiDeclaration md = declStNode.getMultiDeclaration();
 		final StatementNode firstDeclPart = md.getFirstStatement();
 		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
-		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
 		final boolean firstDefInMdMoved = firstDeclPart.isMoved();
-		final Location declStmtLoc = declStmt.getLocation();
-		final String stmtContent = fileContent.substring(declStmtLoc.getOffset(), declStmtLoc.getEndOffset());
-		if (!stmtContent.contains(",")) {
-			ErrorReporter.logError("ChangeCreator.calculateMultiDeclarationCutLoc(): Given statement" +
-					" is not a multi-declaration statement; loc: " + declStmtLoc.getOffset() + "-" +
-					declStmtLoc.getEndOffset() + " in file " + declStmtLoc.getFile());
-			return null;
-		}
+		
 		//
 		if (md.getSize() <= 1) {
 			final Location cutLoc = findStatementLocation(fileContent, declStmt.getLocation(), true);
@@ -497,10 +499,6 @@ public class ChangeCreator {
 	 * Returns the content of an {@InsertEdit} to move a variable from a declaration list
 	 * */
 	private String calculateMultiDeclarationMoveContent(final String fileContent, final StatementNode declStNode) {
-		final MultiDeclaration md = declStNode.getMultiDeclaration();
-		final StatementNode firstDeclPart = md.getFirstStatement();
-		final Definition firstDefInStmt = firstDeclPart.getDeclaredVar().getDefinition();
-		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
 		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
 		final Location declStmtLoc = declStmt.getLocation();
 		final String stmtContent = fileContent.substring(declStmtLoc.getOffset(), declStmtLoc.getEndOffset());
@@ -510,6 +508,11 @@ public class ChangeCreator {
 					declStmtLoc.getEndOffset() + " in file " + declStmtLoc.getFile());
 			return null;
 		}
+
+		final MultiDeclaration md = declStNode.getMultiDeclaration();
+		final StatementNode firstDeclPart = md.getFirstStatement();
+		final Definition firstDefInStmt = firstDeclPart.getDeclaredVar().getDefinition();
+		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
 		int prefixOffset;
 		int prefixEndOffset;
 		if (firstDefInStmt.equals(defVarToMove)) {
@@ -662,14 +665,14 @@ public class ChangeCreator {
 				return V_CONTINUE;
 			}
 			if (node instanceof Reference && suspendReferencesForNode == null) {
-				final Reference ref = (Reference)node;
-				final Assignment as = ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				final StatementNode refSt = (StatementNode)currStack.peek();
 				if (refSt == null) {
 					//should be a return type or runs on reference (ignore it)
 					return V_SKIP;
 				}
 
+				final Reference ref = (Reference)node;
+				final Assignment as = ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				//does the statement contain function calls?
 				if (as instanceof Def_Function || as instanceof Def_Extfunction) {
 					refSt.setHasFunctionCall();

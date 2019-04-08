@@ -46,7 +46,7 @@ public class DefinitionNameTooLong extends BaseModuleCodeSmellSpotter{
 	public void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Definition) {
 			final Definition s = (Definition) node;
-			int lengthOfFunctionName=s.getIdentifier().getDisplayName().length();
+			final int lengthOfFunctionName = s.getIdentifier().getDisplayName().length();
 			if(lengthOfFunctionName>recommendedLenghtOfFunctionName){
 				final String msg = MessageFormat.format(WARNING_MESSAGE,
 						lengthOfFunctionName, recommendedLenghtOfFunctionName);

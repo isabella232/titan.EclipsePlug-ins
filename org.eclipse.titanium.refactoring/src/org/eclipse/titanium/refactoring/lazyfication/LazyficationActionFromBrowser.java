@@ -55,13 +55,13 @@ public class LazyficationActionFromBrowser extends AbstractHandler implements IO
 	}
 
 	private void performLazyfication() {
-		// getting the active editor
-		final TTCN3Editor targetEditor = Utils.getActiveEditor();
-		//find selection
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}
 
+		// getting the active editor
+		final TTCN3Editor targetEditor = Utils.getActiveEditor();
+		//find selection
 		final IStructuredSelection structSelection = (IStructuredSelection)selection;
 		final Set<IProject> projsToUpdate = Utils.findAllProjectsInSelection(structSelection);
 

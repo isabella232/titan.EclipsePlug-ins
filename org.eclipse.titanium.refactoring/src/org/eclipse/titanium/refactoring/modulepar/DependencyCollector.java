@@ -235,7 +235,7 @@ public class DependencyCollector {
 		while (!(allDefs.containsAll(prevDefs))) {
 			currDefs = new HashSet<Definition>();
 			allDefs.addAll(prevDefs);
-			for (Definition d: prevDefs) {
+			for (final Definition d: prevDefs) {
 				final DependencyFinderVisitor vis = new DependencyFinderVisitor(currDefs, imports, asnFiles);
 				d.accept(vis);
 			}
@@ -339,7 +339,7 @@ public class DependencyCollector {
 				final IFile f = (IFile)asnBaseFile;
 				final Module mod = projectSourceParser.containedModule(f);
 				final List<Module> impMods = mod.getImportedModules();
-				for (Module m: impMods) {
+				for (final Module m: impMods) {
 					final IResource impModRes = m.getLocation().getFile();
 					if (asnFiles.contains(impModRes)) {
 						continue;
@@ -394,7 +394,7 @@ public class DependencyCollector {
 	 * */
 	private static void filterImportDefinitions(final Set<IResource> allFiles, final List<ImportModule> importDefs, final ProjectSourceParser projParser) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
-		for (IResource r: allFiles) {
+		for (final IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
 				continue;
 			}
@@ -419,7 +419,7 @@ public class DependencyCollector {
 	 * */
 	private static void filterFriendDefinitions(final Set<IResource> allFiles, final List<FriendModule> friendDefs, final ProjectSourceParser projParser) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
-		for (IResource r: allFiles) {
+		for (final IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
 				continue;
 			}

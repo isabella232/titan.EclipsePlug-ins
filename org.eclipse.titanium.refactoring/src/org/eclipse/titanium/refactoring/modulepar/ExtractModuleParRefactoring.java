@@ -241,7 +241,7 @@ public class ExtractModuleParRefactoring {
 			parent = parent.getParent();
 		}
 		//create all folders from project level towards file level
-		for (IFolder f: folders) {
+		for (final IFolder f: folders) {
 			if (!f.exists()) {
 				f.create(true, true, new NullProgressMonitor());
 			}

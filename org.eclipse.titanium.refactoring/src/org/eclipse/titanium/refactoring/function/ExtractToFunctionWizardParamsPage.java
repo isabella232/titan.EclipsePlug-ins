@@ -154,10 +154,11 @@ public class ExtractToFunctionWizardParamsPage extends UserInputWizardPage {
 
 		@Override
 		protected void setValue(final Object element, final Object value) {
-			final ParamTableItem pti = (ParamTableItem) element;
 			if (!(value instanceof String)) {
 				return;
 			}
+
+			final ParamTableItem pti = (ParamTableItem) element;
 			pti.setName((String) value);
 			getViewer().update(element, null);
 

@@ -32,7 +32,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
-import org.eclipse.titanium.refactoring.runsonscopereduction.ChangeCreator;
 
 /**
  * This class represents the 'Runs on scope reduction' refactoring operation.
@@ -82,7 +81,7 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 	}
 
 	@Override
-	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
+	public RefactoringStatus checkInitialConditions(final IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		final RefactoringStatus result = new RefactoringStatus();
 		try{
@@ -94,7 +93,7 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 			}
 
 			// check that there are no ttcnpp files in the project
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				if (hasTtcnppFiles(project)) {
 					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
 				}
@@ -102,9 +101,9 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 			pm.worked(1);
 
 			// check that there are no error markers in the project
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				final IMarker[] markers = project.findMarkers(null, true, IResource.DEPTH_INFINITE);
-				for (IMarker marker : markers) {
+				for (final IMarker marker : markers) {
 					if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
 						result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
 						break;
@@ -123,13 +122,13 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 	}
 
 	@Override
-	public RefactoringStatus checkFinalConditions(IProgressMonitor pm)
+	public RefactoringStatus checkFinalConditions(final IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		return new RefactoringStatus();
 	}
 
 	@Override
-	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
+	public Change createChange(final IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		if (selection != null) {
 			final CompositeChange cchange = new CompositeChange("RunsOnScopeRefactoring");
 			final Iterator<?> it = selection.iterator();
@@ -169,7 +168,7 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
 		if (resource instanceof IProject || resource instanceof IFolder) {
 			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (IResource res : children) {
+			for (final IResource res : children) {
 				if (hasTtcnppFiles(res)) {
 					return true;
 				}
