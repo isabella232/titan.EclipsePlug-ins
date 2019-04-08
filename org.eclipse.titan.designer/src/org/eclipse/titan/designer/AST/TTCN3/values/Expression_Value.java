@@ -337,10 +337,11 @@ public abstract class Expression_Value extends Value {
 			result = result.getReferencedSubValue(timestamp, reference, actualSubReference, refChain);
 			if (result != null && result.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
+				return this;
 			}
 		}
 
-		return this;
+		return result;
 	}
 
 	/**
