@@ -86,8 +86,8 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 				problems.report(exp.getLocation(), "State of port may change during the actual snapshot");
 			}
 
-			if(node instanceof AnyTimerRunningExpression || 
-					node instanceof TimerRunningExpression || 
+			if(node instanceof AnyTimerRunningExpression ||
+					node instanceof TimerRunningExpression ||
 					node instanceof TimerReadExpression) {
 				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "State of timer may change during the actual snapshot");
@@ -109,15 +109,15 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 		}
 
 		if(node instanceof Receive_Port_Statement ||
-			node instanceof Check_Receive_Port_Statement ||
-			node instanceof Check_Port_Statement) {
+				node instanceof Check_Receive_Port_Statement ||
+				node instanceof Check_Port_Statement) {
 			node.accept(visitor);
 		}
 	}
 
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
-		final List<Class<? extends IVisitableNode>> ret = 
+		final List<Class<? extends IVisitableNode>> ret =
 				new ArrayList<Class<? extends IVisitableNode>>(6);
 		ret.add(Operation_Altguard.class);
 		ret.add(Invoke_Altguard.class);

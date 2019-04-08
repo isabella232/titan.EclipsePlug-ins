@@ -21,7 +21,7 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * */
 public class TooComplexOfType extends BaseModuleCodeSmellSpotter {
 	private static final String ERROR_MESSAGE = "Too complex of type description. Can be simplified by creating a new type from the 'of' type with the restricton.";
-	
+
 	private final CompilationTimeStamp timestamp;
 
 	public TooComplexOfType() {
@@ -32,9 +32,9 @@ public class TooComplexOfType extends BaseModuleCodeSmellSpotter {
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Def_Type) {
-			final Def_Type dt = (Def_Type) node; 
+			final Def_Type dt = (Def_Type) node;
 			if(dt.getType(timestamp) instanceof AbstractOfType) {
-				final AbstractOfType aot = (AbstractOfType) dt.getType(timestamp);			
+				final AbstractOfType aot = (AbstractOfType) dt.getType(timestamp);
 				if(aot.getOfType().getSubtype() != null) {
 					problems.report(dt.getLocation(), ERROR_MESSAGE);
 				}else if(aot.getOfType() instanceof AbstractOfType) {

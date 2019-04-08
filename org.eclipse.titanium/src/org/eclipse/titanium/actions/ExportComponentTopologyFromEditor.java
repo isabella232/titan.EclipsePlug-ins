@@ -88,7 +88,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 
 	public ExportComponentTopologyFromEditor() {
 	}
-	
+
 	@Override
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 		// Do nothing
@@ -111,7 +111,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 		return null;
 	}
 
-	
+
 	private void doOpenComponentTopologyGraphForSelected() {
 		final Definition def = findSelection();
 		if (! (def instanceof Def_Testcase)) {
@@ -126,7 +126,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 		final Map<String, NodeDescriptor> labels = new HashMap<String, NodeDescriptor>();
 
 		final Def_Testcase tc = (Def_Testcase) def;
-				
+
 		final HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
 		final Component_Type ct = tc.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 		components.put(ct, new ArrayList<Component_Type>());
@@ -148,16 +148,14 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 					graph.addVertex(node2);
 					labels.put(node2.getName(), node2);
 				}
-				
+
 				final EdgeDescriptor edge = new EdgeDescriptor(entry.getKey().getFullName() + "->" + ct2.getFullName(), Color.black);
 				if (!graph.containsEdge(edge)) {
 					graph.addEdge(edge, labels.get(entry.getKey().getFullName()), labels.get(ct2.getFullName()), EdgeType.DIRECTED);
 				}
 			}
-			
-			
 		}
-		
+
 		String path = "";
 		try {
 			path = project.getPersistentProperty(
@@ -191,9 +189,9 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 				}
 			}
 		});
-		
-		
-		
+
+
+
 		try {
 			final IEditorPart editor = page.findEditor(new FileEditorInput(selectedFile));
 			if (editor instanceof ComponentTopologyGraphEditor) {
@@ -207,7 +205,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 			errorHandler.reportException("Error while parsing the project", exc);
 		}
 	}
-			
+
 
 	private Definition findSelection() {
 		//getting the active editor
@@ -246,7 +244,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 		}
 		return selectedDef;
 	}
-	
+
 	private static class SelectionFinderVisitor extends ASTVisitor {
 
 		private Definition def;
@@ -266,7 +264,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 				return V_CONTINUE;
 			}
 			final Location loc = ((ILocateableNode) node).getLocation();
-			
+
 			if (loc == null) {
 				return V_ABORT;
 			}
@@ -295,9 +293,9 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 			return null;
 		}
 		return (TextSelection)sel;
-	}	
-		
-		
+	}
+
+
 	private static class TestcaseVisitor extends ASTVisitor {
 
 		private HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
@@ -305,7 +303,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 		private int counter;
 		private boolean cce;
 		private Component_Type comp;
-		
+
 		TestcaseVisitor(final List<Def_Function> checkedFunctions, HashMap<Component_Type, List<Component_Type>> components, final Component_Type comp) {
 			this.components.putAll(components);
 			this.checkedFunctions = checkedFunctions;
@@ -314,7 +312,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 			this.comp = comp;
 		}
 
-		
+
 		private HashMap<Component_Type, List<Component_Type>> getComponents() {
 			return components;
 		}
@@ -327,7 +325,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 			else if (node instanceof PortReference && (counter == 0 || counter == 1)) {
 				counter++;
 				final PortReference pr = ((PortReference)node);
-				
+
 				final Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				if (as != null && as instanceof Def_Port) {
 					final Def_Port dp = (Def_Port)as;
@@ -338,18 +336,18 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 						if (!components.containsKey(comp)) {
 							components.put(comp, new ArrayList<Component_Type>());
 						}
-							
+
 						if (!components.get(comp).contains(ct) && !comp.equals(ct)) {
 							components.get(comp).add(ct);
 						}
-							
+
 					}
 				}
 			}
 			else if (node instanceof Function_Instance_Statement) {
 				final Function_Instance_Statement fis = (Function_Instance_Statement)node;
 				final Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
-				analyzeFunction(as, comp);			
+				analyzeFunction(as, comp);
 			}
 			else if (node instanceof ComponentCreateExpression) {
 				cce = true;
@@ -376,7 +374,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 
 			return V_CONTINUE;
 		}
-		
+
 		public void analyzeFunction(final Assignment assignment, final Component_Type component) {
 			if (assignment != null && assignment instanceof Def_Function) {
 				final Def_Function df = (Def_Function)assignment;
@@ -403,12 +401,12 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 			}
 		}
 	}
-	
+
 	private static class ModuleVisitor extends ASTVisitor {
 
 		private List<Component_Type> comps = new ArrayList<Component_Type>();
 		private Def_Port port;
-		
+
 		ModuleVisitor(final Def_Port port) {
 			comps = new ArrayList<Component_Type>();
 			this.port = port;

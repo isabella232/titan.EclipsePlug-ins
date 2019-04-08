@@ -49,8 +49,8 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 public class ComponentTopologyGraphGenerator extends GraphGenerator {
 	private final IFile selectedFile;
-	
-	
+
+
 	public ComponentTopologyGraphGenerator(final IFile selectedFile, final IProject project, final ErrorHandler eHandler) {
 		super(project, eHandler);
 		this.selectedFile = selectedFile;
@@ -60,20 +60,20 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 	@Override
 	protected void createGraph() {
 		final TestcaseCollector tcc = new TestcaseCollector();
-		
-		
+
+
 		final IProject sourceProj = selectedFile.getProject();
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProj);
 		final Module selectedModule = projectSourceParser.containedModule(selectedFile);
 		selectedModule.accept(tcc);
-		
+
 		for (final Def_Testcase tc : tcc.getTestcases()) {
 			final HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
 			final Component_Type ct = tc.getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
 			components.put(ct, new ArrayList<Component_Type>());
 			final TestcaseVisitor vis = new TestcaseVisitor(new ArrayList<Def_Function>(), components, ct);
 			tc.accept(vis);
-			
+
 			NodeDescriptor node = new NodeDescriptor(tc.getFullName()+"\n"+ct.getFullName(), tc.getFullName()+"\n"+ct.getFullName(),
 					NodeColours.DARK_RED, project, false, ct.getLocation());
 			graph.addVertex(node);
@@ -95,18 +95,18 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 						graph.addVertex(node2);
 						labels.put(node2.getName(), node2);
 					}
-					
-					final EdgeDescriptor edge = new EdgeDescriptor(tc.getFullName()+"\n"+entry.getKey().getFullName() + "->" + 
+
+					final EdgeDescriptor edge = new EdgeDescriptor(tc.getFullName()+"\n"+entry.getKey().getFullName() + "->" +
 							ct2.getFullName(), Color.black);
 					if (!graph.containsEdge(edge)) {
-						graph.addEdge(edge, labels.get(tc.getFullName()+"\n"+entry.getKey().getFullName()), 
+						graph.addEdge(edge, labels.get(tc.getFullName()+"\n"+entry.getKey().getFullName()),
 								labels.get(tc.getFullName()+"\n"+ct2.getFullName()), EdgeType.DIRECTED);
 					}
 				}
 			}
-		}	
+		}
 	}
-	
+
 	private static class TestcaseVisitor extends ASTVisitor {
 
 		private final HashMap<Component_Type, List<Component_Type>> components = new HashMap<Component_Type, List<Component_Type>>();
@@ -114,7 +114,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 		private int counter;
 		private boolean cce;
 		private final Component_Type comp;
-		
+
 		TestcaseVisitor(final List<Def_Function> checkedFunctions, final HashMap<Component_Type, List<Component_Type>> components, final Component_Type comp) {
 			this.components.putAll(components);
 			this.checkedFunctions = checkedFunctions;
@@ -122,7 +122,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 			cce = false;
 			this.comp = comp;
 		}
-		
+
 		private HashMap<Component_Type, List<Component_Type>> getComponents() {
 			return components;
 		}
@@ -135,7 +135,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 			else if (node instanceof PortReference && (counter == 0 || counter == 1)) {
 				counter++;
 				final PortReference pr = ((PortReference)node);
-				
+
 				final Assignment as = pr.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				if (as != null && as instanceof Def_Port) {
 					final Def_Port dp = (Def_Port)as;
@@ -146,7 +146,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 						if (!components.containsKey(comp)) {
 							components.put(comp, new ArrayList<Component_Type>());
 						}
-							
+
 						if (!components.get(comp).contains(ct) && !comp.equals(ct)) {
 							components.get(comp).add(ct);
 						}
@@ -156,7 +156,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 			else if (node instanceof Function_Instance_Statement) {
 				final Function_Instance_Statement fis = (Function_Instance_Statement)node;
 				final Assignment as = fis.getReference().getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
-				analyzeFunction(as, comp);			
+				analyzeFunction(as, comp);
 			}
 			else if (node instanceof ComponentCreateExpression) {
 				cce = true;
@@ -182,7 +182,7 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 
 			return V_CONTINUE;
 		}
-		
+
 		public void analyzeFunction(final Assignment assignment, final Component_Type component) {
 			if (assignment != null && assignment instanceof Def_Function) {
 				final Def_Function df = (Def_Function)assignment;
@@ -209,12 +209,12 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 		}
 
 	}
-	
+
 	private static class ModuleVisitor extends ASTVisitor {
 
 		private final List<Component_Type> comps = new ArrayList<Component_Type>();
 		private final Def_Port port;
-		
+
 		ModuleVisitor(final Def_Port port) {
 			this.port = port;
 		}
@@ -239,11 +239,11 @@ public class ComponentTopologyGraphGenerator extends GraphGenerator {
 		}
 
 	}
-	
+
 	private static class TestcaseCollector extends ASTVisitor {
 
 		private final List<Def_Testcase> tcs = new ArrayList<Def_Testcase>();
-		
+
 		TestcaseCollector() {
 		}
 

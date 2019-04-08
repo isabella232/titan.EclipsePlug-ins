@@ -37,7 +37,7 @@ public class ExportImagePreferencesDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 */
@@ -48,7 +48,7 @@ public class ExportImagePreferencesDialog extends Dialog {
 
 	/**
 	 * Open the dialog.
-	 * 
+	 *
 	 * @return The set preferences in a string array
 	 */
 	public ImageExportType open() {

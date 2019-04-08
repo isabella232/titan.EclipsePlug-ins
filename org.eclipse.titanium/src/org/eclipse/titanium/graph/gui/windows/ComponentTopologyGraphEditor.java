@@ -29,11 +29,11 @@ import org.eclipse.ui.IFileEditorInput;
  */
 public class ComponentTopologyGraphEditor extends GraphEditor {
 	public static final String ID = "org.eclipse.titanium.graph.editors.ComponentTopologyGraphEditor";
-	
+
 	public ComponentTopologyGraphEditor() {
 		super();
 	}
-	
+
 
 	@Override
 	protected void initWindow() {
@@ -69,9 +69,9 @@ public class ComponentTopologyGraphEditor extends GraphEditor {
 	@Override
 	protected void initGeneratorAndHandler(final Composite parent) {
 		handler = new GraphHandler();
-		generator = new ComponentTopologyGraphGenerator(((IFileEditorInput) getEditorInput()).getFile(), 
+		generator = new ComponentTopologyGraphGenerator(((IFileEditorInput) getEditorInput()).getFile(),
 				((IFileEditorInput) getEditorInput()).getFile().getProject(),
 				errorHandler);
 	}
-	
+
 }

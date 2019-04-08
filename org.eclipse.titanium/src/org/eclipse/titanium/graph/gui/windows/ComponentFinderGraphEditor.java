@@ -29,11 +29,11 @@ import org.eclipse.ui.IFileEditorInput;
  */
 public class ComponentFinderGraphEditor extends GraphEditor {
 	public static final String ID = "org.eclipse.titanium.graph.editors.ComponentFinderGraphEditor";
-	
+
 	public ComponentFinderGraphEditor() {
 		super();
 	}
-	
+
 
 	@Override
 	protected void initWindow() {
@@ -69,10 +69,10 @@ public class ComponentFinderGraphEditor extends GraphEditor {
 	@Override
 	protected void initGeneratorAndHandler(final Composite parent) {
 		handler = new GraphHandler();
-		generator = new ComponentFinderGraphGenerator(((IFileEditorInput) getEditorInput()).getFile(), 
+		generator = new ComponentFinderGraphGenerator(((IFileEditorInput) getEditorInput()).getFile(),
 				((IFileEditorInput) getEditorInput()).getFile().getProject(),
 				errorHandler);
 	}
 
-	
+
 }
