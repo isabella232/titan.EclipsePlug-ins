@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * This class represents the 'Runs on scope reduction' refactoring operation.
- * 
+ *
  * @author Farkas Izabella Ingrid
  *
  */
@@ -47,13 +47,13 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 
 	private Object[] affectedObjects; // look at creatChange
 	private final IStructuredSelection selection;
-		private final Set<IProject> projects = new HashSet<IProject>();
-		private final Definition defSelection;
+	private final Set<IProject> projects = new HashSet<IProject>();
+	private final Definition defSelection;
 
 	public RunsOnScopeReductionRefactoring(final IStructuredSelection selection) {
-		this.selection = selection; 
+		this.selection = selection;
 		this.defSelection = null;
-		
+
 		final Iterator<?> it = selection.iterator();
 		while (it.hasNext()) {
 			final Object o = it.next();
@@ -63,12 +63,12 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 			}
 		}
 	}
-	
+
 	public RunsOnScopeReductionRefactoring(final Definition selection) {
 		this.defSelection = selection;
 		this.selection = null;
 	}
-	
+
 	public Object[] getAffectedObjects() {
 		return affectedObjects;
 	}

@@ -47,55 +47,55 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 	private final MoveFunctionRefactoring refactoring;
 	private StyledText functionBody;
 	private CheckboxTreeViewer tree;
-	
+
 	MoveFunctionWizardFunctionsPage(final String name, final MoveFunctionRefactoring refactoring) {
 		super(name);
 		this.refactoring = refactoring;
 		refactoring.getSettings().setType(MoveFunctionType.MODULE);
 		refactoring.getSettings().setMethod(MoveFunctionMethod.LENGTH);
 	}
-	
+
 	@Override
 	public void createControl(final Composite parent) {
 		final Composite top = new Composite(parent, SWT.NONE);
 		setControl(top);
 		initializeDialogUnits(top);
 		top.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-	    top.setLayout(new GridLayout(1, false));
-	    
-	    final Label title = new Label(top, SWT.NULL);
+		top.setLayout(new GridLayout(1, false));
+
+		final Label title = new Label(top, SWT.NULL);
 		title.setText("Select the functions you want to move.");
-		
+
 		final Composite comp1 = new Composite(top, SWT.NONE);
 		initializeDialogUnits(comp1);
 		comp1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		comp1.setLayout(new FillLayout());
-		
+
 		final Composite comp2 = new Composite(top, SWT.NONE);
 		initializeDialogUnits(comp2);
 		comp2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		comp2.setLayout(new FillLayout());
-		
-	    tree = new CheckboxTreeViewer (comp1, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+
+		tree = new CheckboxTreeViewer (comp1, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		tree.setContentProvider(new DataProvider());
 		tree.setLabelProvider(new DataLabelProvider());
 		tree.setInput(refactoring.getModules());
-		
+
 		tree.addCheckStateListener(new ICheckStateListener() {
 			public void checkStateChanged(final CheckStateChangedEvent event) {
-				if (event.getElement() instanceof Module 
-						&& event.getChecked() 
+				if (event.getElement() instanceof Module
+						&& event.getChecked()
 						&& refactoring.getFunctions().get(event.getElement()).isEmpty()) {
 					final WorkspaceJob wj = new WorkspaceJob("Find functions in module: "+event.getElement()) {
 						@Override
 						public IStatus runInWorkspace(final IProgressMonitor monitor) {
 							try {
 								SubMonitor progress = SubMonitor.convert(monitor, ((TTCN3Module)event.getElement())
-																.getDefinitions()
-																.getNofAssignments());
+										.getDefinitions()
+										.getNofAssignments());
 								progress.setTaskName("Analysis of module: "+event.getElement());
 								final Object[] children = refactoring.selectMovableFunctions((TTCN3Module)event.getElement(), progress)
-															.toArray();
+										.toArray();
 								progress.done();
 								Display.getDefault().syncExec(new Runnable() {
 									@Override
@@ -120,14 +120,14 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 				else {
 					tree.setSubtreeChecked(event.getElement(), event.getChecked());
 					setCheckedFunctions();
-				}	
-		   }
-				
+				}
+			}
+
 		});
 
 		functionBody = new StyledText(comp2, SWT.V_SCROLL | SWT.H_SCROLL);
 		tree.addSelectionChangedListener(new ISelectionChangedListener() {
-			
+
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
 				for (final Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
@@ -137,22 +137,22 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 						}
 					}
 				}
-			}				
+			}
 		});
 
 		setCheckedFunctions();
 		if (refactoring.getStatus().hasEntries()) {
-	    	setErrorMessage(refactoring.getStatus().getEntryAt(0).getMessage()+"\nThis feature is work in progress.");
-	    } 
+			setErrorMessage(refactoring.getStatus().getEntryAt(0).getMessage()+"\nThis feature is work in progress.");
+		}
 		else {
 			setErrorMessage("This feature is work in progress.");
-	    }		
+		}
 	}
-	
+
 	public MoveFunctionRefactoring getRefactoring() {
 		return refactoring;
 	}
-	
+
 	public void refreshTree() {
 		tree.refresh();
 		for (final List<FunctionData> list : refactoring.getFunctions().values()) {
@@ -166,16 +166,16 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 			}
 		}
 		if (refactoring.getStatus().hasEntries()) {
-	    	setErrorMessage(refactoring.getStatus().getEntryAt(0).getMessage()+"\nThis feature is work in progress.");
-	    } 
+			setErrorMessage(refactoring.getStatus().getEntryAt(0).getMessage()+"\nThis feature is work in progress.");
+		}
 		else {
 			setErrorMessage("This feature is work in progress.");
-	    }	
+		}
 	}
-	
+
 	public void setCheckedFunctions() {
 		final List<Object> checked = Arrays.asList(tree.getCheckedElements());
-		
+
 		boolean isChecked = false;
 		for (final Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
 			for (final FunctionData fd : entry.getValue()) {
@@ -195,8 +195,8 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 			setPageComplete(true);
 		}
 	}
-	
-	
+
+
 	@Override
 	public IWizardPage getNextPage() {
 		final IWizardPage page2 = super.getNextPage();
@@ -206,22 +206,22 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 			}
 		}
 		return page2;
-    }
+	}
 
 	class DataProvider implements ITreeContentProvider {
-		
+
 		@Override
 		public Object[] getElements(final Object inputElement) {
 			if (inputElement instanceof Map<?, ?>) {
 				final Module[] modules = new Module[((Map<Module, List<FunctionData>>)inputElement).keySet().size()];
 				((Map<Module, List<FunctionData>>)inputElement).keySet().toArray(modules);
 				Arrays.sort(modules, new Comparator<Module>() {
-			        @Override
-			        public int compare(final Module m1, final Module m2)
-			        {
-			            return  m1.getIdentifier().getDisplayName().compareToIgnoreCase(m2.getIdentifier().getDisplayName());
-			        }
-			    });
+					@Override
+					public int compare(final Module m1, final Module m2)
+					{
+						return  m1.getIdentifier().getDisplayName().compareToIgnoreCase(m2.getIdentifier().getDisplayName());
+					}
+				});
 				if (modules.length == 0) {
 					return new Object[] {"There are no functions to be moved."};
 				}
@@ -233,7 +233,7 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 		@Override
 		public Object[] getChildren(final Object parentElement) {
 			if (parentElement instanceof Module) {
-				if (!refactoring.getFunctions().get(parentElement).isEmpty()) {					
+				if (!refactoring.getFunctions().get(parentElement).isEmpty()) {
 					Collections.sort(refactoring.getFunctions().get(parentElement));
 					return refactoring.getFunctions().get(parentElement).toArray();
 				}
@@ -253,13 +253,13 @@ public class MoveFunctionWizardFunctionsPage extends UserInputWizardPage {
 			}
 			return false;
 		}
-		
+
 		@Override
 		public void dispose() {
 		}
 
 		@Override
-		public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {			
+		public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
 		}
 	}
 }

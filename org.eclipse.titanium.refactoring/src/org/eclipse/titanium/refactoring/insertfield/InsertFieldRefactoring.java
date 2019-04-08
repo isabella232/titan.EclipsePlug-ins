@@ -50,9 +50,7 @@ public class InsertFieldRefactoring extends Refactoring {
 
 	private final Definition selection;
 	private final Set<IProject> projects = new HashSet<IProject>();
-	
 	private final IStructuredSelection iselection;
-	
 	private final Settings settings;
 
 	private Object[] affectedObjects;		//the list of objects affected by the change
@@ -76,7 +74,7 @@ public class InsertFieldRefactoring extends Refactoring {
 	public Definition getSelection() {
 		return selection;
 	}
-	
+
 	public Object[] getAffectedObjects() {
 		return affectedObjects;
 	}
@@ -135,12 +133,11 @@ public class InsertFieldRefactoring extends Refactoring {
 			throws CoreException, OperationCanceledException {
 		return new RefactoringStatus();
 	}
-	
+
 	public Settings getSettings() {
 		return settings;
 	}
 
-	
 	@Override
 	public Change createChange(final IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		if (iselection == null) {
@@ -216,7 +213,7 @@ public class InsertFieldRefactoring extends Refactoring {
 		}
 
 	}
-	
+
 	public static class Settings {
 		private String type;
 		private Identifier id;

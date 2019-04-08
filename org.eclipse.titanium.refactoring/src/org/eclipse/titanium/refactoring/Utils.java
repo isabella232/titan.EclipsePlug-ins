@@ -52,7 +52,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 /**
  * A class for utilities used by the refactoring classes.
  * TODO needed? used consistently?
- * 
+ *
  * @author Viktor Varga
  */
 public class Utils {
@@ -86,7 +86,7 @@ public class Utils {
 		final IEditorInput input = editor.getEditorInput();
 		if (!(input instanceof IFileEditorInput)) {
 			TITANDebugConsole.getConsole().newMessageStream()
-					.println("Utils.extractFile() during refactoring " +
+			.println("Utils.extractFile() during refactoring " +
 					refactoringName + ": IEditorInput is not an IFileEditorInput. ");
 			return null;
 		}
@@ -102,7 +102,7 @@ public class Utils {
 		TTCN3Editor editor;
 		if (editorPart == null || !(editorPart instanceof TTCN3Editor)) {
 			TITANDebugConsole.getConsole().newMessageStream()
-					.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
+			.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
 					refactoringName + ": Only for TTCN3 editors!");
 			return;
 		} else {// TODO not needed else
@@ -120,7 +120,7 @@ public class Utils {
 		if (job == null) {
 			TITANDebugConsole.getConsole().newMessageStream()
 			.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
-			refactoringName + ": WorkspaceJob to report outdating could not be created for project: " + selProject);
+					refactoringName + ": WorkspaceJob to report outdating could not be created for project: " + selProject);
 			return;
 		}
 		try {
@@ -134,7 +134,7 @@ public class Utils {
 		if (job == null) {
 			TITANDebugConsole.getConsole().newMessageStream()
 			.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
-			refactoringName + ": WorkspaceJob to reanalyze project could not be created for project: " + selProject);
+					refactoringName + ": WorkspaceJob to reanalyze project could not be created for project: " + selProject);
 			return;
 		}
 		try {
@@ -171,7 +171,7 @@ public class Utils {
 	 * 				This needs to be saved before {@link Refactoring#createChange(org.eclipse.core.runtime.IProgressMonitor)} returns,
 	 * 				because a successful refactoring operation clears the affected objects' list in the Change object.
 	 * @param refactoringName The name of the operation
-	 * 
+	 *
 	 * */
 	public static void updateASTAfterRefactoring(final RefactoringWizard wiz, final Object[] affectedObjects, final String refactoringName) {
 		if (wiz.getChange() == null || wiz.getChange().getAffectedObjects() == null) {
@@ -246,7 +246,7 @@ public class Utils {
 	 * <p>
 	 * Use an instance of this class as a parameter of the
 	 * {@link ProgressMonitorDialog#run(boolean, boolean, IRunnableWithProgress)} method.
-	 * 
+	 *
 	 * */
 	private static class UpdateASTOp implements IRunnableWithProgress {
 
@@ -276,16 +276,16 @@ public class Utils {
 				final WorkspaceJob job = projectSourceParser.analyzeAll();
 				if (job == null) {
 					TITANDebugConsole.getConsole().newMessageStream()
-							.println("Utils.updateASTOp: WorkspaceJob to analyze project could not be created for project "
-									+ proj.getName() + ", during the refactoring: " + name);
+					.println("Utils.updateASTOp: WorkspaceJob to analyze project could not be created for project "
+							+ proj.getName() + ", during the refactoring: " + name);
 					return;
 				}
 				try {
 					job.join();
 				} catch (InterruptedException e) {
 					TITANDebugConsole.getConsole().newMessageStream()
-							.println("Utils.updateASTOp: Error during semantic analysis of the project: "
-									+ proj.getName() + ", during the refactoring: " + name);
+					.println("Utils.updateASTOp: Error during semantic analysis of the project: "
+							+ proj.getName() + ", during the refactoring: " + name);
 					return;
 				}
 				if (monitor.isCanceled()) {

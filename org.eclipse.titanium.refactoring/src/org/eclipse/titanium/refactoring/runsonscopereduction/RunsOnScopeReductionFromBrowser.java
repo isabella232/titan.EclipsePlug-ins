@@ -25,16 +25,16 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-/** 
- * 
- * @author Farkas Izabella Ingrid 
+/**
+ *
+ * @author Farkas Izabella Ingrid
  */
 public class RunsOnScopeReductionFromBrowser extends AbstractHandler implements IObjectActionDelegate{
 	private ISelection selection;
 
 	@Override
 	public void run(final IAction action) {
-		performRunsOnScopeReduction();		
+		performRunsOnScopeReduction();
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 	private CheckboxTreeViewer tree;
 	protected static boolean displayZeros;
 	private Button displayZerosCheckBox;
-	
+
 	MoveFunctionWizardDestinationsPage(final String name, final MoveFunctionRefactoring refactoring) {
 		super(name);
 		this.refactoring = refactoring;
@@ -53,7 +53,7 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		refactoring.getSettings().setMethod(MoveFunctionMethod.LENGTH);
 		refactoring.getSettings().setExcludedModuleNames(Pattern.compile(".*_types"));
 	}
-	
+
 	@Override
 	public void createControl(final Composite parent) {
 		final Composite top = new Composite(parent, SWT.NONE);
@@ -64,7 +64,7 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		final Composite comp = new Composite(top, SWT.NONE);
 		initializeDialogUnits(comp);
 		comp.setLayout(new GridLayout(1, false));
-		
+
 		final Label label = new Label(comp, SWT.NONE);
 		label.setText("Choose method: ");
 		final Button shortestModule = new Button(comp, SWT.RADIO);
@@ -79,12 +79,12 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 					refactoring.getSettings().setMethod(MoveFunctionMethod.LENGTH);
 					refactoring.getSettings().setChanged(true);
 				}
-				
+
 				refreshTree();
-	         };
+			};
 		});
-		
-		
+
+
 		final Button leastImports = new Button(comp, SWT.RADIO);
 		leastImports.setText("insert the least new imports");
 		leastImports.addSelectionListener(new SelectionAdapter() {
@@ -97,8 +97,8 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 					refactoring.getSettings().setChanged(true);
 				}
 				refreshTree();
-	         };
-		});	
+			};
+		});
 		/*
 		Button lengthAndImports = new Button(comp, SWT.RADIO);
 		lengthAndImports.setText("both");
@@ -107,8 +107,8 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 				refactoring.getSettings().setMethod(SlicingMethod.LENGTHANDIMPORTS);
 				refreshTree();
 	         };
-		});	
-		*/
+		});
+		 */
 		final Button component = new Button(comp, SWT.RADIO);
 		component.setText("by component");
 		component.addSelectionListener(new SelectionAdapter() {
@@ -121,119 +121,119 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 					refactoring.getSettings().setChanged(true);
 				}
 				refreshTree();
-	         };
-		});	
-		
+			};
+		});
+
 		final Label excludedModules = new Label(comp, SWT.FILL);
 		excludedModules.setText("Module names to exclude (separate regex expressions with a comma): ");
 		final Text excludedModulesField = new Text(comp, SWT.FILL);
-		
-		
+
+
 		displayZerosCheckBox = new Button(comp, SWT.CHECK);
 		displayZerosCheckBox.setSelection(displayZeros);
 		displayZerosCheckBox.setText("Display destinations with 0 value");
 		displayZerosCheckBox.addSelectionListener(new SelectionAdapter() {
 
-	        @Override
-	        public void widgetSelected(final SelectionEvent event) {
-	        	final Button btn = (Button) event.getSource();
-	            displayZeros = btn.getSelection();
-	            tree.refresh();
-	        }
-	    });
-		
+			@Override
+			public void widgetSelected(final SelectionEvent event) {
+				final Button btn = (Button) event.getSource();
+				displayZeros = btn.getSelection();
+				tree.refresh();
+			}
+		});
+
 		final Label descriptionLabel = new Label(comp, SWT.FILL);
 		descriptionLabel.setText("Destinations for the selected functions:");
-		
+
 		displayDestinations(top);
 		excludedModulesField.setText(".*_types                              ");
-		
+
 		excludedModulesField.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(final ModifyEvent e) {
 				final String regex = excludedModulesField.getText().replaceAll(",", "|").replaceAll(" +", " ").trim();
 				try {
 					final Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-		            
-		            if (refactoring.getSettings().getExcludedModuleNames().equals(pattern) && !refactoring.getSettings().isChanged()) {
-		            	refactoring.getSettings().setChanged(false);
-		            }
-		            else {
-		            	refactoring.getSettings().setExcludedModuleNames(pattern);
-		            	refactoring.getSettings().setChanged(true);
-		            }
-		            refreshTree();
-		            setErrorMessage(null);
-		        } catch (PatternSyntaxException exception) {
-		        	setErrorMessage("Regex expression is wrong.");
-		        }
+
+					if (refactoring.getSettings().getExcludedModuleNames().equals(pattern) && !refactoring.getSettings().isChanged()) {
+						refactoring.getSettings().setChanged(false);
+					}
+					else {
+						refactoring.getSettings().setExcludedModuleNames(pattern);
+						refactoring.getSettings().setChanged(true);
+					}
+					refreshTree();
+					setErrorMessage(null);
+				} catch (PatternSyntaxException exception) {
+					setErrorMessage("Regex expression is wrong.");
+				}
 			}
 		});
 		setTreeChecked();
 		setErrorMessage(null);
 	}
-	
+
 	public void displayDestinations(final Composite parent) {
 		final Composite comp = new Composite(parent, SWT.NONE);
 		initializeDialogUnits(comp);
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		comp.setLayout(new FillLayout());
-	    
+
 		refactoring.getDestinations();
 		tree = new CheckboxTreeViewer (comp, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		tree.setContentProvider(new DestinationDataProvider());
 		tree.setLabelProvider(new DataLabelProvider());
 		tree.setInput(refactoring.getFunctions());
 		tree.expandToLevel(2);
-		
+
 		tree.addCheckStateListener(new ICheckStateListener() {
 			public void checkStateChanged(final CheckStateChangedEvent event) {
 				if (event.getElement() instanceof FunctionData) {
 					if (event.getChecked()) {
 						tree.setChecked(event.getElement(), event.getChecked());
 						((FunctionData)event.getElement()).setToBeMoved(true);
-						
-					} 
+
+					}
 					else {
 						tree.setSubtreeChecked(event.getElement(), false);
 						((FunctionData)event.getElement()).setFinalDestination(null);
-					}					
+					}
 				}
 				else if (event.getElement() instanceof Destination) {
 					final Destination dest = (Destination)event.getElement();
 					tree.setChecked(dest, event.getChecked());
-						for (final Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
-							if (entry.getValue().contains(dest.getFunctionData())) {
-								for (final FunctionData fd : entry.getValue()) {
-									if (dest.getFunctionData().equals(fd)) {
-										if (fd.getFinalDestination() != null & !dest.equals(fd.getFinalDestination())) {
-											tree.setChecked(fd.getFinalDestination(), false);
-										}
-										if (event.getChecked()) {
-											fd.setFinalDestination(dest);
-										}
-										else {
-											fd.setFinalDestination(null);
-										}
-										break;
+					for (final Map.Entry<Module, List<FunctionData>> entry : refactoring.getFunctions().entrySet()) {
+						if (entry.getValue().contains(dest.getFunctionData())) {
+							for (final FunctionData fd : entry.getValue()) {
+								if (dest.getFunctionData().equals(fd)) {
+									if (fd.getFinalDestination() != null & !dest.equals(fd.getFinalDestination())) {
+										tree.setChecked(fd.getFinalDestination(), false);
 									}
+									if (event.getChecked()) {
+										fd.setFinalDestination(dest);
+									}
+									else {
+										fd.setFinalDestination(null);
+									}
+									break;
 								}
-								break;
 							}
+							break;
 						}
+					}
 				}
 				setTreeChecked();
-			  }
+			}
 		});
 		setTreeChecked();
 	}
-	
+
 	public void refreshTree() {
 		refactoring.getDestinations();
 		tree.refresh();
 		setTreeChecked();
-	}	
-	
+	}
+
 	public void setTreeChecked() {
 		boolean hasDestination = false;
 		for (final List<FunctionData> list : refactoring.getFunctions().values()) {
@@ -253,7 +253,7 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 		tree.refresh();
 		setPageComplete(hasDestination);
 	}
-	
+
 	@Override
 	public IWizardPage getPreviousPage() {
 		final IWizardPage page2 = super.getPreviousPage();
@@ -261,11 +261,11 @@ public class MoveFunctionWizardDestinationsPage extends UserInputWizardPage {
 			((MoveFunctionWizardFunctionsPage)page2).refreshTree();
 		}
 		return page2;
-    }
+	}
 }
 
 class DestinationDataProvider implements ITreeContentProvider {
-	
+
 	@Override
 	public Object[] getElements(final Object inputElement) {
 		if (inputElement instanceof Map<?, ?>) {
@@ -282,7 +282,7 @@ class DestinationDataProvider implements ITreeContentProvider {
 				return new Object[] {"No new destinations found for the function(s)."};
 			}
 			Collections.sort(obj);
-			
+
 			return obj.toArray();
 		}
 		return new Object[] {"No new destinations found for the function(s)."};
@@ -292,7 +292,7 @@ class DestinationDataProvider implements ITreeContentProvider {
 	public Object[] getChildren(final Object parentElement) {
 		if (parentElement instanceof FunctionData) {
 			if (!((FunctionData)parentElement).getDestinations().isEmpty()) {
-				final List<Destination> destinations = new ArrayList<Destination>();				
+				final List<Destination> destinations = new ArrayList<Destination>();
 				for (final Destination dest : ((FunctionData)parentElement).getDestinations()) {
 					if (!MoveFunctionWizardDestinationsPage.displayZeros && dest.getRating()!= 0) {
 						destinations.add(dest);
@@ -314,7 +314,7 @@ class DestinationDataProvider implements ITreeContentProvider {
 						}
 						return val;
 					}
-					
+
 				});
 				return destinations.toArray();
 			}
@@ -339,14 +339,14 @@ class DestinationDataProvider implements ITreeContentProvider {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void dispose() {
 	}
 
 	@Override
-	public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {		
+	public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
 	}
-	
+
 }
 

@@ -26,7 +26,7 @@ public class FunctionData implements Comparable<FunctionData> {
 	private Destination finalDestination;
 	private MoveFunctionMethod method;
 	private final List<Module> usedBy;
-	
+
 	public FunctionData(final Def_Function definiton, final String functionBody) {
 		this.definiton = definiton;
 		this.functionBody = functionBody;
@@ -35,78 +35,78 @@ public class FunctionData implements Comparable<FunctionData> {
 		usedModules = new ArrayList<Module>();
 		usedBy = new ArrayList<Module>();
 	}
-	
+
 	public void setToBeMoved(final boolean toBeMoved) {
 		this.toBeMoved = toBeMoved;
 	}
-	
+
 	public void setModule(final Module module) {
 		this.module = module;
 	}
-	
+
 	public void addDestination(final Module destination, final Integer rating, final int newImports) {
 		destinations.add(new Destination(destination, rating, this, newImports));
 	}
-	
+
 	public void addUsedModule(final Module module) {
 		usedModules.add(module);
 	}
-	
+
 	public void addUsedModules(final List<Module> modules) {
 		usedModules.addAll(modules);
 	}
-	
+
 	public void addUsedBy(final Module m) {
 		usedBy.add(m);
 	}
-	
+
 	public void setUsedModules(final List<Module> modules) {
 		usedModules = modules;
 	}
-	
+
 	public void setFinalDestination(final Destination destination) {
 		this.finalDestination = destination;
 		if(destination != null) {
 			destination.setFunctionData(this);
 		}
 	}
-	
+
 	public void setRefactoringMethod(final MoveFunctionMethod rMethod) {
 		this.method = rMethod;
 	}
-	
+
 	public Def_Function getDefiniton() {
 		return definiton;
 	}
-	
+
 	public String getFunctionBody() {
 		return functionBody;
 	}
-	
+
 	public boolean isToBeMoved() {
 		return toBeMoved;
 	}
-	
+
 	public List<Destination> getDestinations() {
 		return destinations;
 	}
-	
+
 	public Module getModule() {
 		return module;
 	}
-	
+
 	public List<Module> getUsedModules() {
 		return usedModules;
 	}
-	
+
 	public List<Module> getUsedBy() {
 		return usedBy;
 	}
-	
+
 	public Destination getFinalDestination() {
 		return finalDestination;
 	}
-	
+
 	public MoveFunctionMethod getRefactoringMethod() {
 		return method;
 	}
@@ -115,11 +115,11 @@ public class FunctionData implements Comparable<FunctionData> {
 	public int compareTo(final FunctionData arg0) {
 		return this.getDefiniton().getIdentifier().getDisplayName().compareToIgnoreCase(arg0.getDefiniton().getIdentifier().getDisplayName());
 	}
-	
+
 	public void clearDestinations() {
 		destinations.clear();
 	}
-	
+
 }
 
 class Destination implements Comparable<Destination> {
@@ -127,47 +127,47 @@ class Destination implements Comparable<Destination> {
 	private int rating;
 	private FunctionData functionData;
 	private int newImports;
-	
+
 	public Destination() {
-		
+
 	}
-	
+
 	public Destination(final Module module, final int rating, final FunctionData functionData, final int newImports) {
 		this.module = module;
 		this.rating = rating;
 		this.functionData = functionData;
 		this.newImports = newImports;
 	}
-	
+
 	public Module getModule() {
 		return module;
 	}
-	
+
 	public int getRating() {
 		return rating;
 	}
-	
-	
+
+
 	public FunctionData getFunctionData() {
 		return functionData;
 	}
-	
+
 	public int getNewImports() {
 		return newImports;
 	}
-	
+
 	public void setModule(final Module module) {
 		this.module = module;
 	}
-	
+
 	public void setRating(final int rating) {
 		this.rating = rating;
 	}
-	
+
 	public void setFunctionData(final FunctionData functionData) {
 		this.functionData = functionData;
 	}
-	
+
 	public void setNewImports(final int newImports) {
 		this.newImports = newImports;
 	}

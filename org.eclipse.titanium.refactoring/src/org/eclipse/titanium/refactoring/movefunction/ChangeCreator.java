@@ -53,7 +53,7 @@ class ChangeCreator {
 	private static Map<Module, List<Module>> moduleImports = new HashMap<Module, List<Module>>();
 	// out
 	private Change change;
-	
+
 
 	ChangeCreator(final IFile selectedFile, final MoveFunctionSettings settings, final List<FunctionData> functions, final IProject project) {
 		this.selectedFile = selectedFile;
@@ -61,7 +61,7 @@ class ChangeCreator {
 		this.functions = functions;
 		this.project = project;
 	}
-	
+
 	ChangeCreator(final IFile selectedFile, final MoveFunctionSettings settings, final List<FunctionData> functions, final IProject project, final Map<Module, List<Module>> mi) {
 		this.selectedFile = selectedFile;
 		this.settings = settings;
@@ -82,7 +82,7 @@ class ChangeCreator {
 		if (selectedFile == null) {
 			return;
 		}
-		
+
 		change = createFileChange(selectedFile);
 	}
 
@@ -100,7 +100,7 @@ class ChangeCreator {
 		if (functions.isEmpty()) {
 			return null;
 		}
-		
+
 		if (settings.getExcludedModuleNames() != null && settings.getExcludedModuleNames().matcher(module.getIdentifier().getTtcnName()).matches()) {
 			return null;
 		}
@@ -113,7 +113,7 @@ class ChangeCreator {
 		if (noDestination) {
 			return null;
 		}
-		
+
 		CompositeChange cc = null;
 		if (module instanceof TTCN3Module) {
 			cc = new CompositeChange("Moving functions from: "+module.getFullName());
@@ -121,7 +121,7 @@ class ChangeCreator {
 		else {
 			return null;
 		}
-		
+
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
 		cc.add(tfc);
 		final MultiTextEdit rootEdit = new MultiTextEdit();
@@ -130,15 +130,15 @@ class ChangeCreator {
 			if(function.getFinalDestination() == null || !function.isToBeMoved()) {
 				continue;
 			}
-			
+
 			final TextFileChange tfcDestination = new TextFileChange(function.getFinalDestination().getModule().getName(), (IFile) function.getFinalDestination().getModule().getLocation().getFile());
 			final MultiTextEdit rootEdit2 = new MultiTextEdit();
 			tfcDestination.setEdit(rootEdit2);
 			cc.add(tfcDestination);
 			final int length = function.getDefiniton().getLocation().getEndOffset() - function.getDefiniton().getLocation().getOffset();
 			final DeleteEdit deleteEdit = new DeleteEdit(function.getDefiniton().getLocation().getOffset(), length);
-			rootEdit.addChild(deleteEdit);			
-			if (!moduleImports.containsKey(function.getFinalDestination().getModule())) { 
+			rootEdit.addChild(deleteEdit);
+			if (!moduleImports.containsKey(function.getFinalDestination().getModule())) {
 				moduleImports.put(function.getFinalDestination().getModule(), new ArrayList<Module>());
 			}
 			final InsertEdit importEdit = insertMissingImports(function.getFinalDestination().getModule(), function.getUsedModules());
@@ -169,22 +169,22 @@ class ChangeCreator {
 		}
 		return cc;
 	}
-	
-	
+
+
 	private InsertEdit insertMissingImports(final Module destinationModule, final List<Module> usedModules) {
 		final List<Module> importedModules = destinationModule.getImportedModules();
 		String importText = "";
-		
+
 		for (final Module m : usedModules) {
-			if (!importedModules.contains(m) 
-					&& !m.equals(destinationModule) 
+			if (!importedModules.contains(m)
+					&& !m.equals(destinationModule)
 					&& !moduleImports.get(destinationModule).contains(m)) {
 				importText += "import from "+m.getIdentifier().getTtcnName()+" all;\n  ";
 				moduleImports.get(destinationModule).add(m);
 			}
 		}
-		final TextFileChange insertImports = new TextFileChange(destinationModule.getName(), 
-											(IFile)destinationModule.getLocation().getFile());
+		final TextFileChange insertImports = new TextFileChange(destinationModule.getName(),
+				(IFile)destinationModule.getLocation().getFile());
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		insertImports.setEdit(rootEdit);
 		int offset = destinationModule.getLocation().getEndOffset();
@@ -202,27 +202,27 @@ class ChangeCreator {
 		}
 		return new InsertEdit(offset, importText);
 	}
-	
+
 	private void findFunctionUses(final FunctionData function) {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		for(final Module m : projectSourceParser.getModules()) {
 			if (!m.equals(function.getFinalDestination().getModule())) {
 				final ModuleVisitor vis = new ModuleVisitor(function.getDefiniton());
 				m.accept(vis);
-				if (vis.getIsUsed() 
-						& !m.getImportedModules().contains(function.getFinalDestination().getModule()) 
+				if (vis.getIsUsed()
+						& !m.getImportedModules().contains(function.getFinalDestination().getModule())
 						& !m.equals(function.getFinalDestination().getModule())) {
 					function.addUsedBy(m);
 				}
 			}
 		}
 	}
-	
+
 	private static class ModuleVisitor extends ASTVisitor {
 
-		private final Def_Function function;	
+		private final Def_Function function;
 		private boolean isUsed;
-		
+
 		public ModuleVisitor(final Def_Function function) {
 			this.function = function;
 			this.isUsed = false;
@@ -238,7 +238,7 @@ class ChangeCreator {
 			}
 			return V_CONTINUE;
 		}
-		
+
 		public boolean getIsUsed() {
 			return isUsed;
 		}

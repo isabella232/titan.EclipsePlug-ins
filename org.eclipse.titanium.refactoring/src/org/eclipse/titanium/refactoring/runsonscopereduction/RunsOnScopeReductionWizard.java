@@ -15,7 +15,7 @@ import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 
 /**
  * Wizard for the 'Runs on scope reduction modifires' operation.
- * 
+ *
  * @author Farkas Izabella Ingrid
  */
 
@@ -37,5 +37,5 @@ public class RunsOnScopeReductionWizard  extends RefactoringWizard implements IE
 			throws CoreException {
 		// TODO Auto-generated method stub
 	}
-	
+
 }

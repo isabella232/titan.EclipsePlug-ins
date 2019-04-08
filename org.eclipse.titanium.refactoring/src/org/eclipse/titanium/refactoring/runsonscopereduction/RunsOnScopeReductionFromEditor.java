@@ -43,7 +43,7 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  * @author Farkas Izabella Ingrid
  *
  */
@@ -79,17 +79,17 @@ public class RunsOnScopeReductionFromEditor extends AbstractHandler{
 		final IResource selectedRes = selection.getLocation().getFile();
 		if (!(selectedRes instanceof IFile)) {
 			ErrorReporter.logError("MinimizeScopeActionFromEditor.execute(): Selected resource `"
-							+ selectedRes.getName() + "' is not a file.");
+					+ selectedRes.getName() + "' is not a file.");
 			return null;
 		}
 		final IFile selectedFile = (IFile)selectedRes;
-		
-//		//getting selected file
-//		final IFile selectedFile = Utils.getSelectedFileInEditor("RunsOnScopeReduction");
-//		if (selectedFile == null) {
-//			return null;
-//		}
-		
+
+		//		//getting selected file
+		//		final IFile selectedFile = Utils.getSelectedFileInEditor("RunsOnScopeReduction");
+		//		if (selectedFile == null) {
+		//			return null;
+		//		}
+
 		// final IStructuredSelection structSelection = new StructuredSelection(selectedFile);
 		final RunsOnScopeReductionRefactoring refactoring = new RunsOnScopeReductionRefactoring(selection);
 
@@ -153,7 +153,7 @@ public class RunsOnScopeReductionFromEditor extends AbstractHandler{
 		}
 		return selectedDef;
 	}
-	
+
 	private TextSelection extractSelection(final ISelection sel) {
 		if (!(sel instanceof TextSelection)) {
 			ErrorReporter.logError("ContextLoggingActionFromEditor.extractSelection():" +
@@ -169,7 +169,7 @@ public class RunsOnScopeReductionFromEditor extends AbstractHandler{
 		}
 		return ((IFileEditorInput) input).getFile();
 	}
-	
+
 	/**
 	 * Searches for a {@link Def_Function} or {@link Def_Testcase} node that contains the current selection offset
 	 * (selection is inside the node).
@@ -233,5 +233,5 @@ public class RunsOnScopeReductionFromEditor extends AbstractHandler{
 
 	}
 
-	
+
 }

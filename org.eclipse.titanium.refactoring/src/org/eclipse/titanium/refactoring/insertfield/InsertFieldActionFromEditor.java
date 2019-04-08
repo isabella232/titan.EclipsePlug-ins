@@ -49,8 +49,8 @@ public class InsertFieldActionFromEditor extends AbstractHandler {
 			return null;
 		}
 		final IStructuredSelection structSelection = new StructuredSelection(selectedFile);
-		final InsertFieldRefactoring refactoring = new InsertFieldRefactoring(structSelection, null);		
-		
+		final InsertFieldRefactoring refactoring = new InsertFieldRefactoring(structSelection, null);
+
 		//open wizard
 		final InsertFieldWizard wiz = new InsertFieldWizard(refactoring, refactoring.getSelection());
 		final RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(wiz);

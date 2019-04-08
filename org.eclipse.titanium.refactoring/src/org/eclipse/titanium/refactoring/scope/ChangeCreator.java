@@ -297,46 +297,46 @@ public class ChangeCreator {
 		int endOffset = loc.getEndOffset();
 		if (includePrefix) {
 			filestart: {
-				for (int i=offset-1;i>=0;i--) {
-					switch (fileContent.charAt(i)) {
-						case ' ':
-						case '\t':
-							break;
-						default:
-							offset = i+1;
-							break filestart;
-					}
+			for (int i=offset-1;i>=0;i--) {
+				switch (fileContent.charAt(i)) {
+				case ' ':
+				case '\t':
+					break;
+				default:
+					offset = i+1;
+					break filestart;
 				}
-				//reached position #0
-				offset = 0;
 			}
+			//reached position #0
+			offset = 0;
+		}
 		}
 		boolean comment = false;
 		fileend: {
 			for (int i=endOffset;i<fileContent.length();i++) {
 				switch (fileContent.charAt(i)) {
-					case '\n':
-					case '\r':
+				case '\n':
+				case '\r':
+					endOffset = i;
+					break fileend;
+				case '/':
+					if (fileContent.length() > i+1 && fileContent.charAt(i+1) == '/') {
+						comment = true;
+						i++;
+					} else if (!comment) {
 						endOffset = i;
 						break fileend;
-					case '/':
-						if (fileContent.length() > i+1 && fileContent.charAt(i+1) == '/') {
-							comment = true;
-							i++;
-						} else if (!comment) {
-							endOffset = i;
-							break fileend;
-						}
-						break;
-					case ' ':
-					case '\t':
-					case ';':
-						break;
-					default:
-						if (!comment) {
-							endOffset = i;
-							break fileend;
-						}
+					}
+					break;
+				case ' ':
+				case '\t':
+				case ';':
+					break;
+				default:
+					if (!comment) {
+						endOffset = i;
+						break fileend;
+					}
 				}
 			}
 			//reached eof
@@ -350,11 +350,11 @@ public class ChangeCreator {
 	private int findLineBeginningOffset(final String fileContent, final int fromOffset) {
 		for (int i=fromOffset-1;i>=0;i--) {
 			switch (fileContent.charAt(i)) {
-				case ' ':
-				case '\t':
-					break;
-				default:
-					return i+1;
+			case ' ':
+			case '\t':
+				break;
+			default:
+				return i+1;
 			}
 		}
 		return 0;
@@ -385,7 +385,7 @@ public class ChangeCreator {
 		final StatementNode firstDeclPart = md.getFirstStatement();
 		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
 		final boolean firstDefInMdMoved = firstDeclPart.isMoved();
-		
+
 		//
 		if (md.getSize() <= 1) {
 			final Location cutLoc = findStatementLocation(fileContent, declStmt.getLocation(), true);
@@ -416,38 +416,38 @@ public class ChangeCreator {
 		boolean insideBlockComment = false;
 		while (offset>stopAtOffset) {
 			switch (fileContent.charAt(offset-1)) {
-				case ' ':
-				case '\t':
-				case '\n':
-				case '\r':
-				case ',':
+			case ' ':
+			case '\t':
+			case '\n':
+			case '\r':
+			case ',':
+				offset--;
+				continue;
+			case '/':
+				if (offset > 1 && fileContent.charAt(offset-2) == '*') {
+					insideBlockComment = true;
+					offset -= 2;
+					continue;
+				} else if (insideBlockComment) {
 					offset--;
 					continue;
-				case '/':
-					if (offset > 1 && fileContent.charAt(offset-2) == '*') {
-						insideBlockComment = true;
-						offset -= 2;
-						continue;
-					} else if (insideBlockComment) {
-						offset--;
-						continue;
-					}
-					break;
-				case '*':
-					if (insideBlockComment && offset > 1 && fileContent.charAt(offset-2) == '/') {
-						insideBlockComment = false;
-						offset -= 2;
-						continue;
-					} else if (insideBlockComment) {
-						offset--;
-						continue;
-					}
-					break;
-				default:
-					if (insideBlockComment) {
-						offset--;
-						continue;
-					}
+				}
+				break;
+			case '*':
+				if (insideBlockComment && offset > 1 && fileContent.charAt(offset-2) == '/') {
+					insideBlockComment = false;
+					offset -= 2;
+					continue;
+				} else if (insideBlockComment) {
+					offset--;
+					continue;
+				}
+				break;
+			default:
+				if (insideBlockComment) {
+					offset--;
+					continue;
+				}
 			}
 			break;
 		}
