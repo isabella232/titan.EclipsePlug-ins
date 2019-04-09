@@ -14,7 +14,7 @@
       provider-name="Eclipse Titan Project">
 
    <description url="https://projects.eclipse.org/projects/tools.titan/downloads">
-      CRL 113 200/6 R5B (6.5.pl1) version of the TITAN Log Viewer plug-in.
+      CRL 113 200/6 R5C (6.5.pl2) version of the TITAN Log Viewer plug-in.
    </description>
 
    <copyright>
@@ -163,20 +163,20 @@ You may add additional accurate notices of copyright ownership.
          id="org.eclipse.titan.log.viewer"
          download-size="0"
          install-size="0"
-         version="6.5.1.CRL_113_200_6_R5B_20190117-1100"
+         version="6.5.2.CRL_113_200_6_R5C_20190409-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="0"
          install-size="0"
-         version="6.5.1.CRL_113_200_6_R5B_20190117-1100"
+         version="6.5.2.CRL_113_200_6_R5C_20190409-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="0"
          install-size="0"
-         version="6.5.1.CRL_113_200_6_R5B_20190117-1100"/>
+         version="6.5.2.CRL_113_200_6_R5C_20190409-1100"/>
 
 </feature>

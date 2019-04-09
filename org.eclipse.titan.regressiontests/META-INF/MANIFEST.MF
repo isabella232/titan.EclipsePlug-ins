@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test_fragment Fragment
 Bundle-SymbolicName: org.eclipse.titan.regressiontests;singleton:=true
-Bundle-Version: 6.5.1.CRL_113_200_6_R5B_20190117-1100
+Bundle-Version: 6.5.2.CRL_113_200_6_R5C_20190409-1100
 Fragment-Host: org.eclipse.titan.designer;bundle-version="6.5.1.CRL_113_200_6_R5B_20190117-1100"
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,

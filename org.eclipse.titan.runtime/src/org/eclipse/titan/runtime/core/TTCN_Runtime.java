@@ -36,11 +36,11 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 public final class TTCN_Runtime {
 	public static final int TTCN3_MAJOR = 6;
 	public static final int TTCN3_MINOR = 5;
-	public static final int TTCN3_PATCHLEVEL = 1;
+	public static final int TTCN3_PATCHLEVEL = 2;
 	public static final int TTCN3_BUILDNUMBER = 0;
 
-	public static final String VERSION_STRING = "6.5.1";
-	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R5B";
+	public static final String VERSION_STRING = "6.5.2";
+	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R5C";
 
 	public enum executorStateEnum {
 		UNDEFINED_STATE,
