@@ -4168,22 +4168,23 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("decoded_field_length = get_field_{0}(){1}.RAW_decode({2}_descr_, buff, ", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 		source.append(expression.expression);
 		source.append(MessageFormat.format(", local_top_order, {0}", fieldInfo.isOptional ? "true": "no_err"));
+		boolean lengthof_or_crosstag_found = false;
 		if (crosstagsize > 0) {
 			source.append(", selected_field");
+			lengthof_or_crosstag_found = true;
 		} else {
-			source.append(", -1");
-		}
-		boolean found = false;
-		for (int a = 0; a < tempRawOption.lengthof && !found; a++) {
-			final int field_index = tempRawOption.lengthofField.get(a);
-			if (fieldInfos.get(field_index).raw.unit == -1) {
-				source.append(MessageFormat.format(", value_of_length_field{0} != 0", field_index));
-				found = true;
+			for (int a = 0; a < tempRawOption.lengthof && !lengthof_or_crosstag_found; a++) {
+				final int field_index = tempRawOption.lengthofField.get(a);
+				if (fieldInfos.get(field_index).raw.unit == -1) {
+					source.append(MessageFormat.format(", value_of_length_field{0}", field_index));
+					lengthof_or_crosstag_found = true;
+				}
 			}
 		}
-		if (!found) {
-			source.append(", true");
+		if (!lengthof_or_crosstag_found) {
+			source.append(", -1");
 		}
+		source.append(", true");
 		source.append(MessageFormat.format(", field_{0}_force_omit);\n", i));
 
 		if (delayed_decode) {
