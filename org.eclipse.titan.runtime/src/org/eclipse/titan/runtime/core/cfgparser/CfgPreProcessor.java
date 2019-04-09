@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ ******************************************************************************/
 package org.eclipse.titan.runtime.core.cfgparser;
 
 import java.io.BufferedReader;
@@ -8,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -29,10 +37,15 @@ import org.eclipse.titan.runtime.core.TtcnError;
  */
 public class CfgPreProcessor {
 
-	private static final int RECURSION_LIMIT = 20;
+	private static final int RECURSION_LIMIT = 100;
 
 	private CfgPreProcessor() {
 		// Hide constructor
+	}
+
+	private static void config_preproc_error(String errorMsg) {
+		//TODO: implement
+		System.err.println(errorMsg);
 	}
 
 	/**
@@ -45,22 +58,32 @@ public class CfgPreProcessor {
 	 * @param modified (out) true, if CFG file was changed during preparsing,
 	 *     <br>false otherwise, so when the CFG file did not contain any [INCLUDE] or [ORDERED_INCLUDE] sections
 	 * @param listener listener for ANTLR lexer/parser errors
-	 * @param orderedIncludeSectionHandler list of the files which were already included to avoid duplication and infinite recursion
+	 * @param includeChain chained list element of the previous file that included this one
+	 *                     to keep track the included files to avoid infinite recursion,
+	 *                     null in case of the root element
 	 * @param recursionDepth counter of the recursion depth
 	 */
 	private static void preparseInclude(final File file, final StringBuilder out, AtomicBoolean modified, final CFGListener listener,
-										final IncludeSectionHandler orderedIncludeSectionHandler, final int recursionDepth) {
+										final ChainElement<File> includeChain, final int recursionDepth) {
 		if (recursionDepth > RECURSION_LIMIT) {
 			// dumb but safe defense against infinite recursion, default value from gcc
-			throw new TtcnError("Maximum include recursion depth reached in file: " + file.getName());
+			config_preproc_error("Maximum include recursion depth reached in file: " + file.getName());
+			return;
 		}
 
+		if ( includeChain != null && includeChain.contains(file) ) {
+			config_preproc_error("Circular import chain detected: " + includeChain.dump());
+			return;
+		}
+
+		final ChainElement<File> includeChain2 = new ChainElement<File>(includeChain, file);
 		final String dir = file.getParent();
 		final Reader reader;
 		try {
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF8));
 		} catch (FileNotFoundException e) {
-			throw new TtcnError(e);
+			config_preproc_error(e.toString());
+			return;
 		}
 		if ( listener != null ) {
 			listener.setFilename(file.getName());
@@ -69,6 +92,8 @@ public class CfgPreProcessor {
 		tokenStream.fill();
 		final List<Token> tokens = tokenStream.getTokens();
 		final ListIterator<Token> iter = tokens.listIterator();
+		// file names collected from [INCLUDE] sections
+		final List<String> includeFilenames = new ArrayList<String>();
 		while (iter.hasNext()) {
 			final Token token = iter.next();
 			final int tokenType = token.getType();
@@ -79,20 +104,29 @@ public class CfgPreProcessor {
 				modified.set(true);
 				break;
 			case RuntimeCfgLexer.INCLUDE_FILENAME:
-			case RuntimeCfgLexer.ORDERED_INCLUDE_FILENAME:
-				final String orderedIncludeFilename = tokenText.substring( 1, tokenText.length() - 1 );
-				if ( !orderedIncludeSectionHandler.isFileAdded( orderedIncludeFilename ) ) {
-					orderedIncludeSectionHandler.addFile( orderedIncludeFilename );
-					final File orderedIncludeFile = new File(dir, orderedIncludeFilename);
-					preparseInclude(orderedIncludeFile, out, modified, listener, orderedIncludeSectionHandler, recursionDepth + 1);
+				final String includeFilename = tokenText.substring( 1, tokenText.length() - 1 );
+				if ( !includeFilenames.contains( includeFilename ) ) {
+					// include file will be processed when EOF is reached
+					includeFilenames.add(includeFilename);
 					modified.set(true);
 				}
+				break;
+			case RuntimeCfgLexer.ORDERED_INCLUDE_FILENAME:
+				final String orderedIncludeFilename = tokenText.substring( 1, tokenText.length() - 1 );
+				final File orderedIncludeFile = new File(dir, orderedIncludeFilename);
+				preparseInclude(orderedIncludeFile, out, modified, listener, includeChain2, recursionDepth + 1);
+				modified.set(true);
 				break;
 
 			default:
 				out.append(tokenText);
 				break;
 			}
+		}
+
+		for ( final String includeFilename : includeFilenames ) {
+			final File includeFile = new File(dir, includeFilename);
+			preparseInclude(includeFile, out, modified, listener, includeChain2, recursionDepth + 1);
 		}
 
 		IOUtils.closeQuietly(reader);
@@ -128,7 +162,7 @@ public class CfgPreProcessor {
 		final DefineSectionHandler defineSectionHandler = parser.getDefineSectionHandler();
 		final Map<String, List<Token>> defs = defineSectionHandler.getDefinitions();
 		parser = null;
-		
+
 		checkCircularReferences(defs);
 
 		// modified during macro resolving
@@ -192,7 +226,6 @@ public class CfgPreProcessor {
 				break;
 			}
 		}
-		
 	}
 
 	/**
@@ -357,10 +390,7 @@ public class CfgPreProcessor {
 	static boolean preparse(final File file, final File resultFile, final CFGListener listener) {
 		final StringBuilder outInclude = new StringBuilder();
 		final AtomicBoolean modified = new AtomicBoolean(false);
-		final IncludeSectionHandler orderedIncludeSectionHandler = new IncludeSectionHandler();
-		// this file will NOT be included again
-		orderedIncludeSectionHandler.addFile(file.getName());
-		preparseInclude(file, outInclude, modified, listener, orderedIncludeSectionHandler, 0);
+		preparseInclude(file, outInclude, modified, listener, null, 0);
 
 		if ( listener != null ) {
 			listener.setFilename(null);
@@ -376,7 +406,7 @@ public class CfgPreProcessor {
 	 * @param resultFile result file
 	 * @param sb string buffer to write
 	 */
-	private static void writeToFile( final File resultFile, final StringBuilder sb ) {
+	static void writeToFile( final File resultFile, final StringBuilder sb ) {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(resultFile);
