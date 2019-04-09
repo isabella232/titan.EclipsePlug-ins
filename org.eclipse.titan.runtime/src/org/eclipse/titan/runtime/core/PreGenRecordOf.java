@@ -169,7 +169,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -286,13 +287,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__INTEGER__OPTIMIZED ret_val = new PREGEN__RECORD__OF__INTEGER__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanInteger elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -552,11 +555,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanInteger() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -647,7 +651,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanInteger elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -821,7 +826,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -829,8 +835,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -1178,13 +1185,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
@@ -1219,7 +1228,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -1659,7 +1669,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -1710,7 +1721,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -1777,7 +1789,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__INTEGER__OPTIMIZED ret_val = new PREGEN__RECORD__OF__INTEGER__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -1810,7 +1823,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -1827,9 +1841,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -1837,6 +1852,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -1883,14 +1899,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -1903,14 +1920,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -1931,19 +1949,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			}
@@ -2058,7 +2080,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -2068,7 +2091,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -2094,14 +2118,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -2185,7 +2211,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -2294,13 +2321,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING concatenation.");
 			}
 			final PREGEN__SET__OF__UNIVERSAL__CHARSTRING ret_val = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanUniversalCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -2560,11 +2589,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanUniversalCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -2655,7 +2685,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanUniversalCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -2829,7 +2860,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -2837,8 +2869,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -3220,13 +3253,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -3272,7 +3307,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -3785,7 +3821,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -3836,7 +3873,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -3910,7 +3948,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
 			final PREGEN__SET__OF__UNIVERSAL__CHARSTRING ret_val = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -3943,7 +3982,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -3954,9 +3994,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -3964,6 +4005,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -4057,19 +4099,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			}
@@ -4173,7 +4219,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -4183,7 +4230,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -4209,14 +4257,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -4293,7 +4343,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -4410,13 +4461,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanOctetString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -4676,11 +4729,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanOctetString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -4771,7 +4825,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanOctetString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -4945,7 +5000,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -4953,8 +5009,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -5302,13 +5359,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
@@ -5343,7 +5402,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -5783,7 +5843,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -5834,7 +5895,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -5901,7 +5963,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -5934,7 +5997,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -5951,9 +6015,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -5961,6 +6026,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -6007,14 +6073,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -6027,14 +6094,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -6055,19 +6123,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			}
@@ -6182,7 +6254,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -6192,7 +6265,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -6218,14 +6292,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -6302,7 +6378,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -6419,13 +6496,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT concatenation.");
 			}
 			final PREGEN__RECORD__OF__FLOAT ret_val = new PREGEN__RECORD__OF__FLOAT(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanFloat elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -6685,11 +6764,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanFloat() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -6780,7 +6860,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanFloat elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -6954,7 +7035,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -6962,8 +7044,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -7311,13 +7394,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
@@ -7352,7 +7437,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -7792,7 +7878,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT containing a value list with different sizes.", op_name ) );
 					}
@@ -7843,7 +7930,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -7910,7 +7998,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
 			final PREGEN__RECORD__OF__FLOAT ret_val = new PREGEN__RECORD__OF__FLOAT(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -7943,7 +8032,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -7960,9 +8050,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -7970,6 +8061,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -8016,14 +8108,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -8036,14 +8129,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -8064,19 +8158,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			}
@@ -8191,7 +8289,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -8201,7 +8300,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -8227,14 +8327,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -8311,7 +8413,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -8428,13 +8531,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING concatenation.");
 			}
 			final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING ret_val = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanUniversalCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -8694,11 +8799,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanUniversalCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -8789,7 +8895,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanUniversalCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -8963,7 +9070,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -8971,8 +9079,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -9320,13 +9429,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
@@ -9361,7 +9472,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -9801,7 +9913,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -9852,7 +9965,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -9919,7 +10033,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
 			final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING ret_val = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -9952,7 +10067,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -9969,9 +10085,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -9979,6 +10096,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -10025,14 +10143,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -10045,14 +10164,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -10073,19 +10193,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			}
@@ -10200,7 +10324,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -10210,7 +10335,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -10236,14 +10362,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -10320,7 +10448,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -10437,13 +10566,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING concatenation.");
 			}
 			final PREGEN__RECORD__OF__BITSTRING ret_val = new PREGEN__RECORD__OF__BITSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBitString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -10703,11 +10834,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBitString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -10798,7 +10930,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBitString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -10972,7 +11105,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -10980,8 +11114,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -11329,13 +11464,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
@@ -11370,7 +11507,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -11810,7 +11948,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -11861,7 +12000,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -11928,7 +12068,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
 			final PREGEN__RECORD__OF__BITSTRING ret_val = new PREGEN__RECORD__OF__BITSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -11961,7 +12102,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -11978,9 +12120,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -11988,6 +12131,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -12034,14 +12178,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -12054,14 +12199,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -12082,19 +12228,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			}
@@ -12209,7 +12359,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -12219,7 +12370,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -12245,14 +12397,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -12329,7 +12483,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -12446,13 +12601,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED ret_val = new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBoolean elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -12712,11 +12869,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBoolean() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -12807,7 +12965,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBoolean elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -12981,7 +13140,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -12989,8 +13149,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -13338,13 +13499,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
@@ -13379,7 +13542,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -13819,7 +13983,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -13870,7 +14035,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -13937,7 +14103,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED ret_val = new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -13970,7 +14137,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -13987,9 +14155,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -13997,6 +14166,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -14043,14 +14213,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -14063,14 +14234,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -14091,19 +14263,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			}
@@ -14218,7 +14394,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -14228,7 +14405,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -14254,14 +14432,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -14338,7 +14518,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -14455,13 +14636,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING concatenation.");
 			}
 			final PREGEN__RECORD__OF__CHARSTRING ret_val = new PREGEN__RECORD__OF__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -14721,11 +14904,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -14816,7 +15000,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -14990,7 +15175,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -14998,8 +15184,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -15347,13 +15534,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
@@ -15388,7 +15577,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -15828,7 +16018,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -15879,7 +16070,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -15946,7 +16138,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
 			final PREGEN__RECORD__OF__CHARSTRING ret_val = new PREGEN__RECORD__OF__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -15979,7 +16172,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -15996,9 +16190,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -16006,6 +16201,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -16052,14 +16248,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -16072,14 +16269,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -16100,19 +16298,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			}
@@ -16227,7 +16429,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -16237,7 +16440,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -16263,14 +16467,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -16347,7 +16553,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -16464,13 +16671,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN concatenation.");
 			}
 			final PREGEN__RECORD__OF__BOOLEAN ret_val = new PREGEN__RECORD__OF__BOOLEAN(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBoolean elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -16730,11 +16939,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBoolean() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -16825,7 +17035,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBoolean elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -16999,7 +17210,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -17007,8 +17219,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -17356,13 +17569,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
@@ -17397,7 +17612,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -17837,7 +18053,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN containing a value list with different sizes.", op_name ) );
 					}
@@ -17888,7 +18105,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -17955,7 +18173,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
 			final PREGEN__RECORD__OF__BOOLEAN ret_val = new PREGEN__RECORD__OF__BOOLEAN(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -17988,7 +18207,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -18005,9 +18225,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -18015,6 +18236,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -18061,14 +18283,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -18081,14 +18304,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -18109,19 +18333,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			}
@@ -18236,7 +18464,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -18246,7 +18475,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -18272,14 +18502,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -18356,7 +18588,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -18473,13 +18706,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBitString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -18739,11 +18974,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBitString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -18834,7 +19070,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBitString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -19008,7 +19245,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -19016,8 +19254,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -19365,13 +19604,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
@@ -19406,7 +19647,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -19846,7 +20088,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -19897,7 +20140,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -19964,7 +20208,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -19997,7 +20242,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -20014,9 +20260,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -20024,6 +20271,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -20070,14 +20318,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -20090,14 +20339,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -20118,19 +20368,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			}
@@ -20245,7 +20499,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -20255,7 +20510,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -20281,14 +20537,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -20365,7 +20623,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -20482,13 +20741,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER concatenation.");
 			}
 			final PREGEN__RECORD__OF__INTEGER ret_val = new PREGEN__RECORD__OF__INTEGER(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanInteger elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -20748,11 +21009,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanInteger() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -20843,7 +21105,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanInteger elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -21017,7 +21280,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -21025,8 +21289,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -21374,13 +21639,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
@@ -21415,7 +21682,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -21855,7 +22123,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER containing a value list with different sizes.", op_name ) );
 					}
@@ -21906,7 +22175,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -21973,7 +22243,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
 			final PREGEN__RECORD__OF__INTEGER ret_val = new PREGEN__RECORD__OF__INTEGER(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -22006,7 +22277,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -22023,9 +22295,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -22033,6 +22306,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -22079,14 +22353,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -22099,14 +22374,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -22127,19 +22403,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			}
@@ -22254,7 +22534,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -22264,7 +22545,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -22290,14 +22572,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -22381,7 +22665,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -22490,13 +22775,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanUniversalCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -22756,11 +23043,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanUniversalCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -22851,7 +23139,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanUniversalCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -23025,7 +23314,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -23033,8 +23323,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -23416,13 +23707,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -23468,7 +23761,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -23981,7 +24275,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -24032,7 +24327,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -24106,7 +24402,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -24139,7 +24436,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -24150,9 +24448,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -24160,6 +24459,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -24253,19 +24553,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
@@ -24369,7 +24673,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -24379,7 +24684,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -24405,14 +24711,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -24496,7 +24804,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -24605,13 +24914,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN concatenation.");
 			}
 			final PREGEN__SET__OF__BOOLEAN ret_val = new PREGEN__SET__OF__BOOLEAN(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBoolean elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -24871,11 +25182,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBoolean() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -24966,7 +25278,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBoolean elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -25140,7 +25453,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -25148,8 +25462,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -25531,13 +25846,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -25583,7 +25900,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -26096,7 +26414,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN containing a value list with different sizes.", op_name ) );
 					}
@@ -26147,7 +26466,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -26221,7 +26541,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
 			final PREGEN__SET__OF__BOOLEAN ret_val = new PREGEN__SET__OF__BOOLEAN(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -26254,7 +26575,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -26265,9 +26587,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -26275,6 +26598,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -26368,19 +26692,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			}
@@ -26484,7 +26812,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -26494,7 +26823,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -26520,14 +26850,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -26611,7 +26943,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -26720,13 +27053,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__FLOAT__OPTIMIZED ret_val = new PREGEN__SET__OF__FLOAT__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanFloat elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -26986,11 +27321,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanFloat() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -27081,7 +27417,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanFloat elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -27255,7 +27592,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -27263,8 +27601,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -27646,13 +27985,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -27698,7 +28039,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -28211,7 +28553,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -28262,7 +28605,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -28336,7 +28680,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__FLOAT__OPTIMIZED ret_val = new PREGEN__SET__OF__FLOAT__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -28369,7 +28714,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -28380,9 +28726,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -28390,6 +28737,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -28483,19 +28831,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			}
@@ -28599,7 +28951,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -28609,7 +28962,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -28635,14 +28989,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -28726,7 +29082,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -28835,13 +29192,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_INTEGER concatenation.");
 			}
 			final PREGEN__SET__OF__INTEGER ret_val = new PREGEN__SET__OF__INTEGER(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanInteger elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -29101,11 +29460,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanInteger() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -29196,7 +29556,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanInteger elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -29370,7 +29731,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -29378,8 +29740,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -29761,13 +30124,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -29813,7 +30178,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -30326,7 +30692,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER containing a value list with different sizes.", op_name ) );
 					}
@@ -30377,7 +30744,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -30451,7 +30819,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
 			final PREGEN__SET__OF__INTEGER ret_val = new PREGEN__SET__OF__INTEGER(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -30484,7 +30853,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -30495,9 +30865,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -30505,6 +30876,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -30598,19 +30970,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			}
@@ -30714,7 +31090,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -30724,7 +31101,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -30750,14 +31128,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_INTEGER" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -30841,7 +31221,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -30950,13 +31331,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING concatenation.");
 			}
 			final PREGEN__SET__OF__CHARSTRING ret_val = new PREGEN__SET__OF__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -31216,11 +31599,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -31311,7 +31695,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -31485,7 +31870,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -31493,8 +31879,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -31876,13 +32263,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -31928,7 +32317,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -32441,7 +32831,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -32492,7 +32883,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -32566,7 +32958,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
 			final PREGEN__SET__OF__CHARSTRING ret_val = new PREGEN__SET__OF__CHARSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -32599,7 +32992,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -32610,9 +33004,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -32620,6 +33015,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -32713,19 +33109,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			}
@@ -32829,7 +33229,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -32839,7 +33240,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -32865,14 +33267,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -32949,7 +33353,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -33066,13 +33471,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanUniversalCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanUniversalCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -33332,11 +33739,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanUniversalCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanUniversalCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -33427,7 +33835,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanUniversalCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanUniversalCharString(elem));
@@ -33601,7 +34010,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -33609,8 +34019,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -33958,13 +34369,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
@@ -33999,7 +34412,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -34439,7 +34853,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -34490,7 +34905,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -34557,7 +34973,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -34590,7 +35007,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -34607,9 +35025,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -34617,6 +35036,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -34663,14 +35083,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -34683,14 +35104,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -34711,19 +35133,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			}
@@ -34838,7 +35264,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -34848,7 +35275,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -34874,14 +35302,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -34965,7 +35395,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -35074,13 +35505,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING concatenation.");
 			}
 			final PREGEN__SET__OF__HEXSTRING ret_val = new PREGEN__SET__OF__HEXSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanHexString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -35340,11 +35773,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanHexString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -35435,7 +35869,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanHexString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -35609,7 +36044,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -35617,8 +36053,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -36000,13 +36437,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -36052,7 +36491,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -36565,7 +37005,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -36616,7 +37057,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -36690,7 +37132,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
 			final PREGEN__SET__OF__HEXSTRING ret_val = new PREGEN__SET__OF__HEXSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -36723,7 +37166,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -36734,9 +37178,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -36744,6 +37189,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -36837,19 +37283,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			}
@@ -36953,7 +37403,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -36963,7 +37414,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -36989,14 +37441,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -37080,7 +37534,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -37189,13 +37644,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__HEXSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__HEXSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanHexString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -37455,11 +37912,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanHexString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -37550,7 +38008,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanHexString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -37724,7 +38183,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -37732,8 +38192,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -38115,13 +38576,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -38167,7 +38630,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -38680,7 +39144,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -38731,7 +39196,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -38805,7 +39271,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__HEXSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__HEXSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -38838,7 +39305,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -38849,9 +39317,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -38859,6 +39328,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -38952,19 +39422,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			}
@@ -39068,7 +39542,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -39078,7 +39553,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -39104,14 +39580,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -39195,7 +39673,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -39304,13 +39783,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING concatenation.");
 			}
 			final PREGEN__SET__OF__OCTETSTRING ret_val = new PREGEN__SET__OF__OCTETSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanOctetString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -39570,11 +40051,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanOctetString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -39665,7 +40147,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanOctetString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -39839,7 +40322,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -39847,8 +40331,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -40230,13 +40715,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -40282,7 +40769,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -40795,7 +41283,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -40846,7 +41335,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -40920,7 +41410,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
 			final PREGEN__SET__OF__OCTETSTRING ret_val = new PREGEN__SET__OF__OCTETSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -40953,7 +41444,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -40964,9 +41456,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -40974,6 +41467,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -41067,19 +41561,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			}
@@ -41183,7 +41681,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -41193,7 +41692,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -41219,14 +41719,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -41310,7 +41812,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -41419,13 +41922,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_FLOAT concatenation.");
 			}
 			final PREGEN__SET__OF__FLOAT ret_val = new PREGEN__SET__OF__FLOAT(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanFloat elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -41685,11 +42190,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanFloat() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -41780,7 +42286,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanFloat elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -41954,7 +42461,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -41962,8 +42470,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -42345,13 +42854,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -42397,7 +42908,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -42910,7 +43422,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT containing a value list with different sizes.", op_name ) );
 					}
@@ -42961,7 +43474,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -43035,7 +43549,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
 			final PREGEN__SET__OF__FLOAT ret_val = new PREGEN__SET__OF__FLOAT(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -43068,7 +43583,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -43079,9 +43595,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -43089,6 +43606,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -43182,19 +43700,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			}
@@ -43298,7 +43820,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -43308,7 +43831,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -43334,14 +43858,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_FLOAT" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -43425,7 +43951,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -43534,13 +44061,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__INTEGER__OPTIMIZED ret_val = new PREGEN__SET__OF__INTEGER__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanInteger elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanInteger elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -43800,11 +44329,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanInteger>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanInteger() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -43895,7 +44425,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanInteger elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanInteger(elem));
@@ -44069,7 +44600,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -44077,8 +44609,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -44460,13 +44993,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -44512,7 +45047,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -45025,7 +45561,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -45076,7 +45613,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -45150,7 +45688,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__INTEGER__OPTIMIZED ret_val = new PREGEN__SET__OF__INTEGER__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -45183,7 +45722,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -45194,9 +45734,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -45204,6 +45745,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -45297,19 +45839,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			}
@@ -45413,7 +45959,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -45423,7 +45970,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -45449,14 +45997,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -45540,7 +46090,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -45649,13 +46200,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__OCTETSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanOctetString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -45915,11 +46468,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanOctetString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -46010,7 +46564,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanOctetString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -46184,7 +46739,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -46192,8 +46748,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -46575,13 +47132,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -46627,7 +47186,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -47140,7 +47700,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -47191,7 +47752,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -47265,7 +47827,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__OCTETSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -47298,7 +47861,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -47309,9 +47873,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -47319,6 +47884,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -47412,19 +47978,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			}
@@ -47528,7 +48098,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -47538,7 +48109,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -47564,14 +48136,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -47648,7 +48222,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -47765,13 +48340,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING concatenation.");
 			}
 			final PREGEN__RECORD__OF__OCTETSTRING ret_val = new PREGEN__RECORD__OF__OCTETSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanOctetString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanOctetString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -48031,11 +48608,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanOctetString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanOctetString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -48126,7 +48704,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanOctetString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanOctetString(elem));
@@ -48300,7 +48879,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -48308,8 +48888,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -48657,13 +49238,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
@@ -48698,7 +49281,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -49138,7 +49722,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -49189,7 +49774,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -49256,7 +49842,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
 			final PREGEN__RECORD__OF__OCTETSTRING ret_val = new PREGEN__RECORD__OF__OCTETSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -49289,7 +49876,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -49306,9 +49894,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -49316,6 +49905,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -49362,14 +49952,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -49382,14 +49973,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -49410,19 +50002,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			}
@@ -49537,7 +50133,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -49547,7 +50144,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -49573,14 +50171,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -49657,7 +50257,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -49774,13 +50375,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING concatenation.");
 			}
 			final PREGEN__RECORD__OF__HEXSTRING ret_val = new PREGEN__RECORD__OF__HEXSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanHexString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -50040,11 +50643,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanHexString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -50135,7 +50739,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanHexString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -50309,7 +50914,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -50317,8 +50923,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -50666,13 +51273,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
@@ -50707,7 +51316,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -51147,7 +51757,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -51198,7 +51809,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -51265,7 +51877,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
 			final PREGEN__RECORD__OF__HEXSTRING ret_val = new PREGEN__RECORD__OF__HEXSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -51298,7 +51911,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -51315,9 +51929,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -51325,6 +51940,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -51371,14 +51987,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -51391,14 +52008,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -51419,19 +52037,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			}
@@ -51546,7 +52168,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -51556,7 +52179,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -51582,14 +52206,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -51673,7 +52299,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -51782,13 +52409,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__CHARSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -52048,11 +52677,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -52143,7 +52773,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -52317,7 +52948,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -52325,8 +52957,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -52708,13 +53341,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -52760,7 +53395,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -53273,7 +53909,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -53324,7 +53961,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -53398,7 +54036,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__CHARSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -53431,7 +54070,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -53442,9 +54082,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -53452,6 +54093,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -53545,19 +54187,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			}
@@ -53661,7 +54307,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -53671,7 +54318,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -53697,14 +54345,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -53788,7 +54438,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -53897,13 +54548,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BITSTRING concatenation.");
 			}
 			final PREGEN__SET__OF__BITSTRING ret_val = new PREGEN__SET__OF__BITSTRING(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBitString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -54163,11 +54816,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBitString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -54258,7 +54912,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBitString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -54432,7 +55087,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -54440,8 +55096,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -54823,13 +55480,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -54875,7 +55534,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -55388,7 +56048,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING containing a value list with different sizes.", op_name ) );
 					}
@@ -55439,7 +56100,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -55513,7 +56175,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
 			final PREGEN__SET__OF__BITSTRING ret_val = new PREGEN__SET__OF__BITSTRING(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -55546,7 +56209,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -55557,9 +56221,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -55567,6 +56232,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -55660,19 +56326,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			}
@@ -55776,7 +56446,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -55786,7 +56457,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -55812,14 +56484,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -55903,7 +56577,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -56012,13 +56687,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__BOOLEAN__OPTIMIZED ret_val = new PREGEN__SET__OF__BOOLEAN__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBoolean elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBoolean elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -56278,11 +56955,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBoolean>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBoolean() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -56373,7 +57051,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBoolean elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBoolean(elem));
@@ -56547,7 +57226,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -56555,8 +57235,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -56938,13 +57619,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -56990,7 +57673,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -57503,7 +58187,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -57554,7 +58239,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -57628,7 +58314,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__BOOLEAN__OPTIMIZED ret_val = new PREGEN__SET__OF__BOOLEAN__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -57661,7 +58348,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -57672,9 +58360,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -57682,6 +58371,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -57775,19 +58465,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			}
@@ -57891,7 +58585,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -57901,7 +58596,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -57927,14 +58623,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -58011,7 +58709,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -58128,13 +58827,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanCharString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -58394,11 +59095,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanCharString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanCharString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -58489,7 +59191,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanCharString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanCharString(elem));
@@ -58663,7 +59366,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -58671,8 +59375,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -59020,13 +59725,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
@@ -59061,7 +59768,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -59501,7 +60209,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -59552,7 +60261,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -59619,7 +60329,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -59652,7 +60363,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -59669,9 +60381,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -59679,6 +60392,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -59725,14 +60439,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -59745,14 +60460,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -59773,19 +60489,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			}
@@ -59900,7 +60620,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -59910,7 +60631,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -59936,14 +60658,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -60020,7 +60744,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -60137,13 +60862,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__FLOAT__OPTIMIZED ret_val = new PREGEN__RECORD__OF__FLOAT__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanFloat elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanFloat elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -60403,11 +61130,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanFloat>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanFloat() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -60498,7 +61226,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanFloat elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanFloat(elem));
@@ -60672,7 +61401,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -60680,8 +61410,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -61029,13 +61760,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
@@ -61070,7 +61803,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -61510,7 +62244,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -61561,7 +62296,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -61628,7 +62364,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__FLOAT__OPTIMIZED ret_val = new PREGEN__RECORD__OF__FLOAT__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -61661,7 +62398,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -61678,9 +62416,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -61688,6 +62427,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -61734,14 +62474,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -61754,14 +62495,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -61782,19 +62524,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			}
@@ -61909,7 +62655,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -61919,7 +62666,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -61945,14 +62693,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -62036,7 +62786,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -62145,13 +62896,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__SET__OF__BITSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__BITSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanBitString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanBitString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -62411,11 +63164,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanBitString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanBitString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -62506,7 +63260,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanBitString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanBitString(elem));
@@ -62680,7 +63435,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -62688,8 +63444,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -63071,13 +63828,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				return RecordOf_Match.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy);
@@ -63123,7 +63882,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -63636,7 +64396,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -63687,7 +64448,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -63761,7 +64523,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
 			final PREGEN__SET__OF__BITSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__BITSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -63794,7 +64557,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -63805,9 +64569,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -63815,6 +64580,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			case SUPERSET_MATCH:
 			case SUBSET_MATCH:
 				TTCN_Logger.log_event("%s(", template_selection == template_sel.SUPERSET_MATCH ? "superset" : "subset");
@@ -63908,19 +64674,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			}
@@ -64024,7 +64794,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -64034,7 +64805,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -64060,14 +64832,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -64144,7 +64918,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (valueElements == null) {
 				return false;
 			}
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem == null || !elem.is_value()) {
 					return false;
@@ -64261,13 +65036,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Unbound operand of @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED concatenation.");
 			}
 			final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int i=0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i=0; i < elements_size; i++) {
 				final TitanHexString elem = valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < other_value.valueElements.size(); i++) {
+			final int other_elements_size = other_value.valueElements.size();
+			for (int i = 0; i < other_elements_size; i++) {
 				final TitanHexString elem = other_value.valueElements.get(i);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -64527,11 +65304,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if ( valueElements == null ) {
 				valueElements = new ArrayList<TitanHexString>(newSize);
 			}
-			if (newSize > valueElements.size()) {
-				for ( int i = valueElements.size(); i < newSize; i++ ) {
+			final int elements_size = valueElements.size();
+			if (newSize > elements_size) {
+				for ( int i = elements_size; i < newSize; i++ ) {
 					valueElements.add( new TitanHexString() );
 				}
-			} else if (newSize < valueElements.size()) {
+			} else if (newSize < elements_size) {
 				while(valueElements.size() > newSize) {
 					valueElements.remove(valueElements.size()-1);
 				}
@@ -64622,7 +65400,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
-			for (int i = 0; i < valueElements.size() - index - len; i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size - index - len; i++) {
 				final TitanHexString elem = valueElements.get(index + i + len);
 				if (elem != null) {
 					ret_val.valueElements.add(new TitanHexString(elem));
@@ -64796,7 +65575,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if(valueElements == null) {
 				return;
 			}
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).set_implicit_omit();
 			}
 		}
@@ -64804,8 +65584,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			must_bound("Text encoder: Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
-			text_buf.push_int(valueElements.size());
-			for (int i = 0; i < valueElements.size(); i++) {
+			final int elements_size = valueElements.size();
+			text_buf.push_int(elements_size);
+			for (int i = 0; i < elements_size; i++) {
 				valueElements.get(i).encode_text(text_buf);
 			}
 		}
@@ -65153,13 +65934,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case SPECIFIC_VALUE:
 				return RecordOf_Match.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy);
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = list_value.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(list_value.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
@@ -65194,7 +65977,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < list_value.size(); i++) {
+					final int list_size = list_value.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (list_value.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -65634,7 +66418,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED containing an empty list.", op_name ) );
 				}
 				final int item_size = list_value.get(0).sizeOf(is_size).get_int();
-				for (int i = 1; i < list_value.size(); i++) {
+				final int list_size = list_value.size();
+				for (int i = 1; i < list_size; i++) {
 					if (list_value.get(i).sizeOf(is_size).get_int()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED containing a value list with different sizes.", op_name ) );
 					}
@@ -65685,7 +66470,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (template_selection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
 			}
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (!value_elements.get(elem_count).is_value()) {
 					return false;
 				}
@@ -65752,7 +66538,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
 			final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
-			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+			final int elements_size = value_elements.size();
+			for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 				if (value_elements.get(elem_count).is_bound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueof() );
 				}
@@ -65785,7 +66572,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 					TTCN_Logger.log_event_str("{ }");
 				} else {
 					TTCN_Logger.log_event_str("{ ");
-					for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					final int elements_size = value_elements.size();
+					for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 						if (elem_count > 0) {
 							TTCN_Logger.log_event_str(", ");
 						}
@@ -65802,9 +66590,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				final int list_size = list_value.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -65812,6 +66601,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 			}
@@ -65858,14 +66648,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} else {
 					if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+						final int elements_size = value_elements.size();
+						for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 							if ( !value_elements.get(elem_count).match(match_value.constGet_at(elem_count), legacy) ) {
 								TTCN_Logger.log_logmatch_info("[%d]", elem_count);
 								value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
-						log_match_length(value_elements.size());
+						log_match_length(elements_size);
 					} else {
 						TTCN_Logger.print_logmatch_buffer();
 						match_value.log();
@@ -65878,14 +66669,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			if (template_selection == template_sel.SPECIFIC_VALUE && !value_elements.isEmpty() && get_number_of_permutations() == 0 && value_elements.size() == match_value.size_of().get_int()) {
 				TTCN_Logger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+				final int elements_size = value_elements.size();
+				for (int elem_count = 0; elem_count < elements_size; elem_count++) {
 					if (elem_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
 					value_elements.get(elem_count).log_match( match_value.constGet_at(elem_count), legacy );
 				}
 				TTCN_Logger.log_event_str(" }");
-				log_match_length(value_elements.size());
+				log_match_length(elements_size);
 			} else {
 				match_value.log();
 				TTCN_Logger.log_event_str(" with ");
@@ -65906,19 +66698,23 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
 				break;
-			case SPECIFIC_VALUE:
-				text_buf.push_int(value_elements.size());
-				for (int i = 0; i < value_elements.size(); i++) {
+			case SPECIFIC_VALUE: {
+				final int elements_size = value_elements.size();
+				text_buf.push_int(elements_size);
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
+			case COMPLEMENTED_LIST:{
+				final int list_size = value_elements.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					list_value.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			}
@@ -66033,7 +66829,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
@@ -66043,7 +66840,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (template_selection != template_sel.SPECIFIC_VALUE) {
 					return false;
 				}
-				for (int i = 0; i < value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
@@ -66069,14 +66867,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 					return;
 				}
 				// no break
-			case TR_VALUE:
+			case TR_VALUE: {
 				if (template_selection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {
 					break;
 				}
-				for (int i=0; i<value_elements.size(); i++) {
+				final int elements_size = value_elements.size();
+				for (int i = 0; i < elements_size; i++) {
 					value_elements.get(i).check_restriction(restriction, name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED" : name, false);
 				}
 				return;
+			}
 			case TR_PRESENT:
 				if (!match_omit(legacy)) {
 					return;
@@ -66554,13 +67354,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError("Internal error: Invalid selector in a specific value when matching a template of union type @PreGenRecordOf.anytype.");
 				}
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for(int i = 0 ; i < value_list.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = value_list.size();
+				for(int i = 0 ; i < list_size; i++) {
 					if(value_list.get(i).match(other_value, legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
 				}
 				return template_selection == template_sel.COMPLEMENTED_LIST;
+			}
 			default:
 				throw new TtcnError("Matching with an uninitialized/unsupported integer template.");
 			}
@@ -66594,16 +67396,18 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @PreGenRecordOf.anytype.");
 				}
 				return single_value_union_selection == checked_selection;
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				if (value_list.isEmpty()) {
 					throw new TtcnError("Internal error: Performing ischosen() operation on a template of union type @PreGenRecordOf.anytype containing an empty list.");
 				}
-				for (int i = 0; i < value_list.size(); i++) {
+				final int list_size = value_list.size();
+				for (int i = 0; i < list_size; i++) {
 					if(!value_list.get(i).ischosen(checked_selection)) {
 						return false;
 					}
 				}
 				return true;
+			}
 			default:
 				return false;
 			}
@@ -66669,7 +67473,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 			case VALUE_LIST:
 			case COMPLEMENTED_LIST:
 				if (legacy) {
-					for (int i = 0 ; i < value_list.size(); i++) {
+					final int list_size = value_list.size();
+					for (int i = 0 ; i < list_size; i++) {
 						if (value_list.get(i).match_omit(legacy)) {
 							return template_selection == template_sel.VALUE_LIST;
 						}
@@ -66689,9 +67494,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case COMPLEMENTED_LIST:
 				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
+			case VALUE_LIST: {
 				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < value_list.size(); list_count++) {
+				final int list_size = value_list.size();
+				for (int list_count = 0; list_count < list_size; list_count++) {
 					if (list_count > 0) {
 						TTCN_Logger.log_event_str(", ");
 					}
@@ -66699,6 +67505,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				TTCN_Logger.log_char(')');
 				break;
+			}
 			default:
 				log_generic();
 				break;
@@ -66764,12 +67571,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 				text_buf.push_int(single_value_union_selection.ordinal());
 				break;
 			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(value_list.size());
-				for (int i = 0; i < value_list.size(); i++) {
+			case COMPLEMENTED_LIST: {
+				final int list_size = value_list.size();
+				text_buf.push_int(list_size);
+				for (int i = 0; i < list_size; i++) {
 					value_list.get(i).encode_text(text_buf);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Text encoder: Encoding an uninitialized template of type @PreGenRecordOf.anytype.");
 			}

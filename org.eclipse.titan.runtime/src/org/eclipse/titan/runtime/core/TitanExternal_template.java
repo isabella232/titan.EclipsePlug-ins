@@ -301,7 +301,8 @@ public class TitanExternal_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
-				for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
+				final int list_size = list_value.size();
+				for (int l_idx = 0; l_idx < list_size; l_idx++) {
 					if (list_value.get(l_idx).match_omit_(legacy)) {
 						return template_selection==template_sel.VALUE_LIST;
 					}
@@ -459,13 +460,15 @@ public class TitanExternal_template extends Base_Template {
 			}
 			return true;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			for (int list_count = 0; list_count < list_value.size(); list_count++) {
+		case COMPLEMENTED_LIST: {
+			final int list_size = list_value.size();
+			for (int list_count = 0; list_count < list_size; list_count++) {
 				if (list_value.get(list_count).match(other_value, legacy)) {
 					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
 			return template_selection == template_sel.COMPLEMENTED_LIST;
+		}
 		default:
 			throw new TtcnError("Matching an uninitialized/unsupported template of type EXTERNAL.");
 		}
@@ -520,17 +523,19 @@ public class TitanExternal_template extends Base_Template {
 				sizeof++;
 			}
 			return new TitanInteger(sizeof);
-		case VALUE_LIST:
+		case VALUE_LIST: {
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EXTERNAL containing an empty list.");
 			}
 			final int item_size = list_value.get(0).size_of().get_int();
-			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
+			final int list_size = list_value.size();
+			for (int l_idx = 1; l_idx < list_size; l_idx++) {
 				if (list_value.get(l_idx).size_of().get_int() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL containing a value list with different sizes.");
 				}
 			}
 			return new TitanInteger(item_size);
+		}
 		case OMIT_VALUE:
 			throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL containing omit value.");
 		case ANY_VALUE:
@@ -573,9 +578,10 @@ public class TitanExternal_template extends Base_Template {
 			break;
 		case COMPLEMENTED_LIST:
 			TTCN_Logger.log_event_str("complement");
-		case VALUE_LIST:
+		case VALUE_LIST: {
 			TTCN_Logger.log_char('(');
-			for (int list_count = 0; list_count < list_value.size(); list_count++) {
+			final int list_size = list_value.size();
+			for (int list_count = 0; list_count < list_size; list_count++) {
 				if (list_count > 0) {
 					TTCN_Logger.log_event_str(", ");
 				}
@@ -583,6 +589,7 @@ public class TitanExternal_template extends Base_Template {
 			}
 			TTCN_Logger.log_char(')');
 			break;
+		}
 		default:
 			log_generic();
 			break;
@@ -698,12 +705,14 @@ public class TitanExternal_template extends Base_Template {
 			data__value.encode_text(text_buf);
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			text_buf.push_int(list_value.size());
-			for (int i = 0; i < list_value.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int list_size = list_value.size();
+			text_buf.push_int(list_size);
+			for (int i = 0; i < list_size; i++) {
 				list_value.get(i).encode_text(text_buf);
 			}
 			break;
+		}
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type EXTERNAL.");
 		}
