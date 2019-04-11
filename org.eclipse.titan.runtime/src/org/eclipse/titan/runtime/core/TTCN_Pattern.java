@@ -491,7 +491,7 @@ public class TTCN_Pattern {
 			for (final String uchar : uchars) {
 				final String hexstr = uchar.substring(1);
 				final int hex = Integer.parseInt(hexstr, 16);
-				javaPattern.append((char) hex);
+				javaPattern.append(String.valueOf(Character.toChars(hex)));
 			}
 		} else {
 			m = PATTERN_UNICHAR_QUADRUPLE.matcher(input);

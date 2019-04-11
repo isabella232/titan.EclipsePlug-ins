@@ -5189,8 +5189,47 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression_val, final TitanUniversalCharString expression_templ, final int groupno, final boolean nocase) {
-		//FIXME implement
-		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+		if((expression_val != null && expression_templ != null) || (expression_val == null && expression_templ == null)) {
+			throw new TtcnError("Internal error: regexp(): invalid parameters");
+		}
+		instr.must_bound("The first argument (instr) of function regexp() is an unbound charstring value.");
+		if (expression_val != null) {
+			expression_val.must_bound("The second argument (expression) of function regexp() is an unbound universal charstring value.");
+		} else {
+			if (!expression_templ.is_bound()) {
+				throw new TtcnError("The second argument (expression) of function regexp() is an unbound universal charstring template.");
+			}
+		}
+		if (groupno < 0) {
+			throw new TtcnError(MessageFormat.format("The third argument (groupno) of function regexp() is a negative integer value: {0}.", groupno));
+		}
+
+		Pattern posix_str = null;
+		if (expression_val != null) {
+			posix_str = TTCN_Pattern.convert_pattern(expression_val.get_stringRepr_for_pattern().toString(), nocase);
+		} else {
+			posix_str = TTCN_Pattern.convert_pattern(expression_templ.get_stringRepr_for_pattern().toString(), nocase);
+		}
+		if (posix_str == null) {
+			TtcnError.TtcnErrorBegin("The second argument (expression) of function regexp(), which is ");
+			if (expression_val != null) {
+				expression_val.log();
+			} else {
+				expression_templ.log();
+			}
+			TTCN_Logger.log_event(", is not a valid TTCN-3 character pattern.");
+			TtcnError.TtcnErrorEnd();
+		}
+		if (TTCN_Logger.log_this_event(Severity.DEBUG_UNQUALIFIED)) {
+			TTCN_Logger.begin_event(Severity.DEBUG_UNQUALIFIED);
+			TTCN_Logger.log_event_str("regexp(): POSIX ERE equivalent of ");
+			new TitanCharString_template(template_sel.STRING_PATTERN,new TitanCharString(posix_str.toString()), nocase).log();
+			TTCN_Logger.log_event_str(" is: ");
+			new TitanCharString(posix_str.toString()).log();
+			TTCN_Logger.end_event();
+		}
+
+		return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.toString(), posix_str, groupno, nocase));
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression, final int groupno, final boolean nocase) {
