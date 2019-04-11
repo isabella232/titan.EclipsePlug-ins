@@ -470,13 +470,24 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 
 		}
-		if (val_ptr.size() != otherValue.val_ptr.size()) {
-			return false;
-		}
-
-		for (int i = 0; i < val_ptr.size(); ++i) {
-			if (!val_ptr.get(i).operator_equals(otherValue.val_ptr.get(i))) {
+		if (otherValue.charstring) {
+			if (val_ptr.size() != otherValue.cstr.length()) {
 				return false;
+			}
+			for (int i = 0; i < val_ptr.size(); ++i) {
+				final TitanUniversalChar temp = val_ptr.get(i);
+				if (temp.getUc_plane() != 0 || temp.getUc_row() != 0 || temp.getUc_group() != 0 || temp.getUc_cell() != otherValue.cstr.charAt(i)){
+					return false;
+				}
+			}
+		} else {
+			if (val_ptr.size() != otherValue.val_ptr.size()) {
+				return false;
+			}
+			for (int i = 0; i < val_ptr.size(); ++i) {
+				if (!val_ptr.get(i).operator_equals(otherValue.val_ptr.get(i))) {
+					return false;
+				}
 			}
 		}
 
