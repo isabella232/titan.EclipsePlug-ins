@@ -5163,7 +5163,7 @@ public final class AdditionalFunctions {
 			}
 		}
 
-		Pattern posix_str = TTCN_Pattern.convert_pattern(expression_str, nocase);
+		final Pattern posix_str = TTCN_Pattern.convert_pattern(expression_str, nocase);
 		if (posix_str == null) {
 			TtcnError.TtcnErrorBegin("The second argument (expression) of function regexp(), which is ");
 			expression.log();
@@ -5178,6 +5178,7 @@ public final class AdditionalFunctions {
 			new TitanCharString(posix_str.toString()).log();
 			TTCN_Logger.end_event();
 		}
+
 		return new TitanCharString(TTCN_Pattern.regexp(instr_str, posix_str, groupno, nocase));
 	}
 

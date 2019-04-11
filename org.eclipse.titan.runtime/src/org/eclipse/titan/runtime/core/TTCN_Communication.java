@@ -774,7 +774,7 @@ public final class TTCN_Communication {
 			text_buf.push_raw(temp.length, temp);
 			text_buf.push_raw(8, new byte[8]);
 		} else if (local_address instanceof Inet6Address) {
-			Inet6Address localipv6_address = getIPv6Address(local_address);
+			final Inet6Address localipv6_address = getIPv6Address(local_address);
 			final byte temp[] = localipv6_address.getAddress();
 			text_buf.push_raw(2, new byte[]{2, 3});
 			text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});

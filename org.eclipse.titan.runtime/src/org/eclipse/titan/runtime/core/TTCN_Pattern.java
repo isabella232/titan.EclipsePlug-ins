@@ -143,7 +143,8 @@ public class TTCN_Pattern {
 		if (s.contains("\n") || s.contains("\r")) {
 			regexpPatternString = "(?s)" + regexpPatternString;
 		}
-		Pattern tempPattern = Pattern.compile(regexpPatternString);
+
+		final Pattern tempPattern = Pattern.compile(regexpPatternString);
 		try {
 			final Matcher m = tempPattern.matcher(s);
 			if ( m.matches() ) {
@@ -152,6 +153,7 @@ public class TTCN_Pattern {
 		} catch (Exception e) {
 			throw new TtcnError( MessageFormat.format( "Pattern matching error: {0}", e.toString() ) );
 		}
+
 		return result;
 	}
 

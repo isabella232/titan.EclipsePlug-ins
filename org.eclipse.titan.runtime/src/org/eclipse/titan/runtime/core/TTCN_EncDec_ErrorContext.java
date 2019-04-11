@@ -48,10 +48,11 @@ public final class TTCN_EncDec_ErrorContext {
 
 	public void leave_context() {
 		final ArrayList<TTCN_EncDec_ErrorContext> localErrors = errors.get();
-		TTCN_EncDec_ErrorContext temp = localErrors.get(localErrors.size() - 1);
+		final TTCN_EncDec_ErrorContext temp = localErrors.get(localErrors.size() - 1);
 		if (temp != this) {
 			throw new TtcnError(" Internal error: TTCN_EncDec_ErrorContext.leaveContext()");
 		}
+
 		localErrors.remove(localErrors.size() - 1);
 	}
 
