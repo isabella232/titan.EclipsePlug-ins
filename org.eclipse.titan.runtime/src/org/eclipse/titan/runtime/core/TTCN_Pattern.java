@@ -490,7 +490,7 @@ public class TTCN_Pattern {
 			final String[] uchars = ucharlist.split("\\s*,\\s*");
 			for (final String uchar : uchars) {
 				final String hexstr = uchar.substring(1);
-				final int hex = Integer.parseInt(hexstr,16);
+				final int hex = Integer.parseInt(hexstr, 16);
 				javaPattern.append(String.valueOf(Character.toChars(hex)));
 			}
 		} else {
