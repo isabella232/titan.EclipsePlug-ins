@@ -30,6 +30,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring_Templat
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_CustomName;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
@@ -86,6 +87,7 @@ import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -240,13 +242,66 @@ import java.util.regex.Pattern;
 		Module_List.set_param(param);
 	}
 
+	//TODO: use these variables
+	private boolean error_flag = false;
+	private StringBuilder parsing_error_messages = null;
+	// originally Debugger_Value_Parsing.happening()
+	private boolean debugger_Value_Parsing_happening = false;
+	// originally Ttcn_String_Parsing.happening()
+	private boolean ttcn_String_Parsing_happening = false;
+
+	/**
+	 * Gets the last token of the current rule.
+	 * This is used inside the rule, because \$stop is filled only
+	 * in the finally block in the generated java code, so it does
+	 * NOT have the correct value in @after and @finally actions.
+	 * This method can be used in any part of the rule.
+	 * @return last consumed token
+	 */
+	public Token getStopToken() {
+		return _input.get( _input.index() - 1 );
+	}
+
 	/**
 	 * Logs error during the process
-	 * @param errorMsg error message
+	 * @param error_str error message
 	 */
-	private static void config_process_error(final String errorMsg)	{
-		//TODO: implement
-		System.err.println(errorMsg);
+	private void config_process_error(final String error_str)	{
+		config_process_error(error_str, getStopToken() );
+	}
+
+	private void config_process_error(final String error_str, final Token token)	{
+		final String config_process_text = token.getText();
+		final int current_line = token.getLine();
+		if (ttcn_String_Parsing_happening || debugger_Value_Parsing_happening) {
+			if ( parsing_error_messages == null ) {
+				parsing_error_messages = new StringBuilder();
+			}
+			parsing_error_messages.append('\n');
+			if (debugger_Value_Parsing_happening) {
+				parsing_error_messages.append(MessageFormat.format("Parse error at or before token `{0}': {1}",
+						config_process_text, error_str));
+			}
+			else { // Ttcn_String_Parsing.happening()
+				parsing_error_messages.append(MessageFormat.format("Parse error in line {0}, at or before token `{1}': {2}",
+						current_line, config_process_text, error_str));
+			}
+			error_flag = true;
+			return;
+		}
+		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+		if ( mActualFile != null ) {
+			TTCN_Logger.log_event("Parse error in configuration file `%s': in line %d, at or before token `%s': ",
+					mActualFile, current_line,
+					config_process_text
+					);
+		} else {
+			TTCN_Logger.log_event("Parse error while reading configuration information: in line %d, at or before token `%s': ",
+					current_line, config_process_text);
+		}
+		TTCN_Logger.log_event(error_str);
+		TTCN_Logger.end_event();
+		error_flag = true;
 	}
 
 	//TODO: use these variables
@@ -1181,7 +1236,6 @@ pr_SimpleValue:
 pr_TestportName:
 (	pr_Identifier
 	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
-		//TODO: it can be changed to pr_IndexItemIndex, also in config_process.y
 	)*
 |	STAR
 )
@@ -1248,9 +1302,6 @@ pr_IntegerPrimaryExpression returns [CFGNumber integer]:
 pr_NaturalNumber returns [CFGNumber integer]:
 (	a = NATURAL_NUMBER	{$integer = new CFGNumber($a.text);}
 |	pr_MacroNaturalNumber
-|	TTCN3IDENTIFIER // module parameter name
-		{	$integer = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
-		}//TODO: incorrect behaviour
 )
 ;
 
@@ -1298,9 +1349,6 @@ pr_CString returns [String string]:
 		}
 |	pr_MacroCString
 |	pr_MacroExpliciteCString
-|	TTCN3IDENTIFIER // module parameter name
-		{	$string = ""; // value is unknown yet, but it should not be null
-		}
 )
 ;
 
@@ -1487,15 +1535,15 @@ pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
 }:
 	LENGTHKEYWORD
 	LPAREN
-	(	single = pr_LengthBound	{	$length_restriction.set_single($single.integer.getIntegerValue());	}
-	|	min = pr_LengthBound	{	$length_restriction.set_min($min.integer.getIntegerValue());	}
+	(	single = pr_LengthBound	{	$length_restriction.set_single($single.integer);	}
+	|	min = pr_LengthBound	{	$length_restriction.set_min($min.integer);	}
 		DOTDOT
 		(	max = pr_LengthBound
 			{
-				if ($min.integer.getIntegerValue() > $max.integer.getIntegerValue()) {
+				if ($min.integer > $max.integer) {
 					config_process_error("invalid length restriction: lower bound > upper bound");
 				}
-				$length_restriction.set_max($max.integer.getIntegerValue());
+				$length_restriction.set_max($max.integer);
 			}
 		|	INFINITYKEYWORD
 		)
@@ -1503,8 +1551,22 @@ pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
 	RPAREN
 ;
 
-pr_LengthBound returns [CFGNumber integer]:
-	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
+pr_LengthBound returns [int integer]:
+	i = pr_ParameterExpression
+	{
+		$i.moduleparameter.set_id(new Module_Param_CustomName("length bound"));
+		final TitanInteger tmp = new TitanInteger();
+		tmp.set_param($i.moduleparameter);
+		if ( !tmp.is_native() ) {
+			config_process_error("bignum length restriction bound.");
+			$integer = 0;
+		} else if ( tmp.get_int() < 0 ) {
+			config_process_error("negative length restriction bound.");
+			$integer = 0;
+		} else {
+			$integer = tmp.get_int();
+		}
+	}
 ;
 
 pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
@@ -1585,9 +1647,7 @@ pr_ParameterNameSegment returns [List<String> names]:
 |	pns = pr_ParameterNameSegment
 	iii = pr_IndexItemIndex
 	{	$names = $pns.names;
-		int size = $names.size();
-		final String last = $names.get(size - 1);
-		$names.set(size - 1, last + $iii.text);
+		$names.add(Integer.toString($iii.integer));
 	}
 |	i = pr_Identifier
 	{	$names = new ArrayList<String>();
@@ -1595,10 +1655,22 @@ pr_ParameterNameSegment returns [List<String> names]:
 	}
 ;
 
-pr_IndexItemIndex returns [CFGNumber integer]:
+pr_IndexItemIndex returns [int integer]:
 	SQUAREOPEN
-	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
+	i = pr_ParameterExpression
 	SQUARECLOSE
+	{
+		final Module_Parameter mp = $i.moduleparameter; 
+		mp.set_id( new Module_Param_CustomName("array index") );
+		final TitanInteger tmp = new TitanInteger();
+		tmp.set_param(mp);
+		if ( !tmp.is_native() ) {
+			config_process_error("bignum index.");
+		} else if ( tmp.get_int() < 0 ) {
+			config_process_error("negative index.");
+		}
+		$integer = tmp.get_int();
+	}
 ;
 
 pr_ArithmeticValueExpression returns [CFGNumber number]:
@@ -1654,9 +1726,6 @@ pr_Float returns [CFGNumber floatnum]:
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
-		}//TODO: incorrect behaviour
 )
 ;
 
@@ -1810,23 +1879,56 @@ pr_UniversalCharstringValue returns [TitanUniversalCharString ucstr]:
 pr_Quadruple returns [TitanUniversalCharString ucstr]:
 	CHARKEYWORD
 	LPAREN
-	i1 = pr_IntegerValueExpression
+	group = pr_ParameterExpression
 	COMMA
-	i2 = pr_IntegerValueExpression
+	plane = pr_ParameterExpression
 	COMMA
-	i3 = pr_IntegerValueExpression
+	row = pr_ParameterExpression
 	COMMA
-	i4 = pr_IntegerValueExpression
+	cell = pr_ParameterExpression
 	RPAREN
-	{	if ( $i1.integer != null && $i2.integer != null && $i3.integer != null && $i4.integer != null ) {
-			$ucstr = new TitanUniversalCharString(	(char)$i1.integer.getIntegerValue().intValue(),
-													(char)$i2.integer.getIntegerValue().intValue(),
-													(char)$i3.integer.getIntegerValue().intValue(),
-													(char)$i4.integer.getIntegerValue().intValue()	);
+	{
+		$group.moduleparameter.set_id(new Module_Param_CustomName("quadruple group"));
+		$plane.moduleparameter.set_id(new Module_Param_CustomName("quadruple plane"));
+		$row.moduleparameter.set_id(new Module_Param_CustomName("quadruple row"));
+		$cell.moduleparameter.set_id(new Module_Param_CustomName("quadruple cell"));
+		final TitanInteger g = new TitanInteger(); 
+		final TitanInteger p = new TitanInteger(); 
+		final TitanInteger r = new TitanInteger(); 
+		final TitanInteger c = new TitanInteger(); 
+		g.set_param($group.moduleparameter);
+		p.set_param($plane.moduleparameter);
+		r.set_param($row.moduleparameter);
+		c.set_param($cell.moduleparameter);
+		int uc_group;
+		int uc_plane;
+		int uc_row;
+		int uc_cell;
+		if (g.is_less_than(0) || g.is_greater_than(127)) {
+			config_process_error("The first number of quadruple (group) must be within the range 0 .. 127 instead of "+g+".");
+			uc_group = g.is_less_than(0) ? 0 : 127;
 		} else {
-			config_process_error("Invalid quadruple: char("+$i1.text+","+$i2.text+","+$i3.text+","+$i4.text+")");
-			$ucstr = new TitanUniversalCharString();
+			uc_group = g.get_int();
 		}
+		if (p.is_less_than(0) || p.is_greater_than(255)) {
+			config_process_error("The second number of quadruple (plane) must be within the range 0 .. 255 instead of "+p+".");
+			uc_plane = p.is_less_than(0) ? 0 : 255;
+		} else {
+			uc_plane = p.get_int();
+		}
+		if (r.is_less_than(0) || r.is_greater_than(255)) {
+			config_process_error("The third number of quadruple (row) must be within the range 0 .. 255 instead of "+r+".");
+			uc_row = r.is_less_than(0) ? 0 : 255;
+		} else {
+			uc_row = r.get_int();
+		}
+		if (c.is_less_than(0) || c.is_greater_than(255)) {
+			config_process_error("The fourth number of quadruple (cell) must be within the range 0 .. 255 instead of "+c+".");
+			uc_cell = c.is_less_than(0) ? 0 : 255;
+		} else {
+			uc_cell = c.get_int();
+		}
+		$ucstr = new TitanUniversalCharString( (char)uc_group, (char)uc_plane, (char)uc_row, (char)uc_cell );
 	}
 ;
 
@@ -1983,7 +2085,7 @@ pr_TemplateItemList returns [List<Module_Parameter> mplist]:
 pr_IndexValue returns [Module_Parameter moduleparameter]:
 	iii = pr_IndexItemIndex ASSIGNMENTCHAR pv = pr_ParameterValue
 	{	$moduleparameter = $pv.moduleparameter;
-		$moduleparameter.set_id(new Module_Param_Index($iii.integer.getIntegerValue(),true));
+		$moduleparameter.set_id( new Module_Param_Index( $iii.integer, true ) );
 	}
 ;
 

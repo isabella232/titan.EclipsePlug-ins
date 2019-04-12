@@ -703,7 +703,6 @@ pr_SimpleValue:
 pr_TestportName:
 (	pr_Identifier
 	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
-		//TODO: it can be changed to pr_IndexItemIndex, also in config_process.y
 	)*
 |	STAR
 )
@@ -749,7 +748,6 @@ pr_IntegerPrimaryExpression:
 pr_NaturalNumber:
 (	NATURAL_NUMBER
 |	pr_MacroNaturalNumber
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
@@ -776,7 +774,6 @@ pr_CString:
 (	STRING
 |	pr_MacroCString
 |	pr_MacroExpliciteCString
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
@@ -925,7 +922,7 @@ pr_LengthMatch:
 ;
 
 pr_LengthBound:
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 ;
 
 pr_SimpleParameterValue:
@@ -973,7 +970,7 @@ pr_ParameterNameSegment:
 
 pr_IndexItemIndex:
 	SQUAREOPEN
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	SQUARECLOSE
 ;
 
@@ -1012,7 +1009,6 @@ pr_ArithmeticPrimaryExpression:
 pr_Float:
 (	FLOAT
 |	MACRO_FLOAT
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
@@ -1112,13 +1108,13 @@ pr_UniversalCharstringValue:
 pr_Quadruple:
 	CHARKEYWORD
 	LPAREN
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	COMMA
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	COMMA
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	COMMA
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	RPAREN
 ;
 

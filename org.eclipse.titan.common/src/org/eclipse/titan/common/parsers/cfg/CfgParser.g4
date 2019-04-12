@@ -1276,9 +1276,6 @@ pr_IntegerPrimaryExpression returns [CFGNumber number]:
 pr_NaturalNumber returns [CFGNumber number]:
 (	a = NATURAL_NUMBER	{$number = new CFGNumber($a.text);}
 |	macro = pr_MacroNaturalNumber { $number = $macro.number; }
-|	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
-		}
 )
 ;
 
@@ -1327,9 +1324,6 @@ pr_CString returns [String string]:
 		}
 |	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
 |	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$string = ""; // value is unknown yet, but it should not be null
-		}
 )
 ;
 
@@ -1505,7 +1499,7 @@ pr_LengthMatch:
 ;
 
 pr_LengthBound:
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 ;
 
 pr_SimpleParameterValue:
@@ -1552,7 +1546,7 @@ pr_ParameterNameSegment:
 
 pr_IndexItemIndex:
 	SQUAREOPEN
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	SQUARECLOSE
 ;
 
@@ -1610,9 +1604,6 @@ pr_Float returns [CFGNumber number]:
 |	macro = MACRO_FLOAT
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
 			$number = new CFGNumber( value.length() > 0 ? value : "0.0" );
-		}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}
 )
 ;
@@ -1720,7 +1711,13 @@ pr_UniversalCharstringValue:
 pr_Quadruple:
 	CHARKEYWORD
 	LPAREN
-	pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression
+	pr_ParameterExpression
+	COMMA
+	pr_ParameterExpression
+	COMMA
+	pr_ParameterExpression
+	COMMA
+	pr_ParameterExpression
 	RPAREN
 ;
 
