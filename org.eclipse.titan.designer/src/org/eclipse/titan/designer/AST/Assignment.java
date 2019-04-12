@@ -359,10 +359,15 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 
 		final StringBuilder returnValue = new StringBuilder();
 		final Module myModule = myScope.getModuleScopeGen();//get_scope_mod_gen
+		final Module generatedModule = aData.getModuleScope();
 		if(!myModule.equals(aData.getModuleScope()) && !SpecialASN1Module.isSpecAsss(myModule)) {
 			//when the definition is referred from another module
 			// the reference shall be qualified with the namespace of my module
 			returnValue.append(myModule.getName()).append('.');
+
+			if (myModule.getProject() != generatedModule.getProject()) {
+				aData.addInterModuleImport(myModule.getName());
+			}
 		}
 
 		if (prefix != null) {
