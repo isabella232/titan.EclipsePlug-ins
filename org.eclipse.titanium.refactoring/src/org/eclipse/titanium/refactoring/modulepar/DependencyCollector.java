@@ -481,17 +481,17 @@ public class DependencyCollector {
 			idCurr = "FriendModule{" + ((FriendModule)defCurrent).getIdentifier().toString() + "}";
 		}
 		final String msg1 = (dLocCurr == null) ? "null" :
-				"Definition id: " + idCurr +
-				" (" + defCurrent.getClass().getSimpleName() +
-				") at " + dLocCurr.getFile() + ", offset " + dLocCurr.getOffset()
-				+ "-" + dLocCurr.getEndOffset();
+			"Definition id: " + idCurr +
+			" (" + defCurrent.getClass().getSimpleName() +
+			") at " + dLocCurr.getFile() + ", offset " + dLocCurr.getOffset()
+			+ "-" + dLocCurr.getEndOffset();
 		final String msg2 = (dLocOverlap == null) ? "null" :
-				"Definition id: " + idOverlap +
-				" (" + defOverlapping.getClass().getSimpleName() +
-				") at " + dLocOverlap.getFile() + ", offset " + dLocOverlap.getOffset()
-				+ "-" + dLocOverlap.getEndOffset();
+			"Definition id: " + idOverlap +
+			" (" + defOverlapping.getClass().getSimpleName() +
+			") at " + dLocOverlap.getFile() + ", offset " + dLocOverlap.getOffset()
+			+ "-" + dLocOverlap.getEndOffset();
 		ErrorReporter.logError("Warning! Locations overlap while reading source project: \n" + msg1
-				 + "\n WITH \n" + msg2);
+				+ "\n WITH \n" + msg2);
 	}
 
 }

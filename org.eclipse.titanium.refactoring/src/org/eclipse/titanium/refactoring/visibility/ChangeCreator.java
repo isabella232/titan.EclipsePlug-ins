@@ -158,15 +158,15 @@ class ChangeCreator {
 						int vmLen = 0;
 						if (vm != null) {
 							switch (vm) {
-								case Public:
-									vmLen = 7;
-									break;
-								case Friend:
-									vmLen = 7;
-									break;
-								case Private:
-									vmLen = 8;
-									break;
+							case Public:
+								vmLen = 7;
+								break;
+							case Friend:
+								vmLen = 7;
+								break;
+							case Private:
+								vmLen = 8;
+								break;
 							}
 						}
 						locations_out.add(new Location(node.getLocation().getFile(), node.getLocation().getLine(),
