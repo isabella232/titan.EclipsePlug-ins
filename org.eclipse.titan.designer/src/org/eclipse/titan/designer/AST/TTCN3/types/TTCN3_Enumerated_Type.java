@@ -190,12 +190,13 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 		initAttributes(timestamp);
 
-		nameMap = new HashMap<String, EnumItem>(items.getItems().size());
-		final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.getItems().size());
-
 		final List<EnumItem> enumItems = items.getItems();
+		final int nofItems = enumItems.size();
+		nameMap = new HashMap<String, EnumItem>(nofItems);
+		final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(nofItems);
+
 		// check duplicated names and values
-		for (int i = 0, size = enumItems.size(); i < size; i++) {
+		for (int i = 0; i < nofItems; i++) {
 			final EnumItem item = enumItems.get(i);
 			checkEnumItem(timestamp, item, valueMap);
 		}
@@ -207,7 +208,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 				firstUnused++;
 			}
 
-			for (int i = 0, size = enumItems.size(); i < size; i++) {
+			for (int i = 0; i < nofItems; i++) {
 				final EnumItem item = enumItems.get(i);
 				if (!item.isOriginal()) {
 					//optimization: if the same value was already assigned, there is no need to create it again.
