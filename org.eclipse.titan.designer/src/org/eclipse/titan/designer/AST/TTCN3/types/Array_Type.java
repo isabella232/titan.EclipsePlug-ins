@@ -96,6 +96,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	private BuildTimestamp lastBuildTimestamp;
 	private String lastGenName;
 
+	private boolean insideCanHaveCoding = false;
+
 	public Array_Type(final Type elementType, final ArrayDimension dimension, final boolean inTypeDefinition) {
 		this.elementType = elementType;
 		this.dimension = dimension;
@@ -735,20 +737,21 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
+			insideCanHaveCoding = false;
 			return true;
 		}
-		refChain.add(this);
-		refChain.markState();
+		insideCanHaveCoding = true;
 
 		if (coding != MessageEncoding_type.JSON) {
+			insideCanHaveCoding = false;
 			return false;
 		}
 
-		final boolean result = elementType.getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain);
-		refChain.previousState();
+		final boolean result = elementType.getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding);
 
+		insideCanHaveCoding = false;
 		return result;
 	}
 

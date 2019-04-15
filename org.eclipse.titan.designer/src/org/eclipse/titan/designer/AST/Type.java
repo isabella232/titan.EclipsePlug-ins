@@ -976,10 +976,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			break;
 		}
 		default:{
-			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			final IType refdLast = getTypeRefdLast(timestamp);
-			final boolean canHaveCoding = refdLast.canHaveCoding(timestamp, builtInCoding, chain);
-			chain.release();
+			final boolean canHaveCoding = refdLast.canHaveCoding(timestamp, builtInCoding);
 			if (canHaveCoding) {
 				final Coding_Type newCoding = new Coding_Type();
 				newCoding.builtIn = true;
@@ -1118,10 +1116,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
-			return true;
-		}
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		//TODO base type behaviour
 
 		return false;
 	}
@@ -1180,9 +1176,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				break;
 			}
 
-			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final boolean canHave = lastType.canHaveCoding(timestamp, coding, chain);
-			chain.release();
+			final boolean canHave = lastType.canHaveCoding(timestamp, coding);
 
 			return canHave;
 		}
@@ -2396,9 +2390,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		default:
 			// no need to generate coder functions for basic types, but this function
 			// is also used to determine codec-specific descriptor generation
-			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final boolean canHave = canHaveCoding(CompilationTimeStamp.getBaseTimestamp(), encodingType, chain);
-			chain.release();
+			final boolean canHave = canHaveCoding(CompilationTimeStamp.getBaseTimestamp(), encodingType);
 
 			return canHave;
 		}

@@ -467,7 +467,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
 		if (coding == MessageEncoding_type.BER) {
 			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
 		}

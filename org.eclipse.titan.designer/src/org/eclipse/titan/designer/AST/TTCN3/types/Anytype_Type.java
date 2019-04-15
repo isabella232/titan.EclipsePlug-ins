@@ -73,6 +73,8 @@ public final class Anytype_Type extends Type {
 
 	private CompFieldMap compFieldMap;
 
+	private boolean insideCanHaveCoding = false;
+
 	public Anytype_Type() {
 		clear();
 	}
@@ -497,24 +499,26 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
+			insideCanHaveCoding = false;
 			return true;
 		}
-		refChain.add(this);
+		insideCanHaveCoding = true;
 
 		if (coding == MessageEncoding_type.BER) {
+			insideCanHaveCoding = false;
 			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {
-			refChain.markState();
-			if (!compField.getType().canHaveCoding(timestamp, coding, refChain)) {
+			if (!compField.getType().canHaveCoding(timestamp, coding)) {
+				insideCanHaveCoding = false;
 				return false;
 			}
-			refChain.previousState();
 		}
 
+		insideCanHaveCoding = false;
 		return true;
 	}
 

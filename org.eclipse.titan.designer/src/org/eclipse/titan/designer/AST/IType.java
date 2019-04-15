@@ -717,11 +717,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * @param coding the coding to check for.
-	 * @param refChain a reference chain to disable recursive looping.
 	 *
 	 * @return true if the type has the given encoding.
 	 * */
-	boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain);
+	boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding);
 
 	/**
 	 * Checks if the type has the given encoding.

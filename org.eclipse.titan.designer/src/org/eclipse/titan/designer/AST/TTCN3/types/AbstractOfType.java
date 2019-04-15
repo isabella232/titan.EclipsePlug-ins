@@ -71,6 +71,8 @@ public abstract class AbstractOfType extends ASN1Type {
 	private final IType ofType;
 	private boolean componentInternal;
 
+	private boolean insideCanHaveCoding = false;
+
 	public AbstractOfType(final IType ofType) {
 		this.ofType = ofType;
 
@@ -358,26 +360,25 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
 			return true;
 		}
-		refChain.add(this);
+		insideCanHaveCoding = true;
 
 		for (int i = 0; i < codingTable.size(); i++) {
 			final Coding_Type tempCodingType = codingTable.get(i);
 
 			if (tempCodingType.builtIn && tempCodingType.builtInCoding.equals(coding)) {
+				insideCanHaveCoding = false;
 				return true; // coding already added
 			}
 		}
 
-		refChain.markState();
-
 		final IType refdLast = ofType.getTypeRefdLast(timestamp);
-		final boolean result = refdLast.canHaveCoding(timestamp, coding, refChain);
-		refChain.previousState();
+		final boolean result = refdLast.canHaveCoding(timestamp, coding);
 
+		insideCanHaveCoding = false;
 		return result;
 	}
 

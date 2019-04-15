@@ -70,6 +70,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	protected BuildTimestamp rawLengthCalculated;
 	protected int rawLength;
 
+	private boolean insideCanHaveCoding = false;
+
 	public TTCN3_Set_Seq_Choice_BaseType(final CompFieldMap compFieldMap) {
 		this.compFieldMap = compFieldMap;
 		componentInternal = false;
@@ -574,34 +576,38 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
 			return true;
 		}
-		refChain.add(this);
+		insideCanHaveCoding = true;
 
 		for (int i = 0; i < codingTable.size(); i++) {
 			final Coding_Type tempCodingType = codingTable.get(i);
 
 			if (tempCodingType.builtIn && tempCodingType.builtInCoding.equals(coding)) {
+				insideCanHaveCoding = false;
 				return true; // coding already added
 			}
 		}
 
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
+			final boolean result = hasEncoding(timestamp, MessageEncoding_type.BER, null);
+
+			insideCanHaveCoding = false;
+			return result;
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {
-			refChain.markState();
 			final Type fieldType = compField.getType();
 			final IType refdLast = fieldType.getTypeRefdLast(timestamp);
-			if (!refdLast.canHaveCoding(timestamp, coding, refChain)) {
+			if (!refdLast.canHaveCoding(timestamp, coding)) {
+				insideCanHaveCoding = false;
 				return false;
 			}
-			refChain.previousState();
 		}
 
+		insideCanHaveCoding = false;
 		return true;
 	}
 

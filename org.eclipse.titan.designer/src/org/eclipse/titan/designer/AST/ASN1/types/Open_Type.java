@@ -80,6 +80,8 @@ public final class Open_Type extends ASN1Type {
 
 	private TableConstraint myTableConstraint;
 
+	private boolean insideCanHaveCoding = false;
+
 	public Open_Type(final ObjectClass_Definition objectClass, final Identifier identifier) {
 		compFieldMap = new CompFieldMap();
 		this.objectClass = objectClass;
@@ -652,25 +654,28 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
 			return true;
 		}
-		refChain.add(this);
+		insideCanHaveCoding = true;
 
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
+			final boolean result = hasEncoding(timestamp, MessageEncoding_type.BER, null);
+
+			insideCanHaveCoding = false;
+			return result;
 		}
 
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
 		for ( final CompField compField : map.values() ) {
-			refChain.markState();
-			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain)) {
+			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding)) {
+				insideCanHaveCoding = false;
 				return false;
 			}
-			refChain.previousState();
 		}
 
+		insideCanHaveCoding = false;
 		return true;
 	}
 

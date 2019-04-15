@@ -47,6 +47,8 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	protected Block mBlock;
 	protected CTs_EE_CTs components;
 
+	private boolean insideCanHaveCoding = false;
+
 	@Override
 	/** {@inheritDoc} */
 	public String getTypename() {
@@ -361,29 +363,30 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
 			return true;
 		}
-		refChain.add(this);
+		insideCanHaveCoding = true;
 
 		for (int i = 0; i < codingTable.size(); i++) {
 			final Coding_Type tempCodingType = codingTable.get(i);
 
 			if (tempCodingType.builtIn && tempCodingType.builtInCoding.equals(coding)) {
+				insideCanHaveCoding = false;
 				return true; // coding already added
 			}
 		}
 
 		for ( int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
-			refChain.markState();
-			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain)) {
+			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding)) {
+				insideCanHaveCoding = false;
 				return false;
 			}
-			refChain.previousState();
 		}
 
+		insideCanHaveCoding = false;
 		return true;
 	}
 
