@@ -927,7 +927,6 @@ public final class RecordSetCodeGenerator {
 
 							source.append("\t\t// Internal helper function.\n");
 							source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0}_{1,number,#}_{2,number,#}() '{'\n", fieldInfo.mVarName, start, end));
-							source.append("int selected_field = -1;\n");
 							boolean first_value = true;
 							for (int j = start ; j <= end; j++) {
 								final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
@@ -940,12 +939,12 @@ public final class RecordSetCodeGenerator {
 									}
 									genRawFieldChecker(source, cur_choice, true);
 									source.append(") {\n");
-									source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
+									source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
 									source.append('}');
 								}
 							}
 							source.append("\n");
-							source.append("return selected_field;\n");
+							source.append("return -1;\n");
 							source.append("\t\t}\n");
 						}
 					}
