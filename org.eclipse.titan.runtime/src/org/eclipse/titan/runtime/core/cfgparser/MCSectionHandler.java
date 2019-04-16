@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.cfgparser;
 
+import java.math.BigInteger;
+
 /**
  * @author Kristof Szabados
  * @author Arpad Lovassy
@@ -14,11 +16,9 @@ package org.eclipse.titan.runtime.core.cfgparser;
 public final class MCSectionHandler {
 
 	private String localAddress = null;
-	//TODO: change type to integer
-	private CFGNumber tcpPort = null;
-	private CFGNumber killTimer = null;
-	//TODO: change type to integer
-	private CFGNumber numHCsText = null;
+	private BigInteger tcpPort = null;
+	private Double killTimer = null;
+	private BigInteger numHCsText = null;
 	private Boolean unixDomainSocket = null;
 
 	public String getLocalAddress() {
@@ -29,27 +29,27 @@ public final class MCSectionHandler {
 		this.localAddress = localAddress;
 	}
 
-	public CFGNumber getTcpPort() {
+	public BigInteger getTcpPort() {
 		return tcpPort;
 	}
 
-	public void setTcpPort(final CFGNumber tcpPort) {
+	public void setTcpPort(final BigInteger tcpPort) {
 		this.tcpPort = tcpPort;
 	}
 
-	public CFGNumber getKillTimer() {
+	public Double getKillTimer() {
 		return killTimer;
 	}
 
-	public void setKillTimer(final CFGNumber killTimer) {
-		this.killTimer = killTimer;
+	public void setKillTimer(final double floatnum) {
+		this.killTimer = floatnum;
 	}
 
-	public CFGNumber getNumHCsText() {
+	public BigInteger getNumHCsText() {
 		return numHCsText;
 	}
 
-	public void setNumHCsText(final CFGNumber numHCsText) {
+	public void setNumHCsText(final BigInteger numHCsText) {
 		this.numHCsText = numHCsText;
 	}
 

@@ -87,6 +87,7 @@ import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -452,9 +453,7 @@ pr_MainControllerItemKillTimer:
 	ASSIGNMENTCHAR
 	k = pr_ArithmeticValueExpression
 	SEMICOLON?
-	{	if ( $k.number != null ) {
-			mcSectionHandler.setKillTimer( $k.number );
-		}
+	{	mcSectionHandler.setKillTimer( $k.floatnum );
 	}
 ;
 
@@ -871,10 +870,10 @@ pr_PlainLoggingParam
 		}
 |	DISKFULLACTION ASSIGNMENTCHAR pr_DiskFullActionValue
 |	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_NaturalNumber
-		{	TTCN_Logger.set_file_number( $lfn.integer.getIntegerValue() );
+		{	TTCN_Logger.set_file_number( $lfn.integer.intValue() );
 		}
 |	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_NaturalNumber
-		{	TTCN_Logger.set_file_size( $lfs.integer.getIntegerValue() );
+		{	TTCN_Logger.set_file_size( $lfs.integer.intValue() );
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
 		{	TTCN_Logger.set_file_name( $f.string, true );
@@ -914,7 +913,7 @@ pr_PlainLoggingParam
 		TTCN_Logger.add_parameter(logging_setting);
 	}
 |	EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
-	{	TTCN_Logger.set_emergency_logging( $el.integer.getIntegerValue() );
+	{	TTCN_Logger.set_emergency_logging( $el.integer.intValue() );
 	}
 |	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR pr_BufferAllOrMasked
 |	EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
@@ -973,7 +972,7 @@ pr_ComponentID returns [component_id_t comp]
 		}
 |	n = pr_NaturalNumber
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
-			$comp.id_compref = $n.integer.getIntegerValue();
+			$comp.id_compref = $n.integer.intValue();
 		}
 |	MTCKEYWORD
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
@@ -1253,54 +1252,51 @@ pr_Identifier returns [String identifier]:
 
 // integers outside of the [MODULE_PARAMETERS] section
 //IntegerValue in titan.core/config_process.y
-pr_IntegerValueExpression returns [CFGNumber integer]:
+pr_IntegerValueExpression returns [BigInteger integer]:
 	a = pr_IntegerAddExpression	{	$integer = $a.integer;	}
 ;
 
-pr_IntegerAddExpression returns [CFGNumber integer]:
+pr_IntegerAddExpression returns [BigInteger integer]:
 	a = pr_IntegerMulExpression	{	$integer = $a.integer;	}
-	(	PLUS	b1 = pr_IntegerMulExpression	{	$integer.add($b1.integer);	}
-	|	MINUS	b2 = pr_IntegerMulExpression	{	$b2.integer.mul(-1); $integer.add($b2.integer);	}
+	(	PLUS	b1 = pr_IntegerMulExpression	{	$integer = $integer.add($b1.integer);	}
+	|	MINUS	b2 = pr_IntegerMulExpression	{	$integer = $integer.subtract($b2.integer);	}
 	)*
 ;
 
-pr_IntegerMulExpression returns [CFGNumber integer]:
+pr_IntegerMulExpression returns [BigInteger integer]:
 	a = pr_IntegerUnaryExpression	{	$integer = $a.integer;	}
-	(	STAR	b1 = pr_IntegerUnaryExpression	{	$integer.mul($b1.integer);	}
+	(	STAR	b1 = pr_IntegerUnaryExpression	{	$integer = $integer.multiply($b1.integer);	}
 	|	SLASH	b2 = pr_IntegerUnaryExpression
 		{	try {
-				$integer.div($b2.integer);
+				$integer = $integer.divide($b2.integer);
 			} catch ( ArithmeticException e ) {
 				// division by 0
 				reportError( e.getMessage(), $a.start, $b2.stop );
-				$integer = new CFGNumber( "0" );
+				$integer = BigInteger.ZERO;
 			}
 		}
 	)*
 ;
 
-pr_IntegerUnaryExpression returns [CFGNumber integer]:
+pr_IntegerUnaryExpression returns [BigInteger integer]:
 {	boolean negate = false;
 }
 	(	PLUS
 	|	MINUS	{	negate = !negate;	}
 	)*
 	a = pr_IntegerPrimaryExpression
-		{	$integer = $a.integer;
-			if ( negate ) {
-				$integer.mul( -1 );
-			}
+		{	$integer = negate ? $a.integer.negate() : $a.integer;
 		}
 ;
 
-pr_IntegerPrimaryExpression returns [CFGNumber integer]:
+pr_IntegerPrimaryExpression returns [BigInteger integer]:
 (	a = pr_NaturalNumber	{	$integer = $a.integer;	}
 |	LPAREN b = pr_IntegerAddExpression RPAREN	{	$integer = $b.integer;	}
 )
 ;
 
-pr_NaturalNumber returns [CFGNumber integer]:
-(	a = NATURAL_NUMBER	{$integer = new CFGNumber($a.text);}
+pr_NaturalNumber returns [BigInteger integer]:
+(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.text);}
 |	pr_MacroNaturalNumber
 )
 ;
@@ -1602,15 +1598,15 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	STAR							{	$moduleparameter = new Module_Param_AnyOrNone();	}
 |	ir = pr_IntegerRange
 	{	$moduleparameter = new Module_Param_IntRange(
-			$ir.min != null ? new TitanInteger($ir.min.getIntegerValue()) : null,
-			$ir.max != null ? new TitanInteger($ir.max.getIntegerValue()) : null,
+			$ir.min != null ? new TitanInteger($ir.min) : null,
+			$ir.max != null ? new TitanInteger($ir.max) : null,
 			$ir.min_exclusive, $ir.max_exclusive );
 	}
 |	fr = pr_FloatRange
 	{	$moduleparameter = new Module_Param_FloatRange(
-			$fr.min != null ? $fr.min.getValue() : 0,
+			$fr.min != null ? $fr.min : 0,
 			$fr.min != null,
-			$fr.max != null ? $fr.max.getValue() : 0,
+			$fr.max != null ? $fr.max : 0,
 			$fr.max != null,
 			$fr.min_exclusive, $fr.max_exclusive );
 	}
@@ -1673,55 +1669,54 @@ pr_IndexItemIndex returns [int integer]:
 	}
 ;
 
-pr_ArithmeticValueExpression returns [CFGNumber number]:
-	a = pr_ArithmeticAddExpression	{	$number = $a.number;	}
+//TODO: remove pr_FloatXxxExpression
+//TODO: rename Arithmetic -> Float
+pr_ArithmeticValueExpression returns [double floatnum]:
+	a = pr_ArithmeticAddExpression	{	$floatnum = $a.floatnum;	}
 ;
 
-pr_ArithmeticAddExpression returns [CFGNumber number]:
-	a = pr_ArithmeticMulExpression	{	$number = $a.number;	}
-	(	PLUS	b1 = pr_ArithmeticMulExpression	{	$number.add($b1.number);	}
-	|	MINUS	b2 = pr_ArithmeticMulExpression	{	$b2.number.mul(-1); $number.add($b2.number);	}
+pr_ArithmeticAddExpression returns [double floatnum]:
+	a = pr_ArithmeticMulExpression	{	$floatnum = $a.floatnum;	}
+	(	PLUS	b1 = pr_ArithmeticMulExpression	{	$floatnum += $b1.floatnum;	}
+	|	MINUS	b2 = pr_ArithmeticMulExpression	{	$floatnum -= $b2.floatnum;	}
 	)*
 ;
 
-pr_ArithmeticMulExpression returns [CFGNumber number]:
-	a = pr_ArithmeticUnaryExpression	{	$number = $a.number;	}
-	(	STAR	b1 = pr_ArithmeticUnaryExpression	{	$number.mul($b1.number);	}
+pr_ArithmeticMulExpression returns [double floatnum]:
+	a = pr_ArithmeticUnaryExpression	{	$floatnum = $a.floatnum;	}
+	(	STAR	b1 = pr_ArithmeticUnaryExpression	{	$floatnum *= $b1.floatnum;	}
 	|	SLASH	b2 = pr_ArithmeticUnaryExpression
 		{	try {
-				$number.div($b2.number);
+				$floatnum /= $b2.floatnum;
 			} catch ( ArithmeticException e ) {
 				// division by 0
 				reportError( e.getMessage(), $a.start, $b2.stop );
-				$number = new CFGNumber( "0.0" );
+				$floatnum = 0.0;
 			}
 		}
 	)*
 ;
 
-pr_ArithmeticUnaryExpression returns [CFGNumber number]:
+pr_ArithmeticUnaryExpression returns [double floatnum]:
 {	boolean negate = false;
 }
 	(	PLUS
 	|	MINUS	{	negate = !negate;	}
 	)*
 	a = pr_ArithmeticPrimaryExpression
-		{	$number = $a.number;
-			if ( negate ) {
-				$number.mul( -1 );
-			}
+		{	$floatnum = negate ? -$a.floatnum : $a.floatnum;
 		}
 ;
 
-pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
-(	a = pr_Float	{$number = $a.floatnum;}
-|	b = pr_NaturalNumber	{$number = $b.integer;}
-|	LPAREN c = pr_ArithmeticAddExpression RPAREN {$number = $c.number;}
+pr_ArithmeticPrimaryExpression returns [double floatnum]:
+(	a = pr_Float	{$floatnum = $a.floatnum;}
+|	b = pr_NaturalNumber	{$floatnum = $b.integer.doubleValue();}
+|	LPAREN c = pr_ArithmeticAddExpression RPAREN {$floatnum = $c.floatnum;}
 )
 ;
 
-pr_Float returns [CFGNumber floatnum]:
-(	a = FLOAT {$floatnum = new CFGNumber($a.text);}
+pr_Float returns [double floatnum]:
+(	a = FLOAT	{	$floatnum = Double.parseDouble($a.text);	}
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
@@ -1756,14 +1751,14 @@ pr_ObjIdValue returns[List<TitanInteger> components]
 }:
 	OBJIDKEYWORD
 	BEGINCHAR
-	(	c = pr_ObjIdComponent { $components.add($c.integer);}
+	(	c = pr_ObjIdComponent { $components.add( new TitanInteger( $c.integer ) );}
 	)+
 	ENDCHAR
 ;
 
-pr_ObjIdComponent returns [TitanInteger integer]:
-(	n = pr_NaturalNumber	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
-|	pr_Identifier LPAREN n = pr_NaturalNumber RPAREN	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
+pr_ObjIdComponent returns [BigInteger integer]:
+(	n = pr_NaturalNumber	{	$integer = $n.integer;	}
+|	pr_Identifier LPAREN n = pr_NaturalNumber RPAREN	{	$integer = $n.integer;	}
 )
 ;
 
@@ -2089,7 +2084,7 @@ pr_IndexValue returns [Module_Parameter moduleparameter]:
 	}
 ;
 
-pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
+pr_IntegerRange returns [BigInteger min, BigInteger max, boolean min_exclusive, boolean max_exclusive]
 @init {
 	$min = null;
 	$max = null;
@@ -2111,7 +2106,7 @@ pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bo
 	RPAREN
 ;
 
-pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
+pr_FloatRange returns [Double min, Double max, boolean min_exclusive, boolean max_exclusive]
 @init {
 	$min = null;
 	$max = null;
@@ -2133,47 +2128,44 @@ pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bool
 	RPAREN
 ;
 
-pr_FloatValueExpression returns [CFGNumber floatnum]:
+pr_FloatValueExpression returns [double floatnum]:
 	a = pr_FloatAddExpression	{	$floatnum = $a.floatnum;	}
 ;
 
-pr_FloatAddExpression returns [CFGNumber floatnum]:
+pr_FloatAddExpression returns [double floatnum]:
 	a = pr_FloatMulExpression	{	$floatnum = $a.floatnum;	}
-	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum.add($b1.floatnum);	}
-	|	MINUS	b2 = pr_FloatMulExpression	{	$b2.floatnum.mul(-1); $floatnum.add($b2.floatnum);	}
+	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum += $b1.floatnum;	}
+	|	MINUS	b2 = pr_FloatMulExpression	{	$floatnum -= $b2.floatnum;	}
 	)*
 ;
 
-pr_FloatMulExpression returns [CFGNumber floatnum]:
+pr_FloatMulExpression returns [double floatnum]:
 	a = pr_FloatUnaryExpression	{	$floatnum = $a.floatnum;	}
-	(	STAR	b1 = pr_FloatUnaryExpression	{	$floatnum.mul($b1.floatnum);	}
+	(	STAR	b1 = pr_FloatUnaryExpression	{	$floatnum *= $b1.floatnum;	}
 	|	SLASH	b2 = pr_FloatUnaryExpression
 		{	try {
-				$floatnum.div($b2.floatnum);
+				$floatnum /= $b2.floatnum;
 			} catch ( ArithmeticException e ) {
 				// division by 0
 				reportError( e.getMessage(), $a.start, $b2.stop );
-				$floatnum = new CFGNumber( "0" );
+				$floatnum = 0.0;
 			}
 		}
 	)*
 ;
 
-pr_FloatUnaryExpression returns [CFGNumber floatnum]:
+pr_FloatUnaryExpression returns [double floatnum]:
 {	boolean negate = false;
 }
 	(	PLUS
 	|	MINUS	{	negate = !negate;	}
 	)*
 	a = pr_FloatPrimaryExpression
-		{	$floatnum = $a.floatnum;
-			if ( negate ) {
-				$floatnum.mul( -1 );
-			}
+		{	$floatnum = negate ? -$a.floatnum : $a.floatnum;
 		}
 ;
 
-pr_FloatPrimaryExpression returns [CFGNumber floatnum]:
+pr_FloatPrimaryExpression returns [double floatnum]:
 (	a = pr_Float	{	$floatnum = $a.floatnum;	}
 |	LPAREN b = pr_FloatAddExpression RPAREN	{	$floatnum = $b.floatnum;	}
 )
