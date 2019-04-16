@@ -751,11 +751,12 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tset_size(index_value + 1);\n");
 		source.append("\t\t\t}\n");
 		source.append('\n');
-		source.append("\t\t\tif ( valueElements.get( index_value ) == null ) {\n");
-		source.append( MessageFormat.format( "\t\t\t\tfinal {0} newElem = get_unbound_elem();\n", ofTypeName ) );
-		source.append("\t\t\t\tvalueElements.set( index_value, newElem );\n");
+		source.append( MessageFormat.format("\t\t\t{0} temp = valueElements.get( index_value );\n", ofTypeName ) );
+		source.append("\t\t\tif ( temp == null ) {\n");
+		source.append("\t\t\t\ttemp = get_unbound_elem();\n");
+		source.append("\t\t\t\tvalueElements.set( index_value, temp );\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn valueElements.get( index_value );\n");
+		source.append("\t\t\treturn temp;\n");
 		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
