@@ -589,7 +589,7 @@ public final class UnionGenerator {
 			}
 			source.append(MessageFormat.format("\t\tpublic {0} get_field_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\tif (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t//clean_up();\n");
 			source.append(MessageFormat.format("\t\t\t\tfield = new {0}();\n", fieldInfo.mJavaTypeName));
 			source.append(MessageFormat.format("\t\t\t\tunion_selection = union_selection_type.ALT_{0};\n", fieldInfo.mJavaVarName));
 			source.append("\t\t\t}\n");
