@@ -943,7 +943,7 @@ public final class RecordSetCodeGenerator {
 									if (fields.fields.get(fields.fields.size() -1).fieldtype != rawAST_coding_field_type.UNION_FIELD) {
 										canBeOptimized = false;
 									}
-								} else {
+								} else if (cur_choice.fields != null){
 									//not optimized for now
 									canBeOptimized = false;
 								}
@@ -967,47 +967,93 @@ public final class RecordSetCodeGenerator {
 										final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
 										firstCheckPrefix = firstCheck.toString();
 										firstCheck.append(MessageFormat.format(".get_selection() == {0}.union_selection_type.ALT_{1}",  field.unionType, field.nthfieldname));
-									}
-									String firstString = firstCheck.toString();
-									if (commonFirstCheck.containsKey(firstString)) {
-										commonFirstCheck.get(firstString).add(j);
-									} else {
-										ArrayList<Integer> temp = new ArrayList<Integer>();
-										temp.add(j);
-										commonFirstCheck.put(firstString, temp);
-										commonFirstCheckPrefix.put(firstString, firstCheckPrefix);
+	
+										String firstString = firstCheck.toString();
+										if (commonFirstCheck.containsKey(firstString)) {
+											commonFirstCheck.get(firstString).add(j);
+										} else {
+											ArrayList<Integer> temp = new ArrayList<Integer>();
+											temp.add(j);
+											commonFirstCheck.put(firstString, temp);
+											commonFirstCheckPrefix.put(firstString, firstCheckPrefix);
+										}
 									}
 								}
 								for (String firstCheck: commonFirstCheck.keySet()) {
 									source.append(MessageFormat.format("if ({0}) '{'\n", firstCheck));
 									String firstCheckPrefix = commonFirstCheckPrefix.get(firstCheck);
 									ArrayList<Integer> temp = commonFirstCheck.get(firstCheck);
-									boolean first_value = true;
+									// check if we can optimize further within the group
+									boolean canOptimizeForEnum = true;
+									String fieldname = null;
 									for (int j : temp) {
 										final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
-										if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
-											if (first_value) {
-												source.append("if (");
-												first_value = false;
-											} else {
-												source.append(" else if (");
-											}
+										if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
 											for (int k = 0; k < cur_choice.fields.size(); k++) {
 												final rawAST_coding_field_list fields = cur_choice.fields.get(k);
 												final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
-												
-												String fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
-												
-												StringBuilder expression = fields.nativeExpression.expression;
-												source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
+												//check
+												if (!field.refersEnum) {
+													canOptimizeForEnum = false;
+												}
+												if (fieldname == null) {
+													fieldname = field.nthfieldname;
+												} else if (!fieldname.equals(field.nthfieldname)) {
+													canOptimizeForEnum = false;
+												}
 											}
-											source.append(") {\n");
-											source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
-											source.append('}');
 										}
 									}
-									source.append("\n");
-									source.append("return -1;\n");
+									if (canOptimizeForEnum) {
+										String fieldName = null;
+										for (int j : temp) {
+											final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+											for (int k = 0; k < cur_choice.fields.size(); k++) {
+												final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+												final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+
+												if (fieldName == null) {
+													fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+													source.append(MessageFormat.format("switch ({0}.enum_value) '{'\n", fieldName));
+												}
+
+												source.append(MessageFormat.format("case {0}:\n", field.enumValue));
+												source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
+											}
+										}
+										if (fieldName != null) {
+											source.append("default:\n");
+											source.append("return -1;\n");
+											source.append("}\n");
+										}
+									} else {
+										boolean first_value = true;//might not be needed!
+										for (int j : temp) {
+											final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+											if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+												if (first_value) {
+													source.append("if (");
+													first_value = false;
+												} else {
+													source.append(" else if (");
+												}
+												for (int k = 0; k < cur_choice.fields.size(); k++) {
+													final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+													final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+
+													String fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+
+													StringBuilder expression = fields.nativeExpression.expression;
+													source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
+												}
+												source.append(") {\n");
+												source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
+												source.append('}');
+											}
+										}
+										source.append("\n");
+										source.append("return -1;\n");
+									}
 									source.append("}\n");
 								}
 								source.append("return -1;\n");

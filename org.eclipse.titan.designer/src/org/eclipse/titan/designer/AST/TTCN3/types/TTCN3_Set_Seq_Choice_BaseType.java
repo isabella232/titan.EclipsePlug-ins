@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_codin
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator.FieldInfo;
+import org.eclipse.titan.designer.AST.TTCN3.values.Enumerated_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.BuildTimestamp;
@@ -1154,6 +1155,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						}
 
 						t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						if (t.getTypetype() == Type_type.TYPE_ASN1_ENUMERATED || t.getTypetype() == Type_type.TYPE_TTCN3_ENUMERATED) {
+							newField.refersEnum = true;
+						}
 					}
 				}
 			}
@@ -1441,6 +1445,13 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
 
 								t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+								if (t.getTypetype() == Type_type.TYPE_ASN1_ENUMERATED || t.getTypetype() == Type_type.TYPE_TTCN3_ENUMERATED) {
+									newField.refersEnum = true;
+									IValue last = key.v_value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+									if (last.getValuetype() == Value_type.ENUMERATED_VALUE) {
+										newField.enumValue = ((Enumerated_Value)last).getValue().getName();
+									}
+								}
 							}
 						}
 					}

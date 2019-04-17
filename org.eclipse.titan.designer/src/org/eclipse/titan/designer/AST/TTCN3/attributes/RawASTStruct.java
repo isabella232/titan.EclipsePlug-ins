@@ -55,6 +55,9 @@ public class RawASTStruct {
 		public String typedesc;
 		// only when fieldtype is UNION_FIELD
 		public String unionType;
+		//used to generate more optimal code for crosstag
+		public boolean refersEnum = false;
+		public String enumValue = null;
 	}
 
 	public static class rawAST_coding_field_list {
