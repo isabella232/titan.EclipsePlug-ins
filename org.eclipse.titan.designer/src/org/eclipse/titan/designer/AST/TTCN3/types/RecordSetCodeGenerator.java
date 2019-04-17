@@ -950,9 +950,11 @@ public final class RecordSetCodeGenerator {
 							}
 							if (canBeOptimized) {
 								HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
+								HashMap<String, String> commonFirstCheckPrefix = new HashMap<String, String>();
 								for (int j = start ; j <= end; j++) {
 									final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 									StringBuilder firstCheck = new StringBuilder();
+									String firstCheckPrefix = "";
 									if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
 										final rawAST_coding_field_list fields = cur_choice.fields.get(0);
 										//boolean firstExpr = true;
@@ -963,6 +965,7 @@ public final class RecordSetCodeGenerator {
 										}
 										//it is a union field
 										final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+										firstCheckPrefix = firstCheck.toString();
 										firstCheck.append(MessageFormat.format(".get_selection() == {0}.union_selection_type.ALT_{1}",  field.unionType, field.nthfieldname));
 									}
 									String firstString = firstCheck.toString();
@@ -972,10 +975,12 @@ public final class RecordSetCodeGenerator {
 										ArrayList<Integer> temp = new ArrayList<Integer>();
 										temp.add(j);
 										commonFirstCheck.put(firstString, temp);
+										commonFirstCheckPrefix.put(firstString, firstCheckPrefix);
 									}
 								}
 								for (String firstCheck: commonFirstCheck.keySet()) {
 									source.append(MessageFormat.format("if ({0}) '{'\n", firstCheck));
+									String firstCheckPrefix = commonFirstCheckPrefix.get(firstCheck);
 									ArrayList<Integer> temp = commonFirstCheck.get(firstCheck);
 									boolean first_value = true;
 									for (int j : temp) {
@@ -987,7 +992,15 @@ public final class RecordSetCodeGenerator {
 											} else {
 												source.append(" else if (");
 											}
-											genRawFieldChecker(source, cur_choice, true);
+											for (int k = 0; k < cur_choice.fields.size(); k++) {
+												final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+												final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+												
+												String fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+												
+												StringBuilder expression = fields.nativeExpression.expression;
+												source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
+											}
 											source.append(") {\n");
 											source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
 											source.append('}');
