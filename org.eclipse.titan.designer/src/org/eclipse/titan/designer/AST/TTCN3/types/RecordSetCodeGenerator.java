@@ -2,6 +2,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -927,25 +928,98 @@ public final class RecordSetCodeGenerator {
 
 							source.append("\t\t// Internal helper function.\n");
 							source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0}_{1,number,#}_{2,number,#}() '{'\n", fieldInfo.mVarName, start, end));
-							boolean first_value = true;
+							//quick check to see if it can be optimized
+							boolean canBeOptimized = true;
 							for (int j = start ; j <= end; j++) {
 								final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
-								if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
-									if (first_value) {
-										source.append("if (");
-										first_value = false;
-									} else {
-										source.append(" else if (");
+								if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+									final rawAST_coding_field_list fields = cur_choice.fields.get(0);
+									for (int l = 0; l < fields.fields.size() -1; l++) {
+										final rawAST_coding_fields field = fields.fields.get(l);
+										if (field.fieldtype != rawAST_coding_field_type.MANDATORY_FIELD) {
+											canBeOptimized = false;
+										}
 									}
-									genRawFieldChecker(source, cur_choice, true);
-									source.append(") {\n");
-									source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
-									source.append('}');
+									if (fields.fields.get(fields.fields.size() -1).fieldtype != rawAST_coding_field_type.UNION_FIELD) {
+										canBeOptimized = false;
+									}
+								} else {
+									//not optimized for now
+									canBeOptimized = false;
 								}
 							}
-							source.append("\n");
-							source.append("return -1;\n");
-							source.append("\t\t}\n");
+							if (canBeOptimized) {
+								HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
+								for (int j = start ; j <= end; j++) {
+									final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+									StringBuilder firstCheck = new StringBuilder();
+									if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+										final rawAST_coding_field_list fields = cur_choice.fields.get(0);
+										//boolean firstExpr = true;
+										firstCheck.append(fields.fields.get(0).nthfieldname);
+										for (int l = 1; l < fields.fields.size() -1; l++) {
+											final rawAST_coding_fields field = fields.fields.get(l);
+											firstCheck.append(MessageFormat.format(".get_field_{0}()", FieldSubReference.getJavaGetterName( field.nthfieldname )));
+										}
+										//it is a union field
+										final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+										firstCheck.append(MessageFormat.format(".get_selection() == {0}.union_selection_type.ALT_{1}",  field.unionType, field.nthfieldname));
+									}
+									String firstString = firstCheck.toString();
+									if (commonFirstCheck.containsKey(firstString)) {
+										commonFirstCheck.get(firstString).add(j);
+									} else {
+										ArrayList<Integer> temp = new ArrayList<Integer>();
+										temp.add(j);
+										commonFirstCheck.put(firstString, temp);
+									}
+								}
+								for (String firstCheck: commonFirstCheck.keySet()) {
+									source.append(MessageFormat.format("if ({0}) '{'\n", firstCheck));
+									ArrayList<Integer> temp = commonFirstCheck.get(firstCheck);
+									boolean first_value = true;
+									for (int j : temp) {
+										final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+										if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+											if (first_value) {
+												source.append("if (");
+												first_value = false;
+											} else {
+												source.append(" else if (");
+											}
+											genRawFieldChecker(source, cur_choice, true);
+											source.append(") {\n");
+											source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
+											source.append('}');
+										}
+									}
+									source.append("\n");
+									source.append("return -1;\n");
+									source.append("}\n");
+								}
+								source.append("return -1;\n");
+								source.append("}\n");
+							} else {
+								boolean first_value = true;
+								for (int j = start ; j <= end; j++) {
+									final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+									if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+										if (first_value) {
+											source.append("if (");
+											first_value = false;
+										} else {
+											source.append(" else if (");
+										}
+										genRawFieldChecker(source, cur_choice, true);
+										source.append(") {\n");
+										source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
+										source.append('}');
+									}
+								}
+								source.append("\n");
+								source.append("return -1;\n");
+								source.append("\t\t}\n");
+							}
 						}
 					}
 				}
