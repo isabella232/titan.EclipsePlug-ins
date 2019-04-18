@@ -929,7 +929,7 @@ public final class RecordSetCodeGenerator {
 							source.append("\t\t// Internal helper function.\n");
 							source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0}_{1,number,#}_{2,number,#}() '{'\n", fieldInfo.mVarName, start, end));
 							//quick check to see if it can be optimized
-							boolean canBeOptimized = true;
+							boolean canBeGrouped = true;
 							for (int j = start ; j <= end; j++) {
 								final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 								if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
@@ -937,18 +937,18 @@ public final class RecordSetCodeGenerator {
 									for (int l = 0; l < fields.fields.size() -1; l++) {
 										final rawAST_coding_fields field = fields.fields.get(l);
 										if (field.fieldtype != rawAST_coding_field_type.MANDATORY_FIELD) {
-											canBeOptimized = false;
+											canBeGrouped = false;
 										}
 									}
 									if (fields.fields.get(fields.fields.size() -1).fieldtype != rawAST_coding_field_type.UNION_FIELD) {
-										canBeOptimized = false;
+										canBeGrouped = false;
 									}
 								} else if (cur_choice.fields != null){
 									//not optimized for now
-									canBeOptimized = false;
+									canBeGrouped = false;
 								}
 							}
-							if (canBeOptimized) {
+							if (canBeGrouped) {
 								HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
 								HashMap<String, String> commonFirstCheckPrefix = new HashMap<String, String>();
 								for (int j = start ; j <= end; j++) {
@@ -4218,7 +4218,7 @@ public final class RecordSetCodeGenerator {
 			source.append("}\n");
 		} else if (crosstagsize > 0) {
 			int other = -1;
-			boolean canBeOptimized = true;
+			boolean canBeGrouped = true;
 			for (int j = 0 ; j < crosstagsize; j++) {
 				final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 				if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
@@ -4226,21 +4226,21 @@ public final class RecordSetCodeGenerator {
 					for (int l = 0; l < fields.fields.size() -1; l++) {
 						final rawAST_coding_fields field = fields.fields.get(l);
 						if (field.fieldtype != rawAST_coding_field_type.MANDATORY_FIELD) {
-							canBeOptimized = false;
+							canBeGrouped = false;
 						}
 					}
 					if (fields.fields.get(fields.fields.size() -1).fieldtype != rawAST_coding_field_type.UNION_FIELD) {
-						canBeOptimized = false;
+						canBeGrouped = false;
 					}
 				} else if (cur_choice.fields != null){
 					//not optimized for now
-					canBeOptimized = false;
+					canBeGrouped = false;
 					other = cur_choice.fieldnum;
 				} else {
 					other = cur_choice.fieldnum;
 				}
 			}
-			if (canBeOptimized) {
+			if (canBeGrouped) {
 				HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
 				HashMap<String, String> commonFirstCheckPrefix = new HashMap<String, String>();
 				for (int j = 0 ; j < crosstagsize; j++) {
