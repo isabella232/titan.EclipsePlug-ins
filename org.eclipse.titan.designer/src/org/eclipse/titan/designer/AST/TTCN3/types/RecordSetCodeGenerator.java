@@ -1060,12 +1060,12 @@ public final class RecordSetCodeGenerator {
 												source.append("\t\t\t\t}");
 											}
 										}
-										source.append("\n");
+										source.append('\n');
 										source.append("\t\t\t\treturn -1;\n");
 									}
 									source.append("\t\t\t}");
 								}
-								source.append("\n");
+								source.append('\n');
 								source.append("\t\t\treturn -1;\n");
 								source.append("\t\t}\n");
 							} else {
@@ -1085,7 +1085,7 @@ public final class RecordSetCodeGenerator {
 										source.append("\t\t\t}");
 									}
 								}
-								source.append("\n");
+								source.append('\n');
 								source.append("\t\t\treturn -1;\n");
 								source.append("\t\t}\n");
 							}
