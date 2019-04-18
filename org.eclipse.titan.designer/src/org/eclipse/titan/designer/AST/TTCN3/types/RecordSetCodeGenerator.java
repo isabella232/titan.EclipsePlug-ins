@@ -928,7 +928,7 @@ public final class RecordSetCodeGenerator {
 
 							source.append("\t\t// Internal helper function.\n");
 							source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0}_{1,number,#}_{2,number,#}() '{'\n", fieldInfo.mVarName, start, end));
-							//quick check to see if it can be optimized
+							//check to see if the crosstags decoding can be grouped
 							boolean canBeGrouped = true;
 							for (int j = start ; j <= end; j++) {
 								final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
@@ -949,6 +949,7 @@ public final class RecordSetCodeGenerator {
 								}
 							}
 							if (canBeGrouped) {
+								//detect the groups based on the first check they need to do
 								HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
 								HashMap<String, String> commonFirstCheckPrefix = new HashMap<String, String>();
 								for (int j = start ; j <= end; j++) {
@@ -979,8 +980,16 @@ public final class RecordSetCodeGenerator {
 										}
 									}
 								}
+								//generate the groups
+								boolean first_group = true;
 								for (String firstCheck: commonFirstCheck.keySet()) {
-									source.append(MessageFormat.format("if ({0}) '{'\n", firstCheck));
+									if (first_group) {
+										source.append("\t\t\tif (");
+										first_group = false;
+									} else {
+										source.append(" else if (");
+									}
+									source.append(MessageFormat.format("{0}) '{'\n", firstCheck));
 									String firstCheckPrefix = commonFirstCheckPrefix.get(firstCheck);
 									ArrayList<Integer> temp = commonFirstCheck.get(firstCheck);
 									// check if we can optimize further within the group
@@ -1014,25 +1023,25 @@ public final class RecordSetCodeGenerator {
 
 												if (fieldName == null) {
 													fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
-													source.append(MessageFormat.format("switch ({0}.enum_value) '{'\n", fieldName));
+													source.append(MessageFormat.format("\t\t\t\tswitch ({0}.enum_value) '{'\n", fieldName));
 												}
 
-												source.append(MessageFormat.format("case {0}:\n", field.enumValue));
-												source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
+												source.append(MessageFormat.format("\t\t\t\tcase {0}:\n", field.enumValue));
+												source.append(MessageFormat.format("\t\t\t\t\treturn {0,number,#};\n", cur_choice.fieldnum));
 											}
 										}
 										if (fieldName != null) {
-											source.append("default:\n");
-											source.append("return -1;\n");
-											source.append("}\n");
+											source.append("\t\t\t\tdefault:\n");
+											source.append("\t\t\t\t\treturn -1;\n");
+											source.append("\t\t\t\t}\n");
 										}
 									} else {
-										boolean first_value = true;//might not be needed!
+										boolean first_value = true;
 										for (int j : temp) {
 											final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 											if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
 												if (first_value) {
-													source.append("if (");
+													source.append("\t\t\t\tif (");
 													first_value = false;
 												} else {
 													source.append(" else if (");
@@ -1047,24 +1056,25 @@ public final class RecordSetCodeGenerator {
 													source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
 												}
 												source.append(") {\n");
-												source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
-												source.append('}');
+												source.append(MessageFormat.format("\t\t\t\t\treturn {0,number,#};\n", cur_choice.fieldnum));
+												source.append("\t\t\t\t}");
 											}
 										}
 										source.append("\n");
-										source.append("return -1;\n");
+										source.append("\t\t\t\treturn -1;\n");
 									}
-									source.append("}\n");
+									source.append("\t\t\t}");
 								}
-								source.append("return -1;\n");
-								source.append("}\n");
+								source.append("\n");
+								source.append("\t\t\treturn -1;\n");
+								source.append("\t\t}\n");
 							} else {
 								boolean first_value = true;
 								for (int j = start ; j <= end; j++) {
 									final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 									if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
 										if (first_value) {
-											source.append("if (");
+											source.append("\t\t\tif (");
 											first_value = false;
 										} else {
 											source.append(" else if (");
@@ -1072,11 +1082,11 @@ public final class RecordSetCodeGenerator {
 										genRawFieldChecker(source, cur_choice, true);
 										source.append(") {\n");
 										source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
-										source.append('}');
+										source.append("\t\t\t}");
 									}
 								}
 								source.append("\n");
-								source.append("return -1;\n");
+								source.append("\t\t\treturn -1;\n");
 								source.append("\t\t}\n");
 							}
 						}
@@ -4218,6 +4228,7 @@ public final class RecordSetCodeGenerator {
 			source.append("}\n");
 		} else if (crosstagsize > 0) {
 			int other = -1;
+			//check to see if the crosstags decoding can be grouped
 			boolean canBeGrouped = true;
 			for (int j = 0 ; j < crosstagsize; j++) {
 				final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
@@ -4241,6 +4252,7 @@ public final class RecordSetCodeGenerator {
 				}
 			}
 			if (canBeGrouped) {
+				//detect the groups based on the first check they need to do
 				HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
 				HashMap<String, String> commonFirstCheckPrefix = new HashMap<String, String>();
 				for (int j = 0 ; j < crosstagsize; j++) {
@@ -4271,10 +4283,11 @@ public final class RecordSetCodeGenerator {
 						}
 					}
 				}
+				//generate the groups
 				boolean first_group = true;
 				for (String firstCheck: commonFirstCheck.keySet()) {
 					if (first_group) {
-						source.append("if (");
+						source.append("\t\t\tif (");
 						first_group = false;
 					} else {
 						source.append(" else if (");
@@ -4313,19 +4326,19 @@ public final class RecordSetCodeGenerator {
 
 								if (fieldName == null) {
 									fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
-									source.append(MessageFormat.format("switch ({0}.enum_value) '{'\n", fieldName));
+									source.append(MessageFormat.format("\t\t\t\tswitch ({0}.enum_value) '{'\n", fieldName));
 								}
 
-								source.append(MessageFormat.format("case {0}:\n", field.enumValue));
-								source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
-								source.append("break;\n");
+								source.append(MessageFormat.format("\t\t\t\tcase {0}:\n", field.enumValue));
+								source.append(MessageFormat.format("\t\t\t\t\tselected_field = {0,number,#};\n", cur_choice.fieldnum));
+								source.append("\t\t\t\t\tbreak;\n");
 							}
 						}
 						if (fieldName != null) {
-							source.append("default:\n");
-							source.append(MessageFormat.format("selected_field = {0,number,#};\n", other));
-							source.append("break;\n");
-							source.append("}\n");
+							source.append("\t\t\t\tdefault:\n");
+							source.append(MessageFormat.format("\t\t\t\t\tselected_field = {0,number,#};\n", other));
+							source.append("\t\t\t\t\tbreak;\n");
+							source.append("\t\t\t\t}\n");
 						}
 					} else {
 						boolean first_value = true;//might not be needed!
@@ -4333,7 +4346,7 @@ public final class RecordSetCodeGenerator {
 							final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 							if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
 								if (first_value) {
-									source.append("if (");
+									source.append("\t\t\t\tif (");
 									first_value = false;
 								} else {
 									source.append(" else if (");
@@ -4348,41 +4361,41 @@ public final class RecordSetCodeGenerator {
 									source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
 								}
 								source.append(") {\n");
-								source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
-								source.append('}');
+								source.append(MessageFormat.format("\t\t\t\t\t\tselected_field = {0,number,#};\n", cur_choice.fieldnum));
+								source.append("\t\t\t\t\t}");
 							}
 						}
 						source.append(" else {\n");
-						source.append(MessageFormat.format("selected_field = {0,number,#};\n", other));
-						source.append("}\n");
+						source.append(MessageFormat.format("\t\t\t\t\tselected_field = {0,number,#};\n", other));
+						source.append("\t\t\t\t}\n");
 					}
-					source.append("}");
+					source.append("\t\t\t}");
 				}
 				source.append(" else {\n");
-				source.append(MessageFormat.format("selected_field = {0,number,#};\n", other));
-				source.append("}\n");
+				source.append(MessageFormat.format("\t\t\t\tselected_field = {0,number,#};\n", other));
+				source.append("\t\t\t}\n");
 			} else {
 				boolean first_value = true;
 				for (int j = 0; j < crosstagsize; j++) {
 					final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 					if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
 						if (first_value) {
-							source.append("if (");
+							source.append("\t\t\tif (");
 							first_value = false;
 						} else {
 							source.append(" else if (");
 						}
 						genRawFieldChecker(source, cur_choice, true);
 						source.append(") {\n");
-						source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
-						source.append('}');
+						source.append(MessageFormat.format("\t\t\t\tselected_field = {0,number,#};\n", cur_choice.fieldnum));
+						source.append("\t\t\t}");
 					} else {
 						other = cur_choice.fieldnum;//TODO no longer needed
 					}
 				}
 				source.append(" else {\n");
-				source.append(MessageFormat.format("selected_field = {0,number,#};\n", other));
-				source.append("}\n");
+				source.append(MessageFormat.format("\t\t\t\tselected_field = {0,number,#};\n", other));
+				source.append("\t\t\t}\n");
 			}
 		}
 		/* check the presence of optional field*/
