@@ -1285,6 +1285,15 @@ pr_MPNaturalNumber:
 )
 ;
 
+pr_MPSignedInteger:
+(	(	PLUS
+	|	MINUS
+	)?
+	NATURAL_NUMBER
+|	pr_MacroNaturalNumber
+)
+;
+
 pr_MacroNaturalNumber returns [CFGNumber number]:
 (	macro1 = MACRO_INT
 		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
@@ -1505,6 +1514,8 @@ pr_LengthBound:
 pr_SimpleParameterValue:
 (	pr_MPNaturalNumber
 |	pr_MPFloat
+|	NANKEYWORD
+|	INFINITYKEYWORD
 |	pr_Boolean
 |	pr_ObjIdValue
 |	pr_VerdictValue
@@ -1610,8 +1621,15 @@ pr_Float returns [CFGNumber number]:
 
 pr_MPFloat:
 (	FLOAT
-|	NANKEYWORD
-|	INFINITYKEYWORD
+|	MACRO_FLOAT
+)
+;
+
+pr_MPSignedFloat:
+(	(	PLUS
+	|	MINUS
+	)?
+	FLOAT
 |	MACRO_FLOAT
 )
 ;
@@ -1635,8 +1653,8 @@ pr_ObjIdValue:
 ;
 
 pr_ObjIdComponent:
-(	pr_NaturalNumber
-|	pr_Identifier LPAREN pr_NaturalNumber RPAREN
+(	pr_MPNaturalNumber
+|	pr_Identifier LPAREN pr_MPNaturalNumber RPAREN
 )
 ;
 
@@ -1793,12 +1811,12 @@ pr_IndexValue:
 pr_IntegerRange:
 	LPAREN
 	EXCLUSIVE?
-	(	pr_IntegerValueExpression
+	(	pr_MPSignedInteger
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	EXCLUSIVE?
-	(	pr_IntegerValueExpression
+	(	pr_MPSignedInteger
 	|	INFINITYKEYWORD
 	)
 	RPAREN
@@ -1807,46 +1825,15 @@ pr_IntegerRange:
 pr_FloatRange:
 	LPAREN
 	EXCLUSIVE?
-	(	pr_FloatValueExpression
+	(	pr_MPSignedFloat
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	EXCLUSIVE?
-	(	pr_FloatValueExpression
+	(	pr_MPSignedFloat
 	|	INFINITYKEYWORD
 	)
 	RPAREN
-;
-
-pr_FloatValueExpression:
-	pr_FloatAddExpression
-;
-
-pr_FloatAddExpression:
-	pr_FloatMulExpression
-	(	PLUS	pr_FloatMulExpression
-	|	MINUS	pr_FloatMulExpression
-	)*
-;
-
-pr_FloatMulExpression:
-	pr_FloatUnaryExpression
-	(	STAR	pr_FloatUnaryExpression
-	|	SLASH	pr_FloatUnaryExpression
-	)*
-;
-
-pr_FloatUnaryExpression:
-	(	PLUS
-	|	MINUS
-	)*
-	pr_FloatPrimaryExpression
-;
-
-pr_FloatPrimaryExpression:
-(	pr_Float
-|	LPAREN pr_FloatAddExpression RPAREN
-)
 ;
 
 pr_StringRange:

@@ -1301,8 +1301,22 @@ pr_NaturalNumber returns [BigInteger integer]:
 )
 ;
 
-pr_MPNaturalNumber returns [TitanInteger integer]:
-(	a = NATURAL_NUMBER	{$integer = new TitanInteger($a.text);}
+pr_MPNaturalNumber returns [BigInteger integer]:
+(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.text);}
+|	pr_MacroNaturalNumber
+)
+;
+
+pr_MPSignedInteger returns [BigInteger integer]:
+(
+	{	boolean negate = false;
+	}
+	(	PLUS
+	|	MINUS	{	negate = true;	}
+	)?
+	a = NATURAL_NUMBER
+	{	$integer = negate ? new BigInteger($a.text).negate() : new BigInteger($a.text);
+	}
 |	pr_MacroNaturalNumber
 )
 ;
@@ -1569,8 +1583,10 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 @init {
 	$moduleparameter = null;
 }:
-(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer($i.integer);	}
+(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer(new TitanInteger($i.integer));	}
 |	f = pr_MPFloat					{	$moduleparameter = new Module_Param_Float($f.floatnum);	}
+|	NANKEYWORD						{	$moduleparameter = new Module_Param_Float(Double.NaN);	}
+|	INFINITYKEYWORD					{	$moduleparameter = new Module_Param_Float(Double.POSITIVE_INFINITY);	}
 |	bool = pr_Boolean				{	$moduleparameter = new Module_Param_Boolean($bool.bool);	}
 |	oi = pr_ObjIdValue
 	{	final List<TitanInteger> cs = $oi.components;
@@ -1669,7 +1685,6 @@ pr_IndexItemIndex returns [int integer]:
 	}
 ;
 
-//TODO: remove pr_FloatXxxExpression
 //TODO: rename Arithmetic -> Float
 pr_ArithmeticValueExpression returns [double floatnum]:
 	a = pr_ArithmeticAddExpression	{	$floatnum = $a.floatnum;	}
@@ -1726,8 +1741,23 @@ pr_Float returns [double floatnum]:
 
 pr_MPFloat returns [double floatnum]:
 (	a = FLOAT {$floatnum = Double.parseDouble($a.text);}
-|	NANKEYWORD	{	$floatnum = Double.NaN;	}
-|	INFINITYKEYWORD	{	$floatnum = Double.POSITIVE_INFINITY;	}
+|	MACRO_FLOAT
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	}
+)
+;
+
+pr_MPSignedFloat returns [double floatnum]:
+(
+	{	boolean negate = false;
+	}
+	(	PLUS
+	|	MINUS	{	negate = true;	}
+	)?
+	a = FLOAT
+	{	$floatnum = negate ? -Double.parseDouble($a.text) : Double.parseDouble($a.text);
+	}
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
@@ -1757,8 +1787,8 @@ pr_ObjIdValue returns[List<TitanInteger> components]
 ;
 
 pr_ObjIdComponent returns [BigInteger integer]:
-(	n = pr_NaturalNumber	{	$integer = $n.integer;	}
-|	pr_Identifier LPAREN n = pr_NaturalNumber RPAREN	{	$integer = $n.integer;	}
+(	n = pr_MPNaturalNumber	{	$integer = $n.integer;	}
+|	pr_Identifier LPAREN n = pr_MPNaturalNumber RPAREN	{	$integer = $n.integer;	}
 )
 ;
 
@@ -2094,13 +2124,13 @@ pr_IntegerRange returns [BigInteger min, BigInteger max, boolean min_exclusive, 
 	LPAREN
 	(	EXCLUSIVE	{	$min_exclusive = true;	}
 	)?
-	(	i1 = pr_IntegerValueExpression	{	$min = $i1.integer;	}
+	(	i1 = pr_MPSignedInteger	{	$min = $i1.integer;	}
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	(	EXCLUSIVE	{	$max_exclusive = true;	}
 	)?
-	(	i2 = pr_IntegerValueExpression	{	$max = $i2.integer;	}
+	(	i2 = pr_MPSignedInteger	{	$max = $i2.integer;	}
 	|	INFINITYKEYWORD
 	)
 	RPAREN
@@ -2116,59 +2146,16 @@ pr_FloatRange returns [Double min, Double max, boolean min_exclusive, boolean ma
 	LPAREN
 	(	EXCLUSIVE	{	$min_exclusive = true;	}
 	)?
-	(	f1 = pr_FloatValueExpression	{	$min = $f1.floatnum;	}
+	(	f1 = pr_MPSignedFloat	{	$min = $f1.floatnum;	}
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	(	EXCLUSIVE	{	$max_exclusive = true;	}
 	)?
-	(	f2 = pr_FloatValueExpression	{	$max = $f2.floatnum;	}
+	(	f2 = pr_MPSignedFloat	{	$max = $f2.floatnum;	}
 	|	INFINITYKEYWORD
 	)
 	RPAREN
-;
-
-pr_FloatValueExpression returns [double floatnum]:
-	a = pr_FloatAddExpression	{	$floatnum = $a.floatnum;	}
-;
-
-pr_FloatAddExpression returns [double floatnum]:
-	a = pr_FloatMulExpression	{	$floatnum = $a.floatnum;	}
-	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum += $b1.floatnum;	}
-	|	MINUS	b2 = pr_FloatMulExpression	{	$floatnum -= $b2.floatnum;	}
-	)*
-;
-
-pr_FloatMulExpression returns [double floatnum]:
-	a = pr_FloatUnaryExpression	{	$floatnum = $a.floatnum;	}
-	(	STAR	b1 = pr_FloatUnaryExpression	{	$floatnum *= $b1.floatnum;	}
-	|	SLASH	b2 = pr_FloatUnaryExpression
-		{	try {
-				$floatnum /= $b2.floatnum;
-			} catch ( ArithmeticException e ) {
-				// division by 0
-				reportError( e.getMessage(), $a.start, $b2.stop );
-				$floatnum = 0.0;
-			}
-		}
-	)*
-;
-
-pr_FloatUnaryExpression returns [double floatnum]:
-{	boolean negate = false;
-}
-	(	PLUS
-	|	MINUS	{	negate = !negate;	}
-	)*
-	a = pr_FloatPrimaryExpression
-		{	$floatnum = negate ? -$a.floatnum : $a.floatnum;
-		}
-;
-
-pr_FloatPrimaryExpression returns [double floatnum]:
-(	a = pr_Float	{	$floatnum = $a.floatnum;	}
-|	LPAREN b = pr_FloatAddExpression RPAREN	{	$floatnum = $b.floatnum;	}
-)
 ;
 
 pr_StringRange returns [Module_Param_StringRange stringrange]
