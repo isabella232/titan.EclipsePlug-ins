@@ -52,7 +52,6 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button enableRealtimeFeature;
 	private Button forceGenSeof;
 	private Button activateDebugger;
-	private Button semanticCheckOnly;
 
 	//private Composite namingRuleComposite; //TODO: check: is this obsolete?
 	//private ComboFieldEditor namingRules;  //TODO: check: is this obsolete?
@@ -114,7 +113,6 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 			if (CBuilder) {
 				activateDebugger.dispose();
-				semanticCheckOnly.dispose();
 			}
 		}
 	}
@@ -213,9 +211,6 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		if (CBuilder) {
 			activateDebugger = new Button(mainComposite, SWT.CHECK);
 			activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
-
-			semanticCheckOnly = new Button(mainComposite, SWT.CHECK);
-			semanticCheckOnly.setText("Semantic check only (-s)");
 		}
 
 		return mainComposite;
@@ -273,7 +268,6 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		if (CBuilder) {
 			activateDebugger.setEnabled(enabled);
-			semanticCheckOnly.setEnabled(enabled);
 		}
 	}
 
@@ -370,7 +364,6 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		if (CBuilder) {
 			activateDebugger.setSelection(false);
-			semanticCheckOnly.setSelection(false);
 		}
 	}
 
@@ -505,9 +498,6 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 						TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 				activateDebugger.setSelection("true".equals(temp) ? true : false);
 
-				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-						TITANFlagsOptionsData.SEMANTIC_CHECK_ONLY_PROPERTY));
-				semanticCheckOnly.setSelection("true".equals(temp) ? true : false);
 			}
 		} catch (CoreException e) {
 			performDefaults();
@@ -565,8 +555,8 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 			if (CBuilder) {
 				setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
-				setProperty(project, TITANFlagsOptionsData.SEMANTIC_CHECK_ONLY_PROPERTY, semanticCheckOnly.getSelection() ? "true" : "false");
 			}
+
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return false;
