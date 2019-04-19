@@ -276,6 +276,12 @@ To use the operation on any number of files, folders or projects, select *Titani
 
 Please note that the "Minimize visibility modifiers" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
+= Expend value list notation
+FIXME write
+
+= Order value list notation
+FIXME write
+
 = Add context info to log statements
 
 This functionality allows users to add automatically constructed additional content to existing log statements throughout the entire project or smaller parts of code.
@@ -303,7 +309,7 @@ image::images/8_F8.png[title="Add context info wizard � modify settings"]
 
 Please note that the "Extract to a new function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
-= Extract module parameters
+= Extract module parameters into a new project
 
 This functionality extracts all module parameters and all of their dependencies from an entire project to a new TITAN project. The project settings are also copied to the new project.
 
@@ -365,6 +371,24 @@ The main steps of the refactoring operation are the following:
 == Known limitations
 
 "Minimize scope of local variables in function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
+
+= Organize imports
+FIXME write
+
+= Runs on scope reduction
+FIXME write
+
+= Ungroup module parameters
+FIXME write
+
+= Insert field
+FIXME write
+
+= Change union to select union
+FIXME write
+
+= Move function
+FIXME write
 
 = References
 
