@@ -246,6 +246,22 @@ image::images/6_F7.png[title="Extract to function wizard � specify parameter n
 
  The "Extract to a new function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
+= Lazy-fication of formal parameters
+
+This functionality allows users automatic lazy-fication of non-lazy formal parameters, if they evaluation could be delayed.
+
+== Usage
+
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the editor right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Lazy-fication of formal parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
+
 = Minimize visibility modifiers
 
 This operation sets the visibility modifier of all definitions in the selected resources to private, where possible. If a definition is referred from another module, its visibility modifier will not be replaced.
@@ -349,22 +365,6 @@ The main steps of the refactoring operation are the following:
 == Known limitations
 
 "Minimize scope of local variables in function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
-
-= Lazy-fication of formal parameters
-
-This functionality allows users automatic lazy-fication of non-lazy formal parameters, if they evaluation could be delayed.
-
-== Usage
-
-To use the refactoring operation on a single module, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the editor right-click context menu.
-
-To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the Project Explorer right-click context menu.
-
-A wizard dialog is presented for the user to review the changes, before executing them.
-
-== Known limitations
-
-Please note that the "Lazy-fication of formal parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
 = References
 
