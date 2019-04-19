@@ -197,7 +197,7 @@ An example call could be:
 [source,subs="+quotes"]
 *-noSplash -application org.eclipse.titanium.refactoring.definition.ExtractDefinitionHeadlessRunner -data "C:\Users\JohnDoe\workspace" -in proj1 -out ExtDefTest05 -module test -definition funtest -location "D:\Refactoring\Tests\Headless"*
 
-= Extract definition
+= Extract definition into a new project
 
 Often it is problem in practice to create a set of the contents of a project, which is still able to reproduce some behaviour of the project and is small enough to debug/analyse.
 
@@ -226,7 +226,7 @@ Please note that the "Extract definition" feature is working only on TTCN-3 file
 
 NOTE: The algorithm ignores missing references in the source project.
 
-= Extract to a new function
+= Extract code into a new function
 
 This functionality extracts TTCN-3 statements to a new function and replaces their old location with the invocation of the newly created function. The parameters of the new function are automatically determined by the algorithm.
 
