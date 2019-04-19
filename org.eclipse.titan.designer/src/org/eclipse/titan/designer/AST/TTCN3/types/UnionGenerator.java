@@ -995,21 +995,18 @@ public final class UnionGenerator {
 					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 					source.append("\t\t// Internal helper function.\n");
 					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) '{'\n", start, end));
-					source.append("\t\t\tint decoded_length = 0;\n");
 					source.append("\t\t\tswitch (sel_field) {\n");
 					for (int i = start ; i <= end; i++) {
 						final FieldInfo fieldInfo = fieldInfos.get(i);
 
 						source.append(MessageFormat.format("\t\t\tcase {0,number,#}: '{'\n", i));
 						source.append(MessageFormat.format("\t\t\t\tfinal RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-						source.append(MessageFormat.format("\t\t\t\tdecoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-						source.append("\t\t\t\tbreak;\n");
+						source.append(MessageFormat.format("\t\t\t\treturn get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 						source.append("\t\t\t}\n");
 					}
 					source.append("\t\t\tdefault:\n");
-					source.append("\t\t\t\tbreak;\n");
+					source.append("\t\t\t\treturn 0;\n");
 					source.append("\t\t\t}\n");
-					source.append("\t\t\treturn decoded_length;\n");
 					source.append("\t\t}\n\n");
 
 					source.append("\t\t// Internal helper function.\n");
