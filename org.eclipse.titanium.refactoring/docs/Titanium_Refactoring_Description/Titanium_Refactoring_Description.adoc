@@ -307,6 +307,11 @@ To use the operation on any number of files, folders or projects, select *Titani
 
 A wizard dialog is presented for the user to review the changes, before executing them.
 
+== Known limitations
+
+Please note that the "Expand value list notation" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
+
+
 = Order assignment list notation
 This functionality allows users to automatically re-order the values in assignment list notations, to reflect the field's order in the original type, throughout the entire project or smaller parts of the code.
 
@@ -336,6 +341,10 @@ To use the refactoring operation on a single module, select *TitaniumRefactoring
 To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Order assignment list notation* from the Project Explorer right-click context menu.
 
 A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Order assignment list notation" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
 = Add context info to log statements
 
@@ -428,19 +437,133 @@ The main steps of the refactoring operation are the following:
 "Minimize scope of local variables in function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
 = Organize imports
-FIXME write
+
+This functionality allows users to rearrange and correct imports in their TTCN-3 modules.
+As part of the functionality the existing imports are order in alphabetical order.
+When the algorithm encounters an unused import it is removed.
+When the algorithm finds that an import is missing, and it can identify which module needs to be imported, the import is inserted.
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Organize imports* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Organize imports* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Organize imports" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
 = Runs on scope reduction
-FIXME write
+
+This functionality allows users to reduce the "runs on" components of functions, altsteps and testcases to the minimal needed.
+
+When writing functions, altsteps or testcases it is quite common to start with a blueprint of what component they might need to run on.
+However sometimes it just happens that the function written, does not actually need to run on the component mentioned in its "runs on" clause, as it does not use any of that component's member declarations.
+This feature analyzes the function, altstep or testcase in question, and based on the declarations it uses from the component hierarchy it determines the smallest possible component it could run on (which the current one is extending).
+This effectively also means, that the same function will now be applicable in many more situations, as a "smaller" component means possibly more calling sites.
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Runs on scope reduction* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Runs on scope reduction* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Runs on scope reduction" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
 = Ungroup module parameters
-FIXME write
+
+This functionality allows users to ungroup module parameters, that are present in the code using the group style definition.
+
+Group style definition of module parameters have been deprecate in the TTCN-3 for a long time and this style is planned to be removed from the standard soon.
+This feature lets users update their code automatically to the replacement notation.
+
+Examples:
+[source]
+----
+
+// this deprecated syntax is refactored
+modulepar {
+  integer mp_1 := 1, mp_2 := 2;
+  charstring mp_3 := "example";
+}
+
+//to the following ungruped version
+modulepar integer mp_1 := 1;
+modulepar integer mp_2 := 2;
+modulepar charstring mp_3 := "example";
+----
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Ungroup module parameters in module* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Ungroup module parameters* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Ungroup module parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
 = Insert field
 FIXME write
 
 = Change union to select union
-FIXME write
+
+This functionality allows users to automatically convert already existing select statements, to more efficient and descriptive select union statements, if possible.
+
+The TTCN-3 standard has been extended recently with the select union statement, to provide better support for the situation, when several execution path are possible based on the currently selected field of a union typed value.
+As the below example shows, previously select statements could be used for this purpose, but were lacking.
+The new syntax not only communicates its purpose better, but also allows for checking if all possible fields are covered (leading to safer code).
+
+Examples:
+[source]
+----
+
+//given the following union type
+type union my_union {
+  integer field1,
+  integer field2
+}
+
+// this example function
+function f_example(in my_union my_par) {
+  select(true) {
+    case (ischosen(my_par.field1)) {
+      ...
+    }
+    case (ischosen(my_par.field2)) {
+      ...
+    }
+  }
+}
+
+//can be refactored to
+function f_example(in my_union my_par) {
+  select union(my_par) {
+    case(field1){
+
+    }
+    case(field2){
+
+    }
+  }
+}
+----
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Change union to select union* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Change union to select union* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Change union to select union" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
 = Move function
 FIXME write
