@@ -59,7 +59,7 @@ public class OrderFieldNamesActionFromBrowser extends AbstractHandler implements
 		final Set<IProject> projsToUpdate = Utils.findAllProjectsInSelection(structSelection);
 
 		//update AST before refactoring
-		Utils.updateASTBeforeRefactoring(projsToUpdate, "ExpandFieldNames");
+		Utils.updateASTBeforeRefactoring(projsToUpdate, "OrderFieldNames");
 		Activator.getDefault().pauseHandlingResourceChanges();
 
 		//create refactoring
@@ -74,7 +74,7 @@ public class OrderFieldNamesActionFromBrowser extends AbstractHandler implements
 		} catch (InterruptedException irex) {
 			// operation was cancelled
 		} catch (Exception e) {
-			ErrorReporter.logError("ExpandFieldNamesActionFromBrowser: Error while performing refactoring change! ");
+			ErrorReporter.logError("OrderFieldNamesActionFromBrowser: Error while performing refactoring change! ");
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 		Activator.getDefault().resumeHandlingResourceChanges();

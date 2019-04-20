@@ -133,7 +133,7 @@ public class OrderFieldNamesRefactoring extends Refactoring {
 			return null;
 		}
 
-		final CompositeChange cchange = new CompositeChange("ExpandFieldNamesRefactoring");
+		final CompositeChange cchange = new CompositeChange("OrderFieldNamesRefactoring");
 		final Iterator<?> it = selection.iterator();
 		while (it.hasNext()) {
 			final Object o = it.next();
@@ -180,7 +180,7 @@ public class OrderFieldNamesRefactoring extends Refactoring {
 		private final CompositeChange change;
 
 		public ResourceVisitor() {
-			this.change = new CompositeChange("ExpandFieldNamesRefactoring");
+			this.change = new CompositeChange("OrderFieldNamesRefactoring");
 		}
 
 		private CompositeChange getChange() {

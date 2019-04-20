@@ -29,7 +29,7 @@ public class OrderFieldNamesActionFromEditor extends AbstractHandler {
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 
 		//update AST
-		Utils.updateASTForProjectActiveInEditor("ExpandFieldNames");
+		Utils.updateASTForProjectActiveInEditor("OrderFieldNames");
 		Activator.getDefault().pauseHandlingResourceChanges();
 
 		// getting the active editor
@@ -38,7 +38,7 @@ public class OrderFieldNamesActionFromEditor extends AbstractHandler {
 			return null;
 		}
 		//getting selected file
-		final IFile selectedFile = Utils.getSelectedFileInEditor("ExpandFieldNames");
+		final IFile selectedFile = Utils.getSelectedFileInEditor("OrderFieldNames");
 		if (selectedFile == null) {
 			return null;
 		}
@@ -54,7 +54,7 @@ public class OrderFieldNamesActionFromEditor extends AbstractHandler {
 		} catch (InterruptedException irex) {
 			// operation was cancelled
 		} catch (Exception e) {
-			ErrorReporter.logError("ExpandFieldNamesActionFromEditor: Error while performing refactoring change! ");
+			ErrorReporter.logError("OrderFieldNamesActionFromEditor: Error while performing refactoring change! ");
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
