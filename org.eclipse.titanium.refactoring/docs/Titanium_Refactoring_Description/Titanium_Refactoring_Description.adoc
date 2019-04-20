@@ -307,7 +307,7 @@ To use the operation on any number of files, folders or projects, select *Titani
 
 A wizard dialog is presented for the user to review the changes, before executing them.
 
-= Order value list notation
+= Order assignment list notation
 This functionality allows users to automatically re-order the values in assignment list notations, to reflect the field's order in the original type, throughout the entire project or smaller parts of the code.
 
 It can easily happen during the development of a test system, that a value given with an assignment notation, does not follow the order of the original type.
@@ -331,9 +331,9 @@ const my_set my_const := {field1 := 1,field2 := 2}
 ----
 
 == Usage
-To use the refactoring operation on a single module, select *TitaniumRefactoring / Order value list notation in module* from the TTCN-3 editor's right-click context menu.
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Order assignment list notation in module* from the TTCN-3 editor's right-click context menu.
 
-To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Order value list notation* from the Project Explorer right-click context menu.
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Order assignment list notation* from the Project Explorer right-click context menu.
 
 A wizard dialog is presented for the user to review the changes, before executing them.
 
