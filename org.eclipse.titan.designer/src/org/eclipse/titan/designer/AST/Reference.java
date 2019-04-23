@@ -1033,40 +1033,38 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			}
 		}
 
-		if (referredAssignment != null) {
-			FormalParameterList formalParameterList;
-			switch (referredAssignment.getAssignmentType()) {
-			case A_FUNCTION:
-			case A_FUNCTION_RVAL:
-			case A_FUNCTION_RTEMP:
-				formalParameterList = ((Def_Function) referredAssignment).getFormalParameterList();
-				break;
-			case A_EXT_FUNCTION:
-			case A_EXT_FUNCTION_RVAL:
-			case A_EXT_FUNCTION_RTEMP:
-				formalParameterList = ((Def_Extfunction) referredAssignment).getFormalParameterList();
-				break;
-			case A_TEMPLATE:
-				formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
-				break;
-			case A_ALTSTEP:
-				formalParameterList = ((Def_Altstep) referredAssignment).getFormalParameterList();
-				break;
-			default:
-				formalParameterList = null;
-				break;
-			}
+		FormalParameterList formalParameterList;
+		switch (referredAssignment.getAssignmentType()) {
+		case A_FUNCTION:
+		case A_FUNCTION_RVAL:
+		case A_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Function) referredAssignment).getFormalParameterList();
+			break;
+		case A_EXT_FUNCTION:
+		case A_EXT_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Extfunction) referredAssignment).getFormalParameterList();
+			break;
+		case A_TEMPLATE:
+			formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
+			break;
+		case A_ALTSTEP:
+			formalParameterList = ((Def_Altstep) referredAssignment).getFormalParameterList();
+			break;
+		default:
+			formalParameterList = null;
+			break;
+		}
 
-			if (formalParameterList != null) {
-				if (subReferences.size() > 0) {
-					if (!subReferences.get(0).hasSingleExpression(formalParameterList)) {
-						return false;
-					}
+		if (formalParameterList != null) {
+			if (subReferences.size() > 0) {
+				if (!subReferences.get(0).hasSingleExpression(formalParameterList)) {
+					return false;
 				}
-				for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
-					if (formalParameterList.getParameterByIndex(i).getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
-						return false;
-					}
+			}
+			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
+				if (formalParameterList.getParameterByIndex(i).getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
+					return false;
 				}
 			}
 		}
