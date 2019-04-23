@@ -83,7 +83,6 @@ import org.eclipse.titan.runtime.core.TitanUniversalChar;
 import org.eclipse.titan.runtime.core.TitanUniversalCharString;
 import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 import java.io.File;
@@ -183,21 +182,6 @@ import java.util.regex.Pattern;
 			(aEndToken != null) ? mOffset + aEndToken.getStopIndex() + 1 : -1,
 			aSeverity, aPriority );
 		return marker;
-	}
-
-	/**
-	 * Adds an error marker.
-	 * Locations of input tokens are not moved by offset and line yet, this function does this conversion.
-	 * @param aMessage marker message
-	 * @param aStartToken the 1st token, its line and start position will be used for the location
-	 *                  NOTE: start position is the column index of the tokens 1st character.
-	 *                        Column index starts with 0.
-	 * @param aEndToken the last token, its end position will be used for the location.
-	 *                  NOTE: end position is the column index after the token's last character.
-	 */
-	private void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
-		TITANMarker marker = createError( aMessage, aStartToken, aEndToken );
-		//TODO: implement
 	}
 
 	/**
@@ -1270,8 +1254,7 @@ pr_IntegerMulExpression returns [BigInteger integer]:
 		{	try {
 				$integer = $integer.divide($b2.integer);
 			} catch ( ArithmeticException e ) {
-				// division by 0
-				reportError( e.getMessage(), $a.start, $b2.stop );
+				config_process_error("Integer division by zero.");
 				$integer = BigInteger.ZERO;
 			}
 		}
@@ -1704,8 +1687,7 @@ pr_ArithmeticMulExpression returns [double floatnum]:
 		{	try {
 				$floatnum /= $b2.floatnum;
 			} catch ( ArithmeticException e ) {
-				// division by 0
-				reportError( e.getMessage(), $a.start, $b2.stop );
+				config_process_error("Floating point division by zero.");
 				$floatnum = 0.0;
 			}
 		}
