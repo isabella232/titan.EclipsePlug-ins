@@ -5738,7 +5738,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4539);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4544);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7245,12 +7245,18 @@ public class AST_tests {
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 10;
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("A non-empty set template was expected for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value list notation is not allowed for set type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));

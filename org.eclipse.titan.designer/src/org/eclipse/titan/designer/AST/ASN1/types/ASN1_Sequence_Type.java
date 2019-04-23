@@ -686,14 +686,14 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			}
 		}
 
-		if (!incompleteAllowed || strictConstantCheckingSeverity) {
+		if (!incompleteAllowed || implicitOmit || strictConstantCheckingSeverity) {
 			for (int i = 0; i < nofTypeComponents; i++) {
 				final Identifier id = getComponentByIndex(i).getIdentifier();
 				if (!componentMap.containsKey(id.getName())) {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
 						value.insertNamedValue(new NamedValue(new Identifier(Identifier_type.ID_ASN, id.getDisplayName()),
 								new Omit_Value(), false), i);
-					} else {
+					} else if (!incompleteAllowed || strictConstantCheckingSeverity) {
 						value.getLocation().reportSemanticError(MessageFormat.format(MISSINGFIELDTTCN3, id.getDisplayName()));
 					}
 				}
@@ -922,7 +922,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			}
 		}
 
-		if (!isModified && strictConstantCheckingSeverity) {
+		if (!isModified && (implicitOmit || strictConstantCheckingSeverity)) {
 			// check missing fields
 			for (int i = 0; i < nofTypeComponents; i++) {
 				final Identifier identifier = getComponentIdentifierByIndex(i);
@@ -930,7 +930,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
 						templateList.addNamedValue(new NamedTemplate(new Identifier(Identifier_type.ID_ASN, identifier
 								.getDisplayName()), new OmitValue_Template(), false));
-					} else {
+					} else if (strictConstantCheckingSeverity) {
 						templateList.getLocation().reportSemanticError(
 								MessageFormat.format(MISSINGTEMPLATEFIELD,
 										identifier.getDisplayName(), getTypename()));
