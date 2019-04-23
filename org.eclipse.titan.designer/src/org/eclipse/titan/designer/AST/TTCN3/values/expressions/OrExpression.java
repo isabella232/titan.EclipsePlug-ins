@@ -134,7 +134,7 @@ public final class OrExpression extends Expression_Value {
 		}
 
 		final IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-		if (last.getIsErroneous(timestamp)) {
+		if (last.getIsErroneous(timestamp) || !(last instanceof Boolean_Value)) {
 			return true;
 		}
 

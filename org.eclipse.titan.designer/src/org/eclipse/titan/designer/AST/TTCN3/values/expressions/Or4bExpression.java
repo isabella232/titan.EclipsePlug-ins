@@ -281,11 +281,7 @@ public final class Or4bExpression extends Expression_Value {
 
 		checkExpressionOperands(timestamp, expectedValue, referenceChain);
 
-		if (getIsErroneous(timestamp)) {
-			return lastValue;
-		}
-
-		if (isUnfoldable(timestamp, referenceChain)) {
+		if (getIsErroneous(timestamp) || isUnfoldable(timestamp, referenceChain)) {
 			return lastValue;
 		}
 

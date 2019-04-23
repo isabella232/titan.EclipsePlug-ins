@@ -130,12 +130,12 @@ public final class AndExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		if (value1 == null || value2 == null || getIsErroneous(timestamp)) {
+		if (value1 == null || value2 == null || getIsErroneous(timestamp) || value1.getIsErroneous(timestamp) || value2.getIsErroneous(timestamp)) {
 			return true;
 		}
 
 		final IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-		if (last.getIsErroneous(timestamp)) {
+		if (last.getIsErroneous(timestamp) || !(last instanceof Boolean_Value)) {
 			return true;
 		}
 
@@ -215,7 +215,6 @@ public final class AndExpression extends Expression_Value {
 		checkExpressionOperands(timestamp, expectedValue, referenceChain);
 
 		if (getIsErroneous(timestamp) || isUnfoldable(timestamp, referenceChain)) {
-			setIsErroneous(true);
 			return lastValue;
 		}
 

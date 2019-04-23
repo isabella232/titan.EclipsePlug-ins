@@ -282,7 +282,6 @@ public final class And4bExpression extends Expression_Value {
 		checkExpressionOperands(timestamp, expectedValue, referenceChain);
 
 		if (getIsErroneous(timestamp) || isUnfoldable(timestamp, referenceChain)) {
-			setIsErroneous(true);
 			return lastValue;
 		}
 
