@@ -196,9 +196,12 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 			final IEditorPart editor = page.findEditor(new FileEditorInput(selectedFile));
 			if (editor instanceof ComponentTopologyGraphEditor) {
 				((ComponentTopologyGraphEditor) editor).refreshGraph();
+				((ComponentTopologyGraphEditor) editor).setGraph(graph);
 			} else {
-				page.openEditor(new FileEditorInput(selectedFile), ComponentTopologyGraphEditor.ID, true, IWorkbenchPage.MATCH_ID
+				IEditorPart e = page.openEditor(new FileEditorInput(selectedFile), ComponentTopologyGraphEditor.ID, true, IWorkbenchPage.MATCH_ID
 						| IWorkbenchPage.MATCH_INPUT);
+				
+				((ComponentTopologyGraphEditor) e).setGraph(graph);
 			}
 		} catch (Exception exc) {
 			final ErrorHandler errorHandler = new GUIErrorHandler();
@@ -413,6 +416,7 @@ public class ExportComponentTopologyFromEditor extends AbstractHandler implement
 		}
 
 		private List<Component_Type> getComponents() {
+			//
 			return comps;
 		}
 

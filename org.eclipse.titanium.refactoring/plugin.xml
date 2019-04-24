@@ -221,7 +221,7 @@
                  commandId="org.eclipse.titanium.commands.OrderFieldNamesModule"
                  icon="resources/icons/titan.gif"
                  id="org.eclipse.titanium.commands.OrderFieldNamesModule"
-                 label="Order assignment list notation in module">
+                 label="Order value list notation in module">
            </command>
            <command
                  commandId="org.eclipse.titanium.commands.ContextLoggingFromEditor"
@@ -325,7 +325,7 @@
            </command>
            <command
                  commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
-                 label="Order assignment list notation">
+                 label="Order value list notation">
                  <visibleWhen checkEnabled="false">
                      <with variable="selection">  
                         <iterate operator="and">
@@ -510,7 +510,7 @@
 	            </command>
 	            <command
 	                  commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
-	                  label="Order assignment list notation">
+	                  label="Order value list notation">
 	                  <visibleWhen checkEnabled="false">
                         <with variable="selection">  
                            <iterate operator="and">

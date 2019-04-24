@@ -37,7 +37,7 @@ public class MoveFunctionActionFromEditor extends AbstractHandler {
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 
 		//update AST
-		Utils.updateASTForProjectActiveInEditor("Slicing");
+		Utils.updateASTForProjectActiveInEditor("Move function");
 		Activator.getDefault().pauseHandlingResourceChanges();
 
 		// getting the active editor
@@ -46,7 +46,7 @@ public class MoveFunctionActionFromEditor extends AbstractHandler {
 			return null;
 		}
 		//getting selected file
-		final IFile selectedFile = Utils.getSelectedFileInEditor("Slicing");
+		final IFile selectedFile = Utils.getSelectedFileInEditor("Move function");
 		if (selectedFile == null) {
 			return null;
 		}
@@ -61,7 +61,7 @@ public class MoveFunctionActionFromEditor extends AbstractHandler {
 		} catch (InterruptedException irex) {
 			// operation was cancelled
 		} catch (Exception e) {
-			ErrorReporter.logError("SlicingActionFromEditor: Error while performing refactoring change! ");
+			ErrorReporter.logError("MoveFunctionActionFromEditor: Error while performing refactoring change! ");
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 

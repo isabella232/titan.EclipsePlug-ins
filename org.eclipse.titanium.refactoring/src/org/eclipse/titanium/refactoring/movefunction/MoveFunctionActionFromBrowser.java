@@ -41,12 +41,12 @@ public class MoveFunctionActionFromBrowser extends AbstractHandler implements IO
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-		performSlicing();
+		performMoveFunction();
 		return null;
 	}
 	@Override
 	public void run(final IAction action) {
-		performSlicing();
+		performMoveFunction();
 
 	}
 	@Override
@@ -57,7 +57,7 @@ public class MoveFunctionActionFromBrowser extends AbstractHandler implements IO
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 	}
 
-	private void performSlicing() {
+	private void performMoveFunction() {
 		//find selection
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
@@ -66,7 +66,7 @@ public class MoveFunctionActionFromBrowser extends AbstractHandler implements IO
 		final IStructuredSelection structSelection = (IStructuredSelection)selection;
 		final Set<IProject> projsToUpdate = Utils.findAllProjectsInSelection(structSelection);
 		//update AST before refactoring
-		Utils.updateASTBeforeRefactoring(projsToUpdate, "Slicing");
+		Utils.updateASTBeforeRefactoring(projsToUpdate, "Move function");
 		Activator.getDefault().pauseHandlingResourceChanges();
 		//create refactoring
 		final MoveFunctionRefactoring refactoring = new MoveFunctionRefactoring(structSelection, new MoveFunctionSettings());
@@ -80,7 +80,7 @@ public class MoveFunctionActionFromBrowser extends AbstractHandler implements IO
 		} catch (InterruptedException irex) {
 			// operation was cancelled
 		} catch (Exception e) {
-			ErrorReporter.logError("SlicingActionFromBrowser: Error while performing refactoring change! ");
+			ErrorReporter.logError("MoveFunctionActionFromBrowser: Error while performing refactoring change! ");
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 		Activator.getDefault().resumeHandlingResourceChanges();
