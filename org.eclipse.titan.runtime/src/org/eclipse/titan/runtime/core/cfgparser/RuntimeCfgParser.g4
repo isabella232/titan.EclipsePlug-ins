@@ -376,8 +376,16 @@ import java.util.regex.Pattern;
 			config_process_error("Invalid hexadecimal string " + hex);
 			return null;
 		}
-}
+	}
 
+	private static TitanInteger toTitanInteger( BigInteger bi ) {
+		final int i = bi.intValue();
+		if (bi.equals(BigInteger.valueOf(i))) {
+			// value fits to an int
+			return new TitanInteger(i);
+		}
+		return new TitanInteger(bi);
+	}
 }
 
 pr_ConfigFile:
@@ -1566,7 +1574,7 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 @init {
 	$moduleparameter = null;
 }:
-(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer(new TitanInteger($i.integer));	}
+(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer(toTitanInteger($i.integer));	}
 |	f = pr_MPFloat					{	$moduleparameter = new Module_Param_Float($f.floatnum);	}
 |	NANKEYWORD						{	$moduleparameter = new Module_Param_Float(Double.NaN);	}
 |	INFINITYKEYWORD					{	$moduleparameter = new Module_Param_Float(Double.POSITIVE_INFINITY);	}
@@ -1597,8 +1605,8 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	STAR							{	$moduleparameter = new Module_Param_AnyOrNone();	}
 |	ir = pr_IntegerRange
 	{	$moduleparameter = new Module_Param_IntRange(
-			$ir.min != null ? new TitanInteger($ir.min) : null,
-			$ir.max != null ? new TitanInteger($ir.max) : null,
+			$ir.min != null ? toTitanInteger($ir.min) : null,
+			$ir.max != null ? toTitanInteger($ir.max) : null,
 			$ir.min_exclusive, $ir.max_exclusive );
 	}
 |	fr = pr_FloatRange
@@ -1763,7 +1771,7 @@ pr_ObjIdValue returns[List<TitanInteger> components]
 }:
 	OBJIDKEYWORD
 	BEGINCHAR
-	(	c = pr_ObjIdComponent { $components.add( new TitanInteger( $c.integer ) );}
+	(	c = pr_ObjIdComponent { $components.add( toTitanInteger( $c.integer ) );}
 	)+
 	ENDCHAR
 ;
