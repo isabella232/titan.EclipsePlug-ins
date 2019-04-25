@@ -836,6 +836,7 @@ EMERGENCYLOGGINGBEHAVIOUR: 'EmergencyLoggingBehaviour' | 'EmergencyLoggingbehavi
 | 'emergencyloggingbehaviour' | 'emergencyLogginglbehaviour' | 'EmergencyloggingBehaviour';
 EMERGENCYLOGGINGMASK: 'EmergencyLoggingMask' | 'EmergencyLoggingmask' | 'Emergencyloggingmask' | 'emergencyLoggingMask' | 'emergencyloggingMask'
 | 'emergencyloggingmask' | 'emergencyLoggingmask' | 'EmergencyloggingMask';
+EMERGENCYLOGGINGFORFAILVERDICT: [Ee] 'mergency' [Ll] 'ogging' [Ff] 'or' [Ff] 'ail' [Vv] 'erdict';
 BUFFERALL: 'BufferAll' | 'Bufferall' | 'bufferAll' | 'bufferall';
 BUFFERMASKED: 'BufferMasked' | 'Buffermasked' | 'bufferMasked' |'buffermasked';
 LOGENTITYNAME: 'logentityname' | 'Logentityname' | 'logEntityname' | 'LogEntityname' | 'logentityName' | 'LogentityName' | 'logEntityName' | 'LogEntityName';

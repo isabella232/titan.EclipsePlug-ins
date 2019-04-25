@@ -915,6 +915,10 @@ pr_PlainLoggingParam
 		Map<LoggingBit, ParseTree> loggingBitMask = $elm.loggingBitMask;
 		//TODO: use loggingBitMask if needed
 	}
+|	EMERGENCYLOGGINGFORFAILVERDICT ASSIGNMENTCHAR elf = pr_YesNoOrBoolean
+	{	logParamEntry.setLogEntityNameRoot( $ctx );
+		logParamEntry.setEmergencyLoggingForFailVerdict( $elf.ctx );
+	}
 )
 ;
 

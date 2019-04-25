@@ -91,6 +91,7 @@ import java.text.MessageFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 }
@@ -289,25 +290,30 @@ import java.util.regex.Pattern;
 		error_flag = true;
 	}
 
-	//TODO: use these variables
-	private static boolean file_name_set = false;
-	private static boolean file_mask_set = true;
-	private static boolean console_mask_set = true;
-	private static boolean timestamp_format_set = false;
-	private static boolean source_info_format_set = false;
-	private static boolean append_file_set = false;
-	private static boolean log_event_types_set = false;
-	private static boolean log_entity_name_set = false;
-	private static boolean begin_controlpart_command_set = false;
-	private static boolean end_controlpart_command_set = false;
-	private static boolean begin_testcase_command_set = false;
-	private static boolean end_testcase_command_set = false;
-	private static boolean log_file_size_set = true;
-	private static boolean log_file_number_set = true;
-	private static boolean log_disk_full_action_set = true;
-	private static boolean matching_verbosity_set = false;
-	private static boolean logger_plugins_set = false;
-	private static boolean plugin_specific_set = false;
+	/*
+	  For detecting duplicate entries in the config file. Start out as false,
+	  set to true by check_duplicate_option().
+	  Exception: duplication of parameters that can be component specific is checked
+	  by set_xxx(), these start out as true.
+	*/
+	private static AtomicBoolean file_name_set = new AtomicBoolean(false);
+	private static AtomicBoolean file_mask_set = new AtomicBoolean(true);
+	private static AtomicBoolean console_mask_set = new AtomicBoolean(true);
+	private static AtomicBoolean timestamp_format_set = new AtomicBoolean(false);
+	private static AtomicBoolean source_info_format_set = new AtomicBoolean(false);
+	private static AtomicBoolean append_file_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_event_types_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_entity_name_set = new AtomicBoolean(false);
+	private static AtomicBoolean begin_controlpart_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean end_controlpart_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean begin_testcase_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean end_testcase_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_file_size_set = new AtomicBoolean(true);
+	private static AtomicBoolean log_file_number_set = new AtomicBoolean(true);
+	private static AtomicBoolean log_disk_full_action_set = new AtomicBoolean(true);
+	private static AtomicBoolean matching_verbosity_set = new AtomicBoolean(false);
+	private static AtomicBoolean logger_plugins_set = new AtomicBoolean(false);
+	private static AtomicBoolean plugin_specific_set = new AtomicBoolean(false);
 
 	public static void reset_configuration_options() {
 		/* Section [MODULE_PARAMETERS] */
@@ -315,14 +321,14 @@ import java.util.regex.Pattern;
 		/* Section [LOGGING] */
 		TTCN_Logger.close_file();
 		TTCN_Logger.reset_configuration();
-		file_name_set = false;
-		file_mask_set = true;
-		console_mask_set = true;
-		timestamp_format_set = false;
-		source_info_format_set = false;
-		append_file_set = false;
-		log_event_types_set = false;
-		log_entity_name_set = false;
+		file_name_set.set(false);
+		file_mask_set.set(true);
+		console_mask_set.set(true);
+		timestamp_format_set.set(false);
+		source_info_format_set.set(false);
+		append_file_set.set(false);
+		log_event_types_set.set(false);
+		log_entity_name_set.set(false);
 		/* Section [TESTPORT_PARAMETERS] */
 		TitanPort.clear_parameters();
 		/* Section [EXTERNAL_COMMANDS] */
@@ -330,10 +336,10 @@ import java.util.regex.Pattern;
 		//TODO: implement
 		//TTCN_Runtime.clear_external_commands();
 
-		begin_controlpart_command_set = false;
-		end_controlpart_command_set = false;
-		begin_testcase_command_set = false;
-		end_testcase_command_set = false;
+		begin_controlpart_command_set.set(false);
+		end_controlpart_command_set.set(false);
+		begin_testcase_command_set.set(false);
+		end_testcase_command_set.set(false);
 	}
 
 	/**
@@ -386,6 +392,23 @@ import java.util.regex.Pattern;
 		}
 		return new TitanInteger(bi);
 	}
+
+	private static void TTCN_warning(final String warning_msg, final Object... args) {
+		TTCN_Logger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Warning: ");
+		TTCN_Logger.log_event_va_list(warning_msg, args);
+		TTCN_Logger.end_event();
+	}
+
+	private static void check_duplicate_option(final String section_name, final String option_name, AtomicBoolean option_flag) {
+		if (option_flag.get()) {
+		TTCN_warning("Option `%s' was given more than once in section [%s] of the configuration file.", option_name, section_name);
+		} else {
+			option_flag.set(true);
+		}
+	}
+
+
 }
 
 pr_ConfigFile:
@@ -546,22 +569,26 @@ pr_ExternalCommand:
 	(	BEGINCONTROLPART
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setBeginControlPart( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "BeginControlPart", begin_controlpart_command_set);
+				externalCommandsSectionHandler.setBeginControlPart( $v.text );
 			}
 	|	ENDCONTROLPART
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setEndControlPart( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "EndControlPart", end_controlpart_command_set);
+				externalCommandsSectionHandler.setEndControlPart( $v.text );
 			}
 	|	BEGINTESTCASE
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setBeginTestcase( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "BeginTestCase", begin_testcase_command_set);
+				externalCommandsSectionHandler.setBeginTestcase( $v.text );
 			}
 	|	ENDTESTCASE
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setEndTestcase( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "EndTestCase", end_testcase_command_set);
+				externalCommandsSectionHandler.setEndTestcase( $v.text );
 			}
 	)
 ;
@@ -856,41 +883,49 @@ pr_PlainLoggingParam
 )?
 (	FILEMASK ASSIGNMENTCHAR fileMask = pr_LoggingBitMask
 		{	TTCN_Logger.set_file_mask(comp, $fileMask.loggingBitMask);
+			check_duplicate_option("LOGGING", "FileMask", file_mask_set);
 		}
 |	CONSOLEMASK ASSIGNMENTCHAR consoleMask = pr_LoggingBitMask
 		{	TTCN_Logger.set_console_mask(comp, $consoleMask.loggingBitMask);
+			check_duplicate_option("LOGGING", "ConsoleMask", console_mask_set);
 		}
 |	DISKFULLACTION ASSIGNMENTCHAR pr_DiskFullActionValue
 |	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_NaturalNumber
 		{	TTCN_Logger.set_file_number( $lfn.integer.intValue() );
+			check_duplicate_option("LOGGING", "LogFileNumber", log_file_number_set);
 		}
 |	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_NaturalNumber
 		{	TTCN_Logger.set_file_size( $lfs.integer.intValue() );
+			check_duplicate_option("LOGGING", "LogFileSize", log_file_size_set);
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
 		{	TTCN_Logger.set_file_name( $f.string, true );
+			check_duplicate_option("LOGGING", "LogFile", file_name_set);
 		}
 |	TIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
 		{	TTCN_Logger.set_timestamp_format( to_timestamp_format( $ttv.text ) );
+			check_duplicate_option("LOGGING", "TimeStampFormat", timestamp_format_set);
 		}
 |	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
-		{	//TODO: add TTCN_Logger.set_console_timestamp_format(timestamp_format_t)
-			//TTCN_Logger.set_console_timestamp_format( to_timestamp_format( $ttv.text ) );
-		}
+		// nothing to do
 |	SOURCEINFOFORMAT ASSIGNMENTCHAR
 	(	pr_SourceInfoValue
 	|	b = pr_YesNoOrBoolean
 		{	TTCN_Logger.set_source_info_format( $b.bool ? source_info_format_t.SINFO_SINGLE : source_info_format_t.SINFO_NONE);
 		}
 	)
+	{	check_duplicate_option("LOGGING", "SourceInfoFormat", source_info_format_set);	}
 |	APPENDFILE ASSIGNMENTCHAR af = pr_YesNoOrBoolean
 	{	TTCN_Logger.set_append_file( $af.bool );
+		check_duplicate_option("LOGGING", "AppendFile", append_file_set);
 	}
 |	LOGEVENTTYPES ASSIGNMENTCHAR let = pr_LogEventTypesValue
 		{	TTCN_Logger.set_log_event_types( $let.type );
+			check_duplicate_option("LOGGING", "LogEventTypes", log_event_types_set);
 		}
 |	LOGENTITYNAME ASSIGNMENTCHAR len = pr_LogEventTypesValue
 		{	TTCN_Logger.set_log_entity_name( $len.type );
+			check_duplicate_option("LOGGING", "LogEntityName", log_entity_name_set);
 		}
 |	MATCHINGHINTS ASSIGNMENTCHAR pr_MatchingHintsValue
 |	o1 = pr_PluginSpecificParamName ASSIGNMENTCHAR o2 = pr_StringValue
@@ -903,13 +938,22 @@ pr_PlainLoggingParam
 		logging_param.str_val = $o2.string;
 		logging_setting.logparam = logging_param;
 		TTCN_Logger.add_parameter(logging_setting);
+		// It would be an overkill to check for the infinite number of custom parameters...
+		check_duplicate_option("LOGGING", "PluginSpecific", plugin_specific_set);
 	}
 |	EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
 	{	TTCN_Logger.set_emergency_logging( $el.integer.intValue() );
+		//TODO: check_duplicate_option("LOGGING", ...);
 	}
 |	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR pr_BufferAllOrMasked
+		//TODO: check_duplicate_option("LOGGING", ...);
 |	EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
 	{	TTCN_Logger.set_emergency_logging_mask(comp, $elm.loggingBitMask);
+		//TODO: check_duplicate_option("LOGGING", ...);
+	}
+|	EMERGENCYLOGGINGFORFAILVERDICT ASSIGNMENTCHAR b = pr_YesNoOrBoolean
+	{	TTCN_Logger.set_emergency_logging_for_fail_verdict($b.bool);
+		//TODO: check_duplicate_option("LOGGING", ...);
 	}
 )
 ;
@@ -952,6 +996,7 @@ pr_DiskFullActionValue:
 	)?
 	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_RETRY, retry_interval);	}
 )
+{	check_duplicate_option("LOGGING", "DiskFullAction", log_disk_full_action_set);	}
 ;
 
 pr_ComponentID returns [component_id_t comp]
@@ -1013,6 +1058,7 @@ pr_LogEventTypesValue returns [ log_event_types_t type ]:
 pr_MatchingHintsValue:
 	COMPACT		{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_COMPACT );	}
 |	DETAILED	{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_FULL );	}
+{	check_duplicate_option("LOGGING", "MatchingVerbosity", matching_verbosity_set);	}
 ;
 
 pr_LogEventType [ Logging_Bits loggingBitMask ]:
