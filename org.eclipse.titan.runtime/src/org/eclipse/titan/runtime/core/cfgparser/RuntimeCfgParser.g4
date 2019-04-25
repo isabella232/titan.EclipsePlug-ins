@@ -134,10 +134,6 @@ import java.util.regex.Pattern;
 	private ExternalCommandSectionHandler externalCommandsSectionHandler = new ExternalCommandSectionHandler();
 	private ExecuteSectionHandler executeSectionHandler = new ExecuteSectionHandler();
 
-	private void reportWarning(TITANMarker marker){
-		//TODO: implement
-	}
-
 	public void setActualFile(File file) {
 		mActualFile = file;
 	}
@@ -160,45 +156,6 @@ import java.util.regex.Pattern;
 
 	public ExecuteSectionHandler getExecuteSectionHandler() {
 		return executeSectionHandler;
-	}
-
-	/**
-	 * Creates a marker.
-	 * Locations of input tokens are not moved by offset and line yet, this function does this conversion.
-	 * @param aMessage marker message
-	 * @param aStartToken the 1st token, its line and start position will be used for the location
-	 *                  NOTE: start position is the column index of the tokens 1st character.
-	 *                        Column index starts with 0.
-	 * @param aEndToken the last token, its end position will be used for the location.
-	 *                  NOTE: end position is the column index after the token's last character.
-	 * @param aSeverity severity (info/warning/error)
-	 * @param aPriority priority (low/normal/high)
-	 * @return new marker
-	 */
-	private TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
-		TITANMarker marker = new TITANMarker(
-			aMessage,
-			(aStartToken != null) ? mLine - 1 + aStartToken.getLine() : -1,
-			(aStartToken != null) ? mOffset + aStartToken.getStartIndex() : -1,
-			(aEndToken != null) ? mOffset + aEndToken.getStopIndex() + 1 : -1,
-			aSeverity, aPriority );
-		return marker;
-	}
-
-	/**
-	 * Creates an error marker.
-	 * Locations of input tokens are not moved by offset and line yet, this function does this conversion.
-	 * @param aMessage marker message
-	 * @param aStartToken the 1st token, its line and start position will be used for the location
-	 *                  NOTE: start position is the column index of the tokens 1st character.
-	 *                        Column index starts with 0.
-	 * @param aEndToken the last token, its end position will be used for the location.
-	 *                  NOTE: end position is the column index after the token's last character.
-	 * @return the created error marker
-	 */
-	private TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
-		final TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, SEVERITY_ERROR, PRIORITY_NORMAL );
-		return marker;
 	}
 
 	/**
@@ -1167,8 +1124,7 @@ pr_deprecatedEventTypeSet [ Logging_Bits loggingBitMask ]:
 |  a14 = TTCN_MATCHING1		{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
 |  a15 = TTCN_DEBUG1		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
 )
-{	reportWarning(new TITANMarker("Deprecated logging option " + $start.getText(), $start.getLine(),
-		$start.getStartIndex(), $start.getStopIndex(), SEVERITY_WARNING, PRIORITY_NORMAL));
+{	TTCN_warning("Deprecated logging option " + $start.getText() + " in line " + $start.getLine());
 }
 ;
 
