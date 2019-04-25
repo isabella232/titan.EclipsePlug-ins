@@ -145,6 +145,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 	}
 
 	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
+		//
 		if (resource instanceof IProject || resource instanceof IFolder) {
 			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
 			for (final IResource res : children) {
@@ -490,7 +491,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 			final Map<Module, Integer> compCounter = new HashMap<Module, Integer>();
 			final List<Component_Type> extendedComps = new ArrayList<Component_Type>();
 			for (final ComponentTypeBody ctb : comp.getComponentBody().getExtensions().getComponentBodies()) {
-				if (!extendedComps.contains(ctb)) {
+				if (!extendedComps.contains(ctb.getMyType())) {
 					extendedComps.add(ctb.getMyType());
 				}
 			}
@@ -498,7 +499,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 			for (int i=0; i<extendedComps.size(); i++) {
 				final Component_Type ct = extendedComps.get(i);
 				for (final ComponentTypeBody ctb : ct.getComponentBody().getExtensions().getComponentBodies()) {
-					if (!extendedComps.contains(ctb)) {
+					if (!extendedComps.contains(ctb.getMyType())) {
 						extendedComps.add(ctb.getMyType());
 					}
 				}
@@ -657,142 +658,6 @@ public class MoveFunctionRefactoring extends Refactoring {
 			}
 		}
 	}
-
-
-
-
-
-
-
-
-	/*public static final String PROJECTCONTAINSERRORS = "The project `{0}'' contains errors, which might corrupt the result of the refactoring";
-	public static final String PROJECTCONTAINSTTCNPPFILES = "The project `{0}'' contains .ttcnpp files, which might corrupt the result of the refactoring";
-	private static final String ONTHEFLYANALAYSISDISABLED = "The on-the-fly analysis is disabled, there is semantic information present to work on";
-
-	private final Set<IProject> projects = new HashSet<IProject>();
-	protected final IStructuredSelection structSelection;
-	protected final SlicingSettings settings;
-	protected Map<Module, List<FunctionData> > functions;
-	private MoveFunctionModuleRefactoring moduleRefactoring;
-	private RefactoringStatus result;
-
-	public MoveFunctionRefactoring(IStructuredSelection structSelection, SlicingSettings settings) {
-		this.structSelection = structSelection;
-		this.settings = settings;
-
-		final Iterator<?> it = structSelection.iterator();
-		while (it.hasNext()) {
-			final Object o = it.next();
-			if (o instanceof IResource) {
-				final IProject temp = ((IResource) o).getProject();
-				projects.add(temp);
-			}
-		}
-	}
-
-	@Override
-	public String getName() {
-		return "Slicing";
-	}
-
-	@Override
-	public RefactoringStatus checkInitialConditions(final IProgressMonitor pm)
-			throws CoreException, OperationCanceledException {
-		result = new RefactoringStatus();
-		try{
-			pm.beginTask("Checking preconditions...", 2);
-
-			final IPreferencesService prefs = Platform.getPreferencesService();//PreferenceConstants.USEONTHEFLYPARSING
-			if (! prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, false, null)) {
-				result.addError(ONTHEFLYANALAYSISDISABLED);
-			}
-
-			// check that there are no ttcnpp files in the
-			// project
-			for (IProject project : projects) {
-				if (hasTtcnppFiles(project)) {//FIXME actually all referencing and referenced projects need to be checked too !
-					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
-				}
-			}
-		    pm.worked(1);
-
-		    // check that there are no error markers in the
-		    // project
-		    for (IProject project : projects) {
-		 		final IMarker[] markers = project.findMarkers(null, true, IResource.DEPTH_INFINITE);
-		 		for (IMarker marker : markers) {
-		 			if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
-		 				result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
-		 				break;
-		 			}
-		 		}
-		 	}
-		 	pm.worked(1);
-
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			result.addFatalError(e.getMessage());
-		} finally {
-			pm.done();
-		}
-		return result;
-	}
-
-	@Override
-	public RefactoringStatus checkFinalConditions(final IProgressMonitor pm)
-			throws CoreException, OperationCanceledException {
-		return new RefactoringStatus();
-	}
-
-	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
-		if (resource instanceof IProject || resource instanceof IFolder) {
-			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (IResource res : children) {
-				if (hasTtcnppFiles(res)) {
-					return true;
-				}
-			}
-		} else if (resource instanceof IFile) {
-			final IFile file = (IFile) resource;
-			return "ttcnpp".equals(file.getFileExtension());
-		}
-		return false;
-	}
-
-	public RefactoringStatus getStatus() {
-		return result;
-	}
-
-
-	@Override
-	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
-		return moduleRefactoring.createChange(pm);
-	}
-
-
-	public IProject getProject() {
-		if(moduleRefactoring == null) {
-			moduleRefactoring = new MoveFunctionModuleRefactoring(structSelection, settings/*method, excludedModuleNames* /);
-
-		}
-		return moduleRefactoring.getProject();
-	}
-
-	public Map<Module, List<FunctionData>> getModules() {
-		if(moduleRefactoring == null) {
-			moduleRefactoring = new MoveFunctionModuleRefactoring(structSelection, settings/*method, excludedModuleNames* /);
-
-		}
-		return moduleRefactoring.getModules();
-	}
-
-	public List<FunctionData> selectMovableFunctions(TTCN3Module module, SubMonitor progress) {
-		return moduleRefactoring.selectMovableFunctions(module, progress);
-	}
-
-	public  Map<Module, List<FunctionData> > getFunctions() {
-		return moduleRefactoring.getFunctions();
-	}*/
 
 	public Map<Module, List<FunctionData>> getDestinations() {
 		return chooseDestination();

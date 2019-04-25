@@ -14,16 +14,16 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 
 /**
- * Wizard for the 'Slicing' refactoring operation.
+ * Wizard for the 'Move function' refactoring operation.
  *
  * @author Bianka Bekefi
  */
 public class MoveFunctionWizard extends RefactoringWizard implements
 		IExecutableExtension {
 
-	private static final String WIZ_WINDOWTITLE1 = "Slicing";
-	private static final String WIZ_WINDOWTITLE2 = "Slicing - function selection";
-	private static final String WIZ_WINDOWTITLE3 = "Slicing - destination options";
+	private static final String WIZ_WINDOWTITLE1 = "Move function";
+	private static final String WIZ_WINDOWTITLE2 = "Move function - function selection";
+	private static final String WIZ_WINDOWTITLE3 = "Move function - destination options";
 
 	private final MoveFunctionRefactoring refactoring;
 
