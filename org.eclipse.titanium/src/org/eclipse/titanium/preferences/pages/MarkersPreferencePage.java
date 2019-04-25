@@ -182,6 +182,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				"Visibility attributes should not be mentioned in the names of the definitions\n"
 						+ "They should be explicitly set as visibility attributes of the definition");
 		m.put(ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION, "When runs on component is never used.");
+		m.put(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES,
+				"It is not recommended to create groups without any attributes.");
 
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);
 	}
@@ -320,6 +322,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.ISVALUE_WITH_VALUE);
 			createField(comp, ProblemTypePreference.ITERATE_ON_WRONG_ARRAY);
 			createField(comp, ProblemTypePreference.READING_OUT_PAR_BEFORE_WRITTEN);
+			createField(comp, ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(false);

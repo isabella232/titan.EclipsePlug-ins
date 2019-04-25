@@ -100,6 +100,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.SELECT_WITH_NUMBERS_SORTED.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.ON_THE_FLY_SMELLS, false);
 		preferenceStore.setDefault(ProblemTypePreference.UNNECESSARY_ARRAYS.getPreferenceName(), GeneralConstants.WARNING);
+		preferenceStore.setDefault(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES.getPreferenceName(), GeneralConstants.WARNING);
 
 		// Initialize default values of metrics
 		for (final IMetricEnum metric : MetricGroup.knownMetrics()) {

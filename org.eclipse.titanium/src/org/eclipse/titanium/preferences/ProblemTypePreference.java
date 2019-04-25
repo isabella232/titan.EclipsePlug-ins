@@ -83,7 +83,8 @@ public enum ProblemTypePreference {
 	UNUSED_IMPORT("Report unused module importation", EnumSet.of(CodeSmellType.UNUSED_IMPORT)),
 	UNUSED_LOCAL_DEFINITION("Report unused local definition", EnumSet.of(CodeSmellType.UNUSED_LOCAL_DEFINITION)),
 	VISIBILITY_IN_DEFINITION("Report visibility settings mentioned in the name of definitions", EnumSet.of(CodeSmellType.VISIBILITY_IN_DEFINITION)),
-	RUNS_ON_SCOPE_REDUCTION("Report runs on scope reduction",EnumSet.of(CodeSmellType.RUNS_ON_SCOPE_REDUCTION));
+	RUNS_ON_SCOPE_REDUCTION("Report runs on scope reduction",EnumSet.of(CodeSmellType.RUNS_ON_SCOPE_REDUCTION)),
+	GROUPS_WITHOUT_ATTRIBUTES("Report groups without attributes", EnumSet.of(CodeSmellType.GROUPS_WITHOUT_ATTRIBUTES));
 
 	public static final String PREFIX = "CODE_SMELL.";
 

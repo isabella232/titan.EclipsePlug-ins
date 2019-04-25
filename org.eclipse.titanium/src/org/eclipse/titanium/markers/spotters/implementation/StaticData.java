@@ -42,6 +42,7 @@ public final class StaticData {
 		m.put(CodeSmellType.DUPLICATE_NAME, new BaseModuleCodeSmellSpotter[] { new DuplicateName() });
 		m.put(CodeSmellType.EMPTY_STATEMENT_BLOCK, new BaseModuleCodeSmellSpotter[] { new EmptyStatementBlock() });
 		m.put(CodeSmellType.GOTO, new BaseModuleCodeSmellSpotter[] { new Goto() });
+		m.put(CodeSmellType.GROUPS_WITHOUT_ATTRIBUTES, new BaseModuleCodeSmellSpotter[] { new GroupsWithoutAttributes() });
 		m.put(CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS, new BaseModuleCodeSmellSpotter[] { new PrivateComponentVariableAccess() });
 		m.put(CodeSmellType.IF_INSTEAD_ALTGUARD, new BaseModuleCodeSmellSpotter[] { new IfInsteadAltguard() });
 		m.put(CodeSmellType.IF_INSTEAD_RECEIVE_TEMPLATE, new BaseModuleCodeSmellSpotter[] { new IfInsteadReceiveTemplate() });
