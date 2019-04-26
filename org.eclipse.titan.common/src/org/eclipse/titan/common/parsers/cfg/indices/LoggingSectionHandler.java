@@ -132,7 +132,8 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 
 		private ParseTree emergencyLogging = null;
 		private ParseTree emergencyLoggingBehaviour = null;
-		private ParseTree emergencyLoggingMask =null;
+		private ParseTree emergencyLoggingMask = null;
+		private ParseTree emergencyLoggingForFailVerdict = null;
 
 		public ParseTree getLogFile() {
 			return logFile;
@@ -396,6 +397,14 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 
 		public void setEmergencyLoggingMask(final ParseTree emergencyLoggingMask) {
 			this.emergencyLoggingMask = emergencyLoggingMask;
+		}
+
+		public ParseTree getEmergencyLoggingForFailVerdict() {
+			return emergencyLoggingForFailVerdict;
+		}
+
+		public void setEmergencyLoggingForFailVerdict(final ParseTree emergencyLoggingForFailVerdict) {
+			this.emergencyLoggingForFailVerdict = emergencyLoggingForFailVerdict;
 		}
 	}
 
