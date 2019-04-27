@@ -1,11 +1,11 @@
 ---
-Author: Krist√≥f Szabados
+Author: KristÛf Szabados
 Version: 1551-CRL 113 200/6, Rev. E
 Date: 2018-12-03
 
 ---
 = Titanium Description
-:author: Krist√≥f Szabados
+:author: KristÛf Szabados
 :revnumber: 1551-CRL 113 200/6, Rev. E
 :revdate: 2018-12-03
 :title-logo-image: images/titan_logo.png
@@ -47,13 +47,13 @@ The Titanium tool is an Eclipse plug-in, built upon the TITAN Designer for the E
 
 Titanium extends the already existing feature of the Designer with higher level code analysis features such as:
 
-* Detecting and reporting code smellsfootnote:[Code smells are described in Wikipedia as: "In computer programming, code smell is any symptom in the source code of a program that possibly indicates a deeper problem. Code smells are usually not bugs‚Äîthey are not technically incorrect and don't currently prevent the program from functioning. Instead, they indicate weaknesses in design that may be slowing down development or increasing the risk of bugs or failures in the future."] in TTCN-3 and ASN.1 source codes;
+* Detecting and reporting code smellsfootnote:[Code smells are described in Wikipedia as: "In computer programming, code smell is any symptom in the source code of a program that possibly indicates a deeper problem. Code smells are usually not bugsóthey are not technically incorrect and don't currently prevent the program from functioning. Instead, they indicate weaknesses in design that may be slowing down development or increasing the risk of bugs or failures in the future."] in TTCN-3 and ASN.1 source codes;
 * Measuring and displaying code quality metrics on TTCN-3 source codes;
 * Extracting and displaying an architectural overview of the projects;
 
 == General workflow
 
-The workflow of the Titanium tool is extending the Designer‚Äôs workflow with additional checks and measurement. As such the integration should be seamless.
+The workflow of the Titanium tool is extending the Designerís workflow with additional checks and measurement. As such the integration should be seamless.
 
 The differences only involve the new features provided:
 
@@ -67,15 +67,15 @@ There are three more notes important to know when working with the tool:
 * When working with code smells, metrics and architectural level tools it is important to concentrate on the "larger picture". Correcting these issues on "face value" might hide away bigger problems. For example we found a case where unused variables with the same name were reported several times in a module. This turned out to indicate, that the function they were contained in were copy pasted, without review.
 
 [[the-titan-implementation-of-ttcn-3]]
-== The TITAN implementation of TTCN‚Äì3
+== The TITAN implementation of TTCNñ3
 
-The Titanium plug-in is extending the TITAN Designer plug-in, which is an implementation of TTCN‚Äì3 Core Language standard (<<_3, [3]>>), supporting of ASN.1 language (<<_4, [4]>>).
+The Titanium plug-in is extending the TITAN Designer plug-in, which is an implementation of TTCNñ3 Core Language standard (<<_3, [3]>>), supporting of ASN.1 language (<<_4, [4]>>).
 
-The limitations present in the Designer plug-in also apply here: there are TTCN‚Äì3 language constructs which are not yet supported in the current version, while there are also some non-standard extensions implemented by TITAN. Information on these limitations and extensions and also some clarifications of how the standard has been implemented in TITAN, can be found in the TITAN Programmer‚Äôs Technical Reference <<_2, [2]>>.
+The limitations present in the Designer plug-in also apply here: there are TTCNñ3 language constructs which are not yet supported in the current version, while there are also some non-standard extensions implemented by TITAN. Information on these limitations and extensions and also some clarifications of how the standard has been implemented in TITAN, can be found in the TITAN Programmerís Technical Reference <<_2, [2]>>.
 
 == Intended audience
 
-This document is intended for users of the TITAN TTCN‚Äì3 Test Toolset (product number: CRL 113 200/5). In addition to this document, readers analyzing their codes with this tool are advised to read our knowledge base listing the code smells and metrics available.
+This document is intended for users of the TITAN TTCNñ3 Test Toolset (product number: CRL 113 200/5). In addition to this document, readers analyzing their codes with this tool are advised to read our knowledge base listing the code smells and metrics available.
 
 == Presumed knowledge
 
@@ -116,7 +116,7 @@ The following information should be included into trouble reports:
 
 Before reporting a trouble, try to identify whether the trouble really relates to the Titanium plug-in. It might be caused by other third party plug-ins, or by Eclipse itself.
 
-Reporting the contents of the Consoles and the Error log is important as TITAN consoles might display important debug information. The location on which the Error Log view can be opened can change with Eclipse versions, but it is usually found at *Window / Show View / Other‚Ä¶ / PDE Runtime / Error Log* or *Window / Show View / Other‚Ä¶ / General / Error Log*.
+Reporting the contents of the Consoles and the Error log is important as TITAN consoles might display important debug information. The location on which the Error Log view can be opened can change with Eclipse versions, but it is usually found at *Window / Show View / OtherÖ / PDE Runtime / Error Log* or *Window / Show View / OtherÖ / General / Error Log*.
 
 = Getting started
 
@@ -126,7 +126,7 @@ This section explains how to setup Eclipse and the TITAN Designer to access ever
 
 Titanium does not provide its own perspective, since most of its tools are meant to be extensions to whatever perspective the user is already using.
 
-For those who have not yet used the TITAN Designer before, it is recommended to read chapter "The TITAN Editing perspective" of the TITAN Designer‚Äôs user guide on how to set up a default perspective for working with TTCN-3.
+For those who have not yet used the TITAN Designer before, it is recommended to read chapter "The TITAN Editing perspective" of the TITAN Designerís user guide on how to set up a default perspective for working with TTCN-3.
 
 == Setting workbench preferences
 
@@ -134,7 +134,7 @@ This section gives an overview about the various settings related to the workben
 
 In Eclipse, workbench preferences are used to set user specific general rules, which apply to every project; for example, preferred font styles, access to version handling systems and so on.
 
-Workbench preferences are accessible selecting *Window / Preferences*. Clicking on the menu item will bring up the preferences page. The opening window contains a preference tree on the left pane to ease navigation ‚Äì see Figure 1.
+Workbench preferences are accessible selecting *Window / Preferences*. Clicking on the menu item will bring up the preferences page. The opening window contains a preference tree on the left pane to ease navigation ñ see Figure 1.
 
 image::images/2_F1.png[title="Titan preferences sub-tree"]
 
@@ -158,9 +158,9 @@ This section introduces the preference pages where one can control the behaviour
 
 image::images/3_F1.png[title="Code smell preferences"]
 
-Code smells are indicators of suspicious code that is not erroneous (i.e.¬†the code compiles), but most of the times they are not preferable. In this preference page, one can control the way of reporting the available code smells.
+Code smells are indicators of suspicious code that is not erroneous (i.e.†the code compiles), but most of the times they are not preferable. In this preference page, one can control the way of reporting the available code smells.
 
-The first item on this page is the option to enable on-the-fly processing. When this option is enabled the code smells will be checked immediately after whenever the Designer‚Äôs on-the-fly analyser executes.When this option is disabled the code smells have to be explicitly requested by the *Check code for code smells* action on the menu bar.
+The first item on this page is the option to enable on-the-fly processing. When this option is enabled the code smells will be checked immediately after whenever the Designerís on-the-fly analyser executes.When this option is disabled the code smells have to be explicitly requested by the *Check code for code smells* action on the menu bar.
 
 The reporting level of all code smells is configurable to be *Ignore*, *Warning* or *Error*. Code smells set to be reported as *Ignore* will not be analysed and reported. Code smells configured to be reported as *Warning* or *Error* will be reported with that severity level.
 
@@ -180,7 +180,7 @@ The code smells here might indicate some kind of architectural issue in the code
 +
 NOTE: The algorithm will not report all circles, in a few cases where a small circle is embedded in a larger one, both of them cannot be detected at the same time.
 
-* *Report modules with different language specifications*: Report the case where the TTCN-3 modules of a project don‚Äôt all have the same language specification. This situation invites confusion, misunderstandings and also indicates the need to updated some of the dated modules.
+* *Report modules with different language specifications*: Report the case where the TTCN-3 modules of a project donít all have the same language specification. This situation invites confusion, misunderstandings and also indicates the need to updated some of the dated modules.
 +
 NOTE: TITAN does not support these language restrictions.
 +
@@ -191,7 +191,7 @@ NOTE: TITAN does not support these language restrictions.
 
 * *Report friend declarations with missing modules:* The module referred as a friend module is missing.
 
-* *Report TTCN-3 definitions that could be private, but are not set so*: Detect and report definitions that are only used inside their own module, but are not declared private. This situation allows for external modules to refer to these definitions, making them part of the module‚Äôs public interface (which it might not have been intended to be a part of).
+* *Report TTCN-3 definitions that could be private, but are not set so*: Detect and report definitions that are only used inside their own module, but are not declared private. This situation allows for external modules to refer to these definitions, making them part of the moduleís public interface (which it might not have been intended to be a part of).
 
 * *Report visibility settings mentioned in the name of definitions*: Detects the cases when visibility names are mentioned in the name of the definition. If this meant to serve as a protection mechanism against misuse it would be better to use the actual visibility attribute. In that case the compiler would be able to automatically check the correctness of its usage.
 
@@ -228,7 +228,7 @@ Code smells in this category indicate issues related to bad or misunderstood arc
 * *Report switching on Boolean value:* select statement on boolean argument.
 * *Report setverdict without reason:* The setverdict statement is used without telling the reason in a parameter.
 * *Report uncommented functions:* procedures without documented headers.
-* *Report stop statement in functions:* Functions whose body contains stop statement, which will stop the test‚Äôs execution without releasing resources and driving the SUT in correct state.
+* *Report stop statement in functions:* Functions whose body contains stop statement, which will stop the testís execution without releasing resources and driving the SUT in correct state.
 * *Report unused function return values:* function return value is not used, or function is started on component without being able to retrieve any return value.
 * *Report receive statements accepting any value*: the alt branch has a receive statement that accepts any value, but uses value redirection.
 * *Report insufficient altstep coverage:* When an altstep or alt statement might receive a message type without having a corresponding alt branch that could accept.
@@ -242,6 +242,7 @@ Code smells in this category indicate issues related to bad or misunderstood arc
 * *Report the usage of isvalue with a value as a parameter:* isvalue check on a value always returns true. Isbound should be used to check existence.
 * *Report possible iteration on wrong array:* This code smell is marked, when an array that differs from the array used in the final expression of a loop is indexed with the loop variable.
 * *Report reading out parameter before assigning a value to it:* An out parameter of a function might be uninitialized before its first assignment. Reading the parameter before that, can cause problems.
+* *Report the usage of groups without any attributes:* Group(s) created without any attributes.
 
 === Unnecessary code
 
@@ -330,7 +331,7 @@ These metrics collect information about each function.
 * *Lines of code:* counts the lines of source code of the function. Default: *No risk* under 100, *Low risk* between 100 and 150, *High risk* above 150 lines.
 * *Cyclomatic complexity:* Cyclomatic (or McCabe) complexity of the function. Basically, it is the number of control structures (loops, if branches, etc.) in the code. Default: *No risk* under 10, *Low risk* between 10 and 20, *High risk* above 20.
 * *Nesting:* counts the maximal number of nested blocks in the code. Default: *No risk* under 4, *Low risk* between 4 and 6, *High risk* above 6 nested blocks.
-* *Return points:* counts the number of exit points in the functions (i.e.¬†the return statements, and the end of functions). Default: *Never warn*.
+* *Return points:* counts the number of exit points in the functions (i.e.†the return statements, and the end of functions). Default: *Never warn*.
 * *Default activations:* counts the maximal number of default altstep branches that can be activated during the function call. Default: *Never warn*.
 * *External feature envy:* counts the number of references in the function body to entities inside the module where the function resides. Default: *Never warn*.
 * *Internal feature envy:* counts the number of references in the function body to entities outside the module where the function resides. Default: *Never warn*.
@@ -382,7 +383,7 @@ At the *Titanium Preferences/Graph* page (see Figure 9) it is possible to set so
 +
 NOTE: This setting applies only to certain algorithms that have such a settable value. At the moment this means Fruchterman-Reingold and Kamada-Kawai algorithms.
 
-* *Directed layout‚Äôs distance:* The *General Directed Graph* and *Reverse Directed Graph* algorithms do not only order the nodes by a hierarchical level, but they also try to find an optimal vertical order for the nodes on a given level. But this ordering depends on how we define the distance of two nodes (this is usually related to the incident edges). To use a certain notion of distance you can choose here. The first option is *Sum of distances* this means that we measure the Euclidean distance for all the related edges, and try to minimize the sum of these distances. The second choice is *Maximal distance.* This means that we measure the Euclidean distance for all related edges again, but the actual distance will be defined as the maximum of these values. The ordering algorithms try to minimalize this distance value. So changing this parameter may change the vertical ordering. In different cases different distance notion can be useful. If you do not know which one to use you could try both, and decide later which one looks better to you.
+* *Directed layoutís distance:* The *General Directed Graph* and *Reverse Directed Graph* algorithms do not only order the nodes by a hierarchical level, but they also try to find an optimal vertical order for the nodes on a given level. But this ordering depends on how we define the distance of two nodes (this is usually related to the incident edges). To use a certain notion of distance you can choose here. The first option is *Sum of distances* this means that we measure the Euclidean distance for all the related edges, and try to minimize the sum of these distances. The second choice is *Maximal distance.* This means that we measure the Euclidean distance for all related edges again, but the actual distance will be defined as the maximum of these values. The ordering algorithms try to minimalize this distance value. So changing this parameter may change the vertical ordering. In different cases different distance notion can be useful. If you do not know which one to use you could try both, and decide later which one looks better to you.
 +
 NOTE: The better algorithm may also depend on the actual structure of the drawn graph.
 
@@ -478,7 +479,7 @@ NOTE: As in this mode there is no interaction between eclipse and the user, all 
 There are two settings that are always important to be set correctly; otherwise the headless mode will not be able to operate correctly:
 
 . The license file has to be set in the Designer and it has to be active, otherwise the on-the-fly analyser will not be able to execute.
-. The "__Display debug information__" setting in the Designer has to be turned off. If that option is turned on, the Designer will try to write debug information to the Titan Debug Console ‚Ä¶ which does not exist in headless mode and the execution aborts.
+. The "__Display debug information__" setting in the Designer has to be turned off. If that option is turned on, the Designer will try to write debug information to the Titan Debug Console Ö which does not exist in headless mode and the execution aborts.
 . The on-the-fly analysis of code smells must be enabled on the Code smells preference page (3.1), otherwise only the Designer will check the code.
 
 == The general structure of invocation
@@ -523,7 +524,7 @@ This entry point does not take any parameters.
 [[importing-projects-from-prj]]
 == Importing projects from .prj
 
-The "__org.eclipse.titanium.applications.ImportProjectsFromPrj__" entry point can be used to import projects described in the _mctr_gui_‚Äôs .prj project descriptor into the provided workspace.
+The "__org.eclipse.titanium.applications.ImportProjectsFromPrj__" entry point can be used to import projects described in the _mctr_gui_ís .prj project descriptor into the provided workspace.
 
 The entry point can be invoked as:
 
@@ -556,7 +557,7 @@ To support un-attended nightly tests, this entry point analyses a project found 
 This entry point takes 1 or 2 parameters:
 
 . The first parameter is mandatory and is the prefix of the output path.
-. The second parameter is optional and is date to be used in the generated file‚Äôs name (the current date if not provided).
+. The second parameter is optional and is date to be used in the generated fileís name (the current date if not provided).
 
 This prefix will be appended with the name of the project, the provided or current date and the ".xls" extension.
 
@@ -574,7 +575,7 @@ This entry point takes 2 or 3 parameters:
 1.  The first parameter is mandatory and is the prefix of the output path.
 2.  The second parameters is mandatory and is the name of the project to process.
 
-The third parameter is optional and is date to be used in the generated file‚Äôs name (the current date if not provided).
+The third parameter is optional and is date to be used in the generated fileís name (the current date if not provided).
 
 This prefix will be appended with the name of the project, the provided or current date and the ".xls" extension.
 
@@ -609,16 +610,16 @@ There are two ways of exporting the module dependency graph. The two ways only d
 
 The "__org.eclipse.titanium.applications.SaveModuleNet__" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract their module dependency graphs into the Pajek ".net" format.
 
-And the ‚Äú_org.eclipse.titanium.applications.SaveModuleDot‚Äù_ entry point can be used to export to a .dot file.
+And the ì_org.eclipse.titanium.applications.SaveModuleDotî_ entry point can be used to export to a .dot file.
 
 The entry points can be invoked as:
 
 [source,subs="+quotes"]
 *eclipse.exe -noSplash -data c:\Users\ekrisza\runtime_headless -application org.eclipse.titanium.applications.SaveGraph c:\ekrisza\temporal\TitanSim\NightlyGraphs_*
 
-These entry points take one obligatory parameter: the prefix of the output path.This prefix will be appended with the name of the project and the ".net"/‚Äù.dot‚Äù ending, creating a separate output file for every project. This parameter must be the first parameter of the application
+These entry points take one obligatory parameter: the prefix of the output path.This prefix will be appended with the name of the project and the ".net"/î.dotî ending, creating a separate output file for every project. This parameter must be the first parameter of the application
 
-The second optional parameter is the clustering parameter. A clusterer algorithm maybe set to export cluster graph and not the original module graph. This parameter can be provided by a "_‚Äìc<algorithm_name>_" parameter, for example:
+The second optional parameter is the clustering parameter. A clusterer algorithm maybe set to export cluster graph and not the original module graph. This parameter can be provided by a "_ñc<algorithm_name>_" parameter, for example:
 
 [source,subs="+quotes"]
 *eclipse.exe -noSplash -data c:\Users\ekrisza\runtime_headless -application org.eclipse.titanium.applications.SaveGraph c:\ekrisza\temporal\TitanSim\NightlyGraphs_ -cmodulelocation*
@@ -637,7 +638,7 @@ Similarly to the module graph the component graph also can be exported into two 
 
 The "__org.eclipse.titanium.applications.SaveComponentNet__" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract their component dependency graphs into the Pajek ".net" format
 
-The ‚Äú_org.eclipse.titanium.applications.SaveComponenDot‚Äù_ entry point should be called to export the component graph in ".dot" format
+The ì_org.eclipse.titanium.applications.SaveComponenDotî_ entry point should be called to export the component graph in ".dot" format
 
 The entry points can be invoked as:
 
@@ -674,7 +675,7 @@ image::images/5_F16.png[title="Editor actions context menu"]
 
 While editing a TTCN3 source file, you can open the context menu by right clicking in the editor. Under the Titanium menu point, you will find the available actions on this file.
 
-* *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf.¬†Section 6.
+* *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf.†Section 6.
 
 [[project-actions]]
 == Project actions
@@ -706,13 +707,13 @@ As seen on Figure 19 the *_Show_* menu displays which already configured setting
 
 image::images/6_F19.png[title="Problems view active filters"]
 
-By selecting the *Configure Contents‚Ä¶* menu entry, the configuration window appears. In this window it is possible to create/remove/change configuration to best fit any user need.For a more detailed description please refer to the help system of eclipse, using the *Workbench User Guide / Concepts / Views / Problems view* path.
+By selecting the *Configure ContentsÖ* menu entry, the configuration window appears. In this window it is possible to create/remove/change configuration to best fit any user need.For a more detailed description please refer to the help system of eclipse, using the *Workbench User Guide / Concepts / Views / Problems view* path.
 
 == Importing a configuration predefined for Titanium
 
 To help in getting started with Titanium, we have created a beginning set of configurations. These settings can be imported from a single file, and fine-tuned to best fit any use case.
 
-The file containing the setting can be downloaded from https://sharepoint.ericsson.com/sites/DUCI_SW_Technology/Titanium/Documents/problems_view_preferences.epf[here].To import it, inside eclipse select *File / Import ‚Ä¶* . In the window that pops up select *General / Preferences* (as shown on Figure 20). Till this point this is just like importing a new project, but instead now eclipse is asked to import some of its setting saved previously.
+The file containing the setting can be downloaded from https://sharepoint.ericsson.com/sites/DUCI_SW_Technology/Titanium/Documents/problems_view_preferences.epf[here].To import it, inside eclipse select *File / Import Ö* . In the window that pops up select *General / Preferences* (as shown on Figure 20). Till this point this is just like importing a new project, but instead now eclipse is asked to import some of its setting saved previously.
 
 image::images/6_F20.png[title="The preference importation wizard selected"]
 
@@ -768,7 +769,7 @@ On Figure 24 the selected row shows information about the *Number of functions* 
 * modules of the project contain 12.26 functions on average
 * with 41.09 standard deviation
 
-As the node is opened, under this node we can examine the modules of the project, ordered by the number of functions they contain, and see that module _AtsIpv6**Core**‚Ä¶_ contains 314 functions, module _AtsIpv6**NeighborDiscovery**‚Ä¶_ contains 113 functions, etc.
+As the node is opened, under this node we can examine the modules of the project, ordered by the number of functions they contain, and see that module _AtsIpv6**Core**Ö_ contains 314 functions, module _AtsIpv6**NeighborDiscovery**Ö_ contains 113 functions, etc.
 
 == Risk highlighting
 
@@ -842,7 +843,7 @@ module B {
 
 Module A imports B and C. The module dependency graph should show 3 nodes (one for each module), a directed edge pointing from A to B, and one also from A to C. Module B import C, so the dependency graph should also have and edge pointing from B to C.
 
-In real life projects this might be a much more complicated structure, which is most of the time impossible to hold in anybody‚Äôs memory. Not to mention the complication when there is more than one man working on a project and not everyone follows the predefined architectural rules perfectly. In such cases it becomes impossible for anyone to know the structure of the project with such a tool.
+In real life projects this might be a much more complicated structure, which is most of the time impossible to hold in anybodyís memory. Not to mention the complication when there is more than one man working on a project and not everyone follows the predefined architectural rules perfectly. In such cases it becomes impossible for anyone to know the structure of the project with such a tool.
 
 The aim of this feature is to visualize for system architects the actual architecture of their project. So that they can become familiar with it, can experiment on it, and catch possible architectural errors that appeared in the system.
 
@@ -860,7 +861,7 @@ Depending on the size of the project and whether it was already analysed by the 
 
 After the successful draw of module graph you should see something similar shown on Figure 29.
 +
-NOTE: This image has two main parts, on the right hand side you can see the so called satellite view (this is an Eclipse view that automatically opens upon every graph drawing). And on the left hand side you can see an editor (let‚Äôs call it graph area).
+NOTE: This image has two main parts, on the right hand side you can see the so called satellite view (this is an Eclipse view that automatically opens upon every graph drawing). And on the left hand side you can see an editor (letís call it graph area).
 
 Clicking on a specific place in the satellite view, the graph area will jump to show that place, and the area will have a white background on the satellite view.
 
@@ -895,17 +896,17 @@ The metric popup window can be opened by right clicking on a selected node
 
 image::images/10_F31.png[title="The info window and a selected node"]
 
-The edges belonging to *c* are drawn red, and all the other edges are drawn very soft, grey. This feature visualizes the neighbours of a given node.In the metrics window the *Number of functions* metric is selected in the metrics menu (see Figure 31). The colour of the row in this view is the same as the selected node‚Äôs colour, which represents how bad it was according to the selected metric
+The edges belonging to *c* are drawn red, and all the other edges are drawn very soft, grey. This feature visualizes the neighbours of a given node.In the metrics window the *Number of functions* metric is selected in the metrics menu (see Figure 31). The colour of the row in this view is the same as the selected nodeís colour, which represents how bad it was according to the selected metric
 
 === Menu functions
 
-This section lists the functionalities that are reachable from the graph window‚Äôs menu. There are six main menus: *File, Layout, Find, Tools, Metrics and Clustering*
+This section lists the functionalities that are reachable from the graph windowís menu. There are six main menus: *File, Layout, Find, Tools, Metrics and Clustering*
 
 ==== File menu
 
 There are two entries in the file menu:
 
-* Save: This will save the graph into a specific format called Pajek .net. For further information please check http://netwiki.amath.unc.edu/DataFormats/PajekNetAndPajFormats[Pajek‚Äôs documentation]. This format stores only the node names, and the connections, but nothing else (no static place, node shape, colour, etc.). _This function also can be reached by Ctrl+S hotkey combination while the graph editor is active._
+* Save: This will save the graph into a specific format called Pajek .net. For further information please check http://netwiki.amath.unc.edu/DataFormats/PajekNetAndPajFormats[Pajekís documentation]. This format stores only the node names, and the connections, but nothing else (no static place, node shape, colour, etc.). _This function also can be reached by Ctrl+S hotkey combination while the graph editor is active._
 * Export to image file: Clicking on this item first pops up a window where you can select from three options (see Figure 32):
 ** *Whole graph:* Export all the nodes into a big image file. On big graphs this action may fail, because the image file can be too big
 ** *Only the seen part:* You export the graph editor window to an image file (only the nodes what you see there).
@@ -926,12 +927,12 @@ The currently available layouts:
 Further details: Meyer, B; `Self-Organizing Graphs - A Neural Network Perspective of Graph Layout', Graph Drawing'98. http://www.csse.monash.edu.au/%7Eberndm/ISOM/[this link]
 * *Fruchterman-Reingold algorithm:* This algorithm is based on a method of modern physics. It collects the most frequently visited modules to the centre of a circle like shape. The less visited modules will be on the edge of this circle.
 +
-The exact algorithm can be seen here: THOMAS M. J. FRUCHTERMAN* AND EDWARD M. REINGOLD: "Graph Drawing by Force-directed Placement"SOFTWARE‚ÄîPRACTICE AND EXPERIENCE, VOL. 21(1 1), 1129-1164 (NOVEMBER 1991)
+The exact algorithm can be seen here: THOMAS M. J. FRUCHTERMAN* AND EDWARD M. REINGOLD: "Graph Drawing by Force-directed Placement"SOFTWAREóPRACTICE AND EXPERIENCE, VOL. 21(1 1), 1129-1164 (NOVEMBER 1991)
 * *Kamada-Kawai algorithm:* This algorithm is similar to the self-organizing layout, but it is based on the reduction of number of edge crossings. Thus it may provide better view.
 +
 For further details see:
 ** "Tomihisa Kamada and Satoru Kawai: An algorithm for drawing general indirect graphs. Information Processing Letters 31(1):7-15, 1989"
-** "Tomihisa Kamada: On visualization of abstract objects and relations. Ph.D.¬†dissertation, Dept. of Information Science, Univ. of Tokyo, Dec.¬†1988."
+** "Tomihisa Kamada: On visualization of abstract objects and relations. Ph.D.†dissertation, Dept. of Information Science, Univ. of Tokyo, Dec.†1988."
 * *Spring force directed:* This algorithm is based on the force of springs. The edges should be imagined as strong springs that would like to get the nodes closer. But nodes have a toss power, so they won't necessarily get very close. (This toss power is bigger if more nodes are close) This layout is not really good for small graphs, as nodes may cover each other, but it can be useful for big graphs.
 * *Logical ring:* This layout will organize nodes to a logical ring (circle). The edges will point to different other points of the circle (other nodes). It is not really useful for big graphs, but sometimes it may be good for small graphs.
 * *Directed layouts:* These layouts try to show you some kind of structure inside the graph. They usually show you how distinct logical levels separated on the graph.
@@ -941,11 +942,11 @@ For further details see:
 
 ==== Find menu
 
-This menu currently only has one entry, *node by name.* Clicking on this entry should pop up a small find window, where you may enter a text (see Figure 33). This text will be normally considered only as the beginning part of the node name, and the finder won‚Äôt mind whether it is upper or lower case. You can modify this behaviour by selecting *exact match* or *case sensitive* check boxes. If *exact match* is selected then only such nodes will be found that have exactly the written name (this still doesn‚Äôt mind about upper/lower case). These options maybe selected also together, in this case lower/upper case will also be handled separately.
+This menu currently only has one entry, *node by name.* Clicking on this entry should pop up a small find window, where you may enter a text (see Figure 33). This text will be normally considered only as the beginning part of the node name, and the finder wonít mind whether it is upper or lower case. You can modify this behaviour by selecting *exact match* or *case sensitive* check boxes. If *exact match* is selected then only such nodes will be found that have exactly the written name (this still doesnít mind about upper/lower case). These options maybe selected also together, in this case lower/upper case will also be handled separately.
 
 image::images/10_F33.png[title="The find window"]
 
-On the dialog you can see two buttons, *Find* button will show you a table with the results (see Figure 34), or a message if there is no result. By clicking on an item of the list the graph window will jump there, and colour the selected node to be light blue, while all other nodes will be coloured grey. To totally understand this you can see a mixed figure on Figure 34, you can see the satellite view, the find window and the shown part of graph window together. You can see on the satellite view that your graph has two more nodes that are out of your screen. But as you clicked on A_Ext node the shown part was placed there (in this case the graph window‚Äôs center is slide to the node). On the Find window‚Äôs result set you can see that there is one more node that matched your search, this is called A_Base. Would you click there the graph window would jump there, and would colour A_Ext grey, and A_Base blue.
+On the dialog you can see two buttons, *Find* button will show you a table with the results (see Figure 34), or a message if there is no result. By clicking on an item of the list the graph window will jump there, and colour the selected node to be light blue, while all other nodes will be coloured grey. To totally understand this you can see a mixed figure on Figure 34, you can see the satellite view, the find window and the shown part of graph window together. You can see on the satellite view that your graph has two more nodes that are out of your screen. But as you clicked on A_Ext node the shown part was placed there (in this case the graph windowís center is slide to the node). On the Find windowís result set you can see that there is one more node that matched your search, this is called A_Base. Would you click there the graph window would jump there, and would colour A_Ext grey, and A_Base blue.
 
 By clicking *Clear result* you may change back to the original node colours, and make the result list to be empty (in this case Find window returns to its original size, and hides the part shown below the horizontal separator line).
 
@@ -999,7 +1000,7 @@ image::images/10_F36.png[title="A clustering of module graph made by a grouping 
 
 image::images/10_F37.png[title="A clustering of module graph made by a graph generating clusterer"]
 
-. Clustering graph‚Äôs behavior
+. Clustering graphís behavior
 +
 As we have already seen in case of using a graph generating clusterer a totally new graph (cluster graph) will be shown. But it results some special behavior in graph menus. First of all, as it does not make sense to speak about the metrics of a cluster (graph node), the info window and the metrics menu will be deactivated. On the second hand all the cluster making menu entries will be deactivated, as currently clustering a cluster graph is not supported.
 +
@@ -1016,7 +1017,7 @@ In the clustering menu the following clustering methods can be chosen:
 * *By module location:* Modules contained in eclipse folders will be grouped by their relative path, while modules contained in linked resources will be grouped by their full path.
 * *Using regular expressions:* The modules will be grouped by matching the module name to the regular expressions given on the _Graph/Clusters/Using regular expressions_ preference page. See <<clustering-using-regular-expressions-preferences, here>>.
 * *Automatically:* First the other methods will be used to create an initial clustering. Then they will be improved and the best one displayed. The clustering achieved tries to better reflect the structure of the project. For details on how the algorithm works, see <<_6, [6]>>.
-* *By module names:* This algorithm results in a hierarchical grouping. The module names will get to separate clusters according their main part (for example prefix name), then get to more accurate subgroups according their secondary name, and so on. In case of using this algorithm in grouping mode you only get separate groups according to the prefixes of the modules. If you use this algorithm with cluster graph you will see the whole hierarchy from the level of the main module names down to the actual module names. The subgroup separator here is determined according to the most usual symbols (‚Äú_‚Äù sign, Upper case, etc.).
+* *By module names:* This algorithm results in a hierarchical grouping. The module names will get to separate clusters according their main part (for example prefix name), then get to more accurate subgroups according their secondary name, and so on. In case of using this algorithm in grouping mode you only get separate groups according to the prefixes of the modules. If you use this algorithm with cluster graph you will see the whole hierarchy from the level of the main module names down to the actual module names. The subgroup separator here is determined according to the most usual symbols (ì_î sign, Upper case, etc.).
 
 NOTE: In case of using this algorithm with cluster graph you will automatically change to General Directed Graph layout. This selection naturally can be change through the *Layout* menu. After changing back to the original graph you will again get an ISOM layout.
 
@@ -1039,11 +1040,11 @@ Scrolling and +/- zooming works the same way as on module graph. Also satellite 
 
 Component graph works similarly as the module graph. On the component graph there are no colours, all the nodes are coloured light green, and the selected node is coloured light blue. A node may be selected by the same way as on the module graph, also a group of nodes.
 
-There are no metrics defined on components, so in this case there won‚Äôt be a metrics menu (see Figure 40) and also metrics info pop-up window is not active on this graph. Selecting a node by right click only causes the edges and the node to be selected.
+There are no metrics defined on components, so in this case there wonít be a metrics menu (see Figure 40) and also metrics info pop-up window is not active on this graph. Selecting a node by right click only causes the edges and the node to be selected.
 
 === Menu actions
 
-image::images/11_F39.png[title="The component graph‚Äôs menu bar, and the layout menu"]
+image::images/11_F39.png[title="The component graphís menu bar, and the layout menu"]
 
 ==== File menu
 
@@ -1111,13 +1112,13 @@ By default the SoarQube web interface can be accessed on the http://localhost:90
 * [3] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187301/04.01.01_60/es_20187301v040101p.pdf[Methods for Testing and Specification (MTS); The Testing and Test Control Notation version 3. Part 1: Core Language European Telecommunications Standards Institute ES 201 873-1 Version 4.1.1, July 2009]
 
 [[_4]]
-* [4] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.01.01_60/es_20187307v040101p.pdf[Methods for Testing and Specification (MTS); The Testing and Test Control Notation version 3. Part 7: Using ASN.1 with TTCN‚Äì3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.1.1, July 2009]
+* [4] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.01.01_60/es_20187307v040101p.pdf[Methods for Testing and Specification (MTS); The Testing and Test Control Notation version 3. Part 7: Using ASN.1 with TTCNñ3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.1.1, July 2009]
 
 [[_5]]
-* [5] Test software quality issues and connections to international standards Attila Kov√°cs, Krist√≥f Szabados Acta Univ. Sapientiae, Informatica, 5, 1 (2013)
+* [5] Test software quality issues and connections to international standards Attila Kov·cs, KristÛf Szabados Acta Univ. Sapientiae, Informatica, 5, 1 (2013)
 
 [[_6]]
-* [6] link:https://www.cs.drexel.edu/~bmitchel/research/iwpc98.pdf[Mancoridis, S., Mitchell, B. S., Rorres, C., Chen, Y., & Gansner, E. R. (1998, June). Using automatic clustering to produce high-level system organizations of source code. In Program Comprehension, 1998. IWPC'98. Proceedings., 6th International Workshop on (pp.¬†45-52). IEEE]
+* [6] link:https://www.cs.drexel.edu/~bmitchel/research/iwpc98.pdf[Mancoridis, S., Mitchell, B. S., Rorres, C., Chen, Y., & Gansner, E. R. (1998, June). Using automatic clustering to produce high-level system organizations of source code. In Program Comprehension, 1998. IWPC'98. Proceedings., 6th International Workshop on (pp.†45-52). IEEE]
 
 = Glossary
 
@@ -1143,7 +1144,7 @@ SUT:: System Under Test
 
 TCP:: Transmission Control Protocol
 
-TTCN‚Äì3:: Tree and Tabular Combined Notation version 3 (formerly)Testing and Test Control Notation (new resolution)
+TTCNñ3:: Tree and Tabular Combined Notation version 3 (formerly)Testing and Test Control Notation (new resolution)
 
 TTCNPP:: TTCN Preprocessable (file)
 
