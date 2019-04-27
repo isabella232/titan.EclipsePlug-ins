@@ -995,8 +995,8 @@ public final class PortGenerator {
 			case USER:
 				if (portDefinition.legacy) {
 					className = portDefinition.javaName;
-					//talan scope mentes nev kellene?
-					baseClassName = portDefinition.providerMessageOutList.get(0).name;// + "_PROVIDER";
+
+					baseClassName = portDefinition.providerMessageOutList.get(0).name + "_PROVIDER";
 
 					//aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + baseClassName);
 					break;
@@ -1021,6 +1021,7 @@ public final class PortGenerator {
 				break;
 			}
 		}
+
 		source.append(MessageFormat.format("\tpublic static{0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
 		if(portDefinition.inMessages.size() > 0) {
