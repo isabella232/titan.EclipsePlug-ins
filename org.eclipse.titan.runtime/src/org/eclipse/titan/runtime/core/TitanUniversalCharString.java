@@ -1267,7 +1267,7 @@ public class TitanUniversalCharString extends Base_Type {
 			buf[1] = (byte)tempChar.getUc_plane();
 			buf[2] = (byte)tempChar.getUc_row();
 			buf[3] = (byte)tempChar.getUc_cell();
-			text_buf.pull_raw(4, buf);
+			text_buf.push_raw(4, buf);
 		}
 	}
 
