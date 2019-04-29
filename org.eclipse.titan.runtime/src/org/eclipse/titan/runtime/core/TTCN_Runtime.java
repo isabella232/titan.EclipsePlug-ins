@@ -2396,8 +2396,8 @@ public final class TTCN_Runtime {
 				//stuff from Parallel_main::main after hc_main call
 				//FIXME clear stuff before mtc_main
 				TitanComponent.clear_component_names();
-				//TTCN_Logger::close_file();
-				//TTCN_Logger::set_start_time();
+				TTCN_Logger.close_file();
+				TTCN_Logger.set_start_time();
 				mtc_main();
 				//FIXME close down stuff after mtc_main
 			}
@@ -2449,12 +2449,11 @@ public final class TTCN_Runtime {
 				//What now???
 
 				//stuff from Parallel_main::main after hc_main call
-				//FIXME clear stuff before mtc_main
 				TitanComponent.clear_component_names();
-				//TTCN_Logger::close_file();
-				//TTCN_Logger::set_start_time();
+				TTCN_Logger.close_file();
+				TTCN_Logger.set_start_time();
 				ptc_main();
-				//FIXME close down stuff after mtc_main
+				//FIXME close down stuff after ptc_main
 			}
 
 		};
