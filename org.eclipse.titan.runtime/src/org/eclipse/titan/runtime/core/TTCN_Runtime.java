@@ -977,6 +977,7 @@ public final class TTCN_Runtime {
 
 				TTCN_Communication.send_done_req(component_reference);
 				local_status_table.get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+				create_done_killed_compref.set(component_reference);
 				// wait for DONE_ACK
 				wait_for_state_change();
 
