@@ -276,7 +276,7 @@ tokens {
 
 }
 
-WS:				[ \t\r\n\f]+	-> channel(HIDDEN);
+WS:	[ \t\r\n\f]+	-> channel(HIDDEN);
 
 LINE_COMMENT:	'//' ~[\r\n]*
 {
