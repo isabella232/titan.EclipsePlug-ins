@@ -1960,7 +1960,7 @@ pr_USI returns [TitanUniversalCharString ucstr]
 				if ( null == $ucstr ) {
 					$ucstr = new TitanUniversalCharString($u.uc);
 				} else {
-					$ucstr.operator_concatenate($u.uc);
+					$ucstr = $ucstr.operator_concatenate($u.uc);
 				}
 			}
 		}
@@ -1970,7 +1970,7 @@ pr_USI returns [TitanUniversalCharString ucstr]
 				if ( null == $ucstr ) {
 					$ucstr = new TitanUniversalCharString($u.uc);
 				} else {
-					$ucstr.operator_concatenate($u.uc);
+					$ucstr = $ucstr.operator_concatenate($u.uc);
 				}
 			}
 		}
