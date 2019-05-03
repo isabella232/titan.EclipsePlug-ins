@@ -1287,4 +1287,31 @@ public class TitanCharString extends Base_Type {
 	public static TitanCharString convert_to_CharString(final TitanCharString_Element otherValue) {
 		return new TitanCharString(otherValue);
 	}
+
+	/**
+	 * This static function is used to convert a value to a charstring.
+	 *
+	 * @param ttcn_data
+	 *                the value to be converted to its string form.
+	 * @return the converted value.
+	 * */
+	public static TitanCharString ttcn_to_string(final Base_Type ttcn_data) {
+		//TODO check for formatting issues
+		TTCN_Logger.begin_event_log2str();
+		ttcn_data.log();
+		return TTCN_Logger.end_event_log2str();
+	}
+
+	/**
+	 * This static function is used to convert a charstring to a value.
+	 *
+	 * @param ttcn_string
+	 *                the string to be converted.
+	 * @param ttcn_value
+	 *                the value to be set to the converted value.
+	 * */
+	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Type ttcn_value) {
+		//FIXME implement
+		throw new TtcnError("string_to_ttcn is not yet supported!!!");
+	}
 }

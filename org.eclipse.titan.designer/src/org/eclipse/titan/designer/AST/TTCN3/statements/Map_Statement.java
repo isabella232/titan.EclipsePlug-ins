@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
@@ -22,6 +23,11 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.PortType_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
@@ -48,6 +54,7 @@ public final class Map_Statement extends Statement {
 	private static final String FULLNAMEPART2 = ".portreference1";
 	private static final String FULLNAMEPART3 = ".componentreference2";
 	private static final String FULLNAMEPART4 = ".portreference2";
+	private static final String FULLNAMEPART5 = ".parsedParameterList";
 	private static final String STATEMENT_NAME = "map";
 
 	private final Value componentReference1;
@@ -56,12 +63,17 @@ public final class Map_Statement extends Statement {
 	private final PortReference portReference2;
 	private boolean translate = false;
 
+	private final ParsedActualParameters parsedParameterList;
+	private ActualParameterList actualParameterList; // generated
+	private FormalParameterList formalParList; // not owned
+	
 	public Map_Statement(final Value componentReference1, final PortReference portReference1, final Value componentReference2,
-			final PortReference portReference2) {
+			final PortReference portReference2, final ParsedActualParameters parameters) {
 		this.componentReference1 = componentReference1;
 		this.portReference1 = portReference1;
 		this.componentReference2 = componentReference2;
 		this.portReference2 = portReference2;
+		this.parsedParameterList = parameters;
 
 		if (componentReference1 != null) {
 			componentReference1.setFullNameParent(this);
@@ -74,6 +86,9 @@ public final class Map_Statement extends Statement {
 		}
 		if (portReference2 != null) {
 			portReference2.setFullNameParent(this);
+		}
+		if (parameters != null) {
+			parameters.setFullNameParent(this);
 		}
 	}
 
@@ -102,6 +117,8 @@ public final class Map_Statement extends Statement {
 			return builder.append(FULLNAMEPART3);
 		} else if (portReference2 == child) {
 			return builder.append(FULLNAMEPART4);
+		} else if (parsedParameterList == child) {
+			return builder.append(FULLNAMEPART5);
 		}
 
 		return builder;
@@ -123,6 +140,9 @@ public final class Map_Statement extends Statement {
 		if (portReference2 != null) {
 			portReference2.setSubreferencesScope(scope);
 		}
+		if (parsedParameterList != null) {
+			parsedParameterList.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -139,6 +159,9 @@ public final class Map_Statement extends Statement {
 		}
 		if (portReference2 != null) {
 			portReference2.setCodeSection(codeSection);
+		}
+		if (parsedParameterList != null) {
+			parsedParameterList.setCodeSection(codeSection);
 		}
 	}
 
@@ -249,6 +272,7 @@ public final class Map_Statement extends Statement {
 				getLocation().reportSemanticWarning(MessageFormat.format("This mapping is not done in translation mode, because the {0} endpoint is unknown", body1 != null ? "second" : "first"));
 			}
 
+			//FIXME add extra check
 			return;
 		}
 		
@@ -296,6 +320,26 @@ public final class Map_Statement extends Statement {
 				getLocation().reportSemanticWarning("This mapping is not done in translation mode");
 			}
 		}
+
+		if (parsedParameterList != null) {
+			if (cref1IsSystem) {
+				formalParList = body1.getMapParameters();
+			} else if (cref2IsSystem) {
+				formalParList = body2.getMapParameters();
+			} else {
+				getLocation().reportSemanticError("Cannot determine system component in `map' operation with `param' clause");
+			}
+
+			if (formalParList != null) {
+				actualParameterList = new ActualParameterList();
+				if (formalParList.checkActualParameterList(timestamp, parsedParameterList, actualParameterList)) {
+					actualParameterList = null;
+				} else {
+					actualParameterList.setFullNameParent(this);
+					actualParameterList.setMyScope(getMyScope());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -324,6 +368,11 @@ public final class Map_Statement extends Statement {
 			portReference2.updateSyntax(reparser, false);
 			reparser.updateLocation(portReference2.getLocation());
 		}
+
+		if (parsedParameterList != null) {
+			parsedParameterList.updateSyntax(reparser, false);
+			reparser.updateLocation(parsedParameterList.getLocation());
+		}
 	}
 
 	@Override
@@ -340,6 +389,9 @@ public final class Map_Statement extends Statement {
 		}
 		if (portReference2 != null) {
 			portReference2.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (parsedParameterList != null) {
+			parsedParameterList.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -358,12 +410,17 @@ public final class Map_Statement extends Statement {
 		if (portReference2 != null && !portReference2.accept(v)) {
 			return false;
 		}
+		if (parsedParameterList != null && !parsedParameterList.accept(v)) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		aData.addBuiltinTypeImport("TitanPort");
+
 		final ExpressionStruct expression = new ExpressionStruct();
 
 		expression.expression.append("TTCN_Runtime.map_port(");
@@ -384,6 +441,44 @@ public final class Map_Statement extends Statement {
 		} else {
 			portReference2.generateCode(aData, expression);
 			expression.expression.append(".get_name()");
+		}
+		if (actualParameterList == null) {
+			final String tempID = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("final TitanPort.Map_Params {0} = new TitanPort.Map_Params(0);\n", tempID));
+			expression.expression.append(MessageFormat.format(", {0}", tempID));
+		} else {
+			aData.addBuiltinTypeImport("TitanCharString");
+
+			final int nofParameters = actualParameterList.getNofParameters();
+			final String tempID = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("TitanPort.Map_Params {0} = new TitanPort.Map_Params({1});\n", tempID, nofParameters));
+			for (int i = 0; i < nofParameters; i++) {
+				final ActualParameter actualParameter = actualParameterList.getParameter(i);
+				final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+				//FIXME handle copy needed case
+				ExpressionStruct parameterExpression = new ExpressionStruct();
+				actualParameter.generateCode(aData, parameterExpression, formalParameter);
+				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_VAL_OUT) {
+					expression.preamble.append(MessageFormat.format("{0}.set_param({1}, new TitanCharString(\"\"));\n", tempID, i));
+				} else {
+					if (parameterExpression.preamble.length() > 0) {
+						expression.preamble.append(parameterExpression.preamble);
+					}
+
+					expression.preamble.append(MessageFormat.format("{0}.set_param({1}, TitanCharString.ttcn_to_string({2}));\n", tempID, i, parameterExpression.expression.toString()));
+				}
+
+				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_VAL_OUT ||
+						formalParameter.getAssignmentType() == Assignment_type.A_PAR_VAL_INOUT) {
+					expression.postamble.append(MessageFormat.format("if({0}.get_param({1}).lengthof().get_int() > 0) '{'\n", tempID, i));
+					expression.postamble.append(MessageFormat.format("TitanCharString.string_to_ttcn({0}.get_param({1}), {2});\n", tempID, i, parameterExpression.expression));
+					expression.postamble.append("}\n");
+					if (parameterExpression.postamble.length() > 0) {
+						expression.postamble.append(parameterExpression.postamble);
+					}
+				}
+			}
+			expression.expression.append(MessageFormat.format(", {0}", tempID));
 		}
 		if (translate) {
 			expression.expression.append(", true)");

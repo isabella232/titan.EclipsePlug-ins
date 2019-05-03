@@ -355,6 +355,18 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 						&& Assignment_type.A_PAR_PORT.semanticallyEquals(parameter.getAssignmentType())) {
 					parameter.getLocation().reportSemanticError("A testcase cannot have " + parameter.getAssignmentName());
 				}
+			} else if (Assignment_type.A_PORT.semanticallyEquals(definitionType)) {
+				switch (parameter.getAssignmentType()) {
+				case A_PAR_VAL:
+				case A_PAR_VAL_IN:
+				case A_PAR_VAL_OUT:
+				case A_PAR_VAL_INOUT:
+					//FIXME implement call chk_map_param
+					break;
+				default:
+					parameter.getLocation().reportSemanticError(MessageFormat.format("The `map'/`unmap' parameters of a port type cannot have {0}", parameter.getAssignmentName()));
+					break;
+				}
 			} else {
 				// everything is allowed for functions and altsteps
 			}

@@ -138,6 +138,36 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	public static final class Map_Params {
+		private int nof_params;
+		private ArrayList<TitanCharString> params;
+
+		public Map_Params(final int nof_params) {
+			this.nof_params = nof_params;
+			this.params = new ArrayList<TitanCharString>(nof_params);
+		}
+
+		public void set_param(final int index, final TitanCharString param) {
+			if (index >= nof_params) {
+				throw new TtcnError("Map/unmap parameter index out of bounds");
+			}
+
+			params.set(index, param);
+		}
+
+		public int get_nof_params() {
+			return nof_params;
+		}
+
+		public TitanCharString get_param(final int index) {
+			if (index >= nof_params) {
+				throw new TtcnError("Map/unmap parameter index out of bounds");
+			}
+
+			return params.get(index);
+		}
+	}
+
 	protected String port_name;
 	protected int msg_head_count;
 	protected int msg_tail_count;
@@ -352,7 +382,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				final String system_port = system_mappings.get(0);
 				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
 				try {
-					unmap(system_port, system);
+					unmap(system_port, new Map_Params(0), system);
 				} catch (final TtcnError e) {
 					//intentionally empty
 				}
@@ -1029,10 +1059,18 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void user_map(final String system_port) {
+		user_map(system_port, new Map_Params(0));
+	}
+
+	protected void user_map(final String system_port, final Map_Params params) {
 		//default implementation is empty
 	}
 
 	protected void user_unmap(final String system_port) {
+		user_unmap(system_port, new Map_Params(0));
+	}
+
+	protected void user_unmap(final String system_port, final Map_Params params) {
 		//default implementation is empty
 	}
 
@@ -1671,7 +1709,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	private final void map(final String system_port, final boolean translation) {
+	private final void map(final String system_port, final Map_Params params, final boolean translation) {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", port_name));
 		}
@@ -1690,7 +1728,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			set_system_parameters(system_port);
 		}
 
-		user_map(system_port);
+		user_map(system_port, params);
 
 		if (translation) {
 			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, system_port, TitanComponent.SYSTEM_COMPREF, port_name,  null, -1, 0);
@@ -1706,7 +1744,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	private final void unmap(final String system_port, final boolean translation) {
+	private final void unmap(final String system_port, final Map_Params params, final boolean translation) {
 		int deletion_position;
 		for (deletion_position = 0; deletion_position < system_mappings.size(); deletion_position++) {
 			if (system_port.equals(system_mappings.get(deletion_position))) {
@@ -1722,7 +1760,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		system_mappings.remove(deletion_position);
 
-		user_unmap(system_port);
+		user_unmap(system_port, params);
 
 		if (system_mappings.isEmpty()) {
 			reset_port_variables();
@@ -1897,7 +1935,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	public static void map_port(final String component_port, final String system_port, final boolean translation) {
+	public static void map_port(final String component_port, final String system_port, final Map_Params params, final boolean translation) {
 		if (translation) {
 			TTCN_Runtime.initialize_system_port(system_port);
 		}
@@ -1912,9 +1950,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		if (translation) {
-			port.map(component_port, translation);
+			port.map(component_port, params, translation);
 		} else {
-			port.map(system_port, translation);
+			port.map(system_port, params, translation);
 		}
 
 		if (translation) {
@@ -1928,7 +1966,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	public static void unmap_port(final String component_port, final String system_port, final boolean translation) {
+	public static void unmap_port(final String component_port, final String system_port, final Map_Params params, final boolean translation) {
 		if (translation) {
 			TTCN_Runtime.initialize_system_port(system_port);
 		}
@@ -1940,9 +1978,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		if (translation) {
-			port.unmap(component_port, translation);
+			port.unmap(component_port, params, translation);
 		} else {
-			port.unmap(system_port, translation);
+			port.unmap(system_port, params, translation);
 		}
 
 		if (translation) {

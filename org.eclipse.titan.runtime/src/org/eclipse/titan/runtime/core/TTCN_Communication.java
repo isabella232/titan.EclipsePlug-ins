@@ -29,6 +29,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason.enum_type;
+import org.eclipse.titan.runtime.core.TitanPort.Map_Params;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 
@@ -830,13 +831,18 @@ public final class TTCN_Communication {
 		send_message(text_buf);
 	}
 
-	public static void send_map_req(final int sourceComponent, final String sourcePort, final String systemPort, final boolean translation) {
+	public static void send_map_req(final int sourceComponent, final String sourcePort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MAP_REQ);
 		text_buf.push_int(sourceComponent);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(sourcePort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
@@ -851,13 +857,18 @@ public final class TTCN_Communication {
 		send_message(text_buf);
 	}
 
-	public static void send_unmap_req(final int sourceComponent, final String sourcePort, final String systemPort, final boolean translation) {
+	public static void send_unmap_req(final int sourceComponent, final String sourcePort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAP_REQ);
 		text_buf.push_int(sourceComponent);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(sourcePort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
@@ -1464,12 +1475,18 @@ public final class TTCN_Communication {
 		final boolean translation = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		final String local_port = local_incoming_buf.pull_string();
 		final String system_port = local_incoming_buf.pull_string();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params params = new Map_Params(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			params.set_param(i, new TitanCharString(par));
+		}
 
 		local_incoming_buf.cut_message();
 
-		TitanPort.map_port(local_port, system_port, false);
+		TitanPort.map_port(local_port, system_port, params, false);
 		if (translation) {
-			TitanPort.map_port(local_port, system_port, true);
+			TitanPort.map_port(local_port, system_port, params, true);
 		}
 		if (!TTCN_Runtime.is_single()) {
 			if (translation) {
@@ -1503,12 +1520,18 @@ public final class TTCN_Communication {
 		final boolean translation = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		final String local_port = local_incoming_buf.pull_string();
 		final String system_port = local_incoming_buf.pull_string();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params params = new Map_Params(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			params.set_param(i, new TitanCharString(par));
+		}
 
 		local_incoming_buf.cut_message();
 
-		TitanPort.unmap_port(local_port, system_port, false);
+		TitanPort.unmap_port(local_port, system_port, params, false);
 		if (translation) {
-			TitanPort.unmap_port(local_port, system_port, true);
+			TitanPort.unmap_port(local_port, system_port, params, true);
 		}
 		if (!TTCN_Runtime.is_single()) {
 			if (translation) {

@@ -19,6 +19,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
+import org.eclipse.titan.runtime.core.TitanPort.Map_Params;
 import org.eclipse.titan.runtime.core.TitanPort.translation_port_state;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
@@ -1949,7 +1950,7 @@ public final class TTCN_Runtime {
 
 
 	//originally map_port
-	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final boolean translation) {
+	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final Map_Params params, final boolean translation) {
 		check_port_name(sourePort, "map", "first");
 		check_port_name(destinationPort, "map", "second");
 
@@ -1999,18 +2000,18 @@ public final class TTCN_Runtime {
 				throw new TtcnError("Only the ports of mtc can be mapped in single mode.");
 			}
 
-			TitanPort.map_port(componentPort, systemPort, false);
+			TitanPort.map_port(componentPort, systemPort, params, false);
 			if (translation) {
-				TitanPort.map_port(componentPort, systemPort, true);
+				TitanPort.map_port(componentPort, systemPort, params, true);
 			}
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.MTC_MAP);
 			wait_for_state_change();
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.PTC_MAP);
 			wait_for_state_change();
 			break;
@@ -2026,7 +2027,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally unmap_port
-	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final boolean translation) {
+	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final Map_Params params, final boolean translation) {
 		check_port_name(sourePort, "unmap", "first");
 		check_port_name(destinationPort, "unmap", "second");
 
@@ -2076,18 +2077,18 @@ public final class TTCN_Runtime {
 				throw new TtcnError("Only the ports of mtc can be unmapped in single mode.");
 			}
 
-			TitanPort.unmap_port(componentPort, systemPort, false);
+			TitanPort.unmap_port(componentPort, systemPort, params, false);
 			if (translation) {
-				TitanPort.unmap_port(componentPort, systemPort, true);
+				TitanPort.unmap_port(componentPort, systemPort, params, true);
 			}
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.MTC_UNMAP);
 			wait_for_state_change();
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.PTC_UNMAP);
 			wait_for_state_change();
 			break;

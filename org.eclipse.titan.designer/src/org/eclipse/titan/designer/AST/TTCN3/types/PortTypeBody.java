@@ -53,6 +53,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.FunctionPrototype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageMappedTypeInfo;
@@ -141,6 +142,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	private TypeMappings outMappings;
 
 	private Definitions vardefs;
+	private FormalParameterList mapParams;
+	private FormalParameterList unmapParams;
 
 	private boolean realtime;
 
@@ -215,6 +218,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (vardefs == child) {
 			return builder.append(".<port_var>");
 		}
+		if (mapParams == child) {
+			return builder.append(".<map_params>");
+		}
+		if (unmapParams == child) {
+			return builder.append(".<unmap_params>");
+		}
 
 		return builder;
 	}
@@ -274,6 +283,34 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 	}
 
+	public void setMapParams(final FormalParameterList params) {
+		if (mapParams != null) {
+			location.reportSemanticError("Multiple `map' parameter lists in port type definition");
+
+			return;
+		}
+
+		mapParams = params;
+	}
+
+	public FormalParameterList getMapParameters() {
+		return mapParams;
+	}
+
+	public void setUnmapParams(final FormalParameterList params) {
+		if (unmapParams != null) {
+			location.reportSemanticError("Multiple `unmap' parameter lists in port type definition");
+
+			return;
+		}
+
+		unmapParams = params;
+	}
+
+	public FormalParameterList getUnmapParameters() {
+		return unmapParams;
+	}
+
 	public void setRealtime() {
 		realtime = true;
 	}
@@ -308,6 +345,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (vardefs != null) {
 			vardefs.setParentScope(scope);
+		}
+		if (mapParams != null) {
+			mapParams.setMyScope(scope);
+		}
+		if (unmapParams != null) {
+			unmapParams.setMyScope(scope);
 		}
 	}
 
@@ -553,6 +596,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				getLocation().reportSemanticError("Port variables can only be used when the port is a translation port.");
 			}
 			vardefs.check(timestamp);
+		}
+		if (mapParams != null) {
+			mapParams.check(timestamp, Assignment_type.A_PORT);
+		}
+		if (unmapParams != null) {
+			unmapParams.check(timestamp, Assignment_type.A_PORT);
 		}
 	}
 
@@ -1821,6 +1870,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 			reparser.updateLocation(vardefs.getLocation());
 		}
+		if (mapParams != null) {
+			mapParams.updateSyntax(reparser, false);
+			reparser.updateLocation(mapParams.getLocation());
+		}
+		if (unmapParams != null) {
+			unmapParams.updateSyntax(reparser, false);
+			reparser.updateLocation(unmapParams.getLocation());
+		}
 	}
 
 	@Override
@@ -1852,6 +1909,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (vardefs != null) {
 			vardefs.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (mapParams != null) {
+			mapParams.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (unmapParams != null) {
+			unmapParams.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -1891,6 +1954,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			return false;
 		}
 		if (vardefs!=null && !vardefs.accept(v)) {
+			return false;
+		}
+		if (mapParams != null && !mapParams.accept(v)) {
+			return false;
+		}
+		if (unmapParams != null && !unmapParams.accept(v)) {
 			return false;
 		}
 		return true;

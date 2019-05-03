@@ -28,6 +28,8 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
@@ -135,6 +137,16 @@ public final class Port_Type extends Type {
 
 		if (body != null) {
 			body.check(timestamp);
+			final FormalParameterList mapParams = body.getMapParameters();
+			if (mapParams != null) {
+				mapParams.setMyDefinition((Definition)getDefiningAssignment());
+				mapParams.setGenName(getGenNameOwn());
+			}
+			final FormalParameterList unmapParams = body.getUnmapParameters();
+			if (unmapParams != null) {
+				unmapParams.setMyDefinition((Definition)getDefiningAssignment());
+				unmapParams.setGenName(getGenNameOwn());
+			}
 			if (withAttributesPath != null) {
 				body.checkAttributes(timestamp, withAttributesPath);
 			}
