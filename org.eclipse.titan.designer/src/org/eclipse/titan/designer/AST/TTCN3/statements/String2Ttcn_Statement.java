@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -20,6 +21,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -188,5 +191,23 @@ public class String2Ttcn_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		ExpressionStruct val_expr = new ExpressionStruct();
+		value.generateCodeExpression(aData, val_expr, true);
+		
+		ExpressionStruct ref_expr = new ExpressionStruct();
+		reference.generateCode(aData, ref_expr);
+		
+		source.append(val_expr.preamble);
+		source.append(ref_expr.preamble);
+		
+		source.append(MessageFormat.format("TitanCharString.string_to_ttcn({0} , {1});\n", val_expr.expression, ref_expr.expression));
+		
+		source.append(val_expr.postamble);
+		source.append(ref_expr.postamble);
 	}
 }

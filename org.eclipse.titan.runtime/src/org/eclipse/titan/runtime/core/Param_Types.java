@@ -214,7 +214,7 @@ public final class Param_Types {
 			}
 			if (!is_template) {
 				if (has_ifpresent) {
-					throw new TtcnError(MessageFormat.format("{0] cannot have an 'ifpresent' attribute", what));
+					throw new TtcnError(MessageFormat.format("{0} cannot have an 'ifpresent' attribute", what));
 				}
 			}
 			if (!is_template || !is_list) {

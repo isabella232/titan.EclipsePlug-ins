@@ -83,6 +83,7 @@ import org.eclipse.titan.runtime.core.TitanUniversalChar;
 import org.eclipse.titan.runtime.core.TitanUniversalCharString;
 import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
+import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 import java.io.File;
@@ -120,6 +121,9 @@ import java.util.regex.Pattern;
 
 	// pattern for matching typed macro string, for example: ${a, float}
 	private final static Pattern PATTERN_TYPED_MACRO = Pattern.compile("\\$\\s*\\{\\s*([A-Za-z][A-Za-z0-9_]*)\\s*,\\s*[A-Za-z][A-Za-z0-9_]*\\s*\\}");
+	
+	private static final String STRING_TO_TTCN_PREFIX = "$#&&&(#TTCNSTRINGPARSING$#&&^#%";
+	private static final String STRING_TO_TTCN_COMPONENT_PREFIX = "$#&&&(#TTCNSTRINGPARSING_COMPONENT$#&&^#% ";
 
 	private File mActualFile = null;
 
@@ -192,6 +196,7 @@ import java.util.regex.Pattern;
 	private boolean debugger_Value_Parsing_happening = false;
 	// originally Ttcn_String_Parsing.happening()
 	private boolean ttcn_String_Parsing_happening = false;
+	private static Module_Parameter parsed_module_param = null;
 
 	/**
 	 * Gets the last token of the current rule.
@@ -341,6 +346,21 @@ import java.util.regex.Pattern;
 		}
 	}
 
+public static Module_Parameter process_config_string2ttcn(final String mp_str, final boolean is_component) {
+	if (parsed_module_param != null) {
+		throw new TtcnError("Internal error: previously parsed ttcn string was not cleared.");
+	}
+	StringToTTCNAnalyzer analyzer = new StringToTTCNAnalyzer();
+	analyzer.parse(mp_str);
+	if (parsed_module_param != null) {
+		Module_Parameter ret_val;
+		ret_val = parsed_module_param;
+		parsed_module_param = null;
+		return ret_val;
+	} else {
+		throw new TtcnError("Internal error: could not parse TTCN string.");
+	}
+} 
 	private static TitanInteger toTitanInteger( BigInteger bi ) {
 		final int i = bi.intValue();
 		if (bi.equals(BigInteger.valueOf(i))) {
@@ -371,6 +391,12 @@ import java.util.regex.Pattern;
 pr_ConfigFile:
 	pr_Section+
 	EOF
+;
+
+pr_String2TtcnStatement:
+	v = pr_SimpleParameterValue {
+		parsed_module_param = $v.moduleparameter; 
+	}	
 ;
 
 pr_Section:

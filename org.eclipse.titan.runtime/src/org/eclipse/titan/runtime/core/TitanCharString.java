@@ -23,6 +23,7 @@ import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+import org.eclipse.titan.runtime.core.cfgparser.RuntimeCfgParser;
 
 
 /**
@@ -1311,7 +1312,30 @@ public class TitanCharString extends Base_Type {
 	 *                the value to be set to the converted value.
 	 * */
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Type ttcn_value) {
-		//FIXME implement
-		throw new TtcnError("string_to_ttcn is not yet supported!!!");
+		Module_Parameter mp;
+		try {
+			if (ttcn_value instanceof TitanComponent) {
+				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
+			} else {
+				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
+			}
+			ttcn_value.set_param(mp);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Template ttcn_value) {
+		Module_Parameter mp;
+		try {
+			if (ttcn_value instanceof TitanComponent_template) {
+				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
+			} else {
+				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
+			}
+			ttcn_value.set_param(mp);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }
