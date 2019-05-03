@@ -834,7 +834,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			this.operator_assign(new TitanBitString((int[])param.get_string_data(), param.get_string_size()));
 			break;
 		case MP_Bitstring_Template:
-			this.operator_assign(new TitanBitString_template((String)param.get_string_data()));
+			this.operator_assign(new TitanBitString_template((TitanBitString_template)param.get_string_data()));
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
