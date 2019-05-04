@@ -271,6 +271,20 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
+			final IType type = getComponentByIndex(i).getType();
+			type.checkMapParameter(timestamp, refChain, errorLocation);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		if (components == null) {
 			return new Object[] {};

@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
@@ -541,6 +542,17 @@ public final class SetOf_Type extends AbstractOfType {
 		}
 
 		return selfReference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		getOfType().checkMapParameter(timestamp, refChain, errorLocation);
 	}
 
 	@Override

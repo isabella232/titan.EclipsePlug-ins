@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -203,6 +204,20 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 		default:
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return null;
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		final IType referencedLast = getTypeRefdLast(timestamp);
+		if (referencedLast != null) {
+			referencedLast.checkMapParameter(timestamp, refChain, errorLocation);
 		}
 	}
 

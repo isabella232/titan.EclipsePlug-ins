@@ -737,6 +737,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	List<Coding_Type> getCodingTable();
 
+	//FIXME comment
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation);
+
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same
 	 * as the name of the definition defining the type.

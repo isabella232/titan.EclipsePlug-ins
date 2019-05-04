@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -844,6 +845,17 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return null;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		getOfType().checkMapParameter(timestamp, refChain, errorLocation);
 	}
 
 	@Override

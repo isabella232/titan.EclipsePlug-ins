@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -360,9 +361,12 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				case A_PAR_VAL:
 				case A_PAR_VAL_IN:
 				case A_PAR_VAL_OUT:
-				case A_PAR_VAL_INOUT:
-					//FIXME implement call chk_map_param
+				case A_PAR_VAL_INOUT: {
+					final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+					parameter.getType(CompilationTimeStamp.getBaseTimestamp()).checkMapParameter(timestamp, refChain, parameter.getLocation());
+					refChain.release();
 					break;
+				}
 				default:
 					parameter.getLocation().reportSemanticError(MessageFormat.format("The `map'/`unmap' parameters of a port type cannot have {0}", parameter.getAssignmentName()));
 					break;

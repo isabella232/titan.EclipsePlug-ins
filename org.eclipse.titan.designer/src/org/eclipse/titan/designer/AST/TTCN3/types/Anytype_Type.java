@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -657,6 +658,20 @@ public final class Anytype_Type extends Type {
 			return false;
 		default:
 			return false;
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		for (int i = 0, size = getNofComponents(); i < size; i++) {
+			final IType type = getComponentByIndex(i).getType();
+			type.checkMapParameter(timestamp, refChain, errorLocation);
 		}
 	}
 

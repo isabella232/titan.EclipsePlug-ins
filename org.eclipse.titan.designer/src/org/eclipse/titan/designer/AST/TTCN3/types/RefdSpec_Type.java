@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -259,6 +260,19 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 		}
 
 		return t;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		if (refdType != null) {
+			refdType.checkMapParameter(timestamp, refChain, errorLocation);
+		}
 	}
 
 	@Override

@@ -2009,6 +2009,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		return getTypetypeTtcn3().equals(temp.getTypetypeTtcn3());
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		// the default implementation is empty as it is allowed
+	}
+
 	/**
 	 * Return the encoding belonging to the provided name.
 	 *

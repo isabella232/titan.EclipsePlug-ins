@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -881,6 +882,17 @@ public final class Component_Type extends Type {
 			// the error was already reported if possible.
 			return null;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		errorLocation.reportSemanticError("The `map'/`unmap' parameters of a port type cannot be or contain a field/element of component type");
 	}
 
 	@Override

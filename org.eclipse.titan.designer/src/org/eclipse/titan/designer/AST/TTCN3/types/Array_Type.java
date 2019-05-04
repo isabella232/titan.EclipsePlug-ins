@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -944,6 +945,19 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		default:
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return null;
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		if (elementType != null) {
+			elementType.checkMapParameter(timestamp, refChain, errorLocation);
 		}
 	}
 

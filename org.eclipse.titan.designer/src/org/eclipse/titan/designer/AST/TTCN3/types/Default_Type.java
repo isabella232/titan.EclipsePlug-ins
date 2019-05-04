@@ -193,6 +193,17 @@ public final class Default_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		errorLocation.reportSemanticError("The `map'/`unmap' parameters of a port type cannot be or contain a field/element of default type");
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("default");
 	}

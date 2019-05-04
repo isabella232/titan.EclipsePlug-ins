@@ -636,6 +636,19 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		if (refdLast != null) {
+			refdLast.checkMapParameter(timestamp, refChain, errorLocation);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void forceRaw(final CompilationTimeStamp timestamp) {
 		if (refd != null && !refd.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
 			refd.forceRaw(timestamp);
