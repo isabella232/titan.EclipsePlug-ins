@@ -592,7 +592,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			checkList(timestamp, inoutTypes, true, true);
 		}
 		if (vardefs != null) {
-			if (providerReferences..isEmpty() && vardefs.getNofAssignments() > 0) {
+			if (providerReferences.isEmpty() && vardefs.getNofAssignments() > 0) {
 				getLocation().reportSemanticError("Port variables can only be used when the port is a translation port.");
 			}
 			vardefs.check(timestamp);
