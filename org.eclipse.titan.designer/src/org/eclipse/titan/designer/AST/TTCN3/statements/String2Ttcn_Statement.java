@@ -196,6 +196,8 @@ public class String2Ttcn_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		aData.addBuiltinTypeImport("TitanCharString");
+
 		final ExpressionStruct val_expr = new ExpressionStruct();
 		value.generateCodeExpression(aData, val_expr, true);
 
