@@ -737,7 +737,19 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	List<Coding_Type> getCodingTable();
 
-	//FIXME comment
+	/**
+	 * Checks that the type can be used as a parameter for a map/unmap
+	 * statement. It is not and does not contain component and default
+	 * types.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param refChain
+	 *                a chain of references used to detect circular
+	 *                references.
+	 * @param errorLocation
+	 *                the location the error message should be reported to.
+	 * */
 	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation);
 
 	/**
