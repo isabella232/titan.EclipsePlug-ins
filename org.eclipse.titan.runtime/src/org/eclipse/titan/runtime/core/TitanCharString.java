@@ -1313,29 +1313,22 @@ public class TitanCharString extends Base_Type {
 	 * */
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Type ttcn_value) {
 		Module_Parameter mp;
-		try {
-			if (ttcn_value instanceof TitanComponent) {
-				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
-			} else {
-				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
-			}
-			ttcn_value.set_param(mp);
-		} catch (Exception e) {
-			throw e;
+		if (ttcn_value instanceof TitanComponent) {
+			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
+		} else {
+			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
 		}
+		ttcn_value.set_param(mp);
 	}
 
+	//FIXME comment
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Template ttcn_value) {
 		Module_Parameter mp;
-		try {
-			if (ttcn_value instanceof TitanComponent_template) {
-				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
-			} else {
-				mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
-			}
-			ttcn_value.set_param(mp);
-		} catch (Exception e) {
-			throw e;
+		if (ttcn_value instanceof TitanComponent_template) {
+			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
+		} else {
+			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
 		}
+		ttcn_value.set_param(mp);
 	}
 }
