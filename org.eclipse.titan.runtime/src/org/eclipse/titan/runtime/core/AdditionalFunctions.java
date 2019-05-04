@@ -2250,9 +2250,8 @@ public final class AdditionalFunctions {
 			unicharStr.decode_utf32(value.lengthof().get_int(), value.get_value(), CharCoding.UTF32BE);
 		} else if (encodeStr.operator_equals("UTF-32LE")) {
 			unicharStr.decode_utf32(value.lengthof().get_int(), value.get_value(), CharCoding.UTF32LE);
-		}
-		else {
-			throw new TtcnError("oct2unichar: Invalid parameter: " +encodeStr);
+		} else {
+			throw new TtcnError("oct2unichar: Invalid parameter: " + encodeStr);
 		}
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
@@ -2342,9 +2341,8 @@ public final class AdditionalFunctions {
 			value.encode_utf32(buf, CharCoding.UTF32BE);
 		} else if (stringEncoding.operator_equals("UTF-32LE")) {
 			value.encode_utf32(buf, CharCoding.UTF32LE);
-		}
-		else {
-			throw new TtcnError("unichar2oct: Invalid parameter: "+ stringEncoding);
+		} else {
+			throw new TtcnError("unichar2oct: Invalid parameter: " + stringEncoding);
 		}
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
