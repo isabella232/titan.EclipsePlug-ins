@@ -1462,7 +1462,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 								if (t.getTypetype() == Type_type.TYPE_ASN1_ENUMERATED || t.getTypetype() == Type_type.TYPE_TTCN3_ENUMERATED) {
 									newField.refersEnum = true;
-									IValue last = key.v_value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+									final IValue last = key.v_value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 									if (last.getValuetype() == Value_type.ENUMERATED_VALUE) {
 										newField.enumValue = ((Enumerated_Value)last).getValue().getName();
 									}

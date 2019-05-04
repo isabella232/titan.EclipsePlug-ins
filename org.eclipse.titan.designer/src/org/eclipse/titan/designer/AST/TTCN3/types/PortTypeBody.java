@@ -278,7 +278,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			vardefs = new Definitions();
 		}
 
-		for (Definition def : definitions) {
+		for (final Definition def : definitions) {
 			vardefs.addDefinition(def);
 		}
 	}
@@ -2252,7 +2252,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				}
 
 				//collect and handle all of the functions with `port' clause belonging to this port type
-				HashSet<Def_Function> functions = new HashSet<Def_Function>();
+				final HashSet<Def_Function> functions = new HashSet<Def_Function>();
 				if (outMappings != null) {
 					for (int i = 0; i < outMappings.getNofMappings(); i++) {
 						final TypeMapping mapping = outMappings.getMappingByIndex(i);

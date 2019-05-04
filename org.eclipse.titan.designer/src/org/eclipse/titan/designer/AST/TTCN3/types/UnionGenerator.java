@@ -2406,7 +2406,8 @@ public final class UnionGenerator {
 				int z = 0;
 				z++;
 			}
-			StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
+
+			final StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
 			if (is_equal) {
 				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
 			} else {
