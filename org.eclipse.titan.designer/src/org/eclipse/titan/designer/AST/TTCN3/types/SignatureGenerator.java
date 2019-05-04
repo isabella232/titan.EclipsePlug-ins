@@ -1059,7 +1059,7 @@ public final class SignatureGenerator {
 
 		if(!def.isNoBlock) {
 			source.append(MessageFormat.format("public void log_match_reply(final {0}_reply match_value, final boolean legacy) '{'\n", def.genName));
-			if (def.formalParameters.size() > 0) {
+			if (!def.formalParameters.isEmpty()) {
 				isFirst = true;
 				for (int i = 0 ; i < def.formalParameters.size(); i++) {
 					final SignatureParameter formalPar = def.formalParameters.get(i);

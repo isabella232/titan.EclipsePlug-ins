@@ -430,7 +430,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		IType t = null;
 		// in case of 'user' port types the address visible and supported by the 'provider' port type is relevant
-		if (PortType_type.PT_USER.equals(portType) && providerTypes.size() > 0) {
+		if (PortType_type.PT_USER.equals(portType) && !providerTypes.isEmpty()) {
 			t = providerTypes.get(0);
 		} else {
 			t = myType;
@@ -592,7 +592,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			checkList(timestamp, inoutTypes, true, true);
 		}
 		if (vardefs != null) {
-			if (providerReferences.size() == 0 && vardefs.getNofAssignments() > 0) {
+			if (providerReferences..isEmpty() && vardefs.getNofAssignments() > 0) {
 				getLocation().reportSemanticError("Port variables can only be used when the port is a translation port.");
 			}
 			vardefs.check(timestamp);

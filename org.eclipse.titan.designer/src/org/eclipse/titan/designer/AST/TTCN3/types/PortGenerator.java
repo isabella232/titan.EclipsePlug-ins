@@ -368,7 +368,7 @@ public final class PortGenerator {
 			generateSend(aData, source, outType, portDefinition);
 		}
 
-		if (portDefinition.inMessages.size() > 0) {
+		if (!portDefinition.inMessages.isEmpty()) {
 			aData.addBuiltinTypeImport( "TitanAlt_Status" );
 			aData.addBuiltinTypeImport("TitanCharString");
 			aData.addBuiltinTypeImport("TitanComponent_template");
@@ -745,7 +745,7 @@ public final class PortGenerator {
 			}
 		}
 
-		if (portDefinition.inProcedures.size() > 0) {
+		if (!portDefinition.inProcedures.isEmpty()) {
 			aData.addBuiltinTypeImport("Index_Redirect");
 			aData.addBuiltinTypeImport( "TitanAlt_Status" );
 
@@ -877,7 +877,7 @@ public final class PortGenerator {
 			}
 		}
 
-		if (portDefinition.inProcedures.size() > 0) {
+		if (!portDefinition.inProcedures.isEmpty()) {
 			generateProcessCall(source, portDefinition);
 		}
 		if (hasIncomingReply) {
@@ -1024,7 +1024,7 @@ public final class PortGenerator {
 
 		source.append(MessageFormat.format("\tpublic static{0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
-		if(portDefinition.inMessages.size() > 0) {
+		if(!portDefinition.inMessages.isEmpty()) {
 			source.append("\t\tenum message_selection { ");
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 				if (i > 0) {
@@ -1076,7 +1076,7 @@ public final class PortGenerator {
 			source.append("\t\t}\n\n");
 		}
 
-		final boolean hasIncomingCall = portDefinition.inProcedures.size() > 0;
+		final boolean hasIncomingCall = !portDefinition.inProcedures.isEmpty();
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			if (!portDefinition.outProcedures.get(i).isNoBlock) {
@@ -1454,7 +1454,7 @@ public final class PortGenerator {
 				|| (portDefinition.portType == PortType.USER && !portDefinition.legacy)) {
 			// If not in translation mode then send message as normally would.
 			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
-					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
+					outType.targets.size() > 1 || (!outType.targets.isEmpty() && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
 				source.append("if (!in_translation_mode()) {\n");
 			}
 			/* the same message type goes through the external interface */
@@ -1480,7 +1480,7 @@ public final class PortGenerator {
 			source.append("\t\t\t}\n");
 
 			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
-					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
+					outType.targets.size() > 1 || (!outType.targets.isEmpty() && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
 				source.append("} else {\n");
 				generateSendMapping(aData, source, portDefinition, outType, false);
 				source.append("}\n");
@@ -2216,7 +2216,7 @@ public final class PortGenerator {
 		source.append("\t\t\t}\n");
 
 		if (!portDefinition.legacy) {
-			if ((!isSimple && mappedType.targets.size() > 0) || (isSimple && mappedType.targets.size() > 1)) {
+			if ((!isSimple && !mappedType.targets.isEmpty()) || (isSimple && mappedType.targets.size() > 1)) {
 				source.append("\t\t\tif (in_translation_mode()) {\n");
 				generateIncomingMapping(aData, source, portDefinition, mappedType, isSimple);
 				source.append("\t\t\t}\n");

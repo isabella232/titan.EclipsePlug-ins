@@ -1719,7 +1719,7 @@ public final class RecordSetCodeGenerator {
 					} else {
 						genRawDecodeRecordField(aData, source, fieldInfos, i, raw, raw_options, false, prev_ext_group);
 						
-						if (tempRawOption.dependentFields != null && tempRawOption.dependentFields.size() > 0) {
+						if (tempRawOption.dependentFields != null && !tempRawOption.dependentFields.isEmpty()) {
 							for (int j = 0; j < tempRawOption.dependentFields.size(); j++) {
 								final int dependent_field_index = tempRawOption.dependentFields.get(j);
 								source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", dependent_field_index));

@@ -193,7 +193,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 		componentFieldMap = new HashMap<String, CompField>(fields.size());
 
-		if(fields.size()==0) {
+		if(fields.isEmpty()) {
 			return; //too early check
 		}
 
@@ -246,7 +246,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return fields.size() == 0;
+		return fields.isEmpty();
 	}
 
 	/**

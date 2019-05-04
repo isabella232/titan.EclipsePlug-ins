@@ -153,7 +153,7 @@ public final class UnionGenerator {
 		generateValueGetSelection(aData, source, genName, fieldInfos);
 		generateValueLog(source, fieldInfos);
 		generateValueSetParam(source, displayName, fieldInfos);
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			generateValueSetImplicitOmit(source, fieldInfos);
 		}
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
@@ -633,7 +633,7 @@ public final class UnionGenerator {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Returns the current selection.\n");
 			source.append(MessageFormat.format("\t\t * It will return {0}.union_selection_type.UNBOUND_VALUE if the value is unbound,\n", genName));
-			if (fieldInfos.size() > 0) {
+			if (!fieldInfos.isEmpty()) {
 				source.append(MessageFormat.format("\t\t * {0}.union_selection_type.ALT_{1} if the first field was selected, and so on.\n", genName, fieldInfos.get(0).mJavaVarName));
 			}
 			source.append("\t\t *\n");
@@ -766,7 +766,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an unbound value of union type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			source.append("\t\t\tfield.encode_text(text_buf);\n");
 		}
 		source.append("\t\t}\n\n");
