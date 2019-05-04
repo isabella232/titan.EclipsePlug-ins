@@ -1312,12 +1312,8 @@ public class TitanCharString extends Base_Type {
 	 *                the value to be set to the converted value.
 	 * */
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Type ttcn_value) {
-		Module_Parameter mp;
-		if (ttcn_value instanceof TitanComponent) {
-			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
-		} else {
-			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
-		}
+		final boolean isComponent = ttcn_value instanceof TitanComponent;
+		final Module_Parameter mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), isComponent);
 		ttcn_value.set_param(mp);
 	}
 
@@ -1330,12 +1326,8 @@ public class TitanCharString extends Base_Type {
 	 *                the value to be set to the converted template.
 	 * */
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Template ttcn_value) {
-		Module_Parameter mp;
-		if (ttcn_value instanceof TitanComponent_template) {
-			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), true);
-		} else {
-			mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), false);
-		}
+		final boolean isComponent = ttcn_value instanceof TitanComponent_template;
+		final Module_Parameter mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), isComponent);
 		ttcn_value.set_param(mp);
 	}
 }
