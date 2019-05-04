@@ -183,7 +183,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 						+ "They should be explicitly set as visibility attributes of the definition");
 		m.put(ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION, "When runs on component is never used.");
 		m.put(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES,
-				"It is not recommended to create groups without any attributes.");
+				"Groups without attributes might indicate design issues.");
 
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);
 	}
