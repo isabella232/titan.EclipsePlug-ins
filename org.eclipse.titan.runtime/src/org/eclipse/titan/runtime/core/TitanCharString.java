@@ -1321,7 +1321,14 @@ public class TitanCharString extends Base_Type {
 		ttcn_value.set_param(mp);
 	}
 
-	//FIXME comment
+	/**
+	 * This static function is used to convert a charstring to a template.
+	 *
+	 * @param ttcn_string
+	 *                the string to be converted.
+	 * @param ttcn_value
+	 *                the value to be set to the converted template.
+	 * */
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Template ttcn_value) {
 		Module_Parameter mp;
 		if (ttcn_value instanceof TitanComponent_template) {
