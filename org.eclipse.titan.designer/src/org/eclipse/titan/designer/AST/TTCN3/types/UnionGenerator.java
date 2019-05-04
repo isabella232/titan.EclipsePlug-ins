@@ -2402,10 +2402,6 @@ public final class UnionGenerator {
 			if (!firstExpr) {
 				source.append(is_equal ? " && " : " || ");
 			}
-			if ("id".equals(fieldName)) {
-				int z = 0;
-				z++;
-			}
 
 			final StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
 			if (is_equal) {
