@@ -192,21 +192,21 @@ public class String2Ttcn_Statement extends Statement {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct val_expr = new ExpressionStruct();
 		value.generateCodeExpression(aData, val_expr, true);
-		
+
 		ExpressionStruct ref_expr = new ExpressionStruct();
 		reference.generateCode(aData, ref_expr);
-		
+
 		source.append(val_expr.preamble);
 		source.append(ref_expr.preamble);
-		
+
 		source.append(MessageFormat.format("TitanCharString.string_to_ttcn({0} , {1});\n", val_expr.expression, ref_expr.expression));
-		
+
 		source.append(val_expr.postamble);
 		source.append(ref_expr.postamble);
 	}
