@@ -193,12 +193,12 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 					final ActualParameterList lazyActualParameters = new ActualParameterList();
 					formalParameterList.collateLazyAndNonLazyActualParameters(CompilationTimeStamp.getBaseTimestamp(),parsedActualParameters, lazyActualParameters, nonLazyActualParameters);
 
-					if(nonLazyActualParameters.getNofParameters()!=0) {
+					if (nonLazyActualParameters.getNofParameters() != 0) {
 						final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root);
 						nodes.add(statementBlockCollector);
 						nonLazyActualParameters.accept(statementBlockCollector);
 					}
-					for(int i=0,size=lazyActualParameters.getNofParameters();i<size;++i) {
+					for (int i = 0, size = lazyActualParameters.getNofParameters(); i < size; ++i) {
 						final ActualParameter lazyActualParameter = lazyActualParameters.getParameter(i);
 						if(lazyActualParameter instanceof Value_ActualParameter) {
 							final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root,true);
