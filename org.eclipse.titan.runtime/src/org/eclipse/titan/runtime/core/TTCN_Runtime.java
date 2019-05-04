@@ -2769,6 +2769,7 @@ public final class TTCN_Runtime {
 			if (component_index >= localTables.size()) {
 				// component_reference is still not in the table
 				// the table has to be extended at the end
+				localTables.ensureCapacity(component_index);
 				for (int i = localTables.size(); i <= component_index; i++) {
 					final component_status_table_struct temp = new component_status_table_struct();
 					temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2785,8 +2786,7 @@ public final class TTCN_Runtime {
 		} else {
 			// component_reference has to be inserted before the existing table
 			final int offset_diff = component_status_table_offset.get().intValue() - component_reference;
-			final int new_size = localTables.size() + offset_diff;
-			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
+			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>(offset_diff);
 			for (int i = 0; i < offset_diff; i++) {
 				final component_status_table_struct temp = new component_status_table_struct();
 				temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
