@@ -328,9 +328,9 @@ public class MoveFunctionRefactoring extends Refactoring {
 			istream.close();
 			return body2;
 		} catch (CoreException ce) {
-			ce.printStackTrace();
+			ErrorReporter.logExceptionStackTrace(ce);
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
+			ErrorReporter.logExceptionStackTrace(ioe);
 		}
 
 		return "";
