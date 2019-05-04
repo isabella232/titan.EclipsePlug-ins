@@ -426,7 +426,7 @@ public class TitanComponent extends Base_Type {
 
 		if (self.get().componentValue == component_reference) {
 			return TTCN_Runtime.get_component_name();
-		} else if(localComponentNames.size() > 0) {
+		} else if(!localComponentNames.isEmpty()) {
 			int min = 0;
 			int max = localComponentNames.size() - 1;
 			while (min < max) {
