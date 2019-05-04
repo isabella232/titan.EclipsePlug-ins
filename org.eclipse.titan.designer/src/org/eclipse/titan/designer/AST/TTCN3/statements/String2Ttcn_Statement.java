@@ -196,10 +196,10 @@ public class String2Ttcn_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct val_expr = new ExpressionStruct();
+		final ExpressionStruct val_expr = new ExpressionStruct();
 		value.generateCodeExpression(aData, val_expr, true);
 
-		ExpressionStruct ref_expr = new ExpressionStruct();
+		final ExpressionStruct ref_expr = new ExpressionStruct();
 		reference.generateCode(aData, ref_expr);
 
 		source.append(val_expr.preamble);
