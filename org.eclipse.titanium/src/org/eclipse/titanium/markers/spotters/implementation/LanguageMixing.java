@@ -67,7 +67,7 @@ public class LanguageMixing extends BaseProjectCodeSmellSpotter {
 		TTCN3Module lastModule = null;
 		for (final TTCN3Module module: modules) {
 			final List<String> languageSpecifications = module.getLanguageSpecifictions();
-			if(languageSpecifications != null && languageSpecifications.size() > 0) {
+			if(languageSpecifications != null && !languageSpecifications.isEmpty()) {
 				final String tempLanguage = languageSpecifications.get(0);
 				if(tempLanguage != null) {
 					if(lastLanguage == null) {
