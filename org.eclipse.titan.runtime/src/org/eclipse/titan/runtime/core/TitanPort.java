@@ -139,8 +139,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public static final class Map_Params {
-		private int nof_params;
-		private ArrayList<TitanCharString> params;
+		private final int nof_params;
+		private final ArrayList<TitanCharString> params;
 
 		public Map_Params(final int nof_params) {
 			this.nof_params = nof_params;
