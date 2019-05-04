@@ -17,7 +17,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
  *
  * @author Kristof Szabados
  */
-public class Runtime_Parallel_main {
+public final class Runtime_Parallel_main {
 
 	private Runtime_Parallel_main() {
 		// private constructor to disable accidental instantiation
