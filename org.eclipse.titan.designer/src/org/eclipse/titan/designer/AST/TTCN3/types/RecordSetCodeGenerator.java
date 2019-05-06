@@ -2882,8 +2882,28 @@ public final class RecordSetCodeGenerator {
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fi = aNamesList.get(i);
 
-			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
-			source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append("\t\t\t\tTTCN_Logger.log_event_str(\"");
+			if (i == 0) {
+				source.append('{');
+			} else {
+				source.append(',');
+			}
+			source.append(MessageFormat.format(" {0} := \");\n", fi.mDisplayName ) );
+			if (fi.isOptional) {
+				source.append(MessageFormat.format("\t\t\t\tif (match_value.constGet_field_{0}().ispresent()) '{'\n", fi.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append("\t\t\t\t} else {\n");
+				source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"omit with \");\n");
+				source.append(MessageFormat.format("\t\t\t\t\t{0}.log();\n", fi.mVarName) );
+				source.append(MessageFormat.format("\t\t\t\t\tif ({0}.match_omit(legacy)) '{'\n", fi.mVarName));
+				source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
+				source.append("\t\t\t\t\t} else {\n");
+				source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
+				source.append("\t\t\t\t\t}\n");
+				source.append("\t\t\t\t}\n");
+			} else {
+				source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+			}
 		}
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		source.append("\t\t\t} else {\n");
