@@ -139,12 +139,43 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public static final class Map_Params {
-		private final int nof_params;
-		private final ArrayList<TitanCharString> params;
+		private int nof_params;
+		private ArrayList<TitanCharString> params;
 
 		public Map_Params(final int nof_params) {
+			init(nof_params);
+		}
+
+		public Map_Params(final Map_Params other) {
+			copy(other);
+		}
+
+		private void init(final int nof_params) {
 			this.nof_params = nof_params;
 			this.params = new ArrayList<TitanCharString>(nof_params);
+		}
+
+		private void clear() {
+			nof_params = 0;
+			this.params = new ArrayList<TitanCharString>(nof_params);
+		}
+
+		private void copy(final Map_Params other) {
+			init(other.nof_params);
+			for (int i = 0; i < nof_params; i++) {
+				params.set(i, other.params.get(i));
+			}
+		}
+
+		public Map_Params operator_assign(final Map_Params other) {
+			clear();
+			copy(other);
+			return this;
+		}
+
+		public void reset(final int nof_params) {
+			//clear();
+			init(nof_params);
 		}
 
 		public void set_param(final int index, final TitanCharString param) {
@@ -167,6 +198,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			return params.get(index);
 		}
 	}
+
+	public static final ThreadLocal<Map_Params> map_params_cache = new ThreadLocal<Map_Params>() {
+		@Override
+		protected Map_Params initialValue() {
+			return new Map_Params(0);
+		}
+	};
 
 	protected String port_name;
 	protected int msg_head_count;
@@ -381,15 +419,16 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			while (!system_mappings.isEmpty()) {
 				final String system_port = system_mappings.get(0);
 				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
+				final Map_Params params = new Map_Params(0);
 				try {
-					unmap(system_port, new Map_Params(0), system);
+					unmap(system_port, params, system);
 				} catch (final TtcnError e) {
 					//intentionally empty
 				}
 
 				if (is_parallel) {
 					try {
-						TTCN_Communication.send_unmapped(port_name, system_port, system);
+						TTCN_Communication.send_unmapped(port_name, system_port, params, system);
 					} catch (final TtcnError e) {
 						//intentionally empty
 					}

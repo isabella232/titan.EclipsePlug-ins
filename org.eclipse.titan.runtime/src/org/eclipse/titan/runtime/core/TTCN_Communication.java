@@ -847,12 +847,17 @@ public final class TTCN_Communication {
 		send_message(text_buf);
 	}
 
-	public static void send_mapped(final String localPort, final String systemPort, final boolean translation) {
+	public static void send_mapped(final String localPort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MAPPED);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(localPort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
@@ -873,12 +878,17 @@ public final class TTCN_Communication {
 		send_message(text_buf);
 	}
 
-	public static void send_unmapped(final String localPort, final String systemPort, final boolean translation) {
+	public static void send_unmapped(final String localPort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAPPED);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(localPort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
@@ -1490,15 +1500,23 @@ public final class TTCN_Communication {
 		}
 		if (!TTCN_Runtime.is_single()) {
 			if (translation) {
-				send_mapped(system_port, local_port, translation);
+				send_mapped(system_port, local_port, params, translation);
 			} else {
-				send_mapped(local_port, system_port, translation);
+				send_mapped(local_port, system_port, params, translation);
 			}
 		}
 	}
 
 	private static void process_map_ack() {
-		incoming_buf.get().cut_message();
+		final Text_Buf local_incoming_buf = incoming_buf.get();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params local_map_params = TitanPort.map_params_cache.get();
+		local_map_params.reset(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			local_map_params.set_param(i, new TitanCharString(par));
+		}
+		local_incoming_buf.cut_message();
 
 		switch (TTCN_Runtime.get_state()) {
 		case MTC_MAP:
@@ -1535,15 +1553,23 @@ public final class TTCN_Communication {
 		}
 		if (!TTCN_Runtime.is_single()) {
 			if (translation) {
-				send_unmapped(system_port, local_port, translation);
+				send_unmapped(system_port, local_port, params, translation);
 			} else {
-				send_unmapped(local_port, system_port, translation);
+				send_unmapped(local_port, system_port, params, translation);
 			}
 		}
 	}
 
 	private static void process_unmap_ack() {
-		incoming_buf.get().cut_message();
+		final Text_Buf local_incoming_buf = incoming_buf.get();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params local_map_params = TitanPort.map_params_cache.get();
+		local_map_params.reset(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			local_map_params.set_param(i, new TitanCharString(par));
+		}
+		local_incoming_buf.cut_message();
 
 		switch (TTCN_Runtime.get_state()) {
 		case MTC_UNMAP:

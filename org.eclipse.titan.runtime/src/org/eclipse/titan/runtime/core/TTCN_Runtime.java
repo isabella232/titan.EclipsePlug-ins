@@ -2009,11 +2009,13 @@ public final class TTCN_Runtime {
 			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.MTC_MAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		case PTC_FUNCTION:
 			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.PTC_MAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		default:
 			if (in_controlPart()) {
@@ -2086,11 +2088,13 @@ public final class TTCN_Runtime {
 			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.MTC_UNMAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		case PTC_FUNCTION:
 			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.PTC_UNMAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		default:
 			if (in_controlPart()) {
