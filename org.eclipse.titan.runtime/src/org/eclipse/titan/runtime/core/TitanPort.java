@@ -1767,7 +1767,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			set_system_parameters(system_port);
 		}
 
-		user_map(system_port, params);
+		if (params.get_nof_params() == 0) {
+			// call the legacy function if there are no parameters (for backward compatibility)
+			user_map(system_port);
+		} else {
+			user_map(system_port, params);
+		}
 
 		if (translation) {
 			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, system_port, TitanComponent.SYSTEM_COMPREF, port_name,  null, -1, 0);
@@ -1799,7 +1804,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		system_mappings.remove(deletion_position);
 
-		user_unmap(system_port, params);
+		if (params.get_nof_params() == 0) {
+			// call the legacy function if there are no parameters (for backward compatibility)
+			user_unmap(system_port);
+		} else {
+			user_unmap(system_port, params);
+		}
 
 		if (system_mappings.isEmpty()) {
 			reset_port_variables();
