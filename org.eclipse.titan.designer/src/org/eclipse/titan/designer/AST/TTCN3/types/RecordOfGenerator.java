@@ -1150,7 +1150,7 @@ public final class RecordOfGenerator {
 	private static void generateValueSetParam(final StringBuilder source, final String displayName, final boolean isSetOf) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
-		source.append(MessageFormat.format("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"{0} of value\");\n", isSetOf ? "set" : "record"));
+		source.append(MessageFormat.format("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), \"{0} of value\");\n", isSetOf ? "set" : "record"));
 		source.append("\t\t\tswitch (param.get_operation_type()) {\n");
 		source.append("\t\t\tcase OT_ASSIGN:\n");
 		source.append("\t\t\t\tif (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {\n");
@@ -3201,7 +3201,7 @@ public final class RecordOfGenerator {
 	private static void generateTemplateSetParam( final StringBuilder aSb, final String displayName, final boolean isSetOf) {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
-		aSb.append(MessageFormat.format("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"{0} of template\");\n", isSetOf ? "set" : "record"));
+		aSb.append(MessageFormat.format("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), \"{0} of template\");\n", isSetOf ? "set" : "record"));
 		aSb.append("\t\t\tswitch (param.get_type()) {\n");
 		aSb.append("\t\t\tcase MP_Omit:\n");
 		aSb.append("\t\t\t\toperator_assign(template_sel.OMIT_VALUE);\n");
