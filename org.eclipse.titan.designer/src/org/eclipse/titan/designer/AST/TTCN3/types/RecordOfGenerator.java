@@ -2411,7 +2411,7 @@ public final class RecordOfGenerator {
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Sets the new size of the template.\n");
-			source.append("\t\t* Also makes turns it into a specific value template if not already.\n");
+			source.append("\t\t * Also makes turns it into a specific value template if not already.\n");
 			source.append("\t\t * If the new size is bigger than actual, unbound elements are added to the end.\n");
 			source.append("\t\t * If the new size is smaller than actual, excess elements are removed.\n");
 			source.append("\t\t *\n");
