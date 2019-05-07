@@ -1423,14 +1423,16 @@ public final class TTCN_Communication {
 		final String remote_port = local_incoming_buf.pull_string();
 		final int temp_transport_type = local_incoming_buf.pull_int().get_int();
 
-		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
-			TitanComponent.register_component_name(remote_component, remote_component_name);
+		try {
+			if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
+				TitanComponent.register_component_name(remote_component, remote_component_name);
+			}
+
+			final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
+			TitanPort.process_connect(local_port, remote_component, remote_port, transport_type, incoming_buf.get());
+		} finally {
+			local_incoming_buf.cut_message();
 		}
-
-		final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
-		TitanPort.process_connect(local_port, remote_component, remote_port, transport_type, incoming_buf.get());
-
-		local_incoming_buf.cut_message();
 	}
 
 	private static void process_connect_ack() {
