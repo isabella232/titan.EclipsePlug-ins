@@ -598,7 +598,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		if (template_selection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ presentation-context-id := ");
 			presentation__context__id.log_match(match_value.constGet_field_presentation__context__id(), legacy);
-			TTCN_Logger.log_event_str("{ transfer-syntax := ");
+			TTCN_Logger.log_event_str(", transfer-syntax := ");
 			transfer__syntax.log_match(match_value.constGet_field_transfer__syntax(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {

@@ -674,9 +674,19 @@ public class TitanCharacter_String_template extends Base_Template {
 		if (template_selection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ identification := ");
 			identification.log_match(match_value.constGet_field_identification(), legacy);
-			TTCN_Logger.log_event_str("{ data-value-descriptor := ");
-			data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor(), legacy);
-			TTCN_Logger.log_event_str("{ string-value := ");
+			TTCN_Logger.log_event_str(", data-value-descriptor := ");
+			if (match_value.constGet_field_data__value__descriptor().ispresent()) {
+				data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor(), legacy);
+			} else {
+				TTCN_Logger.log_event_str("omit with ");
+				data__value__descriptor.log();
+				if (data__value__descriptor.match_omit(legacy)) {
+					TTCN_Logger.log_event_str(" matched");
+				} else {
+					TTCN_Logger.log_event_str(" unmatched");
+				}
+			}
+			TTCN_Logger.log_event_str(", string-value := ");
 			string__value.log_match(match_value.constGet_field_string__value(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {

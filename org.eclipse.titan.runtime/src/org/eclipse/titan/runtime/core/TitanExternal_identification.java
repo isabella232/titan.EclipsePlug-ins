@@ -227,7 +227,7 @@ public class TitanExternal_identification extends Base_Type {
 	 * */
 	public TitanExternal_identification_syntaxes get_field_syntaxes() {
 		if (union_selection != union_selection_type.ALT_syntaxes) {
-			clean_up();
+			//clean_up();
 			field = new TitanExternal_identification_syntaxes();
 			union_selection = union_selection_type.ALT_syntaxes;
 		}
@@ -256,7 +256,7 @@ public class TitanExternal_identification extends Base_Type {
 	 * */
 	public TitanObjectid get_field_syntax() {
 		if (union_selection != union_selection_type.ALT_syntax) {
-			clean_up();
+			//clean_up();
 			field = new TitanObjectid();
 			union_selection = union_selection_type.ALT_syntax;
 		}
@@ -285,7 +285,7 @@ public class TitanExternal_identification extends Base_Type {
 	 * */
 	public TitanInteger get_field_presentation__context__id() {
 		if (union_selection != union_selection_type.ALT_presentation__context__id) {
-			clean_up();
+			//clean_up();
 			field = new TitanInteger();
 			union_selection = union_selection_type.ALT_presentation__context__id;
 		}
@@ -314,7 +314,7 @@ public class TitanExternal_identification extends Base_Type {
 	 * */
 	public TitanExternal_identification_context__negotiation get_field_context__negotiation() {
 		if (union_selection != union_selection_type.ALT_context__negotiation) {
-			clean_up();
+			//clean_up();
 			field = new TitanExternal_identification_context__negotiation();
 			union_selection = union_selection_type.ALT_context__negotiation;
 		}
@@ -343,7 +343,7 @@ public class TitanExternal_identification extends Base_Type {
 	 * */
 	public TitanObjectid get_field_transfer__syntax() {
 		if (union_selection != union_selection_type.ALT_transfer__syntax) {
-			clean_up();
+			//clean_up();
 			field = new TitanObjectid();
 			union_selection = union_selection_type.ALT_transfer__syntax;
 		}
@@ -372,7 +372,7 @@ public class TitanExternal_identification extends Base_Type {
 	 * */
 	public TitanAsn_Null get_field_fixed() {
 		if (union_selection != union_selection_type.ALT_fixed) {
-			clean_up();
+			//clean_up();
 			field = new TitanAsn_Null();
 			union_selection = union_selection_type.ALT_fixed;
 		}

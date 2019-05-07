@@ -433,11 +433,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanInteger newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanInteger temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -759,7 +760,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -2011,7 +2012,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -2467,11 +2468,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanUniversalCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanUniversalCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -2793,7 +2795,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -4161,7 +4163,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -4607,11 +4609,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanOctetString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanOctetString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -4933,7 +4936,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -6185,7 +6188,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -6642,11 +6645,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanFloat newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanFloat temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -6968,7 +6972,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -8220,7 +8224,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -8677,11 +8681,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanUniversalCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanUniversalCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -9003,7 +9008,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -10255,7 +10260,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -10712,11 +10717,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBitString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBitString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -11038,7 +11044,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -12290,7 +12296,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -12747,11 +12753,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBoolean newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBoolean temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -13073,7 +13080,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -14325,7 +14332,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -14782,11 +14789,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -15108,7 +15116,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -16360,7 +16368,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -16817,11 +16825,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBoolean newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBoolean temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -17143,7 +17152,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -18395,7 +18404,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -18852,11 +18861,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBitString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBitString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -19178,7 +19188,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -20430,7 +20440,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -20887,11 +20897,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanInteger newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanInteger temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -21213,7 +21224,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -22465,7 +22476,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -22921,11 +22932,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanUniversalCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanUniversalCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -23247,7 +23259,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -24615,7 +24627,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -25060,11 +25072,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBoolean newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBoolean temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -25386,7 +25399,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -26754,7 +26767,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -27199,11 +27212,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanFloat newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanFloat temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -27525,7 +27539,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -28893,7 +28907,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -29338,11 +29352,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanInteger newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanInteger temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -29664,7 +29679,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -31032,7 +31047,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -31477,11 +31492,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -31803,7 +31819,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -33171,7 +33187,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -33617,11 +33633,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanUniversalCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanUniversalCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -33943,7 +33960,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -35195,7 +35212,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -35651,11 +35668,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanHexString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanHexString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -35977,7 +35995,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -37345,7 +37363,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -37790,11 +37808,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanHexString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanHexString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -38116,7 +38135,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -39484,7 +39503,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -39929,11 +39948,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanOctetString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanOctetString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -40255,7 +40275,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -41623,7 +41643,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -42068,11 +42088,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanFloat newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanFloat temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -42394,7 +42415,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -43762,7 +43783,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -44207,11 +44228,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanInteger newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanInteger temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -44533,7 +44555,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -45901,7 +45923,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -46346,11 +46368,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanOctetString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanOctetString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -46672,7 +46695,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -48040,7 +48063,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -48486,11 +48509,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanOctetString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanOctetString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -48812,7 +48836,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -50064,7 +50088,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -50521,11 +50545,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanHexString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanHexString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -50847,7 +50872,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -52099,7 +52124,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -52555,11 +52580,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -52881,7 +52907,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -54249,7 +54275,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -54694,11 +54720,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBitString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBitString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -55020,7 +55047,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -56388,7 +56415,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -56833,11 +56860,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBoolean newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBoolean temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -57159,7 +57187,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -58527,7 +58555,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -58973,11 +59001,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanCharString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanCharString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -59299,7 +59328,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -60551,7 +60580,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -61008,11 +61037,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanFloat newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanFloat temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -61334,7 +61364,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -62586,7 +62616,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -63042,11 +63072,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanBitString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanBitString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -63368,7 +63399,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -64736,7 +64767,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "set of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "set of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -65182,11 +65213,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_size(index_value + 1);
 			}
 
-			if ( valueElements.get( index_value ) == null ) {
-				final TitanHexString newElem = get_unbound_elem();
-				valueElements.set( index_value, newElem );
+			TitanHexString temp = valueElements.get( index_value );
+			if ( temp == null ) {
+				temp = get_unbound_elem();
+				valueElements.set( index_value, temp );
 			}
-			return valueElements.get( index_value );
+			return temp;
 		}
 
 		/**
@@ -65508,7 +65540,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "record of value");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of value");
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				if (param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
@@ -66760,7 +66792,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void set_param(final Module_Parameter param) {
-			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record of template");
+			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "record of template");
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);

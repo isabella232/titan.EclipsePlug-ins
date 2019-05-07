@@ -598,7 +598,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		if (template_selection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ abstract := ");
 			abstract_.log_match(match_value.constGet_field_abstract_(), legacy);
-			TTCN_Logger.log_event_str("{ transfer := ");
+			TTCN_Logger.log_event_str(", transfer := ");
 			transfer.log_match(match_value.constGet_field_transfer(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {
