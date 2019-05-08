@@ -458,7 +458,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 			for (final SelectableChannel channel : tobeRemoved) {
 				try {
-				channel.close();
+					channel.close();
 				} catch (IOException e) {
 					// empty
 				}
