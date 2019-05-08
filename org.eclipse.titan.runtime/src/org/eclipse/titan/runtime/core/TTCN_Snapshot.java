@@ -217,11 +217,13 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
+						final HashMap<SelectableChannel, Channel_Event_Handler> localChannelMap = channelMap.get();
 						for (final SelectionKey key : selectedKeys) {
-							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
+							final SelectableChannel keyChannel = key.channel();
+							final Channel_Event_Handler handler = localChannelMap.get(keyChannel);
 							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
 							final boolean isWritable = key.isValid() && key.isWritable();
-							handler.Handle_Event(key.channel(), isReadable, isWritable);
+							handler.Handle_Event(keyChannel, isReadable, isWritable);
 						}
 					} finally {
 						selectedKeys.clear();
@@ -241,11 +243,13 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
+						final HashMap<SelectableChannel, Channel_Event_Handler> localChannelMap = channelMap.get();
 						for (final SelectionKey key : selectedKeys) {
-							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
+							final SelectableChannel keyChannel = key.channel();
+							final Channel_Event_Handler handler = localChannelMap.get(keyChannel);
 							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
 							final boolean isWritable = key.isValid() && key.isWritable();
-							handler.Handle_Event(key.channel(), isReadable, isWritable);
+							handler.Handle_Event(keyChannel, isReadable, isWritable);
 						}
 					} finally {
 						selectedKeys.clear();
