@@ -394,6 +394,7 @@ public final class Param_Types {
 			TTCN_Logger.log_event_va_list(err, args);
 			TTCN_Logger.send_event_as_error();
 			TTCN_Logger.end_event();
+			throw new TtcnError("");
 		}
 
 		public void type_error(final String expected, final String type_name) {
