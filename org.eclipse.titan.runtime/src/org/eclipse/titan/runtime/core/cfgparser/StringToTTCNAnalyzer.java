@@ -44,8 +44,11 @@ public class StringToTTCNAnalyzer {
 		final RuntimeCfgParser parser = new RuntimeCfgParser(tokenStream);
 		
 		parser.setBuildParseTree(true);
-		parser.pr_String2TtcnStatement();
-		
+		try {
+			parser.pr_String2TtcnStatement();
+		} catch (Exception e) {
+			throw new TtcnError(e.getMessage());
+		}
 		IOUtils.closeQuietly(reader);
 		return lexerListener.encounteredError();
 	}
