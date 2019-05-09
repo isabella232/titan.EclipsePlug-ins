@@ -394,7 +394,7 @@ pr_ConfigFile:
 ;
 
 pr_String2TtcnStatement:
-	v = pr_SimpleParameterValue {
+	v = pr_ParameterValue {
 		parsed_module_param = $v.moduleparameter; 
 	}	
 ;
