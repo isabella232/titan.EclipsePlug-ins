@@ -146,19 +146,19 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Def_Function) {
 				if (((Def_Function) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
-					TITANConsole.println(((Def_Function) node).getIdentifier().getDisplayName());
+					TITANConsole.println(((Def_Function) node).getFullName());
 
 					return V_CONTINUE;
 				}
 			} else if (node instanceof Def_Altstep) {
 				if (((Def_Altstep) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
-					TITANConsole.println(((Def_Altstep) node).getIdentifier().getDisplayName());
+					TITANConsole.println(((Def_Altstep) node).getFullName());
 
 					return V_CONTINUE;
 				}
 			} else if (node instanceof Def_Testcase) {
 				if (((Def_Testcase) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
-					TITANConsole.println(((Def_Testcase) node).getIdentifier().getDisplayName());
+					TITANConsole.println(((Def_Testcase) node).getFullName());
 
 					return V_CONTINUE;
 				}
