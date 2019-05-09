@@ -1242,6 +1242,30 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("public {0} valueof() '{'\n", ownName));
 		source.append(MessageFormat.format("return ({0})super.valueof();\n", ownName));
 		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void set_type(final template_sel templateType, final int length) {\n");
+		source.append("clean_up();\n");
+		source.append("switch (templateType) {\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("listSize = length;\n");
+		source.append(MessageFormat.format("value_list = new {0}_template[listSize];\n", ownName));
+		source.append("for (int i = 0; i < length; ++i) {\n");
+		source.append(MessageFormat.format("value_list[i] = new {0}_template();\n", ownName));
+		source.append("}\n");
+		source.append("\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(\"Internal error: Setting an invalid type for an array template.\");\n");
+		source.append("}\n");
+		source.append("set_selection(templateType);\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template list_item(final int index) '{'\n", ownName));
+		source.append(MessageFormat.format("return ({0}_template)super.list_item(index);\n", ownName));
+		source.append("}\n");
 		source.append("}\n\n");
 
 		if (hasDoneAttribute()) {
