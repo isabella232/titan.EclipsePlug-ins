@@ -81,12 +81,12 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 
 		}
 
-		TITANConsole.println("** What is running on this component Menu** ");
+		TITANConsole.println("** What is running on this component** ");
 		Type component = null;
 		final ComponentFinderVisitor visitor = new ComponentFinderVisitor(offset);
 		module.accept(visitor);
 		component = visitor.component;
-		System.out.println("Running on this component :");
+		TITANConsole.println("Running on this component :");
 		final FunctionFinderVisitor fun_visitor = new FunctionFinderVisitor(component);
 		module.accept(fun_visitor);
 		return null;
@@ -109,7 +109,7 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 			if (node instanceof Def_Type) {
 				Location location = ((Def_Type) node).getLocation();
 				if (location.containsOffset(offset)) {
-					System.out.println("Component : " + ((Def_Type) node).getIdentifier().getDisplayName());
+					TITANConsole.println("Component : " + ((Def_Type) node).getIdentifier().getDisplayName());
 					component = ((Def_Type) node).getType(CompilationTimeStamp.getBaseTimestamp());
 					return V_CONTINUE;
 				}
@@ -133,14 +133,14 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 			if (node instanceof Def_Function) {
 
 				if (((Def_Function) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
-					System.out.println(((Def_Function) node).getIdentifier().getDisplayName());
+					TITANConsole.println(((Def_Function) node).getIdentifier().getDisplayName());
 					return V_CONTINUE;
 				}
 
 			} else if (node instanceof Def_Testcase) {
 
 				if (((Def_Testcase) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
-					System.out.println(((Def_Testcase) node).getIdentifier().getDisplayName());
+					TITANConsole.println(((Def_Testcase) node).getIdentifier().getDisplayName());
 					return V_CONTINUE;
 				}
 			}
