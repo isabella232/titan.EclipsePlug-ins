@@ -1193,6 +1193,16 @@ public final class PortGenerator {
 			source.append("\t\tprivate ArrayList<TitanPort> mapped_ports;\n");
 		}
 
+		source.append("\t\t/**\n");
+		source.append("\t\t * Constructor of the Test Port.\n");
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * The name of the port is set to \"<unknown>\". The port is not start or\n");
+		source.append("\t\t * active.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param port_name\n");
+		source.append("\t\t *                the name of the port to be used, {@code null} can be\n");
+		source.append("\t\t *                used to indicate unnamed ports.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tpublic {0}( final String port_name) '{'\n", className));
 		source.append("\t\t\tsuper(port_name);\n");
 		if (portDefinition.has_sliding) {
