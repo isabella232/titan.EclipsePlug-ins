@@ -39,8 +39,8 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	protected int singleSize;
 
 	//value array
-	private TitanTemplate_Array<?,?>[] value_list;
-	private int listSize;
+	protected TitanTemplate_Array<?,?>[] value_list;
+	protected int listSize;
 
 	/**
 	 * permutation interval
