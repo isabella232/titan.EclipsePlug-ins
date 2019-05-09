@@ -3,6 +3,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -1918,7 +1919,17 @@ public final class UnionGenerator {
 		source.append("\t\t\tswitch (template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("\t\t\t\tsingle_value.log();\n");
+			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				source.append(MessageFormat.format("\t\t\t\t\tcase ALT_{0}:\n", fieldInfos.get(i).mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fieldInfos.get(i).mJavaVarName));
+				source.append("\t\t\t\t\t\tsingle_value.log();\n");
+				source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
+				source.append("\t\t\t\t\t\tbreak;\n");
+			}
+			source.append("\t\t\t\t\tdefault:\n");
+			source.append("\t\t\t\t\t\tTTCN_Logger.log_event_unbound();\n");
+			source.append("\t\t\t\t}\n");
 		}
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
