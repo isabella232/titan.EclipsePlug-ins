@@ -93,17 +93,17 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 		Component_Type component;
 		int offset;
 
-		public ComponentFinderVisitor(int offset) {
+		public ComponentFinderVisitor(final int offset) {
 			super();
 			this.offset = offset;
 		}
 
 		@Override
-		public int visit(IVisitableNode node) {
+		public int visit(final IVisitableNode node) {
 			if (node instanceof Def_Type) {
-				Def_Type tyepDefinition = (Def_Type) node;
-				Location location = tyepDefinition.getLocation();
-				Type type = tyepDefinition.getType(CompilationTimeStamp.getBaseTimestamp());
+				final Def_Type tyepDefinition = (Def_Type) node;
+				final Location location = tyepDefinition.getLocation();
+				final Type type = tyepDefinition.getType(CompilationTimeStamp.getBaseTimestamp());
 
 				if (location.containsOffset(offset)) {
 					if (type.getTypetype() != Type_type.TYPE_COMPONENT) {
@@ -127,13 +127,13 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 	private static class FunctionFinderVisitor extends ASTVisitor {
 		Component_Type component;
 
-		public FunctionFinderVisitor(Component_Type component) {
+		public FunctionFinderVisitor(final Component_Type component) {
 			super();
 			this.component = component;
 		}
 
 		@Override
-		public int visit(IVisitableNode node) {
+		public int visit(final IVisitableNode node) {
 			if (node instanceof Def_Function) {
 				if (((Def_Function) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
 					TITANConsole.println(((Def_Function) node).getIdentifier().getDisplayName());
