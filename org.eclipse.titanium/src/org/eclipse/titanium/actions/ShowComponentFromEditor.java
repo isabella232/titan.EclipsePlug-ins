@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
@@ -140,8 +141,13 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 
 					return V_CONTINUE;
 				}
-			} else if (node instanceof Def_Testcase) {
+			} else if (node instanceof Def_Altstep) {
+				if (((Def_Altstep) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
+					TITANConsole.println(((Def_Altstep) node).getIdentifier().getDisplayName());
 
+					return V_CONTINUE;
+				}
+			} else if (node instanceof Def_Testcase) {
 				if (((Def_Testcase) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
 					TITANConsole.println(((Def_Testcase) node).getIdentifier().getDisplayName());
 
