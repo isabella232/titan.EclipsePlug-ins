@@ -99,10 +99,12 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 		@Override
 		public int visit(IVisitableNode node) {
 			if (node instanceof Def_Type) {
-				Location location = ((Def_Type) node).getLocation();
+				Def_Type tyepDefinition = (Def_Type) node;
+				Location location = tyepDefinition.getLocation();
+
 				if (location.containsOffset(offset)) {
-					TITANConsole.println("Component : " + ((Def_Type) node).getIdentifier().getDisplayName());
-					component = ((Def_Type) node).getType(CompilationTimeStamp.getBaseTimestamp());
+					TITANConsole.println("Component : " + tyepDefinition.getIdentifier().getDisplayName());
+					component = tyepDefinition.getType(CompilationTimeStamp.getBaseTimestamp());
 
 					return V_CONTINUE;
 				}
