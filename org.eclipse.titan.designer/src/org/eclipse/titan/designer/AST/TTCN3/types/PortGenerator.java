@@ -534,7 +534,16 @@ public final class PortGenerator {
 				if (!found) {
 					// Internal ports with translation capability do not need the implementable outgoing_send functions.
 					if (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy) {
-						source.append(MessageFormat.format("protected abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
+						source.append("\t\t/**\n");
+						source.append(MessageFormat.format("\t\t * Sends a(n) {0} message to the system (SUT).\n", outMessage.mDisplayName));
+						source.append("\t\t * <p>\n");
+						source.append("\t\t * Will also be called if the port does not have connections or mappings,\n");
+						source.append("\t\t * but a message is sent on it.\n");
+						source.append("\t\t *\n");
+						source.append("\t\t * @param send_par\n");
+						source.append("\t\t *            the value to be sent.\n");
+						source.append("\t\t * */\n");
+						source.append(MessageFormat.format("\t\tprotected abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
 							source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 						}
@@ -1446,6 +1455,19 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateSend(final JavaGenData aData, final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Sends a(n) {0} message to the provided component.\n", outType.mDisplayName));
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+		source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param send_par\n");
+		source.append("\t\t *            the value to be sent.\n");
+		source.append("\t\t * @param destination_component\n");
+		source.append("\t\t *            the target component to send the message to.\n");
+		source.append("\t\t * @param timestamp_redirect\n");
+		source.append("\t\t *            the redirected timestamp if any.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tpublic void send(final {0} send_par, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName));
 		source.append("\t\t\tif (!is_started) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
@@ -1524,10 +1546,34 @@ public final class PortGenerator {
 			source.append("\t\t}\n\n");
 		}
 
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Sends a(n) {0} message to the default component.\n", outType.mDisplayName));
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+		source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param send_par\n");
+		source.append("\t\t *            the value to be sent.\n");
+		source.append("\t\t * @param timestamp_redirect\n");
+		source.append("\t\t *            the redirected timestamp if any.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tpublic void send(final {0} send_par, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTypeName));
 		source.append("\t\t\tsend(send_par, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("\t\t}\n\n");
 
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Sends a(n) {0} template message to the provided component.\n", outType.mDisplayName));
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+		source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param send_par\n");
+		source.append("\t\t *            the template to be sent.\n");
+		source.append("\t\t * @param destination_component\n");
+		source.append("\t\t *            the target component to send the message to.\n");
+		source.append("\t\t * @param timestamp_redirect\n");
+		source.append("\t\t *            the redirected timestamp if any.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tpublic void send(final {0} send_par, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName));
 		source.append(MessageFormat.format("\t\t\tfinal {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
 		source.append("\t\t\tsend(send_par_value, destination_component, timestamp_redirect);\n");
@@ -1540,6 +1586,17 @@ public final class PortGenerator {
 			source.append("\t\t}\n\n");
 		}
 
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Sends a(n) {0} template message to the default component.\n", outType.mDisplayName));
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+		source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param send_par\n");
+		source.append("\t\t *            the template to be sent.\n");
+		source.append("\t\t * @param timestamp_redirect\n");
+		source.append("\t\t *            the redirected timestamp if any.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tpublic void send(final {0} send_par, final TitanFloat timestamp_redirect) '{'\n", outType.mJavaTemplateName));
 		source.append(MessageFormat.format("\t\t\tfinal {0} send_par_value = send_par.valueof();\n", outType.mJavaTypeName));
 		source.append("\t\t\tsend(send_par_value, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
