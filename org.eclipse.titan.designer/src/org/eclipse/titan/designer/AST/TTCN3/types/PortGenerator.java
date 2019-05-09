@@ -1231,12 +1231,10 @@ public final class PortGenerator {
 		}
 		source.append("\t\t}\n\n");
 
-		if (portDefinition.testportType == TestportType.INTERNAL || portDefinition.portType != PortType.REGULAR) {
-			// the default argument is needed if the generated class implements the port type (i.e. it is not a base class)
-			source.append(MessageFormat.format("\t\tpublic {0}( ) '{'\n", className));
-			source.append(MessageFormat.format("\t\t\tthis((String)null);\n", className));
-			source.append("\t\t}\n\n");
-		}
+		// the default argument is needed if the generated class implements the port type (i.e. it is not a base class)
+		source.append(MessageFormat.format("\t\tpublic {0}( ) '{'\n", className));
+		source.append(MessageFormat.format("\t\t\tthis((String)null);\n", className));
+		source.append("\t\t}\n\n");
 	}
 
 	/**
