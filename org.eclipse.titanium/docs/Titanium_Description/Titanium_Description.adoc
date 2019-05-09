@@ -677,6 +677,8 @@ While editing a TTCN3 source file, you can open the context menu by right clicki
 
 * *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf. Section 6.
 
+* *List what is running on this component:* When the cursor is over a component type definition, this feature will collect all function/altstep/testcase definition that run on that component and list the in the TITAN Console view.
+
 [[project-actions]]
 == Project actions
 
