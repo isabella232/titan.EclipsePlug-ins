@@ -231,7 +231,7 @@ public class Ttcn2StringExpression extends Expression_Value {
 		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("TitanCharString");
 		aData.addBuiltinTypeImport("TTCN_Logger.data_log_format_t");
-		
+
 		expression.preamble.append( "//TODO: initial implement, original: Logger_Format_Scope\n" );
 		expression.preamble.append("TTCN_Logger.set_log_format(data_log_format_t.LF_TTCN);\n");
 		expression.preamble.append( "TTCN_Logger.begin_event_log2str();\n");
@@ -243,7 +243,7 @@ public class Ttcn2StringExpression extends Expression_Value {
 			expression.preamble.append(expression2.preamble);
 			expression.preamble.append(expression2.expression);
 		}
-		
+
 		final String tempId = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TTCN_Logger.end_event_log2str();\n", tempId));
 		expression.preamble.append("TTCN_Logger.set_log_format(data_log_format_t.LF_LEGACY);\n");
