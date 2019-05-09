@@ -19,6 +19,7 @@ import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
@@ -74,7 +75,7 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 		module.accept(visitor);
 		final Type component = visitor.component;
 		if (component == null) {
-			TITANConsole.println("Could not identify the component.");
+			TITANConsole.println("Could not find a component under the selection.");
 
 			return null;
 		}
@@ -101,10 +102,17 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 			if (node instanceof Def_Type) {
 				Def_Type tyepDefinition = (Def_Type) node;
 				Location location = tyepDefinition.getLocation();
+				Type type = tyepDefinition.getType(CompilationTimeStamp.getBaseTimestamp());
 
 				if (location.containsOffset(offset)) {
+					if (type.getTypetype() != Type_type.TYPE_COMPONENT) {
+						TITANConsole.println("The type selected ('" + tyepDefinition.getIdentifier().getDisplayName() + "') is not a component.");
+
+						return V_CONTINUE;
+					}
+
 					TITANConsole.println("Component : " + tyepDefinition.getIdentifier().getDisplayName());
-					component = tyepDefinition.getType(CompilationTimeStamp.getBaseTimestamp());
+					component = type;
 
 					return V_CONTINUE;
 				}
