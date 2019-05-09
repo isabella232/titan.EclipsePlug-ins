@@ -690,7 +690,7 @@ public final class PortGenerator {
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
-				source.append(MessageFormat.format("public abstract void outgoing_call(final {0}_call call_par", info.mJavaTypeName));
+				source.append(MessageFormat.format("\t\tpublic abstract void outgoing_call(final {0}_call call_par", info.mJavaTypeName));
 				if (portDefinition.testportType == TestportType.ADDRESS) {
 					source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 				}
@@ -703,7 +703,7 @@ public final class PortGenerator {
 				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (!info.isNoBlock) {
-					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
+					source.append(MessageFormat.format("\t\tpublic abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
@@ -717,7 +717,7 @@ public final class PortGenerator {
 				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (info.hasExceptions) {
-					source.append(MessageFormat.format("public abstract void outgoing_raise(final {0}_exception raise_exception", info.mJavaTypeName));
+					source.append(MessageFormat.format("\t\tpublic abstract void outgoing_raise(final {0}_exception raise_exception", info.mJavaTypeName));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
@@ -731,17 +731,17 @@ public final class PortGenerator {
 
 		if (portDefinition.portType == PortType.PROVIDER) {
 			for (int i = 0; i < portDefinition.outMessages.size(); i++) {
-				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par", portDefinition.outMessages.get(i).mJavaTypeName));
+				source.append(MessageFormat.format("\t\tpublic void outgoing_public_send(final {0} send_par", portDefinition.outMessages.get(i).mJavaTypeName));
 				if (portDefinition.realtime) {
 					source.append(", final TitanFloat timestamp_redirect");
 				}
 				source.append(") {\n");
-				source.append("outgoing_send(send_par");
+				source.append("\t\t\toutgoing_send(send_par");
 				if (portDefinition.realtime) {
 					source.append(", timestamp_redirect");
 				}
 				source.append(");\n");
-				source.append("}\n\n");
+				source.append("\t\t}\n\n");
 			}
 		}
 
