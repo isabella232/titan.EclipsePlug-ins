@@ -2428,7 +2428,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tdefault:\n");
-		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying an uninitialized/unsupported template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tset_selection(other_value);\n");
 		source.append("\t\t}\n");

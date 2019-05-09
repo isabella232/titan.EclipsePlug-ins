@@ -23,6 +23,7 @@ import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.data_log_format_t;
 import org.eclipse.titan.runtime.core.cfgparser.RuntimeCfgParser;
 
 
@@ -1298,8 +1299,11 @@ public class TitanCharString extends Base_Type {
 	 * */
 	public static TitanCharString ttcn_to_string(final Base_Type ttcn_data) {
 		//TODO check for formatting issues
+		//TODO: initial implement, original: Logger_Format_Scope
+		TTCN_Logger.set_log_format(data_log_format_t.LF_TTCN);
 		TTCN_Logger.begin_event_log2str();
 		ttcn_data.log();
+		TTCN_Logger.set_log_format(data_log_format_t.LF_LEGACY);
 		return TTCN_Logger.end_event_log2str();
 	}
 

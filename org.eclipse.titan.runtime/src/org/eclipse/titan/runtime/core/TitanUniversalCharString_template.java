@@ -1123,6 +1123,10 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			param.type_error("universal charstring template");
 			break;
 		}
+		is_ifPresent = param.get_ifpresent();
+		if (param.get_length_restriction() != null) {
+			set_length_range(param);
+		}
 	}
 
 	@Override
