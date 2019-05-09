@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2000-2018 Ericsson Telecom AB
+ Copyright (c) 2000-2019 Ericsson Telecom AB
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v2.0
@@ -207,10 +207,9 @@
     <command categoryId="org.eclipse.titanium.commands.Commands"
       description="Add necessary and remove unused imports. Effects of this action can be tuned in the Titanium &gt; Imports preference page."
       id="org.eclipse.titanium.commands.OrganizeImportsCommand" name="Organize imports" />
-	   <command categoryId="org.eclipse.titanium.commands.Commands"
+    <command categoryId="org.eclipse.titanium.commands.Commands"
       description="Show what is running on this component"
       id="org.eclipse.titanium.commands.ShowComponentCommand" name="Show Component" />
-	  
     <command categoryId="org.eclipse.titanium.commands.Commands"
       description="Check a module for code smells" id="org.eclipse.titanium.commands.CheckCodeSmellsCommand"
       defaultHandler="org.eclipse.titanium.actions.CheckCodeSmells"
@@ -251,7 +250,7 @@
     <command defaultHandler="org.eclipse.titanium.actions.OrganizeFromEditor"
       id="org.eclipse.titanium.commands.OrganizeImports" name="OrganizeImports">
     </command>
-	 <command defaultHandler="org.eclipse.titanium.actions.ShowComponentFromEditor"
+    <command defaultHandler="org.eclipse.titanium.actions.ShowComponentFromEditor"
       id="org.eclipse.titanium.commands.ShowComponent" name="ShowComponent">
     </command>
     <command defaultHandler="org.eclipse.titanium.actions.ExportComponentTopologyFromEditor"
@@ -265,7 +264,7 @@
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
       sequence="CTRL+SHIFT+O" />
-	  <key commandId="org.eclipse.titanium.commands.ShowComponentCommand"
+    <key commandId="org.eclipse.titanium.commands.ShowComponentCommand"
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
       sequence="CTRL+SHIFT+Y" />
@@ -454,12 +453,10 @@
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.OrganizeImports"
           label="Organize imports">
         </command>
-		
-		<command commandId="org.eclipse.titanium.commands.ShowComponent"
+        <command commandId="org.eclipse.titanium.commands.ShowComponent"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ShowComponent"
           label="Show What is running on this component">
         </command>
-		
         <command commandId="org.eclipse.titanium.commands.ComponentTopology"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentTopology"
           label="Export component topology">
@@ -483,5 +480,4 @@
       </run>
     </application>
   </extension>
-  
 </plugin>
