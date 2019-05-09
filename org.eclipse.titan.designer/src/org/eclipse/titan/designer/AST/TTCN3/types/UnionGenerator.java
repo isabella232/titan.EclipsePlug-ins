@@ -3,7 +3,6 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
