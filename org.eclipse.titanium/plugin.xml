@@ -208,7 +208,7 @@
       description="Add necessary and remove unused imports. Effects of this action can be tuned in the Titanium &gt; Imports preference page."
       id="org.eclipse.titanium.commands.OrganizeImportsCommand" name="Organize imports" />
     <command categoryId="org.eclipse.titanium.commands.Commands"
-      description="Show what is running on this component"
+      description="List what is running on this component"
       id="org.eclipse.titanium.commands.ShowComponentCommand" name="Show Component" />
     <command categoryId="org.eclipse.titanium.commands.Commands"
       description="Check a module for code smells" id="org.eclipse.titanium.commands.CheckCodeSmellsCommand"
@@ -455,7 +455,7 @@
         </command>
         <command commandId="org.eclipse.titanium.commands.ShowComponent"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ShowComponent"
-          label="Show What is running on this component">
+          label="List what is running on this component">
         </command>
         <command commandId="org.eclipse.titanium.commands.ComponentTopology"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentTopology"
