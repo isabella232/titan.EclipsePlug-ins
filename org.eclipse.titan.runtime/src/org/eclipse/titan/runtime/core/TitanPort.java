@@ -178,6 +178,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			init(nof_params);
 		}
 
+		/**
+		 * Sets the string representation of parameter at the provided
+		 * index to be the one in the provided param.
+		 *
+		 * @param index
+		 *                the index of the parameter to set.
+		 * @param param
+		 *                the string representation of the value to set.
+		 * */
 		public void set_param(final int index, final TitanCharString param) {
 			if (index >= nof_params) {
 				throw new TtcnError("Map/unmap parameter index out of bounds");
@@ -186,10 +195,25 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			params.set(index, param);
 		}
 
+		/**
+		 * Returns the number of parameters in the object. This will
+		 * either be zero (if the {@code map} or {@code unmap} operation had no
+		 * {@code param} clause) or the number of parameters specified in the
+		 * system port type definition's {@code map param} or {@code unmap param}
+		 * clause.
+		 *
+		 * @return the number of parameters
+		 * */
 		public int get_nof_params() {
 			return nof_params;
 		}
 
+		/**
+		 * @param index
+		 *                the index of the parameter to retrieve.
+		 * @return the string representation of the parameter at the
+		 *         provided index.
+		 * */
 		public TitanCharString get_param(final int index) {
 			if (index >= nof_params) {
 				throw new TtcnError("Map/unmap parameter index out of bounds");
@@ -219,12 +243,28 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private final ArrayList<String> system_mappings = new ArrayList<String>();
 	private final LinkedList<port_connection> connection_list = new LinkedList<TitanPort.port_connection>();
 
+	/**
+	 * Constructor.
+	 * <p>
+	 * The name of the port is set to "<unknown>". The port is not start or
+	 * active.
+	 *
+	 * @param portName
+	 *                the name of the port to be used, {@code null} can be
+	 *                used to indicate unnamed ports.
+	 * */
 	public TitanPort(final String portName) {
 		this.port_name = portName == null ? "<unknown>" : portName;
 		is_active = false;
 		is_started = false;
 	}
 
+	/**
+	 * Default constructor.
+	 *<p>
+	 * The name of the port is set to "<unknown>".
+	 * The port is not start or active.
+	 * */
 	protected TitanPort() {
 		port_name = "<unknown>";
 		is_active = false;
@@ -232,6 +272,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		is_halted = false;
 	}
 
+	/**
+	 * @return the name of the Test Port.
+	 * */
 	public String get_name() {
 		return port_name;
 	}
@@ -355,6 +398,20 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		PORT_PARAMETERS.get().clear();
 	}
 
+	/**
+	 * Apply port parameters to a component.
+	 * <p>
+	 * Iterates through all known port parameters and applies them if the
+	 * parameter's component identifier equals the component's
+	 * identifier, or the parameter is set to be applied to all components.
+	 * <p>
+	 * Called when a new component is initialized.
+	 *
+	 * @param component_reference
+	 *                the reference number of the component.
+	 * @param component_name
+	 *                the name of the component.
+	 * */
 	public static void set_parameters(final int component_reference, final String component_name) {
 		for (final Port_Parameter parameter : PORT_PARAMETERS.get()) {
 			switch (parameter.component_id.id_selector) {
@@ -1050,6 +1107,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
+	/**
+	 * Set the provided Test Port parameter for this Test Port instance.
+	 *
+	 * @param parameter_name
+	 *                the name of the parameter.
+	 * @param parameter_value
+	 *                the value of the parameter.
+	 * */
 	public void set_parameter(final String parameter_name, final String parameter_value) {
 		TtcnError.TtcnWarning(MessageFormat.format("Test port parameter {0} is not supported on port {1}.", parameter_name, port_name));
 	}
@@ -1097,18 +1162,58 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		throw new TtcnError(MessageFormat.format("There is no Handle_Timeout member function implemented in port {0}. This method has to be implemented in the port if the port waits for timeouts unless the port uses Install_Handler to specify the timeout.", get_name()));
 	}
 
+	/**
+	 * This function is called during the mapping of this port. It allows
+	 * users to implement the specific way mapping of this port to the
+	 * provided system port, should be done, when the map operation has
+	 * no parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to map to.
+	 * */
 	protected void user_map(final String system_port) {
 		user_map(system_port, new Map_Params(0));
 	}
 
+	/**
+	 * This function is called during the mapping of this port. It allows
+	 * users to implement the specific way mapping of this port to the
+	 * provided system port, should be done, using the provided map
+	 * parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to map to.
+	 * @param params
+	 *                the parameters passed to the map statement.
+	 * */
 	protected void user_map(final String system_port, final Map_Params params) {
 		//default implementation is empty
 	}
 
+	/**
+	 * This function is called during the unmapping of this port. It allows
+	 * users to implement the specific way unmapping of this port from the
+	 * provided system port, should be done, when the unmap operation has
+	 * no parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to unmap from.
+	 * */
 	protected void user_unmap(final String system_port) {
 		user_unmap(system_port, new Map_Params(0));
 	}
 
+	/**
+	 * This function is called during the unmapping of this port. It allows
+	 * users to implement the specific way unmapping of this port from the
+	 * provided system port, should be done, using the provided unmap
+	 * parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to unmap from.
+	 * @param params
+	 *                the parameters passed to the unmap statement.
+	 * */
 	protected void user_unmap(final String system_port, final Map_Params params) {
 		//default implementation is empty
 	}
@@ -1748,6 +1853,21 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Maps this Test Port to the provided system port, with the provided
+	 * parameters.
+	 * <p>
+	 * Implements the test port dependent part of the map statement. Calls
+	 * the user_map function for the specific implementation of mapping.
+	 *
+	 * @param system_port
+	 *                the name of the system port to map to.
+	 * @param params
+	 *                the parameters passed to the map statement.
+	 * @param translation
+	 *                {@code true} if the port is a translation port,
+	 *                {@code false} otherwise.
+	 * */
 	private final void map(final String system_port, final Map_Params params, final boolean translation) {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", port_name));
@@ -1788,6 +1908,21 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Unmaps this Test Port to the provided system port, with the provided
+	 * parameters.
+	 * <p>
+	 * Implements the test port dependent part of the unmap statement. Calls
+	 * the user_unmap function for the specific implementation of mapping.
+	 *
+	 * @param system_port
+	 *                the name of the system port to unmap from.
+	 * @param params
+	 *                the parameters passed to the unmap statement.
+	 * @param translation
+	 *                {@code true} if the port is a translation port,
+	 *                {@code false} otherwise.
+	 * */
 	private final void unmap(final String system_port, final Map_Params params, final boolean translation) {
 		int deletion_position;
 		for (deletion_position = 0; deletion_position < system_mappings.size(); deletion_position++) {
