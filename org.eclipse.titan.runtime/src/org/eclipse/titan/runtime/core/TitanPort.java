@@ -561,6 +561,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Starts this Test Port.
+	 * <p>
+	 * Implements the test port dependent part of the port start operation.
+	 * */
 	public void start() {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be started.", port_name));
@@ -589,6 +594,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Stops this Test Port.
+	 * <p>
+	 * Implements the test port dependent part of the port stop operation.
+	 * */
 	public void stop() {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be stopped.", port_name));
@@ -1218,10 +1228,20 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		//default implementation is empty
 	}
 
+	/**
+	 * This function is called during the starting of this port. It allows
+	 * users to implement the specific way starting of this port, should be
+	 * done.
+	 * */
 	protected void user_start(){
 		//default implementation is empty
 	}
 
+	/**
+	 * This function is called during the stopping of this port. It allows
+	 * users to implement the specific way stopping of this port, should be
+	 * done.
+	 * */
 	protected void user_stop() {
 		//default implementation is empty
 	}
