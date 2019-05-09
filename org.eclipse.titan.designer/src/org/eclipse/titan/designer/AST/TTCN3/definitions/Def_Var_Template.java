@@ -495,6 +495,7 @@ public final class Def_Var_Template extends Definition {
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			final Array_Type arrayType =  (Array_Type) type;
 			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+			arrayType.generateCodeValue(aData, sbforTemp);
 			arrayType.generateCodeTemplate(aData, sbforTemp);
 		}
 
