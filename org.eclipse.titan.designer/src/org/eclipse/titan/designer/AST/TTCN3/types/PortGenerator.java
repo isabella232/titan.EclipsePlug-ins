@@ -534,23 +534,31 @@ public final class PortGenerator {
 				if (!found) {
 					// Internal ports with translation capability do not need the implementable outgoing_send functions.
 					if (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy) {
-						source.append("\t\t/**\n");
-						source.append(MessageFormat.format("\t\t * Sends a(n) {0} message to the system (SUT).\n", outMessage.mDisplayName));
-						source.append("\t\t * <p>\n");
-						source.append("\t\t * Will also be called if the port does not have connections or mappings,\n");
-						source.append("\t\t * but a message is sent on it.\n");
-						source.append("\t\t *\n");
-						source.append("\t\t * @param send_par\n");
-						source.append("\t\t *            the value to be sent.\n");
-						source.append("\t\t * */\n");
-						source.append(MessageFormat.format("\t\tprotected abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
+						final StringBuilder comment = new StringBuilder();
+						final StringBuilder body = new StringBuilder();
+						comment.append("\t\t/**\n");
+						comment.append(MessageFormat.format("\t\t * Sends a(n) {0} message to the system (SUT).\n", outMessage.mDisplayName));
+						comment.append("\t\t * <p>\n");
+						comment.append("\t\t * Will also be called if the port does not have connections or mappings,\n");
+						comment.append("\t\t * but a message is sent on it.\n");
+						comment.append("\t\t *\n");
+						comment.append("\t\t * @param send_par\n");
+						comment.append("\t\t *            the value to be sent.\n");
+						body.append(MessageFormat.format("\t\tprotected abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
-							source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+							comment.append("\t\t * @param destination_address\n");
+							comment.append("\t\t *            the address to send the message to.\n");
+							body.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 						}
 						if (portDefinition.realtime) {
-							source.append(", final TitanFloat timestamp_redirect");
+							comment.append("\t\t * @param timestamp_redirect\n");
+							comment.append("\t\t *            the redirected timestamp if any.\n");
+							body.append(", final TitanFloat timestamp_redirect");
 						}
-						source.append(");\n\n");
+						comment.append("\t\t * */\n");
+						body.append(");\n\n");
+						source.append(comment);
+						source.append(body);
 					}
 
 					// When port translation is enabled
@@ -699,41 +707,83 @@ public final class PortGenerator {
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
-				source.append(MessageFormat.format("\t\tpublic abstract void outgoing_call(final {0}_call call_par", info.mJavaTypeName));
+				final StringBuilder comment = new StringBuilder();
+				final StringBuilder body = new StringBuilder();
+				comment.append("\t\t/**\n");
+				comment.append(MessageFormat.format("\t\t * Calls a(n) {0} signature of the system (SUT).\n", info.mDisplayName));
+				comment.append("\t\t *\n");
+				comment.append("\t\t * @param call_par\n");
+				comment.append("\t\t *            the signature to be called\n");
+				body.append(MessageFormat.format("\t\tpublic abstract void outgoing_call(final {0}_call call_par", info.mJavaTypeName));
 				if (portDefinition.testportType == TestportType.ADDRESS) {
-					source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+					comment.append("\t\t * @param destination_address\n");
+					comment.append("\t\t *            the address to call the signature on.\n");
+					body.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 				}
 				if (portDefinition.realtime) {
-					source.append(", final TitanFloat timestamp_redirect");
+					comment.append("\t\t * @param timestamp_redirect\n");
+					comment.append("\t\t *            the redirected timestamp if any.\n");
+					body.append(", final TitanFloat timestamp_redirect");
 				}
-				source.append(");\n");
+				comment.append("\t\t * */\n");
+				body.append(");\n\n");
+				source.append(comment);
+				source.append(body);
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (!info.isNoBlock) {
-					source.append(MessageFormat.format("\t\tpublic abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
+					final StringBuilder comment = new StringBuilder();
+					final StringBuilder body = new StringBuilder();
+					comment.append("\t\t/**\n");
+					comment.append(MessageFormat.format("\t\t * Replies to a(n) {0} signature of the system (SUT).\n", info.mDisplayName));
+					comment.append("\t\t *\n");
+					comment.append("\t\t * @param reply_template\n");
+					comment.append("\t\t *            the signature to be replied\n");
+					body.append(MessageFormat.format("\t\tpublic abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
-						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+						comment.append("\t\t * @param destination_address\n");
+						comment.append("\t\t *            the address to reply to.\n");
+						body.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
 					if (portDefinition.realtime) {
-						source.append(", final TitanFloat timestamp_redirect");
+						comment.append("\t\t * @param timestamp_redirect\n");
+						comment.append("\t\t *            the redirected timestamp if any.\n");
+						body.append(", final TitanFloat timestamp_redirect");
 					}
-					source.append(");\n");
+					comment.append("\t\t * */\n");
+					body.append(");\n\n");
+					source.append(comment);
+					source.append(body);
 				}
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (info.hasExceptions) {
-					source.append(MessageFormat.format("\t\tpublic abstract void outgoing_raise(final {0}_exception raise_exception", info.mJavaTypeName));
+					final StringBuilder comment = new StringBuilder();
+					final StringBuilder body = new StringBuilder();
+					comment.append("\t\t/**\n");
+					comment.append(MessageFormat.format("\t\t * Raise the exception of {0} signature of the system (SUT).\n", info.mDisplayName));
+					comment.append("\t\t *\n");
+					comment.append("\t\t * @param raise_exception\n");
+					comment.append("\t\t *            the exception to be raised\n");
+					body.append(MessageFormat.format("\t\tpublic abstract void outgoing_raise(final {0}_exception raise_exception", info.mJavaTypeName));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
-						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+						comment.append("\t\t * @param destination_address\n");
+						comment.append("\t\t *            the address to raise the exception to.\n");
+						body.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 					}
 					if (portDefinition.realtime) {
-						source.append(", final TitanFloat timestamp_redirect");
+						comment.append("\t\t * @param timestamp_redirect\n");
+						comment.append("\t\t *            the redirected timestamp if any.\n");
+						body.append(", final TitanFloat timestamp_redirect");
 					}
-					source.append(");\n");
+					comment.append("\t\t * */\n");
+					body.append(");\n\n");
+					source.append(comment);
+					source.append(body);
 				}
 			}
 		}
@@ -2500,6 +2550,19 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Calls a(n) {0} signature on the provided component.\n", info.mDisplayName));
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+		source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param call_template\n");
+		source.append("\t\t *            the signature to be called\n");
+		source.append("\t\t * @param destination_component\n");
+		source.append("\t\t *            the target component to send the message to.\n");
+		source.append("\t\t * @param timestamp_redirect\n");
+		source.append("\t\t *            the redirected timestamp if any.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tpublic void call(final {0}_template call_template, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 		source.append("\t\t\tif (!is_started) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", get_name()));\n");
@@ -2559,6 +2622,17 @@ public final class PortGenerator {
 			source.append("\t\t}\n\n");
 		}
 
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Calls a(n) {0} signature on the default component.\n", info.mDisplayName));
+		source.append("\t\t * <p>\n");
+		source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+		source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param call_template\n");
+		source.append("\t\t *            the signature to be called\n");
+		source.append("\t\t * @param timestamp_redirect\n");
+		source.append("\t\t *            the redirected timestamp if any.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tpublic void call(final {0}_template call_template, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 		source.append("\t\t\tcall(call_template, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 		source.append("\t\t}\n\n");
@@ -2576,6 +2650,19 @@ public final class PortGenerator {
 	 * */
 	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (!info.isNoBlock) {
+			source.append("\t\t/**\n");
+			source.append(MessageFormat.format("\t\t * Replies to a(n) {0} signature on the provided component.\n", info.mDisplayName));
+			source.append("\t\t * <p>\n");
+			source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+			source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param reply_template\n");
+			source.append("\t\t *            the signature to be replied\n");
+			source.append("\t\t * @param destination_component\n");
+			source.append("\t\t *            the target component to send the message to.\n");
+			source.append("\t\t * @param timestamp_redirect\n");
+			source.append("\t\t *            the redirected timestamp if any.\n");
+			source.append("\t\t * */\n");
 			source.append(MessageFormat.format("\t\tpublic void reply(final {0}_template reply_template, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("\t\t\tif (!is_started) {\n");
 			source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", get_name()));\n");
@@ -2634,6 +2721,17 @@ public final class PortGenerator {
 				source.append("\t\t}\n\n");
 			}
 
+			source.append("\t\t/**\n");
+			source.append(MessageFormat.format("\t\t * Replies to a(n) {0} signature on the default component.\n", info.mDisplayName));
+			source.append("\t\t * <p>\n");
+			source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+			source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param reply_template\n");
+			source.append("\t\t *            the signature to be replied\n");
+			source.append("\t\t * @param timestamp_redirect\n");
+			source.append("\t\t *            the redirected timestamp if any.\n");
+			source.append("\t\t * */\n");
 			source.append(MessageFormat.format("\t\tpublic void reply(final {0}_template reply_template, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("\t\t\treply(reply_template, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 			source.append("\t\t}\n\n");
@@ -2652,6 +2750,19 @@ public final class PortGenerator {
 	 * */
 	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (info.hasExceptions) {
+			source.append("\t\t/**\n");
+			source.append(MessageFormat.format("\t\t * Raise the exception of {0} signature on the provided component.\n", info.mDisplayName));
+			source.append("\t\t * <p>\n");
+			source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+			source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param raise_exception\n");
+			source.append("\t\t *            the exception to be raised\n");
+			source.append("\t\t * @param destination_component\n");
+			source.append("\t\t *            the target component to send the message to.\n");
+			source.append("\t\t * @param timestamp_redirect\n");
+			source.append("\t\t *            the redirected timestamp if any.\n");
+			source.append("\t\t * */\n");
 			source.append(MessageFormat.format("\t\tpublic void raise(final {0}_exception raise_exception, final TitanComponent destination_component, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("\t\t\tif (!is_started) {\n");
 			source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", get_name()));\n");
@@ -2708,6 +2819,17 @@ public final class PortGenerator {
 				source.append("\t\t}\n\n");
 			}
 
+			source.append("\t\t/**\n");
+			source.append(MessageFormat.format("\t\t * Raise the exception of {0} signature on the default component.\n", info.mDisplayName));
+			source.append("\t\t * <p>\n");
+			source.append("\t\t * When timestamp redirection is support the timestamp will be made\n");
+			source.append("\t\t * available in the timestamp_Redirect parameter.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param raise_exception\n");
+			source.append("\t\t *            the exception to be raised\n");
+			source.append("\t\t * @param timestamp_redirect\n");
+			source.append("\t\t *            the redirected timestamp if any.\n");
+			source.append("\t\t * */\n");
 			source.append(MessageFormat.format("\t\tpublic void raise(final {0}_exception raise_exception, final TitanFloat timestamp_redirect) '{'\n", info.mJavaTypeName));
 			source.append("\t\t\traise(raise_exception, new TitanComponent(get_default_destination()), timestamp_redirect);\n");
 			source.append("\t\t}\n\n");
