@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.consoles.TITANConsole;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor;
 import org.eclipse.titan.designer.editors.ttcnppeditor.TTCNPPEditor;
@@ -73,7 +74,7 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 		TITANConsole.println("** What is running on this component** ");
 		final ComponentFinderVisitor visitor = new ComponentFinderVisitor(offset);
 		module.accept(visitor);
-		final Type component = visitor.component;
+		final Component_Type component = visitor.component;
 		if (component == null) {
 			TITANConsole.println("Could not find a component under the selection.");
 
@@ -89,7 +90,7 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 
 	// Component Visitor
 	private static class ComponentFinderVisitor extends ASTVisitor {
-		Type component;
+		Component_Type component;
 		int offset;
 
 		public ComponentFinderVisitor(int offset) {
@@ -112,7 +113,7 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 					}
 
 					TITANConsole.println("Component : " + tyepDefinition.getIdentifier().getDisplayName());
-					component = type;
+					component = (Component_Type)type;
 
 					return V_CONTINUE;
 				}
@@ -124,9 +125,9 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 
 	//Function Visitor 	
 	private static class FunctionFinderVisitor extends ASTVisitor {
-		Type component;
+		Component_Type component;
 
-		public FunctionFinderVisitor(Type component) {
+		public FunctionFinderVisitor(Component_Type component) {
 			super();
 			this.component = component;
 		}
