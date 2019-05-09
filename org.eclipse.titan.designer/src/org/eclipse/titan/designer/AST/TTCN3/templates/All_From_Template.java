@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Referenced_ActualParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Template_ActualParameter;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
@@ -218,6 +219,9 @@ public class All_From_Template extends TTCN3Template {
 				switch (referredType.getTypetype()) {
 				case TYPE_SEQUENCE_OF:
 					it = ((SequenceOf_Type) referredType).getOfType();
+					break;
+				case TYPE_ARRAY:
+					it = ((Array_Type) referredType).getElementType();
 					break;
 				case TYPE_SET_OF:
 					it = ((SetOf_Type) referredType).getOfType();
