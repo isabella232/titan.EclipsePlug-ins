@@ -70,13 +70,19 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 		}
 
 		TITANConsole.println("** What is running on this component** ");
-		Type component = null;
 		final ComponentFinderVisitor visitor = new ComponentFinderVisitor(offset);
 		module.accept(visitor);
-		component = visitor.component;
+		final Type component = visitor.component;
+		if (component == null) {
+			TITANConsole.println("Could not identify the component.");
+
+			return null;
+		}
+
 		TITANConsole.println("Running on this component :");
 		final FunctionFinderVisitor fun_visitor = new FunctionFinderVisitor(component);
 		module.accept(fun_visitor);
+
 		return null;
 	}
 
