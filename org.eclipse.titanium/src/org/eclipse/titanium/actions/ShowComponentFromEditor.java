@@ -39,7 +39,7 @@ import org.eclipse.ui.PlatformUI;
  * Show what is running on a selected component, which can be called while
  * editing a ttcn3 file.
  *
- *
+ * @author Houssem Bahbah
  */
 public final class ShowComponentFromEditor extends AbstractHandler {
 	@Override
