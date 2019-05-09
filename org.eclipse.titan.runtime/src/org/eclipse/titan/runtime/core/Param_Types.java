@@ -398,7 +398,7 @@ public final class Param_Types {
 		}
 
 		public void type_error(final String expected, final String type_name) {
-			//TODO: implement
+			 error(String.format("Type mismatch: %s was expected instead of %s.", expected, type_name));
 		}
 
 		public void type_error(final String expected) {
@@ -406,9 +406,8 @@ public final class Param_Types {
 		}
 
 		public void expr_type_error(final String type_name) {
-			throw new TtcnError(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
+			error(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
 		}
-		//TODO: error functions, now we throw a TtcnError 
 	}
 
 	/**
