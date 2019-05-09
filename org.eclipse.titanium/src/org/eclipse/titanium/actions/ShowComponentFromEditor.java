@@ -44,41 +44,29 @@ import org.eclipse.ui.PlatformUI;
 public final class ShowComponentFromEditor extends AbstractHandler {
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.getActiveEditor();
+		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 
 		if (editor == null || !(editor instanceof TTCN3Editor || editor instanceof TTCNPPEditor)) {
 			ErrorReporter.logError("The editor is not found or not a Titan TTCN-3 editor");
 			return null;
 		}
 
-		// File
 		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
-
-		// module
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
-
 		final Module module = projectSourceParser.containedModule(file);
 
 		int offset;
 		ISelection selection = null;
 		if (editor instanceof TTCN3Editor) {
-
 			selection = ((TTCN3Editor) editor).getSelectionProvider().getSelection();
-
 		}
 
 		if (selection instanceof TextSelection && !selection.isEmpty()
 				&& !"".equals(((TextSelection) selection).getText())) {
-
 			final TextSelection tSelection = (TextSelection) selection;
-
 			offset = tSelection.getOffset() + tSelection.getLength();
-
 		} else {
-
 			offset = ((TTCN3Editor) editor).getCarretOffset();
-
 		}
 
 		TITANConsole.println("** What is running on this component** ");
@@ -93,9 +81,7 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 	}
 
 	// Component Visitor
-	private static class ComponentFinderVisitor extends ASTVisitor
-
-	{
+	private static class ComponentFinderVisitor extends ASTVisitor {
 		Type component;
 		int offset;
 
@@ -111,14 +97,16 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 				if (location.containsOffset(offset)) {
 					TITANConsole.println("Component : " + ((Def_Type) node).getIdentifier().getDisplayName());
 					component = ((Def_Type) node).getType(CompilationTimeStamp.getBaseTimestamp());
+
 					return V_CONTINUE;
 				}
 			}
+
 			return V_CONTINUE;
 		}
 	}
 
-//Function Visitor 	
+	//Function Visitor 	
 	private static class FunctionFinderVisitor extends ASTVisitor {
 		Type component;
 
@@ -129,21 +117,21 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 
 		@Override
 		public int visit(IVisitableNode node) {
-
 			if (node instanceof Def_Function) {
-
 				if (((Def_Function) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
 					TITANConsole.println(((Def_Function) node).getIdentifier().getDisplayName());
+
 					return V_CONTINUE;
 				}
-
 			} else if (node instanceof Def_Testcase) {
 
 				if (((Def_Testcase) node).getRunsOnType(CompilationTimeStamp.getBaseTimestamp()) == component) {
 					TITANConsole.println(((Def_Testcase) node).getIdentifier().getDisplayName());
+
 					return V_CONTINUE;
 				}
 			}
+
 			return V_CONTINUE;
 		}
 	}
