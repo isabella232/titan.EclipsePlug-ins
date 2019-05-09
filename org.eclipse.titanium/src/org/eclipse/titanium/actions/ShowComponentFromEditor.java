@@ -11,10 +11,13 @@ package org.eclipse.titanium.actions;
  * @author Houssem Bahba
  * */
 
+import java.util.Set;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
@@ -55,7 +58,8 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 		}
 
 		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
-		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+		final IProject project = file.getProject();
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		final Module module = projectSourceParser.containedModule(file);
 
 		int offset;
@@ -84,7 +88,12 @@ public final class ShowComponentFromEditor extends AbstractHandler {
 
 		TITANConsole.println("Running on this component :");
 		final FunctionFinderVisitor fun_visitor = new FunctionFinderVisitor(component);
-		module.accept(fun_visitor);
+
+		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
+		for (final String moduleName : knownModuleNames) {
+			final Module searchModule = projectSourceParser.getModuleByName(moduleName);
+			searchModule.accept(fun_visitor);
+		}
 
 		return null;
 	}
