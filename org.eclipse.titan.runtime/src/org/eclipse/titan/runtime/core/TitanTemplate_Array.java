@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -783,19 +784,21 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 
 	@Override
 	public void set_param(final Module_Parameter param) {
-		if (param.get_id() != null && param.get_id().next_name()) {
-			// Haven't reached the end of the module parameter name
-			// => the name refers to one of the elements, not to the whole array
-			final String param_field = param.get_id().get_current_name();
-			if (param_field.charAt(0) < '0' || param_field.charAt(0) > '9') {
-				param.error("Unexpected record field name in module parameter, expected a valid array template index");
+		if (param.get_id() != null) {
+			if(param.get_id().getClass().equals(Module_Param_Name.class) && param.get_id().next_name()) {		
+				// Haven't reached the end of the module parameter name
+				// => the name refers to one of the elements, not to the whole array
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) < '0' || param_field.charAt(0) > '9') {
+					param.error("Unexpected record field name in module parameter, expected a valid array template index");
+				}
+				final int param_index = Integer.parseInt(param_field);
+				if (param_index >= array_size) {
+					param.error("Invalid array index: %u. The array only has %u elements.", param_index, array_size);
+				}
+				this.get_at(param_index).set_param(param);
+				return;
 			}
-			final int param_index = Integer.parseInt(param_field);
-			if (param_index >= array_size) {
-				param.error("Invalid array index: %u. The array only has %u elements.", param_index, array_size);
-			}
-			this.get_at(param_index).set_param(param);
-			return;
 		}
 
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "array template");
