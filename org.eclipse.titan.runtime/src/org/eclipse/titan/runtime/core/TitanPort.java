@@ -1364,6 +1364,23 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Handles the messages arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param message_type
+	 *                the type of the message as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the message in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the message.
+	 * @param slider
+	 *                the sliding buffer of the connection if the port
+	 *                supports it, otherwise a 0 octets long octetstring.
+	 * @return {@code true} if the message could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {
 		return false;
 	}

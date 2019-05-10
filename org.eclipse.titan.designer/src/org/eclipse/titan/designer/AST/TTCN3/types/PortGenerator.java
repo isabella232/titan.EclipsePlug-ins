@@ -2494,6 +2494,7 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateProcessMessage(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("\t\t@Override\n");
 		source.append("\t\tprotected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
 		//indent first if
 		source.append("\t\t\t");
