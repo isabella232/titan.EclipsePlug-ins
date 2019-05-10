@@ -3733,6 +3733,8 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\tprotected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
+		//indent first if
+		source.append("\t\t\t");
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
@@ -3763,6 +3765,8 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessReply(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\tprotected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
+		//indent first if
+		source.append("\t\t\t");
 		boolean isFirst = true;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
@@ -3772,7 +3776,7 @@ public final class PortGenerator {
 					source.append("\t\t\t} else ");
 				}
 				isFirst = false;
-				source.append(MessageFormat.format("\t\t\tif (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
+				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
 				source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 				source.append(MessageFormat.format("\t\t\t\tincoming_reply(incoming_par, sender_component{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
@@ -3796,6 +3800,8 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessException(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\tprotected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
+		//indent first if
+		source.append("\t\t\t");
 		boolean isFirst = true;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
