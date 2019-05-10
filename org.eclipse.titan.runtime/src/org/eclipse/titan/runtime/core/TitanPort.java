@@ -1385,14 +1385,56 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return false;
 	}
 
+	/**
+	 * Handles the signature calls arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param signature_name
+	 *                the name of the signature as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the call in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the call.
+	 * @return {@code true} if the call could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
 
+	/**
+	 * Handles the signature replies arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param signature_name
+	 *                the name of the signature as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the reply in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the reply.
+	 * @return {@code true} if the reply could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
 
+	/**
+	 * Handles the signature raised exceptions arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param signature_name
+	 *                the name of the signature as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the exception in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the exception.
+	 * @return {@code true} if the exception could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}

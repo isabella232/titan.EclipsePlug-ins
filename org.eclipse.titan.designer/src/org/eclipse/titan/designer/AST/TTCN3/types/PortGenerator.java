@@ -3732,6 +3732,7 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("\t\t@Override\n");
 		source.append("\t\tprotected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		//indent first if
 		source.append("\t\t\t");
@@ -3764,6 +3765,7 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateProcessReply(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("\t\t@Override\n");
 		source.append("\t\tprotected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		//indent first if
 		source.append("\t\t\t");
@@ -3799,6 +3801,7 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateProcessException(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("\t\t@Override\n");
 		source.append("\t\tprotected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		//indent first if
 		source.append("\t\t\t");
