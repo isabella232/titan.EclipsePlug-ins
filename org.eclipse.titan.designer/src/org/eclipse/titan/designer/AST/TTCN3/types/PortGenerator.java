@@ -2495,11 +2495,14 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessMessage(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\tprotected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
+		//indent first if
+		source.append("\t\t\t");
+
 		if (portDefinition.portType == PortType.USER) {
 			for (int i = 0 ; i < portDefinition.providerInMessages.size(); i++) {
 				final MessageMappedTypeInfo inType = portDefinition.providerInMessages.get(i);
-	
-				source.append(MessageFormat.format("\t\t\tif (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+
+				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 				source.append(MessageFormat.format("\t\t\t\tincoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
@@ -2517,7 +2520,7 @@ public final class PortGenerator {
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 				final messageTypeInfo inType = portDefinition.inMessages.get(i);
 	
-				source.append(MessageFormat.format("\t\t\tif (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 				source.append(MessageFormat.format("\t\t\t\tincoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
