@@ -2291,16 +2291,36 @@ public final class PortGenerator {
 		final String typeValueName = mappedType.mJavaTypeName;
 		final boolean isSimple = (!portDefinition.legacy || (mappedType.targets.size() == 1)) && mappedType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE;
 
-		source.append(MessageFormat.format("\t\tprivate void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
+		final StringBuilder comment = new StringBuilder();
+		final StringBuilder header = new StringBuilder();
+		comment.append("\t\t/**\n");
+		comment.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", mappedType.mDisplayName));
+		comment.append("\t\t * Test Port.\n");
+		comment.append("\t\t *\n");
+		comment.append("\t\t * @param incoming_par\n");
+		comment.append("\t\t *            the value to be inserted.\n");
+		comment.append("\t\t * @param sender_component\n");
+		comment.append("\t\t *            the sender component.\n");
+		header.append(MessageFormat.format("\t\tprivate void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
 		if (portDefinition.has_sliding) {
-			source.append(", final TitanOctetString slider");
+			comment.append("\t\t * @param slider\n");
+			comment.append("\t\t *            the sliding buffer.\n");
+			header.append(", final TitanOctetString slider");
 		}
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+			comment.append("\t\t * @param sender_address\n");
+			comment.append("\t\t *            the address of the sender.\n");
+			header.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
 		if (portDefinition.realtime) {
-			source.append(", TitanFloat timestamp");
+			comment.append("\t\t * @param timestamp\n");
+			comment.append("\t\t *            the timestamp to return.\n");
+			header.append(", TitanFloat timestamp");
 		}
+		comment.append("\t\t * */\n");
+		source.append(comment);
+		source.append(header);
+
 		source.append(") {\n");
 		source.append("\t\t\tif (!is_started) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
@@ -2365,6 +2385,15 @@ public final class PortGenerator {
 
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", mappedType.mDisplayName));
+				source.append("\t\t * Test Port.\n");
+				source.append("\t\t *\n");
+				source.append("\t\t * @param incoming_par\n");
+				source.append("\t\t *            the value to be inserted.\n");
+				source.append("\t\t * @param sender_address\n");
+				source.append("\t\t *            the address of the sender.\n");
+				source.append("\t\t * */\n");
 				source.append(MessageFormat.format("\t\tprotected void incoming_message(final {0} incoming_par, final {1} sender_address) '{'\n", typeValueName, portDefinition.addressName));
 				source.append(MessageFormat.format("\t\t\tincoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, sender_address", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
@@ -2373,9 +2402,23 @@ public final class PortGenerator {
 				source.append(");\n");
 				source.append("\t\t}\n");
 
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", mappedType.mDisplayName));
+				source.append("\t\t * Test Port.\n");
+				source.append("\t\t *\n");
+				source.append("\t\t * @param incoming_par\n");
+				source.append("\t\t *            the value to be inserted.\n");
+				source.append("\t\t * */\n");
 				source.append(MessageFormat.format("\t\tprotected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
 				source.append(MessageFormat.format("\t\t\tincoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null", portDefinition.realtime ? ", new TitanFloat()":""));
 			} else {
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", mappedType.mDisplayName));
+				source.append("\t\t * Test Port.\n");
+				source.append("\t\t *\n");
+				source.append("\t\t * @param incoming_par\n");
+				source.append("\t\t *            the value to be inserted.\n");
+				source.append("\t\t * */\n");
 				source.append(MessageFormat.format("\t\tprotected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
 				source.append(MessageFormat.format("\t\t\tincoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 			}
@@ -2406,13 +2449,31 @@ public final class PortGenerator {
 	private static void generateTypedIncommingMessageProvider(final JavaGenData aData, final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		final String typeValueName = inType.mJavaTypeName;
 
-		source.append(MessageFormat.format("\t\tprivate void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
+		final StringBuilder comment = new StringBuilder();
+		final StringBuilder header = new StringBuilder();
+		comment.append("\t\t/**\n");
+		comment.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", inType.mDisplayName));
+		comment.append("\t\t * Test Port.\n");
+		comment.append("\t\t *\n");
+		comment.append("\t\t * @param incoming_par\n");
+		comment.append("\t\t *            the value to be inserted.\n");
+		comment.append("\t\t * @param sender_component\n");
+		comment.append("\t\t *            the sender component.\n");
+		header.append(MessageFormat.format("\t\tprivate void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+			comment.append("\t\t * @param sender_address\n");
+			comment.append("\t\t *            the address of the sender.\n");
+			header.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
 		if (portDefinition.realtime) {
-			source.append(", TitanFloat timestamp");
+			comment.append("\t\t * @param timestamp\n");
+			comment.append("\t\t *            the timestamp to return.\n");
+			header.append(", TitanFloat timestamp");
 		}
+		comment.append("\t\t * */\n");
+		source.append(comment);
+		source.append(header);
+
 		source.append(") {\n");
 		if (portDefinition.portType == PortType.PROVIDER) {
 			// We forward the incoming_message to the mapped port
@@ -2463,6 +2524,15 @@ public final class PortGenerator {
 
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", inType.mDisplayName));
+				source.append("\t\t * Test Port.\n");
+				source.append("\t\t *\n");
+				source.append("\t\t * @param incoming_par\n");
+				source.append("\t\t *            the value to be inserted.\n");
+				source.append("\t\t * @param sender_address\n");
+				source.append("\t\t *            the address of the sender.\n");
+				source.append("\t\t * */\n");
 				source.append(MessageFormat.format("\t\tprotected void incoming_message(final {0} incoming_par, final {1} sender_address) '{'\n", typeValueName, portDefinition.addressName));
 				source.append(MessageFormat.format("\t\t\tincoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, sender_address", portDefinition.realtime ? ", new TitanFloat()":""));
 				if (portDefinition.has_sliding) {
@@ -2471,9 +2541,23 @@ public final class PortGenerator {
 				source.append(");\n");
 				source.append("\t\t}\n");
 
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", inType.mDisplayName));
+				source.append("\t\t * Test Port.\n");
+				source.append("\t\t *\n");
+				source.append("\t\t * @param incoming_par\n");
+				source.append("\t\t *            the value to be inserted.\n");
+				source.append("\t\t * */\n");
 				source.append(MessageFormat.format("\t\tprotected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
 				source.append(MessageFormat.format("\t\t\tincoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null", portDefinition.realtime ? ", new TitanFloat()":""));
 			} else {
+				source.append("\t\t/**\n");
+				source.append(MessageFormat.format("\t\t * Inserts a message of {0} type into the incoming message queue of this\n", inType.mDisplayName));
+				source.append("\t\t * Test Port.\n");
+				source.append("\t\t *\n");
+				source.append("\t\t * @param incoming_par\n");
+				source.append("\t\t *            the value to be inserted.\n");
+				source.append("\t\t * */\n");
 				source.append(MessageFormat.format("\t\tprotected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
 				source.append(MessageFormat.format("\t\t\tincoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF{0}", portDefinition.realtime ? ", new TitanFloat()":""));
 			}
