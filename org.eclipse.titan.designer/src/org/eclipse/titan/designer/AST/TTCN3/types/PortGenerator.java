@@ -3520,13 +3520,31 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingCall(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("\t\tprotected void incoming_call(final {0}_call incoming_par, final int sender_component", info.mJavaTypeName));
+		final StringBuilder comment = new StringBuilder();
+		final StringBuilder header = new StringBuilder();
+		comment.append("\t\t/**\n");
+		comment.append(MessageFormat.format("\t\t * Inserts a procedure call of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+		comment.append("\t\t * Test Port.\n");
+		comment.append("\t\t *\n");
+		comment.append("\t\t * @param incoming_par\n");
+		comment.append("\t\t *            the value to be inserted.\n");
+		comment.append("\t\t * @param sender_component\n");
+		comment.append("\t\t *            the sender component.\n");
+		header.append(MessageFormat.format("\t\tprotected void incoming_call(final {0}_call incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+			comment.append("\t\t * @param sender_address\n");
+			comment.append("\t\t *            the address of the sender.\n");
+			header.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
 		if (portDefinition.realtime) {
-			source.append(", TitanFloat timestamp");
+			comment.append("\t\t * @param timestamp\n");
+			comment.append("\t\t *            the timestamp to return.\n");
+			header.append(", TitanFloat timestamp");
 		}
+		comment.append("\t\t * */\n");
+		source.append(comment);
+		source.append(header);
+
 		source.append(") {\n" );
 		source.append("\t\t\tif (!is_started) {\n" );
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a call has arrived on it.\", get_name()));\n");
@@ -3569,11 +3587,27 @@ public final class PortGenerator {
 		source.append("\t\t}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("\t\t/**\n");
+			source.append(MessageFormat.format("\t\t * Inserts a procedure call of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+			source.append("\t\t * Test Port.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param incoming_par\n");
+			source.append("\t\t *            the value to be inserted.\n");
+			source.append("\t\t * @param sender_component\n");
+			source.append("\t\t *            the sender component.\n");
+			source.append("\t\t * */\n");
 			source.append(MessageFormat.format("\t\tprotected void incoming_call(final {0}_call incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
-			source.append(MessageFormat.format("\t\t\tincoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
+			source.append(MessageFormat.format("\t\t\tincoming_call(incoming_par, sender_component{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
 			source.append("\t\t}\n\n");
 		}
 
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Inserts a procedure call of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+		source.append("\t\t * Test Port, coming from the system component.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param incoming_par\n");
+		source.append("\t\t *            the value to be inserted.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tprotected void incoming_call(final {0}_call incoming_par) '{'\n", info.mJavaTypeName));
 		source.append(MessageFormat.format("\t\t\tincoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 		source.append("\t\t}\n\n");
@@ -3592,13 +3626,31 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingReply(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("\t\tprotected void incoming_reply(final {0}_reply incoming_par, final int sender_component", info.mJavaTypeName));
+		final StringBuilder comment = new StringBuilder();
+		final StringBuilder header = new StringBuilder();
+		comment.append("\t\t/**\n");
+		comment.append(MessageFormat.format("\t\t * Inserts a procedure reply of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+		comment.append("\t\t * Test Port.\n");
+		comment.append("\t\t *\n");
+		comment.append("\t\t * @param incoming_par\n");
+		comment.append("\t\t *            the value to be inserted.\n");
+		comment.append("\t\t * @param sender_component\n");
+		comment.append("\t\t *            the sender component.\n");
+		header.append(MessageFormat.format("\t\tprotected void incoming_reply(final {0}_reply incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+			comment.append("\t\t * @param sender_address\n");
+			comment.append("\t\t *            the address of the sender.\n");
+			header.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
 		if (portDefinition.realtime) {
-			source.append(", TitanFloat timestamp");
+			comment.append("\t\t * @param timestamp\n");
+			comment.append("\t\t *            the timestamp to return.\n");
+			header.append(", TitanFloat timestamp");
 		}
+		comment.append("\t\t * */\n");
+		source.append(comment);
+		source.append(header);
+
 		source.append(") {\n" );
 		source.append("\t\t\tif (!is_started) {\n" );
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a reply has arrived on it.\", get_name()));\n");
@@ -3641,11 +3693,27 @@ public final class PortGenerator {
 		source.append("\t\t}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("\t\t/**\n");
+			source.append(MessageFormat.format("\t\t * Inserts a procedure reply of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+			source.append("\t\t * Test Port.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param incoming_par\n");
+			source.append("\t\t *            the value to be inserted.\n");
+			source.append("\t\t * @param sender_component\n");
+			source.append("\t\t *            the sender component.\n");
+			source.append("\t\t * */\n");
 			source.append(MessageFormat.format("\t\tprotected void incoming_reply(final {0}_reply incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
-			source.append(MessageFormat.format("\t\t\tincoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
+			source.append(MessageFormat.format("\t\t\tincoming_reply(incoming_par, sender_component{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
 			source.append("\t\t}\n\n");
 		}
 
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Inserts a procedure reply of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+		source.append("\t\t * Test Port, coming from the system component.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param incoming_par\n");
+		source.append("\t\t *            the value to be inserted.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tprotected void incoming_reply(final {0}_reply incoming_par) '{'\n", info.mJavaTypeName));
 		source.append(MessageFormat.format("\t\t\tincoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 		source.append("\t\t}\n\n");
@@ -3664,13 +3732,31 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	private static void generateTypedIcomingException(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("\t\tprotected void incoming_exception(final {0}_exception incoming_par, final int sender_component", info.mJavaTypeName));
+		final StringBuilder comment = new StringBuilder();
+		final StringBuilder header = new StringBuilder();
+		comment.append("\t\t/**\n");
+		comment.append(MessageFormat.format("\t\t * Inserts a procedure exception of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+		comment.append("\t\t * Test Port.\n");
+		comment.append("\t\t *\n");
+		comment.append("\t\t * @param incoming_par\n");
+		comment.append("\t\t *            the value to be inserted.\n");
+		comment.append("\t\t * @param sender_component\n");
+		comment.append("\t\t *            the sender component.\n");
+		header.append(MessageFormat.format("\t\tprotected void incoming_exception(final {0}_exception incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+			comment.append("\t\t * @param sender_address\n");
+			comment.append("\t\t *            the address of the sender.\n");
+			header.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
 		if (portDefinition.realtime) {
-			source.append(", TitanFloat timestamp");
+			comment.append("\t\t * @param timestamp\n");
+			comment.append("\t\t *            the timestamp to return.\n");
+			header.append(", TitanFloat timestamp");
 		}
+		comment.append("\t\t * */\n");
+		source.append(comment);
+		source.append(header);
+
 		source.append(") {\n" );
 		source.append("\t\t\tif (!is_started) {\n" );
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but an exception has arrived on it.\", get_name()));\n");
@@ -3713,11 +3799,27 @@ public final class PortGenerator {
 		source.append("\t\t}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("\t\t/**\n");
+			source.append(MessageFormat.format("\t\t * Inserts a procedure exception of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+			source.append("\t\t * Test Port.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param incoming_par\n");
+			source.append("\t\t *            the value to be inserted.\n");
+			source.append("\t\t * @param sender_component\n");
+			source.append("\t\t *            the sender component.\n");
+			source.append("\t\t * */\n");
 			source.append(MessageFormat.format("\t\tprotected void incoming_exception(final {0}_exception incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
-			source.append(MessageFormat.format("\t\t\tincoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
+			source.append(MessageFormat.format("\t\t\tincoming_exception(incoming_par, sender_component{0}, null);\n", portDefinition.realtime ? ", new TitanFloat()":""));
 			source.append("\t\t}\n\n");
 		}
 
+		source.append("\t\t/**\n");
+		source.append(MessageFormat.format("\t\t * Inserts a procedure exception of {0} signature into the incoming procedure queue of this\n", info.mDisplayName));
+		source.append("\t\t * Test Port, coming from the system component.\n");
+		source.append("\t\t *\n");
+		source.append("\t\t * @param incoming_par\n");
+		source.append("\t\t *            the value to be inserted.\n");
+		source.append("\t\t * */\n");
 		source.append(MessageFormat.format("\t\tprotected void incoming_exception(final {0}_exception incoming_par) '{'\n", info.mJavaTypeName));
 		source.append(MessageFormat.format("\t\t\tincoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
 		source.append("\t\t}\n\n");
