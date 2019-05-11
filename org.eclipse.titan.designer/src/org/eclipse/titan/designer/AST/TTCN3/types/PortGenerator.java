@@ -1216,7 +1216,7 @@ public final class PortGenerator {
 			source.append("\t\tprivate final LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
 			source.append("\t\tprivate void remove_proc_queue_head() {\n");
 			source.append("\t\t\tprocedure_queue.removeFirst();\n");
-			source.append("\t\t\tTTCN_Logger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(\"\"), new TitanCharString(\"\"));");
+			source.append("\t\t\tTTCN_Logger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(\"\"), new TitanCharString(\"\"));\n");
 			source.append("\t\t}\n\n");
 
 			source.append("\t\tprotected void clear_queue() {\n");
@@ -1698,7 +1698,7 @@ public final class PortGenerator {
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", functionName));
 			source.append("\t\t\t} else if (!sender_template.match(my_head.sender_address, false)) {\n");
 			source.append("\t\t\t\tif(TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_MMUNSUCC)) {\n");
-			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_MMUNSUCC);");
+			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_MMUNSUCC);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_event(\"Matching on port {0}: Sender address of the first message in the queue does not match the from clause: \", get_name());\n");
 			source.append("\t\t\t\t\tsender_template.log_match(my_head.sender_address, false);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
