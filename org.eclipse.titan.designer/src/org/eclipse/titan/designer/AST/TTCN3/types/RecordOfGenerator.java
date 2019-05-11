@@ -794,7 +794,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tfinal int nofElements = n_elem().get_int();\n");
+		source.append("\t\t\tfinal int nofElements = n_elem();\n");
 		source.append("\t\t\tif ( index_value >= nofElements ) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError( \"Index overflow in a value of type {0}: The index is \"+index_value+\", but the value has only \"+nofElements+\" elements.\" );\n", displayName ) );
 		source.append("\t\t\t}\n");
@@ -847,8 +847,8 @@ public final class RecordOfGenerator {
 			source.append("\t\t * @return the number of elements.\n");
 			source.append("\t\t * */\n");
 		}
-		source.append("\t\tpublic TitanInteger n_elem() {\n");
-		source.append("\t\t\treturn size_of();\n");
+		source.append("\t\tpublic int n_elem() {\n");
+		source.append("\t\t\treturn size_of().get_int();\n");
 		source.append("\t\t}\n\n");
 
 		if (aData.isDebug()) {
@@ -2635,10 +2635,10 @@ public final class RecordOfGenerator {
 			source.append("\t\t * @return the number of elements.\n");
 			source.append("\t\t * */\n");
 		}
-		source.append("\t\tpublic TitanInteger n_elem() {\n");
+		source.append("\t\tpublic int n_elem() {\n");
 		source.append("\t\t\tswitch (template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\t\treturn new TitanInteger(value_elements.size());\n");
+		source.append("\t\t\t\treturn value_elements.size();\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing n_elem() operation on a template of type {0} containing complemented list.\");\n", genName ) );
 		source.append("\t\t\tcase UNINITIALIZED_TEMPLATE:\n");
