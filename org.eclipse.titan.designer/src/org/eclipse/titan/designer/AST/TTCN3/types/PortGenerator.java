@@ -4043,7 +4043,7 @@ public final class PortGenerator {
 			source.append("\t\t\tTTCN_Logger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMSUCCESS : TTCN_Logger.Severity.MATCHING_PCSUCCESS;\n");
 			source.append("\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
-			source.append("\t\t\t\tTTCN_Logger.log_event(MessageFormat.format(\"Matching on port {0} succeeded: \", get_name()));\n");
+			source.append("\t\t\t\tTTCN_Logger.log_event_str(MessageFormat.format(\"Matching on port {0} succeeded: \", get_name()));\n");
 			source.append(MessageFormat.format("\t\t\t\t{0}(head.{1}_{2}, false);\n", matchStr, opStr, index));
 			source.append("\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t}\n");
