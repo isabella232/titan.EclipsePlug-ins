@@ -416,6 +416,7 @@ public final class PortGenerator {
 		if (portDefinition.portType == PortType.USER) {
 			aData.addBuiltinTypeImport("TitanPort");
 
+			//TODO would it be possible to specify the exact port type in special cases?
 			source.append("public TitanPort get_provider_port() {\n");
 			source.append("get_default_destination();\n");
 			if (portDefinition.legacy) {
