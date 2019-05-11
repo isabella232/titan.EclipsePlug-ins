@@ -472,7 +472,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -519,8 +519,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -1696,10 +1696,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -2507,7 +2507,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -2554,8 +2554,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -3849,10 +3849,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -4648,7 +4648,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -4695,8 +4695,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -5872,10 +5872,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -6684,7 +6684,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -6731,8 +6731,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -7908,10 +7908,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__FLOAT containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -8720,7 +8720,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -8767,8 +8767,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -9944,10 +9944,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -10756,7 +10756,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -10803,8 +10803,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -11980,10 +11980,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__BITSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -12792,7 +12792,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -12839,8 +12839,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -14016,10 +14016,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -14828,7 +14828,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -14875,8 +14875,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -16052,10 +16052,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__CHARSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -16864,7 +16864,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -16911,8 +16911,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -18088,10 +18088,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__BOOLEAN containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -18900,7 +18900,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -18947,8 +18947,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -20124,10 +20124,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -20936,7 +20936,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -20983,8 +20983,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -22160,10 +22160,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__INTEGER containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -22971,7 +22971,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -23018,8 +23018,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -24313,10 +24313,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -25111,7 +25111,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -25158,8 +25158,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -26453,10 +26453,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__BOOLEAN containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -27251,7 +27251,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -27298,8 +27298,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -28593,10 +28593,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__FLOAT__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -29391,7 +29391,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -29438,8 +29438,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -30733,10 +30733,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__INTEGER containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -31531,7 +31531,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -31578,8 +31578,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -32873,10 +32873,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__CHARSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -33672,7 +33672,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -33719,8 +33719,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -34896,10 +34896,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -35707,7 +35707,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -35754,8 +35754,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -37049,10 +37049,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__HEXSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -37847,7 +37847,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -37894,8 +37894,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -39189,10 +39189,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -39987,7 +39987,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -40034,8 +40034,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -41329,10 +41329,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__OCTETSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -42127,7 +42127,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -42174,8 +42174,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -43469,10 +43469,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__FLOAT containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -44267,7 +44267,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -44314,8 +44314,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -45609,10 +45609,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__INTEGER__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -46407,7 +46407,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -46454,8 +46454,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -47749,10 +47749,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -48548,7 +48548,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -48595,8 +48595,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -49772,10 +49772,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__OCTETSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -50584,7 +50584,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -50631,8 +50631,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -51808,10 +51808,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__HEXSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -52619,7 +52619,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -52666,8 +52666,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -53961,10 +53961,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -54759,7 +54759,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -54806,8 +54806,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -56101,10 +56101,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__BITSTRING containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -56899,7 +56899,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -56946,8 +56946,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -58241,10 +58241,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -59040,7 +59040,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -59087,8 +59087,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -60264,10 +60264,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -61076,7 +61076,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -61123,8 +61123,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -62300,10 +62300,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -63111,7 +63111,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -63158,8 +63158,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -64453,10 +64453,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__SET__OF__BITSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
@@ -65252,7 +65252,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem().get_int();
+			final int nofElements = n_elem();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -65299,8 +65299,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
-			return size_of();
+		public int n_elem() {
+			return size_of().get_int();
 		}
 
 		/**
@@ -66476,10 +66476,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * @return the number of elements.
 		 * */
-		public TitanInteger n_elem() {
+		public int n_elem() {
 			switch (template_selection) {
 			case SPECIFIC_VALUE:
-				return new TitanInteger(value_elements.size());
+				return value_elements.size();
 			case COMPLEMENTED_LIST:
 				throw new TtcnError("Performing n_elem() operation on a template of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED containing complemented list.");
 			case UNINITIALIZED_TEMPLATE:
