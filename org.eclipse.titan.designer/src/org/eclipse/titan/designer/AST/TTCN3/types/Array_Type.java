@@ -645,13 +645,15 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				for (int i = 0; i < nofComponents && fixedSize; i++) {
 					final ITTCN3Template templateComponent = listTemplate.getTemplateByIndex(i);
 					switch (templateComponent.getTemplatetype()) {
-					case PERMUTATION_MATCH:
-						if(((CompositeTemplate)templateComponent).containsAnyornoneOrPermutation()) {
+					case PERMUTATION_MATCH: {
+						final PermutationMatch_Template permutationTemplate = (PermutationMatch_Template) templateComponent;
+						if(permutationTemplate.containsAnyornoneOrPermutation(timestamp)) {
 							fixedSize = false;
 						} else {
-							templateSize += ((CompositeTemplate)templateComponent).getNofTemplates();
+							templateSize += permutationTemplate.getNofTemplatesNotAnyornone(timestamp);
 						}
 						break;
+					}
 					default:
 						templateSize++;
 						break;

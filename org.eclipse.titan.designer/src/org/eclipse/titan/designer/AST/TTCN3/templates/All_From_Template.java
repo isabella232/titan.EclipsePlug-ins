@@ -293,7 +293,7 @@ public class All_From_Template extends TTCN3Template {
 			switch (body.getTemplatetype()) {
 			case TEMPLATE_LIST:
 				//TODO: if "all from" is in a permutation list it anyoromit and any is permitted
-				if (!allowAnyOrOmit && ((Template_List) body).containsAnyornoneOrPermutation()) {
+				if (!allowAnyOrOmit && ((Template_List) body).containsAnyornoneOrPermutation(timestamp)) {
 					allFrom.getLocation().reportSemanticError(ANYOROMITANDPERMUTATIONPRHOHIBITED);
 					allFrom.setIsErroneous(true);
 				}
@@ -473,6 +473,65 @@ public class All_From_Template extends TTCN3Template {
 		}
 		result = ((Template_List) body).getNofTemplatesNotAnyornone(timestamp);
 		return result;
+	}
+
+	public boolean containsAnyornoneOrPermutation(final CompilationTimeStamp timestamp) {
+		if (allFrom == null) {
+			ErrorReporter.INTERNAL_ERROR();
+			return false;
+		}
+
+		if (!Template_type.SPECIFIC_VALUE.equals(allFrom.getTemplatetype())) {
+			allFrom.getLocation().reportSemanticError(REFERENCEEXPECTED);
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		if (!((SpecificValue_Template) allFrom).isReference()) {
+			allFrom.getLocation().reportSemanticError(REFERENCEEXPECTED);
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		// isReference branch:
+		final Reference reference = ((SpecificValue_Template) allFrom).getReference();
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		if (assignment == null) {
+			allFrom.getLocation().reportSemanticError("Assignment not found");
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		ITTCN3Template body = null;
+
+		switch (assignment.getAssignmentType()) {
+		case A_TEMPLATE:
+			body = ((Def_Template) assignment).getTemplate(timestamp);
+			break;
+		case A_VAR_TEMPLATE:
+			body = ((Def_Var_Template) assignment).getInitialValue();
+			break;
+		case A_CONST:
+			return false;
+		case A_MODULEPAR:
+			return false;
+		case A_MODULEPAR_TEMPLATE:
+			body = ((Def_ModulePar_Template) assignment).getDefaultTemplate(timestamp);
+			break;
+		default:
+			return false;
+		}
+		if (body == null) {
+			ErrorReporter.INTERNAL_ERROR();
+			return false;
+		}
+		if (!Template_type.TEMPLATE_LIST.equals(body.getTemplatetype())) {
+			allFrom.getLocation().reportSemanticError("Template must be a record of or a set of values");
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		return ((Template_List) body).containsAnyornoneOrPermutation(timestamp);
 	}
 
 	@Override
