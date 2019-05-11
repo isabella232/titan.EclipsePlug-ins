@@ -536,6 +536,11 @@ public final class TTCN_Runtime {
 		return new TitanCharString(testcaseDefinitionName.get());
 	}
 
+	/**
+	 * Calculates and returns the number of seconds elapsed since the testcase began.
+	 *
+	 * @return the time passed since the testcase was started.
+	 * */
 	public static TitanFloat now() {
 		if (startTime.get() == 0.0) {
 			throw new TtcnError("Accessing the test system time while no test case is running.");
