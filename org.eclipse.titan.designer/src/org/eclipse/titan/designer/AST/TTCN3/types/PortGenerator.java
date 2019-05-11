@@ -1703,7 +1703,7 @@ public final class PortGenerator {
 			source.append("\t\t\t\t\tsender_template.log_match(my_head.sender_address, false);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event_log2str();\n");
-			source.append("\t\t\t\t\tsender_template.log_match(my_head.sender_address);\n");
+			source.append("\t\t\t\t\tsender_template.log_match(my_head.sender_address, false);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -1820,7 +1820,7 @@ public final class PortGenerator {
 			source.append("\t\t\t\t\tsender_template.log_match(new TitanComponent(my_head.sender_component), false);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event_log2str();\n");
-			source.append("\t\t\t\t\tsender_template.log_match(my_head.sender_address);\n");
+			source.append("\t\t\t\t\tsender_template.log_match(my_head.sender_address, false);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tremove_msg_queue_head();\n");
