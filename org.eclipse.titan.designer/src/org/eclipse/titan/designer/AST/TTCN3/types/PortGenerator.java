@@ -2319,7 +2319,7 @@ public final class PortGenerator {
 		if (portDefinition.realtime) {
 			comment.append("\t\t * @param timestamp\n");
 			comment.append("\t\t *            the timestamp to return.\n");
-			header.append(", TitanFloat timestamp");
+			header.append(", final TitanFloat timestamp");
 		}
 		comment.append("\t\t * */\n");
 		source.append(comment);
@@ -2472,7 +2472,7 @@ public final class PortGenerator {
 		if (portDefinition.realtime) {
 			comment.append("\t\t * @param timestamp\n");
 			comment.append("\t\t *            the timestamp to return.\n");
-			header.append(", TitanFloat timestamp");
+			header.append(", final TitanFloat timestamp");
 		}
 		comment.append("\t\t * */\n");
 		source.append(comment);
@@ -3543,7 +3543,7 @@ public final class PortGenerator {
 		if (portDefinition.realtime) {
 			comment.append("\t\t * @param timestamp\n");
 			comment.append("\t\t *            the timestamp to return.\n");
-			header.append(", TitanFloat timestamp");
+			header.append(", final TitanFloat timestamp");
 		}
 		comment.append("\t\t * */\n");
 		source.append(comment);
@@ -3649,7 +3649,7 @@ public final class PortGenerator {
 		if (portDefinition.realtime) {
 			comment.append("\t\t * @param timestamp\n");
 			comment.append("\t\t *            the timestamp to return.\n");
-			header.append(", TitanFloat timestamp");
+			header.append(", final TitanFloat timestamp");
 		}
 		comment.append("\t\t * */\n");
 		source.append(comment);
@@ -3755,7 +3755,7 @@ public final class PortGenerator {
 		if (portDefinition.realtime) {
 			comment.append("\t\t * @param timestamp\n");
 			comment.append("\t\t *            the timestamp to return.\n");
-			header.append(", TitanFloat timestamp");
+			header.append(", final TitanFloat timestamp");
 		}
 		comment.append("\t\t * */\n");
 		source.append(comment);
