@@ -1707,7 +1707,7 @@ public final class PortGenerator {
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-			source.append("\t\t\t}\n");
+			source.append("\t\t\t}");
 		} else {
 			source.append("\t\t\tif (!sender_template.match(my_head.sender_component, false)) {\n");
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_MMUNSUCC:TTCN_Logger.Severity.MATCHING_MCUNSUCC;\n");
@@ -1718,7 +1718,7 @@ public final class PortGenerator {
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-			source.append("\t\t\t}\n");
+			source.append("\t\t\t}");
 		}
 
 		source.append(" else {\n");
@@ -1755,8 +1755,8 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_event_str(\": {0}: \");\n", message_type.mDisplayName));
 				source.append("\t\t\t\t\t\tmy_head.message.log();\n");
 				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.{0}, ", logger_operation));
-				source.append("\t\t\t\t\t\tmy_head.sender_component, new TitanCharString(\"\"),");
-				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.end_event_log2str(), msg_head_count+1);\n", msg_idx));
+				source.append("my_head.sender_component, new TitanCharString(\"\"),");
+				source.append(MessageFormat.format("TTCN_Logger.end_event_log2str(), msg_head_count+1);\n", msg_idx));
 				source.append("\t\t\t\t\tbreak;\n");
 			}
 			source.append("\t\t\t\t\tdefault:\n");
@@ -1872,8 +1872,8 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_event_str(\": {0}: \");\n", message_type.mDisplayName));
 				source.append("\t\t\t\t\t\tmy_head.message.log();\n");
 				source.append("\t\t\t\t\t\tTTCN_Logger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, ");
-				source.append("\t\t\t\t\t\tmy_head.sender_component, new TitanCharString(\"\"),");
-				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.end_event_log2str(), msg_head_count+1);\n", msg_idx));
+				source.append("my_head.sender_component, new TitanCharString(\"\"),");
+				source.append(MessageFormat.format("TTCN_Logger.end_event_log2str(), msg_head_count+1);\n", msg_idx));
 				source.append("\t\t\t\t\tbreak;\n");
 			}
 			source.append("\t\t\t\t\tdefault:\n");
