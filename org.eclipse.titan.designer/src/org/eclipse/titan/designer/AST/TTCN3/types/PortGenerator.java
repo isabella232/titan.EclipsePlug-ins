@@ -1127,13 +1127,6 @@ public final class PortGenerator {
 			source.append("\t\tprivate void remove_msg_queue_head() {\n");
 			source.append("\t\t\tmessage_queue.removeFirst();\n");
 			source.append("\t\t}\n\n");
-
-			source.append("\t\tprotected void clear_queue() {\n");
-			source.append("\t\t\tmessage_queue.clear();\n");
-			if (portDefinition.has_sliding) {
-				source.append("\t\t\tsliding_buffer = new TitanOctetString(\"\");\n");
-			}
-			source.append("\t\t}\n\n");
 		}
 
 		final boolean hasIncomingCall = !portDefinition.inProcedures.isEmpty();
@@ -1219,9 +1212,19 @@ public final class PortGenerator {
 			source.append("\t\t\tprocedure_queue.removeFirst();\n");
 			source.append("\t\t\tTTCN_Logger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(\"\"), new TitanCharString(\"\"));\n");
 			source.append("\t\t}\n\n");
+		}
 
+		if (!portDefinition.inMessages.isEmpty() || hasProcedureQueue) {
 			source.append("\t\tprotected void clear_queue() {\n");
-			source.append("\t\t\tprocedure_queue.clear();\n");
+			if(!portDefinition.inMessages.isEmpty()) {
+				source.append("\t\t\tmessage_queue.clear();\n");
+			}
+			if (hasProcedureQueue) {
+				source.append("\t\t\tprocedure_queue.clear();\n");
+			}
+			if (portDefinition.has_sliding) {
+				source.append("\t\t\tsliding_buffer = new TitanOctetString(\"\");\n");
+			}
 			source.append("\t\t}\n\n");
 		}
 
