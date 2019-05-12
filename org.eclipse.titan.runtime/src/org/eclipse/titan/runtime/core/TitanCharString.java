@@ -171,30 +171,6 @@ public class TitanCharString extends Base_Type {
 		return this;
 	}
 
-	@Override
-	public TitanCharString operator_assign(final Base_Type otherValue) {
-		if (otherValue instanceof TitanCharString) {
-			return operator_assign((TitanCharString)otherValue);
-		}
-
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
-	}
-
-	@Override
-	public boolean is_bound() {
-		return val_ptr != null;
-	}
-
-	@Override
-	public boolean is_present() {
-		return is_bound();
-	}
-
-	@Override
-	public boolean is_value() {
-		return val_ptr != null;
-	}
-
 	/**
 	 * Assigns the other value to this value.
 	 * Overwriting the current content in the process.
@@ -246,6 +222,30 @@ public class TitanCharString extends Base_Type {
 		}
 
 		return this;
+	}
+
+	@Override
+	public TitanCharString operator_assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanCharString) {
+			return operator_assign((TitanCharString)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
+	}
+
+	@Override
+	public boolean is_bound() {
+		return val_ptr != null;
+	}
+
+	@Override
+	public boolean is_present() {
+		return is_bound();
+	}
+
+	@Override
+	public boolean is_value() {
+		return val_ptr != null;
 	}
 
 	/**
@@ -414,29 +414,6 @@ public class TitanCharString extends Base_Type {
 		return ret_val;
 	}
 
-	//originally operator+=
-	//append for String
-	public TitanCharString append(final String aOtherValue) {
-		must_bound(" Appending a string literal to an unbound charstring value.");
-
-		if (aOtherValue != null && aOtherValue.length() > 0) {
-			val_ptr.append(aOtherValue);
-		}
-
-		return this;
-	}
-
-	//originally operator+=
-	// append for charstring_element
-	public TitanCharString append(final TitanCharString_Element aOtherValue) {
-		must_bound("Appending a charstring value to an unbound charstring value.");
-		aOtherValue.must_bound("Appending an unbound charstring value to another charstring value.");
-
-		val_ptr.append(aOtherValue.get_char());
-
-		return this;
-	}
-
 	/**
 	 * Concatenates the current charstring with the charstring received as a
 	 * parameter.
@@ -490,6 +467,40 @@ public class TitanCharString extends Base_Type {
 			return new TitanUniversalCharString(ret_val);
 		}
 
+	}
+
+	//originally operator+=
+	//append for String
+	public TitanCharString append(final String aOtherValue) {
+		must_bound(" Appending a string literal to an unbound charstring value.");
+
+		if (aOtherValue != null && aOtherValue.length() > 0) {
+			val_ptr.append(aOtherValue);
+		}
+
+		return this;
+	}
+
+	//originally operator+=
+	// append for charstring_element
+	public TitanCharString append(final TitanCharString_Element aOtherValue) {
+		must_bound("Appending a charstring value to an unbound charstring value.");
+		aOtherValue.must_bound("Appending an unbound charstring value to another charstring value.");
+
+		val_ptr.append(aOtherValue.get_char());
+
+		return this;
+	}
+
+	//originally operator+=
+	// append for charstring
+	public TitanCharString append(final TitanCharString aOtherValue) {
+		must_bound("Appending a charstring value to an unbound charstring value.");
+		aOtherValue.must_bound("Appending an unbound charstring value to another charstring value.");
+
+		val_ptr.append(aOtherValue.get_value());
+
+		return this;
 	}
 
 	/**
@@ -622,11 +633,6 @@ public class TitanCharString extends Base_Type {
 		return !operator_equals(otherValue);
 	}
 
-	@Override
-	public void clean_up() {
-		val_ptr = null;
-	}
-
 	/**
 	 * Checks if the current value is not equivalent to the provided one.
 	 *
@@ -663,6 +669,24 @@ public class TitanCharString extends Base_Type {
 		}
 
 		return this.val_ptr.toString().equals(otherValue);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanUniversalCharString otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	@Override
+	public void clean_up() {
+		val_ptr = null;
 	}
 
 	/**
