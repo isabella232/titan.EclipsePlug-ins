@@ -866,10 +866,10 @@ public class TitanFloat extends Base_Type {
 	 *                the second value to check against.
 	 * @return {@code true} if the first value is less than the second.
 	 */
-	public static TitanBoolean is_less_than(final double doubleValue, final TitanFloat otherValue) {
+	public static boolean is_less_than(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
-		return new TitanBoolean(otherValue.is_greater_than(new TitanFloat(doubleValue)));
+		return otherValue.is_greater_than(new TitanFloat(doubleValue));
 	}
 
 	/**
@@ -883,10 +883,10 @@ public class TitanFloat extends Base_Type {
 	 *                the second value to check against.
 	 * @return {@code true} if the first value is greater than the second.
 	 */
-	public static TitanBoolean is_greater_than(final double doubleValue, final TitanFloat otherValue) {
+	public static boolean is_greater_than(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
-		return new TitanBoolean(otherValue.is_less_than(new TitanFloat(doubleValue)));
+		return otherValue.is_less_than(new TitanFloat(doubleValue));
 	}
 
 	/**
