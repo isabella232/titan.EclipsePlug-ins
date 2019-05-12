@@ -1854,9 +1854,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				incoming_buffer.increase_length(buffer.remaining());
 				final byte[] data = incoming_buffer.get_data();
 				final int remaining = buffer.remaining();
-				final byte[] temp = new byte[remaining];
-				buffer.get(temp);
-				System.arraycopy(temp, 0, data, end_index.get(), remaining);
+				buffer.get(data, end_index.get(), remaining);
 
 				while (incoming_buffer.is_message()) {
 					incoming_buffer.pull_int(); // message_length
