@@ -448,7 +448,7 @@ public final class RecordOfGenerator {
 			source.append('\n');
 			source.append("\t\t\treturn true;\n");
 		}
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		if ( isSetOf ) {
 			source.append( MessageFormat.format( "\t\tprivate boolean compare_set(final {0} left_ptr, final int left_index, final {0} right_ptr, final int right_index) '{'\n", genName ) );
@@ -463,8 +463,38 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\treturn !right_ptr.valueElements.get(right_index).is_bound();\n");
 			source.append("\t\t\t}\n");
-			source.append("\t\t}\n");
+			source.append("\t\t}\n\n");
 		}
+
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator!= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return true if the values are not equivalent.\n");
+			source.append("\t\t */\n");
+		}
+		source.append("\t\tpublic boolean operator_not_equals( final TitanNull_Type nullValue) {\n");
+		source.append("\t\t\treturn !operator_equals(nullValue);\n");
+		source.append("\t\t}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator!= in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return true if the values are not equivalent.\n");
+			source.append("\t\t */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic boolean operator_not_equals( final {0} otherValue ) '{'\n", genName ) );
+		source.append("\t\t\treturn !operator_equals(otherValue);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
