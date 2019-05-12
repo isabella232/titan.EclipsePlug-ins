@@ -869,7 +869,7 @@ public class TitanFloat extends Base_Type {
 	public static boolean is_less_than(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
-		return otherValue.is_greater_than(new TitanFloat(doubleValue));
+		return otherValue.is_greater_than(doubleValue);
 	}
 
 	/**
@@ -886,7 +886,7 @@ public class TitanFloat extends Base_Type {
 	public static boolean is_greater_than(final double doubleValue, final TitanFloat otherValue) {
 		otherValue.must_bound("Unbound right operand of float comparison.");
 
-		return otherValue.is_less_than(new TitanFloat(doubleValue));
+		return otherValue.is_less_than(doubleValue);
 	}
 
 	/**
