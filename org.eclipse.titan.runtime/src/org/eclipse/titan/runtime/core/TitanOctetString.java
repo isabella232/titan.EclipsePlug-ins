@@ -914,7 +914,7 @@ public class TitanOctetString extends Base_Type {
 	 *                the number of characters to shift right.
 	 * @return the new octetstring.
 	 * */
-	public TitanOctetString shift_right(final TitanInteger shift_count){
+	public TitanOctetString shift_right(final TitanInteger shift_count) {
 		shift_count.must_bound("Unbound right operand of octetstring shift right operator.");
 
 		return shift_right(shift_count.get_int());
