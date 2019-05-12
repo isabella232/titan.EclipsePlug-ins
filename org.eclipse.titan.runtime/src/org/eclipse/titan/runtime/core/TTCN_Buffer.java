@@ -277,6 +277,7 @@ public final class TTCN_Buffer {
 	 * after writing, you have to call also increase_length()!
 	 * @see increase_length().
 	 * @return the empty part of buffer (after buf_len piece). */
+	//TODO check if this really became pointless.
 	public char[] get_end() {
 		final char[] end_ptr;
 
