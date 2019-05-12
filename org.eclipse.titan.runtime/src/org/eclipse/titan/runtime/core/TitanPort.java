@@ -1851,9 +1851,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			} else if (recv_len > 0) {
 				buffer.flip();
-				incoming_buffer.increase_length(buffer.remaining());
-				final byte[] data = incoming_buffer.get_data();
 				final int remaining = buffer.remaining();
+				incoming_buffer.increase_length(remaining);
+				final byte[] data = incoming_buffer.get_data();
 				buffer.get(data, end_index.get(), remaining);
 
 				while (incoming_buffer.is_message()) {
