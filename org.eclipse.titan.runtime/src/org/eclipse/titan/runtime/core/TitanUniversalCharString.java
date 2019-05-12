@@ -144,6 +144,19 @@ public class TitanUniversalCharString extends Base_Type {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanUniversalCharString(final TitanCharString_Element otherValue) {
+		otherValue.must_bound("Copying an unbound charstring value.");
+
+		cstr = new StringBuilder(otherValue.get_char());
+		charstring = true;
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanUniversalCharString(final TitanUniversalCharString otherValue) {
 		otherValue.must_bound("Copying an unbound universal charstring value.");
 
@@ -1488,6 +1501,25 @@ public class TitanUniversalCharString extends Base_Type {
 	 *
 	 * static operator== in the core
 	 *
+	 * @param left_value
+	 *                the first value.
+	 * @param right_value
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
+		return left_value.getUc_group() == right_value.getUc_group() &&
+				left_value.getUc_plane() == right_value.getUc_plane() &&
+				left_value.getUc_row() == right_value.getUc_row() &&
+				left_value.getUc_cell() == right_value.getUc_cell();
+	}
+
+	// static function
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
 	 * @param ucharValue
 	 *                the first value.
 	 * @param otherValue
@@ -1511,6 +1543,53 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param otherValue
+	 *                the first value.
+	 * @param rightValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final String otherValue, final TitanUniversalCharString rightValue) {
+		rightValue.must_bound("The left operand of comparison is an unbound universal charstring value.");
+
+		if (rightValue.charstring) {
+			return rightValue.cstr.toString().equals(otherValue);
+		}
+		if (rightValue.val_ptr.size() != otherValue.length()) {
+			return false;
+		}
+		for (int i = 0; i < rightValue.val_ptr.size(); ++i) {
+			final TitanUniversalChar temp = rightValue.val_ptr.get(i);
+			if (temp.getUc_group() != 0 || temp.getUc_plane() != 0
+					|| temp.getUc_row() != 0
+					|| temp.getUc_cell() != otherValue.charAt(i)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param left_value
+	 *                the first value.
+	 * @param right_value
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_not_equals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
+		return !operator_equals(left_value, right_value);
+	}
+
+	/**
 	 * Checks if the first value is not equivalent to the second one.
 	 *
 	 * static operator!= in the core
@@ -1523,6 +1602,21 @@ public class TitanUniversalCharString extends Base_Type {
 	 */
 	public static boolean operator_not_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString otherValue) {
 		return !operator_equals(ucharValue, otherValue);
+	}
+
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the first value.
+	 * @param rightValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public static boolean operator_not_equals(final String otherValue, final TitanUniversalCharString rightValue) {
+		return !operator_equals(otherValue, rightValue);
 	}
 
 	/**
@@ -1559,38 +1653,6 @@ public class TitanUniversalCharString extends Base_Type {
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString(ucharValue);
 		ret_val.val_ptr.addAll(other_value.val_ptr);
 		return ret_val;
-	}
-
-	/**
-	 * Checks if the first value is equivalent to the second one.
-	 *
-	 * static operator== in the core
-	 *
-	 * @param otherValue
-	 *                the first value.
-	 * @param rightValue
-	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
-	 */
-	public static boolean operator_equals(final String otherValue, final TitanUniversalCharString rightValue) {
-		rightValue.must_bound("The left operand of comparison is an unbound universal charstring value.");
-
-		if (rightValue.charstring) {
-			return rightValue.cstr.toString().equals(otherValue);
-		}
-		if (rightValue.val_ptr.size() != otherValue.length()) {
-			return false;
-		}
-		for (int i = 0; i < rightValue.val_ptr.size(); ++i) {
-			final TitanUniversalChar temp = rightValue.val_ptr.get(i);
-			if (temp.getUc_group() != 0 || temp.getUc_plane() != 0
-					|| temp.getUc_row() != 0
-					|| temp.getUc_cell() != otherValue.charAt(i)) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**
