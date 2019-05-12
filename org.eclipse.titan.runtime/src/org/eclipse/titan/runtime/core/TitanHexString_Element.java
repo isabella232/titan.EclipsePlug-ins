@@ -151,6 +151,32 @@ public class TitanHexString_Element {
 	}
 
 	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanHexString_Element otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanHexString otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
 	 * Concatenates the current hexstring with the hexstring received as a
 	 * parameter.
 	 *
