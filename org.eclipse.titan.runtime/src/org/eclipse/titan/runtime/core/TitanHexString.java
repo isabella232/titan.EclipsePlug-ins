@@ -997,7 +997,7 @@ public class TitanHexString extends Base_Type {
 	 *                the number of characters to rotate left.
 	 * @return the new hexstring.
 	 * */
-	public TitanHexString rotate_left(int rotate_count){
+	public TitanHexString rotate_left(int rotate_count) {
 		must_bound("Unbound hexstring operand of rotate left operator.");
 
 		if (nibbles_ptr.length == 0) {
@@ -1026,7 +1026,7 @@ public class TitanHexString extends Base_Type {
 	 *                the number of characters to rotate left.
 	 * @return the new hexstring.
 	 * */
-	public TitanHexString rotate_left(final TitanInteger rotate_count){
+	public TitanHexString rotate_left(final TitanInteger rotate_count) {
 		rotate_count.must_bound("Unbound right operand of hexstring rotate left operator.");
 
 		return this.rotate_left(rotate_count.get_int());
@@ -1043,7 +1043,7 @@ public class TitanHexString extends Base_Type {
 	 *                the number of characters to rotate right.
 	 * @return the new hexstring.
 	 * */
-	public TitanHexString rotate_right(int rotateCount){
+	public TitanHexString rotate_right(int rotateCount) {
 		must_bound("Unbound hexstring operand of rotate right operator.");
 
 		if (nibbles_ptr.length == 0) {
@@ -1072,7 +1072,7 @@ public class TitanHexString extends Base_Type {
 	 *                the number of characters to rotate right.
 	 * @return the new hexstring.
 	 * */
-	public TitanHexString rotate_right(final TitanInteger rotateCount){
+	public TitanHexString rotate_right(final TitanInteger rotateCount) {
 		rotateCount.must_bound("Unbound right operand of hexstring rotate right operator.");
 
 		return this.rotate_right(rotateCount.get_int());
