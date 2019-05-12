@@ -5058,6 +5058,23 @@ public final class AdditionalFunctions {
 	}
 
 	// float2str
+	public static TitanCharString float2str(final double value) {
+		//differnce between java and c++
+		if (Double.isNaN(value)) {
+			return new TitanCharString("not_a_number");
+		} else if (value == Double.NEGATIVE_INFINITY) {
+			return new TitanCharString("-infinity");
+		} else if (value == Double.POSITIVE_INFINITY) {
+			return new TitanCharString("infinity");
+		} else if (value == 0.0
+				|| (value > -TitanFloat.MAX_DECIMAL_FLOAT && value <= -TitanFloat.MIN_DECIMAL_FLOAT)
+				|| (value >= TitanFloat.MIN_DECIMAL_FLOAT && value < TitanFloat.MAX_DECIMAL_FLOAT)) {
+			return new TitanCharString(String.format("%f", value));
+		} else {
+			return new TitanCharString(String.format("%e", value));
+		}
+	}
+
 	public static TitanCharString float2str(final Ttcn3Float value) {
 		//differnce between java and c++
 		if (Double.isNaN(value.getValue())) {
