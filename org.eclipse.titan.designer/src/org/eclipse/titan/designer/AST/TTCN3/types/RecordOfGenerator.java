@@ -399,6 +399,22 @@ public final class RecordOfGenerator {
 			source.append("\t\t * @return true if the values are equivalent.\n");
 			source.append("\t\t */\n");
 		}
+		source.append("\t\tpublic boolean operator_equals( final TitanNull_Type nullValue) {\n");
+		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t\treturn valueElements.isEmpty();\n");
+		source.append("\t\t}\n\n");
+
+		if (aData.isDebug()) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Checks if the current value is equivalent to the provided one.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * operator== in the core\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to check against.\n");
+			source.append("\t\t * @return true if the values are equivalent.\n");
+			source.append("\t\t */\n");
+		}
 		source.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
