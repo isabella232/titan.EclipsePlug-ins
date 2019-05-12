@@ -1993,6 +1993,21 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\t}\n\n");
 		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", other_value));\n");
 		aSb.append("\t\t}\n\n");
+
+		if (aData.isDebug()) {
+			aSb.append("\t\t/**\n");
+			aSb.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * operator!= in the core\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * @param other_value\n");
+			aSb.append("\t\t *                the other value to check against.\n");
+			aSb.append("\t\t * @return {@code true} if all fields are not equivalent, {@code false} otherwise.\n");
+			aSb.append("\t\t */\n");
+		}
+		aSb.append( MessageFormat.format( "\t\tpublic boolean operator_not_equals( final {0} other_value) '{'\n", aClassName ) );
+		aSb.append( "\t\t\treturn !operator_equals(other_value);\n" );
+		aSb.append("\t\t}\n");
 	}
 
 	/**
