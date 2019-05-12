@@ -144,6 +144,32 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final VerdictTypeEnum otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanVerdictType otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
 	 * Assigns the other value to this value.
 	 * Overwriting the current content in the process.
 	 *<p>
@@ -261,6 +287,21 @@ public class TitanVerdictType extends Base_Type {
 		other_value.must_bound("The right operand of comparison is an unbound verdict value.");
 
 		return par_value == other_value.get_value();
+	}
+
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param par_value
+	 *                the first value.
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public static boolean operator_not_equals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
+		return !operator_equals(par_value, other_value);
 	}
 
 	//TODO: implement VERDICTTYPE::get_param()
