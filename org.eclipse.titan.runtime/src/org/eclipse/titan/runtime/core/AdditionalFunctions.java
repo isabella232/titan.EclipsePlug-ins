@@ -595,7 +595,6 @@ public final class AdditionalFunctions {
 		if (value.is_native()) {
 			return int2oct(value.get_int(), length);
 		} else {
-			BigInteger tmp_val = value.get_BigInteger();
 			if (value.is_less_than(0)) {
 				throw new TtcnError(MessageFormat.format("The first argument (value) of function int2oct() is a negative integer value: {0}.", value));
 			}
@@ -603,6 +602,7 @@ public final class AdditionalFunctions {
 				throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value: {0}.", length));
 			}
 
+			BigInteger tmp_val = value.get_BigInteger();
 			final char octets_ptr[] = new char[length];
 			final BigInteger helper = new BigInteger("255");
 			for (int i = length - 1; i >= 0; i--) {
