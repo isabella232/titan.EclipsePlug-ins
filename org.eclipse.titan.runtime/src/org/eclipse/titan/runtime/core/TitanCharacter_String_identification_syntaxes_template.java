@@ -226,7 +226,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type CHARACTER STRING.identification.syntaxes.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type CHARACTER STRING.identification.syntaxes.");
 		}
 		set_selection(other_value);
 	}

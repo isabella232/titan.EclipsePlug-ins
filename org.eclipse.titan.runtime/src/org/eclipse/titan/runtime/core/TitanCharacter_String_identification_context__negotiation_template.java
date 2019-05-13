@@ -226,7 +226,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type CHARACTER STRING.identification.context-negotiation.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type CHARACTER STRING.identification.context-negotiation.");
 		}
 		set_selection(other_value);
 	}

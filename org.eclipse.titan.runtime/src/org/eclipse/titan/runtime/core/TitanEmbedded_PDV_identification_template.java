@@ -702,7 +702,40 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 	public void log() {
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			single_value.log();
+			switch (single_value_union_selection) {
+			case ALT_syntaxes:
+				TTCN_Logger.log_event_str("{ syntaxes := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_syntax:
+				TTCN_Logger.log_event_str("{ syntax := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_presentation__context__id:
+				TTCN_Logger.log_event_str("{ presentation__context__id := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_context__negotiation:
+				TTCN_Logger.log_event_str("{ context__negotiation := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_transfer__syntax:
+				TTCN_Logger.log_event_str("{ transfer__syntax := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_fixed:
+				TTCN_Logger.log_event_str("{ fixed := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			default:
+				TTCN_Logger.log_event_unbound();
+			}
 			break;
 		case COMPLEMENTED_LIST:
 			TTCN_Logger.log_event_str("complement");

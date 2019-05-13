@@ -144,6 +144,18 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	}
 
 	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if all fields are not equivalent, {@code false} otherwise.
+	 */
+	public boolean operator_not_equals( final TitanEmbedded_PDV_identification_syntaxes other_value) {
+		return !operator_equals(other_value);
+	}
+	/**
 	 * Gives access to the field abstract.
 	 *
 	 * @return the field abstract.

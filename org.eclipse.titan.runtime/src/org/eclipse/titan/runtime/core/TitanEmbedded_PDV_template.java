@@ -241,7 +241,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type EMBEDDED PDV.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type EMBEDDED PDV.");
 		}
 		set_selection(other_value);
 	}

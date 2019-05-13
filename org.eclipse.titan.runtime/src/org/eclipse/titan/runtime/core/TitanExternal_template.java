@@ -241,7 +241,7 @@ public class TitanExternal_template extends Base_Template {
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type EXTERNAL.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type EXTERNAL.");
 		}
 		set_selection(other_value);
 	}

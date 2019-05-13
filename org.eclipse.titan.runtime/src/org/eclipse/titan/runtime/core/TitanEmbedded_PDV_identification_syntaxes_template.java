@@ -226,7 +226,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type EMBEDDED PDV.identification.syntaxes.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type EMBEDDED PDV.identification.syntaxes.");
 		}
 		set_selection(other_value);
 	}

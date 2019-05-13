@@ -226,7 +226,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type EXTERNAL.identification.context-negotiation.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type EXTERNAL.identification.context-negotiation.");
 		}
 		set_selection(other_value);
 	}

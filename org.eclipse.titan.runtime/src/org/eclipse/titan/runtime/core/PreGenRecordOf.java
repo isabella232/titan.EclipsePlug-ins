@@ -197,6 +197,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__INTEGER__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -227,6 +241,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__INTEGER__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -2240,6 +2281,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -2249,6 +2304,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -2262,6 +2318,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -4373,6 +4456,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -4403,6 +4500,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -6409,6 +6533,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__FLOAT otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -6439,6 +6577,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__FLOAT otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__FLOAT operator_assign(final Base_Type otherValue) {
@@ -8445,6 +8610,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -8475,6 +8654,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -10481,6 +10687,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__BITSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -10511,6 +10731,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__BITSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BITSTRING operator_assign(final Base_Type otherValue) {
@@ -12517,6 +12764,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -12547,6 +12808,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -14553,6 +14841,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__CHARSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -14583,6 +14885,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__CHARSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -16589,6 +16918,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__BOOLEAN otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -16619,6 +16962,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__BOOLEAN otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BOOLEAN operator_assign(final Base_Type otherValue) {
@@ -18625,6 +18995,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -18655,6 +19039,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -20661,6 +21072,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__INTEGER otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -20691,6 +21116,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__INTEGER otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__INTEGER operator_assign(final Base_Type otherValue) {
@@ -22704,6 +23156,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -22713,6 +23179,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -22726,6 +23193,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -24844,6 +25338,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__BOOLEAN otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -24853,6 +25361,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -24866,6 +25375,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__BOOLEAN otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BOOLEAN operator_assign(final Base_Type otherValue) {
@@ -26984,6 +27520,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__FLOAT__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -26993,6 +27543,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -27006,6 +27557,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__FLOAT__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -29124,6 +29702,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__INTEGER otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -29133,6 +29725,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -29146,6 +29739,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__INTEGER otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__INTEGER operator_assign(final Base_Type otherValue) {
@@ -31264,6 +31884,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__CHARSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -31273,6 +31907,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -31286,6 +31921,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__CHARSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -33397,6 +34059,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -33427,6 +34103,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -35440,6 +36143,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__HEXSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -35449,6 +36166,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -35462,6 +36180,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__HEXSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__HEXSTRING operator_assign(final Base_Type otherValue) {
@@ -37580,6 +38325,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__HEXSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -37589,6 +38348,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -37602,6 +38362,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__HEXSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -39720,6 +40507,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__OCTETSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -39729,6 +40530,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -39742,6 +40544,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__OCTETSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__OCTETSTRING operator_assign(final Base_Type otherValue) {
@@ -41860,6 +42689,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__FLOAT otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -41869,6 +42712,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -41882,6 +42726,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__FLOAT otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__FLOAT operator_assign(final Base_Type otherValue) {
@@ -44000,6 +44871,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__INTEGER__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -44009,6 +44894,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -44022,6 +44908,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__INTEGER__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -46140,6 +47053,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -46149,6 +47076,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -46162,6 +47090,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -48273,6 +49228,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__OCTETSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -48303,6 +49272,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__OCTETSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING operator_assign(final Base_Type otherValue) {
@@ -50309,6 +51305,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__HEXSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -50339,6 +51349,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__HEXSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__HEXSTRING operator_assign(final Base_Type otherValue) {
@@ -52352,6 +53389,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__CHARSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -52361,6 +53412,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -52374,6 +53426,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__CHARSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -54492,6 +55571,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__BITSTRING otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -54501,6 +55594,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -54514,6 +55608,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__BITSTRING otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BITSTRING operator_assign(final Base_Type otherValue) {
@@ -56632,6 +57753,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__BOOLEAN__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -56641,6 +57776,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -56654,6 +57790,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__BOOLEAN__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -58765,6 +59928,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -58795,6 +59972,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -60801,6 +62005,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__FLOAT__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -60831,6 +62049,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__FLOAT__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -62844,6 +64089,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__SET__OF__BITSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -62853,6 +64112,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
+
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -62866,6 +64126,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return !right_ptr.valueElements.get(right_index).is_bound();
 			}
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__SET__OF__BITSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -64977,6 +66264,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
+		public boolean operator_equals( final TitanNull_Type nullValue) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+			return valueElements.isEmpty();
+		}
+
+		/**
+		 * Checks if the current value is equivalent to the provided one.
+		 *
+		 * operator== in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are equivalent.
+		 */
 		public boolean operator_equals( final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED otherValue ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
@@ -65007,6 +66308,33 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			return true;
 		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final TitanNull_Type nullValue) {
+			return !operator_equals(nullValue);
+		}
+
+		/**
+		 * Checks if the current value is not equivalent to the provided one.
+		 *
+		 * operator!= in the core
+		 *
+		 * @param otherValue
+		 *                the other value to check against.
+		 * @return true if the values are not equivalent.
+		 */
+		public boolean operator_not_equals( final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {

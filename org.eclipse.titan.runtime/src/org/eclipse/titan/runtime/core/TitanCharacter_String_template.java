@@ -241,7 +241,7 @@ public class TitanCharacter_String_template extends Base_Template {
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type CHARACTER STRING.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type CHARACTER STRING.");
 		}
 		set_selection(other_value);
 	}
