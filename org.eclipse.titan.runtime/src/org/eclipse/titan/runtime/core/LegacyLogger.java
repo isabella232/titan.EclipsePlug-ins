@@ -303,17 +303,14 @@ public class LegacyLogger implements ILoggerPlugin {
 		if (filename_skeleton_ == null) {
 			return null;
 		}
-		whoami whoami_variable = whoami.SINGLE;
+		whoami whoami_variable;
 		if (TTCN_Runtime.is_single()) {
 			whoami_variable = whoami.SINGLE;
-		}
-		if (TTCN_Runtime.is_hc()) {
+		} else if (TTCN_Runtime.is_hc()) {
 			whoami_variable = whoami.HC;
-		}
-		if (TTCN_Runtime.is_mtc()) {
+		} else if (TTCN_Runtime.is_mtc()) {
 			whoami_variable = whoami.MTC;
-		}
-		if (TTCN_Runtime.is_ptc()) {
+		} else {
 			whoami_variable = whoami.PTC;
 		}
 		boolean h_present = false, p_present = false, r_present = false, i_present = false;
