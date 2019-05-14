@@ -30,3 +30,5 @@
 [[_11]]
 * [11] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.05.01_60/es_20187307v040501p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 7: Using ASN.1 with TTCN–3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.5.1, April 2013]
 
+[[_12]]
+* [12] link:https://github.com/eclipse/titan.core/blob/master/usrguide/java_referenceguide/JavaReferenceGuide.adoc[Programmers Technical Reference for the Java side of the TITAN TTCN-3 Test Executor]
