@@ -41,7 +41,6 @@ public final class Runtime_Parallel_main {
 		try {
 			TTCN_Snapshot.initialize();
 			TTCN_Logger.initialize_logger();
-			TTCN_Logger.set_executable_name();
 			TTCN_Logger.set_start_time();
 
 			try {
