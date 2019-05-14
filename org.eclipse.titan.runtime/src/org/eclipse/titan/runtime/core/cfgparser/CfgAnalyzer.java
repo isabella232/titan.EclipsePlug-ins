@@ -111,9 +111,11 @@ public final class CfgAnalyzer {
 		boolean config_preproc_error = false;
 		if (null != code) {
 			// preparsing is not needed
-			final File preparsedFile = new File(file.getParent(), TEMP_CFG_FILENAME_PARALLEL);
-			final StringBuilder sb = new StringBuilder(code);
-			CfgPreProcessor.writeToFile(preparsedFile, sb);
+			if (file != null) {
+				final File preparsedFile = new File(file.getParent(), TEMP_CFG_FILENAME_PARALLEL);
+				final StringBuilder sb = new StringBuilder(code);
+				CfgPreProcessor.writeToFile(preparsedFile, sb);
+			}
 			reader = new StringReader(code);
 		} else if (null != file) {
 			try {
