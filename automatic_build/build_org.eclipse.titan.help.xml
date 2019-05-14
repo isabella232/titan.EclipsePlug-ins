@@ -38,6 +38,7 @@
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/apiguide/README.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/PRI/PRI.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/referenceguide/ReferenceGuide.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/java_referenceguide/JavaReferenceGuide.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/SoC_XML_TITAN/SoC_XML_TITAN.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/releasenotes/releasenotes.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/SoC_TITAN/SoC_TITAN.adoc"/>
