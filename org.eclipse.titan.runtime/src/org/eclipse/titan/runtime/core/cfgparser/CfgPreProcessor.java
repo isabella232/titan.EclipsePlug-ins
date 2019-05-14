@@ -39,9 +39,9 @@ import org.eclipse.titan.runtime.core.TtcnError;
 public class CfgPreProcessor {
 
 	private static final int RECURSION_LIMIT = 100;
-		
+
 	private boolean error_flag = false;
-	
+
 	private void config_preproc_error(String error_str, final File actualFile, final Token token) {
 		TTCN_Logger.begin_event(TTCN_Logger.Severity.ERROR_UNQUALIFIED);
 		TTCN_Logger.log_event("Parse error while pre-processing");
