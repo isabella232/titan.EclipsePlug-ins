@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
@@ -50,8 +53,15 @@ public final class Runtime_Parallel_main {
 			} catch (TtcnError error) {
 				returnValue = -1;
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable e) {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
+			final StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+	
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(error.toString());
+			TTCN_Logger.end_event();
 
 			returnValue = -1;
 		}
