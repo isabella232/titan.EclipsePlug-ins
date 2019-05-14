@@ -189,8 +189,16 @@ import java.util.regex.Pattern;
 		Module_List.set_param(param);
 	}
 
-	//TODO: use these variables
 	private boolean error_flag = false;
+
+	/**
+	 * @return true if error happened during CFG parsing, false otherwise
+	 */
+	public boolean get_error_flag() {
+		return error_flag;
+	}
+
+	//TODO: use these variables
 	private StringBuilder parsing_error_messages = null;
 	// originally Debugger_Value_Parsing.happening()
 	private boolean debugger_Value_Parsing_happening = false;

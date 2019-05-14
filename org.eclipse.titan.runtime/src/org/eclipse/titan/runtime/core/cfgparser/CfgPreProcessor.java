@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
+import org.eclipse.titan.runtime.core.TTCN_Logger;
 import org.eclipse.titan.runtime.core.TtcnError;
 
 /**
@@ -38,14 +39,22 @@ import org.eclipse.titan.runtime.core.TtcnError;
 public class CfgPreProcessor {
 
 	private static final int RECURSION_LIMIT = 100;
-
-	private CfgPreProcessor() {
-		// Hide constructor
-	}
-
-	private static void config_preproc_error(String errorMsg) {
-		//TODO: implement
-		System.err.println(errorMsg);
+		
+	private boolean error_flag = false;
+	
+	private void config_preproc_error(String error_str, final File actualFile, final Token token) {
+		TTCN_Logger.begin_event(TTCN_Logger.Severity.ERROR_UNQUALIFIED);
+		TTCN_Logger.log_event("Parse error while pre-processing");
+		if ( actualFile != null ) {
+			TTCN_Logger.log_event(" configuration file `%s'", actualFile);
+		}
+		if ( token != null ) {
+			TTCN_Logger.log_event(" in line %d", token.getLine() );
+		}
+		TTCN_Logger.log_event(": ");
+		TTCN_Logger.log_event_va_list(error_str);
+		TTCN_Logger.end_event();
+		error_flag = true;
 	}
 
 	/**
@@ -63,16 +72,11 @@ public class CfgPreProcessor {
 	 *                     null in case of the root element
 	 * @param recursionDepth counter of the recursion depth
 	 */
-	private static void preparseInclude(final File file, final StringBuilder out, AtomicBoolean modified, final CFGListener listener,
+	private void preparseInclude(final File file, final StringBuilder out, AtomicBoolean modified, final CFGListener listener,
 										final ChainElement<File> includeChain, final int recursionDepth) {
 		if (recursionDepth > RECURSION_LIMIT) {
-			// dumb but safe defense against infinite recursion, default value from gcc
-			config_preproc_error("Maximum include recursion depth reached in file: " + file.getName());
-			return;
-		}
-
-		if ( includeChain != null && includeChain.contains(file) ) {
-			config_preproc_error("Circular import chain detected: " + includeChain.dump());
+			// dumb but safe defense against infinite recursion
+			config_preproc_error("Maximum include recursion depth reached", file, null);
 			return;
 		}
 
@@ -82,7 +86,7 @@ public class CfgPreProcessor {
 		try {
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF8));
 		} catch (FileNotFoundException e) {
-			config_preproc_error(e.toString());
+			config_preproc_error(e.toString(), file, null);
 			return;
 		}
 		if ( listener != null ) {
@@ -93,7 +97,7 @@ public class CfgPreProcessor {
 		final List<Token> tokens = tokenStream.getTokens();
 		final ListIterator<Token> iter = tokens.listIterator();
 		// file names collected from [INCLUDE] sections
-		final List<String> includeFilenames = new ArrayList<String>();
+		final List<File> includeFiles = new ArrayList<File>();
 		while (iter.hasNext()) {
 			final Token token = iter.next();
 			final int tokenType = token.getType();
@@ -105,17 +109,26 @@ public class CfgPreProcessor {
 				break;
 			case RuntimeCfgLexer.INCLUDE_FILENAME:
 				final String includeFilename = tokenText.substring( 1, tokenText.length() - 1 );
-				if ( !includeFilenames.contains( includeFilename ) ) {
-					// include file will be processed when EOF is reached
-					includeFilenames.add(includeFilename);
-					modified.set(true);
+				final File includeFile = new File( dir, includeFilename );
+				if ( !includeFiles.contains( includeFile ) ) {
+					if ( includeChain2.contains( includeFile ) ) {
+						config_preproc_error("Circular import chain detected: " + includeChain2.dump(), file, token);
+					} else {
+						// include file will be processed when EOF is reached
+						includeFiles.add( includeFile );
+						modified.set(true);
+					}
 				}
 				break;
 			case RuntimeCfgLexer.ORDERED_INCLUDE_FILENAME:
 				final String orderedIncludeFilename = tokenText.substring( 1, tokenText.length() - 1 );
 				final File orderedIncludeFile = new File(dir, orderedIncludeFilename);
-				preparseInclude(orderedIncludeFile, out, modified, listener, includeChain2, recursionDepth + 1);
-				modified.set(true);
+				if ( includeChain2.contains( orderedIncludeFile ) ) {
+					config_preproc_error("Circular import chain detected: " + includeChain2.dump(), file, token);
+				} else {
+					preparseInclude(orderedIncludeFile, out, modified, listener, includeChain2, recursionDepth + 1);
+					modified.set(true);
+				}
 				break;
 
 			default:
@@ -124,8 +137,7 @@ public class CfgPreProcessor {
 			}
 		}
 
-		for ( final String includeFilename : includeFilenames ) {
-			final File includeFile = new File(dir, includeFilename);
+		for ( final File includeFile : includeFiles ) {
 			preparseInclude(includeFile, out, modified, listener, includeChain2, recursionDepth + 1);
 		}
 
@@ -144,7 +156,7 @@ public class CfgPreProcessor {
 	 * @param listener listener for ANTLR lexer/parser errors
 	 * @return output string buffer, where the resolved content is written
 	 */
-	private static StringBuilder preparseDefine(final StringBuilder in, final AtomicBoolean modified, final CFGListener listener) {
+	private StringBuilder preparseDefine(final StringBuilder in, final AtomicBoolean modified, final CFGListener listener) {
 		// collect defines
 		StringReader reader = new StringReader( in.toString() );
 		CommonTokenStream tokenStream = CfgAnalyzer.createTokenStream(reader, listener);
@@ -162,7 +174,6 @@ public class CfgPreProcessor {
 		final DefineSectionHandler defineSectionHandler = parser.getDefineSectionHandler();
 		final Map<String, List<Token>> defs = defineSectionHandler.getDefinitions();
 		parser = null;
-
 		checkCircularReferences(defs);
 
 		// modified during macro resolving
@@ -182,17 +193,18 @@ public class CfgPreProcessor {
 		return out;
 	}
 
-	private static void checkCircularReferences(final Map<String, List<Token>> defs) {
+	private void checkCircularReferences(final Map<String, List<Token>> defs) {
 		for (final Map.Entry<String, List<Token>> entry : defs.entrySet()) {
 			final String defName = entry.getKey();
 			checkCircularReferences(defName, defName, defs);
 		}
 	}
 
-	private static void checkCircularReferences(final String first, final String defName, final Map<String, List<Token>> defs) {
+	private void checkCircularReferences(final String first, final String defName, final Map<String, List<Token>> defs) {
 		final List<Token> defValue = defs.get(defName);
 		if (defValue == null) {
-			throw new TtcnError("Unknown define "+defName);
+			config_preproc_error("Unknown define "+defName, null, null);
+			return;
 		}
 		for ( final Token token : defValue ) {
 			final int tokenType = token.getType();
@@ -215,10 +227,10 @@ public class CfgPreProcessor {
 					macroName = DefineSectionHandler.getTypedMacroName(tokenText);
 				}
 				if (macroName == null) {
-					throw new TtcnError("Invalid macro name: "+tokenText);
+					config_preproc_error("Invalid macro name: "+tokenText, null, token);
 				}
 				if (first.equals(macroName)) {
-					throw new TtcnError("Circular reference in define "+first);
+					config_preproc_error("Circular reference in define "+first, null, token);
 				}
 				checkCircularReferences(first, macroName, defs);
 				break;
@@ -226,6 +238,7 @@ public class CfgPreProcessor {
 				break;
 			}
 		}
+		
 	}
 
 	/**
@@ -387,7 +400,7 @@ public class CfgPreProcessor {
 	 *     <br><code>false</code> otherwise, so when the CFG file did not contain
 	 *         any [INCLUDE], [ORDERED_INCLUDE] or [DEFINE] sections
 	 */
-	static boolean preparse(final File file, final File resultFile, final CFGListener listener) {
+	boolean preparse(final File file, final File resultFile, final CFGListener listener) {
 		final StringBuilder outInclude = new StringBuilder();
 		final AtomicBoolean modified = new AtomicBoolean(false);
 		preparseInclude(file, outInclude, modified, listener, null, 0);
@@ -418,5 +431,9 @@ public class CfgPreProcessor {
 				pw.close();
 			}
 		}
+	}
+
+	public boolean get_error_flag() {
+		return error_flag;
 	}
 }

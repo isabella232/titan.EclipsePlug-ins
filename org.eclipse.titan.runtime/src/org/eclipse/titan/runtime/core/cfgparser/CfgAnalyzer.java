@@ -28,6 +28,7 @@ import org.eclipse.titan.runtime.core.TtcnError;
 public final class CfgAnalyzer {
 
 	static final String TEMP_CFG_FILENAME = "temp.cfg";
+	private static final String TEMP_CFG_FILENAME_PARALLEL = "temp_parallel.cfg";
 
 	private ExecuteSectionHandler executeSectionHandler = null;
 
@@ -107,17 +108,23 @@ public final class CfgAnalyzer {
 	private boolean directParse(File file, final String fileName, final String code) {
 		final Reader reader;
 		final CFGListener preparseListener = new CFGListener(fileName);
+		boolean config_preproc_error = false;
 		if (null != code) {
 			// preparsing is not needed
+			final File preparsedFile = new File(file.getParent(), TEMP_CFG_FILENAME_PARALLEL);
+			final StringBuilder sb = new StringBuilder(code);
+			CfgPreProcessor.writeToFile(preparsedFile, sb);
 			reader = new StringReader(code);
 		} else if (null != file) {
 			try {
 				final File preparsedFile = new File(file.getParent(), TEMP_CFG_FILENAME);
-				if ( CfgPreProcessor.preparse( file, preparsedFile, preparseListener ) ) {
+				final CfgPreProcessor preprocessor = new CfgPreProcessor();
+				if ( preprocessor.preparse( file, preparsedFile, preparseListener ) ) {
 					// if the cfg file is modified during the preparsing process, file is updated,
 					// preparsing modified the cfg file, so use the temp.cfg instead
 					file = preparsedFile;
 				}
+				config_preproc_error = preprocessor.get_error_flag();
 				reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF8));
 			} catch (FileNotFoundException e) {
 				throw new TtcnError(e);
@@ -143,7 +150,8 @@ public final class CfgAnalyzer {
 
 		executeSectionHandler = parser.getExecuteSectionHandler();
 		IOUtils.closeQuietly(reader);
-
-		return preparseListener.encounteredError() || lexerListener.encounteredError() || parserListener.encounteredError();
+		final boolean config_process_error = parser.get_error_flag();
+		return preparseListener.encounteredError() || lexerListener.encounteredError() || parserListener.encounteredError() || 
+				config_preproc_error || config_process_error;
 	}
 }
