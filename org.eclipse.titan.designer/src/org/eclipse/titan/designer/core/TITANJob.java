@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -77,8 +78,8 @@ public class TITANJob extends WorkspaceJob {
 	private boolean removeCompilerMarkers = false;
 	private boolean removeOnTheFlyMarkers = false;
 
-	private final List<List<String>> commands;
-	private final List<String> descriptions;
+	private final ConcurrentLinkedQueue<List<String>> commands;
+	private final ConcurrentLinkedQueue<String> descriptions;
 
 	private boolean foundErrors = false;
 	/* It is already reported that cygwin is not installed: */
@@ -89,9 +90,10 @@ public class TITANJob extends WorkspaceJob {
 		this.files = new HashMap<String, IFile>();
 		this.files.putAll(files);
 		this.workingDir = workingDir;
+		
 		this.project = project;
-		this.commands = new ArrayList<List<String>>();
-		this.descriptions = new ArrayList<String>();
+		this.commands = new ConcurrentLinkedQueue<List<String>>();
+		this.descriptions = new ConcurrentLinkedQueue<String>();
 
 		setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
 	}
@@ -264,7 +266,7 @@ public class TITANJob extends WorkspaceJob {
 		}
 
 		OutputAnalyzer analyzer = new OutputAnalyzer(files, project);
-		for (int i = 0; i < commands.size(); i++) {
+		while (!commands.isEmpty()) {
 			if (internalMonitor.isCanceled()) {
 				internalMonitor.done();
 				analyzer.dispose();
@@ -273,8 +275,10 @@ public class TITANJob extends WorkspaceJob {
 				return Status.CANCEL_STATUS;
 			}
 
-			setName(descriptions.get(i));
-			final List<String> finalCommand = getFinalCommand(commands.get(i));
+			final String currentDescription = descriptions.poll();
+			final List<String> currentCommand = commands.poll();
+			setName(currentDescription);
+			final List<String> finalCommand = getFinalCommand(currentCommand);
 			final StringBuilder builder = new StringBuilder();
 
 			for (String c : finalCommand) {
