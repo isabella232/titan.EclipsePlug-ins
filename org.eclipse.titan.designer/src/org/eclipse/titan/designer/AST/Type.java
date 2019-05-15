@@ -2536,10 +2536,20 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		} else {
 			RAW_value.append("raw_order_t.ORDER_LSB,");
 		}
-		if (rawAttribute.align == RawAST.XDEFLEFT) {
-			RAW_value.append("raw_order_t.ORDER_MSB,");
+		if (getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_OCTETSTRING) {
+			// the default alignment for octetstrings is 'left'
+			if (rawAttribute.align == RawAST.XDEFRIGHT) {
+				RAW_value.append("raw_order_t.ORDER_LSB,");
+			} else {
+				RAW_value.append("raw_order_t.ORDER_MSB,");
+			}
 		} else {
-			RAW_value.append("raw_order_t.ORDER_LSB,");
+			// the default alignment for all other type is 'right'
+			if (rawAttribute.align == RawAST.XDEFLEFT) {
+				RAW_value.append("raw_order_t.ORDER_MSB,");
+			} else {
+				RAW_value.append("raw_order_t.ORDER_LSB,");
+			}
 		}
 		if (rawAttribute.bitorderinfield == RawAST.XDEFMSB) {
 			RAW_value.append("raw_order_t.ORDER_MSB,");
