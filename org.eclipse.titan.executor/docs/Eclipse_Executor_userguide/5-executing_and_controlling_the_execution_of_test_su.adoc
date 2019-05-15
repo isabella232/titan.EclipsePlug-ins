@@ -129,7 +129,7 @@ This action executes the "**info**" command, providing inner state information t
 
 NOTE: The last five commands are commands of the `Mctr_cli`.
 
-All of the commands of *Mctr_cli* can be issued directly from the Console too (including the ones mentioned). The executor will try to adapt to the changes, for example if you select the *info* action, or execute the *info* command in the Console, the information displayed under the executor node will be updated (this can be seen on <<Figure-29,Figure 29>>). For more information on the commands of the *Mctr_cli* and how to execute testcases in it please refer to chapter 12 of the User Guide <<7-references.adoc#_3, [3]>>.
+All of the commands of *Mctr_cli* can be issued directly from the Console too (including the ones mentioned). The executor will try to adapt to the changes, for example if you select the *info* action, or execute the *info* command in the Console, the information displayed under the executor node will be updated (this can be seen on <<Figure-29,Figure 29>>). For more information on the commands of the *Mctr_cli* and how to execute testcases in it please refer to chapter 12 of the User Guide <<8-references.adoc#_3, [3]>>.
 
 [[Figure-29]]
 image::images/5_F29.png[title="Example information display in the Parallel launch mode"]
@@ -328,4 +328,3 @@ A solution can be to start Eclipse with the following command forcing the Java V
 (This command must be executed in the directory where Eclipse was installed to)
 
 * Execution in JNI mode is not supported on Windows
-

@@ -46,11 +46,13 @@ Right click on a project in the *Project explorer* and select *Run configuration
 
 image::images/4_F7.png[title="Executing from the Project Explorer"]
 
+[[Running-from-the-Launch-Command-Toolbar]]
 === Running from the Launch Command Toolbar
 
 *In the toolbar, click the down arrow at the* Launch Commands, *and select* Run as. +
 If not visible, modify the Launch properties in the *Windows > Customize Perspective*.
 
+[[Figure-4-F8]]
 image::images/4_F8.png[title="Executing from the Launch Commands toolbar set"]
 
 image::images/4_F9.png[title="Launch configuration options"]
@@ -384,7 +386,7 @@ On the bottom of the page there is one more important option: whether you want t
 
 Important:
 
-* Please don’t forget that the TITAN executor requires the setting of some environmental variables, to work properly. For more information please refer to the Programmer’s Technical Reference <<7-references.adoc#_4, [4]>>.
+* Please don’t forget that the TITAN executor requires the setting of some environmental variables, to work properly. For more information please refer to the Programmer’s Technical Reference <<8-references.adoc#_4, [4]>>.
 
 * Please note that the execution is not taking place in the operating system’s environment, but in the Java Virtual Machine’s environment. Special caution is required, if your tests depend on the values of environmental variables defined in the operating system.
 
@@ -436,4 +438,3 @@ If this option is not set, then every time a new process is started it will eras
 --
 +
 NOTE: In JNI mode launch the Standard input and output handling part is not supported.
-

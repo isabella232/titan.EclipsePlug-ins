@@ -26,7 +26,7 @@ The '>' character is used to denote a menu and sub-menu sequence. For example, *
 
 == Installation
 
-For details on installing the TITAN Executor for the Eclipse IDE plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE <<7-references.adoc#_2, [2]>>.
+For details on installing the TITAN Executor for the Eclipse IDE plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE <<8-references.adoc#_2, [2]>>.
 
 == Reporting Errors
 
@@ -50,4 +50,3 @@ Before reporting a trouble, try to identify if the trouble really belongs to the
 
 Reporting the contents of the Consoles and the Error log is important as TITAN consoles display the commands executed and their results and the Error log may contain stack traces for some errors. To identify relevant log entries the easiest way is to search for classes whose name starts with "org.eclipse.titan". +
 The location on which the Error Log view can be opened can change with Eclipse versions, but it is usually found at *Window > Show View > Other… > PDE Runtime > Error Log* or *Window > Show View > Other… > General > Error Log*.
-
