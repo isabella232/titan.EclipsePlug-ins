@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -42,7 +41,7 @@ public final class PathConverter {
 	private static final String EXECUTION_FAILED = "execution failed";
 	private static final String INTERRUPTION = "execution failed beacuse of interrupion";
 
-	private static final Map<String, String> CYGWINPATHMAP = new HashMap<String, String>();
+	private static final ConcurrentHashMap<String, String> CYGWINPATHMAP = new ConcurrentHashMap<String, String>();
 
 	/** private constructor to disable instantiation */
 	private PathConverter() {
