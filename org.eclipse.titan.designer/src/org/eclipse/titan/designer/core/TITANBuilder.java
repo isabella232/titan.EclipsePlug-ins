@@ -792,7 +792,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			initialisationMonitor.done();
 			progress.done();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as the builder does not seem to be enabled.");
 			}
 			return project.getReferencedProjects();
 		}
@@ -804,7 +804,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			initialisationMonitor.done();
 			progress.done();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as the working directory is not defined.");
 			}
 			return project.getReferencedProjects();
 		}
@@ -878,7 +878,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			initialisationMonitor.done();
 			progress.done();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as there were no resource changes.");
 			}
 			return project.getReferencedProjects();
 		}
@@ -936,7 +936,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		if (files.isEmpty() && visitor.getCentralStorageFiles().isEmpty() && filesOfReferencedProjects.isEmpty()) {
 			buildJob.schedule();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as no files to build were found.");
 			}
 			return project.getReferencedProjects();
 		}
