@@ -114,7 +114,7 @@ public final class PathConverter {
 				return path;
 			}
 
-			line = stdout.readLine();
+			line = stdout.readLine();//TODO check should have reached end by now.
 			while (line != null) {
 				printDebug(stream, line);
 				solution.append(line);
