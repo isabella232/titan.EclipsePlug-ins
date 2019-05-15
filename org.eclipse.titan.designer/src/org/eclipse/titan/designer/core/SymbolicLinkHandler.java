@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
@@ -108,7 +109,16 @@ public final class SymbolicLinkHandler {
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		int availableProcessors = Runtime.getRuntime().availableProcessors();
+		IPreferencesService prefs = Platform.getPreferencesService();
+		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
+				availableProcessors, null);
+		if (NUMBER_OF_PROCESSORS < 1) {
+			NUMBER_OF_PROCESSORS = 1;
+		}
+		if (reportDebugInformation) {
+			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink creation.");
+		}
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 
@@ -383,7 +393,16 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		int availableProcessors = Runtime.getRuntime().availableProcessors();
+		IPreferencesService prefs = Platform.getPreferencesService();
+		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
+				availableProcessors, null);
+		if (NUMBER_OF_PROCESSORS < 1) {
+			NUMBER_OF_PROCESSORS = 1;
+		}
+		if (reportDebugInformation) {
+			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for removed files).");
+		}
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		for (final String key : files.keySet()) {
@@ -453,7 +472,16 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		int availableProcessors = Runtime.getRuntime().availableProcessors();
+		IPreferencesService prefs = Platform.getPreferencesService();
+		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
+				availableProcessors, null);
+		if (NUMBER_OF_PROCESSORS < 1) {
+			NUMBER_OF_PROCESSORS = 1;
+		}
+		if (reportDebugInformation) {
+			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for excluded files).");
+		}
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		for (final Map.Entry<String, IFile> entry : files.entrySet()) {
