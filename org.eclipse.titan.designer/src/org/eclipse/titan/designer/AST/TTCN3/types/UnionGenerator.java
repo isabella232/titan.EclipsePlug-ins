@@ -2135,11 +2135,15 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:{\n");
 		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
-		source.append("\t\t\t\tswitch (temp) {\n");
+		source.append(MessageFormat.format("\t\t\t\tsingle_value_union_selection = {0}.union_selection_type.values()[temp];\n", genName));
+		source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
+		source.append("\t\t\t\tcase UNBOUND_VALUE:\n");
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Text decoder: Unrecognized union selector was received for a template of type {0}.\");\n", displayName));
+
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("\t\t\t\tcase {0,number,#}:\n", i));
+			source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\t\tsingle_value = new {0}();\n", fieldInfo.mJavaTemplateName));
 			source.append("\t\t\t\t\tsingle_value.decode_text(text_buf);\n");
 			source.append("\t\t\t\t\tbreak;\n");
