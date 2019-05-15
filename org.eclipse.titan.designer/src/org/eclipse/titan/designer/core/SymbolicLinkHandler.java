@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -99,7 +100,7 @@ public final class SymbolicLinkHandler {
 	 */
 	public static void addSymlinkCreationCommand(final Map<String, IFile> files, final String workingDirectory, final TITANJob buildJob,
 			final Map<String, IFile> lastTimeRemovedFiles, final IProgressMonitor monitor, final boolean automaticMakefileManagement) {
-		final List<String> symlinkFiles = new ArrayList<String>();
+		final ConcurrentHashMap<String, String> symlinkFiles = new ConcurrentHashMap<String, String>(files.size());
 		final boolean win32 = Platform.OS_WIN32.equals(Platform.getOS());
 		final String extension = win32 ? LINK_EXTENSION : EMPTY_STRING;
 
@@ -158,7 +159,7 @@ public final class SymbolicLinkHandler {
 
 					if (tempFile.exists() && !tempFileRemoved) {
 						if (win32) {
-							symlinkFiles.add(lastSegment);
+							symlinkFiles.put(lastSegment, lastSegment);
 							latch.countDown();
 							internalMonitor.worked(1);
 							return;
@@ -168,7 +169,7 @@ public final class SymbolicLinkHandler {
 							final String canonicalPath = tempFile.getCanonicalPath();
 							final String absolutePath = tempFile.getAbsolutePath();
 							if (!absolutePath.equals(canonicalPath) && path.toString().equals(canonicalPath)) {
-								symlinkFiles.add(lastSegment);
+								symlinkFiles.put(lastSegment, lastSegment);
 								latch.countDown();
 								internalMonitor.worked(1);
 								return;
@@ -180,14 +181,14 @@ public final class SymbolicLinkHandler {
 
 					// bugfix: checks if the symbolic link would point to itself
 					if (tempFile.getAbsolutePath().equals(file.getLocation().toOSString())) {
-						symlinkFiles.add(lastSegment);
+						symlinkFiles.put(lastSegment, lastSegment);
 						latch.countDown();
 						internalMonitor.worked(1);
 						return;
 					}
 
 					if (!symlinkFiles.contains(lastSegment)) {
-						symlinkFiles.add(lastSegment);
+						symlinkFiles.put(lastSegment, lastSegment);
 						List<String> command = new ArrayList<String>();
 						command.add(LINK_CREATION);
 						command.add(FORCE_LINK_CREATION);
