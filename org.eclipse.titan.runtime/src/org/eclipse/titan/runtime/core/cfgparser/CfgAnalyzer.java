@@ -28,7 +28,6 @@ import org.eclipse.titan.runtime.core.TtcnError;
 public final class CfgAnalyzer {
 
 	static final String TEMP_CFG_FILENAME = "temp.cfg";
-	private static final String TEMP_CFG_FILENAME_PARALLEL = "temp_parallel.cfg";
 
 	private ExecuteSectionHandler executeSectionHandler = null;
 
@@ -111,11 +110,6 @@ public final class CfgAnalyzer {
 		boolean config_preproc_error = false;
 		if (null != code) {
 			// preparsing is not needed
-			if (file != null) {
-				final File preparsedFile = new File(file.getParent(), TEMP_CFG_FILENAME_PARALLEL);
-				final StringBuilder sb = new StringBuilder(code);
-				CfgPreProcessor.writeToFile(preparsedFile, sb);
-			}
 			reader = new StringReader(code);
 		} else if (null != file) {
 			try {
