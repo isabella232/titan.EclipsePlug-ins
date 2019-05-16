@@ -1020,7 +1020,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			String dynamicLinking = project.getPersistentProperty(
 					new QualifiedName(ProjectBuildPropertyData.QUALIFIER, MakefileCreationData.DYNAMIC_LINKING_PROPERTY));
 			// Setting proper command for the build level.
-			String makeCommand = null;
+			String makeCommand = "default";
 			if (MakeAttributesData.BUILD_LEVEL_5.equals(buildLevel)) {
 				command.add(MAKE_DEP);
 				makeCommand = MAKE_DEP;
