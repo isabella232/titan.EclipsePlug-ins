@@ -15,13 +15,14 @@ WARNING: The execution of TITAN Java projects (the Java side of the Test Executo
 
 The TITAN Executor can operate in single or parallel mode.
 
-From the point of view there are 2 ways to execute TITAN Java projects: from Eclipse as Java projects and executing exported jar files.
+From the point of view there are 2 ways to execute TITAN Java projects: 
+from Eclipse as Java projects and executing exported jar files.
 
 === Executing TITAN Java Projects from Eclipse
 
 To execute TITAN Java projects inside Eclipse requires the creation of a Launch configuration.
 
-*In the toolbar, click the down arrow at the* Launch Commands, *and select* Run Configurations... . +
+In the toolbar, click the down arrow at the *Launch Commands*, and select *Run Configurations...* . +
 If not visible, modify the Launch properties in the *Windows > Customize Perspective* (see <<Figure-4-F8,Figure 4>>).
 
 The following operations are available:

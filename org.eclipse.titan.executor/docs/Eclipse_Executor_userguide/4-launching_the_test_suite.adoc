@@ -49,7 +49,7 @@ image::images/4_F7.png[title="Executing from the Project Explorer"]
 [[Running-from-the-Launch-Command-Toolbar]]
 === Running from the Launch Command Toolbar
 
-*In the toolbar, click the down arrow at the* Launch Commands, *and select* Run as. +
+In the toolbar, click the down arrow at the *Launch Commands,* and select *Run as.* +
 If not visible, modify the Launch properties in the *Windows > Customize Perspective*.
 
 [[Figure-4-F8]]
