@@ -1922,7 +1922,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("\t\t\t} else if (my_head.item_selection != message_selection.MESSAGE_{0} || !(my_head.message instanceof {1})) '{'\n", index, typeValueName));
 		source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_str(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_MMUNSUCC : TTCN_Logger.Severity.MATCHING_MCUNSUCC, MessageFormat.format(\"Matching on port '{'0'}' failed: Type of the first message in the queue is not {0}.\", get_name()));\n", typeValueName));
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("\t\t\t'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
+		source.append(MessageFormat.format("\t\t\t'}' else if (!value_template.match(({0}) my_head.message, false)) '{'\n", typeValueName));
 		source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = TTCN_Logger.Severity.MATCHING_MMUNSUCC;\n");
 		source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
@@ -2009,7 +2009,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format("\t\t\t\tType of the first message in the queue is not {0}.\", get_name());\n", typeValueName) );
 		source.append("\t\t\t\tremove_msg_queue_head();\n");
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_REPEAT;\n");
-		source.append(MessageFormat.format("\t\t\t'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
+		source.append(MessageFormat.format("\t\t\t'}' else if (!value_template.match(({0}) my_head.message, false)) '{'\n", typeValueName));
 		source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_MMUNSUCC : TTCN_Logger.Severity.MATCHING_MCUNSUCC;\n");
 		source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
