@@ -455,10 +455,8 @@ public class TitanTimer {
 		}
 
 		final LinkedList<TitanTimer> localTimers = RUNNING_TIMERS.get();
-		if (!localTimers.isEmpty()) {
-			BACKUP_TIMERS.get().addAll(localTimers);
-			localTimers.clear();
-		}
+		RUNNING_TIMERS.set(BACKUP_TIMERS.get());
+		BACKUP_TIMERS.set(localTimers);
 		control_timer_saved = true;
 	}
 
@@ -472,10 +470,8 @@ public class TitanTimer {
 		}
 
 		final LinkedList<TitanTimer> localBackupTimers = BACKUP_TIMERS.get();
-		if (!localBackupTimers.isEmpty()) {
-			RUNNING_TIMERS.get().addAll(localBackupTimers);
-			localBackupTimers.clear();
-		}
+		BACKUP_TIMERS.set(RUNNING_TIMERS.get());
+		RUNNING_TIMERS.set(localBackupTimers);
 		control_timer_saved = false;
 	}
 
