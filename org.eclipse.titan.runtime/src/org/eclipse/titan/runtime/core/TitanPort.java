@@ -1266,7 +1266,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(MessageFormat.format("Port {0} has more than one active connections. Message can be sent on it only with explicit addressing.", port_name));
 			}
 
-			return connection_list.getFirst().remote_component;
+			return connection_list.peekFirst().remote_component;
 		}
 
 		return TitanComponent.SYSTEM_COMPREF;
