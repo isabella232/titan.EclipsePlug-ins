@@ -11,7 +11,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
@@ -265,7 +264,6 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_string_size()");
 		}
 
-		//TODO: need to check later (original void*)
 		public Object get_string_data() {
 			throw new TtcnError("Internal error: Module_Param.get_string_data()");
 		}
