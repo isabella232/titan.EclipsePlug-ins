@@ -1676,15 +1676,7 @@ public final class PortGenerator {
 		final String logger_operation = isCheck ? "check__receive__op" : "receive__op";
 
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
-		source.append("\t\t\tif (message_queue.isEmpty()) {\n");
-		source.append("\t\t\t\tif (is_started) {\n");
-		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tTTCN_Logger.log_str(TTCN_Logger.Severity.MATCHING_PROBLEM, MessageFormat.format(\"Matching on port {0} failed: Port is not started and the queue is empty.\", get_name()));\n");
-		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append("\t\t\t}\n");
-
-		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.peekFirst();\n");
 		source.append("\t\t\tif (my_head == null) {\n");
 		source.append("\t\t\t\tif (is_started) {\n");
 		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
@@ -1792,15 +1784,7 @@ public final class PortGenerator {
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status trigger(final {0}_template sender_template, final {0} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", senderType));
-		source.append("\t\t\tif (message_queue.isEmpty()) {\n");
-		source.append("\t\t\t\tif (is_started) {\n");
-		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tTTCN_Logger.log_str(TTCN_Logger.Severity.MATCHING_PROBLEM, MessageFormat.format(\"Matching on port {0} failed: Port is not started and the queue is empty.\", get_name()));\n");
-		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append("\t\t\t}\n");
-
-		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.peekFirst();\n");
 		source.append("\t\t\tif (my_head == null) {\n");
 		source.append("\t\t\t\tif (is_started) {\n");
 		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
@@ -1918,14 +1902,7 @@ public final class PortGenerator {
 		source.append("\t\t\tif (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"{0} operation using ''*'' as matching template\");\n", printedFunctionName));
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tif (message_queue.isEmpty()) {\n");
-		source.append("\t\t\t\tif (is_started) {\n");
-		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tTTCN_Logger.log_str(TTCN_Logger.Severity.MATCHING_PROBLEM, MessageFormat.format(\"Matching on port {0} failed: Port is not started and the queue is empty.\", get_name()));\n");
-		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append("\t\t\t}\n\n");
-		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.peekFirst();\n");
 		source.append("\t\t\tif (my_head == null) {\n");
 		source.append("\t\t\t\tif (is_started) {\n");
 		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
@@ -2009,14 +1986,7 @@ public final class PortGenerator {
 		source.append("\t\t\tif (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Trigger operation using '*' as matching template\");\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tif (message_queue.isEmpty()) {\n");
-		source.append("\t\t\t\tif (is_started) {\n");
-		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tTTCN_Logger.log(TTCN_Logger.Severity.MATCHING_PROBLEM, \"Matching on port {0} will drop a message: Port is not started and the queue is empty.\", get_name());\n");
-		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append("\t\t\t}\n\n");
-		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("\t\t\tfinal Message_queue_item my_head = message_queue.peekFirst();\n");
 		source.append("\t\t\tif (my_head == null) {\n");
 		source.append("\t\t\t\tif (is_started) {\n");
 		source.append("\t\t\t\t\treturn TitanAlt_Status.ALT_MAYBE;\n");
