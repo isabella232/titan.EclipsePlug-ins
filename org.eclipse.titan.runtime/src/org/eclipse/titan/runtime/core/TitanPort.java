@@ -1842,7 +1842,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		final AtomicInteger end_index = new AtomicInteger();
 		final AtomicInteger end_len = new AtomicInteger();
 		incoming_buffer.get_end(end_index, end_len);
-		final ByteBuffer buffer = ByteBuffer.allocate(end_len.get());
+		final ByteBuffer buffer = ByteBuffer.wrap(incoming_buffer.get_data(), end_index.get(), end_len.get());
 		try {
 			final int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
 			if (recv_len < 0) {
@@ -1852,11 +1852,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			} else if (recv_len > 0) {
-				buffer.flip();
-				final int remaining = buffer.remaining();
-				incoming_buffer.increase_length(remaining);
-				final byte[] data = incoming_buffer.get_data();
-				buffer.get(data, end_index.get(), remaining);
+				incoming_buffer.increase_length(recv_len);
 
 				while (incoming_buffer.is_message()) {
 					incoming_buffer.pull_int(); // message_length
