@@ -511,7 +511,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case DECODE_MATCH: {
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
 			TTCN_EncDec.clear_error();
-			final TitanOctetString os = new TitanOctetString(AdditionalFunctions.bit2oct(otherValue));
+			final TitanOctetString os = AdditionalFunctions.bit2oct(otherValue);
 			final TTCN_Buffer buffer = new TTCN_Buffer(os);
 			final boolean ret_val = dec_match.match(buffer);
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_DEFAULT);
