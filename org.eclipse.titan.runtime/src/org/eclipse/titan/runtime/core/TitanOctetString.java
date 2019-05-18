@@ -562,7 +562,6 @@ public class TitanOctetString extends Base_Type {
 
 		val_ptr = new char[n_octets];
 		if (n_octets > 0) {
-			
 			final byte[] temp = new byte[n_octets];
 			text_buf.pull_raw(n_octets, temp);
 			for (int i = 0; i < n_octets; i++) {
