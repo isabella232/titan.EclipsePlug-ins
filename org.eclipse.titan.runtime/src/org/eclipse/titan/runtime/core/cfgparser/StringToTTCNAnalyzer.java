@@ -35,6 +35,24 @@ public class StringToTTCNAnalyzer {
 	}
 
 	/**
+	 * Convert a string to a TTCN-3 module parameter structure.
+	 *
+	 * @param mp_str the string to convert.
+	 * @param is_component {@code true} if the value is to be assigned to a component variable or template.
+	 * @return the parsed module parameter structure or {@code null} in case of problems
+	 * */
+	public static Module_Parameter process_config_string2ttcn(final String mp_str, final boolean is_component) {
+		//TODO check processing of is_component.
+		final StringToTTCNAnalyzer analyzer = new StringToTTCNAnalyzer();
+		analyzer.parse(mp_str);
+		if (analyzer.getParsedModuleParam() != null) {
+			return analyzer.getParsedModuleParam();
+		} else {
+			throw new TtcnError("Internal error: could not parse TTCN string.");
+		}
+	}
+
+	/**
 	 * Parses a string.
 	 * 
 	 * @param code the value in the string2ttcn statement

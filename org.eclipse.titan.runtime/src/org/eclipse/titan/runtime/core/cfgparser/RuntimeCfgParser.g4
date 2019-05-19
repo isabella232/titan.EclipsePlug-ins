@@ -352,16 +352,6 @@ import java.util.regex.Pattern;
 			return null;
 		}
 	}
-
-	public static Module_Parameter process_config_string2ttcn(final String mp_str, final boolean is_component) {
-		final StringToTTCNAnalyzer analyzer = new StringToTTCNAnalyzer();
-		analyzer.parse(mp_str);
-		if (analyzer.getParsedModuleParam() != null) {
-			return analyzer.getParsedModuleParam();
-		} else {
-			throw new TtcnError("Internal error: could not parse TTCN string.");
-		}
-	}
  
 	private static TitanInteger toTitanInteger( BigInteger bi ) {
 		final int i = bi.intValue();
