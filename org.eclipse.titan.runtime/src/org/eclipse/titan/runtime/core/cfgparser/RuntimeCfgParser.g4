@@ -204,7 +204,6 @@ import java.util.regex.Pattern;
 	private boolean debugger_Value_Parsing_happening = false;
 	// originally Ttcn_String_Parsing.happening()
 	private boolean ttcn_String_Parsing_happening = false;
-	private static Module_Parameter parsed_module_param = null;
 
 	/**
 	 * Gets the last token of the current rule.
@@ -354,21 +353,16 @@ import java.util.regex.Pattern;
 		}
 	}
 
-public static Module_Parameter process_config_string2ttcn(final String mp_str, final boolean is_component) {
-	if (parsed_module_param != null) {
-		throw new TtcnError("Internal error: previously parsed ttcn string was not cleared.");
+	public static Module_Parameter process_config_string2ttcn(final String mp_str, final boolean is_component) {
+		final StringToTTCNAnalyzer analyzer = new StringToTTCNAnalyzer();
+		analyzer.parse(mp_str);
+		if (analyzer.getParsedModuleParam() != null) {
+			return analyzer.getParsedModuleParam();
+		} else {
+			throw new TtcnError("Internal error: could not parse TTCN string.");
+		}
 	}
-	StringToTTCNAnalyzer analyzer = new StringToTTCNAnalyzer();
-	analyzer.parse(mp_str);
-	if (parsed_module_param != null) {
-		Module_Parameter ret_val;
-		ret_val = parsed_module_param;
-		parsed_module_param = null;
-		return ret_val;
-	} else {
-		throw new TtcnError("Internal error: could not parse TTCN string.");
-	}
-} 
+ 
 	private static TitanInteger toTitanInteger( BigInteger bi ) {
 		final int i = bi.intValue();
 		if (bi.equals(BigInteger.valueOf(i))) {
@@ -387,7 +381,7 @@ public static Module_Parameter process_config_string2ttcn(final String mp_str, f
 
 	private static void check_duplicate_option(final String section_name, final String option_name, AtomicBoolean option_flag) {
 		if (option_flag.get()) {
-		TTCN_warning("Option `%s' was given more than once in section [%s] of the configuration file.", option_name, section_name);
+			TTCN_warning("Option `%s' was given more than once in section [%s] of the configuration file.", option_name, section_name);
 		} else {
 			option_flag.set(true);
 		}
@@ -401,9 +395,9 @@ pr_ConfigFile:
 	EOF
 ;
 
-pr_String2TtcnStatement:
+pr_String2TtcnStatement returns[Module_Parameter parsed_module_param]:
 	v = pr_ParameterValue {
-		parsed_module_param = $v.moduleparameter; 
+		$parsed_module_param = $v.moduleparameter; 
 	}	
 ;
 

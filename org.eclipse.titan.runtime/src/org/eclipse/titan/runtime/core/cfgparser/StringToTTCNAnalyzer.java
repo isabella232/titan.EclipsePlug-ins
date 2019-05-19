@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.UnbufferedCharStream;
 import org.eclipse.titan.runtime.core.TtcnError;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 
 /**
  * Analyzer for string2ttcn statement
@@ -26,7 +27,13 @@ public class StringToTTCNAnalyzer {
 	//need a generated RuntimeCFGLexer
 	public static final int LEXER_MODE = RuntimeCfgLexer.MODULE_PARAMETERS_SECTION_MODE;
 	public static final String UNKNOWN_FILE = "<unknown file>";
-	
+
+	private Module_Parameter parsed_module_param;
+
+	public Module_Parameter getParsedModuleParam() {
+		return parsed_module_param;
+	}
+
 	/**
 	 * Parses a string.
 	 * 
@@ -45,7 +52,7 @@ public class StringToTTCNAnalyzer {
 		
 		parser.setBuildParseTree(true);
 		try {
-			parser.pr_String2TtcnStatement();
+			parsed_module_param = parser.pr_String2TtcnStatement().parsed_module_param;
 		} catch (Exception e) {
 			throw new TtcnError(e.getMessage());
 		}
