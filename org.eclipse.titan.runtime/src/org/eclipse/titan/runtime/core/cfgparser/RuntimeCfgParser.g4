@@ -1307,13 +1307,13 @@ pr_IntegerPrimaryExpression returns [BigInteger integer]:
 ;
 
 pr_NaturalNumber returns [BigInteger integer]:
-(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.text);}
+(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.getText());}
 |	pr_MacroNaturalNumber
 )
 ;
 
 pr_MPNaturalNumber returns [BigInteger integer]:
-(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.text);}
+(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.getText());}
 |	pr_MacroNaturalNumber
 )
 ;
@@ -1326,7 +1326,7 @@ pr_MPSignedInteger returns [BigInteger integer]:
 	|	MINUS	{	negate = true;	}
 	)?
 	a = NATURAL_NUMBER
-	{	$integer = negate ? new BigInteger($a.text).negate() : new BigInteger($a.text);
+	{	$integer = negate ? new BigInteger($a.getText()).negate() : new BigInteger($a.getText());
 	}
 |	pr_MacroNaturalNumber
 )
@@ -1741,7 +1741,7 @@ pr_ArithmeticPrimaryExpression returns [double floatnum]:
 ;
 
 pr_Float returns [double floatnum]:
-(	a = FLOAT	{	$floatnum = Double.parseDouble($a.text);	}
+(	a = FLOAT	{	$floatnum = Double.parseDouble($a.getText());	}
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
@@ -1750,7 +1750,7 @@ pr_Float returns [double floatnum]:
 ;
 
 pr_MPFloat returns [double floatnum]:
-(	a = FLOAT {$floatnum = Double.parseDouble($a.text);}
+(	a = FLOAT {$floatnum = Double.parseDouble($a.getText());}
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
@@ -1766,7 +1766,7 @@ pr_MPSignedFloat returns [double floatnum]:
 	|	MINUS	{	negate = true;	}
 	)?
 	a = FLOAT
-	{	$floatnum = negate ? -Double.parseDouble($a.text) : Double.parseDouble($a.text);
+	{	$floatnum = negate ? -Double.parseDouble($a.getText()) : Double.parseDouble($a.getText());
 	}
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
