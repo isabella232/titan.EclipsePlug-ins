@@ -232,7 +232,6 @@
     <command defaultHandler="org.eclipse.titanium.actions.ExportProblems"
       id="org.eclipse.titanium.actions.ExportProblems" name="ExportMarkers">
     </command>
-    
     <command defaultHandler="org.eclipse.titanium.actions.ModuleGraphFromBrowser"
       id="org.eclipse.titanium.actions.ModuleGraphFromBrowser" name="ModuleGraphFromBrowser">
     </command>
@@ -398,7 +397,6 @@
             </with>
           </visibleWhen>
         </command>
-        
         <command commandId="org.eclipse.titanium.actions.ModuleGraphFromBrowser"
           label="Show module in Module hierarchy" mode="FORCE_TEXT">
           <visibleWhen checkEnabled="false">
@@ -413,7 +411,6 @@
             </with>
           </visibleWhen>
         </command>
-        
         <command commandId="org.eclipse.titanium.actions.ExportDataForSonarAction"
           label="Export data for SonarQube" mode="FORCE_TEXT">
           <visibleWhen checkEnabled="false">
@@ -467,11 +464,7 @@
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.OrganizeImports"
           label="Organize imports">
         </command>
-        <command commandId="org.eclipse.titanium.commands.ComponentFinder"
-          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentFinder"
-          label="Component finder">
-        </command>
-        <command commandId="org.eclipse.titanium.actions.ModuleGraphFromEditor"
+         <command commandId="org.eclipse.titanium.actions.ModuleGraphFromEditor"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.actions.ModuleGraphFromEditor"
           label="Show module in Module hierarchy">
         </command>
@@ -498,5 +491,4 @@
       </run>
     </application>
   </extension>
-  
 </plugin>
