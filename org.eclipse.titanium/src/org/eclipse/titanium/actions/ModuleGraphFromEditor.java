@@ -55,21 +55,21 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 		final Module actualModule = projectSourceParser.containedModule(file);
 		final IProject project = file.getProject();
-		
+
 		final Generator generator = new Generator(project, actualModule);
 		generator.schedule();
 
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * Generate graph and color node.
 	 * */
 	private static class Generator extends Job {
 		private final IProject project;
 		private Module actualModule;
-		
+
 		// Constructor
 		Generator(final IProject project, Module actualModule) {
 			super("Generator");
@@ -107,18 +107,18 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 						final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						final FileEditorInput editorInput = new FileEditorInput(finalInput);
 						IEditorPart editor = page.findEditor(editorInput);
-						
+
 						if (editor == null) {
 							// Generate the graph
 							editor = page.openEditor(editorInput, ModuleGraphEditor.ID, true, IWorkbenchPage.MATCH_ID
 									| IWorkbenchPage.MATCH_INPUT);
-							
+
 							// Get the selected node and color it
 							final ModuleGraphEditor actualEditor = (ModuleGraphEditor) editor;
-						
+
 							for (final NodeDescriptor node : actualEditor.getGraph().getVertices()) {
 								if (node.getName().equals(actualModule.getName().toString())) {
-									
+
 									Display.getDefault().asyncExec(new Runnable() {
 										@Override
 										public void run() {
@@ -146,6 +146,6 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 		}
 	}
 
-	
+
 
 }

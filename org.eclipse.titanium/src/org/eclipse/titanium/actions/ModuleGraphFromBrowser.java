@@ -29,7 +29,6 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titanium.error.ErrorHandler;
 import org.eclipse.titanium.error.GUIErrorHandler;
 import org.eclipse.titanium.graph.components.NodeDescriptor;
-import org.eclipse.titanium.graph.gui.windows.GraphEditor;
 import org.eclipse.titanium.graph.gui.windows.ModuleGraphEditor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -40,17 +39,17 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
-*
-* @author Hoang Le My Anh
-*
-*/
+ *
+ * @author Hoang Le My Anh
+ *
+ */
 public class ModuleGraphFromBrowser extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;
 
 	public ModuleGraphFromBrowser() {
 		// Do nothing
 	}
-	
+
 	@Override
 	public void run(final IAction action) {
 		doModuleGraphFromBrowser();
@@ -84,12 +83,12 @@ public class ModuleGraphFromBrowser extends AbstractHandler implements IObjectAc
 		}
 
 		final IStructuredSelection structSelection = (IStructuredSelection) selection;
-		
+
 		for (Object selectedFile : structSelection.toList()) {
 			final IProject project = ((IResource) selectedFile).getProject();
 			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(((IResource) selectedFile).getProject());
 			final Module actualModule = projectSourceParser.containedModule((IFile) selectedFile);
-			
+
 			final Generator generator = new Generator(project, actualModule);
 			generator.schedule();
 		}
@@ -101,7 +100,7 @@ public class ModuleGraphFromBrowser extends AbstractHandler implements IObjectAc
 	private static class Generator extends Job {
 		private final IProject project;
 		private Module actualModule;
-		
+
 		// Constructor
 		Generator(final IProject project, Module actualModule) {
 			super("Generator");
@@ -139,18 +138,18 @@ public class ModuleGraphFromBrowser extends AbstractHandler implements IObjectAc
 						final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						final FileEditorInput editorInput = new FileEditorInput(finalInput);
 						IEditorPart editor = page.findEditor(editorInput);
-						
+
 						if (editor == null) {
 							// Generate the graph
 							editor = page.openEditor(editorInput, ModuleGraphEditor.ID, true, IWorkbenchPage.MATCH_ID
 									| IWorkbenchPage.MATCH_INPUT);
-							
+
 							// Get the selected node and color it
 							final ModuleGraphEditor actualEditor = (ModuleGraphEditor) editor;
-						
+
 							for (final NodeDescriptor node : actualEditor.getGraph().getVertices()) {
 								if (node.getName().equals(actualModule.getName().toString())) {
-									
+
 									Display.getDefault().asyncExec(new Runnable() {
 										@Override
 										public void run() {
