@@ -232,6 +232,14 @@
     <command defaultHandler="org.eclipse.titanium.actions.ExportProblems"
       id="org.eclipse.titanium.actions.ExportProblems" name="ExportMarkers">
     </command>
+    
+    <command defaultHandler="org.eclipse.titanium.actions.ModuleGraphFromBrowser"
+      id="org.eclipse.titanium.actions.ModuleGraphFromBrowser" name="ModuleGraphFromBrowser">
+    </command>
+    <command defaultHandler="org.eclipse.titanium.actions.ModuleGraphFromEditor"
+      id="org.eclipse.titanium.actions.ModuleGraphFromEditor" name="ModuleGraphFromEditor">
+    </command>
+    
     <command defaultHandler="org.eclipse.titanium.actions.ExportDataForSonarAction"
       id="org.eclipse.titanium.actions.ExportDataForSonarAction" name="ExportDataForSonarAction">
     </command>
@@ -390,6 +398,22 @@
             </with>
           </visibleWhen>
         </command>
+        
+        <command commandId="org.eclipse.titanium.actions.ModuleGraphFromBrowser"
+          label="Show module in Module hierarchy" mode="FORCE_TEXT">
+          <visibleWhen checkEnabled="false">
+            <with variable="selection">
+              <iterate operator="or">
+                <adapt type="org.eclipse.core.resources.IResource">
+                  <test property="org.eclipse.core.resources.projectNature"
+                    value="org.eclipse.titan.designer.core.TITANNature">
+                  </test>
+                </adapt>
+              </iterate>
+            </with>
+          </visibleWhen>
+        </command>
+        
         <command commandId="org.eclipse.titanium.actions.ExportDataForSonarAction"
           label="Export data for SonarQube" mode="FORCE_TEXT">
           <visibleWhen checkEnabled="false">
@@ -442,6 +466,14 @@
         <command commandId="org.eclipse.titanium.commands.OrganizeImports"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.OrganizeImports"
           label="Organize imports">
+        </command>
+        <command commandId="org.eclipse.titanium.commands.ComponentFinder"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentFinder"
+          label="Component finder">
+        </command>
+        <command commandId="org.eclipse.titanium.actions.ModuleGraphFromEditor"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.actions.ModuleGraphFromEditor"
+          label="Show module in Module hierarchy">
         </command>
         <!-- command commandId="org.eclipse.titanium.commands.ComponentTopology"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentTopology"
