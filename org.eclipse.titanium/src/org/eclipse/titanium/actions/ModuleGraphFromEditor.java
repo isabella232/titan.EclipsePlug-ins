@@ -66,7 +66,7 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 	/**
 	 * Generate graph and color node.
 	 * */
-	private static class Generator extends Job {
+	public static class Generator extends Job {
 		private final IProject project;
 		private Module actualModule;
 
