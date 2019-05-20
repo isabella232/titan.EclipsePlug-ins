@@ -208,6 +208,9 @@
       description="Add necessary and remove unused imports. Effects of this action can be tuned in the Titanium &gt; Imports preference page."
       id="org.eclipse.titanium.commands.OrganizeImportsCommand" name="Organize imports" />
     <command categoryId="org.eclipse.titanium.commands.Commands"
+      description="List what is running on this component"
+      id="org.eclipse.titanium.commands.ListRunningonDefinitionsCommand" name="List Running on Definitions" />
+    <command categoryId="org.eclipse.titanium.commands.Commands"
       description="Check a module for code smells" id="org.eclipse.titanium.commands.CheckCodeSmellsCommand"
       defaultHandler="org.eclipse.titanium.actions.CheckCodeSmells"
       name="Check code smells" />
@@ -253,6 +256,9 @@
     </command>
     <command defaultHandler="org.eclipse.titanium.actions.OrganizeFromEditor"
       id="org.eclipse.titanium.commands.OrganizeImports" name="OrganizeImports">
+    </command>
+    <command defaultHandler="org.eclipse.titanium.actions.ListRunningonDefinitionsFromEditor"
+      id="org.eclipse.titanium.commands.ListRunningonDefinitions" name="List Running on Definitions">
     </command>
     <!-- command defaultHandler="org.eclipse.titanium.actions.ExportComponentTopologyFromEditor"
       id="org.eclipse.titanium.commands.ComponentTopology" name="ComponentTopology">
@@ -467,6 +473,10 @@
          <command commandId="org.eclipse.titanium.actions.ModuleGraphFromEditor"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.actions.ModuleGraphFromEditor"
           label="Show module in Module hierarchy">
+        </command>
+        <command commandId="org.eclipse.titanium.commands.ListRunningonDefinitions"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ListRunningonDefinitions"
+          label="List what is running on this component">
         </command>
         <!-- command commandId="org.eclipse.titanium.commands.ComponentTopology"
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentTopology"
