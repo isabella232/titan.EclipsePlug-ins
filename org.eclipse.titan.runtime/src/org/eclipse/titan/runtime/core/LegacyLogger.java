@@ -587,7 +587,9 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			default: {
 				final String new_filename = get_file_name(logfile_index_);
-				if (new_filename != current_filename_.get()) {
+				final String current_filename = current_filename_.get();
+				if ((new_filename == null && current_filename != null)
+						|| (new_filename != null && !new_filename.equals(current_filename))) {
 					String switched = "Switching to log file " + new_filename;
 					final TitanLogEvent switched_event = new TitanLogEvent();
 					switched_event.get_field_timestamp__().operator_assign(event.get_field_timestamp__());

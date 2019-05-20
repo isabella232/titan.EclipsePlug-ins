@@ -197,7 +197,8 @@ public final class LoggerPluginManager {
 			final boolean plugin_overlaps = for_all_plugins || ((logging_param.pluginId == null && par.pluginId == null) || (logging_param.pluginId != null && logging_param.pluginId.equals(par.pluginId)));
 			boolean parameter_overlaps = logging_param.logparam.log_param_selection == par.logparam.log_param_selection;
 			if (parameter_overlaps && logging_param.logparam.log_param_selection == logging_param_type.LP_PLUGIN_SPECIFIC) {
-				parameter_overlaps = logging_param.logparam.param_name == par.logparam.param_name;
+				parameter_overlaps = (logging_param.logparam.param_name == null && par.logparam.param_name == null)
+						|| (logging_param.logparam.param_name != null && logging_param.logparam.param_name.equals(par.logparam.param_name));
 			}
 
 			duplication_warning = component_overlaps && plugin_overlaps && parameter_overlaps;
