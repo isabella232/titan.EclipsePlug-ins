@@ -66,7 +66,7 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 	/**
 	 * Generate graph and color node.
 	 * */
-	private static class Generator extends Job {
+	public static class Generator extends Job {
 		private final IProject project;
 		private Module actualModule;
 
@@ -112,29 +112,38 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 							// Generate the graph
 							editor = page.openEditor(editorInput, ModuleGraphEditor.ID, true, IWorkbenchPage.MATCH_ID
 									| IWorkbenchPage.MATCH_INPUT);
+						}
 
-							// Get the selected node and color it
-							final ModuleGraphEditor actualEditor = (ModuleGraphEditor) editor;
+						if (editor == null) {
+							//an external editor was opened
+							return;
+						}
 
-							for (final NodeDescriptor node : actualEditor.getGraph().getVertices()) {
-								if (node.getName().equals(actualModule.getName().toString())) {
+						// Get the selected node and color it
+						final ModuleGraphEditor actualEditor = (ModuleGraphEditor) editor;
+						NodeDescriptor foundNode = null;
 
-									Display.getDefault().asyncExec(new Runnable() {
-										@Override
-										public void run() {
-											try {
-												// Set a color for the selected node
-												actualEditor.elemChosen(node);
-											} catch (Exception exc) {
-												final ErrorHandler errorHandler = new GUIErrorHandler();
-												errorHandler.reportException("Error while setting color node", exc);
-											}
-										}
-									});
-								}
+						for (final NodeDescriptor node : actualEditor.getGraph().getVertices()) {
+							if (node.getName().equals(actualModule.getName().toString())) {
+								foundNode = node;
 							}
 						}
 
+						if (foundNode != null) {
+							final NodeDescriptor tempNode = foundNode;
+							Display.getDefault().asyncExec(new Runnable() {
+								@Override
+								public void run() {
+									try {
+										// Set a color for the selected node
+										actualEditor.elemChosen(tempNode);
+									} catch (Exception exc) {
+										final ErrorHandler errorHandler = new GUIErrorHandler();
+										errorHandler.reportException("Error while setting color node", exc);
+									}
+								}
+							});
+						}
 					} catch (Exception exc) {
 						final ErrorHandler errorHandler = new GUIErrorHandler();
 						errorHandler.reportException("Error while selecting the node", exc);

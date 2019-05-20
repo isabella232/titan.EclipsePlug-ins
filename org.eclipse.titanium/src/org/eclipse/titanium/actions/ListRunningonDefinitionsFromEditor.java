@@ -47,7 +47,7 @@ import org.eclipse.ui.PlatformUI;
  *
  * @author Houssem Bahbah
  */
-public final class ShowComponentFromEditor extends AbstractHandler {
+public final class ListRunningonDefinitionsFromEditor extends AbstractHandler {
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		final IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
