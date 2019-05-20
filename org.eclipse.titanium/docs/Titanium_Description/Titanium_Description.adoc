@@ -677,6 +677,8 @@ While editing a TTCN3 source file, you can open the context menu by right clicki
 
 * *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf. Section 6.
 
+* *Show module in Module hierarchy:* Displays the module hierarchy, and reveals in it the location of the current module.
+
 * *List what is running on this component:* When the cursor is over a component type definition, this feature will collect all function/altstep/testcase definition that run on that component and list the in the TITAN Console view.
 
 [[project-actions]]
@@ -691,6 +693,14 @@ To access the Titanium project actions, right click to a Titan project name in t
 * *View metrics:* Open the Metrics view showing the selected project. See <<metrics-view, here>>.
 * *Draw component structure:* Visualize the components of the project. See <<the-component-dependency-graph, here>>.
 * *Draw module structure:* Visualize the module dependencies of the project. <<the-module-dependency-graph, here>>.
+
+[[file-actions]]
+== File actions
+
+To access the Titanium file actions, right click on a file inside a Titan project, in the Package Explorer, and select the Titanium menu.
+
+* *Organize imports:* Organize imports of all TTCN3 source files in the project. See <<configuring-the-problems-view, here>>.
+* *Show module in Module hierarchy:* Displays the module hierarchy, and reveals in it the location of the current module.
 
 [[configuring-the-problems-view]]
 = Configuring the Problems view
