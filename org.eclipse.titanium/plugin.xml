@@ -402,7 +402,7 @@
           <visibleWhen checkEnabled="false">
             <with variable="selection">
               <iterate operator="or">
-                <adapt type="org.eclipse.core.resources.IResource">
+                <adapt type="org.eclipse.core.resources.IFile">
                   <test property="org.eclipse.core.resources.projectNature"
                     value="org.eclipse.titan.designer.core.TITANNature">
                   </test>
