@@ -333,9 +333,10 @@ public final class LoggerPluginManager {
 		}
 
 		for (int i = 0; i < plugins_.size(); i++) {
-			final String plugin_name = plugins_.get(i).plugin_name();
+			final ILoggerPlugin actualPlugin = plugins_.get(i);
+			final String plugin_name = actualPlugin.plugin_name();
 			if ((plugin_name != null) && (plugin_name.equals(name))) {
-				return plugins_.get(i);
+				return actualPlugin;
 			}
 		}
 
@@ -487,8 +488,9 @@ public final class LoggerPluginManager {
 		}
 
 		for (int i = 0; i < plugins_.size(); i++) {
-			plugins_.get(i).open_file(is_first.get().booleanValue());
-			if (plugins_.get(i).is_configured()) {
+			final ILoggerPlugin actualPlugin = plugins_.get(i);
+			actualPlugin.open_file(is_first.get().booleanValue());
+			if (actualPlugin.is_configured()) {
 				free_entry_list = true;
 				for (final LogEntry entry : entry_list_) {
 					if (entry.event_.get_field_severity().get_int() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
@@ -496,7 +498,7 @@ public final class LoggerPluginManager {
 						entry.event_.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(new_log_message);
 						new_log_message = "";
 					}
-					plugins_.get(i).log(entry.event_, true, false, false);
+					actualPlugin.log(entry.event_, true, false, false);
 				}
 			}
 		}
