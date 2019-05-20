@@ -24,7 +24,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.data_log_format_t;
-import org.eclipse.titan.runtime.core.cfgparser.RuntimeCfgParser;
+import org.eclipse.titan.runtime.core.cfgparser.StringToTTCNAnalyzer;
 
 
 /**
@@ -1341,7 +1341,7 @@ public class TitanCharString extends Base_Type {
 	 * */
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Type ttcn_value) {
 		final boolean isComponent = ttcn_value instanceof TitanComponent;
-		final Module_Parameter mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), isComponent);
+		final Module_Parameter mp = StringToTTCNAnalyzer.process_config_string2ttcn(ttcn_string.toString(), isComponent);
 		ttcn_value.set_param(mp);
 	}
 
@@ -1355,7 +1355,7 @@ public class TitanCharString extends Base_Type {
 	 * */
 	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Template ttcn_value) {
 		final boolean isComponent = ttcn_value instanceof TitanComponent_template;
-		final Module_Parameter mp = RuntimeCfgParser.process_config_string2ttcn(ttcn_string.toString(), isComponent);
+		final Module_Parameter mp = StringToTTCNAnalyzer.process_config_string2ttcn(ttcn_string.toString(), isComponent);
 		ttcn_value.set_param(mp);
 	}
 }

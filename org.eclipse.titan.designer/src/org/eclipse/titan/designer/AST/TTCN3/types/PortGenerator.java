@@ -1740,7 +1740,7 @@ public final class PortGenerator {
 			source.append("\t\t\t}\n");
 		} else {
 			source.append("\t\t\t\tTTCN_Logger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_MMSUCCESS : TTCN_Logger.Severity.MATCHING_MCSUCCESS, ");
-			source.append("\t\t\t\tMessageFormat.format(\"Matching on port {0} succeeded.\", get_name()));\n");
+			source.append("MessageFormat.format(\"Matching on port {0} succeeded.\", get_name()));\n");
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = my_head.sender_component==TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_MMRECV : TTCN_Logger.Severity.PORTEVENT_MCRECV;\n");
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\t\tswitch (my_head.item_selection) {\n");

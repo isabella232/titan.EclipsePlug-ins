@@ -229,13 +229,16 @@ public class LegacyLogger implements ILoggerPlugin {
 				set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e.%s" : "%e-part%i.%s") : (logfile_number_ == 1 ? "%e.%h-%r.%s" : "%e.%h-%r-part%i.%s"), false);
 			}
 		}
-		current_filename_.set(get_file_name(logfile_index_));
-		if (current_filename_ != null) {
-			create_parent_directories(current_filename_.get());
-			log_fp_.set(new File(current_filename_.get()));
-			if (!log_fp_.get().exists()) {
+
+		final String localFilename = get_file_name(logfile_index_);
+		current_filename_.set(localFilename);
+		if (localFilename != null) {
+			create_parent_directories(localFilename);
+			final File localFile = new File(localFilename);
+			log_fp_.set(localFile);
+			if (!localFile.exists()) {
 				try {
-					log_fp_.get().createNewFile();
+					localFile.createNewFile();
 				} catch (IOException e) {
 					throw new TtcnError(e);
 				}
@@ -260,13 +263,14 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	public void close_file() {
-		if (log_file_writer.get() == null || log_fp_ == null || log_fp_.get() == null) {
+		final BufferedWriter localFileWriter = log_file_writer.get();
+		if (localFileWriter == null || log_fp_ == null || log_fp_.get() == null) {
 			return;
 		}
 
 		try {
-			log_file_writer.get().flush();
-			log_file_writer.get().close();
+			localFileWriter.flush();
+			localFileWriter.close();
 		} catch ( IOException e ) {
 			System.err.println("Cannot close file!");
 		}
@@ -583,7 +587,9 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			default: {
 				final String new_filename = get_file_name(logfile_index_);
-				if (new_filename != current_filename_.get()) {
+				final String current_filename = current_filename_.get();
+				if ((new_filename == null && current_filename != null)
+						|| (new_filename != null && !new_filename.equals(current_filename))) {
 					String switched = "Switching to log file " + new_filename;
 					final TitanLogEvent switched_event = new TitanLogEvent();
 					switched_event.get_field_timestamp__().operator_assign(event.get_field_timestamp__());

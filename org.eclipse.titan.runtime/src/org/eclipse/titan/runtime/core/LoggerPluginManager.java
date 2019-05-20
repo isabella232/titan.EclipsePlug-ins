@@ -197,7 +197,8 @@ public final class LoggerPluginManager {
 			final boolean plugin_overlaps = for_all_plugins || ((logging_param.pluginId == null && par.pluginId == null) || (logging_param.pluginId != null && logging_param.pluginId.equals(par.pluginId)));
 			boolean parameter_overlaps = logging_param.logparam.log_param_selection == par.logparam.log_param_selection;
 			if (parameter_overlaps && logging_param.logparam.log_param_selection == logging_param_type.LP_PLUGIN_SPECIFIC) {
-				parameter_overlaps = logging_param.logparam.param_name == par.logparam.param_name;
+				parameter_overlaps = (logging_param.logparam.param_name == null && par.logparam.param_name == null)
+						|| (logging_param.logparam.param_name != null && logging_param.logparam.param_name.equals(par.logparam.param_name));
 			}
 
 			duplication_warning = component_overlaps && plugin_overlaps && parameter_overlaps;
@@ -332,9 +333,10 @@ public final class LoggerPluginManager {
 		}
 
 		for (int i = 0; i < plugins_.size(); i++) {
-			final String plugin_name = plugins_.get(i).plugin_name();
+			final ILoggerPlugin actualPlugin = plugins_.get(i);
+			final String plugin_name = actualPlugin.plugin_name();
 			if ((plugin_name != null) && (plugin_name.equals(name))) {
-				return plugins_.get(i);
+				return actualPlugin;
 			}
 		}
 
@@ -486,16 +488,16 @@ public final class LoggerPluginManager {
 		}
 
 		for (int i = 0; i < plugins_.size(); i++) {
-			plugins_.get(i).open_file(is_first.get().booleanValue());
-			if (plugins_.get(i).is_configured()) {
+			final ILoggerPlugin actualPlugin = plugins_.get(i);
+			actualPlugin.open_file(is_first.get().booleanValue());
+			if (actualPlugin.is_configured()) {
 				free_entry_list = true;
 				for (final LogEntry entry : entry_list_) {
 					if (entry.event_.get_field_severity().get_int() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
-						String new_log_message = TTCN_Logger.get_logger_settings_str();
+						final String new_log_message = TTCN_Logger.get_logger_settings_str();
 						entry.event_.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(new_log_message);
-						new_log_message = "";
 					}
-					plugins_.get(i).log(entry.event_, true, false, false);
+					actualPlugin.log(entry.event_, true, false, false);
 				}
 			}
 		}
