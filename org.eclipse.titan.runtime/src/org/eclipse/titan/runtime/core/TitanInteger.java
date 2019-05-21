@@ -250,7 +250,18 @@ public class TitanInteger extends Base_Type {
 	 * @return this + other_value
 	 */
 	public TitanInteger add(final int other_value) {
-		return this.add(new TitanInteger(other_value));
+		must_bound("Unbound left operand of integer addition.");
+
+		if (nativeFlag) {
+			final long temp = (long) nativeInt + (long) other_value;
+			if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
+				return new TitanInteger((int) temp);
+			}
+			return new TitanInteger(BigInteger.valueOf(temp));
+		} else {
+			final BigInteger other_int = BigInteger.valueOf(other_value);
+			return new TitanInteger(openSSL.add(other_int));
+		}
 	}
 
 	/**
@@ -263,7 +274,14 @@ public class TitanInteger extends Base_Type {
 	 * @return this + other_value
 	 */
 	public TitanInteger add(final BigInteger other_value) {
-		return this.add(new TitanInteger(other_value));
+		must_bound("Unbound left operand of integer addition.");
+
+		if (nativeFlag) {
+			final BigInteger this_int = BigInteger.valueOf(nativeInt);
+			return new TitanInteger(this_int.add(other_value));
+		} else {
+			return new TitanInteger(openSSL.add(other_value));
+		}
 	}
 
 	/**
@@ -310,7 +328,18 @@ public class TitanInteger extends Base_Type {
 	 * @return this - other_value
 	 */
 	public TitanInteger sub(final int other_value) {
-		return this.sub(new TitanInteger(other_value));
+		this.must_bound("Unbound left operand of integer subtraction. ");
+
+		if (nativeFlag) {
+			final long temp = (long) nativeInt - (long) other_value;
+			if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
+				return new TitanInteger((int) temp);
+			}
+			return new TitanInteger(BigInteger.valueOf(temp));
+		} else {
+			final BigInteger other_int = BigInteger.valueOf(other_value);
+			return new TitanInteger(openSSL.subtract(other_int));
+		}
 	}
 
 	/**
@@ -323,7 +352,14 @@ public class TitanInteger extends Base_Type {
 	 * @return this - other_value
 	 */
 	public TitanInteger sub(final BigInteger other_value) {
-		return this.sub(new TitanInteger(other_value));
+		this.must_bound("Unbound left operand of integer subtraction. ");
+
+		if (nativeFlag) {
+			final BigInteger this_int = BigInteger.valueOf(nativeInt);
+			return new TitanInteger(this_int.subtract(other_value));
+		} else {
+			return new TitanInteger(openSSL.subtract(other_value));
+		}
 	}
 
 	/**
@@ -370,7 +406,22 @@ public class TitanInteger extends Base_Type {
 	 * @return this * other_value
 	 */
 	public TitanInteger mul(final int other_value) {
-		return this.mul(new TitanInteger(other_value));
+		must_bound("Unbound left operand of integer multiplication.");
+
+		if (nativeFlag && nativeInt == 0 || other_value == 0) {
+			return new TitanInteger((int) 0);
+		}
+
+		if (nativeFlag) {
+			final long temp = (long) nativeInt * (long) other_value;
+			if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
+				return new TitanInteger((int) temp);
+			}
+			return new TitanInteger(BigInteger.valueOf(temp));
+		} else {
+			final BigInteger other_int = BigInteger.valueOf(other_value);
+			return new TitanInteger(openSSL.multiply(other_int));
+		}
 	}
 
 	/**
@@ -383,7 +434,18 @@ public class TitanInteger extends Base_Type {
 	 * @return this * other_value
 	 */
 	public TitanInteger mul(final BigInteger other_value) {
-		return this.mul(new TitanInteger(other_value));
+		must_bound("Unbound left operand of integer multiplication.");
+
+		if (nativeFlag && nativeInt == 0) {
+			return new TitanInteger((int) 0);
+		}
+
+		if (nativeFlag) {
+			final BigInteger this_int = BigInteger.valueOf(nativeInt);
+			return new TitanInteger(this_int.multiply(other_value));
+		} else {
+			return new TitanInteger(openSSL.multiply(other_value));
+		}
 	}
 
 	/**
@@ -397,7 +459,6 @@ public class TitanInteger extends Base_Type {
 	 */
 	public TitanInteger mul(final TitanInteger other_value) {
 		must_bound("Unbound left operand of integer multiplication.");
-
 		other_value.must_bound("Unbound right operand of integer multiplication.");
 
 		if (nativeFlag && nativeInt == 0 || (other_value.nativeFlag && other_value.nativeInt == 0)) {
@@ -435,7 +496,26 @@ public class TitanInteger extends Base_Type {
 	 * @return this / other_value
 	 */
 	public TitanInteger div(final int other_value) {
-		return div(new TitanInteger(other_value));
+		must_bound("Unbound left operand of integer division.");
+
+		if (other_value == 0) {
+			throw new TtcnError("Integer division by zero.");
+		}
+		if (nativeFlag && nativeInt == 0) {
+			return new TitanInteger(0);
+		}
+
+		if (nativeFlag) {
+			final long temp = (long) nativeInt / (long) other_value;
+			if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
+				return new TitanInteger(nativeInt / other_value);
+			} else {
+				return new TitanInteger(BigInteger.valueOf(temp));
+			}
+		} else {
+			final BigInteger other_value_int = BigInteger.valueOf(other_value);
+			return new TitanInteger(openSSL.divide(other_value_int));
+		}
 	}
 
 	/**
@@ -448,7 +528,21 @@ public class TitanInteger extends Base_Type {
 	 * @return this / other_value
 	 */
 	public TitanInteger div(final BigInteger other_value) {
-		return div(new TitanInteger(other_value));
+		must_bound("Unbound left operand of integer division.");
+
+		if (other_value.equals(BigInteger.ZERO)) {
+			throw new TtcnError("Integer division by zero.");
+		}
+		if (nativeFlag && nativeInt == 0) {
+			return new TitanInteger(0);
+		}
+
+		if (nativeFlag) {
+			final BigInteger this_int = BigInteger.valueOf(nativeInt);
+			return new TitanInteger(this_int.divide(other_value));
+		} else {
+			return new TitanInteger(openSSL.divide(other_value));
+		}
 	}
 
 	/**
