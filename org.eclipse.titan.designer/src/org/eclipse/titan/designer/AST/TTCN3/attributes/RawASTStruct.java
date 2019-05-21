@@ -125,7 +125,7 @@ public class RawASTStruct {
 	public int repeatable;
 	public int length;
 
-	public RawASTStruct(final RawAST from) {
+	public RawASTStruct(final RawAST from, final boolean copy_presences) {
 		fieldlength = from.fieldlength;
 		comp = from.comp;
 		byteorder = from.byteorder;
@@ -162,7 +162,7 @@ public class RawASTStruct {
 				taglist.list.add(new rawAST_coding_taglist());
 			}
 		}
-		if (from.presence != null && from.presence.keyList != null && from.presence.keyList.size() > 0) {
+		if (copy_presences && from.presence != null && from.presence.keyList != null && from.presence.keyList.size() > 0) {
 			presence = new rawAST_coding_taglist();
 			presence.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(from.presence.keyList.size());
 		}

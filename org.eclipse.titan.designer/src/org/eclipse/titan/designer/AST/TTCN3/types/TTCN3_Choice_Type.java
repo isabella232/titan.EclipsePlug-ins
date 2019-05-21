@@ -589,7 +589,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			} else {
 				dummy_raw = rawAttribute;
 			}
-			raw = new RawASTStruct(dummy_raw);
+			raw = new RawASTStruct(dummy_raw, true);
 
 			// building taglist
 			final int taglistSize = dummy_raw.taglist == null ? 0 : dummy_raw.taglist.size();
