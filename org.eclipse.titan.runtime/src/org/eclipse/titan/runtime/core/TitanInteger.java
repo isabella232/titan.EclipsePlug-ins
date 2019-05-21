@@ -597,11 +597,17 @@ public class TitanInteger extends Base_Type {
 	 * @return the remainder
 	 */
 	public TitanInteger rem(final int other_value) {
+		must_bound("Unbound left operand of rem operator ");
+
 		if (other_value == 0) {
 			throw new TtcnError("The right operand of rem operator is zero.");
 		}
 
-		return rem(this, other_value);
+		if (nativeFlag) {
+			return new TitanInteger(nativeInt - other_value * (nativeInt / other_value));
+		} else {
+			return new TitanInteger(openSSL.remainder(BigInteger.valueOf(other_value)));
+		}
 	}
 
 	/**
@@ -614,11 +620,17 @@ public class TitanInteger extends Base_Type {
 	 * @return the remainder
 	 */
 	public TitanInteger rem(final BigInteger other_value) {
+		must_bound("Unbound left operand of rem operator ");
+
 		if (other_value.equals(BigInteger.ZERO)) {
 			throw new TtcnError("The right operand of rem operator is zero.");
 		}
 
-		return rem(this, new TitanInteger(other_value));
+		if (nativeFlag) {
+			return new TitanInteger(BigInteger.valueOf(nativeInt).remainder(other_value));
+		} else {
+			return new TitanInteger(openSSL.remainder(other_value));
+		}
 	}
 
 	/**
@@ -631,7 +643,7 @@ public class TitanInteger extends Base_Type {
 	 * @return the remainder
 	 */
 	public TitanInteger rem(final TitanInteger other_value) {
-		this.must_bound("Unbound left operand of rem operator ");
+		must_bound("Unbound left operand of rem operator ");
 		other_value.must_bound("Unbound right operand of rem operator");
 
 		return this.sub(other_value.mul(this.div(other_value)));
@@ -646,7 +658,24 @@ public class TitanInteger extends Base_Type {
 	 * @return the modulo
 	 */
 	public TitanInteger mod(final int other_value) {
-		return mod(new TitanInteger(other_value));
+		must_bound("Unbound left operand of mod operator.");
+
+		int rightValueAbs = other_value;
+		if (other_value < 0) {
+			rightValueAbs = -1 * other_value;
+		} else if (other_value == 0) {
+			throw new TtcnError("The right operand of mod operator is zero");
+		}
+		if (is_greater_than(0)) {
+			return rem(other_value);
+		} else {
+			final TitanInteger result = rem(rightValueAbs);
+			if (result.operator_equals(0)) {
+				return result;
+			} else {
+				return result.add(rightValueAbs);
+			}
+		}
 	}
 
 	/**
