@@ -686,7 +686,25 @@ public class TitanInteger extends Base_Type {
 	 * @return the modulo
 	 */
 	public TitanInteger mod(final BigInteger other_value) {
-		return mod(new TitanInteger(other_value));
+		must_bound("Unbound left operand of mod operator.");
+
+		BigInteger rightValueAbs = other_value;
+		final int comparision = other_value.compareTo(BigInteger.ZERO);
+		if (comparision == -1) {
+			rightValueAbs = rightValueAbs.negate();
+		} else if (comparision == 0) {
+			throw new TtcnError("The right operand of mod operator is zero");
+		}
+		if (is_greater_than(0)) {
+			return rem(other_value);
+		} else {
+			final TitanInteger result = rem(rightValueAbs);
+			if (result.operator_equals(0)) {
+				return result;
+			} else {
+				return result.add(rightValueAbs);
+			}
+		}
 	}
 
 	/**
@@ -707,9 +725,9 @@ public class TitanInteger extends Base_Type {
 			throw new TtcnError("The right operand of mod operator is zero");
 		}
 		if (is_greater_than(0)) {
-			return rem(this, other_value);
+			return rem(other_value);
 		} else {
-			final TitanInteger result = rem(this, rightValueAbs);
+			final TitanInteger result = rem(rightValueAbs);
 			if (result.operator_equals(0)) {
 				return new TitanInteger(0);
 			} else {
