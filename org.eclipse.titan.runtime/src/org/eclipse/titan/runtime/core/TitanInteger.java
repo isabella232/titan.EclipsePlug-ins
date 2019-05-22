@@ -1393,7 +1393,7 @@ public class TitanInteger extends Base_Type {
 	 * @return the remainder of left_value / right_value
 	 */
 	public static TitanInteger rem(final TitanInteger left_value, final int right_value) {
-		return rem(left_value, new TitanInteger(right_value));
+		return left_value.rem(right_value);
 	}
 
 	/**
@@ -1468,7 +1468,7 @@ public class TitanInteger extends Base_Type {
 			if (result.operator_equals(0)) {
 				return new TitanInteger(0);
 			} else {
-				return new TitanInteger(rightValueAbs.add(result));
+				return rightValueAbs.add(result);
 			}
 		}
 	}
@@ -1485,7 +1485,7 @@ public class TitanInteger extends Base_Type {
 	 * @return the modulo of left_value / right_value
 	 */
 	public static TitanInteger mod(final TitanInteger left_value, final int right_value) {
-		return mod(left_value, new TitanInteger(right_value));
+		return left_value.mod(right_value);
 	}
 
 	/**
