@@ -154,7 +154,14 @@ public class TitanTimer {
 			return;
 		}
 
-		localTimers.addLast(this);
+		int i = 0;
+		for (final TitanTimer timer : localTimers) {
+			if (timer.time_expires > time_expires) {
+				break;
+			}
+			i++;
+		}
+		localTimers.add(i, this);
 	}
 
 	/**
@@ -227,6 +234,8 @@ public class TitanTimer {
 			}
 
 			TTCN_Logger.log_timer_start(timer_name, startValue);
+			time_started = TTCN_Snapshot.time_now();
+			time_expires = time_started + startValue;
 			add_to_list();
 		} else {
 			if (startValue < 0.0) {
@@ -240,10 +249,10 @@ public class TitanTimer {
 
 			is_started = true;
 			TTCN_Logger.log_timer_guard(startValue);
-		}
 
-		time_started = TTCN_Snapshot.time_now();
-		time_expires = time_started + startValue;
+			time_started = TTCN_Snapshot.time_now();
+			time_expires = time_started + startValue;
+		}
 	}
 
 	// originally start(const FLOAT& start_val)
@@ -442,6 +451,7 @@ public class TitanTimer {
 			} else if (!minFlag || timer.time_expires < minValue.getValue()){
 				minValue.setValue(timer.time_expires);
 				minFlag = true;
+				break;
 			}
 		}
 
