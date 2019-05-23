@@ -920,9 +920,9 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
 		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-			source.append( "private" );
+			source.append( "\tprivate" );
 		} else {
-			source.append( "public" );
+			source.append( "\tpublic" );
 		}
 		source.append( " static final " );
 
@@ -964,7 +964,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 			return;
 		}
-		source.append( "}\n" );
+		source.append( "\t}\n" );
 
 		sb.append(source);
 	}
@@ -984,15 +984,15 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
-		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Encoding {1}: \");\n", identifier.getDisplayName(), inputType.getTypename()));
-		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
-		source.append( "TTCN_Logger.end_event();\n" );
-		source.append( "}\n" );
-		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
-		source.append( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
-		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName()) );
+		source.append( "\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format( "\t\t\tTTCN_Logger.log_event_str(\"{0}(): Encoding {1}: \");\n", identifier.getDisplayName(), inputType.getTypename()));
+		source.append(MessageFormat.format( "\t\t\t{0}.log();\n", firstParName) );
+		source.append( "\t\t\tTTCN_Logger.end_event();\n" );
+		source.append( "\t\t}\n" );
+		source.append( "\t\tTTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+		source.append( "\t\tfinal TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
+		source.append(MessageFormat.format( "\t\t{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName()) );
 
 		//FIXME implement JSON and XER specific parts
 		String resultName;
@@ -1000,7 +1000,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		case CONVERT:
 			resultName = "ret_val";
 			// creating a local variable for the result stream
-			source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source )));
+			source.append(MessageFormat.format("\t\tfinal {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source )));
 			break;
 		case FAST:
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
@@ -1014,20 +1014,20 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (outputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
-			source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
-			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-			source.append( MessageFormat.format("{0}.operator_assign(AdditionalFunctions.oct2bit(tmp_os));\n", resultName));
+			source.append( "\t\tfinal TitanOctetString tmp_os = new TitanOctetString();\n" );
+			source.append( "\t\tttcn_buffer.get_string(tmp_os);\n" );
+			source.append( MessageFormat.format("\t\t{0}.operator_assign(AdditionalFunctions.oct2bit(tmp_os));\n", resultName));
 		} else {
-			source.append( MessageFormat.format("ttcn_buffer.get_string({0});\n", resultName));
+			source.append( MessageFormat.format("\t\tttcn_buffer.get_string({0});\n", resultName));
 		}
-		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
-		source.append(MessageFormat.format( "{0}.log();\n", resultName));
-		source.append( "TTCN_Logger.end_event();\n" );
-		source.append( "}\n" );
+		source.append( "\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
+		source.append(MessageFormat.format( "\t\t\t{0}.log();\n", resultName));
+		source.append( "\t\t\tTTCN_Logger.end_event();\n" );
+		source.append( "\t\t}\n" );
 		if (prototype == EncodingPrototype_type.CONVERT) {
-			source.append( "return ret_val;\n" );
+			source.append( "\t\treturn ret_val;\n" );
 		}
 	}
 
@@ -1047,43 +1047,43 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
-		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Stream before decoding: \");\n", identifier.getDisplayName()));
-		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
-		source.append( "TTCN_Logger.end_event();\n" );
-		source.append( "}\n" );
+		source.append( "\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_event_str(\"{0}(): Stream before decoding: \");\n", identifier.getDisplayName()));
+		source.append( MessageFormat.format( "\t\t\t{0}.log();\n", firstParName) );
+		source.append( "\t\t\tTTCN_Logger.end_event();\n" );
+		source.append( "\t\t}\n" );
 
 		if (errorBehaviorList != null) {
 			errorBehaviorList.generateCode(aData, source);
 		} else if (prototype == EncodingPrototype_type.BACKTRACK || prototype == EncodingPrototype_type.SLIDING) {
-			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
+			source.append( "\t\tTTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
 		} else {
-			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+			source.append( "\t\tTTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		}
 		
-		source.append( "TTCN_EncDec.clear_error();\n" );
+		source.append( "\t\tTTCN_EncDec.clear_error();\n" );
 
 		// creating a buffer from the input stream
 		if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
-			source.append( MessageFormat.format( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer(AdditionalFunctions.bit2oct({0}));\n", firstParName) );
+			source.append( MessageFormat.format( "\t\tfinal TTCN_Buffer ttcn_buffer = new TTCN_Buffer(AdditionalFunctions.bit2oct({0}));\n", firstParName) );
 		} else {
-			source.append( MessageFormat.format( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer({0});\n", firstParName) );
+			source.append( MessageFormat.format( "\t\tfinal TTCN_Buffer ttcn_buffer = new TTCN_Buffer({0});\n", firstParName) );
 		}
 
 		String resultName;
 		if (prototype == EncodingPrototype_type.CONVERT) {
-			source.append( MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source )) );
+			source.append( MessageFormat.format("\t\tfinal {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source )) );
 			resultName = "ret_val";
 		} else {
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
 		}
 		if (encodingType == MessageEncoding_type.TEXT) {
-			source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
-			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_LOG_MATCHING, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
-			source.append( "}\n" );
+			source.append( "\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "\t\t\tTTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_LOG_MATCHING, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
+			source.append( "\t\t}\n" );
 		}
 		String generatedEncodingOptions;
 		if (encodingOptions == null) {
@@ -1100,79 +1100,79 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				break;
 			}
 		}
-		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName(), generatedEncodingOptions) );
+		source.append( MessageFormat.format( "\t\t{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName(), generatedEncodingOptions) );
 
 		// producing debug printout of the result PDU
-		source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Decoded {1}: \");\n", identifier.getDisplayName(), outputType.getTypename()));
-		source.append( MessageFormat.format( "{0}.log();\n", resultName) );
-		source.append( "TTCN_Logger.end_event();\n" );
-		source.append( "}\n" );
+		source.append( "\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_event_str(\"{0}(): Decoded {1}: \");\n", identifier.getDisplayName(), outputType.getTypename()));
+		source.append( MessageFormat.format( "\t\t\t{0}.log();\n", resultName) );
+		source.append( "\t\t\tTTCN_Logger.end_event();\n" );
+		source.append( "\t\t}\n" );
 		if (prototype != EncodingPrototype_type.SLIDING) {
 			aData.addBuiltinTypeImport("TitanCharString");
 			aData.addBuiltinTypeImport("TitanOctetString");
 
 			// checking for remaining data in the buffer if decoding was successful
-			source.append( "if (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
-			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len()) {\n" );
-			source.append( "ttcn_buffer.cut();\n" );
+			source.append( "\t\tif (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
+			source.append( "\t\t\tif (ttcn_buffer.get_pos() < ttcn_buffer.get_len()) {\n" );
+			source.append( "\t\t\t\tttcn_buffer.cut();\n" );
 
-			source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
-			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-			source.append( "TTCN_Logger.begin_event_log2str();\n" );
+			source.append( "\t\t\t\tfinal TitanOctetString tmp_os = new TitanOctetString();\n" );
+			source.append( "\t\t\t\tttcn_buffer.get_string(tmp_os);\n" );
+			source.append( "\t\t\t\tTTCN_Logger.begin_event_log2str();\n" );
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
-				source.append( "AdditionalFunctions.oct2bit(tmp_os).log();\n");
+				source.append( "\t\t\t\tAdditionalFunctions.oct2bit(tmp_os).log();\n");
 			} else {
-				source.append( "tmp_os.log();\n");
+				source.append( "\t\t\t\ttmp_os.log();\n");
 			}
-			source.append( "final TitanCharString remaining_stream = TTCN_Logger.end_event_log2str();\n" );
-			source.append( MessageFormat.format( "TTCN_EncDec_ErrorContext.error(error_type.ET_EXTRA_DATA, \"{0}(): Warning: Data remained at the end of the stream after successful decoding: %s\", remaining_stream.get_value());\n", identifier.getDisplayName()));
-			source.append( "}\n" );
+			source.append( "\t\t\t\tfinal TitanCharString remaining_stream = TTCN_Logger.end_event_log2str();\n" );
+			source.append( MessageFormat.format( "\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_EXTRA_DATA, \"{0}(): Warning: Data remained at the end of the stream after successful decoding: %s\", remaining_stream.get_value());\n", identifier.getDisplayName()));
+			source.append( "\t\t\t}\n" );
 
 			// closing the block and returning the appropriate result or status code
 			if (prototype == EncodingPrototype_type.BACKTRACK) {
 				aData.addBuiltinTypeImport("TitanInteger");
 
-				source.append( "return new TitanInteger(0);\n" );
-				source.append( "} else {\n" );
-				source.append( "return new TitanInteger(1);\n" );
-				source.append( "}\n" );
+				source.append( "\t\t\treturn new TitanInteger(0);\n" );
+				source.append( "\t\t} else {\n" );
+				source.append( "\t\t\treturn new TitanInteger(1);\n" );
+				source.append( "\t\t}\n" );
 			} else {
-				source.append( "}\n" );
+				source.append( "\t\t}\n" );
 				if (prototype == EncodingPrototype_type.CONVERT) {
-					source.append( "return ret_val;\n" );
+					source.append( "\t\treturn ret_val;\n" );
 				}
 			}
 		} else {
 			aData.addBuiltinTypeImport("TitanInteger");
 
 			// result handling and debug printout for sliding decoders
-			source.append( "switch (TTCN_EncDec.get_last_error_type()) {\n" );
-			source.append( "case ET_NONE: {\n" );
-			source.append( "ttcn_buffer.cut();\n" );
+			source.append( "\t\tswitch (TTCN_EncDec.get_last_error_type()) {\n" );
+			source.append( "\t\tcase ET_NONE: {\n" );
+			source.append( "\t\t\tttcn_buffer.cut();\n" );
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 				aData.addBuiltinTypeImport("TitanOctetString");
 
-				source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
-				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-				source.append(MessageFormat.format( "{0}.operator_assign(AdditionalFunctions.oct2bit(tmp_os));\n", firstParName) );
+				source.append( "\t\t\tTitanOctetString tmp_os = new TitanOctetString();\n" );
+				source.append( "\t\t\tttcn_buffer.get_string(tmp_os);\n" );
+				source.append(MessageFormat.format( "\t\t\t{0}.operator_assign(AdditionalFunctions.oct2bit(tmp_os));\n", firstParName) );
 			} else {
-				source.append(MessageFormat.format( "ttcn_buffer.get_string({0});\n", firstParName) );
+				source.append(MessageFormat.format( "\t\t\tttcn_buffer.get_string({0});\n", firstParName) );
 			}
-			source.append( "if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
-			source.append( "TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
-			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): stream after decoding: \");\n", identifier.getDisplayName()));
-			source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
-			source.append( "TTCN_Logger.end_event();\n" );
-			source.append( "}\n" );
-			source.append( "return new TitanInteger(0); }\n" );
-			source.append( "case ET_INCOMPL_MSG:\n" );
-			source.append( "case ET_LEN_ERR:\n" );
-			source.append( "return new TitanInteger(2);\n" );
-			source.append( "default:\n" );
-			source.append( "return new TitanInteger(1);\n" );
-			source.append( "}\n" );
+			source.append( "\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
+			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"{0}(): stream after decoding: \");\n", identifier.getDisplayName()));
+			source.append( MessageFormat.format( "\t\t\t\t{0}.log();\n", firstParName) );
+			source.append( "\t\t\t\tTTCN_Logger.end_event();\n" );
+			source.append( "\t\t\t}\n" );
+			source.append( "\t\t\treturn new TitanInteger(0); }\n" );
+			source.append( "\t\tcase ET_INCOMPL_MSG:\n" );
+			source.append( "\t\tcase ET_LEN_ERR:\n" );
+			source.append( "\t\t\treturn new TitanInteger(2);\n" );
+			source.append( "\t\tdefault:\n" );
+			source.append( "\t\t\treturn new TitanInteger(1);\n" );
+			source.append( "\t\t}\n" );
 		}
 	}
 }
