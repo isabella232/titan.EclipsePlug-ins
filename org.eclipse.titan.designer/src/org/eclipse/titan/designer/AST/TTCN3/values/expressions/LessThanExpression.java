@@ -353,7 +353,6 @@ public final class LessThanExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO actually a bit more complicated
 		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append( ".is_less_than( " );
 		if (value2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {

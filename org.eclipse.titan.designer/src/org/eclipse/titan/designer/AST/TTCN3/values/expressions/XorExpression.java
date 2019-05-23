@@ -310,7 +310,6 @@ public final class XorExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO actually a bit more complicated
 		if (value1.returnsNative()) {
 			if (value2.returnsNative()) {
 				expression.expression.append( '(' );

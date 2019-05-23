@@ -357,7 +357,6 @@ public final class OrExpression extends Expression_Value {
 
 			expression.expression.append(tempId);
 		} else {
-			//TODO actually a bit more complicated
 			if (value1.returnsNative()) {
 				if (value2.returnsNative()) {
 					expression.expression.append( '(' );
