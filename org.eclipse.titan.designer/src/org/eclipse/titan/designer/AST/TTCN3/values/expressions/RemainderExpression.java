@@ -307,7 +307,12 @@ public final class RemainderExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append( ".rem( " );
-		value2.generateCodeExpressionMandatory(aData, expression, false);
+		if (value2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value2.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append( " )" );
 	}
 }

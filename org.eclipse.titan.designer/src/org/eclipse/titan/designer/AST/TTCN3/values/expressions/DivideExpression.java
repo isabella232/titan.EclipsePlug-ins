@@ -361,8 +361,13 @@ public final class DivideExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		value1.generateCodeExpressionMandatory(aData, expression, true);
-		expression.expression.append(".div(");
-		value2.generateCodeExpressionMandatory(aData, expression, false);
+		expression.expression.append(".div( ");
+		if (value2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value2.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(" )");
 	}
 

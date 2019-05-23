@@ -321,13 +321,23 @@ public final class XorExpression extends Expression_Value {
 			} else {
 				value1.generateCodeExpressionMandatory(aData, expression, true);
 				expression.expression.append( ".xor( " );
-				value2.generateCodeExpressionMandatory(aData, expression, false);
+				if (value2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+					value2.generateCodeExpressionMandatory(aData, expression, false);
+				} else {
+					final IValue refdLast = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+					refdLast.generateCodeExpression(aData, expression, false);
+				}
 				expression.expression.append( " )" );
 			}
 		} else {
 			value1.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append( ".xor( " );
-			value2.generateCodeExpressionMandatory(aData, expression, false);
+			if (value2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+				value2.generateCodeExpressionMandatory(aData, expression, false);
+			} else {
+				final IValue refdLast = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+				refdLast.generateCodeExpression(aData, expression, false);
+			}
 			expression.expression.append( " )" );
 		}
 	}

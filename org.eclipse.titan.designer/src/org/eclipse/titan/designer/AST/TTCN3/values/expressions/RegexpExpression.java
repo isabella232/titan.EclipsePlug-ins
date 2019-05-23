@@ -514,7 +514,12 @@ public final class RegexpExpression extends Expression_Value {
 			templateInstance2.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 		expression.expression.append(", ");
-		value3.generateCodeExpressionMandatory(aData, expression, false);
+		if (value3.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value3.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(MessageFormat.format(", {0})", noCase ? "true" : "false"));
 	}
 }

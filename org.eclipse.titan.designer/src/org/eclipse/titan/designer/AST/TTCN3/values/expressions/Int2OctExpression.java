@@ -346,9 +346,19 @@ public final class Int2OctExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2oct(");
-		value1.generateCodeExpressionMandatory(aData, expression, false);
+		if (value1.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value1.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value1.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(", ");
-		value2.generateCodeExpressionMandatory(aData, expression, false);
+		if (value2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value2.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(')');
 	}
 }

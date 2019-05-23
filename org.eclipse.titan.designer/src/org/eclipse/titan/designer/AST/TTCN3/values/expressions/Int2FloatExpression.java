@@ -257,7 +257,12 @@ public final class Int2FloatExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2float(");
-		value.generateCodeExpressionMandatory(aData, expression, false);
+		if (value.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(')');
 	}
 }

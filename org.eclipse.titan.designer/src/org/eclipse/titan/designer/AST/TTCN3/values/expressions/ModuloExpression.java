@@ -325,7 +325,12 @@ public final class ModuloExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append( ".mod( " );
-		value2.generateCodeExpressionMandatory(aData, expression, false);
+		final IValue refdLast = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		if (refdLast == null || refdLast == value2) {
+			value2.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append( " )" );
 	}
 }

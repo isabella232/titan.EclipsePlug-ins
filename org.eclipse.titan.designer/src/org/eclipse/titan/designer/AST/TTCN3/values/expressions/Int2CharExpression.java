@@ -266,7 +266,12 @@ public final class Int2CharExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2char(");
-		value.generateCodeExpressionMandatory(aData, expression, false);
+		if (value.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(')');
 	}
 
