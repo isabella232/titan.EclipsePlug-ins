@@ -288,7 +288,7 @@ public final class EqualsExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO actually a bit more complicated
+		//FIXME handle the needs conversion case
 		// TODO maybe this can be optimized later
 		boolean isOptional1 = false;
 		boolean isOptional2 = false;

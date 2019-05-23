@@ -511,9 +511,8 @@ public final class StringConcatenationExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO actually a bit more complicated
+		//FIXME handle the needs conversion case
 		value1.generateCodeExpressionMandatory(aData, expression, true);
-		// originally operatior+ is used for string concatenation
 		expression.expression.append( ".operator_concatenate( " );
 		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append( " )" );

@@ -542,6 +542,7 @@ public final class RotateRightExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		//FIXME handle the needs conversion case
 		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".rotate_right( ");
 		value2.generateCodeExpressionMandatory(aData, expression, false);
