@@ -508,7 +508,7 @@ public class TitanInteger extends Base_Type {
 		if (nativeFlag) {
 			final long temp = (long) nativeInt / (long) other_value;
 			if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
-				return new TitanInteger(nativeInt / other_value);
+				return new TitanInteger((int) temp);
 			} else {
 				return new TitanInteger(BigInteger.valueOf(temp));
 			}
@@ -569,7 +569,7 @@ public class TitanInteger extends Base_Type {
 			if (other_value.nativeFlag) {
 				final long temp = (long) nativeInt / (long) other_value.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
-					return new TitanInteger(nativeInt / other_value.nativeInt);
+					return new TitanInteger((int) temp);
 				} else {
 					return new TitanInteger(BigInteger.valueOf(temp));
 				}
