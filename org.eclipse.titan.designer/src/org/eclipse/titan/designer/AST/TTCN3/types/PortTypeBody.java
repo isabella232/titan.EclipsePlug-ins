@@ -2087,10 +2087,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			portDefinition.portType = PortType.USER;
 
 			if (legacy) {
-				final PortTypeBody providerBody = providerTypes.get(0).getPortBody();
+				final Port_Type providerType = providerTypes.get(0);
+				final PortTypeBody providerBody = providerType.getPortBody();
 
 				portDefinition.providerMessageOutList = new ArrayList<PortGenerator.portMessageProvider>();
-				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerTypes.get(0).getGenNameValue(aData, source), null, providerBody.realtime);
+				final String providerName = providerType.getGenNameOwn();
+				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerName, null, providerBody.realtime);
 				portDefinition.providerMessageOutList.add(temp);
 
 				if (providerBody.inMessages != null) {

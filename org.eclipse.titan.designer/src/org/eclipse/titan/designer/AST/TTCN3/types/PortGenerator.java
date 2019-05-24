@@ -1058,7 +1058,7 @@ public final class PortGenerator {
 
 					baseClassName = portDefinition.providerMessageOutList.get(0).name + "_PROVIDER";
 
-					//aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + baseClassName);
+					aData.addImport(ProjectSourceCompiler.getPackageUserProvidedRoot(project) + "." + baseClassName);
 					break;
 				}
 				// else fall through
