@@ -2069,12 +2069,12 @@ public final class PortGenerator {
 	private static void generateIncomingMapping(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final MessageMappedTypeInfo mappedType, final boolean hasSimple) {
 		// If has simple is true, then always the first one is the simple mapping,
 		// and the first mapping is taken care elsewhere
-		int i  = hasSimple ? 1 : 0;
+		final int start  = hasSimple ? 1 : 0;
 		boolean hasBuffer = false;
 		boolean hasDiscard = false;
 		boolean reportError = false;
 		boolean isSliding = false;
-		for ( ; i < mappedType.targets.size(); i++) {
+		for (int i = start ; i < mappedType.targets.size(); i++) {
 			final MessageTypeMappingTarget target = mappedType.targets.get(i);
 			boolean hasCondition = false;
 			if (target.mappingType == MessageMappingType_type.DISCARD) {
