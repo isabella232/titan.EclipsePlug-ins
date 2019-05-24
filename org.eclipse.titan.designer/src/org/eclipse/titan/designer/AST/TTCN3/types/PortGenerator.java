@@ -2084,49 +2084,49 @@ public final class PortGenerator {
 			} else if (target.mappingType == MessageMappingType_type.DECODE && !hasBuffer) {
 				aData.addBuiltinTypeImport("TTCN_Buffer");
 				if (isSliding) {
-					source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer(slider);\n");
+					source.append("\t\t\tTTCN_Buffer ttcn_buffer = new TTCN_Buffer(slider);\n");
 				} else {
-					source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer(incoming_par);\n");
+					source.append("\t\t\tTTCN_Buffer ttcn_buffer = new TTCN_Buffer(incoming_par);\n");
 				}
 			}
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
 				aData.addBuiltinTypeImport("TTCN_Runtime");
 
-				source.append("TTCN_Runtime.set_translation_mode(true, this);\n");
-				source.append("TTCN_Runtime.set_port_state(-1, \"by test environment.\", true);\n");
+				source.append("\t\t\tTTCN_Runtime.set_translation_mode(true, this);\n");
+				source.append("\t\t\tTTCN_Runtime.set_port_state(-1, \"by test environment.\", true);\n");
 			}
 			if (mappedType.targets.size() > 1) {
-				source.append("{\n");
+				source.append("\t\t\t{\n");
 			}
 			switch (target.mappingType) {
 			case FUNCTION:
-				source.append(MessageFormat.format("// in mapping with a prototype({0}) function\n", target.functionPrototype.name()));
+				source.append(MessageFormat.format("\t\t\t// in mapping with a prototype({0}) function\n", target.functionPrototype.name()));
 				switch (target.functionPrototype) {
 				case CONVERT:
-					source.append(MessageFormat.format("{0} mapped_par = new {0}({1}(incoming_par));\n", target.targetName, target.functionName));
+					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}({1}(incoming_par));\n", target.targetName, target.functionName));
 					break;
 				case FAST:
-					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("{0}(incoming_par, mapped_par);\n", target.functionName));
+					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\t{0}(incoming_par, mapped_par);\n", target.functionName));
 					if (!portDefinition.legacy) {
 						hasCondition = true;
 					}
 					break;
 				case SLIDING:
 					if (!isSliding) {
-						source.append("slider.operator_assign(slider.operator_concatenate(incoming_par));\n");
+						source.append("\t\t\tslider.operator_assign(slider.operator_concatenate(incoming_par));\n");
 						isSliding = true;
 					}
-					source.append("for (;;) {\n");
-					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).get_int();\n", target.functionName));
-					source.append("if (decoding_result == 0) {\n");
+					source.append("\t\t\tfor (;;) {\n");
+					source.append(MessageFormat.format("\t\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\t\tint decoding_result = {0}(slider, mapped_par).get_int();\n", target.functionName));
+					source.append("\t\t\t\tif (decoding_result == 0) {\n");
 					hasCondition = true;
 					break;
 				case BACKTRACK:
-					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("boolean success_flag = {0}(incoming_par, mapped_par).operator_equals(0);\n", target.functionName));
-					source.append("if (success_flag) {\n");
+					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\tboolean success_flag = {0}(incoming_par, mapped_par).operator_equals(0);\n", target.functionName));
+					source.append("\t\t\tif (success_flag) {\n");
 					hasCondition = true;
 					break;
 				default:
@@ -2137,36 +2137,36 @@ public final class PortGenerator {
 				aData.addBuiltinTypeImport("TTCN_Buffer");
 				aData.addBuiltinTypeImport("TTCN_EncDec");
 
-				source.append("// in mapping with a built-in encoder\n");
+				source.append("\t\t\t// in mapping with a built-in encoder\n");
 				source.append(target.encdecErrorBehaviour);
-				source.append("final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
+				source.append("\t\t\tfinal TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
 				if (target.encdecEncodingOptions == null) {
-					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+					source.append(MessageFormat.format("\t\t\tsend_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
 				} else {
-					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+					source.append(MessageFormat.format("\t\t\tsend_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
 				}
-				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-				source.append("ttcn_buffer.get_string(mapped_par);\n");
+				source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+				source.append("\t\t\tttcn_buffer.get_string(mapped_par);\n");
 				break;
 			case DECODE:
 				aData.addBuiltinTypeImport("TTCN_Buffer");
 				aData.addBuiltinTypeImport("TTCN_EncDec");
 
-				source.append("// in mapping with a built-in decoder\n");
+				source.append("\t\t\t// in mapping with a built-in decoder\n");
 				if (hasBuffer) {
-					source.append("ttcn_buffer.rewind();\n");
+					source.append("\t\t\tttcn_buffer.rewind();\n");
 				} else {
 					hasBuffer = true;
 				}
 				source.append(target.encdecErrorBehaviour);
-				source.append("TTCN_EncDec.clear_error();\n");
-				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
+				source.append("\t\t\tTTCN_EncDec.clear_error();\n");
+				source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
 				if (target.encdecEncodingOptions == null) {
-					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+					source.append(MessageFormat.format("\t\t\tmapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
 				} else {
-					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+					source.append(MessageFormat.format("\t\t\tmapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
 				}
-				source.append("if (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n");
+				source.append("\t\t\tif (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n");
 				hasCondition = true;
 				break;
 			default:
@@ -2174,74 +2174,74 @@ public final class PortGenerator {
 			}
 
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
-				source.append("TTCN_Runtime.set_translation_mode(false, null);\n");
-				source.append("if (port_state == translation_port_state.TRANSLATED || port_state == translation_port_state.PARTIALLY_TRANSLATED) {\n");
+				source.append("\t\t\tTTCN_Runtime.set_translation_mode(false, null);\n");
+				source.append("\t\t\tif (port_state == translation_port_state.TRANSLATED || port_state == translation_port_state.PARTIALLY_TRANSLATED) {\n");
 			}
-			source.append("msg_tail_count++;\n");
-			source.append("if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_DUALRECV)) {\n");
-			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_DUALRECV);\n");
-			source.append("mapped_par.log();\n");
-			source.append(MessageFormat.format("TTCN_Logger.log_dualport_map(true, \"{0}\", TTCN_Logger.end_event_log2str(), msg_tail_count);\n", target.targetDisplayName));
-			source.append("}\n");
-			source.append("final Message_queue_item new_item = new Message_queue_item();\n");
-			source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", target.targetIndex));
-			source.append(MessageFormat.format("new_item.message = new {0}(mapped_par);\n", target.targetName));
-			source.append("new_item.sender_component = sender_component;\n");
+			source.append("\t\t\tmsg_tail_count++;\n");
+			source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_DUALRECV)) {\n");
+			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_DUALRECV);\n");
+			source.append("\t\t\t\tmapped_par.log();\n");
+			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_dualport_map(true, \"{0}\", TTCN_Logger.end_event_log2str(), msg_tail_count);\n", target.targetDisplayName));
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tfinal Message_queue_item new_item = new Message_queue_item();\n");
+			source.append(MessageFormat.format("\t\t\tnew_item.item_selection = message_selection.MESSAGE_{0};\n", target.targetIndex));
+			source.append(MessageFormat.format("\t\t\tnew_item.message = new {0}(mapped_par);\n", target.targetName));
+			source.append("\t\t\tnew_item.sender_component = sender_component;\n");
 			
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append("if (sender_address != null) {\n");
-				source.append(MessageFormat.format("new_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
-				source.append("} else {\n");
-				source.append("new_item.sender_address = null;\n");
-				source.append("}\n");
+				source.append("\t\t\tif (sender_address != null) {\n");
+				source.append(MessageFormat.format("\t\t\t\tnew_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
+				source.append("\t\t\t} else {\n");
+				source.append("\t\t\t\tnew_item.sender_address = null;\n");
+				source.append("\t\t\t}\n");
 			}
-			source.append("message_queue.addLast(new_item);\n");
+			source.append("\t\t\tmessage_queue.addLast(new_item);\n");
 
 			if (hasCondition) {
 				if (portDefinition.has_sliding && target.mappingType == MessageMappingType_type.FUNCTION && target.functionPrototype == FunctionPrototype_Type.SLIDING) {
-					source.append("continue;\n");
-					source.append("} else {\n");
-					source.append("mapped_par = null;\n");
-					source.append("}\n");
-					source.append("if (decoding_result == 2) {\n");
-					source.append("return;\n");
-					source.append("}\n");
-					source.append("}\n");
+					source.append("\t\t\t\t\tcontinue;\n");
+					source.append("\t\t\t\t} else {\n");
+					source.append("\t\t\t\t\tmapped_par = null;\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t\tif (decoding_result == 2) {\n");
+					source.append("\t\t\t\t\treturn;\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t}\n");
 				} else {
 					if (isSliding) {
-						source.append("slider.operator_assign(new TitanOctetString(\"\"));\n");
+						source.append("\t\t\t\tslider.operator_assign(new TitanOctetString(\"\"));\n");
 					}
-					source.append("return;\n");
-					source.append("}\n");
+					source.append("\t\t\t\treturn;\n");
+					source.append("\t\t\t}");
 					if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
-						source.append("else if (port_state == translation_port_state.FRAGMENTED || port_state == translation_port_state.DISCARDED) {\n");
-						source.append("mapped_par = null;\n");
-						source.append("return;\n");
-						source.append("} else if (port_state == translation_port_state.UNSET) {\n");
-						source.append("mapped_par = null;\n");
-						source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"The state of the port '{'0'}' remained unset after the mapping function {0} finished..\", get_name()));\n", target.functionDisplayName));
-						source.append("}\n");
+						source.append(" else if (port_state == translation_port_state.FRAGMENTED || port_state == translation_port_state.DISCARDED) {\n");
+						source.append("\t\t\t\tmapped_par = null;\n");
+						source.append("\t\t\t\treturn;\n");
+						source.append("\t\t\t} else if (port_state == translation_port_state.UNSET) {\n");
+						source.append("\t\t\t\tmapped_par = null;\n");
+						source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"The state of the port '{'0'}' remained unset after the mapping function {0} finished..\", get_name()));\n", target.functionDisplayName));
+						source.append("\t\t\t}");
 					}
-					source.append("else {\n");
-					source.append("mapped_par = null;\n");
-					source.append("}\n");
+					source.append(" else {\n");
+					source.append("\t\t\t\tmapped_par = null;\n");
+					source.append("\t\t\t}\n");
 				}
 				reportError = true;
 			}
 			if (mappedType.targets.size() > 1) {
-				source.append("}\n");
+				source.append("\t\t\t}\n");
 			}
 		}
 		if (hasDiscard) {
 			if (mappedType.targets.size() > 1) {
 				/* there are other mappings, which failed */
-				source.append(MessageFormat.format("TTCN_Logger.log_dualport_discard(true, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_dualport_discard(true, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
 			} else {
 				/* this is the only mapping */
-				source.append(MessageFormat.format("TTCN_Logger.log_dualport_discard(true, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_dualport_discard(true, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
 			}
 		} else if (reportError && !hasSimple && !isSliding) {
-			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Incomming message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
+			source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Incomming message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
 		}
 	}
 
