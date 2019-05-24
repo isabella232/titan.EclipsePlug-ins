@@ -2200,8 +2200,6 @@ public final class PortGenerator {
 			if (hasCondition) {
 				if (portDefinition.has_sliding && target.mappingType == MessageMappingType_type.FUNCTION && target.functionPrototype == FunctionPrototype_Type.SLIDING) {
 					source.append("\t\t\t\t\tcontinue;\n");
-					source.append("\t\t\t\t} else {\n");
-					source.append("\t\t\t\t\tmapped_par = null;\n");
 					source.append("\t\t\t\t}\n");
 					source.append("\t\t\t\tif (decoding_result == 2) {\n");
 					source.append("\t\t\t\t\treturn;\n");
@@ -2215,16 +2213,11 @@ public final class PortGenerator {
 					source.append("\t\t\t}");
 					if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 						source.append(" else if (port_state == translation_port_state.FRAGMENTED || port_state == translation_port_state.DISCARDED) {\n");
-						source.append("\t\t\t\tmapped_par = null;\n");
 						source.append("\t\t\t\treturn;\n");
 						source.append("\t\t\t} else if (port_state == translation_port_state.UNSET) {\n");
-						source.append("\t\t\t\tmapped_par = null;\n");
 						source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"The state of the port '{'0'}' remained unset after the mapping function {0} finished..\", get_name()));\n", target.functionDisplayName));
 						source.append("\t\t\t}");
 					}
-					source.append(" else {\n");
-					source.append("\t\t\t\tmapped_par = null;\n");
-					source.append("\t\t\t}\n");
 				}
 				reportError = true;
 			}
