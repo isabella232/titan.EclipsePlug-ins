@@ -417,68 +417,68 @@ public final class PortGenerator {
 			aData.addBuiltinTypeImport("TitanPort");
 
 			//TODO would it be possible to specify the exact port type in special cases?
-			source.append("public TitanPort get_provider_port() {\n");
-			source.append("get_default_destination();\n");
+			source.append("\t\tpublic TitanPort get_provider_port() {\n");
+			source.append("\t\t\tget_default_destination();\n");
 			if (portDefinition.legacy) {
-				source.append("return this;\n");
+				source.append("\t\t\treturn this;\n");
 			} else {
 				for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
-					source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", i));
-					source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", i));
-					source.append(MessageFormat.format("return p_{0}.get(i);\n", i));
-					source.append("}\n");
-					source.append("}\n");
+					source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < n_{0}; i++) '{'\n", i));
+					source.append(MessageFormat.format("\t\t\t\tif (p_{0}.get(i) != null) '{'\n", i));
+					source.append(MessageFormat.format("\t\t\t\treturn p_{0}.get(i);\n", i));
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t}\n");
 				}
 
-				source.append("return null;\n");
+				source.append("\t\t\treturn null;\n");
 			}
 			
-			source.append("}\n\n");
+			source.append("\t\t}\n\n");
 		}
 
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 			aData.addBuiltinTypeImport("TitanPort");
-			source.append("public void add_port(final TitanPort port) {\n");
+			source.append("\t\tpublic void add_port(final TitanPort port) {\n");
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
 				final String name = portDefinition.providerMessageOutList.get(i).name;
 
-				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
-				source.append(MessageFormat.format("if (p_{0} == null) '{'\n", i));
-				source.append(MessageFormat.format("p_{0} = new ArrayList<{1}>();\n", i, name));
-				source.append("}\n");
-				source.append(MessageFormat.format("n_{0}++;\n", i));
-				source.append(MessageFormat.format("p_{0}.add(({1}) port);\n", i, name));
-				source.append("return;\n");
-				source.append("}\n");
+				source.append(MessageFormat.format("\t\t\tif (port instanceof {0}) '{'\n", name));
+				source.append(MessageFormat.format("\t\t\t\tif (p_{0} == null) '{'\n", i));
+				source.append(MessageFormat.format("\t\t\t\t\tp_{0} = new ArrayList<{1}>();\n", i, name));
+				source.append("\t\t\t\t}\n");
+				source.append(MessageFormat.format("\t\t\t\tn_{0}++;\n", i));
+				source.append(MessageFormat.format("\t\t\t\tp_{0}.add(({1}) port);\n", i, name));
+				source.append("\t\t\t\treturn;\n");
+				source.append("\t\t\t}\n");
 			}
 
-			source.append("throw new TtcnError(\"Internal error: Adding invalid port type.\");\n");
-			source.append("}\n\n");
+			source.append("\t\t\tthrow new TtcnError(\"Internal error: Adding invalid port type.\");\n");
+			source.append("\t\t}\n\n");
 
-			source.append("public void remove_port(final TitanPort port) {\n");
+			source.append("\t\tpublic void remove_port(final TitanPort port) {\n");
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
 				final String name = portDefinition.providerMessageOutList.get(i).name;
 
-				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
-				source.append(MessageFormat.format("if (p_{0} ==  null) '{'\n", i));
-				source.append("return;\n");
-				source.append("}\n");
-				source.append(MessageFormat.format("if (p_{0}.remove(port)) '{'\n", i));
-				source.append(MessageFormat.format("n_{0}--;\n", i));
-				source.append("}\n");
-				source.append(MessageFormat.format("if (n_{0} == 0) '{'\n", i));
-				source.append(MessageFormat.format("p_{0} = null;\n", i));
-				source.append("}\n");
+				source.append(MessageFormat.format("\t\t\tif (port instanceof {0}) '{'\n", name));
+				source.append(MessageFormat.format("\t\t\t\tif (p_{0} ==  null) '{'\n", i));
+				source.append("\t\t\t\t\treturn;\n");
+				source.append("\t\t\t\t}\n");
+				source.append(MessageFormat.format("\t\t\t\tif (p_{0}.remove(port)) '{'\n", i));
+				source.append(MessageFormat.format("\t\t\t\t\tn_{0}--;\n", i));
+				source.append("\t\t\t\t}\n");
+				source.append(MessageFormat.format("\t\t\t\tif (n_{0} == 0) '{'\n", i));
+				source.append(MessageFormat.format("\t\t\t\t\tp_{0} = null;\n", i));
+				source.append("\t\t\t\t}\n");
 
-				source.append("return;\n");
-				source.append("}\n");
+				source.append("\t\t\t\treturn;\n");
+				source.append("\t\t\t}\n");
 			}
 
-			source.append("throw new TtcnError(\"Internal error: Removing invalid port type.\");\n");
-			source.append("}\n\n");
+			source.append("\t\t\tthrow new TtcnError(\"Internal error: Removing invalid port type.\");\n");
+			source.append("\t\t}\n\n");
 
-			source.append("public boolean in_translation_mode() {\n");
-			source.append("return ");
+			source.append("\t\tpublic boolean in_translation_mode() {\n");
+			source.append("\t\t\treturn ");
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
 				if (i > 0) {
 					source.append(" || ");
@@ -486,45 +486,45 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("n_{0} != 0", i));
 			}
 			source.append(";\n");
-			source.append("}\n\n");
+			source.append("\t\t}\n\n");
 
-			source.append("public void change_port_state(final translation_port_state state) {\n");
-			source.append("port_state = state;\n");
-			source.append("}\n\n");
+			source.append("\t\tpublic void change_port_state(final translation_port_state state) {\n");
+			source.append("\t\t\tport_state = state;\n");
+			source.append("\t\t}\n\n");
 
-			source.append("protected void reset_port_variables() {\n");
+			source.append("\t\tprotected void reset_port_variables() {\n");
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
-				source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", i));
-				source.append(MessageFormat.format("p_{0}.get(i).remove_port(this);\n", i));
-				source.append("}\n");
-				source.append(MessageFormat.format("p_{0} = null;\n", i));
-				source.append(MessageFormat.format("n_{0} = 0;\n", i));
+				source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < n_{0}; i++) '{'\n", i));
+				source.append(MessageFormat.format("\t\t\t\tp_{0}.get(i).remove_port(this);\n", i));
+				source.append("\t\t\t}\n");
+				source.append(MessageFormat.format("\t\t\tp_{0} = null;\n", i));
+				source.append(MessageFormat.format("\t\t\tn_{0} = 0;\n", i));
 			}
-			source.append("}\n\n");
+			source.append("\t\t}\n\n");
 		}
 
 		// Port type variables in the provider types.
 		if (portDefinition.portType == PortType.PROVIDER) {
 			aData.addBuiltinTypeImport("TitanPort");
 
-			source.append("public void add_port(final TitanPort port) {\n");
-			source.append("mapped_ports.add(port);\n");
-			source.append("}\n\n");
+			source.append("\t\tpublic void add_port(final TitanPort port) {\n");
+			source.append("\t\t\tmapped_ports.add(port);\n");
+			source.append("\t\t}\n\n");
 
-			source.append("public void remove_port(final TitanPort port) {\n");
-			source.append("mapped_ports.remove(port);\n");
-			source.append("}\n\n");
+			source.append("\t\tpublic void remove_port(final TitanPort port) {\n");
+			source.append("\t\t\tmapped_ports.remove(port);\n");
+			source.append("\t\t}\n\n");
 
-			source.append("protected void reset_port_variables() {\n");
-			source.append("mapped_ports = new ArrayList<TitanPort>();\n");
-			source.append("}\n\n");
+			source.append("\t\tprotected void reset_port_variables() {\n");
+			source.append("\t\t\tmapped_ports = new ArrayList<TitanPort>();\n");
+			source.append("\t\t}\n\n");
 		}
 
 		if ((portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) &&
 				(portDefinition.portType == PortType.REGULAR || (portDefinition.portType == PortType.USER && !portDefinition.legacy))) {
 			if (portDefinition.testportType == TestportType.INTERNAL && !portDefinition.legacy) {
 				// Implement set_parameter to remove warnings from it in the TitanPort class.
-				source.append("public void set_parameter(final String parameter_name, final String parameter_value) {}\n");
+				source.append("\t\tpublic void set_parameter(final String parameter_name, final String parameter_value) {}\n");
 			}
 
 			// only print one outgoing_send for each type
@@ -568,7 +568,7 @@ public final class PortGenerator {
 					// functions, or its own outgoing_send function.
 					// This is for the types that are present in the out message list of the port
 					if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
-						source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outMessage.mJavaTypeName));
+						source.append(MessageFormat.format("\t\tpublic void outgoing_mapped_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
 							source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 						}
@@ -588,9 +588,9 @@ public final class PortGenerator {
 
 							if (found) {
 								// Call outgoing_public_send so the outgoing_send can remain
-								source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", j));
-								source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", j));
-								source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par", j));
+								source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < n_{0}; i++) '{'\n", j));
+								source.append(MessageFormat.format("\t\t\t\tif (p_{0}.get(i) != null) '{'\n", j));
+								source.append(MessageFormat.format("\t\t\t\t\tp_{0}.get(i).outgoing_public_send(send_par", j));
 								if (tempMessageProvider.realtime) {
 									if (portDefinition.realtime) {
 										source.append(", timestamp_redirect");
@@ -599,9 +599,9 @@ public final class PortGenerator {
 									}
 								}
 								source.append(");\n");
-								source.append("return;\n");
-								source.append("}\n");
-								source.append("}\n");
+								source.append("\t\t\t\t\treturn;\n");
+								source.append("\t\t\t\t}\n");
+								source.append("\t\t\t}\n");
 							}
 						}
 
@@ -614,18 +614,18 @@ public final class PortGenerator {
 							}
 						}
 						if (found && (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy)) {
-							source.append("outgoing_send(send_par");
+							source.append("\t\t\toutgoing_send(send_par");
 							if (portDefinition.realtime) {
 								source.append(", timestamp_redirect");
 							}
 							source.append(");\n");
 						} else if (portDefinition.testportType == TestportType.INTERNAL && !portDefinition.legacy) {
-							source.append("throw new TtcnError(\"Cannot send message without successful mapping on a internal port with translation capability.\");\n");
+							source.append("\t\t\tthrow new TtcnError(\"Cannot send message without successful mapping on a internal port with translation capability.\");\n");
 						} else {
-							source.append(MessageFormat.format("throw new TtcnError(\"Cannot send message correctly with type {0}.\");\n", outMessage.mJavaTypeName));
+							source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Cannot send message correctly with type {0}.\");\n", outMessage.mJavaTypeName));
 						}
 
-						source.append("}\n\n");
+						source.append("\t\t}\n\n");
 					}
 
 					used.add(outMessage.mJavaTypeName);
@@ -644,7 +644,7 @@ public final class PortGenerator {
 							// and this function will call one of the mapped port's outgoing_send
 							// functions, or its own outgoing_send function.
 							// This is for the mapping target types.
-							source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", target.targetName));
+							source.append(MessageFormat.format("\t\tpublic void outgoing_mapped_send(final {0} send_par", target.targetName));
 							if (portDefinition.testportType == TestportType.ADDRESS) {
 								source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
 							}
@@ -664,9 +664,9 @@ public final class PortGenerator {
 
 								if (found) {
 									// Call outgoing_public_send so the outgoing_send can remain
-									source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", k));
-									source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", k));
-									source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par", k));
+									source.append(MessageFormat.format("\t\t\tfor (int i = 0; i < n_{0}; i++) '{'\n", k));
+									source.append(MessageFormat.format("\t\t\t\tif (p_{0}.get(i) != null) '{'\n", k));
+									source.append(MessageFormat.format("\t\t\t\t\tp_{0}.get(i).outgoing_public_send(send_par", k));
 									if (tempMessageProvider.realtime) {
 										if (portDefinition.realtime) {
 											source.append(", timestamp_redirect");
@@ -675,9 +675,9 @@ public final class PortGenerator {
 										}
 									}
 									source.append(");\n");
-									source.append("return;\n");
-									source.append("}\n");
-									source.append("}\n");
+									source.append("\t\t\t\t\treturn;\n");
+									source.append("\t\t\t\t}\n");
+									source.append("\t\t\t}\n");
 								}
 							}
 
@@ -689,15 +689,15 @@ public final class PortGenerator {
 								}
 							}
 							if (found) {
-								source.append("outgoing_send(send_par");
+								source.append("\t\t\toutgoing_send(send_par");
 								if (portDefinition.realtime) {
 									source.append(", timestamp_redirect");
 								}
 								source.append(");\n");
 							} else {
-								source.append(MessageFormat.format("throw new TtcnError(\"Cannot send message correctly {0}.\");\n", target.targetName));
+								source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Cannot send message correctly {0}.\");\n", target.targetName));
 							}
-							source.append("}\n\n");
+							source.append("\t\t}\n\n");
 
 							used.add(target.targetName);
 						}
@@ -1310,9 +1310,9 @@ public final class PortGenerator {
 		boolean hasDiscard = false;
 		boolean reportError = false;
 		if (portDefinition.testportType == TestportType.INTERNAL && portDefinition.legacy) {
-			source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
-			source.append("}\n");
+			source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
+			source.append("\t\t\t}\n");
 		}
 
 		for (int i = 0; i < mappedType.targets.size(); i++) {
@@ -1325,12 +1325,12 @@ public final class PortGenerator {
 			} else if(target.mappingType == MessageMappingType_type.DECODE && !hasBuffer) {
 				aData.addBuiltinTypeImport("TTCN_Buffer");
 
-				source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer(send_par);\n");
+				source.append("\t\t\tTTCN_Buffer ttcn_buffer = new TTCN_Buffer(send_par);\n");
 				/* has_buffer will be set to TRUE later */
 			}
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
 				// Mappings should only happen if the port it is mapped to has the same outgoing message type as the mapping target.
-				source.append("if (false");
+				source.append("\t\t\tif (false");
 				for (int j = 0; j < portDefinition.providerMessageOutList.size(); j++) {
 					final portMessageProvider provider = portDefinition.providerMessageOutList.get(j);
 					for (int k = 0; k < provider.outMessageTypeNames.size(); k++) {
@@ -1341,23 +1341,23 @@ public final class PortGenerator {
 				}
 				source.append(") {\n");
 				// Beginning of the loop of the PARTIALLY_TRANSLATED case to process all messages
-				source.append("do {\n");
-				source.append("TTCN_Runtime.set_translation_mode(true, this);\n");
-				source.append("TTCN_Runtime.set_port_state(-1, \"by test environment\", true);\n");
+				source.append("\t\t\t\tdo {\n");
+				source.append("\t\t\t\t\tTTCN_Runtime.set_translation_mode(true, this);\n");
+				source.append("\t\t\t\t\tTTCN_Runtime.set_port_state(-1, \"by test environment\", true);\n");
 			}
 			if (mappedType.targets.size() > 1) {
 				source.append("{\n");
 			}
 			switch (target.mappingType) {
 			case FUNCTION:
-				source.append(MessageFormat.format("// out mapping with a prototype({0}) function\n", target.functionPrototype.name()));
+				source.append(MessageFormat.format("\t\t\t// out mapping with a prototype({0}) function\n", target.functionPrototype.name()));
 				switch (target.functionPrototype) {
 				case CONVERT:
-					source.append(MessageFormat.format("{0} mapped_par = {1}(send_par);\n", target.targetName, target.functionName));
+					source.append(MessageFormat.format("\t\t\t{0} mapped_par = {1}(send_par);\n", target.targetName, target.functionName));
 					break;
 				case FAST:
-					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("{0}(send_par, mapped_par);\n", target.functionName));
+					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\t{0}(send_par, mapped_par);\n", target.functionName));
 					if (!portDefinition.legacy) {
 						hasCondition = true;
 					}
@@ -1365,14 +1365,14 @@ public final class PortGenerator {
 				case SLIDING:
 					aData.addBuiltinTypeImport("TitanOctetString");
 
-					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append("TitanOctetString send_copy = new TitanOctetString(send_par);\n");
-					source.append(MessageFormat.format("if ({0}(send_copy, mapped_par).operator_not_equals(1)) '{'\n", target.functionName));
+					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append("\t\t\tTitanOctetString send_copy = new TitanOctetString(send_par);\n");
+					source.append(MessageFormat.format("\t\t\tif ({0}(send_copy, mapped_par).operator_not_equals(1)) '{'\n", target.functionName));
 					hasCondition = true;
 					break;
 				case BACKTRACK:
-					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("if({0}(send_par, mapped_par).operator_equals(0)) '{'\n", target.functionName));
+					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\tif({0}(send_par, mapped_par).operator_equals(0)) '{'\n", target.functionName));
 					hasCondition = true;
 					break;
 				default:
@@ -1383,36 +1383,36 @@ public final class PortGenerator {
 				aData.addBuiltinTypeImport("TTCN_Buffer");
 				aData.addBuiltinTypeImport("TTCN_EncDec");
 
-				source.append("// out mapping with a built-in encoder\n");
+				source.append("\t\t\t// out mapping with a built-in encoder\n");
 				source.append(target.encdecErrorBehaviour);
-				source.append("final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
+				source.append("\t\t\tfinal TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
 				if (target.encdecEncodingOptions == null)  {
-					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+					source.append(MessageFormat.format("\t\t\tsend_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
 				} else {
-					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+					source.append(MessageFormat.format("\t\t\tsend_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
 				}
-				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-				source.append("ttcn_buffer.get_string(mapped_par);\n");
+				source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+				source.append("\t\t\tttcn_buffer.get_string(mapped_par);\n");
 				break;
 			case DECODE:
 				aData.addBuiltinTypeImport("TTCN_Buffer");
 				aData.addBuiltinTypeImport("TTCN_EncDec");
 
-				source.append("// out mapping with a built-in decoder\n");
+				source.append("\t\t\t// out mapping with a built-in decoder\n");
 				if (hasBuffer) {
-					source.append("ttcn_buffer.rewind();\n");
+					source.append("\t\t\tttcn_buffer.rewind();\n");
 				} else {
 					hasBuffer = true;
 				}
 				source.append(target.encdecErrorBehaviour);
-				source.append("TTCN_EncDec.clear_error();\n");
-				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
+				source.append("\t\t\tTTCN_EncDec.clear_error();\n");
+				source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
 				if (target.encdecEncodingOptions == null) {
-					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+					source.append(MessageFormat.format("\t\t\tmapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
 				} else {
-					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+					source.append(MessageFormat.format("\t\t\tmapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
 				}
-				source.append("if (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n");
+				source.append("\t\t\tif (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n");
 				hasCondition = true;
 				break;
 			default:
@@ -1420,77 +1420,77 @@ public final class PortGenerator {
 			}
 
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
-				source.append("TTCN_Runtime.set_translation_mode(false, null);\n");
-				source.append("if (port_state == translation_port_state.TRANSLATED || port_state == translation_port_state.PARTIALLY_TRANSLATED) {\n");
+				source.append("\t\t\tTTCN_Runtime.set_translation_mode(false, null);\n");
+				source.append("\t\t\tif (port_state == translation_port_state.TRANSLATED || port_state == translation_port_state.PARTIALLY_TRANSLATED) {\n");
 			}
 
-			source.append("if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_DUALSEND)) {\n");
-			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_DUALSEND);\n");
-			source.append("mapped_par.log();\n");
-			source.append(MessageFormat.format("TTCN_Logger.log_dualport_map(false, \"{0}\", TTCN_Logger.end_event_log2str(), 0);\n", target.targetDisplayName));
-			source.append("}\n");
+			source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_DUALSEND)) {\n");
+			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_DUALSEND);\n");
+			source.append("\t\t\t\tmapped_par.log();\n");
+			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_dualport_map(false, \"{0}\", TTCN_Logger.end_event_log2str(), 0);\n", target.targetDisplayName));
+			source.append("\t\t\t}\n");
 			if (hasAddress) {
-				source.append("outgoing_send(mapped_par, destination_address);\n");
+				source.append("\t\t\toutgoing_send(mapped_par, destination_address);\n");
 			} else {
 				if (portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) {
-					source.append("if (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
-					source.append(MessageFormat.format("outgoing_{0}send(mapped_par", portDefinition.portType == PortType.USER && !portDefinition.legacy ? "mapped_": ""));
+					source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+					source.append(MessageFormat.format("\t\t\t\toutgoing_{0}send(mapped_par", portDefinition.portType == PortType.USER && !portDefinition.legacy ? "mapped_": ""));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(", null");
 					}
 					source.append(");\n");
-					source.append("} else {\n");
+					source.append("\t\t\t} else {\n");
 				}
 
-				source.append("final Text_Buf text_buf = new Text_Buf();\n");
-				source.append(MessageFormat.format("prepare_message(text_buf, \"{0}\");\n", target.targetDisplayName));
-				source.append("send_par.encode_text(text_buf);\n");
-				source.append("send_data(text_buf, destination_component);\n");
+				source.append("\t\t\t\tfinal Text_Buf text_buf = new Text_Buf();\n");
+				source.append(MessageFormat.format("\t\t\t\tprepare_message(text_buf, \"{0}\");\n", target.targetDisplayName));
+				source.append("\t\t\t\tsend_par.encode_text(text_buf);\n");
+				source.append("\t\t\t\tsend_data(text_buf, destination_component);\n");
 				if (portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) {
-					source.append("}\n");
+					source.append("\t\t\t}\n");
 				}
 			}
 			if (hasCondition) {
 				if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
-					source.append("if (port_state != translation_port_state.PARTIALLY_TRANSLATED) {\n");
-					source.append("return;\n");
-					source.append("}\n");
+					source.append("\t\t\tif (port_state != translation_port_state.PARTIALLY_TRANSLATED) {\n");
+					source.append("\t\t\t\treturn;\n");
+					source.append("\t\t\t}\n");
 				} else {
-					source.append("return;\n");
+					source.append("\t\t\treturn;\n");
 				}
 				if (portDefinition.legacy) {
-					source.append("}\n");
+					source.append("\t\t\t}\n");
 				}
 				reportError = true;
 			}
 
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
-				source.append("} else if (port_state == translation_port_state.FRAGMENTED || port_state == translation_port_state.DISCARDED) {\n");
-				source.append("return;\n");
-				source.append("} else if (port_state == translation_port_state.UNSET) {\n");
-				source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"The state of the port '{'0'}' remained unset after the mapping function {0} finished.\", get_name()));\n", target.functionDisplayName));
-				source.append("}\n");
+				source.append("\t\t\t} else if (port_state == translation_port_state.FRAGMENTED || port_state == translation_port_state.DISCARDED) {\n");
+				source.append("\t\t\t\treturn;\n");
+				source.append("\t\t\t} else if (port_state == translation_port_state.UNSET) {\n");
+				source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"The state of the port '{'0'}' remained unset after the mapping function {0} finished.\", get_name()));\n", target.functionDisplayName));
+				source.append("\t\t\t}\n");
 			}
 			if (mappedType.targets.size() > 1) {
-				source.append("}\n");
+				source.append("\t\t\t}\n");
 			}
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
 				// End of the do while loop to process all the messages
-				source.append("} while (port_state == translation_port_state.PARTIALLY_TRANSLATED);\n");
+				source.append("\t\t\t\t} while (port_state == translation_port_state.PARTIALLY_TRANSLATED);\n");
 				// end of the outgoing messages of port with mapping target check
-				source.append("}\n");
+				source.append("\t\t\t}\n");
 			}
 		}
 		if (hasDiscard) {
 			if (mappedType.targets.size() > 1) {
 				/* there are other mappings, which failed */
-				source.append(MessageFormat.format("TTCN_Logger.log_dualport_discard(false, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_dualport_discard(false, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
 			} else {
 				/* this is the only mapping */
-				source.append(MessageFormat.format("TTCN_Logger.log_dualport_discard(false, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_dualport_discard(false, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
 			}
 		} else if (reportError) {
-			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Outgoing message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
+			source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Outgoing message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
 		}
 	}
 
