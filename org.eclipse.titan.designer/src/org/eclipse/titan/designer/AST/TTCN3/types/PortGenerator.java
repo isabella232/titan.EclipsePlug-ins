@@ -2103,10 +2103,10 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("\t\t\t// in mapping with a prototype({0}) function\n", target.functionPrototype.name()));
 				switch (target.functionPrototype) {
 				case CONVERT:
-					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}({1}(incoming_par));\n", target.targetName, target.functionName));
+					source.append(MessageFormat.format("\t\t\tfinal {0} mapped_par = new {0}({1}(incoming_par));\n", target.targetName, target.functionName));
 					break;
 				case FAST:
-					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\tfinal {0} mapped_par = new {0}();\n", target.targetName));
 					source.append(MessageFormat.format("\t\t\t{0}(incoming_par, mapped_par);\n", target.functionName));
 					if (!portDefinition.legacy) {
 						hasCondition = true;
@@ -2118,13 +2118,13 @@ public final class PortGenerator {
 						isSliding = true;
 					}
 					source.append("\t\t\tfor (;;) {\n");
-					source.append(MessageFormat.format("\t\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\t\tfinal {0} mapped_par = new {0}();\n", target.targetName));
 					source.append(MessageFormat.format("\t\t\t\tint decoding_result = {0}(slider, mapped_par).get_int();\n", target.functionName));
 					source.append("\t\t\t\tif (decoding_result == 0) {\n");
 					hasCondition = true;
 					break;
 				case BACKTRACK:
-					source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("\t\t\tfinal {0} mapped_par = new {0}();\n", target.targetName));
 					source.append(MessageFormat.format("\t\t\tboolean success_flag = {0}(incoming_par, mapped_par).operator_equals(0);\n", target.functionName));
 					source.append("\t\t\tif (success_flag) {\n");
 					hasCondition = true;
@@ -2145,7 +2145,7 @@ public final class PortGenerator {
 				} else {
 					source.append(MessageFormat.format("\t\t\tsend_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
 				}
-				source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+				source.append(MessageFormat.format("\t\t\tfinal {0} mapped_par = new {0}();\n", target.targetName));
 				source.append("\t\t\tttcn_buffer.get_string(mapped_par);\n");
 				break;
 			case DECODE:
@@ -2160,7 +2160,7 @@ public final class PortGenerator {
 				}
 				source.append(target.encdecErrorBehaviour);
 				source.append("\t\t\tTTCN_EncDec.clear_error();\n");
-				source.append(MessageFormat.format("\t\t\t{0} mapped_par = new {0}();\n", target.targetName));
+				source.append(MessageFormat.format("\t\t\tfinal {0} mapped_par = new {0}();\n", target.targetName));
 				if (target.encdecEncodingOptions == null) {
 					source.append(MessageFormat.format("\t\t\tmapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
 				} else {
