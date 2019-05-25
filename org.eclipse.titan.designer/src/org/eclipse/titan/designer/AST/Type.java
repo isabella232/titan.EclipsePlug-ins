@@ -3105,11 +3105,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("\t\t\tthrow new TtcnError(\"Done operation using '*' as matching template\");\n");
 		source.append("\t\t}\n");
 
-		source.append("\t\tText_Buf text_buf = new Text_Buf();\n");
-		source.append("\t\tAtomicReference<Text_Buf> text_buf_ref = new AtomicReference<Text_Buf>(text_buf);\n");
-		source.append(MessageFormat.format("\t\tTitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.get_component(), \"{0}\", text_buf_ref);\n", displayName));
+		source.append("\t\tfinal Text_Buf text_buf = new Text_Buf();\n");
+		source.append("\t\tfinal AtomicReference<Text_Buf> text_buf_ref = new AtomicReference<Text_Buf>(text_buf);\n");
+		source.append(MessageFormat.format("\t\tfinal TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.get_component(), \"{0}\", text_buf_ref);\n", displayName));
 		source.append("\t\tif (ret_val == TitanAlt_Status.ALT_YES) {\n");
-		source.append(MessageFormat.format("\t\t\t{0} return_value = new {0}();\n", genName));
+		source.append(MessageFormat.format("\t\t\tfinal {0} return_value = new {0}();\n", genName));
 		source.append("\t\t\treturn_value.decode_text(text_buf_ref.get());\n");
 		source.append("\t\t\tif (value_template.match(return_value)) {\n");
 		source.append("\t\t\t\tif (value_redirect != null) {\n");
