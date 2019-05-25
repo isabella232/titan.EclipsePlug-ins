@@ -70,10 +70,31 @@ public final class FunctionReferenceGenerator {
 		switch (def.type) {
 		case FUNCTION:
 			source.append("\t\tpublic interface function_pointer {\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getModuleName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the definition of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getDefinitionName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Invoke the referenced function.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\t{0} invoke({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
 			if (def.isStartable) {
+				if ( aData.isDebug() ) {
+					source.append("\t\t\t/**\n");
+					source.append("\t\t\t * Starts the referenced function on the provided component.\n");
+					source.append("\t\t\t * @param component_reference the component to start on.\n");
+					source.append("\t\t\t * */\n");
+				}
 				source.append("\t\t\tvoid start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
@@ -87,17 +108,60 @@ public final class FunctionReferenceGenerator {
 			aData.addBuiltinTypeImport("Default_Base");
 
 			source.append("\t\tpublic interface function_pointer {\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getModuleName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the definition of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getDefinitionName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Invoke the referenced sltstep directly.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\t{0} invoke_standalone({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Activate the referenced altstep.\n");
+				source.append("\t\t\t * @return the default.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\tDefault_Base activate({0});\n", def.formalParList));
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Invokes the referenced altstep once (no looping involved).\n");
+				source.append("\t\t\t * @return the status reported after checking the conditions.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\tTitanAlt_Status invoke({0});\n", def.formalParList));
 			source.append("\t\t}\n");
 			break;
 		case TESTCASE:
 			source.append("\t\tpublic interface function_pointer {\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getModuleName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the definition of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getDefinitionName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Execute the referenced testcase.\n");
+				source.append("\t\t\t * @return the verdict of the testcase.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\tTitanVerdictType execute({0});\n", def.formalParList));
 			source.append("\t\t}\n");
 			break;
@@ -302,6 +366,11 @@ public final class FunctionReferenceGenerator {
 
 		switch (def.type) {
 		case FUNCTION:
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Invoke the referenced function.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append("\t\tpublic ");
 			if (def.returnType == null) {
 				source.append("void");
@@ -320,6 +389,12 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t}\n");
 
 			if (def.isStartable) {
+				if ( aData.isDebug() ) {
+					source.append("\t\t/**\n");
+					source.append("\t\t * Starts the referenced function on the provided component.\n");
+					source.append("\t\t * @param component_reference the component to start on.\n");
+					source.append("\t\t * */\n");
+				}
 				source.append("\t\tpublic void start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
@@ -337,18 +412,35 @@ public final class FunctionReferenceGenerator {
 			}
 			break;
 		case ALTSTEP:
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Invoke the referenced sltstep directly.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic void invoke_standalone({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Call of unbound altstep.\");\n");
 			source.append("\t\t\treferred_function.invoke_standalone(");
 			source.append(def.actualParList);
 			source.append(");\n");
-			source.append("\t\t}\n");
+			source.append("\t\t}\n\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Activate the referenced altstep.\n");
+				source.append("\t\t * @return the default.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic Default_Base activate({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Activation of unbound altstep.\");\n");
 			source.append("\t\t\treturn referred_function.activate(");
 			source.append(def.actualParList);
 			source.append(");\n");
-			source.append("\t\t}\n");
+			source.append("\t\t}\n\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Invokes the referenced altstep once (no looping involved).\n");
+				source.append("\t\t * @return the status reported after checking the conditions.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic TitanAlt_Status invoke({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Call of unbound altstep.\");\n");
 			source.append("\t\t\treturn referred_function.invoke(");
@@ -357,6 +449,11 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t}\n");
 			break;
 		case TESTCASE:
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic TitanVerdictType execute({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Call of unbound testcase.\");\n");
 			source.append("\t\t\tif (referred_function == null) {\n");
