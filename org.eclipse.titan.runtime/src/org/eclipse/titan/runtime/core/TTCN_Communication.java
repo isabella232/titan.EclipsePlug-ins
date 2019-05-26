@@ -1032,12 +1032,9 @@ public final class TTCN_Communication {
 		}
 
 		text_buf.calculate_length();
-		final byte msg[] = text_buf.get_data();
-		final ByteBuffer buffer = ByteBuffer.allocate(text_buf.get_len());
-		final byte temp_msg[] = new byte[text_buf.get_len()];
-		System.arraycopy(msg, text_buf.get_begin(), temp_msg, 0, text_buf.get_len());
-		buffer.put(temp_msg);
-		buffer.flip();
+		final byte[] msg_ptr = text_buf.get_data();
+		final int msg_len = text_buf.get_len();
+		final ByteBuffer buffer = ByteBuffer.wrap(msg_ptr, text_buf.get_begin(), msg_len);
 
 		final SocketChannel localChannel = mc_socketchannel.get();
 		try {
