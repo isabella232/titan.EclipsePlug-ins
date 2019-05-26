@@ -246,8 +246,7 @@ public final class LoggerPluginManager {
 			if (plugin != null) {
 				send_parameter_to_plugin(plugin, logparam);
 			} else {
-				//FIXME:TTCN_Error replace with TTCN_Logger.fatal_error()
-				throw new TtcnError(MessageFormat.format("Logger plug-in with name {0} was not found.", logparam.pluginId));
+				TTCN_Logger.fatal_error(MessageFormat.format("Logger plug-in with name {0} was not found.", logparam.pluginId));
 			}
 		} else {
 			// The parameter refers to all plug-ins.
@@ -565,7 +564,7 @@ public final class LoggerPluginManager {
 			log_unhandled_event(tempEventStruct.severity, current_event.get().buffer.toString());
 			break;
 		case ED_STRING:
-			//FIXME report error
+			TTCN_Logger.fatal_error("TTCN_Logger.end_event(): event with string destination was found, missing call of TTCN_Logger.end_event_log2str().");
 			break;
 		}
 
@@ -1006,6 +1005,7 @@ public final class LoggerPluginManager {
 			setstate.get_field_state().operator_assign("discarded");
 			break;
 		default:
+			TTCN_Logger.fatal_error("LoggerPluginManager.log_setstate(): unexpected port state");
 			break;
 		}
 

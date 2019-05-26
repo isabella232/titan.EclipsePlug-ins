@@ -896,6 +896,13 @@ public final class TTCN_Logger {
 		}
 	}
 
+	public static void fatal_error(final String msg) {
+		System.err.print("Fatal error during logging: ");
+		System.err.print(msg);
+		System.err.println(" Exiting.");
+		System.exit(-1);
+	}
+
 	public static void initialize_logger() {
 		console_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
 		console_log_mask.component_id.id_compref = TitanComponent.ANY_COMPREF;
