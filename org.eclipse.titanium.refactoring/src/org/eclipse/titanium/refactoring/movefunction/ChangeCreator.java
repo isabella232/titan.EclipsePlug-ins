@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignments;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
@@ -131,17 +132,19 @@ class ChangeCreator {
 				continue;
 			}
 
-			final TextFileChange tfcDestination = new TextFileChange(function.getFinalDestination().getModule().getName(), (IFile) function.getFinalDestination().getModule().getLocation().getFile());
+			final Module finalDestinationModule = function.getFinalDestination().getModule();
+			final TextFileChange tfcDestination = new TextFileChange(finalDestinationModule.getName(), (IFile) finalDestinationModule.getLocation().getFile());
 			final MultiTextEdit rootEdit2 = new MultiTextEdit();
 			tfcDestination.setEdit(rootEdit2);
 			cc.add(tfcDestination);
-			final int length = function.getDefiniton().getLocation().getEndOffset() - function.getDefiniton().getLocation().getOffset();
-			final DeleteEdit deleteEdit = new DeleteEdit(function.getDefiniton().getLocation().getOffset(), length);
+			final Location funcDefLocation = function.getDefiniton().getLocation();
+			final int length = funcDefLocation.getEndOffset() - funcDefLocation.getOffset();
+			final DeleteEdit deleteEdit = new DeleteEdit(funcDefLocation.getOffset(), length);
 			rootEdit.addChild(deleteEdit);
-			if (!moduleImports.containsKey(function.getFinalDestination().getModule())) {
-				moduleImports.put(function.getFinalDestination().getModule(), new ArrayList<Module>());
+			if (!moduleImports.containsKey(finalDestinationModule)) {
+				moduleImports.put(finalDestinationModule, new ArrayList<Module>());
 			}
-			final InsertEdit importEdit = insertMissingImports(function.getFinalDestination().getModule(), function.getUsedModules());
+			final InsertEdit importEdit = insertMissingImports(finalDestinationModule, function.getUsedModules());
 			if (importEdit != null) {
 				rootEdit2.addChild(importEdit);
 
@@ -161,10 +164,12 @@ class ChangeCreator {
 					}
 				}
 				rootEdit3.addChild(new InsertEdit(offset
-						, "\n import from "+function.getFinalDestination().getModule().getIdentifier().getTtcnName()+" all;\n  "));
+						, "\n import from "+finalDestinationModule.getIdentifier().getTtcnName()+" all;\n  "));
 				cc.add(tfcModuleUsedMethod);
 			}
-			rootEdit2.addChild(new InsertEdit(function.getFinalDestination().getModule().getAssignments().getAssignmentByIndex(function.getFinalDestination().getModule().getAssignments().getNofAssignments()-1).getLocation().getEndOffset()
+
+			final Assignments destinationAssignments = finalDestinationModule.getAssignments();
+			rootEdit2.addChild(new InsertEdit(destinationAssignments.getAssignmentByIndex(destinationAssignments.getNofAssignments()-1).getLocation().getEndOffset()
 					, "\n"+function.getFunctionBody()+"\n"));
 		}
 		return cc;
