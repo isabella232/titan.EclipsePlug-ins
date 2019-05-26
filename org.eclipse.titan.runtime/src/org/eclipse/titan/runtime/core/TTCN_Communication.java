@@ -8,6 +8,8 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -1043,9 +1045,17 @@ public final class TTCN_Communication {
 				localChannel.write(buffer);
 			}
 		} catch (IOException e) {
-			throw new TtcnError(e);
+			close_mc_connection();
+
+			final StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+	
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(error.toString());
+			TTCN_Logger.end_event();
+			throw new TtcnError("Sending data on the control connection to MC failed.");
 		}
-		//FIXME implement
 	}
 
 	private static void process_configure(final int msg_end, final boolean to_mtc) {
