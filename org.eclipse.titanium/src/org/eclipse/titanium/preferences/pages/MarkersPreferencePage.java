@@ -184,6 +184,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION, "When runs on component is never used.");
 		m.put(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES,
 				"Groups without attributes might indicate design issues.");
+		
+		m.put(ProblemTypePreference.CONNECTION_DETECTOR, "When out messages list of port is empty");
 
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);
 	}
@@ -241,6 +243,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.PRIVATE_VALUE_VIA_PUBLIC);
 			createField(comp, ProblemTypePreference.VISIBILITY_IN_DEFINITION);
 			createField(comp, ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION);
+			createField(comp, ProblemTypePreference.CONNECTION_DETECTOR);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(true);

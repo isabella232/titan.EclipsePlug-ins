@@ -40,6 +40,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.ORG_IMPORT_METHOD, OrganizeImportPreferencePage.JUST_CHANGE);
 
 		// Code smells
+		preferenceStore.setDefault(ProblemTypePreference.CONNECTION_DETECTOR.getPreferenceName(), GeneralConstants.ERROR);
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_IMPORT.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_LOCAL_DEFINITION.getPreferenceName(), GeneralConstants.WARNING);
