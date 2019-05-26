@@ -282,7 +282,7 @@ public final class Return_Statement extends Statement {
 			value.generateCodeExpressionMandatory(aData, valueExpression, true);
 
 			if (needsConversion) {
-				valueExpression.expression = toType.generateConversion(aData, fromType, valueExpression.expression);
+				valueExpression.expression = new StringBuilder(toType.generateConversion(aData, fromType, valueExpression.expression.toString(), valueExpression));
 			}
 
 			expression.preamble.append(valueExpression.preamble);

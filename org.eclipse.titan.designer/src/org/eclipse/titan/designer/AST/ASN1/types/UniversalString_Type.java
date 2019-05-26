@@ -291,9 +291,9 @@ public final class UniversalString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
-		return new StringBuilder(MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", expression));
+		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
 	}
 }

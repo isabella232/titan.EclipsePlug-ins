@@ -1248,9 +1248,15 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                build related information and structures.
 	 * @param fromType
 	 *                the type to convert from to this type.
+	 * @param fromName
+	 *                the name/expression to be converted.
 	 * @param expression
-	 *                the expression to be converted.
-	 * @return the expression wrapped into the conversion call.
+	 *                the expression used to help the conversion if needed
+	 *                (pre- and postambles used in complex cases).
+	 * @return the expression representing the result of the conversion. Can
+	 *         be the fromName if no conversion is needed, the name of the
+	 *         temporary variable holding the converted value, and
+	 *         expression converting the value.
 	 * */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression);
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression);
 }

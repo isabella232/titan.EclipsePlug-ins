@@ -490,9 +490,9 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 
-		return new StringBuilder(MessageFormat.format("TitanCharString.convert_to_CharString({0})", expression));
+		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
 	}
 }

@@ -870,13 +870,13 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
-			return expression;
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
+			return fromName;
 		}
 
-		return refdLast.generateConversion(aData, fromType, expression);
+		return refdLast.generateConversion(aData, fromType, fromName, expression);
 	}
 }

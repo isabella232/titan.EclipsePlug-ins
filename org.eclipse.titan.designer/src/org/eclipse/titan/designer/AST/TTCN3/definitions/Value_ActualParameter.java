@@ -61,6 +61,41 @@ public final class Value_ActualParameter extends ActualParameter {
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression(final FormalParameter formalParameter) {
 		if (value != null) {
+			boolean needsConversion = false;
+			IType fromType = null;
+			IType toType = null;
+			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT
+					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER) {
+				final IValue realValue = value.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
+				if (realValue instanceof Referenced_Value) {
+					Reference reference = ((Referenced_Value)realValue).getReference();
+					Assignment ass = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					IType assType = ass.getType(CompilationTimeStamp.getBaseTimestamp());
+					fromType = assType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_TEMPLATE, false);
+					toType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					if (!fromType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), toType)) {
+						needsConversion = true;
+					}
+					if(reference.refersToStringElement()) {
+						needsConversion = true;
+					}
+				} else {
+					fromType = value.getMyGovernor();
+					toType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					if (!fromType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), toType)) {
+						needsConversion = true;
+					}
+					if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
+						//TODO this could be done reduced by knowing the return type of the value.
+						needsConversion = true;
+					}
+				}
+			}
+
+			if (needsConversion) {
+				return false;
+			}
+
 			return value.canGenerateSingleExpression();
 		}
 
@@ -179,7 +214,7 @@ public final class Value_ActualParameter extends ActualParameter {
 				}
 
 				if (needsConversion) {
-					expressionExpression = toType.generateConversion(aData, fromType, expressionExpression);
+					expressionExpression = new StringBuilder(toType.generateConversion(aData, fromType, expressionExpression.toString(), expression));
 				}
 
 				//TODO copy might be needed here

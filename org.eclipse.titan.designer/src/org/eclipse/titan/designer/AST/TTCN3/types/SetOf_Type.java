@@ -36,6 +36,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -729,11 +730,11 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
-			return expression;
+			return fromName;
 		}
 
 		boolean simpleOfType;
@@ -766,12 +767,21 @@ public final class SetOf_Type extends AbstractOfType {
 
 		if (!aData.getForceGenSeof() && fromType.getTypetype() == Type_type.TYPE_SET_OF && simpleOfType) {
 			// happens to map to the same type
-			return expression;
+			return fromName;
 		}
 
 		//heavy conversion is needed
-		final String name = getGenNameValue(aData, expression);
+		final String tempId = aData.getTemporaryVariableName();
+		final String name = getGenNameValue(aData, expression.expression);
 
-		return new StringBuilder(MessageFormat.format("new {0}({1})", name, expression));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		expression.preamble.append(MessageFormat.format("{0}.set_size({1}.n_elem());\n", tempId, fromName));
+
+		final String tempLoopId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("for (int {0} = 0; {0} < {1}.n_elem(); {0}++) '{'\n", tempLoopId, fromName));
+		expression.preamble.append(MessageFormat.format("{0}.get_at({1}).operator_assign({2}.constGet_at({1}));\n", tempId, tempLoopId, fromName));
+		expression.preamble.append("}\n");
+
+		return tempId;
 	}
 }

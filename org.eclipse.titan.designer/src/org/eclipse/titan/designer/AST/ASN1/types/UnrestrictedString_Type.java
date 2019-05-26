@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -271,9 +272,9 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 
-		return new StringBuilder(MessageFormat.format("TitanCharString.convert_to_CharString({0})", expression));
+		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
 	}
 }

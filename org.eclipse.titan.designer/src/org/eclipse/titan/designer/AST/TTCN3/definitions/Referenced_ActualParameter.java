@@ -153,8 +153,6 @@ public final class Referenced_ActualParameter extends ActualParameter {
 			}
 
 			StringBuilder expressionExpression = new StringBuilder();
-			final String tempId;
-			// FIXME handle conversion case
 			final ExpressionStruct valueExpression = new ExpressionStruct();
 			reference.generateCode(aData, valueExpression);
 			Value.generateCodeExpressionOptionalFieldReference(aData, valueExpression, reference);
@@ -167,7 +165,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 				// make sure the postambles of the parameters are executed before the
 				// function call itself (needed if the value contains function calls
 				// with lazy or fuzzy parameters)
-				tempId = aData.getTemporaryVariableName();
+				final String tempId = aData.getTemporaryVariableName();
 				expression.preamble.append(MessageFormat.format(" {0}({1})", tempId, valueExpression.expression));
 				expression.preamble.append(valueExpression.postamble);
 				expressionExpression.append(tempId);
@@ -176,16 +174,33 @@ public final class Referenced_ActualParameter extends ActualParameter {
 			if (needsConversion) {
 				final String tempId2 = aData.getTemporaryVariableName();
 				final String formalParTypeName = formalParType.getGenNameValue(aData, expression.preamble);
-				StringBuilder oldExpressionExpression = expressionExpression;
-				StringBuilder convertedExpression = formalParType.generateConversion(aData, actualParType, expressionExpression);
-				final String finalExpression = MessageFormat.format("final {0} {1} = {2};\n", formalParTypeName, tempId2, convertedExpression.toString());
-				//TODO copy might be needed here
-				expression.preamble.append(finalExpression);
+				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_VAL_OUT) {
+					final String finalExpression = MessageFormat.format("final {0} {1} = new {0}();\n", formalParTypeName, tempId2);
+					expression.preamble.append(finalExpression);
+				} else {
+					final ExpressionStruct preCallConversionExpression = new ExpressionStruct();
+					final String convertedExpression = formalParType.generateConversion(aData, actualParType, expressionExpression.toString(), preCallConversionExpression);
+					final String finalExpression = MessageFormat.format("final {0} {1} = {2};\n", formalParTypeName, tempId2, convertedExpression.toString());
+					//TODO copy might be needed here
+					if(preCallConversionExpression.preamble.length() > 0) {
+						expression.preamble.append(preCallConversionExpression.preamble);
+					}
+					if(preCallConversionExpression.postamble.length() > 0 ) {
+						expression.preamble.append(preCallConversionExpression.postamble);
+					}
+					expression.preamble.append(finalExpression);
+				}
 				expression.expression.append(tempId2);
 
-				expressionExpression = new StringBuilder(tempId2);
-				convertedExpression = actualParType.generateConversion(aData, formalParType, expressionExpression);
-				expression.postamble.append(MessageFormat.format("{0}.operator_assign({1});\n", oldExpressionExpression, convertedExpression));
+				final ExpressionStruct postCallConversionExpression = new ExpressionStruct();
+				final String convertedExpression = actualParType.generateConversion(aData, formalParType, tempId2, postCallConversionExpression);
+				if(postCallConversionExpression.preamble.length() > 0) {
+					expression.postamble.append(postCallConversionExpression.preamble);
+				}
+				if(postCallConversionExpression.postamble.length() > 0 ) {
+					expression.postamble.append(postCallConversionExpression.postamble);
+				}
+				expression.postamble.append(MessageFormat.format("{0}.operator_assign({1});\n", expressionExpression, convertedExpression));
 			} else {
 				//TODO copy might be needed here
 				expression.expression.append(expressionExpression);
