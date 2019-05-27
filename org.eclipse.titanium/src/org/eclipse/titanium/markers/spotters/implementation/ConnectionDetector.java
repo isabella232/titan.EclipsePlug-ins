@@ -31,10 +31,8 @@ import org.eclipse.titan.designer.AST.PortReference;
  */
 
 public class ConnectionDetector extends BaseModuleCodeSmellSpotter {
-	private static final String ERROR_MESSAGE = "This connection is problematic -- message from Titanium";
-	
-	CompilationTimeStamp timestamp = new CompilationTimeStamp(10); 
-	
+	private static final String ERROR_MESSAGE = "Neither port type `{0}'' nor port type `{1}'' can send messages";
+
 	public ConnectionDetector() {
 		super(CodeSmellType.CONNECTION_DETECTOR);
 	}
@@ -42,34 +40,32 @@ public class ConnectionDetector extends BaseModuleCodeSmellSpotter {
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Connect_Statement) {
-			
 			final Connect_Statement s = (Connect_Statement) node;
-			
+
 			IType portType1;
 			IType portType2;
 			PortTypeBody body1;
 			PortTypeBody body2;
 
-			portType1 = Port_Utility.checkConnectionEndpoint(timestamp, s, s.getComponentReference1(), s.getPortReference1(), false);
-			
+			portType1 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference1(), s.getPortReference1(), false);
+
 			if (portType1 == null) {
 				body1 = null;
 			} else {
 				body1 = ((Port_Type) portType1).getPortBody();
 			}
-			
-			portType2 = Port_Utility.checkConnectionEndpoint(timestamp, s, s.getComponentReference2(), s.getPortReference2(), false);
+
+			portType2 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference2(), s.getPortReference2(), false);
 			if (portType2 == null) {
 				body2 = null;
 			} else {
 				body2 = ((Port_Type) portType2).getPortBody();
 			}
-			
+
 			if ((OperationModes.OP_Message.equals(body1.getOperationMode()) || OperationModes.OP_Mixed.equals(body1.getOperationMode())) && body2.getOutMessage() == null) 
 			{
-				problems.report(s.getLocation(), s.INCONSISTENTCONNECTION);
-			}		
-			
+				problems.report(s.getLocation(), MessageFormat.format(ERROR_MESSAGE, portType1.getTypename(), portType2.getTypename()));
+			}
 		}
 	}
 
