@@ -45,6 +45,23 @@ public final class Connect_Statement extends Statement {
 	private final Value componentReference2;
 	private final PortReference portReference2;
 
+
+	public Value getComponentReference1() {
+		return componentReference1;
+	}
+	
+	public Value getComponentReference2() {
+		return componentReference2;
+	}
+
+	public PortReference getPortReference1() {
+		return portReference1;
+	}
+
+	public PortReference getPortReference2() {
+		return portReference2;
+	}
+	
 	public Connect_Statement(final Value componentReference1, final PortReference portReference1, final Value componentReference2,
 			final PortReference portReference2) {
 		this.componentReference1 = componentReference1;

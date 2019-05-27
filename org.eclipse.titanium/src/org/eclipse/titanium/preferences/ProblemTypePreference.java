@@ -84,8 +84,9 @@ public enum ProblemTypePreference {
 	UNUSED_LOCAL_DEFINITION("Report unused local definition", EnumSet.of(CodeSmellType.UNUSED_LOCAL_DEFINITION)),
 	VISIBILITY_IN_DEFINITION("Report visibility settings mentioned in the name of definitions", EnumSet.of(CodeSmellType.VISIBILITY_IN_DEFINITION)),
 	RUNS_ON_SCOPE_REDUCTION("Report runs on scope reduction",EnumSet.of(CodeSmellType.RUNS_ON_SCOPE_REDUCTION)),
-	GROUPS_WITHOUT_ATTRIBUTES("Report groups without attributes", EnumSet.of(CodeSmellType.GROUPS_WITHOUT_ATTRIBUTES));
-
+	GROUPS_WITHOUT_ATTRIBUTES("Report groups without attributes", EnumSet.of(CodeSmellType.GROUPS_WITHOUT_ATTRIBUTES)),
+	CONNECTION_DETECTOR("Report unable connection", EnumSet.of(CodeSmellType.CONNECTION_DETECTOR));
+	
 	public static final String PREFIX = "CODE_SMELL.";
 
 	private String preferenceName;

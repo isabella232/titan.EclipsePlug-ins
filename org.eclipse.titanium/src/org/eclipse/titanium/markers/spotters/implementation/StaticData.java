@@ -104,6 +104,7 @@ public final class StaticData {
 		m.put(CodeSmellType.VISIBILITY_IN_DEFINITION, new BaseModuleCodeSmellSpotter[] { new Visibility() });
 		m.put(CodeSmellType.RUNS_ON_SCOPE_REDUCTION, new BaseModuleCodeSmellSpotter[] {new RunsOnScopeReduction() });
 		m.put(CodeSmellType.UNNECESSARY_ARRAYS, new BaseModuleCodeSmellSpotter[] {new UnnecessaryArrays() });
+		m.put(CodeSmellType.CONNECTION_DETECTOR, new BaseModuleCodeSmellSpotter[] {new ConnectionDetector()});
 
 		return Collections.unmodifiableMap(m);
 	}
