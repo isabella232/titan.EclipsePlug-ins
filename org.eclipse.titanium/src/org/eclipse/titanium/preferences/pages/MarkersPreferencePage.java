@@ -184,7 +184,6 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION, "When runs on component is never used.");
 		m.put(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES,
 				"Groups without attributes might indicate design issues.");
-		
 		m.put(ProblemTypePreference.CONNECTION_DETECTOR, "When out messages list of port is empty");
 
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);

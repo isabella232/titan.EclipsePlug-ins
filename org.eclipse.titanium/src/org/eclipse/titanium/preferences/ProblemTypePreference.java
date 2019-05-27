@@ -86,7 +86,7 @@ public enum ProblemTypePreference {
 	RUNS_ON_SCOPE_REDUCTION("Report runs on scope reduction",EnumSet.of(CodeSmellType.RUNS_ON_SCOPE_REDUCTION)),
 	GROUPS_WITHOUT_ATTRIBUTES("Report groups without attributes", EnumSet.of(CodeSmellType.GROUPS_WITHOUT_ATTRIBUTES)),
 	CONNECTION_DETECTOR("Report unable connection", EnumSet.of(CodeSmellType.CONNECTION_DETECTOR));
-	
+
 	public static final String PREFIX = "CODE_SMELL.";
 
 	private String preferenceName;
