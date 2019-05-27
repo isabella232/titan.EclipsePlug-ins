@@ -51,7 +51,9 @@ public class ConnectionDetector extends BaseModuleCodeSmellSpotter {
 				body2 = ((Port_Type) portType2).getPortBody();
 			}
 
-			if ((OperationModes.OP_Message.equals(body1.getOperationMode()) || OperationModes.OP_Mixed.equals(body1.getOperationMode())) && body2.getOutMessage() == null) {
+			if ((OperationModes.OP_Message.equals(body1.getOperationMode()) || OperationModes.OP_Mixed.equals(body1.getOperationMode()))
+					&& (OperationModes.OP_Message.equals(body2.getOperationMode()) || OperationModes.OP_Mixed.equals(body2.getOperationMode()))
+					&& body1.getOutMessage() == null && body2.getOutMessage() == null) {
 				problems.report(s.getLocation(), MessageFormat.format(ERROR_MESSAGE, portType1.getTypename(), portType2.getTypename()));
 			}
 		}
