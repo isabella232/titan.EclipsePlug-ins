@@ -128,8 +128,9 @@ public final class LoggerPluginManager {
 		if (entry_list_ != null) {
 			for (final LogEntry entry : entry_list_) {
 				for (int i = 0; i < plugins_.size(); i++) {
-					//TODO only if the plugin is configured
-					plugins_.get(i).log(entry.event_, true, false, false);
+					if (plugins_.get(i).is_configured()) {
+						plugins_.get(i).log(entry.event_, true, false, false);
+					}
 				}
 			}
 
