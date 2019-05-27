@@ -14,6 +14,7 @@ import org.eclipse.titanium.Activator;
  * Types of the code smell markers.
  *
  * @author poroszd
+ *  updated by Basil Kaikoni 27 - 05 -2019 ( add STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS problem type)
  *
  */
 public enum CodeSmellType implements ProblemType{
@@ -70,6 +71,7 @@ public enum CodeSmellType implements ProblemType{
 	UNNECESSARY_VALUEOF("Unnecessary valueof operation",0.5, 1.0, 5.0),
 	UNUSED_FUNTION_RETURN_VALUES("Unused function return values", 0.0, 0.5, 9.5),
 	UNUSED_STARTED_FUNCTION_RETURN_VALUES("Unused started function return values", 0.0, 0.5, 9.5),
+	STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS("function with out inout formal parameters in startup statements", 0.0, 0.5, 9.5),
 	UNUSED_GLOBAL_DEFINITION("Unused global definition", 0.5, 4.5, 18.0),
 	UNUSED_IMPORT("Unused import", 0.0, 0.5, 1.0),
 	UNUSED_LOCAL_DEFINITION("Unused local definition",0.0, 0.5, 1.5),

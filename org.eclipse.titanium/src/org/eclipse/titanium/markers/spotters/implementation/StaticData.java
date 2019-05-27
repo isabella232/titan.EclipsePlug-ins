@@ -16,7 +16,14 @@ import org.eclipse.titanium.TypeHierarchy;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
-
+/**
+ * 
+ * 
+ * 
+ * 
+ * update  by Basil kaikoni 27-08-2019 ( register STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS)
+ *
+ */
 public final class StaticData {
 	/**
 	 * This data structure is actually a tree, containing the type hierarchy of
@@ -99,6 +106,10 @@ public final class StaticData {
 		m.put(CodeSmellType.UNUSED_FUNTION_RETURN_VALUES, new BaseModuleCodeSmellSpotter[] { new UnusedRetval() });
 		m.put(CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES, new BaseModuleCodeSmellSpotter[] {
 				new UnusedStartedRefFuncRetVal(), new UnusedStartedFuncRetVal() });
+		
+		m.put(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS, new BaseModuleCodeSmellSpotter[] {
+				new FunctionsWithInoutParametersWithStartupStatement(), new FunctionsWithInoutParametersWithStartupStatement() });
+		
 		m.put(CodeSmellType.UNUSED_LOCAL_DEFINITION, new BaseModuleCodeSmellSpotter[] { new UnusedLocalDefinition() });
 		m.put(CodeSmellType.VISIBILITY_IN_DEFINITION, new BaseModuleCodeSmellSpotter[] { new Visibility() });
 		m.put(CodeSmellType.RUNS_ON_SCOPE_REDUCTION, new BaseModuleCodeSmellSpotter[] {new RunsOnScopeReduction() });
