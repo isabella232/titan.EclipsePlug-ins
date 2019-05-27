@@ -77,7 +77,8 @@ public enum CodeSmellType implements ProblemType{
 	RUNS_ON_SCOPE_REDUCTION("Runs on scope reduction", 0.5, 2.0, 6.5),
 	UNNECESSARY_ARRAYS("Unnecessary arrays",0.5,1.5, 2.5),
 	DUPLICATE_NAME("Duplicate name", 0.5, 1.0, 80.0),
-	GROUPS_WITHOUT_ATTRIBUTES("Groups without attributes", 0.0, 0.0, 0.0);//FIXME measure
+	GROUPS_WITHOUT_ATTRIBUTES("Groups without attributes", 0.0, 0.0, 0.0),//FIXME measure
+	CONNECTION_DETECTOR("Connection detector", 0.5, 2.0, 6.5);
 
 	public static final String MARKER_ID = "org.eclipse.titanium.markers.CodeSmellMarker";
 	public static final String PROBLEM = "problem";

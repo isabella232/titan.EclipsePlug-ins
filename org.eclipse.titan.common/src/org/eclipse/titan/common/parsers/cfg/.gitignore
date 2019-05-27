@@ -4,3 +4,4 @@
 /CfgParser.tokens
 /CfgParserBaseListener.java
 /CfgParserListener.java
+/CfgParseResult.java
