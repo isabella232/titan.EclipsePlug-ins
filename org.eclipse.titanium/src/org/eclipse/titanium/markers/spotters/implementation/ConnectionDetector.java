@@ -34,28 +34,24 @@ public class ConnectionDetector extends BaseModuleCodeSmellSpotter {
 		if (node instanceof Connect_Statement) {
 			final Connect_Statement s = (Connect_Statement) node;
 
-			IType portType1;
-			IType portType2;
 			PortTypeBody body1;
 			PortTypeBody body2;
 
-			portType1 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference1(), s.getPortReference1(), false);
-
+			final IType portType1 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference1(), s.getPortReference1(), false);
 			if (portType1 == null) {
 				body1 = null;
 			} else {
 				body1 = ((Port_Type) portType1).getPortBody();
 			}
 
-			portType2 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference2(), s.getPortReference2(), false);
+			final IType portType2 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference2(), s.getPortReference2(), false);
 			if (portType2 == null) {
 				body2 = null;
 			} else {
 				body2 = ((Port_Type) portType2).getPortBody();
 			}
 
-			if ((OperationModes.OP_Message.equals(body1.getOperationMode()) || OperationModes.OP_Mixed.equals(body1.getOperationMode())) && body2.getOutMessage() == null) 
-			{
+			if ((OperationModes.OP_Message.equals(body1.getOperationMode()) || OperationModes.OP_Mixed.equals(body1.getOperationMode())) && body2.getOutMessage() == null) {
 				problems.report(s.getLocation(), MessageFormat.format(ERROR_MESSAGE, portType1.getTypename(), portType2.getTypename()));
 			}
 		}
