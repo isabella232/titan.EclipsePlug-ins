@@ -4,24 +4,16 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.designer.AST.Assignment;
-import org.eclipse.titan.designer.AST.Assignments;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IVisitableNode;
-import org.eclipse.titan.designer.AST.Module;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Connect_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Port_Utility;
-import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
-import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
-import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
-import org.eclipse.titan.designer.consoles.TITANConsole;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
-import org.eclipse.titan.designer.AST.PortReference;
 
 /**
  * 
