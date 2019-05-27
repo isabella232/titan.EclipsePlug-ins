@@ -22,10 +22,9 @@ public final class CompilationTimeStamp {
 	/** The actual info on the current timestamp */
 	private final long internalCompilationTimestamp;
 
-	public CompilationTimeStamp(final long compilationTimestamp) {
+	private CompilationTimeStamp(final long compilationTimestamp) {
 		internalCompilationTimestamp = compilationTimestamp;
 	}
-
 
 	/**
 	 * Returns a new compilation counter, which can be used to provide a
