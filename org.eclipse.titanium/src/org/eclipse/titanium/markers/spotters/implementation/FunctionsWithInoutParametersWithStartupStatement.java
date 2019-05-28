@@ -1,19 +1,11 @@
 package org.eclipse.titanium.markers.spotters.implementation;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.Assignment;
-import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IVisitableNode;
-import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
