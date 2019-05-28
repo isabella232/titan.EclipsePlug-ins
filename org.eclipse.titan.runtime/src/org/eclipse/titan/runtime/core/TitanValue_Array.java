@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -638,6 +638,9 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
 				result = returnValue;
 				break;
+			} else if (returnValue == TitanAlt_Status.ALT_REPEAT ||
+					(returnValue == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
+				result = returnValue;
 			}
 		}
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -231,12 +231,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public String getOutlineText() {
-		if (lastTimeChecked == null) {
-			check(CompilationTimeStamp.getBaseTimestamp());
-		}
-
 		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
-		if (formalParList == null) {
+		if (formalParList == null || lastTimeChecked == null) {
 			return text.toString();
 		}
 
@@ -957,7 +953,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			final StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
 			getLocation().create_location_object(aData, source, "TEMPLATE", getIdentifier().getDisplayName());
-			source.append( "\t\ttry {\n" );
+			if (aData.getAddSourceInfo()) {
+				source.append( "\t\ttry {\n" );
+			}
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 					final Array_Type arrayType = (Array_Type) type;
@@ -991,9 +989,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			}
 
 			source.append("return ret_val;\n");
-			source.append( "\t\t} finally {\n" );
-			getLocation().release_location_object(aData, source);
-			source.append( "\t\t}\n" );
+			if (aData.getAddSourceInfo()) {
+				source.append( "\t\t} finally {\n" );
+				getLocation().release_location_object(aData, source);
+				source.append( "\t\t}\n" );
+			}
 			source.append("}\n\n");
 
 			sb.append(source);

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -283,7 +283,7 @@ public final class CompilerVersionInformationCollector {
 		final Matcher baseTITANErrorMatcher3 = BASE_TITAN_HEADER_PATTERN3.matcher(readLines.toString());
 		if (baseTITANErrorMatcher3.matches()) {
 			final CompilerInfoStruct temp = new CompilerInfoStruct();
-			temp.compilerProductNumber = baseTITANErrorMatcher2.group(1);
+			temp.compilerProductNumber = baseTITANErrorMatcher3.group(1);
 			temp.buildDate = baseTITANErrorMatcher3.group(2);
 			temp.cCompilerVersion = baseTITANErrorMatcher3.group(3);
 			temp.compilerVersion = null;

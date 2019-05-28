@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -78,7 +78,9 @@ public enum CodeSmellType implements ProblemType{
 	VISIBILITY_IN_DEFINITION("Visibility in definition", 0.0, 0.5, 4.5),
 	RUNS_ON_SCOPE_REDUCTION("Runs on scope reduction", 0.5, 2.0, 6.5),
 	UNNECESSARY_ARRAYS("Unnecessary arrays",0.5,1.5, 2.5),
-	DUPLICATE_NAME("Duplicate name", 0.5, 1.0, 80.0);
+	DUPLICATE_NAME("Duplicate name", 0.5, 1.0, 80.0),
+	GROUPS_WITHOUT_ATTRIBUTES("Groups without attributes", 0.0, 0.0, 0.0),//FIXME measure
+	CONNECTION_DETECTOR("Connection detector", 0.0, 0.0, 0.0);//FIXME measure
 
 	public static final String MARKER_ID = "org.eclipse.titanium.markers.CodeSmellMarker";
 	public static final String PROBLEM = "problem";

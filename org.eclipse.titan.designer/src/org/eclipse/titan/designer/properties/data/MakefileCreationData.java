@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -45,8 +45,8 @@ public final class MakefileCreationData {
 	public static final String DEFAULT_TARGET_PROPERTY = "defaultTarget";
 
 	public static final boolean USE_ABSOLUTEPATH_DEFAULT_VALUE       = false;
-	public static final boolean GNU_MAKE_DEFAULT_VALUE               = true;
-	public static final boolean INCREMENTAL_DEPENDENCY_DEFAULT_VALUE = true;
+	public static final boolean GNU_MAKE_DEFAULT_VALUE               = false;
+	public static final boolean INCREMENTAL_DEPENDENCY_DEFAULT_VALUE = false;
 	public static final boolean DYNAMIC_LINKING_DEFAULT_VALUE        = false;
 	public static final boolean FUNCTIONTESTRUNTIME_DEFAULT_VALUE    = false;
 	public static final boolean SINGLEMODE_DEFAULT_VALUE	         = false;

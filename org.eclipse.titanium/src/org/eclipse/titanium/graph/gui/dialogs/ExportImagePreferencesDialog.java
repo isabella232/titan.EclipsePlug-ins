@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -37,7 +37,7 @@ public class ExportImagePreferencesDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 */
@@ -48,7 +48,7 @@ public class ExportImagePreferencesDialog extends Dialog {
 
 	/**
 	 * Open the dialog.
-	 * 
+	 *
 	 * @return The set preferences in a string array
 	 */
 	public ImageExportType open() {

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -193,12 +193,12 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 					final ActualParameterList lazyActualParameters = new ActualParameterList();
 					formalParameterList.collateLazyAndNonLazyActualParameters(CompilationTimeStamp.getBaseTimestamp(),parsedActualParameters, lazyActualParameters, nonLazyActualParameters);
 
-					if(nonLazyActualParameters.getNofParameters()!=0) {
+					if (nonLazyActualParameters.getNofParameters() != 0) {
 						final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root);
 						nodes.add(statementBlockCollector);
 						nonLazyActualParameters.accept(statementBlockCollector);
 					}
-					for(int i=0,size=lazyActualParameters.getNofParameters();i<size;++i) {
+					for (int i = 0, size = lazyActualParameters.getNofParameters(); i < size; ++i) {
 						final ActualParameter lazyActualParameter = lazyActualParameters.getParameter(i);
 						if(lazyActualParameter instanceof Value_ActualParameter) {
 							final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root,true);
@@ -236,7 +236,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 			}
 
 			final Set<FormalParameter> shouldBeEvaluated = new HashSet<FormalParameter>();
-			if (nodes.size() == 0) {
+			if (nodes.isEmpty()) {
 				return referencedFormalParameters;
 			} else {
 				final Set<FormalParameter> tempStricts = new HashSet<FormalParameter>();
@@ -253,7 +253,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 							// We have to branching because of intersections of empty and non empty set.
 							// Have to check index too!
 							// If index==0 and shouldBeEvaluated.size()==0 then we have to initialize set with addAll() method.
-							if (shouldBeEvaluated.size() == 0 && index == 0) {
+							if (shouldBeEvaluated.isEmpty() && index == 0) {
 								shouldBeEvaluated.addAll(temp);
 							} else {
 								shouldBeEvaluated.retainAll(temp);

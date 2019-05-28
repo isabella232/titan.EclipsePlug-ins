@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -45,6 +46,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -848,6 +850,17 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		getOfType().checkMapParameter(timestamp, refChain, errorLocation);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void forceRaw(final CompilationTimeStamp timestamp) {
 		if (rawAttribute == null) {
 			rawAttribute = new RawAST(getDefaultRawFieldLength());
@@ -935,8 +948,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
-				String ownName = getGenNameOwn(aData);
-				String valueName = getGenNameValue(aData, source);
+				final String ownName = getGenNameOwn(aData);
+				final String valueName = getGenNameValue(aData, source);
 				source.append(MessageFormat.format("\t// code for type {0} is not generated, {1} is used instead\n", ownName, valueName));
 				break;
 			}
@@ -1036,15 +1049,58 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
-			return expression;
+			return fromName;
 		}
 
-		final String name = getGenNameValue(aData, expression);
+		boolean simpleOfType;
+		final IType ofType = getOfType();
+		switch (ofType.getTypetype()) {
+		case TYPE_BOOL:
+		case TYPE_BITSTRING:
+		case TYPE_BITSTRING_A:
+		case TYPE_HEXSTRING:
+		case TYPE_OCTETSTRING:
+		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
+		case TYPE_UTF8STRING:
+		case TYPE_TELETEXSTRING:
+		case TYPE_VIDEOTEXSTRING:
+		case TYPE_GRAPHICSTRING:
+		case TYPE_GENERALSTRING:
+		case TYPE_UNIVERSALSTRING:
+		case TYPE_BMPSTRING:
+		case TYPE_OBJECTDESCRIPTOR:
+		case TYPE_INTEGER:
+		case TYPE_INTEGER_A:
+		case TYPE_REAL:
+			simpleOfType = true;
+			break;
+		default:
+			simpleOfType = false;
+			break;
+		}
 
-		return new StringBuilder(MessageFormat.format("new {0}({1})", name, expression));
+		if (!aData.getForceGenSeof() && fromType.getTypetype() == Type_type.TYPE_SEQUENCE_OF && simpleOfType) {
+			// happens to map to the same type
+			return fromName;
+		}
+
+		//heavy conversion is needed
+		final String tempId = aData.getTemporaryVariableName();
+		final String name = getGenNameValue(aData, expression.expression);
+
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		expression.preamble.append(MessageFormat.format("{0}.set_size({1}.n_elem());\n", tempId, fromName));
+
+		final String tempLoopId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("for (int {0} = 0; {0} < {1}.n_elem(); {0}++) '{'\n", tempLoopId, fromName));
+		expression.preamble.append(MessageFormat.format("{0}.get_at({1}).operator_assign({2}.constGet_at({1}));\n", tempId, tempLoopId, fromName));
+		expression.preamble.append("}\n");
+
+		return tempId;
 	}
 }

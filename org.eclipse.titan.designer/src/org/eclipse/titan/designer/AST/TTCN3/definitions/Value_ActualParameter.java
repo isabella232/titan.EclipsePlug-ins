@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -59,8 +59,43 @@ public final class Value_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasSingleExpression() {
+	public boolean hasSingleExpression(final FormalParameter formalParameter) {
 		if (value != null) {
+			boolean needsConversion = false;
+			IType fromType = null;
+			IType toType = null;
+			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT
+					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER) {
+				final IValue realValue = value.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
+				if (realValue instanceof Referenced_Value) {
+					Reference reference = ((Referenced_Value)realValue).getReference();
+					Assignment ass = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					IType assType = ass.getType(CompilationTimeStamp.getBaseTimestamp());
+					fromType = assType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_TEMPLATE, false);
+					toType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					if (!fromType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), toType)) {
+						needsConversion = true;
+					}
+					if(reference.refersToStringElement()) {
+						needsConversion = true;
+					}
+				} else {
+					fromType = value.getMyGovernor();
+					toType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					if (!fromType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), toType)) {
+						needsConversion = true;
+					}
+					if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
+						//TODO this could be done reduced by knowing the return type of the value.
+						needsConversion = true;
+					}
+				}
+			}
+
+			if (needsConversion) {
+				return false;
+			}
+
 			return value.canGenerateSingleExpression();
 		}
 
@@ -172,14 +207,14 @@ public final class Value_ActualParameter extends ActualParameter {
 					// function call itself (needed if the value contains function calls
 					// with lazy or fuzzy parameters)
 					final String tempId = aData.getTemporaryVariableName();
-					value.getMyGovernor().getGenNameValue(aData, expression.preamble);
+					value.getMyGovernor().getGenNameValue(aData, expression.preamble);//?
 					expression.preamble.append(MessageFormat.format(" {0}({1})", tempId, valueExpression.expression));
 					expression.preamble.append(valueExpression.postamble);
 					expressionExpression.append(tempId);
 				}
 
 				if (needsConversion) {
-					expressionExpression = toType.generateConversion(aData, fromType, expressionExpression);
+					expressionExpression = new StringBuilder(toType.generateConversion(aData, fromType, expressionExpression.toString(), expression));
 				}
 
 				//TODO copy might be needed here

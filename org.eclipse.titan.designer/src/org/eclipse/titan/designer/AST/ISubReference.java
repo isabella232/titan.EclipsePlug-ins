@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST;
 
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -79,8 +80,11 @@ public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IId
 
 	/**
 	 * originally has_single_expr
+	 *
+	 * @param formalParameterList
+	 *                the formal parameter list to check against.
 	 * */
-	public boolean hasSingleExpression();
+	public boolean hasSingleExpression(FormalParameterList formalParameterList);
 
 	/**
 	 * Add generated java code on this level.

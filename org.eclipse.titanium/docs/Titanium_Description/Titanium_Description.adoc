@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 1551-CRL 113 200/6, Rev. E
-Date: 2018-12-03
+Version: 1551-CRL 113 200/6, Rev. F
+Date: 2019-05-17
 
 ---
 = Titanium Description
 :author: Kristóf Szabados
 :revnumber: 1551-CRL 113 200/6, Rev. E
-:revdate: 2018-12-03
+:revdate: 2019-05-17
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -25,7 +25,7 @@ This document describes Titanium, the Quality Analyzer for TTCN-3 testing softwa
 
 *Copyright*
 
-Copyright (c) 2000-2018 Ericsson Telecom AB. +
+Copyright (c) 2000-2019 Ericsson Telecom AB. +
 All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 that accompanies this distribution, and is available at +
 https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
@@ -152,7 +152,7 @@ NOTE: In case the license file is not provided, is not valid or has expired an a
 
 = Titanium preferences
 
-This section introduces the preference pages where one can control the behaviour of the views and other features provided by the Titanium plug-in.
+This section introduces the preference pages where one can control the behavior of the views and other features provided by the Titanium plug-in.
 
 == Code smell preferences
 
@@ -160,7 +160,7 @@ image::images/3_F1.png[title="Code smell preferences"]
 
 Code smells are indicators of suspicious code that is not erroneous (i.e. the code compiles), but most of the times they are not preferable. In this preference page, one can control the way of reporting the available code smells.
 
-The first item on this page is the option to enable on-the-fly processing. When this option is enabled the code smells will be checked immediately after whenever the Designer’s on-the-fly analyser executes.When this option is disabled the code smells have to be explicitly requested by the *Check code for code smells* action on the menu bar.
+The first item on this page is the option to enable on-the-fly processing. When this option is enabled the code smells will be checked immediately after whenever the Designer’s on-the-fly analyzer executes. When this option is disabled the code smells have to be explicitly requested by the *Check code for code smells* action on the menu bar.
 
 The reporting level of all code smells is configurable to be *Ignore*, *Warning* or *Error*. Code smells set to be reported as *Ignore* will not be analysed and reported. Code smells configured to be reported as *Warning* or *Error* will be reported with that severity level.
 
@@ -194,6 +194,10 @@ NOTE: TITAN does not support these language restrictions.
 * *Report TTCN-3 definitions that could be private, but are not set so*: Detect and report definitions that are only used inside their own module, but are not declared private. This situation allows for external modules to refer to these definitions, making them part of the module’s public interface (which it might not have been intended to be a part of).
 
 * *Report visibility settings mentioned in the name of definitions*: Detects the cases when visibility names are mentioned in the name of the definition. If this meant to serve as a protection mechanism against misuse it would be better to use the actual visibility attribute. In that case the compiler would be able to automatically check the correctness of its usage.
+
+* *Report runs on scope reduction*: Detect the cases when the component in the runs on clause of a functions/altstep/testcase could be reduced.
+
+* *Report unusable connection*: Detect connect statements where it is not possible to send or receive any message, even though the connection is otherwise perfectly valid.
 
 === Code style problems
 
@@ -242,6 +246,7 @@ Code smells in this category indicate issues related to bad or misunderstood arc
 * *Report the usage of isvalue with a value as a parameter:* isvalue check on a value always returns true. Isbound should be used to check existence.
 * *Report possible iteration on wrong array:* This code smell is marked, when an array that differs from the array used in the final expression of a loop is indexed with the loop variable.
 * *Report reading out parameter before assigning a value to it:* An out parameter of a function might be uninitialized before its first assignment. Reading the parameter before that, can cause problems.
+* *Report the usage of groups without any attributes:* Group(s) created without any attributes.
 
 === Unnecessary code
 
@@ -676,6 +681,10 @@ While editing a TTCN3 source file, you can open the context menu by right clicki
 
 * *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf. Section 6.
 
+* *Show module in Module hierarchy:* Displays the module hierarchy, and reveals in it the location of the current module.
+
+* *List what is running on this component:* When the cursor is over a component type definition, this feature will collect all function/altstep/testcase definition that run on that component and list the in the TITAN Console view.
+
 [[project-actions]]
 == Project actions
 
@@ -688,6 +697,14 @@ To access the Titanium project actions, right click to a Titan project name in t
 * *View metrics:* Open the Metrics view showing the selected project. See <<metrics-view, here>>.
 * *Draw component structure:* Visualize the components of the project. See <<the-component-dependency-graph, here>>.
 * *Draw module structure:* Visualize the module dependencies of the project. <<the-module-dependency-graph, here>>.
+
+[[file-actions]]
+== File actions
+
+To access the Titanium file actions, right click on a file inside a Titan project, in the Package Explorer, and select the Titanium menu.
+
+* *Organize imports:* Organize imports of all TTCN3 source files in the project. See <<configuring-the-problems-view, here>>.
+* *Show module in Module hierarchy:* Displays the module hierarchy, and reveals in it the location of the current module.
 
 [[configuring-the-problems-view]]
 = Configuring the Problems view

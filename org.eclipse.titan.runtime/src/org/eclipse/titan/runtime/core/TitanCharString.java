@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,8 @@ import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.data_log_format_t;
+import org.eclipse.titan.runtime.core.cfgparser.StringToTTCNAnalyzer;
 
 
 /**
@@ -169,30 +171,6 @@ public class TitanCharString extends Base_Type {
 		return this;
 	}
 
-	@Override
-	public TitanCharString operator_assign(final Base_Type otherValue) {
-		if (otherValue instanceof TitanCharString) {
-			return operator_assign((TitanCharString)otherValue);
-		}
-
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
-	}
-
-	@Override
-	public boolean is_bound() {
-		return val_ptr != null;
-	}
-
-	@Override
-	public boolean is_present() {
-		return is_bound();
-	}
-
-	@Override
-	public boolean is_value() {
-		return val_ptr != null;
-	}
-
 	/**
 	 * Assigns the other value to this value.
 	 * Overwriting the current content in the process.
@@ -244,6 +222,30 @@ public class TitanCharString extends Base_Type {
 		}
 
 		return this;
+	}
+
+	@Override
+	public TitanCharString operator_assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanCharString) {
+			return operator_assign((TitanCharString)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
+	}
+
+	@Override
+	public boolean is_bound() {
+		return val_ptr != null;
+	}
+
+	@Override
+	public boolean is_present() {
+		return is_bound();
+	}
+
+	@Override
+	public boolean is_value() {
+		return val_ptr != null;
 	}
 
 	/**
@@ -343,7 +345,7 @@ public class TitanCharString extends Base_Type {
 		final int n_chars = val_ptr.length();
 		text_buf.push_int(n_chars);
 		if (n_chars > 0) {
-			byte[] temp = new byte[n_chars];
+			final byte[] temp = new byte[n_chars];
 			for (int i = 0; i < n_chars; i++) {
 				temp[i] = (byte)val_ptr.charAt(i);
 			}
@@ -412,29 +414,6 @@ public class TitanCharString extends Base_Type {
 		return ret_val;
 	}
 
-	//originally operator+=
-	//append for String
-	public TitanCharString append(final String aOtherValue) {
-		must_bound(" Appending a string literal to an unbound charstring value.");
-
-		if (aOtherValue != null && aOtherValue.length() > 0) {
-			val_ptr.append(aOtherValue);
-		}
-
-		return this;
-	}
-
-	//originally operator+=
-	// append for charstring_element
-	public TitanCharString append(final TitanCharString_Element aOtherValue) {
-		must_bound("Appending a charstring value to an unbound charstring value.");
-		aOtherValue.must_bound("Appending an unbound charstring value to another charstring value.");
-
-		val_ptr.append(aOtherValue.get_char());
-
-		return this;
-	}
-
 	/**
 	 * Concatenates the current charstring with the charstring received as a
 	 * parameter.
@@ -488,6 +467,40 @@ public class TitanCharString extends Base_Type {
 			return new TitanUniversalCharString(ret_val);
 		}
 
+	}
+
+	//originally operator+=
+	//append for String
+	public TitanCharString append(final String aOtherValue) {
+		must_bound(" Appending a string literal to an unbound charstring value.");
+
+		if (aOtherValue != null && aOtherValue.length() > 0) {
+			val_ptr.append(aOtherValue);
+		}
+
+		return this;
+	}
+
+	//originally operator+=
+	// append for charstring_element
+	public TitanCharString append(final TitanCharString_Element aOtherValue) {
+		must_bound("Appending a charstring value to an unbound charstring value.");
+		aOtherValue.must_bound("Appending an unbound charstring value to another charstring value.");
+
+		val_ptr.append(aOtherValue.get_char());
+
+		return this;
+	}
+
+	//originally operator+=
+	// append for charstring
+	public TitanCharString append(final TitanCharString aOtherValue) {
+		must_bound("Appending a charstring value to an unbound charstring value.");
+		aOtherValue.must_bound("Appending an unbound charstring value to another charstring value.");
+
+		val_ptr.append(aOtherValue.get_value());
+
+		return this;
 	}
 
 	/**
@@ -620,11 +633,6 @@ public class TitanCharString extends Base_Type {
 		return !operator_equals(otherValue);
 	}
 
-	@Override
-	public void clean_up() {
-		val_ptr = null;
-	}
-
 	/**
 	 * Checks if the current value is not equivalent to the provided one.
 	 *
@@ -661,6 +669,24 @@ public class TitanCharString extends Base_Type {
 		}
 
 		return this.val_ptr.toString().equals(otherValue);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanUniversalCharString otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	@Override
+	public void clean_up() {
+		val_ptr = null;
 	}
 
 	/**
@@ -1286,5 +1312,50 @@ public class TitanCharString extends Base_Type {
 	 * */
 	public static TitanCharString convert_to_CharString(final TitanCharString_Element otherValue) {
 		return new TitanCharString(otherValue);
+	}
+
+	/**
+	 * This static function is used to convert a value to a charstring.
+	 *
+	 * @param ttcn_data
+	 *                the value to be converted to its string form.
+	 * @return the converted value.
+	 * */
+	public static TitanCharString ttcn_to_string(final Base_Type ttcn_data) {
+		//TODO check for formatting issues
+		//TODO: initial implement, original: Logger_Format_Scope
+		TTCN_Logger.set_log_format(data_log_format_t.LF_TTCN);
+		TTCN_Logger.begin_event_log2str();
+		ttcn_data.log();
+		TTCN_Logger.set_log_format(data_log_format_t.LF_LEGACY);
+		return TTCN_Logger.end_event_log2str();
+	}
+
+	/**
+	 * This static function is used to convert a charstring to a value.
+	 *
+	 * @param ttcn_string
+	 *                the string to be converted.
+	 * @param ttcn_value
+	 *                the value to be set to the converted value.
+	 * */
+	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Type ttcn_value) {
+		final boolean isComponent = ttcn_value instanceof TitanComponent;
+		final Module_Parameter mp = StringToTTCNAnalyzer.process_config_string2ttcn(ttcn_string.toString(), isComponent);
+		ttcn_value.set_param(mp);
+	}
+
+	/**
+	 * This static function is used to convert a charstring to a template.
+	 *
+	 * @param ttcn_string
+	 *                the string to be converted.
+	 * @param ttcn_value
+	 *                the value to be set to the converted template.
+	 * */
+	public static void string_to_ttcn(final TitanCharString ttcn_string, final Base_Template ttcn_value) {
+		final boolean isComponent = ttcn_value instanceof TitanComponent_template;
+		final Module_Parameter mp = StringToTTCNAnalyzer.process_config_string2ttcn(ttcn_string.toString(), isComponent);
+		ttcn_value.set_param(mp);
 	}
 }

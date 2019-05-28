@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Referenced_ActualParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Template_ActualParameter;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
@@ -219,6 +220,9 @@ public class All_From_Template extends TTCN3Template {
 				case TYPE_SEQUENCE_OF:
 					it = ((SequenceOf_Type) referredType).getOfType();
 					break;
+				case TYPE_ARRAY:
+					it = ((Array_Type) referredType).getElementType();
+					break;
 				case TYPE_SET_OF:
 					it = ((SetOf_Type) referredType).getOfType();
 					break;
@@ -289,7 +293,7 @@ public class All_From_Template extends TTCN3Template {
 			switch (body.getTemplatetype()) {
 			case TEMPLATE_LIST:
 				//TODO: if "all from" is in a permutation list it anyoromit and any is permitted
-				if (!allowAnyOrOmit && ((Template_List) body).containsAnyornoneOrPermutation()) {
+				if (!allowAnyOrOmit && ((Template_List) body).containsAnyornoneOrPermutation(timestamp)) {
 					allFrom.getLocation().reportSemanticError(ANYOROMITANDPERMUTATIONPRHOHIBITED);
 					allFrom.setIsErroneous(true);
 				}
@@ -469,6 +473,65 @@ public class All_From_Template extends TTCN3Template {
 		}
 		result = ((Template_List) body).getNofTemplatesNotAnyornone(timestamp);
 		return result;
+	}
+
+	public boolean containsAnyornoneOrPermutation(final CompilationTimeStamp timestamp) {
+		if (allFrom == null) {
+			ErrorReporter.INTERNAL_ERROR();
+			return false;
+		}
+
+		if (!Template_type.SPECIFIC_VALUE.equals(allFrom.getTemplatetype())) {
+			allFrom.getLocation().reportSemanticError(REFERENCEEXPECTED);
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		if (!((SpecificValue_Template) allFrom).isReference()) {
+			allFrom.getLocation().reportSemanticError(REFERENCEEXPECTED);
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		// isReference branch:
+		final Reference reference = ((SpecificValue_Template) allFrom).getReference();
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		if (assignment == null) {
+			allFrom.getLocation().reportSemanticError("Assignment not found");
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		ITTCN3Template body = null;
+
+		switch (assignment.getAssignmentType()) {
+		case A_TEMPLATE:
+			body = ((Def_Template) assignment).getTemplate(timestamp);
+			break;
+		case A_VAR_TEMPLATE:
+			body = ((Def_Var_Template) assignment).getInitialValue();
+			break;
+		case A_CONST:
+			return false;
+		case A_MODULEPAR:
+			return false;
+		case A_MODULEPAR_TEMPLATE:
+			body = ((Def_ModulePar_Template) assignment).getDefaultTemplate(timestamp);
+			break;
+		default:
+			return false;
+		}
+		if (body == null) {
+			ErrorReporter.INTERNAL_ERROR();
+			return false;
+		}
+		if (!Template_type.TEMPLATE_LIST.equals(body.getTemplatetype())) {
+			allFrom.getLocation().reportSemanticError("Template must be a record of or a set of values");
+			allFrom.setIsErroneous(true);
+			return false;
+		}
+
+		return ((Template_List) body).containsAnyornoneOrPermutation(timestamp);
 	}
 
 	@Override

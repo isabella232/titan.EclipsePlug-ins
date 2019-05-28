@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -158,15 +158,15 @@ class ChangeCreator {
 						int vmLen = 0;
 						if (vm != null) {
 							switch (vm) {
-								case Public:
-									vmLen = 7;
-									break;
-								case Friend:
-									vmLen = 7;
-									break;
-								case Private:
-									vmLen = 8;
-									break;
+							case Public:
+								vmLen = 7;
+								break;
+							case Friend:
+								vmLen = 7;
+								break;
+							case Private:
+								vmLen = 8;
+								break;
 							}
 						}
 						locations_out.add(new Location(node.getLocation().getFile(), node.getLocation().getLine(),

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.properties.data.FolderBuildPropertyData;
  */
 public final class GeneralConstants {
 	public static final ProductIdentity ON_THE_FLY_ANALYZER_VERSION =
-			ProductIdentity.getProductIdentity(ProductIdentity.TITAN_PRODUCT_NUMBER, 6, 5, 1, 0);
+			ProductIdentity.getProductIdentity(ProductIdentity.TITAN_PRODUCT_NUMBER, 6, 6, 0, 0);
 	public static final boolean DEBUG = true;
 	public static final boolean ETSI_BUILD = false;
 
@@ -51,7 +51,7 @@ public final class GeneralConstants {
 	public static final String NUMBER_DEFAULT = "1";
 
 	public static final String VERSION_STRING = ON_THE_FLY_ANALYZER_VERSION.toString();
-	public static final String COPYRIGHT_STRING = "Copyright (c) 2000-2018 Ericsson Telecom AB";
+	public static final String COPYRIGHT_STRING = "Copyright (c) 2000-2019 Ericsson Telecom AB";
 
 	public static final String PROJECT_PROPERTY_PAGE = "org.eclipse.titan.designer.properties.pages.ProjectBuildPropertyPage";
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  * This class lets the user create a launch configuration via a shortcut.
  * By selecting a project and the proper type of launch configuration in the runs on menu, a temporal launch configuration is created.
  * If this is a new launch configuration it is saved with a temporal name, if something with the same selection input can be found it is reused.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class LaunchShortcut implements ILaunchShortcut {

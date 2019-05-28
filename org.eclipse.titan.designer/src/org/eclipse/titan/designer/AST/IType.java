@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -655,8 +655,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param delayed
 	 *                in some case it is needed to delay this check till the
 	 *                end of the semantic checking.
+	 * @param errorLocation
+	 *                The location to report error messages to in case of
+	 *                need.
 	 * */
-	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed);
+	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed, final Location errorLocation);
 
 	/**
 	 * If the type does not have its raw attribute, generate and check a default one.
@@ -714,11 +717,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * @param coding the coding to check for.
-	 * @param refChain a reference chain to disable recursive looping.
 	 *
 	 * @return true if the type has the given encoding.
 	 * */
-	boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain);
+	boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding);
 
 	/**
 	 * Checks if the type has the given encoding.
@@ -734,6 +736,21 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @return the coding table of this type
 	 * */
 	List<Coding_Type> getCodingTable();
+
+	/**
+	 * Checks that the type can be used as a parameter for a map/unmap
+	 * statement. It is not and does not contain component and default
+	 * types.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param refChain
+	 *                a chain of references used to detect circular
+	 *                references.
+	 * @param errorLocation
+	 *                the location the error message should be reported to.
+	 * */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation);
 
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same
@@ -1231,9 +1248,15 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                build related information and structures.
 	 * @param fromType
 	 *                the type to convert from to this type.
+	 * @param fromName
+	 *                the name/expression to be converted.
 	 * @param expression
-	 *                the expression to be converted.
-	 * @return the expression wrapped into the conversion call.
+	 *                the expression used to help the conversion if needed
+	 *                (pre- and postambles used in complex cases).
+	 * @return the expression representing the result of the conversion. Can
+	 *         be the fromName if no conversion is needed, the name of the
+	 *         temporary variable holding the converted value, and
+	 *         expression converting the value.
 	 * */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression);
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression);
 }

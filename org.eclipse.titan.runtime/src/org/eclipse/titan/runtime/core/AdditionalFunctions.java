@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -13,8 +13,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 
 /**
@@ -593,7 +595,6 @@ public final class AdditionalFunctions {
 		if (value.is_native()) {
 			return int2oct(value.get_int(), length);
 		} else {
-			BigInteger tmp_val = value.get_BigInteger();
 			if (value.is_less_than(0)) {
 				throw new TtcnError(MessageFormat.format("The first argument (value) of function int2oct() is a negative integer value: {0}.", value));
 			}
@@ -601,6 +602,7 @@ public final class AdditionalFunctions {
 				throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value: {0}.", length));
 			}
 
+			BigInteger tmp_val = value.get_BigInteger();
 			final char octets_ptr[] = new char[length];
 			final BigInteger helper = new BigInteger("255");
 			for (int i = length - 1; i >= 0; i--) {
@@ -2248,9 +2250,8 @@ public final class AdditionalFunctions {
 			unicharStr.decode_utf32(value.lengthof().get_int(), value.get_value(), CharCoding.UTF32BE);
 		} else if (encodeStr.operator_equals("UTF-32LE")) {
 			unicharStr.decode_utf32(value.lengthof().get_int(), value.get_value(), CharCoding.UTF32LE);
-		}
-		else {
-			throw new TtcnError("oct2unichar: Invalid parameter: " +encodeStr);
+		} else {
+			throw new TtcnError("oct2unichar: Invalid parameter: " + encodeStr);
 		}
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
@@ -2340,9 +2341,8 @@ public final class AdditionalFunctions {
 			value.encode_utf32(buf, CharCoding.UTF32BE);
 		} else if (stringEncoding.operator_equals("UTF-32LE")) {
 			value.encode_utf32(buf, CharCoding.UTF32LE);
-		}
-		else {
-			throw new TtcnError("unichar2oct: Invalid parameter: "+ stringEncoding);
+		} else {
+			throw new TtcnError("unichar2oct: Invalid parameter: " + stringEncoding);
 		}
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
@@ -5058,6 +5058,23 @@ public final class AdditionalFunctions {
 	}
 
 	// float2str
+	public static TitanCharString float2str(final double value) {
+		//differnce between java and c++
+		if (Double.isNaN(value)) {
+			return new TitanCharString("not_a_number");
+		} else if (value == Double.NEGATIVE_INFINITY) {
+			return new TitanCharString("-infinity");
+		} else if (value == Double.POSITIVE_INFINITY) {
+			return new TitanCharString("infinity");
+		} else if (value == 0.0
+				|| (value > -TitanFloat.MAX_DECIMAL_FLOAT && value <= -TitanFloat.MIN_DECIMAL_FLOAT)
+				|| (value >= TitanFloat.MIN_DECIMAL_FLOAT && value < TitanFloat.MAX_DECIMAL_FLOAT)) {
+			return new TitanCharString(String.format("%f", value));
+		} else {
+			return new TitanCharString(String.format("%e", value));
+		}
+	}
+
 	public static TitanCharString float2str(final Ttcn3Float value) {
 		//differnce between java and c++
 		if (Double.isNaN(value.getValue())) {
@@ -5132,8 +5149,52 @@ public final class AdditionalFunctions {
 
 	// C.33 - regexp
 	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString expression, final int groupno, final boolean nocase) {
-		//FIXME implement
-		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+		instr.must_bound("The first argument (instr) of function regexp() is an unbound charstring value.");
+		expression.must_bound("The second argument (expression) of function regexp() is an unbound charstring value.");
+
+		if (groupno < 0) {
+			throw new TtcnError(MessageFormat.format("The third argument (groupno) of function regexp() is a negative integer value: {0}.", groupno));
+		}
+
+		final String instr_str = instr.get_value().toString();
+		for (int i = 0; i < instr_str.length(); i++) {
+			if (instr_str.charAt(i) == '\0') {
+				TtcnError.TtcnWarningBegin("The first argument (instr) of function regexp(), which is ");
+				instr.log();
+				TTCN_Logger.log_event(", contains a character with zero character code at index %d. The rest of the string will be ignored during matching.", i);
+				TtcnError.TtcnWarningEnd();
+				break;
+			}
+		}
+
+		final String expression_str = expression.get_value().toString();
+		for (int i = 0; i < expression_str.length(); i++) {
+			if (expression_str.charAt(i) == '\0') {
+				TtcnError.TtcnWarningBegin("The second argument (expression) of function regexp(), which is ");
+				expression.log();
+				TTCN_Logger.log_event(", contains a character with zero character code at index %d. The rest of the string will be ignored during matching.", i);
+				TtcnError.TtcnWarningEnd();
+				break;
+			}
+		}
+
+		final Pattern posix_str = TTCN_Pattern.convert_pattern(expression_str, nocase);
+		if (posix_str == null) {
+			TtcnError.TtcnErrorBegin("The second argument (expression) of function regexp(), which is ");
+			expression.log();
+			TTCN_Logger.log_event(", is not a valid TTCN-3 character pattern.");
+			TtcnError.TtcnErrorEnd();
+		}
+		if (TTCN_Logger.log_this_event(Severity.DEBUG_UNQUALIFIED)) {
+			TTCN_Logger.begin_event(Severity.DEBUG_UNQUALIFIED);
+			TTCN_Logger.log_event_str("regexp(): POSIX ERE equivalent of ");
+			new TitanCharString_template(template_sel.STRING_PATTERN, expression, nocase).log();
+			TTCN_Logger.log_event_str(" is: ");
+			new TitanCharString(posix_str.toString()).log();
+			TTCN_Logger.end_event();
+		}
+
+		return new TitanCharString(TTCN_Pattern.regexp(instr_str, posix_str, groupno, nocase));
 	}
 
 	public static TitanCharString regexp(final TitanCharString instr, final TitanCharString expression, final TitanInteger groupno, final boolean nocase) {
@@ -5143,8 +5204,47 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression_val, final TitanUniversalCharString expression_templ, final int groupno, final boolean nocase) {
-		//FIXME implement
-		throw new TtcnError("FIXME The regexp expression is NOT YET SUPPORTED");
+		if((expression_val != null && expression_templ != null) || (expression_val == null && expression_templ == null)) {
+			throw new TtcnError("Internal error: regexp(): invalid parameters");
+		}
+		instr.must_bound("The first argument (instr) of function regexp() is an unbound charstring value.");
+		if (expression_val != null) {
+			expression_val.must_bound("The second argument (expression) of function regexp() is an unbound universal charstring value.");
+		} else {
+			if (!expression_templ.is_bound()) {
+				throw new TtcnError("The second argument (expression) of function regexp() is an unbound universal charstring template.");
+			}
+		}
+		if (groupno < 0) {
+			throw new TtcnError(MessageFormat.format("The third argument (groupno) of function regexp() is a negative integer value: {0}.", groupno));
+		}
+
+		Pattern posix_str = null;
+		if (expression_val != null) {
+			posix_str = TTCN_Pattern.convert_pattern(expression_val.get_stringRepr_for_pattern().toString(), nocase);
+		} else {
+			posix_str = TTCN_Pattern.convert_pattern(expression_templ.get_stringRepr_for_pattern().toString(), nocase);
+		}
+		if (posix_str == null) {
+			TtcnError.TtcnErrorBegin("The second argument (expression) of function regexp(), which is ");
+			if (expression_val != null) {
+				expression_val.log();
+			} else {
+				expression_templ.log();
+			}
+			TTCN_Logger.log_event(", is not a valid TTCN-3 character pattern.");
+			TtcnError.TtcnErrorEnd();
+		}
+		if (TTCN_Logger.log_this_event(Severity.DEBUG_UNQUALIFIED)) {
+			TTCN_Logger.begin_event(Severity.DEBUG_UNQUALIFIED);
+			TTCN_Logger.log_event_str("regexp(): POSIX ERE equivalent of ");
+			new TitanCharString_template(template_sel.STRING_PATTERN,new TitanCharString(posix_str.toString()), nocase).log();
+			TTCN_Logger.log_event_str(" is: ");
+			new TitanCharString(posix_str.toString()).log();
+			TTCN_Logger.end_event();
+		}
+
+		return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.toString(), posix_str, groupno, nocase));
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression, final int groupno, final boolean nocase) {

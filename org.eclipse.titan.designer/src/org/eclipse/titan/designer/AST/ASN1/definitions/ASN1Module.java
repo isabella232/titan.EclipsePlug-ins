@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -48,7 +48,7 @@ public final class ASN1Module extends Module {
 	private static final String FULLNAMEPART2 = ".<imports>";
 
 	private static final String NOASSIGNMENT = "There is no assignment with name `{0}'' in module `{1}''";
-	private static final String NOASSIGNMENTORSYMBOL = "There is no assignment or imported symbol with name `{0}'' in module `{1}''";
+	public static final String NOASSIGNMENTORSYMBOL = "There is no assignment or imported symbol with name `{0}'' in module `{1}''";
 	private static final String MORESYMBOLS = "There are more imported symbols with name `{0}'' in module `{1}''";
 	private static final String NOIMPORTEDMODULE = "There is no imported module with name `{0}''";
 	private static final String NOSYMBOLSIMPORTED = "There is no symbol with name `{0}'' imported from module `{1}''";
@@ -60,7 +60,7 @@ public final class ASN1Module extends Module {
 	 * Extensibility implied means in ASN.1 that all assignments in that
 	 * module should be treated as extendable.
 	 * <p>
-	 * The information is only stored, but not supported for now.
+	 * The information is only stored, but not supported for now (documented limitation).
 	 * */
 	private final boolean extensibilityImplied;
 
@@ -70,6 +70,8 @@ public final class ASN1Module extends Module {
 	private Imports imports;
 
 	private ASN1Assignments assignments;
+
+	private boolean needsTobeBuilt = true;
 
 	public ASN1Module(final Identifier identifier, final IProject project, final Tag_types tagdef, final boolean extensibilityImplied) {
 		super(identifier, project);
@@ -235,7 +237,9 @@ public final class ASN1Module extends Module {
 		if (null != lastCompilationTimeStamp && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
 		}
+
 		lastCompilationTimeStamp = timestamp;
+		needsTobeBuilt = true;
 
 		if (!SpecialASN1Module.INTERNAL_MODULE.equals(identifier.getAsnName())) {
 			NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_ASN1MODULE, identifier, "ASN.1 module");
@@ -442,7 +446,16 @@ public final class ASN1Module extends Module {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean shouldBeGenerated() {
+		// TODO for now ASN.1 files always need to be built.
+		return needsTobeBuilt;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
+		needsTobeBuilt = false;
+
 		aData.addBuiltinTypeImport("TTCN_Module");
 
 		imports.generateCode(aData);

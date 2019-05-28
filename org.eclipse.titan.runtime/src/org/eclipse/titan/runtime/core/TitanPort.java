@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,8 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -136,6 +138,98 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	public static final class Map_Params {
+		private int nof_params;
+		private ArrayList<TitanCharString> params;
+
+		public Map_Params(final int nof_params) {
+			init(nof_params);
+		}
+
+		public Map_Params(final Map_Params other) {
+			copy(other);
+		}
+
+		private void init(final int nof_params) {
+			this.nof_params = nof_params;
+			this.params = new ArrayList<TitanCharString>(nof_params);
+		}
+
+		private void clear() {
+			nof_params = 0;
+			this.params = new ArrayList<TitanCharString>(nof_params);
+		}
+
+		private void copy(final Map_Params other) {
+			init(other.nof_params);
+			for (int i = 0; i < nof_params; i++) {
+				params.set(i, other.params.get(i));
+			}
+		}
+
+		public Map_Params operator_assign(final Map_Params other) {
+			clear();
+			copy(other);
+			return this;
+		}
+
+		public void reset(final int nof_params) {
+			//clear();
+			init(nof_params);
+		}
+
+		/**
+		 * Sets the string representation of parameter at the provided
+		 * index to be the one in the provided param.
+		 *
+		 * @param index
+		 *                the index of the parameter to set.
+		 * @param param
+		 *                the string representation of the value to set.
+		 * */
+		public void set_param(final int index, final TitanCharString param) {
+			if (index >= nof_params) {
+				throw new TtcnError("Map/unmap parameter index out of bounds");
+			}
+
+			params.set(index, param);
+		}
+
+		/**
+		 * Returns the number of parameters in the object. This will
+		 * either be zero (if the {@code map} or {@code unmap} operation had no
+		 * {@code param} clause) or the number of parameters specified in the
+		 * system port type definition's {@code map param} or {@code unmap param}
+		 * clause.
+		 *
+		 * @return the number of parameters
+		 * */
+		public int get_nof_params() {
+			return nof_params;
+		}
+
+		/**
+		 * @param index
+		 *                the index of the parameter to retrieve.
+		 * @return the string representation of the parameter at the
+		 *         provided index.
+		 * */
+		public TitanCharString get_param(final int index) {
+			if (index >= nof_params) {
+				throw new TtcnError("Map/unmap parameter index out of bounds");
+			}
+
+			return params.get(index);
+		}
+	}
+
+	public static final ThreadLocal<Map_Params> map_params_cache = new ThreadLocal<Map_Params>() {
+		@Override
+		protected Map_Params initialValue() {
+			return new Map_Params(0);
+		}
+	};
+
 	protected String port_name;
 	protected int msg_head_count;
 	protected int msg_tail_count;
@@ -149,12 +243,28 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private final ArrayList<String> system_mappings = new ArrayList<String>();
 	private final LinkedList<port_connection> connection_list = new LinkedList<TitanPort.port_connection>();
 
+	/**
+	 * Constructor.
+	 * <p>
+	 * The name of the port is set to "<unknown>". The port is not start or
+	 * active.
+	 *
+	 * @param portName
+	 *                the name of the port to be used, {@code null} can be
+	 *                used to indicate unnamed ports.
+	 * */
 	public TitanPort(final String portName) {
 		this.port_name = portName == null ? "<unknown>" : portName;
 		is_active = false;
 		is_started = false;
 	}
 
+	/**
+	 * Default constructor.
+	 *<p>
+	 * The name of the port is set to "<unknown>".
+	 * The port is not start or active.
+	 * */
 	protected TitanPort() {
 		port_name = "<unknown>";
 		is_active = false;
@@ -162,6 +272,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		is_halted = false;
 	}
 
+	/**
+	 * @return the name of the Test Port.
+	 * */
 	public String get_name() {
 		return port_name;
 	}
@@ -285,6 +398,20 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		PORT_PARAMETERS.get().clear();
 	}
 
+	/**
+	 * Apply port parameters to a component.
+	 * <p>
+	 * Iterates through all known port parameters and applies them if the
+	 * parameter's component identifier equals the component's
+	 * identifier, or the parameter is set to be applied to all components.
+	 * <p>
+	 * Called when a new component is initialized.
+	 *
+	 * @param component_reference
+	 *                the reference number of the component.
+	 * @param component_name
+	 *                the name of the component.
+	 * */
 	public static void set_parameters(final int component_reference, final String component_name) {
 		for (final Port_Parameter parameter : PORT_PARAMETERS.get()) {
 			switch (parameter.component_id.id_selector) {
@@ -349,15 +476,16 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			while (!system_mappings.isEmpty()) {
 				final String system_port = system_mappings.get(0);
 				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
+				final Map_Params params = new Map_Params(0);
 				try {
-					unmap(system_port, system);
+					unmap(system_port, params, system);
 				} catch (final TtcnError e) {
 					//intentionally empty
 				}
 
 				if (is_parallel) {
 					try {
-						TTCN_Communication.send_unmapped(port_name, system_port, system);
+						TTCN_Communication.send_unmapped(port_name, system_port, params, system);
 					} catch (final TtcnError e) {
 						//intentionally empty
 					}
@@ -387,7 +515,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 			for (final SelectableChannel channel : tobeRemoved) {
 				try {
-				channel.close();
+					channel.close();
 				} catch (IOException e) {
 					// empty
 				}
@@ -433,6 +561,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Starts this Test Port.
+	 * <p>
+	 * Implements the test port dependent part of the port start operation.
+	 * */
 	public void start() {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be started.", port_name));
@@ -461,6 +594,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Stops this Test Port.
+	 * <p>
+	 * Implements the test port dependent part of the port stop operation.
+	 * */
 	public void stop() {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be stopped.", port_name));
@@ -979,6 +1117,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return returnValue;
 	}
 
+	/**
+	 * Set the provided Test Port parameter for this Test Port instance.
+	 *
+	 * @param parameter_name
+	 *                the name of the parameter.
+	 * @param parameter_value
+	 *                the value of the parameter.
+	 * */
 	public void set_parameter(final String parameter_name, final String parameter_value) {
 		TtcnError.TtcnWarning(MessageFormat.format("Test port parameter {0} is not supported on port {1}.", parameter_name, port_name));
 	}
@@ -996,6 +1142,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				channel.register(TTCN_Snapshot.selector.get(), channel.validOps());
 			}
 		}
+		//FIXME what about write channels?
 
 		TTCN_Snapshot.set_timer(this, call_interval, true, true, true);
 	}
@@ -1026,18 +1173,76 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		throw new TtcnError(MessageFormat.format("There is no Handle_Timeout member function implemented in port {0}. This method has to be implemented in the port if the port waits for timeouts unless the port uses Install_Handler to specify the timeout.", get_name()));
 	}
 
+	/**
+	 * This function is called during the mapping of this port. It allows
+	 * users to implement the specific way mapping of this port to the
+	 * provided system port, should be done, when the map operation has
+	 * no parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to map to.
+	 * */
 	protected void user_map(final String system_port) {
+		user_map(system_port, new Map_Params(0));
+	}
+
+	/**
+	 * This function is called during the mapping of this port. It allows
+	 * users to implement the specific way mapping of this port to the
+	 * provided system port, should be done, using the provided map
+	 * parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to map to.
+	 * @param params
+	 *                the parameters passed to the map statement.
+	 * */
+	protected void user_map(final String system_port, final Map_Params params) {
 		//default implementation is empty
 	}
 
+	/**
+	 * This function is called during the unmapping of this port. It allows
+	 * users to implement the specific way unmapping of this port from the
+	 * provided system port, should be done, when the unmap operation has
+	 * no parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to unmap from.
+	 * */
 	protected void user_unmap(final String system_port) {
+		user_unmap(system_port, new Map_Params(0));
+	}
+
+	/**
+	 * This function is called during the unmapping of this port. It allows
+	 * users to implement the specific way unmapping of this port from the
+	 * provided system port, should be done, using the provided unmap
+	 * parameters.
+	 *
+	 * @param system_port
+	 *                the name of the system port to unmap from.
+	 * @param params
+	 *                the parameters passed to the unmap statement.
+	 * */
+	protected void user_unmap(final String system_port, final Map_Params params) {
 		//default implementation is empty
 	}
 
+	/**
+	 * This function is called during the starting of this port. It allows
+	 * users to implement the specific way starting of this port, should be
+	 * done.
+	 * */
 	protected void user_start(){
 		//default implementation is empty
 	}
 
+	/**
+	 * This function is called during the stopping of this port. It allows
+	 * users to implement the specific way stopping of this port, should be
+	 * done.
+	 * */
 	protected void user_stop() {
 		//default implementation is empty
 	}
@@ -1061,7 +1266,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(MessageFormat.format("Port {0} has more than one active connections. Message can be sent on it only with explicit addressing.", port_name));
 			}
 
-			return connection_list.getFirst().remote_component;
+			return connection_list.peekFirst().remote_component;
 		}
 
 		return TitanComponent.SYSTEM_COMPREF;
@@ -1088,7 +1293,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void send_data(final Text_Buf outgoing_buf, final TitanComponent destination_component) {
-		destination_component.must_bound(MessageFormat.format("Internal error: The destination component reference is unbound when sending data on port {0}.", port_name));
+		if (!destination_component.is_bound()) {
+			throw new TtcnError( MessageFormat.format("Internal error: The destination component reference is unbound when sending data on port {0}.", port_name) );
+		}
 
 		final int destination_compref = destination_component.componentValue;
 		final AtomicBoolean is_unique = new AtomicBoolean();
@@ -1160,18 +1367,77 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	/**
+	 * Handles the messages arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param message_type
+	 *                the type of the message as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the message in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the message.
+	 * @param slider
+	 *                the sliding buffer of the connection if the port
+	 *                supports it, otherwise a 0 octets long octetstring.
+	 * @return {@code true} if the message could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {
 		return false;
 	}
 
+	/**
+	 * Handles the signature calls arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param signature_name
+	 *                the name of the signature as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the call in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the call.
+	 * @return {@code true} if the call could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
 
+	/**
+	 * Handles the signature replies arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param signature_name
+	 *                the name of the signature as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the reply in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the reply.
+	 * @return {@code true} if the reply could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
 
+	/**
+	 * Handles the signature raised exceptions arriving on an internal connection, encoded in
+	 * TITAN's internal format.
+	 *
+	 * @param signature_name
+	 *                the name of the signature as a String.
+	 * @param incoming_buf
+	 *                the buffer holding the data of the exception in TITAN's
+	 *                internal format.
+	 * @param sender_component
+	 *                the component that have sent the exception.
+	 * @return {@code true} if the exception could be processed, {@code false}
+	 *         otherwise.
+	 * */
 	protected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
@@ -1417,7 +1683,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				return;
 			}
 			
-			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(socketChannel, true)) {
+			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(socketChannel, Boolean.TRUE)) {
 				socketChannel.close();
 				TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, "Setting the TCP_NODELAY flag failed on the TCP client socket.");
 				return;
@@ -1497,34 +1763,45 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private boolean send_data_stream(final port_connection connection, final Text_Buf outgoing_data, final boolean ignore_peer_disconnect) {
+		boolean would_block_warning = false;
 		outgoing_data.calculate_length();
 		final byte[] msg_ptr = outgoing_data.get_data();
 		final int msg_len = outgoing_data.get_len();
-		final ByteBuffer buffer = ByteBuffer.allocate(msg_len);
-		buffer.clear();
-		final byte[] temp_msg_ptr = new byte[msg_len];
-		System.arraycopy(msg_ptr, outgoing_data.get_begin(), temp_msg_ptr, 0, msg_len);
-		buffer.put(temp_msg_ptr);
-		buffer.flip();
+		final ByteBuffer buffer = ByteBuffer.wrap(msg_ptr, outgoing_data.get_begin(), msg_len);
 		while (buffer.hasRemaining()) {
 			try {
 				((SocketChannel)connection.stream_socket).write(buffer);
 			} catch (final IOException e) {
+				//TODO how to detect full output buffer?
 				throw new TtcnError(e);
 			}
 		}
-		TtcnError.TtcnWarningBegin(MessageFormat.format("The message finally was sent on port {0} to ", port_name));
-		TitanComponent.log_component_reference(connection.remote_component);
-		TTCN_Logger.log_event(":%s.", connection.remote_port);
-		TtcnError.TtcnWarningEnd();
+
+		if (would_block_warning) {
+			TtcnError.TtcnWarningBegin(MessageFormat.format("The message finally was sent on port {0} to ", port_name));
+			TitanComponent.log_component_reference(connection.remote_component);
+			TTCN_Logger.log_event(":%s.", connection.remote_port);
+			TtcnError.TtcnWarningEnd();
+		}
+
 		return true;
 	}
 
 	private void handle_incoming_connection(final port_connection connection) {
 		final ServerSocketChannel serverSocketChannel = (ServerSocketChannel) connection.stream_socket;
+		SocketChannel com_channel;
 		try {
-			final SocketChannel com_channel = serverSocketChannel.accept();
-			//FIXME only a prototype
+			com_channel = serverSocketChannel.accept();
+		} catch (final IOException e) {
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter( sw );
+			e.printStackTrace(pw);
+			TTCN_Communication.send_connect_error(port_name, connection.remote_component, connection.remote_port, "Accepting of incoming TCP connection failed." + sw.toString());
+			remove_connection(connection);
+			return;
+		}
+
+		try {
 			TTCN_Snapshot.channelMap.get().remove(serverSocketChannel);
 
 			connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
@@ -1535,8 +1812,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				remove_connection(connection);
 				return;
 			}
-			
-			if (connection.transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(com_channel, true)) {
+
+			if (connection.transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(com_channel, Boolean.TRUE)) {
 				com_channel.close();
 				TTCN_Communication.send_connect_error(port_name, connection.remote_component, connection.remote_port, "Setting the TCP_NODELAY flag failed on the server-side TCP socket.");
 				remove_connection(connection);
@@ -1565,7 +1842,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		final AtomicInteger end_index = new AtomicInteger();
 		final AtomicInteger end_len = new AtomicInteger();
 		incoming_buffer.get_end(end_index, end_len);
-		final ByteBuffer buffer = ByteBuffer.allocate(1024);
+		final ByteBuffer buffer = ByteBuffer.wrap(incoming_buffer.get_data(), end_index.get(), end_len.get());
 		try {
 			final int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
 			if (recv_len < 0) {
@@ -1575,13 +1852,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			} else if (recv_len > 0) {
-				buffer.flip();
-				incoming_buffer.increase_length(buffer.remaining());
-				final byte[] data = incoming_buffer.get_data();
-				final int remaining = buffer.remaining();
-				final byte[] temp = new byte[remaining];
-				buffer.get(temp);
-				System.arraycopy(temp, 0, data, end_index.get(), remaining);
+				incoming_buffer.increase_length(recv_len);
 
 				while (incoming_buffer.is_message()) {
 					incoming_buffer.pull_int(); // message_length
@@ -1658,7 +1929,22 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	private final void map(final String system_port, final boolean translation) {
+	/**
+	 * Maps this Test Port to the provided system port, with the provided
+	 * parameters.
+	 * <p>
+	 * Implements the test port dependent part of the map statement. Calls
+	 * the user_map function for the specific implementation of mapping.
+	 *
+	 * @param system_port
+	 *                the name of the system port to map to.
+	 * @param params
+	 *                the parameters passed to the map statement.
+	 * @param translation
+	 *                {@code true} if the port is a translation port,
+	 *                {@code false} otherwise.
+	 * */
+	private final void map(final String system_port, final Map_Params params, final boolean translation) {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", port_name));
 		}
@@ -1677,7 +1963,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			set_system_parameters(system_port);
 		}
 
-		user_map(system_port);
+		if (params.get_nof_params() == 0) {
+			// call the legacy function if there are no parameters (for backward compatibility)
+			user_map(system_port);
+		} else {
+			user_map(system_port, params);
+		}
 
 		if (translation) {
 			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, system_port, TitanComponent.SYSTEM_COMPREF, port_name,  null, -1, 0);
@@ -1693,7 +1984,22 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	private final void unmap(final String system_port, final boolean translation) {
+	/**
+	 * Unmaps this Test Port to the provided system port, with the provided
+	 * parameters.
+	 * <p>
+	 * Implements the test port dependent part of the unmap statement. Calls
+	 * the user_unmap function for the specific implementation of mapping.
+	 *
+	 * @param system_port
+	 *                the name of the system port to unmap from.
+	 * @param params
+	 *                the parameters passed to the unmap statement.
+	 * @param translation
+	 *                {@code true} if the port is a translation port,
+	 *                {@code false} otherwise.
+	 * */
+	private final void unmap(final String system_port, final Map_Params params, final boolean translation) {
 		int deletion_position;
 		for (deletion_position = 0; deletion_position < system_mappings.size(); deletion_position++) {
 			if (system_port.equals(system_mappings.get(deletion_position))) {
@@ -1709,7 +2015,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		system_mappings.remove(deletion_position);
 
-		user_unmap(system_port);
+		if (params.get_nof_params() == 0) {
+			// call the legacy function if there are no parameters (for backward compatibility)
+			user_unmap(system_port);
+		} else {
+			user_unmap(system_port, params);
+		}
 
 		if (system_mappings.isEmpty()) {
 			reset_port_variables();
@@ -1884,7 +2195,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	public static void map_port(final String component_port, final String system_port, final boolean translation) {
+	public static void map_port(final String component_port, final String system_port, final Map_Params params, final boolean translation) {
 		if (translation) {
 			TTCN_Runtime.initialize_system_port(system_port);
 		}
@@ -1899,9 +2210,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		if (translation) {
-			port.map(component_port, translation);
+			port.map(component_port, params, translation);
 		} else {
-			port.map(system_port, translation);
+			port.map(system_port, params, translation);
 		}
 
 		if (translation) {
@@ -1915,7 +2226,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	public static void unmap_port(final String component_port, final String system_port, final boolean translation) {
+	public static void unmap_port(final String component_port, final String system_port, final Map_Params params, final boolean translation) {
 		if (translation) {
 			TTCN_Runtime.initialize_system_port(system_port);
 		}
@@ -1927,9 +2238,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		if (translation) {
-			port.unmap(component_port, translation);
+			port.unmap(component_port, params, translation);
 		} else {
-			port.unmap(system_port, translation);
+			port.unmap(system_port, params, translation);
 		}
 
 		if (translation) {

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -107,17 +107,20 @@ public final class CfgAnalyzer {
 	private boolean directParse(File file, final String fileName, final String code) {
 		final Reader reader;
 		final CFGListener preparseListener = new CFGListener(fileName);
+		boolean config_preproc_error = false;
 		if (null != code) {
 			// preparsing is not needed
 			reader = new StringReader(code);
 		} else if (null != file) {
 			try {
 				final File preparsedFile = new File(file.getParent(), TEMP_CFG_FILENAME);
-				if ( CfgPreProcessor.preparse( file, preparsedFile, preparseListener ) ) {
+				final CfgPreProcessor preprocessor = new CfgPreProcessor();
+				if ( preprocessor.preparse( file, preparsedFile, preparseListener ) ) {
 					// if the cfg file is modified during the preparsing process, file is updated,
 					// preparsing modified the cfg file, so use the temp.cfg instead
 					file = preparsedFile;
 				}
+				config_preproc_error = preprocessor.get_error_flag();
 				reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF8));
 			} catch (FileNotFoundException e) {
 				throw new TtcnError(e);
@@ -143,7 +146,8 @@ public final class CfgAnalyzer {
 
 		executeSectionHandler = parser.getExecuteSectionHandler();
 		IOUtils.closeQuietly(reader);
-
-		return preparseListener.encounteredError() || lexerListener.encounteredError() || parserListener.encounteredError();
+		final boolean config_process_error = parser.get_error_flag();
+		return preparseListener.encounteredError() || lexerListener.encounteredError() || parserListener.encounteredError() || 
+				config_preproc_error || config_process_error;
 	}
 }

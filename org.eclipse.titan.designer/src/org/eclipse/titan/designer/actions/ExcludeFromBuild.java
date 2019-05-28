@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -132,7 +132,6 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 		op.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		op.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
 		op.schedule();
-
 	}
 
 	private class ExcluderWorkspaceJob extends WorkspaceJob {

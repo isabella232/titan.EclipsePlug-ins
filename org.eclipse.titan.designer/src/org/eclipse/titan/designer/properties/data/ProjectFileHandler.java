@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -40,11 +42,17 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.wizards.projectFormat.TITANAutomaticProjectExporter;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
@@ -81,8 +89,8 @@ public final class ProjectFileHandler {
 	public static final String ACTIVECONFIGURATIONXMLNODE = "ActiveConfiguration";
 	public static final String DEFAULTCONFIGURATIONNAME = "Default";
 
-	private static final String SAVING_PROPERTIES = "saving TITAN properties";
-	private static final String LOADING_PROPERTIES = "loading TITAN properties";
+	private static final String SAVING_PROPERTIES = "saving TITAN properties for project ";
+	private static final String LOADING_PROPERTIES = "loading TITAN properties for project ";
 	private static final String ENCODING = "UTF-8";
 
 	private static StringBuilder xmlFormatterString = new StringBuilder("\n           ");
@@ -94,6 +102,9 @@ public final class ProjectFileHandler {
 	private DOMConfiguration config;
 
 	private static final List<IProject> PROJECTS_LOCKED_FOR_LOADING = new ArrayList<IProject>();
+
+	private static final ConcurrentHashMap<IProject, AtomicInteger> savesRunning = new ConcurrentHashMap<IProject, AtomicInteger>();
+	private static final ConcurrentHashMap<IProject, WorkspaceJob> lastSaves = new ConcurrentHashMap<IProject, WorkspaceJob>();
 
 	/**
 	 * Inner class for visiting file and folder resources during project
@@ -335,10 +346,14 @@ public final class ProjectFileHandler {
 	 *                the working directories of the project
 	 * @param folders
 	 *                the folders to process
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * 
 	 * @return the tree containing the data
 	 * */
-	private static Element saveFolderProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFolder> folders) {
+	private static Element saveFolderProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFolder> folders, final IProgressMonitor monitor) {
+		final SubMonitor progress = SubMonitor.convert(monitor);
+		progress.beginTask("Save folders", folders.size());
 		Element root = null;
 
 		for (Iterator<Map.Entry<String, IFolder>> iterator = folders.entrySet().iterator(); iterator.hasNext();) {
@@ -346,6 +361,7 @@ public final class ProjectFileHandler {
 			final IFolder folder = entry.getValue();
 			for (IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(folder)) {
+					progress.worked(1);
 					continue;
 				}
 			}
@@ -357,7 +373,11 @@ public final class ProjectFileHandler {
 
 				root.appendChild(FolderBuildPropertyData.saveFolderProperties(document, folder));
 			}
+
+			progress.worked(1);
 		}
+
+		progress.done();
 
 		return root;
 	}
@@ -379,10 +399,14 @@ public final class ProjectFileHandler {
 	 *                the working directories of the project
 	 * @param files
 	 *                the files to process.
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * 
 	 * @return the tree containing the data
 	 * */
-	private static Element saveFileProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFile> files) {
+	private static Element saveFileProperties(final Document document, final IContainer[] workingDirectories, final Map<String, IFile> files, final IProgressMonitor monitor) {
+		final SubMonitor progress = SubMonitor.convert(monitor);
+		progress.beginTask("Save files", files.size());
 		Element root = null;
 
 		for (Iterator<Map.Entry<String, IFile>> iterator = files.entrySet().iterator(); iterator.hasNext();) {
@@ -390,6 +414,7 @@ public final class ProjectFileHandler {
 			final IFile file = entry.getValue();
 			for (IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(file.getParent())) {
+					progress.worked(1);
 					continue;
 				}
 			}
@@ -400,7 +425,11 @@ public final class ProjectFileHandler {
 				}
 				root.appendChild(FileBuildPropertyData.saveFileProperties(document, file));
 			}
+
+			progress.worked(1);
 		}
+
+		progress.done();
 
 		return root;
 	}
@@ -428,35 +457,68 @@ public final class ProjectFileHandler {
 			return null;
 		}
 
-		WorkspaceJob saveJob = new WorkspaceJob(SAVING_PROPERTIES) {
+		WorkspaceJob saveJob = new WorkspaceJob(SAVING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
-				if (!project.isAccessible()) {
+				try {
+					if (monitor.isCanceled() || !project.isAccessible()) {
+						return Status.OK_STATUS;
+					}
+
+					Document document = ProjectDocumentHandlingUtility.getDocument(project);
+					if (document == null) {
+						document = ProjectDocumentHandlingUtility.createDocument(project);
+					}
+
+					saveProjectInfoToDocument(document, monitor);
+
+					clearNode(document.getDocumentElement());
+					indentNode(document, document.getDocumentElement(), 1);
+
+					ProjectDocumentHandlingUtility.saveDocument(project);
+					//this is the only place to save file modifications (add,remove,rename)
+					TITANAutomaticProjectExporter.saveAllAutomatically(project);
+
 					return Status.OK_STATUS;
+				} finally {
+					final AtomicInteger projectSavesRunning = savesRunning.get(project);
+					if (projectSavesRunning != null) {
+						projectSavesRunning.decrementAndGet();
+					}
 				}
-
-				Document document = ProjectDocumentHandlingUtility.getDocument(project);
-				if (document == null) {
-					document = ProjectDocumentHandlingUtility.createDocument(project);
-				}
-
-				saveProjectInfoToDocument(document);
-
-				clearNode(document.getDocumentElement());
-				indentNode(document, document.getDocumentElement(), 1);
-
-				ProjectDocumentHandlingUtility.saveDocument(project);
-				//this is the only place to save file modifications (add,remove,rename)
-				TITANAutomaticProjectExporter.saveAllAutomatically(project);
-
-				return Status.OK_STATUS;
 			}
 		};
 		saveJob.setPriority(Job.LONG);
-		saveJob.setUser(false);
-		saveJob.setSystem(true);
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		if (GeneralConstants.DEBUG
+				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+						true, null)) {
+			saveJob.setSystem(false);
+			saveJob.setUser(true);
+		} else {
+			saveJob.setSystem(true);
+			saveJob.setUser(false);
+		}
 		saveJob.setRule(project.getWorkspace().getRuleFactory().refreshRule(project));
+
+		AtomicInteger projectSavesRunning = savesRunning.get(project);
+		if (projectSavesRunning == null) {
+			projectSavesRunning = new AtomicInteger(0);
+			savesRunning.put(project, projectSavesRunning);
+		}
+		final boolean alreadyRunning = projectSavesRunning.get() > 0;
+		if (alreadyRunning) {
+			final WorkspaceJob lastSaveJob = lastSaves.get(project);
+			if (lastSaveJob != null && lastSaveJob.getState() != Job.RUNNING) {
+				if (lastSaveJob.getState() != Job.RUNNING) {
+					lastSaveJob.cancel();
+				}
+			}
+			lastSaves.put(project, saveJob);
+		}
+
 		saveJob.schedule();
+		projectSavesRunning.incrementAndGet();
 
 		return saveJob;
 	}
@@ -467,13 +529,15 @@ public final class ProjectFileHandler {
 	 * 
 	 * @param document
 	 *                the document to store the information.
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * */
-	public void saveProjectInfoToDocument(final Document document) {
+	public void saveProjectInfoToDocument(final Document document, final IProgressMonitor monitor) {
 		saveActualConfigurationInfoToNode(project, document);
 		String activeConfigurationName = getActiveConfigurationName(project);
 
 		if (DEFAULTCONFIGURATIONNAME.equals(activeConfigurationName)) {
-			saveProjectInfoToNode(project, document.getDocumentElement(), document);
+			saveProjectInfoToNode(project, document.getDocumentElement(), document, monitor);
 		} else {
 
 			Node configurationsRoot = getNodebyName(document.getDocumentElement().getChildNodes(), CONFIGURATIONSXMLNODE);
@@ -491,7 +555,7 @@ public final class ProjectFileHandler {
 				configurationRoot = temp;
 			}
 
-			saveProjectInfoToNode(project, configurationRoot, document);
+			saveProjectInfoToNode(project, configurationRoot, document, monitor);
 		}
 	}
 
@@ -678,10 +742,10 @@ public final class ProjectFileHandler {
 			return;
 		}
 
-		WorkspaceJob loadJob = new WorkspaceJob(LOADING_PROPERTIES) {
+		WorkspaceJob loadJob = new WorkspaceJob(LOADING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
-				if (!project.isAccessible()) {
+				if (monitor.isCanceled() || !project.isAccessible()) {
 					PROJECTS_LOCKED_FOR_LOADING.remove(project);
 					return Status.OK_STATUS;
 				}
@@ -704,8 +768,16 @@ public final class ProjectFileHandler {
 		};
 
 		loadJob.setPriority(Job.LONG);
-		loadJob.setUser(false);
-		loadJob.setSystem(true);
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		if (GeneralConstants.DEBUG
+				&& preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+						true, null)) {
+			loadJob.setSystem(false);
+			loadJob.setUser(true);
+		} else {
+			loadJob.setSystem(true);
+			loadJob.setUser(false);
+		}
 		loadJob.setRule(project.getWorkspace().getRuleFactory().refreshRule(project));
 		loadJob.schedule();
 	}
@@ -898,8 +970,10 @@ public final class ProjectFileHandler {
 	 *                the root node for saving the data.
 	 * @param document
 	 *                the document, used to create text nodes.
+	 * @param monitor
+	 *                the progress monitor to report progress to.
 	 * */
-	public static void saveProjectInfoToNode(final IProject project, final Node root, final Document document) {
+	public static void saveProjectInfoToNode(final IProject project, final Node root, final Document document, final IProgressMonitor monitor) {
 		final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
 		final ResourceVisitor saveVisitor = new ResourceVisitor(workingDirectories);
 		// collect the resources
@@ -911,16 +985,23 @@ public final class ProjectFileHandler {
 		final Map<String, IFile> files = saveVisitor.getFiles();
 		final Map<String, IFolder> folders = saveVisitor.getFolders();
 
+		final SubMonitor progress = SubMonitor.convert(monitor);
+		progress.beginTask("Save", 3);
+
+		IProgressMonitor projectMonitor = progress.newChild(1);
 		final Node oldProjectRoot = getNodebyName(root.getChildNodes(), PROJECTPROPERTIESXMLNODE);
 		final Node newProjectRoot = saveProjectProperties(project, document);
+		projectMonitor.worked(1);
 		if (oldProjectRoot == null) {
 			root.appendChild(newProjectRoot);
 		} else {
 			root.replaceChild(newProjectRoot, oldProjectRoot);
 		}
 
+		IProgressMonitor folderMonitor = progress.newChild(1);
 		final Node oldFolderRoot = getNodebyName(root.getChildNodes(), FOLDERPROPERTIESXMLNODE);
-		final Node newFolderRoot = saveFolderProperties(document, workingDirectories, folders);
+		final Node newFolderRoot = saveFolderProperties(document, workingDirectories, folders, folderMonitor);
+		folderMonitor.worked(1);
 		if (newFolderRoot != null) {
 			if (oldFolderRoot == null) {
 				root.appendChild(newFolderRoot);
@@ -931,8 +1012,10 @@ public final class ProjectFileHandler {
 			root.removeChild(oldFolderRoot);
 		}
 
+		IProgressMonitor fileMonitor = progress.newChild(1);
 		final Node oldFileRoot = getNodebyName(root.getChildNodes(), FILEPROPERTIESXMLNODE);
-		final Node newFileRoot = saveFileProperties(document, workingDirectories, files);
+		final Node newFileRoot = saveFileProperties(document, workingDirectories, files, fileMonitor);
+		//fileMonitor.worked(1);
 		if (newFileRoot != null) {
 			if (oldFileRoot == null) {
 				root.appendChild(newFileRoot);

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -28,12 +28,15 @@ import org.w3c.dom.NodeList;
  * @author Kristof Szabados
  * */
 public final class TITANFlagsOptionsData {
+	public static final String DISABLE_ATTRIBUTE_VALIDATION_PROPERTY = "disableAttributeValidation";
+
 	public static final String DISABLE_BER_PROPERTY = "disableBER";
 	public static final String DISABLE_RAW_PROPERTY = "disableRAW";
 	public static final String DISABLE_TEXT_PROPERTY = "disableTEXT";
 	public static final String DISABLE_XER_PROPERTY = "disableXER";
 	public static final String DISABLE_JSON_PROPERTY = "disableJSON";
 	public static final String DISABLE_OER_PROPERTY = "disableOER";
+
 	public static final String FORCE_XER_IN_ASN1_PROPERTY = "forceXERinASN.1";
 	public static final String DEFAULT_AS_OMIT_PROPERTY = "defaultasOmit";
 	public static final String FORCE_OLD_FUNC_OUT_PAR_PROPERTY = "forceOldFuncOutParHandling";
@@ -43,31 +46,39 @@ public final class TITANFlagsOptionsData {
 	public static final String ADD_SOURCELINEINFO_PROPERTY = "addSourceLineInfo";
 	public static final String SUPPRESS_WARNINGS_PROPERTY = "suppressWarnings";
 	public static final String QUIETLY_PROPERTY = "quietly";
-	public static final String DISABLE_SUBTYPE_CHECKING_PROPERTY = "disableSubtypeChecking";
+
 	public static final String ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY = "omitInValueList";
 	public static final String WARNINGS_FOR_BAD_VARIANTS_PROPERTY = "warningsForBadVariants";
 	public static final String IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY = "ignoreUntaggedOnTopLevelUnion";
+	public static final String ACTIVATE_DEBUGGER_PROPERTY = "activateDebugger";
 	public static final String ENABLE_LEGACY_ENCODING_PROPERTY ="enableLegacyEncoding";
 	public static final String DISABLE_USER_INFORMATION_PROPERTY ="disableUserInformation";
-	public static final String ACTIVATE_DEBUGGER_PROPERTY = "activateDebugger";
+
 	public static final String ENABLE_REALTIME = "enableRealtimeTesting";
-	public static final String FORCE_GEN_SEOF = "force_gen_seof";
+	public static final String FORCE_GEN_SEOF = "forceGenSeof";
+
+	public static final String DISABLE_SUBTYPE_CHECKING_PROPERTY = "disableSubtypeChecking";
 
 	//The order of items of the next array defines the order of items in the tpd file within the "MakefileSettings".
 	//It should be according to the TPD.xsd otherwise the generated tpd will not be valid and the import will fail.
 	public static final String[] PROPERTIES = {
+			DISABLE_ATTRIBUTE_VALIDATION_PROPERTY,
 			DISABLE_BER_PROPERTY, DISABLE_RAW_PROPERTY, DISABLE_TEXT_PROPERTY, DISABLE_XER_PROPERTY, DISABLE_JSON_PROPERTY, DISABLE_OER_PROPERTY,
 			FORCE_XER_IN_ASN1_PROPERTY, DEFAULT_AS_OMIT_PROPERTY, FORCE_OLD_FUNC_OUT_PAR_PROPERTY, GCC_MESSAGE_FORMAT_PROPERTY, LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
-			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, WARNINGS_FOR_BAD_VARIANTS_PROPERTY, 
-			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, ENABLE_LEGACY_ENCODING_PROPERTY, DISABLE_USER_INFORMATION_PROPERTY, ACTIVATE_DEBUGGER_PROPERTY,
-			QUIETLY_PROPERTY, DISABLE_SUBTYPE_CHECKING_PROPERTY, ENABLE_REALTIME, FORCE_GEN_SEOF, /*insert here the next new item*/};
+			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, WARNINGS_FOR_BAD_VARIANTS_PROPERTY,
+			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, ACTIVATE_DEBUGGER_PROPERTY, QUIETLY_PROPERTY, ENABLE_LEGACY_ENCODING_PROPERTY, DISABLE_USER_INFORMATION_PROPERTY,
+			ENABLE_REALTIME, DISABLE_SUBTYPE_CHECKING_PROPERTY, FORCE_GEN_SEOF /*insert here the next new item*/};
+	
+			//TODO:is  NAMING_RULES obsolete? 
+			
 	public static final String[] TAGS = PROPERTIES;
 	public static final String[] DEFAULT_VALUES = {
+		"false",
 		"false", "false", "false", "false", "false", "false",
 		"false", "false", "false", "false", "false",
 		"false", "false", "false", "false", "false",
-		"false", "false", "false", "false", 
-		"false", "false", "false", "false" /*insert here the next new item*/};
+		"false", "false", "false", "false", "false",
+		"false", "false", "false" /*insert here the next new item*/};
 
 	private TITANFlagsOptionsData() {
 		// Do nothing
@@ -144,6 +155,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY));
 			builder.append("true".equals(temp) ? "y" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY));
+			builder.append("true".equals(temp) ? "0" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
@@ -265,6 +280,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY));
 			builder.append("true".equals(temp) ? " + disable subtype checking" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable attribute validation" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));

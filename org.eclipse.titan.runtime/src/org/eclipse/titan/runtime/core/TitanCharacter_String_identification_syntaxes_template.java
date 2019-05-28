@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -226,7 +226,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			}
 			break;
 		default:
-			throw new TtcnError("Copying an uninitialized template of type CHARACTER STRING.identification.syntaxes.");
+			throw new TtcnError("Copying an uninitialized/unsupported template of type CHARACTER STRING.identification.syntaxes.");
 		}
 		set_selection(other_value);
 	}
@@ -285,7 +285,8 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
-				for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
+				final int list_size = list_value.size();
+				for (int l_idx = 0; l_idx < list_size; l_idx++) {
 					if (list_value.get(l_idx).match_omit_(legacy)) {
 						return template_selection==template_sel.VALUE_LIST;
 					}
@@ -410,13 +411,15 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			}
 			return true;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			for (int list_count = 0; list_count < list_value.size(); list_count++) {
+		case COMPLEMENTED_LIST: {
+			final int list_size = list_value.size();
+			for (int list_count = 0; list_count < list_size; list_count++) {
 				if (list_value.get(list_count).match(other_value, legacy)) {
 					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
 			return template_selection == template_sel.COMPLEMENTED_LIST;
+		}
 		default:
 			throw new TtcnError("Matching an uninitialized/unsupported template of type CHARACTER STRING.identification.syntaxes.");
 		}
@@ -462,17 +465,19 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			return new TitanInteger(2);
-		case VALUE_LIST:
+		case VALUE_LIST: {
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type CHARACTER STRING.identification.syntaxes containing an empty list.");
 			}
 			final int item_size = list_value.get(0).size_of().get_int();
-			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
+			final int list_size = list_value.size();
+			for (int l_idx = 1; l_idx < list_size; l_idx++) {
 				if (list_value.get(l_idx).size_of().get_int() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type CHARACTER STRING.identification.syntaxes containing a value list with different sizes.");
 				}
 			}
 			return new TitanInteger(item_size);
+		}
 		case OMIT_VALUE:
 			throw new TtcnError("Performing sizeof() operation on a template of type CHARACTER STRING.identification.syntaxes containing omit value.");
 		case ANY_VALUE:
@@ -512,9 +517,10 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			break;
 		case COMPLEMENTED_LIST:
 			TTCN_Logger.log_event_str("complement");
-		case VALUE_LIST:
+		case VALUE_LIST: {
 			TTCN_Logger.log_char('(');
-			for (int list_count = 0; list_count < list_value.size(); list_count++) {
+			final int list_size = list_value.size();
+			for (int list_count = 0; list_count < list_size; list_count++) {
 				if (list_count > 0) {
 					TTCN_Logger.log_event_str(", ");
 				}
@@ -522,6 +528,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			}
 			TTCN_Logger.log_char(')');
 			break;
+		}
 		default:
 			log_generic();
 			break;
@@ -591,7 +598,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		if (template_selection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ abstract := ");
 			abstract_.log_match(match_value.constGet_field_abstract_(), legacy);
-			TTCN_Logger.log_event_str("{ transfer := ");
+			TTCN_Logger.log_event_str(", transfer := ");
 			transfer.log_match(match_value.constGet_field_transfer(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {
@@ -619,12 +626,14 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			transfer.encode_text(text_buf);
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			text_buf.push_int(list_value.size());
-			for (int i = 0; i < list_value.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int list_size = list_value.size();
+			text_buf.push_int(list_size);
+			for (int i = 0; i < list_size; i++) {
 				list_value.get(i).encode_text(text_buf);
 			}
 			break;
+		}
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type CHARACTER STRING.identification.syntaxes.");
 		}

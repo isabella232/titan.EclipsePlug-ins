@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -301,8 +301,11 @@ public abstract class Base_Type {
 	 *                silently, without calling
 	 *                TTCN_EncDec_ErrorContext::error
 	 * @param sel_field
-	 *                selected field indicator for CROSSTAG, or -1
+	 *                In case of unions the selected field indicator for CROSSTAG, or -1
+	 *                In case of record of type the number of elements in the list, or -1
 	 * @param first_call
+	 *                Indicates that the decode is called for the first time,
+	 *                or it is a repeated call.
 	 *                default TRUE. May be FALSE for a REPEATABLE record-of
 	 *                inside a set, if an element has been successfully
 	 *                decoded.

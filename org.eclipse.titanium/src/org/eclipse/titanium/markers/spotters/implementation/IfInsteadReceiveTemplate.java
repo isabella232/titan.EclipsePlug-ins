@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -94,11 +94,11 @@ final class SuspiciouslyUsedIf extends ASTVisitor {
 			for (final If_Clause clause : ifs) {
 				final Value cond = clause.getExpression();
 				if (cond != null) {
-					ReferenceCollector refCollector = new ReferenceCollector();
+					final ReferenceCollector refCollector = new ReferenceCollector();
 					redirectValue.accept(refCollector);
-					ArrayList<Reference> foundReferences = refCollector.getReferences();
+					final ArrayList<Reference> foundReferences = refCollector.getReferences();
 
-					for (Reference reference : foundReferences) {
+					for (final Reference reference : foundReferences) {
 						final RefUsedInMatching mv = new RefUsedInMatching(reference);
 						cond.accept(mv);
 						if (mv.getUsed()) {
@@ -116,7 +116,7 @@ final class SuspiciouslyUsedIf extends ASTVisitor {
 }
 
 final class ReferenceCollector extends ASTVisitor {
-	private ArrayList<Reference> foundReferences = new ArrayList<Reference>();
+	private final ArrayList<Reference> foundReferences = new ArrayList<Reference>();
 
 	public ArrayList<Reference> getReferences() {
 		return foundReferences;

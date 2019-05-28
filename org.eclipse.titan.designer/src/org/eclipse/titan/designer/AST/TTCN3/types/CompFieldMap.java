@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -193,7 +193,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 		componentFieldMap = new HashMap<String, CompField>(fields.size());
 
-		if(fields.size()==0) {
+		if(fields.isEmpty()) {
 			return; //too early check
 		}
 
@@ -246,7 +246,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return fields.size() == 0;
+		return fields.isEmpty();
 	}
 
 	/**

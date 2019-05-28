@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -148,6 +148,32 @@ public class TitanHexString_Element {
 		}
 
 		return str_val.get_nibble(nibble_pos) == otherValue.get_nibble(0);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanHexString_Element otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanHexString otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	/**

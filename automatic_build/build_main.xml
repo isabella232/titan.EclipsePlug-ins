@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
- Copyright (c) 2000-2018 Ericsson Telecom AB
+ Copyright (c) 2000-2019 Ericsson Telecom AB
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v2.0
@@ -79,6 +79,10 @@
 
 	<target name="titanium.regressiontests.plugin" depends="init, titanium.plugin">
 		<build.plugin name="${titanium.regressiontests.name}"/>
+	</target>
+
+	<target name="titanium.refactoring.plugin" depends="init, common.plugin, designer.plugin">
+		<build.plugin name="${titanium.refactoring.name}"/>
 	</target>
 
 	<!-- Macro which builds a feature -->
@@ -208,6 +212,10 @@
 							updatesite.url="@{updatesite.url}"/>
 			<build.feature  dir="Titanium_feature"
 							name="Titanium"
+							updatesite.name="@{updatesite.name}"
+							updatesite.url="@{updatesite.url}"/>
+			<build.feature  dir="Titanium_Refactoring_feature"
+							name="Titanium.Refactoring"
 							updatesite.name="@{updatesite.name}"
 							updatesite.url="@{updatesite.url}"/>
 			<build.external_feature  dir="Titan_external_dependencies_feature"
@@ -411,7 +419,7 @@
 	</macrodef>
 
 	<target name="updatesite.release"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.release.name}"
 			location="${updatesite.release.location}"
@@ -420,7 +428,7 @@
 	</target>
 
 	<target name="updatesite.FOA"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.FOA.name}"
 			location="${updatesite.FOA.location}"
@@ -428,7 +436,7 @@
 	</target>
 
 	<target name="updatesite.experimental"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.experimental.name}"
 			location="${updatesite.experimental.location}"
@@ -436,7 +444,7 @@
 	</target>
 
 	<target name="updatesite.testing"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.testing.name}"
 			location="${updatesite.testing.location}"
@@ -444,7 +452,7 @@
 	</target>
 
 	<target name="zip"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.release.name}"
 			location="${result.dir}/zip/${version.qualifier}/"
@@ -468,6 +476,7 @@
 		<clean.plugin name="${regressiontests.name}"/>
 		<clean.plugin name="${titanium.name}"/>
 		<clean.plugin name="${titanium.regressiontests.name}"/>
+		<clean.plugin name="${titanium.refactoring.name}"/>
 		<delete dir="${result.dir}" failonerror="false"/>
     </target>
 

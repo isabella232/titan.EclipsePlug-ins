@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -270,7 +270,7 @@ public final class OrganizeImports {
 			for (final ImportModule m : module.getImports()) {
 				final Identifier importedIdentifier = m.getIdentifier();
 				boolean isused = false;
-				for (Module m2 : usedModules) {
+				for (final Module m2 : usedModules) {
 					if(m2.getIdentifier().equals(importedIdentifier)) {
 						isused = true;
 					}
@@ -348,7 +348,7 @@ public final class OrganizeImports {
 
 	static class ImportsCheck extends ASTVisitor {
 
-		private Set<Module> setOfModules = new HashSet<Module>();
+		private final Set<Module> setOfModules = new HashSet<Module>();
 
 		public ImportsCheck() {
 			setOfModules.clear();

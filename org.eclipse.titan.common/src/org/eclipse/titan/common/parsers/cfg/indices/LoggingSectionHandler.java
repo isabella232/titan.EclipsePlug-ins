@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -132,7 +132,8 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 
 		private ParseTree emergencyLogging = null;
 		private ParseTree emergencyLoggingBehaviour = null;
-		private ParseTree emergencyLoggingMask =null;
+		private ParseTree emergencyLoggingMask = null;
+		private ParseTree emergencyLoggingForFailVerdict = null;
 
 		public ParseTree getLogFile() {
 			return logFile;
@@ -181,7 +182,7 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 		public void setTimestampFormatRoot(final ParseTree timestampFormatRoot) {
 			this.timestampFormatRoot = timestampFormatRoot;
 		}
-		
+
 		public ParseTree getConsoleTimestampFormat() {
 			return consoleTimestampFormat;
 		}
@@ -396,6 +397,14 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 
 		public void setEmergencyLoggingMask(final ParseTree emergencyLoggingMask) {
 			this.emergencyLoggingMask = emergencyLoggingMask;
+		}
+
+		public ParseTree getEmergencyLoggingForFailVerdict() {
+			return emergencyLoggingForFailVerdict;
+		}
+
+		public void setEmergencyLoggingForFailVerdict(final ParseTree emergencyLoggingForFailVerdict) {
+			this.emergencyLoggingForFailVerdict = emergencyLoggingForFailVerdict;
 		}
 	}
 

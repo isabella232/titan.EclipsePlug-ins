@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -67,9 +67,9 @@ public final class Template_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasSingleExpression() {
+	public boolean hasSingleExpression(final FormalParameter formalParameter) {
 		if(genRestrictionCheck != Restriction_type.TR_NONE) {
-			// TODO needs t check post restriction check generation
+			// TODO needs to check post restriction check generation
 			return true;
 		}
 		if (template != null) {

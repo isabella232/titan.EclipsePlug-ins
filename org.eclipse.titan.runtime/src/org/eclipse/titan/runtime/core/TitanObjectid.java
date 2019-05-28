@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -138,6 +138,19 @@ public class TitanObjectid extends Base_Type {
 		}
 	}
 
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanObjectid otherValue) {
+		return !operator_equals(otherValue);
+	}
+
 	@Override
 	public boolean is_present() {
 		return components_ptr != null;
@@ -250,6 +263,20 @@ public class TitanObjectid extends Base_Type {
 		index_value.must_bound("Indexing a objid component with an unbound integer value.");
 
 		return get_at(index_value.get_int());
+	}
+
+	/**
+	 * Returns the number of elements, that is, the largest used index plus
+	 * one and zero for the empty value.
+	 *
+	 * lengthof in the core
+	 *
+	 * @return the number of elements.
+	 * */
+	public TitanInteger lengthof() {
+		must_bound("Getting the size of an unbound objid value.");
+
+		return new TitanInteger(n_components);
 	}
 
 	/**

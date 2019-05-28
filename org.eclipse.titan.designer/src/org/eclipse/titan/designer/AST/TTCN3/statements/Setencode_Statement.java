@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,22 +8,20 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.text.MessageFormat;
-import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
-import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.IType.Coding_Type;
-import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
-import org.eclipse.titan.designer.AST.TTCN3.values.UniversalChar;
-import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.RunsOnScope;
+import org.eclipse.titan.designer.AST.TTCN3.types.UniversalCharstring_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -124,40 +122,28 @@ public class Setencode_Statement extends Statement {
 
 		if (encoding != null) {
 			Value enc_str = this.encoding;
-			enc_str.setLoweridToReference(timestamp);
-			final Type_type tempType = enc_str.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-
-			if (!type_error && tempType.equals(Type_type.TYPE_UCHARSTRING) && !enc_str.isUnfoldable(timestamp)) {
-				final IValue last = encoding.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
-				if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(last.getValuetype())) {
-					boolean val_error = false;
-					final UniversalCharstring_Value ucs_value = (UniversalCharstring_Value)last;
-					UniversalCharstring us = ucs_value.getValue();
-					for (int i = 0; i < us.length(); i++) {
-						final UniversalChar uc = us.get(i);
-						if (uc.group() != 0 || uc.plane() != 0 || uc.row() != 0) {
-							val_error = true;
-							break;
-						}
-					}
-					if (!val_error) {
-						String s = us.getString();
-						IType.MessageEncoding_type coding = Type.getEncodingType(s);
-						boolean built_in = (coding != IType.MessageEncoding_type.PER && coding != IType.MessageEncoding_type.CUSTOM);
-						val_error = true;
-						List<Coding_Type> ct = t_ct.getCodingTable();
-						for (int i = 0; i < ct.size(); i++) {
-							if (built_in == ct.get(i).builtIn && ((built_in && coding == ct.get(i).builtInCoding) || (!built_in && s == ct.get(i).customCoding.name))) {
-								val_error = false;
-								break;
-							}
-						}
-					}
-					if (val_error) {
-						encoding.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}'", type.getTypename()));
-					}
+			IValue lastValue = enc_str.setLoweridToReference(timestamp);
+			UniversalCharstring_Type tempType = new UniversalCharstring_Type();
+			tempType.checkThisValue(timestamp, enc_str, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, false, false, false));
+			if (!type_error && !enc_str.getIsErroneous(timestamp) && !enc_str.isUnfoldable(timestamp)) {
+				lastValue = lastValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+				boolean errorFound = false;
+				if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+					errorFound = ((UniversalCharstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+				} else if (Value_type.CHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+					errorFound = ((Charstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+				}
+				if (errorFound) {
+					enc_str.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));
 				}
 			}
+		}
+
+		RunsOnScope runs_on_scope = myStatementBlock.getScopeRunsOn();
+		if (runs_on_scope == null) {
+			getLocation().reportSemanticError("'self.setencode' must be in a definition with a runs-on clause");
+		} else if (!type_error && t_ct.getCodingTable().size() >= 2){
+			//TODO add default coding
 		}
 
 		lastTimeChecked = timestamp;

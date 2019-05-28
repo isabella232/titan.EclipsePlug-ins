@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -39,7 +39,6 @@ public final class Runtime_Single_main {
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
 		TTCN_Logger.initialize_logger();
-		TTCN_Logger.set_executable_name();
 		TTCN_Logger.set_start_time();
 
 		if (Usage_Stats.USAGE_STAT_SENDING) {

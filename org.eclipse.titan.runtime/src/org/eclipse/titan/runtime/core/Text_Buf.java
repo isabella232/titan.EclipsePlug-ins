@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -395,19 +395,19 @@ public final class Text_Buf {
 		if (buf_begin < bytes_needed) {
 			throw new TtcnError("Text encoder: There is not enough space to calculate message length.");
 		}
-		for (int i = bytes_needed - 1;; i--) {
-			if (i > 0) {
-				data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x7F);
+
+		if (bytes_needed == 1) {
+			data_ptr[buf_begin - bytes_needed] = (byte) (value & 0x3F);
+		} else {
+			//i == bytes_needed - 1 case
+			data_ptr[buf_begin - 1] = (byte) (value & 0x7F);
+			value >>= 7;
+			for (int i = bytes_needed - 2; i > 0; i--) {
+				data_ptr[buf_begin - bytes_needed + i] = (byte) ((value & 0x7F) | 0x80);
 				value >>= 7;
-			} else {
-				data_ptr[buf_begin - bytes_needed + i] = (byte) (value & 0x3F);
 			}
-			if (i < bytes_needed - 1) {
-				data_ptr[buf_begin - bytes_needed + i] |= 0x80;
-			}
-			if (i == 0) {
-				break;
-			}
+			// i == 0 case
+			data_ptr[buf_begin - bytes_needed] = (byte) ((value & 0x3F) | 0x80);
 		}
 
 		buf_begin -= bytes_needed;
@@ -442,10 +442,11 @@ public final class Text_Buf {
 		final TitanInteger msg_len = new TitanInteger();
 		boolean returnValue = false;
 		if (safe_pull_int(msg_len)) {
-			if (msg_len.is_less_than(0)) {
-				throw new TtcnError(MessageFormat.format("Text decoder: Negative message length ({0}).", msg_len.get_int()));
+			final int temp = msg_len.get_int();
+			if (temp < 0) {
+				throw new TtcnError(MessageFormat.format("Text decoder: Negative message length ({0}).", temp));
 			}
-			returnValue = buf_pos + msg_len.get_int() <= buf_begin + buf_len;
+			returnValue = buf_pos + temp <= buf_begin + buf_len;
 		}
 		rewind();
 		return returnValue;

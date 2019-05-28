@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -128,8 +128,9 @@ public final class LoggerPluginManager {
 		if (entry_list_ != null) {
 			for (final LogEntry entry : entry_list_) {
 				for (int i = 0; i < plugins_.size(); i++) {
-					//TODO only if the plugin is configured
-					plugins_.get(i).log(entry.event_, true, false, false);
+					if (plugins_.get(i).is_configured()) {
+						plugins_.get(i).log(entry.event_, true, false, false);
+					}
 				}
 			}
 
@@ -197,7 +198,8 @@ public final class LoggerPluginManager {
 			final boolean plugin_overlaps = for_all_plugins || ((logging_param.pluginId == null && par.pluginId == null) || (logging_param.pluginId != null && logging_param.pluginId.equals(par.pluginId)));
 			boolean parameter_overlaps = logging_param.logparam.log_param_selection == par.logparam.log_param_selection;
 			if (parameter_overlaps && logging_param.logparam.log_param_selection == logging_param_type.LP_PLUGIN_SPECIFIC) {
-				parameter_overlaps = logging_param.logparam.param_name == par.logparam.param_name;
+				parameter_overlaps = (logging_param.logparam.param_name == null && par.logparam.param_name == null)
+						|| (logging_param.logparam.param_name != null && logging_param.logparam.param_name.equals(par.logparam.param_name));
 			}
 
 			duplication_warning = component_overlaps && plugin_overlaps && parameter_overlaps;
@@ -245,8 +247,7 @@ public final class LoggerPluginManager {
 			if (plugin != null) {
 				send_parameter_to_plugin(plugin, logparam);
 			} else {
-				//FIXME:TTCN_Error replace with TTCN_Logger.fatal_error()
-				throw new TtcnError(MessageFormat.format("Logger plug-in with name {0} was not found.", logparam.pluginId));
+				TTCN_Logger.fatal_error(MessageFormat.format("Logger plug-in with name {0} was not found.", logparam.pluginId));
 			}
 		} else {
 			// The parameter refers to all plug-ins.
@@ -332,9 +333,10 @@ public final class LoggerPluginManager {
 		}
 
 		for (int i = 0; i < plugins_.size(); i++) {
-			final String plugin_name = plugins_.get(i).plugin_name();
+			final ILoggerPlugin actualPlugin = plugins_.get(i);
+			final String plugin_name = actualPlugin.plugin_name();
 			if ((plugin_name != null) && (plugin_name.equals(name))) {
-				return plugins_.get(i);
+				return actualPlugin;
 			}
 		}
 
@@ -486,16 +488,16 @@ public final class LoggerPluginManager {
 		}
 
 		for (int i = 0; i < plugins_.size(); i++) {
-			plugins_.get(i).open_file(is_first.get().booleanValue());
-			if (plugins_.get(i).is_configured()) {
+			final ILoggerPlugin actualPlugin = plugins_.get(i);
+			actualPlugin.open_file(is_first.get().booleanValue());
+			if (actualPlugin.is_configured()) {
 				free_entry_list = true;
 				for (final LogEntry entry : entry_list_) {
 					if (entry.event_.get_field_severity().get_int() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
-						String new_log_message = TTCN_Logger.get_logger_settings_str();
+						final String new_log_message = TTCN_Logger.get_logger_settings_str();
 						entry.event_.get_field_logEvent().get_field_choice().get_field_executorEvent().get_field_choice().get_field_logOptions().operator_assign(new_log_message);
-						new_log_message = "";
 					}
-					plugins_.get(i).log(entry.event_, true, false, false);
+					actualPlugin.log(entry.event_, true, false, false);
 				}
 			}
 		}
@@ -563,7 +565,7 @@ public final class LoggerPluginManager {
 			log_unhandled_event(tempEventStruct.severity, current_event.get().buffer.toString());
 			break;
 		case ED_STRING:
-			//FIXME report error
+			TTCN_Logger.fatal_error("TTCN_Logger.end_event(): event with string destination was found, missing call of TTCN_Logger.end_event_log2str().");
 			break;
 		}
 
@@ -1004,6 +1006,7 @@ public final class LoggerPluginManager {
 			setstate.get_field_state().operator_assign("discarded");
 			break;
 		default:
+			TTCN_Logger.fatal_error("LoggerPluginManager.log_setstate(): unexpected port state");
 			break;
 		}
 
@@ -1568,7 +1571,8 @@ public final class LoggerPluginManager {
 	}
 
 	public void reset() {
-		for (int i = 0; i < plugins_.size(); i++)
+		for (int i = 0; i < plugins_.size(); i++) {
 			plugins_.get(i).reset();
+		}
 	}
 }

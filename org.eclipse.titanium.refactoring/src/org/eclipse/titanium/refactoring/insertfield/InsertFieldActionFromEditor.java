@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -49,8 +49,8 @@ public class InsertFieldActionFromEditor extends AbstractHandler {
 			return null;
 		}
 		final IStructuredSelection structSelection = new StructuredSelection(selectedFile);
-		final InsertFieldRefactoring refactoring = new InsertFieldRefactoring(structSelection, null);		
-		
+		final InsertFieldRefactoring refactoring = new InsertFieldRefactoring(structSelection, null);
+
 		//open wizard
 		final InsertFieldWizard wiz = new InsertFieldWizard(refactoring, refactoring.getSelection());
 		final RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(wiz);

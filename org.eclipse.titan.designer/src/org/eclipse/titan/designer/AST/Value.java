@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -227,13 +227,13 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 
 			if (last.getValuetype() == Value_type.CHARSTRING_VALUE) {
 				final String encodingName = ((Charstring_Value)last).getValue();
-				if (!encodingName.equals("UTF-8")
-					&& !encodingName.equals("UTF-16")
-					&& !encodingName.equals("UTF-16LE")
-					&& !encodingName.equals("UTF-16BE")
-					&& !encodingName.equals("UTF-32")
-					&& !encodingName.equals("UTF-32LE")
-					&& !encodingName.equals("UTF-32BE")) {
+				if (!"UTF-8".equals(encodingName)
+					&& !"UTF-16".equals(encodingName)
+					&& !"UTF-16LE".equals(encodingName)
+					&& !"UTF-16BE".equals(encodingName)
+					&& !"UTF-32".equals(encodingName)
+					&& !"UTF-32LE".equals(encodingName)
+					&& !"UTF-32BE".equals(encodingName)) {
 					getLocation().reportSemanticError(MessageFormat.format("`{0}'' is not a valid encoding format", encodingName));
 				}
 			} else {
@@ -723,7 +723,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
-	 * Adds the character sequence "get()" to expression->expression if reference points to
+	 * Adds the character sequence "constGet()" to expression->expression if reference points to
 	 * an optional field of a record/set value.
 	 *
 	 * generate_code_expr_optional_field_ref in the compiler

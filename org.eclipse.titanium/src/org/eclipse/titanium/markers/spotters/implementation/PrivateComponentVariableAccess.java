@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -46,9 +46,9 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	 * Internal processing the node.
 	 * <p>
 	 * When the referred object is a definition and the defined variable is private
-	 * and the reference's module isn't equals with the definiton's module then the 
+	 * and the reference's module isn't equals with the definiton's module then the
 	 * code smell report the problem.
-	 * Attention! The <code>definition</code> variable can be NULL, because the 
+	 * Attention! The <code>definition</code> variable can be NULL, because the
 	 * <code>getRefdAssignment</code>'s behavior. In the code it was handled.
 	 * </p>
 	 *
@@ -83,7 +83,7 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 			final Module referingModule = reference.getMyScope().getModuleScope();
 			final Module referedModule = definition.getMyScope().getModuleScope();
 			if(!referingModule.equals(referedModule)) {
-				problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(), 
+				problems.report(reference.getLocation(), MessageFormat.format(ERROR_MESSAGE, reference.getDisplayName(),
 						referedModule.getName(), referingModule.getName()));
 			}
 		}
@@ -93,9 +93,9 @@ public class PrivateComponentVariableAccess extends BaseModuleCodeSmellSpotter {
 	 * The spotter was registered for the references in the visitor,
 	 * and the process method run on all of references.
 	 * The method was inherited from the BaseModuleCodeSmellSpotter.
-	 * 
+	 *
 	 * @see org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter
-	 * 
+	 *
 	 * @return The type of node on which the spotter will work.
 	 */
 	@Override

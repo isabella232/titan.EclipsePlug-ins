@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -26,9 +26,9 @@ import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
-*
-* @author Farkas Izabella Ingrid
-*/
+ *
+ * @author Farkas Izabella Ingrid
+ */
 public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 	public UnusedLocalDefinition() {
 		super(CodeSmellType.UNUSED_LOCAL_DEFINITION);
@@ -41,12 +41,12 @@ public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 		final LocalDefinitionCheck chek = new LocalDefinitionCheck();
 		node.accept(chek);
 		unused.addAll(chek.getDefinitions());
-		
+
 		final LocalUsedDefinitionCheck chekUsed = new LocalUsedDefinitionCheck();
 		node.accept(chekUsed);
 		unused.removeAll(chekUsed.getDefinitions());
-		
-		for (Assignment ass : unused) {
+
+		for (final Assignment ass : unused) {
 			final String name = ass.getIdentifier().getDisplayName();
 			final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used locally (new)", ass.getAssignmentName(), name);
 			problems.report(ass.getIdentifier().getLocation(), msg);
@@ -54,15 +54,15 @@ public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 	}
 
 	@Override
-	public List<Class<? extends IVisitableNode>> getStartNode() { 
+	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(4);
-		ret.add(Def_Altstep.class); 
+		ret.add(Def_Altstep.class);
 		ret.add(Def_Function.class);
 		ret.add(Def_Testcase.class);
 		ret.add(ControlPart.class);
 		return ret;
 	}
-	
+
 	class LocalDefinitionCheck extends ASTVisitor {
 
 		private final Set<Assignment> setOfDefinition = new HashSet<Assignment>();

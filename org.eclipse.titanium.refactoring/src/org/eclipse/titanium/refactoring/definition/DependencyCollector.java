@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -227,7 +227,7 @@ class DependencyCollector {
 		while (!(allDefs.containsAll(prevDefs))) {
 			currDefs = new HashSet<Assignment>();
 			allDefs.addAll(prevDefs);
-			for (Assignment d: prevDefs) {
+			for (final Assignment d: prevDefs) {
 				final DependencyFinderVisitor vis = new DependencyFinderVisitor(currDefs, imports, asnFiles);
 				d.accept(vis);
 			}
@@ -366,13 +366,13 @@ class DependencyCollector {
 	 * */
 	private static void filterImportDefinitions(final Set<IResource> allFiles, final List<ImportModule> importDefs) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
-		for (IResource r: allFiles) {
+		for (final IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
 				continue;
 			}
 
 			final IFile f = (IFile)r;
-			IProject sourceProject = f.getProject();
+			final IProject sourceProject = f.getProject();
 			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
 			final Module m = projectSourceParser.containedModule(f);
 			allFileIds.add(m.getIdentifier());
@@ -393,13 +393,13 @@ class DependencyCollector {
 	 * */
 	private static void filterFriendDefinitions(final Set<IResource> allFiles, final List<FriendModule> friendDefs) {
 		final List<Identifier> allFileIds = new ArrayList<Identifier>(allFiles.size());
-		for (IResource r: allFiles) {
+		for (final IResource r: allFiles) {
 			if (!(r instanceof IFile)) {
 				continue;
 			}
 
 			final IFile f = (IFile)r;
-			IProject sourceProject = f.getProject();
+			final IProject sourceProject = f.getProject();
 			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(sourceProject);
 			final Module m = projectSourceParser.containedModule(f);
 			allFileIds.add(m.getIdentifier());
@@ -458,17 +458,17 @@ class DependencyCollector {
 		}
 
 		final String msg1 = (dLocCurr == null) ? "null" :
-				"Definition id: " + idCurr +
-				" (" + defCurrent.getClass().getSimpleName() +
-				") at " + dLocCurr.getFile() + ", offset " + dLocCurr.getOffset()
-				+ "-" + dLocCurr.getEndOffset();
+			"Definition id: " + idCurr +
+			" (" + defCurrent.getClass().getSimpleName() +
+			") at " + dLocCurr.getFile() + ", offset " + dLocCurr.getOffset()
+			+ "-" + dLocCurr.getEndOffset();
 		final String msg2 = (dLocOverlap == null) ? "null" :
-				"Definition id: " + idOverlap +
-				" (" + defOverlapping.getClass().getSimpleName() +
-				") at " + dLocOverlap.getFile() + ", offset " + dLocOverlap.getOffset()
-				+ "-" + dLocOverlap.getEndOffset();
+			"Definition id: " + idOverlap +
+			" (" + defOverlapping.getClass().getSimpleName() +
+			") at " + dLocOverlap.getFile() + ", offset " + dLocOverlap.getOffset()
+			+ "-" + dLocOverlap.getEndOffset();
 		ErrorReporter.logError("Warning! Locations overlap while reading source project: \n" + msg1
-				 + "\n WITH \n" + msg2);
+				+ "\n WITH \n" + msg2);
 	}
 
 }

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -299,13 +299,15 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				throw new TtcnError("Internal error: Invalid selector in a specific value when matching a template of union type CHARACTER STRING.identification.");
 			}
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int list_size = value_list.size();
+			for(int i = 0 ; i < list_size; i++) {
 				if(value_list.get(i).match(other_value, legacy)) {
 					return template_selection == template_sel.VALUE_LIST;
 				}
 			}
 			return template_selection == template_sel.COMPLEMENTED_LIST;
+		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported integer template.");
 		}
@@ -339,16 +341,18 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type CHARACTER STRING.identification.");
 			}
 			return single_value_union_selection == checked_selection;
-		case VALUE_LIST:
+		case VALUE_LIST: {
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing ischosen() operation on a template of union type CHARACTER STRING.identification containing an empty list.");
 			}
-			for (int i = 0; i < value_list.size(); i++) {
+			final int list_size = value_list.size();
+			for (int i = 0; i < list_size; i++) {
 				if(!value_list.get(i).ischosen(checked_selection)) {
 					return false;
 				}
 			}
 			return true;
+		}
 		default:
 			return false;
 		}
@@ -446,7 +450,8 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
-				for (int i = 0 ; i < value_list.size(); i++) {
+				final int list_size = value_list.size();
+				for (int i = 0 ; i < list_size; i++) {
 					if (value_list.get(i).match_omit(legacy)) {
 						return template_selection == template_sel.VALUE_LIST;
 					}
@@ -697,13 +702,47 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	public void log() {
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
-			single_value.log();
+			switch (single_value_union_selection) {
+			case ALT_syntaxes:
+				TTCN_Logger.log_event_str("{ syntaxes := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_syntax:
+				TTCN_Logger.log_event_str("{ syntax := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_presentation__context__id:
+				TTCN_Logger.log_event_str("{ presentation__context__id := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_context__negotiation:
+				TTCN_Logger.log_event_str("{ context__negotiation := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_transfer__syntax:
+				TTCN_Logger.log_event_str("{ transfer__syntax := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case ALT_fixed:
+				TTCN_Logger.log_event_str("{ fixed := ");
+				single_value.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			default:
+				TTCN_Logger.log_event_unbound();
+			}
 			break;
 		case COMPLEMENTED_LIST:
 			TTCN_Logger.log_event_str("complement");
-		case VALUE_LIST:
+		case VALUE_LIST: {
 			TTCN_Logger.log_char('(');
-			for (int list_count = 0; list_count < value_list.size(); list_count++) {
+			final int list_size = value_list.size();
+			for (int list_count = 0; list_count < list_size; list_count++) {
 				if (list_count > 0) {
 					TTCN_Logger.log_event_str(", ");
 				}
@@ -711,6 +750,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			}
 			TTCN_Logger.log_char(')');
 			break;
+		}
 		default:
 			log_generic();
 			break;
@@ -837,12 +877,14 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			single_value.encode_text(text_buf);
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			text_buf.push_int(value_list.size());
-			for (int i = 0; i < value_list.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int list_size = value_list.size();
+			text_buf.push_int(list_size);
+			for (int i = 0; i < list_size; i++) {
 				value_list.get(i).encode_text(text_buf);
 			}
 			break;
+		}
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized template of type CHARACTER STRING.identification.");
 		}

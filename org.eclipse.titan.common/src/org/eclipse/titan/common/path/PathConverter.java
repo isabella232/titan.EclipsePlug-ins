@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -42,7 +41,7 @@ public final class PathConverter {
 	private static final String EXECUTION_FAILED = "execution failed";
 	private static final String INTERRUPTION = "execution failed beacuse of interrupion";
 
-	private static final Map<String, String> CYGWINPATHMAP = new HashMap<String, String>();
+	private static final ConcurrentHashMap<String, String> CYGWINPATHMAP = new ConcurrentHashMap<String, String>();
 
 	/** private constructor to disable instantiation */
 	private PathConverter() {
@@ -114,7 +113,7 @@ public final class PathConverter {
 				return path;
 			}
 
-			line = stdout.readLine();
+			line = stdout.readLine();//TODO check should have reached end by now.
 			while (line != null) {
 				printDebug(stream, line);
 				solution.append(line);

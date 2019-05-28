@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -25,32 +25,32 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-/** 
- * 
- * @author Farkas Izabella Ingrid 
+/**
+ *
+ * @author Farkas Izabella Ingrid
  */
 public class RunsOnScopeReductionFromBrowser extends AbstractHandler implements IObjectActionDelegate{
 	private ISelection selection;
 
 	@Override
-	public void run(IAction action) {
-		performRunsOnScopeReduction();		
+	public void run(final IAction action) {
+		performRunsOnScopeReduction();
 	}
 
 	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
+	public void selectionChanged(final IAction action, final ISelection selection) {
 		this.selection = selection;
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 		performRunsOnScopeReduction();
 		return null;
 	}
 
 	@Override
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 		// TODO Auto-generated method stub
 	}
 

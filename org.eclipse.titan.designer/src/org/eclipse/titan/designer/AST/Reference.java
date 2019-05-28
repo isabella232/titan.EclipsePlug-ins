@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -329,7 +329,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	public List<ISubReference> getSubreferences(final int from, final int till) {
 		final List<ISubReference> result = new ArrayList<ISubReference>();
 
-		for (int i = Math.max(0, from), size = Math.min(subReferences.size() - 1, till); i <= size; i++) {
+		final int size = Math.min(subReferences.size() - 1, till);
+		for (int i = Math.max(0, from); i <= size; i++) {
 			result.add(subReferences.get(i));
 		}
 
@@ -730,8 +731,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 *         sub-references, false otherwise.
 	 * */
 	public final boolean hasUnfoldableIndexSubReference(final CompilationTimeStamp timestamp) {
-		for (int i = 0, size = subReferences.size(); i < size; i++) {
-			final ISubReference subReference = subReferences.get(i);
+		for (final ISubReference subReference: subReferences) {
 			if (Subreference_type.arraySubReference.equals(subReference.getReferenceType())) {
 				IValue value = ((ArraySubReference) subReference).getValue();
 				if (value != null) {
@@ -836,10 +836,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			reparser.updateLocation(modid.getLocation());
 		}
 
-		ISubReference subreference;
-		for (int i = 0, size = subReferences.size(); i < size; i++) {
-			subreference = subReferences.get(i);
-
+		for (final ISubReference subreference : subReferences) {
 			subreference.updateSyntax(reparser, false);
 			reparser.updateLocation(subreference.getLocation());
 		}
@@ -1031,40 +1028,43 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		for (int i = 0; i < subReferences.size(); i++) {
 			final ISubReference temp = subReferences.get(i);
-			if (!temp.hasSingleExpression()) {
+			if (!temp.hasSingleExpression(null)) {
 				return false;
 			}
 		}
 
-		if (referredAssignment != null) {
-			FormalParameterList formalParameterList;
-			switch (referredAssignment.getAssignmentType()) {
-			case A_FUNCTION:
-			case A_FUNCTION_RVAL:
-			case A_FUNCTION_RTEMP:
-				formalParameterList = ((Def_Function) referredAssignment).getFormalParameterList();
-				break;
-			case A_EXT_FUNCTION:
-			case A_EXT_FUNCTION_RVAL:
-			case A_EXT_FUNCTION_RTEMP:
-				formalParameterList = ((Def_Extfunction) referredAssignment).getFormalParameterList();
-				break;
-			case A_TEMPLATE:
-				formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
-				break;
-			case A_ALTSTEP:
-				formalParameterList = ((Def_Altstep) referredAssignment).getFormalParameterList();
-				break;
-			default:
-				formalParameterList = null;
-				break;
-			}
+		FormalParameterList formalParameterList;
+		switch (referredAssignment.getAssignmentType()) {
+		case A_FUNCTION:
+		case A_FUNCTION_RVAL:
+		case A_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Function) referredAssignment).getFormalParameterList();
+			break;
+		case A_EXT_FUNCTION:
+		case A_EXT_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Extfunction) referredAssignment).getFormalParameterList();
+			break;
+		case A_TEMPLATE:
+			formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
+			break;
+		case A_ALTSTEP:
+			formalParameterList = ((Def_Altstep) referredAssignment).getFormalParameterList();
+			break;
+		default:
+			formalParameterList = null;
+			break;
+		}
 
-			if (formalParameterList != null) {
-				for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
-					if (formalParameterList.getParameterByIndex(i).getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
-						return false;
-					}
+		if (formalParameterList != null) {
+			if (subReferences.size() > 0) {
+				if (!subReferences.get(0).hasSingleExpression(formalParameterList)) {
+					return false;
+				}
+			}
+			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
+				if (formalParameterList.getParameterByIndex(i).getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
+					return false;
 				}
 			}
 		}

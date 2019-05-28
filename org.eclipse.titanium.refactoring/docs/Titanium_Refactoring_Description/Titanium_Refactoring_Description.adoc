@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 1/1551-CRL 113 200/6, Rev. PA2
-Date: 2018-06-21
+Version: 1/1551-CRL 113 200/6, Rev. A
+Date: 2019-05-17
 
 ---
 = Titanium Refactoring Description
 :author: Kristóf Szabados
-:revnumber: 1/1551-CRL 113 200/6, Rev. PA2
-:revdate: 2018-06-21
+:revnumber: 1/1551-CRL 113 200/6, Rev. A
+:revdate: 2019-05-17
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -25,7 +25,7 @@ This document describes Titanium Refactoring, the refactoring tool for TTCN-3 te
 
 *Copyright*
 
-Copyright (c) 2000-2018 Ericsson Telecom AB. +
+Copyright (c) 2000-2019 Ericsson Telecom AB. +
 All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 that accompanies this distribution, and is available at +
 https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
@@ -138,7 +138,7 @@ While editing a TTCN-3 source file, the context menu can be opened by right clic
 * *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters.
 * *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value.
 * *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement.
-* *Slicing:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
+* *Move function:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
 
 == Project explorer actions
 
@@ -157,7 +157,7 @@ Some of the refactoring operations can work on files, folders or projects. These
 * *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters.
 * *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value.
 * *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement.
-* *Slicing:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
+* *Move function:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
 
 = Headless mode
 
@@ -197,7 +197,7 @@ An example call could be:
 [source,subs="+quotes"]
 *-noSplash -application org.eclipse.titanium.refactoring.definition.ExtractDefinitionHeadlessRunner -data "C:\Users\JohnDoe\workspace" -in proj1 -out ExtDefTest05 -module test -definition funtest -location "D:\Refactoring\Tests\Headless"*
 
-= Extract definition
+= Extract definition into a new project
 
 Often it is problem in practice to create a set of the contents of a project, which is still able to reproduce some behaviour of the project and is small enough to debug/analyse.
 
@@ -226,7 +226,7 @@ Please note that the "Extract definition" feature is working only on TTCN-3 file
 
 NOTE: The algorithm ignores missing references in the source project.
 
-= Extract to a new function
+= Extract code into a new function
 
 This functionality extracts TTCN-3 statements to a new function and replaces their old location with the invocation of the newly created function. The parameters of the new function are automatically determined by the algorithm.
 
@@ -246,6 +246,22 @@ image::images/6_F7.png[title="Extract to function wizard � specify parameter n
 
  The "Extract to a new function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
+= Lazy-fication of formal parameters
+
+This functionality allows users automatic lazy-fication of non-lazy formal parameters, if they evaluation could be delayed.
+
+== Usage
+
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the editor right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Lazy-fication of formal parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
+
 = Minimize visibility modifiers
 
 This operation sets the visibility modifier of all definitions in the selected resources to private, where possible. If a definition is referred from another module, its visibility modifier will not be replaced.
@@ -259,6 +275,77 @@ To use the operation on any number of files, folders or projects, select *Titani
 == Known limitations
 
 Please note that the "Minimize visibility modifiers" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
+
+= Expend value list notation
+This functionality allows users to automatically expand value list notations with field names, throughout the entire project or smaller parts of the code.
+Making the tests easier to understand and maintain.
+
+While it might be tempting to save development time, on not writing out field names in value list notations, this can cause problems during maintenance.
+During maintenance reviewing a large data structure, where the values are listed without direct information on what they are assigned to, can add an unnecessary complexity and slow down the effort.
+Using this feature, such value list notations are automatically expanded with the names of the fields, making navigation and understanding much easier.
+
+Examples:
+[source]
+----
+//given the type:
+type record my_rec {
+  integer field1,
+  integer field2
+}
+
+// this constant is refactored
+const my_rec my_const := {1,2}
+
+//to have more information
+const my_rec my_const := {field1 := 1,field2 := 2}
+----
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Expand value list notation in module* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Expend value list notation* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Expand value list notation" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
+
+
+= Order value list notation
+This functionality allows users to automatically re-order the values in assignment list notations, to reflect the field's order in the original type, throughout the entire project or smaller parts of the code.
+
+It can easily happen during the development of a test system, that a value given with an assignment notation, does not follow the order of the original type.
+During maintenance this can cause problems. For example checking that a value of a set type has its fields set to the right value, in case of different field ordering, provide an overhead of tracking which field of the type is where in the value.
+Using this feature, such assignment list notations are automatically reordered to reflect the order of fields in the original type, making navigation and understanding much easier.
+
+Examples:
+[source]
+----
+//given the type:
+type set my_set {
+  integer field1,
+  integer field2
+}
+
+// this constant is refactored
+const my_set my_const := {field2 := 2,field1 := 1}
+
+//to have its assignment in the order of fields present in type my_set
+const my_set my_const := {field1 := 1,field2 := 2}
+----
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Order assignment list notation in module* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Order assignment list notation* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Order assignment list notation" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
+
 
 = Add context info to log statements
 
@@ -287,7 +374,7 @@ image::images/8_F8.png[title="Add context info wizard � modify settings"]
 
 Please note that the "Extract to a new function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
-= Extract module parameters
+= Extract module parameters into a new project
 
 This functionality extracts all module parameters and all of their dependencies from an entire project to a new TITAN project. The project settings are also copied to the new project.
 
@@ -350,21 +437,167 @@ The main steps of the refactoring operation are the following:
 
 "Minimize scope of local variables in function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
-= Lazy-fication of formal parameters
+= Organize imports
 
-This functionality allows users automatic lazy-fication of non-lazy formal parameters, if they evaluation could be delayed.
+This functionality allows users to rearrange and correct imports in their TTCN-3 modules.
+As part of the functionality the existing imports are order in alphabetical order.
+When the algorithm encounters an unused import it is removed.
+When the algorithm finds that an import is missing, and it can identify which module needs to be imported, the import is inserted.
 
 == Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Organize imports* from the TTCN-3 editor's right-click context menu.
 
-To use the refactoring operation on a single module, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the editor right-click context menu.
-
-To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Lazy-fication of formal parameters* from the Project Explorer right-click context menu.
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Organize imports* from the Project Explorer right-click context menu.
 
 A wizard dialog is presented for the user to review the changes, before executing them.
 
 == Known limitations
 
-Please note that the "Lazy-fication of formal parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
+Please note that the "Organize imports" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
+
+= Runs on scope reduction
+
+This functionality allows users to reduce the "runs on" components of functions, altsteps and testcases to the minimal needed.
+
+When writing functions, altsteps or testcases it is quite common to start with a blueprint of what component they might need to run on.
+However sometimes it just happens that the function written, does not actually need to run on the component mentioned in its "runs on" clause, as it does not use any of that component's member declarations.
+This feature analyzes the function, altstep or testcase in question, and based on the declarations it uses from the component hierarchy it determines the smallest possible component it could run on (which the current one is extending).
+This effectively also means, that the same function will now be applicable in many more situations, as a "smaller" component means possibly more calling sites.
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Runs on scope reduction* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Runs on scope reduction* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Runs on scope reduction" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
+
+= Ungroup module parameters
+
+This functionality allows users to ungroup module parameters, that are present in the code using the group style definition.
+
+Group style definition of module parameters have been deprecate in the TTCN-3 for a long time and this style is planned to be removed from the standard soon.
+This feature lets users update their code automatically to the replacement notation.
+
+Examples:
+[source]
+----
+
+// this deprecated syntax is refactored
+modulepar {
+  integer mp_1 := 1, mp_2 := 2;
+  charstring mp_3 := "example";
+}
+
+//to the following ungruped version
+modulepar integer mp_1 := 1;
+modulepar integer mp_2 := 2;
+modulepar charstring mp_3 := "example";
+----
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Ungroup module parameters in module* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Ungroup module parameters* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Ungroup module parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
+
+= Insert field
+This functionality allows users to insert a new field into the selected record or set type. The new field appears at all of the type's occurences in the project.
+
+== Usage
+To insert a new field into a record or set type, right click on the type definition identifier in the editor window and choose *TitaniumRefactoring / Insert field* from the context menu. If the type of the selection is not supported for the operation, an error message is displayed in the status bar.
+
+If the selection is supported for the operation, then a wizard dialog is presented for the user to specify the position, name, type and value of the new field. Names that are already present in the selected type definition are not accepted. After this, the produced changes can be reviewed and accepted by clicking on the Finish button.
+
+== Known limitations
+Please note that the "Insert field" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
+
+NOTE: The algorithm does not check if the type and the value of the new field are valid.
+
+= Change union to select union
+
+This functionality allows users to automatically convert already existing select statements, to more efficient and descriptive select union statements, if possible.
+
+The TTCN-3 standard has been extended recently with the select union statement, to provide better support for the situation, when several execution path are possible based on the currently selected field of a union typed value.
+As the below example shows, previously select statements could be used for this purpose, but were lacking.
+The new syntax not only communicates its purpose better, but also allows for checking if all possible fields are covered (leading to safer code).
+
+Examples:
+[source]
+----
+
+//given the following union type
+type union my_union {
+  integer field1,
+  integer field2
+}
+
+// this example function
+function f_example(in my_union my_par) {
+  select(true) {
+    case (ischosen(my_par.field1)) {
+      ...
+    }
+    case (ischosen(my_par.field2)) {
+      ...
+    }
+  }
+}
+
+//can be refactored to
+function f_example(in my_union my_par) {
+  select union(my_par) {
+    case(field1){
+
+    }
+    case(field2){
+
+    }
+  }
+}
+----
+
+== Usage
+To use the refactoring operation on a single module, select *TitaniumRefactoring / Change union to select union* from the TTCN-3 editor's right-click context menu.
+
+To use the operation on any number of files, folders or projects, select *TitaniumRefactoring / Change union to select union* from the Project Explorer right-click context menu.
+
+A wizard dialog is presented for the user to review the changes, before executing them.
+
+== Known limitations
+
+Please note that the "Change union to select union" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
+
+
+= Move function
+This refactoring tries to detect functions that are located in a module they do not belong to, find a better new location for them and automatically move them there while also inserting the missing imports.
+
+== Usage
+To run the refactoring operation, select the modules or the project to be refactored and from the context menu that appears on right click, choose *TitaniumRefactoring / Move function*.
+
+A wizard is presented for the user to choose the functions to be moved from the selected modules, the method used for finding their new destination and the name filtering option. After this, the produced changes can be reviewed and accepted by clicking on the Finish button.
+
+== Algorithm behaviour
+
+The main steps of the refactoring operation are the following:
+
+  * At first, the methods to be moved are detected from the selected modules. If the function does not use anything (fields, methods, etc.) from its own module and is not private, it is added to a list that contains the methods to be moved.
+  * The implementation provides three main approaches for the possible target modules of the functions; selecting the shortest module that is used by the method, selecting that of the used ones that needs the least new imports after inserting the function and finding the one which contains the most methods running on the same component as the one to be moved.
+  * Modules can be excluded from the destinations list by filtering by their name.
+  * The possible new destinations are rated between 0% and 100%, which represents to what degree they are recommended.
+  * After the final destination for the method has been selected, the missing imports are inserted as well into the destination module. The missing imports are those modules, that the method uses but are not among the imported modules of the destination.
+  * Those modules that import the original location of the method are checked to see if they contain references to the function. If they do, then their imports are examined to decide if they import the new destination. If they do not, then a new import to the destination module is inserted.
+
+== Known limitations
+Please note that the "Move function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
 = References
 

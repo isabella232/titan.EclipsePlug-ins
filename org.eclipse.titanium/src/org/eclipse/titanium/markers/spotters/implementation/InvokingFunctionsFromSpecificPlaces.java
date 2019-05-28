@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -59,8 +59,8 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 		@Override
 		public int visit(final IVisitableNode node) {
 			if(node instanceof Referenced_Value) {
-				Referenced_Value value = (Referenced_Value) node;
-				Assignment_type asst = value.getReference().getAssOld().getAssignmentType();
+				final Referenced_Value value = (Referenced_Value) node;
+				final Assignment_type asst = value.getReference().getAssOld().getAssignmentType();
 				if (asst == Assignment_type.A_FUNCTION_RVAL ||
 						asst == Assignment_type.A_EXT_FUNCTION_RVAL ||
 						asst == Assignment_type.A_FUNCTION_RTEMP ||
@@ -70,26 +70,26 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 			}
 
 			if(node instanceof RNDExpression || node instanceof RNDWithValueExpression ) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "Random number generation change the actual snapshot");
 			}
 
 			if(node instanceof AllComponentAliveExpression || node instanceof AllComponentRunningExpression ||
 					node instanceof AnyComponentAliveExpression || node instanceof AnyComponentRunningExpression ||
 					node instanceof ComponentAliveExpression || node instanceof ComponentRunningExpression ) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "State of component may change during the actual snapshot");
 			}
 
 			if(node instanceof AnyPortCheckStateExpression ||node instanceof AllPortCheckSateExpression || node instanceof  CheckStateExpression) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "State of port may change during the actual snapshot");
 			}
 
-			if(node instanceof AnyTimerRunningExpression || 
-					node instanceof TimerRunningExpression || 
+			if(node instanceof AnyTimerRunningExpression ||
+					node instanceof TimerRunningExpression ||
 					node instanceof TimerReadExpression) {
-				Expression_Value exp = (Expression_Value) node;
+				final Expression_Value exp = (Expression_Value) node;
 				problems.report(exp.getLocation(), "State of timer may change during the actual snapshot");
 			}
 			return V_CONTINUE;
@@ -99,7 +99,7 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
-		FunctionVisitor visitor = new FunctionVisitor(problems);
+		final FunctionVisitor visitor = new FunctionVisitor(problems);
 
 		if (node instanceof AltGuard) {
 			final AltGuard altGuard = (AltGuard) node;
@@ -109,15 +109,15 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 		}
 
 		if(node instanceof Receive_Port_Statement ||
-			node instanceof Check_Receive_Port_Statement ||
-			node instanceof Check_Port_Statement) {
+				node instanceof Check_Receive_Port_Statement ||
+				node instanceof Check_Port_Statement) {
 			node.accept(visitor);
 		}
 	}
 
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
-		final List<Class<? extends IVisitableNode>> ret = 
+		final List<Class<? extends IVisitableNode>> ret =
 				new ArrayList<Class<? extends IVisitableNode>>(6);
 		ret.add(Operation_Altguard.class);
 		ret.add(Invoke_Altguard.class);

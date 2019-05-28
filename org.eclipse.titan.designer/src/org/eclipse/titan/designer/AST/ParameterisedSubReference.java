@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -161,14 +162,15 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasSingleExpression() {
+	public boolean hasSingleExpression(final FormalParameterList formalParameterList) {
 		if (actualParameters == null) {
 			return true;
 		}
 
 		for (int i = 0; i < actualParameters.getNofParameters(); i++) {
+			final FormalParameter formalPar = formalParameterList == null ? null : formalParameterList.getParameterByIndex(i);
 			final ActualParameter actualParameter = actualParameters.getParameter(i);
-			if(!actualParameter.hasSingleExpression()) {
+			if(!actualParameter.hasSingleExpression(formalPar)) {
 				return false;
 			}
 		}

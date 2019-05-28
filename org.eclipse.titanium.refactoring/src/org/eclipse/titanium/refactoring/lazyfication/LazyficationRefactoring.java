@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -89,16 +89,16 @@ public class LazyficationRefactoring extends Refactoring {
 			}
 			pm.worked(1);
 			// check that there are no ttcnpp files in the project
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				if (hasTtcnppFiles(project)) {//FIXME actually all referencing and referenced projects need to be checked too !
 					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
 				}
 			}
 			pm.worked(1);
 			// check that there are no error markers in the project
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				final IMarker[] markers = project.findMarkers(null, true, IResource.DEPTH_INFINITE);
-				for (IMarker marker : markers) {
+				for (final IMarker marker : markers) {
 					if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
 						result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
 						break;
@@ -148,7 +148,7 @@ public class LazyficationRefactoring extends Refactoring {
 	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
 		if (resource instanceof IProject || resource instanceof IFolder) {
 			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (IResource res : children) {
+			for (final IResource res : children) {
 				if (hasTtcnppFiles(res)) {
 					return true;
 				}

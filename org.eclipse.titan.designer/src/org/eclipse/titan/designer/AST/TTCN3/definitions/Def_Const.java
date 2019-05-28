@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -491,7 +491,7 @@ public final class Def_Const extends Definition {
 		}
 
 		//TODO const with references to other const does not need to copy
-		globalVariable.append(MessageFormat.format("public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		globalVariable.append(MessageFormat.format("\tpublic static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		getLocation().update_location_object(aData, aData.getPreInit());
 		if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
 			last.generateCodeInit( aData, aData.getPreInit(), genName );

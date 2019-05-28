@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,8 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -29,6 +31,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason.enum_type;
+import org.eclipse.titan.runtime.core.TitanPort.Map_Params;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 
@@ -314,7 +317,7 @@ public final class TTCN_Communication {
 			throw new TtcnError("TTCN_Communication.set_mc_address: internal error: invalid host name.");
 		}
 		if (MC_port < 0) {
-			throw new TtcnError(MessageFormat.format("TTCN_Communication.set_mc_address: internal error: invalid TCP port. {0}", MC_port));
+			throw new TtcnError(MessageFormat.format("TTCN_Communication.set_mc_address: internal error: invalid TCP port. {0,number,#}", MC_port));
 		}
 		hcnh.set_family(new InetSocketAddress(MC_host, MC_port));
 		if (!hcnh.set_mc_addr(MC_host, MC_port)) {
@@ -342,7 +345,7 @@ public final class TTCN_Communication {
 		}
 		mc_socketchannel.set(hcnh.connect_to_mc());
 		if (mc_socketchannel.get() == null) {
-			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
+			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1,number,#} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
 		}
 		//FIXME register
 		mc_connection.set(new MC_Connection(mc_socketchannel.get(), incoming_buf.get()));
@@ -383,7 +386,7 @@ public final class TTCN_Communication {
 	}
 
 	//use NetworkChannel instead of file descriptor
-	public static boolean set_tcp_nodelay(final NetworkChannel fd, final boolean enable_nodelay) {
+	public static boolean set_tcp_nodelay(final NetworkChannel fd, final Boolean enable_nodelay) {
 		try {
 			fd.setOption(StandardSocketOptions.TCP_NODELAY, enable_nodelay);
 			return true;
@@ -774,7 +777,7 @@ public final class TTCN_Communication {
 			text_buf.push_raw(temp.length, temp);
 			text_buf.push_raw(8, new byte[8]);
 		} else if (local_address instanceof Inet6Address) {
-			Inet6Address localipv6_address = getIPv6Address(local_address);
+			final Inet6Address localipv6_address = getIPv6Address(local_address);
 			final byte temp[] = localipv6_address.getAddress();
 			text_buf.push_raw(2, new byte[]{2, 3});
 			text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});
@@ -830,44 +833,64 @@ public final class TTCN_Communication {
 		send_message(text_buf);
 	}
 
-	public static void send_map_req(final int sourceComponent, final String sourcePort, final String systemPort, final boolean translation) {
+	public static void send_map_req(final int sourceComponent, final String sourcePort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MAP_REQ);
 		text_buf.push_int(sourceComponent);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(sourcePort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
 
-	public static void send_mapped(final String localPort, final String systemPort, final boolean translation) {
+	public static void send_mapped(final String localPort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MAPPED);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(localPort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
 
-	public static void send_unmap_req(final int sourceComponent, final String sourcePort, final String systemPort, final boolean translation) {
+	public static void send_unmap_req(final int sourceComponent, final String sourcePort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAP_REQ);
 		text_buf.push_int(sourceComponent);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(sourcePort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
 
-	public static void send_unmapped(final String localPort, final String systemPort, final boolean translation) {
+	public static void send_unmapped(final String localPort, final String systemPort, final Map_Params params, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAPPED);
 		text_buf.push_int(translation ? 1 : 0);
 		text_buf.push_string(localPort);
 		text_buf.push_string(systemPort);
+		final int nof_params = params.get_nof_params();
+		text_buf.push_int(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			text_buf.push_string(params.get_param(i).get_value().toString());
+		}
 
 		send_message(text_buf);
 	}
@@ -1009,21 +1032,27 @@ public final class TTCN_Communication {
 		}
 
 		text_buf.calculate_length();
-		final byte msg[] = text_buf.get_data();
-		final ByteBuffer buffer = ByteBuffer.allocate(text_buf.get_len());
-		final byte temp_msg[] = new byte[text_buf.get_len()];
-		System.arraycopy(msg, text_buf.get_begin(), temp_msg, 0, text_buf.get_len());
-		buffer.put(temp_msg);
-		buffer.flip();
+		final byte[] msg_ptr = text_buf.get_data();
+		final int msg_len = text_buf.get_len();
+		final ByteBuffer buffer = ByteBuffer.wrap(msg_ptr, text_buf.get_begin(), msg_len);
 
+		final SocketChannel localChannel = mc_socketchannel.get();
 		try {
 			while (buffer.hasRemaining()) {
-				mc_socketchannel.get().write(buffer);
+				localChannel.write(buffer);
 			}
 		} catch (IOException e) {
-			throw new TtcnError(e);
+			close_mc_connection();
+
+			final StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+	
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(error.toString());
+			TTCN_Logger.end_event();
+			throw new TtcnError("Sending data on the control connection to MC failed.");
 		}
-		//FIXME implement
 	}
 
 	private static void process_configure(final int msg_end, final boolean to_mtc) {
@@ -1401,14 +1430,16 @@ public final class TTCN_Communication {
 		final String remote_port = local_incoming_buf.pull_string();
 		final int temp_transport_type = local_incoming_buf.pull_int().get_int();
 
-		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
-			TitanComponent.register_component_name(remote_component, remote_component_name);
+		try {
+			if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().get_component() != remote_component) {
+				TitanComponent.register_component_name(remote_component, remote_component_name);
+			}
+
+			final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
+			TitanPort.process_connect(local_port, remote_component, remote_port, transport_type, incoming_buf.get());
+		} finally {
+			local_incoming_buf.cut_message();
 		}
-
-		final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
-		TitanPort.process_connect(local_port, remote_component, remote_port, transport_type, incoming_buf.get());
-
-		local_incoming_buf.cut_message();
 	}
 
 	private static void process_connect_ack() {
@@ -1463,24 +1494,38 @@ public final class TTCN_Communication {
 		final boolean translation = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		final String local_port = local_incoming_buf.pull_string();
 		final String system_port = local_incoming_buf.pull_string();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params params = new Map_Params(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			params.set_param(i, new TitanCharString(par));
+		}
 
 		local_incoming_buf.cut_message();
 
-		TitanPort.map_port(local_port, system_port, false);
+		TitanPort.map_port(local_port, system_port, params, false);
 		if (translation) {
-			TitanPort.map_port(local_port, system_port, true);
+			TitanPort.map_port(local_port, system_port, params, true);
 		}
 		if (!TTCN_Runtime.is_single()) {
 			if (translation) {
-				send_mapped(system_port, local_port, translation);
+				send_mapped(system_port, local_port, params, translation);
 			} else {
-				send_mapped(local_port, system_port, translation);
+				send_mapped(local_port, system_port, params, translation);
 			}
 		}
 	}
 
 	private static void process_map_ack() {
-		incoming_buf.get().cut_message();
+		final Text_Buf local_incoming_buf = incoming_buf.get();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params local_map_params = TitanPort.map_params_cache.get();
+		local_map_params.reset(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			local_map_params.set_param(i, new TitanCharString(par));
+		}
+		local_incoming_buf.cut_message();
 
 		switch (TTCN_Runtime.get_state()) {
 		case MTC_MAP:
@@ -1502,24 +1547,38 @@ public final class TTCN_Communication {
 		final boolean translation = local_incoming_buf.pull_int().get_int() == 0 ? false: true;
 		final String local_port = local_incoming_buf.pull_string();
 		final String system_port = local_incoming_buf.pull_string();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params params = new Map_Params(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			params.set_param(i, new TitanCharString(par));
+		}
 
 		local_incoming_buf.cut_message();
 
-		TitanPort.unmap_port(local_port, system_port, false);
+		TitanPort.unmap_port(local_port, system_port, params, false);
 		if (translation) {
-			TitanPort.unmap_port(local_port, system_port, true);
+			TitanPort.unmap_port(local_port, system_port, params, true);
 		}
 		if (!TTCN_Runtime.is_single()) {
 			if (translation) {
-				send_unmapped(system_port, local_port, translation);
+				send_unmapped(system_port, local_port, params, translation);
 			} else {
-				send_unmapped(local_port, system_port, translation);
+				send_unmapped(local_port, system_port, params, translation);
 			}
 		}
 	}
 
 	private static void process_unmap_ack() {
-		incoming_buf.get().cut_message();
+		final Text_Buf local_incoming_buf = incoming_buf.get();
+		final int nof_params = local_incoming_buf.pull_int().get_int();
+		final Map_Params local_map_params = TitanPort.map_params_cache.get();
+		local_map_params.reset(nof_params);
+		for (int i = 0; i < nof_params; i++) {
+			final String par = local_incoming_buf.pull_string();
+			local_map_params.set_param(i, new TitanCharString(par));
+		}
+		local_incoming_buf.cut_message();
 
 		switch (TTCN_Runtime.get_state()) {
 		case MTC_UNMAP:

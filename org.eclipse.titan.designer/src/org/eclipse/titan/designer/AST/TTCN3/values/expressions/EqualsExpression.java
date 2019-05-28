@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -288,7 +288,7 @@ public final class EqualsExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO actually a bit more complicated
+		//FIXME handle the needs conversion case
 		// TODO maybe this can be optimized later
 		boolean isOptional1 = false;
 		boolean isOptional2 = false;

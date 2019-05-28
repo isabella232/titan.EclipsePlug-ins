@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -637,14 +637,14 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 		}
 
-		if (!incompleteAllowed || strictConstantCheckingSeverity) {
+		if (!incompleteAllowed || implicitOmit || strictConstantCheckingSeverity) {
 			for (int i = 0; i < nofTypeComponents; i++) {
 				final Identifier id = compFieldMap.fields.get(i).getIdentifier();
 				if (!componentMap.containsKey(id.getName())) {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
 						value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_TTCN, id.getDisplayName()),
 								new Omit_Value(), false));
-					} else {
+					} else if (!incompleteAllowed || strictConstantCheckingSeverity) {
 						value.getLocation().reportSemanticError(MessageFormat.format(MISSINGFIELDTTCN3, id.getDisplayName()));
 					}
 				}
@@ -888,7 +888,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 		}
 
-		if (!isModified && strictConstantCheckingSeverity) {
+		if (!isModified && (implicitOmit || strictConstantCheckingSeverity)) {
 			// check missing fields
 			for (int i = 0; i < nofTypeComponents; i++) {
 				final Identifier identifier = getComponentIdentifierByIndex(i);
@@ -899,7 +899,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
 						templateList.addNamedValue(new NamedTemplate(new Identifier(Identifier_type.ID_TTCN, identifier
 								.getDisplayName()), new OmitValue_Template(), false));
-					} else {
+					} else if (strictConstantCheckingSeverity) {
 						templateList.getLocation()
 						.reportSemanticError(
 								MessageFormat.format(MISSINGTEMPLATEFIELD,

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.ITypeWithComponents;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -48,6 +49,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_codin
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator.FieldInfo;
+import org.eclipse.titan.designer.AST.TTCN3.values.Enumerated_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.BuildTimestamp;
@@ -69,6 +71,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	private boolean componentInternal;
 	protected BuildTimestamp rawLengthCalculated;
 	protected int rawLength;
+
+	private boolean insideCanHaveCoding = false;
 
 	public TTCN3_Set_Seq_Choice_BaseType(final CompFieldMap compFieldMap) {
 		this.compFieldMap = compFieldMap;
@@ -366,6 +370,20 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		for (int i = 0, size = getNofComponents(); i < size; i++) {
+			final IType type = getComponentByIndex(i).getType();
+			type.checkMapParameter(timestamp, refChain, errorLocation);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public final Object[] getOutlineChildren() {
 		return compFieldMap.getOutlineChildren();
 	}
@@ -574,34 +592,38 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
 			return true;
 		}
-		refChain.add(this);
+		insideCanHaveCoding = true;
 
 		for (int i = 0; i < codingTable.size(); i++) {
 			final Coding_Type tempCodingType = codingTable.get(i);
 
 			if (tempCodingType.builtIn && tempCodingType.builtInCoding.equals(coding)) {
+				insideCanHaveCoding = false;
 				return true; // coding already added
 			}
 		}
 
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
+			final boolean result = hasEncoding(timestamp, MessageEncoding_type.BER, null);
+
+			insideCanHaveCoding = false;
+			return result;
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {
-			refChain.markState();
 			final Type fieldType = compField.getType();
 			final IType refdLast = fieldType.getTypeRefdLast(timestamp);
-			if (!refdLast.canHaveCoding(timestamp, coding, refChain)) {
+			if (!refdLast.canHaveCoding(timestamp, coding)) {
+				insideCanHaveCoding = false;
 				return false;
 			}
-			refChain.previousState();
 		}
 
+		insideCanHaveCoding = false;
 		return true;
 	}
 
@@ -722,8 +744,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				}
 			}
 		}
-		if (rawAttribute != null && rawAttribute.presence != null) {
-			if (rawAttribute.presence.keyList != null) {
+		if (ownerType != TypeOwner_type.OT_COMP_FIELD) {
+			if (rawAttribute != null && rawAttribute.presence != null && rawAttribute.presence.keyList != null) {
 				for (int a = 0; a < rawAttribute.presence.keyList.size(); a++) {
 					final rawAST_tag_field_value tempTagFieldValue = rawAttribute.presence.keyList.get(a);
 					final Reference reference = new Reference(null);
@@ -1042,7 +1064,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			} else {
 				dummy_raw = rawAttribute;
 			}
-			raw = new RawASTStruct(dummy_raw);
+			raw = new RawASTStruct(dummy_raw, ownerType != TypeOwner_type.OT_COMP_FIELD);
 
 			// building taglist
 			final int taglistSize = dummy_raw.taglist == null ? 0 : dummy_raw.taglist.size();
@@ -1148,64 +1170,69 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						}
 
 						t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						if (t.getTypetype() == Type_type.TYPE_ASN1_ENUMERATED || t.getTypetype() == Type_type.TYPE_TTCN3_ENUMERATED) {
+							newField.refersEnum = true;
+						}
 					}
 				}
 			}
 			// building presence list
-			final int presenceListSize = dummy_raw.presence == null || dummy_raw.presence.keyList == null ? 0 : dummy_raw.presence.keyList.size();
-			for (int a = 0; a < presenceListSize; a++) {
-				final rawAST_tag_field_value fieldValue = dummy_raw.presence.keyList.get(a);
-				final rawAST_coding_field_list presences = new rawAST_coding_field_list();
-				raw.presence.fields.add(presences);
+			if (ownerType != TypeOwner_type.OT_COMP_FIELD) {
+				final int presenceListSize = dummy_raw.presence == null || dummy_raw.presence.keyList == null ? 0 : dummy_raw.presence.keyList.size();
+				for (int a = 0; a < presenceListSize; a++) {
+					final rawAST_tag_field_value fieldValue = dummy_raw.presence.keyList.get(a);
+					final rawAST_coding_field_list presences = new rawAST_coding_field_list();
+					raw.presence.fields.add(presences);
 
-				final ExpressionStruct expression = new ExpressionStruct();
-				fieldValue.v_value.generateCodeExpression(aData, expression, true);
-				presences.expression = expression;
-				final ExpressionStruct nativeExpression = new ExpressionStruct();
-				fieldValue.v_value.generateCodeExpression(aData, nativeExpression, false);
-				presences.nativeExpression = nativeExpression;
-				presences.isOmitValue = fieldValue.v_value.getValuetype() == Value_type.OMIT_VALUE;
-				final int keySize = fieldValue.keyField == null || fieldValue.keyField.names == null ? 0 : fieldValue.keyField.names.size();
-				presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(keySize);
-				IType t = this;
-				for (int b = 0; b < keySize; b++) {
-					final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
-					presences.fields.add(newField);
+					final ExpressionStruct expression = new ExpressionStruct();
+					fieldValue.v_value.generateCodeExpression(aData, expression, true);
+					presences.expression = expression;
+					final ExpressionStruct nativeExpression = new ExpressionStruct();
+					fieldValue.v_value.generateCodeExpression(aData, nativeExpression, false);
+					presences.nativeExpression = nativeExpression;
+					presences.isOmitValue = fieldValue.v_value.getValuetype() == Value_type.OMIT_VALUE;
+					final int keySize = fieldValue.keyField == null || fieldValue.keyField.names == null ? 0 : fieldValue.keyField.names.size();
+					presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(keySize);
+					IType t = this;
+					for (int b = 0; b < keySize; b++) {
+						final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
+						presences.fields.add(newField);
 
-					final Identifier idf2 = fieldValue.keyField.names.get(b);
-					int comp_index = 0;
-					CompField cf2;
-					switch (t.getTypetype()) {
-					case TYPE_TTCN3_CHOICE:
-						comp_index = ((TTCN3_Choice_Type)t).getComponentIndexByName(idf2);
-						cf2 = ((TTCN3_Choice_Type)t).getComponentByIndex(comp_index);
-						newField.nthfield = comp_index;
-						newField.nthfieldname = idf2.getName();
-						newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-						newField.unionType = t.getGenNameValue(aData, source);
-						break;
-					case TYPE_TTCN3_SEQUENCE:
-					case TYPE_TTCN3_SET:
-						comp_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(idf2);
-						cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(comp_index);
-						newField.nthfield = comp_index;
-						newField.nthfieldname = idf2.getName();
-						if (cf2.isOptional()) {
-							newField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
-						} else {
-							newField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+						final Identifier idf2 = fieldValue.keyField.names.get(b);
+						int comp_index = 0;
+						CompField cf2;
+						switch (t.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+							comp_index = ((TTCN3_Choice_Type)t).getComponentIndexByName(idf2);
+							cf2 = ((TTCN3_Choice_Type)t).getComponentByIndex(comp_index);
+							newField.nthfield = comp_index;
+							newField.nthfieldname = idf2.getName();
+							newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+							newField.unionType = t.getGenNameValue(aData, source);
+							break;
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							comp_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(idf2);
+							cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(comp_index);
+							newField.nthfield = comp_index;
+							newField.nthfieldname = idf2.getName();
+							if (cf2.isOptional()) {
+								newField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+							} else {
+								newField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+							}
+							break;
+						default:
+							//internal error
+							return null;
 						}
-						break;
-					default:
-						//internal error
-						return null;
+
+						final IType field_type = cf2.getType();
+						newField.type = field_type.getGenNameValue(aData, source);
+						newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
+
+						t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 					}
-
-					final IType field_type = cf2.getType();
-					newField.type = field_type.getGenNameValue(aData, source);
-					newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
-
-					t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				}
 			}
 			final int extBiGroupSize = dummy_raw.ext_bit_groups == null ? 0 : dummy_raw.ext_bit_groups.size();
@@ -1227,7 +1254,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				final IType t_field_last = t_field.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				final RawAST rawpar = t_field.getRawAttribute();
 				if (rawpar != null) {
-					element_i.raw = new RawASTStruct(rawpar);
+					element_i.raw = new RawASTStruct(rawpar, true);
 					final int lengthtoNum = rawpar.lengthto == null ? 0 : rawpar.lengthto.size();
 					for (int j = 0; j < lengthtoNum; j++) {
 						final Identifier idf = rawpar.lengthto.get(j);
@@ -1435,6 +1462,13 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
 
 								t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+								if (t.getTypetype() == Type_type.TYPE_ASN1_ENUMERATED || t.getTypetype() == Type_type.TYPE_TTCN3_ENUMERATED) {
+									newField.refersEnum = true;
+									final IValue last = key.v_value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+									if (last.getValuetype() == Value_type.ENUMERATED_VALUE) {
+										newField.enumValue = ((Enumerated_Value)last).getValue().getName();
+									}
+								}
 							}
 						}
 					}

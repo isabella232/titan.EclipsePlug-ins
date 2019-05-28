@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -217,11 +217,15 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
+						final HashMap<SelectableChannel, Channel_Event_Handler> localChannelMap = channelMap.get();
 						for (final SelectionKey key : selectedKeys) {
-							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
+							final SelectableChannel keyChannel = key.channel();
+							final Channel_Event_Handler handler = localChannelMap.get(keyChannel);
 							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
 							final boolean isWritable = key.isValid() && key.isWritable();
-							handler.Handle_Event(key.channel(), isReadable, isWritable);
+							if (handler != null) {
+								handler.Handle_Event(keyChannel, isReadable, isWritable);
+							}
 						}
 					} finally {
 						selectedKeys.clear();
@@ -241,11 +245,15 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = localSelector.selectedKeys();
 					//call handlers
 					try {
+						final HashMap<SelectableChannel, Channel_Event_Handler> localChannelMap = channelMap.get();
 						for (final SelectionKey key : selectedKeys) {
-							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
+							final SelectableChannel keyChannel = key.channel();
+							final Channel_Event_Handler handler = localChannelMap.get(keyChannel);
 							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
 							final boolean isWritable = key.isValid() && key.isWritable();
-							handler.Handle_Event(key.channel(), isReadable, isWritable);
+							if (handler != null) {
+								handler.Handle_Event(keyChannel, isReadable, isWritable);
+							}
 						}
 					} finally {
 						selectedKeys.clear();

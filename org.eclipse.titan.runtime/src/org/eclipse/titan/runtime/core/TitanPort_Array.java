@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -322,6 +322,33 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 	}
 
 	@Override
+	public TitanAlt_Status check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect,
+			final Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incr_pos();
+		}
+
+		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
+		for (int i = 0; i < array_size; i++) {
+			final TitanAlt_Status ret_val = array_elements[i].check_getcall(sender_template, sender_pointer, timestemp_redirect, index_redirect);
+			if (ret_val == TitanAlt_Status.ALT_YES) {
+				if (index_redirect != null) {
+					index_redirect.add_index(i + indexofset);
+				}
+				result = ret_val;
+				break;
+			} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
+				result = ret_val;
+			}
+		}
+		if (index_redirect != null) {
+			index_redirect.decr_pos();
+		}
+
+		return result;
+	}
+
+	@Override
 	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final TitanFloat timestemp_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incr_pos();
@@ -346,6 +373,32 @@ public class TitanPort_Array<T extends TitanPort> extends TitanPort {
 
 		return result;
 	}
+
+	@Override
+	public TitanAlt_Status check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final TitanFloat timestemp_redirect,
+			final Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incr_pos();
+		}
+
+		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
+		for (int i = 0; i < array_size; i++) {
+			final TitanAlt_Status ret_val = array_elements[i].check_getreply(sender_template, sender_pointer, timestemp_redirect, index_redirect);
+			if (ret_val == TitanAlt_Status.ALT_YES) {
+				if (index_redirect != null) {
+					index_redirect.add_index(i + indexofset);
+				}
+				result = ret_val;
+				break;
+			} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
+				result = ret_val;
+			}
+		}
+		if (index_redirect != null) {
+			index_redirect.decr_pos();
+		}
+
+		return result;	}
 
 	@Override
 	public TitanAlt_Status get_exception(final TitanComponent_template sender_template, final TitanComponent sender_ptr,

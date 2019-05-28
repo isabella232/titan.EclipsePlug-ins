@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 9/198 17-CRL 113 200/6, Rev. E
-Date: 2018-12-03
+Version: 9/198 17-CRL 113 200/6, Rev. F
+Date: 2019-05-17
 
 ---
 = Programmers' Technical Reference Guide for Titanium
 :author: Kristóf Szabados
-:revnumber: 9/198 17-CRL 113 200/6, Rev. E
-:revdate: 2018-12-03
+:revnumber: 9/198 17-CRL 113 200/6, Rev. F
+:revdate: 2019-05-17
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -25,7 +25,7 @@ This document describes detailed information on writing components of executable
 
 *Copyright*
 
-Copyright (c) 2000-2018 Ericsson Telecom AB. +
+Copyright (c) 2000-2019 Ericsson Telecom AB. +
 All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 that accompanies this distribution, and is available at +
 https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 

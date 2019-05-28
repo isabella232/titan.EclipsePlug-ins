@@ -14,7 +14,7 @@ import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 public class OrderFieldNamesWizard extends RefactoringWizard implements
 		IExecutableExtension {
 
-	private static final String WIZ_WINDOWTITLE = "Expand record field names";
+	private static final String WIZ_WINDOWTITLE = "Order assignment list notation";
 
 	OrderFieldNamesWizard(final Refactoring refactoring) {
 		super(refactoring, DIALOG_BASED_USER_INTERFACE);

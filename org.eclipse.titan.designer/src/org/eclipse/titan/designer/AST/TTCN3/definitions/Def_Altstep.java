@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -394,12 +394,8 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	@Override
 	/** {@inheritDoc} */
 	public String getOutlineText() {
-		if (lastTimeChecked == null) {
-			check(CompilationTimeStamp.getBaseTimestamp());
-		}
-
 		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
-		if (formalParList == null) {
+		if (formalParList == null || lastTimeChecked == null) {
 			return text.toString();
 		}
 
@@ -679,12 +675,16 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		final StringBuilder body = new StringBuilder();
 		getLocation().create_location_object(aData, body, "ALTSTEP", getIdentifier().getDisplayName());
-		body.append( "try {\n" );
+		if (aData.getAddSourceInfo()) {
+			body.append( "try {\n" );
+		}
 		block.generateCode(aData, body);
 		altGuards.generateCodeAltstep(aData, body);
-		body.append( "} finally {\n" );
-		getLocation().release_location_object(aData, body);
-		body.append( "}\n" );
+		if (aData.getAddSourceInfo()) {
+			body.append( "} finally {\n" );
+			getLocation().release_location_object(aData, body);
+			body.append( "}\n" );
+		}
 
 		final StringBuilder formalParListCode = new StringBuilder();
 		formalParList.generateCode(aData, formalParListCode);

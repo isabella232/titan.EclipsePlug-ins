@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -37,7 +37,9 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.OutOfMemoryCheck;
 import org.eclipse.titan.designer.AST.Location;
@@ -101,6 +103,7 @@ public final class ProjectSourceParser {
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastFullAnalyzes = null;
+	private volatile WorkspaceJob lastExtension = null;
 	// Internal variable to mark when project is being analyzed. Might not
 	// be useful any longer, but hard to check.
 	// TODO check if still required
@@ -626,10 +629,18 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob updateSyntax(final IFile file, final TTCN3ReparseUpdater reparser) {
-		final WorkspaceJob op = new WorkspaceJob("Updating the syntax incremantally for: " + file.getName()) {
+		final WorkspaceJob op = new WorkspaceJob("Updating the syntax incrementally for: " + file.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
+				final double parserStart = System.nanoTime();
+
 				syntacticAnalyzer.updateSyntax(file, reparser);
+
+				final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+				if (store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION)) {
+					TITANDebugConsole.println("Refreshing the syntax took " + (System.nanoTime() - parserStart) * (1e-9) + " secs");
+				}
+
 				return Status.OK_STATUS;
 			}
 		};
@@ -1007,7 +1018,8 @@ public final class ProjectSourceParser {
 		final ISchedulingRule rule = getSchedulingRule();
 		analyzes.setRule(rule);
 
-		if (fullAnalyzersRunning.get() > 0) {
+		final boolean alreadyRunning = fullAnalyzersRunning.get() > 0;
+		if (alreadyRunning) {
 			if (lastFullAnalyzes != null && lastFullAnalyzes.getState() != Job.RUNNING) {
 				lastFullAnalyzes.cancel();
 			}
@@ -1062,6 +1074,12 @@ public final class ProjectSourceParser {
 			extensions.setUser(false);
 		}
 		extensions.setRule(rule);
+		if (alreadyRunning) {
+			if (lastExtension != null && lastExtension.getState() != Job.RUNNING) {
+				lastExtension.cancel();
+			}
+			lastExtension = extensions;
+		}
 		extensions.schedule();
 
 		return extensions;

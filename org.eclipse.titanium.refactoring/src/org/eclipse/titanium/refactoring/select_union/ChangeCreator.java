@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -124,6 +124,11 @@ class ChangeCreator {
 	}
 
 	private void makeChange(final SelectCase_Statement statement, final MultiTextEdit rootEdit, final List<Reference> elements){
+		final List<SelectCase> scs = statement.getSelectCases().getSelectCaseArray();
+		if(scs.size() < elements.size()){
+			return;
+		}
+
 		// Insert the "union" word after the "select"
 		final ReplaceEdit insertUnion = new ReplaceEdit(statement.getLocation().getOffset()+6, 0, " union");
 
@@ -135,11 +140,7 @@ class ChangeCreator {
 		final ReplaceEdit changeExpression = new ReplaceEdit(statementBegin, statementEnd-statementBegin, elementName);
 
 		// Calculate the case branch changes
-		ReplaceEdit[] changeCases = new ReplaceEdit[elements.size()];
-		final List<SelectCase> scs = statement.getSelectCases().getSelectCaseArray();
-		if(scs.size() < elements.size()){
-			return;
-		}
+		final ReplaceEdit[] changeCases = new ReplaceEdit[elements.size()];
 		for(Integer i = 0; i < elements.size(); i++){
 			final int startOfIschosen = scs.get(i).getLocation().getOffset();
 			final int startOfStatement = scs.get(i).getStatementBlock().getLocation().getOffset();

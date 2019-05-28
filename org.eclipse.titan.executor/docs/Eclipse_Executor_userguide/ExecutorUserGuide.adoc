@@ -1,13 +1,13 @@
 ---
 Author: Jenő Balaskó
-Version: 5/198 17-CRL 113 200/6, Rev. E
-Date: 2018-12-03
+Version: 5/198 17-CRL 113 200/6, Rev. F
+Date: 2019-05-17
 
 ---
 = User Guide of the TITAN Executor for the Eclipse IDE plug-in
 :author: Jenő Balaskó
-:revnumber: 5/198 17-CRL 113 200/6, Rev. E
-:revdate: 2018-12-03
+:revnumber: 5/198 17-CRL 113 200/6, Rev. F
+:revdate: 2019-05-17
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -24,8 +24,8 @@ This document describes detailed information of using the TITAN Executor for the
 
 *Copyright*
 
-Copyright (c) 2000-2018 Ericsson Telecom AB. +
-All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0which accompanies this distribution, and is available at
+Copyright (c) 2000-2019 Ericsson Telecom AB. +
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 which accompanies this distribution, and is available at
 
 https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
@@ -40,7 +40,8 @@ ifdef::env-github,backend-html5[]
 * link:4-launching_the_test_suite.adoc[Launching the Test Suite]
 * link:5-executing_and_controlling_the_execution_of_test_su.adoc[Executing and Controlling the Execution of Test Suites]
 * link:6-other_available_functions.adoc[Other Available Functions]
-* link:7-references.adoc[References]
+* link:7-launching_TITAN_Java_projects.adoc[Launching TITAN Java Projects]
+* link:8-references.adoc[References]
 endif::[]
 
 ifndef::env-github,backend-html5[]
@@ -50,5 +51,6 @@ include::3-setting_workbench_preferences_and_project_properti.adoc[leveloffset=+
 include::4-launching_the_test_suite.adoc[leveloffset=+1]
 include::5-executing_and_controlling_the_execution_of_test_su.adoc[leveloffset=+1]
 include::6-other_available_functions.adoc[leveloffset=+1]
-include::7-references.adoc[leveloffset=+1]
+include::7-launching_TITAN_Java_projects.adoc[leveloffset=+1]
+include::8-references.adoc[leveloffset=+1]
 endif::[]

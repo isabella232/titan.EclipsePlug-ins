@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -216,16 +216,21 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	}
 
 	/**
-	 * @return true if the actual parameterlist can be generated into a single expression
+	 * @param formalParameterList
+	 *                the formal parameter list to use as reference.
+	 *
+	 * @return true if the actual parameterlist can be generated into a
+	 *         single expression
 	 * */
-	public boolean hasSingleExpression() {
+	public boolean hasSingleExpression(final FormalParameterList formalParameterList) {
 		if (parameters == null) {
 			return true;
 		}
 
 		for (int i = 0; i < parameters.size(); i++) {
 			final ActualParameter actualParameter = parameters.get(i);
-			if(!actualParameter.hasSingleExpression()) {
+			FormalParameter formalPar = formalParameterList == null ? null : formalParameterList.getParameterByIndex(i);
+			if(!actualParameter.hasSingleExpression(formalPar)) {
 				return false;
 			}
 		}

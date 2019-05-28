@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -206,7 +206,7 @@ class ChangeCreator {
 		job.schedule();
 		return job;
 	}
-	
+
 	public int insertField(final TTCN3_Set_Seq_Choice_BaseType ss, final ILocateableNode node, final MultiTextEdit rootEdit, int vmLen) {
 		final Location nodeLocation = node.getLocation();
 
@@ -238,7 +238,7 @@ class ChangeCreator {
 
 		private final NavigableSet<ILocateableNode> locations;
 		private final Type type;
-		
+
 		DefinitionVisitor(final Type type) {
 			locations = new TreeSet<ILocateableNode>(new LocationComparator());
 			this.type = type;
@@ -250,7 +250,6 @@ class ChangeCreator {
 
 		@Override
 		public int visit(final IVisitableNode node) {
-			
 			if (node instanceof Def_Type && ((Def_Type)node).getType(CompilationTimeStamp.getBaseTimestamp()).equals(type)) {
 				final Definition d = (Definition)node;
 				locations.add(d);
@@ -271,7 +270,6 @@ class ChangeCreator {
 			return V_CONTINUE;
 		}
 	}
-	
 
 	/**
 	 * Compares {@link ILocateableNode}s by comparing the file paths as strings.

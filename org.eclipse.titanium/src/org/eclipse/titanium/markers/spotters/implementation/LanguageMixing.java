@@ -50,7 +50,7 @@ public class LanguageMixing extends BaseProjectCodeSmellSpotter {
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 		final List<TTCN3Module> modules = new ArrayList<TTCN3Module>();
 		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-			Module module = projectSourceParser.getModuleByName(moduleName);
+			final Module module = projectSourceParser.getModuleByName(moduleName);
 			if(module instanceof TTCN3Module) {
 				modules.add((TTCN3Module) module);
 			}
@@ -65,10 +65,10 @@ public class LanguageMixing extends BaseProjectCodeSmellSpotter {
 
 		String lastLanguage = null;
 		TTCN3Module lastModule = null;
-		for (TTCN3Module module: modules) {
-			List<String> languageSpecifications = module.getLanguageSpecifictions();
-			if(languageSpecifications != null && languageSpecifications.size() > 0) {
-				String tempLanguage = languageSpecifications.get(0);
+		for (final TTCN3Module module: modules) {
+			final List<String> languageSpecifications = module.getLanguageSpecifictions();
+			if(languageSpecifications != null && !languageSpecifications.isEmpty()) {
+				final String tempLanguage = languageSpecifications.get(0);
 				if(tempLanguage != null) {
 					if(lastLanguage == null) {
 						lastLanguage = tempLanguage;

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -51,8 +51,6 @@ public class ExtractDefinitionAction extends AbstractHandler {
 			return null;
 		}
 
-		final TextSelection textSelection = (TextSelection)sel;
-
 		//getting selected def
 		final ExtractDefinitionRefactoring refactoring = new ExtractDefinitionRefactoring();
 		final Definition selectedDef = refactoring.getSelection();
@@ -64,7 +62,7 @@ public class ExtractDefinitionAction extends AbstractHandler {
 		}
 
 		final ExtractDefinitionWizard wiz = new ExtractDefinitionWizard(selectedDef.getIdentifier().getName());
-		//
+		final TextSelection textSelection = (TextSelection)sel;
 		final StructuredSelection ssel = new StructuredSelection(textSelection);
 		wiz.init(PlatformUI.getWorkbench(), ssel);
 		final WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), wiz);

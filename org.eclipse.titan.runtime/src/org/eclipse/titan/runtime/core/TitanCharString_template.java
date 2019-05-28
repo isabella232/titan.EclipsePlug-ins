@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -896,6 +896,18 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		is_ifPresent = param.get_ifpresent();
 		if (param.get_length_restriction() != null) {
 			set_length_range(param);
+		}
+	}
+	
+	//We cannot cast TitanCharStringTemplates to TitanCharString like C++
+	public TitanCharString castForPatterns() {
+		if (template_selection == template_sel.STRING_PATTERN) {
+			return new TitanCharString(single_value);
+		} else if (template_selection == template_sel.SPECIFIC_VALUE) {
+			return new TitanCharString(single_value);
+		} else {
+			//TODO: better error message
+			throw new TtcnError("Internal error: using a non-acceptable template for pattern cast.");
 		}
 	}
 

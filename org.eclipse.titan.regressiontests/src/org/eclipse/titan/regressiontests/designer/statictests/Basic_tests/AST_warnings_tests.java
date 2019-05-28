@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import org.junit.Test;
 
 public class AST_warnings_tests {
 
+	//ASNTypes_asn
 	//ASNValues_asn
 	//attribute_tests_ttcn
 	//expression_tests_ttcn
@@ -29,6 +30,11 @@ public class AST_warnings_tests {
 	//value_assignment_tests_ttcn
 	//value_tests_ttcn
 	//value_tests2_ttcn
+
+	@org.junit.Test
+	public void ASNTypes_asn() throws Exception {
+		Designer_plugin_tests.checkSemanticMarkersOnFile(ASNTypes_asn_initializer(), "src/Basic_tests/ASNTypes.asn");
+	}
 
 	@org.junit.Test
 	public void ASNValues_asn() throws Exception {
@@ -90,11 +96,21 @@ public class AST_warnings_tests {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(value_tests_ttcn_initializer(), "src/Basic_tests/value_tests.ttcn");
 	}
 
+	 private ArrayList<MarkerToCheck> ASNTypes_asn_initializer() {
+		//ASNTypes.asn
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>();
+		int lineNum = 5;
+		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  lineNum, IMarker.SEVERITY_WARNING));
+
+		return markersToCheck;
+	}
 
 	private ArrayList<MarkerToCheck> ASNValues_asn_initializer() {
 		//ASNValues.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(3);
-		int lineNum = 65;
+		int lineNum = 5;
+		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 60;
 		markersToCheck.add(new MarkerToCheck("Identifier `itu-t' or `ccitt' was expected instead of `qw' for number 0 in the NameAndNumberForm as the first OBJECT IDENTIFIER component",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Identifier `recommendation' was expected instead of `er' for number 0 in the NameAndNumberForm as the second OBJECT IDENTIFIER component",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Identifier 99 was expected instead of `ty' for number 3 in the NameAndNumberForm as the third OBJECT IDENTIFIER component",  lineNum, IMarker.SEVERITY_WARNING));

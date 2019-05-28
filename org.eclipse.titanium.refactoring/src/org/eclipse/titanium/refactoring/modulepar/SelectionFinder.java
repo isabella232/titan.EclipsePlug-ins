@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -52,7 +52,7 @@ public class SelectionFinder {
 	public void perform() {
 		modulePars = new HashSet<Def_ModulePar>();
 		final Collection<Module> modules = GlobalParser.getProjectSourceParser(project).getModules();
-		for (Module m: modules) {
+		for (final Module m: modules) {
 			final ModuleParFinder vis = new ModuleParFinder();
 			m.accept(vis);
 			modulePars.addAll(vis.getModulePars());
@@ -65,7 +65,7 @@ public class SelectionFinder {
 		}
 
 		final List<ModuleParListRecord> records = new ArrayList<ModuleParListRecord>();
-		for (Def_ModulePar def: modulePars) {
+		for (final Def_ModulePar def: modulePars) {
 			final IResource f = def.getLocation().getFile();
 			if (!(f instanceof IFile)) {
 				ErrorReporter.logError("ExtractModulePar/SelectionFinder: IResource `" + f.getName() + "' is not an IFile.");
@@ -79,7 +79,7 @@ public class SelectionFinder {
 		//
 		Collections.sort(records);
 		final StringBuilder sb = new StringBuilder();
-		for (ModuleParListRecord rec: records) {
+		for (final ModuleParListRecord rec: records) {
 			sb.append(rec.toString()).append('\n');
 		}
 		return sb.toString();

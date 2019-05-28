@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -92,7 +92,7 @@ public class ModuleGraphGenerator extends GraphGenerator {
 			final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 			final List<Module> modules = new ArrayList<Module>();
 			for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-				Module module = projectSourceParser.getModuleByName(moduleName);
+				final Module module = projectSourceParser.getModuleByName(moduleName);
 				modules.add(module);
 				final Identifier moduleID = module.getIdentifier();
 				globalKnownModules2.put(moduleName, moduleID);
@@ -112,13 +112,13 @@ public class ModuleGraphGenerator extends GraphGenerator {
 			final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 			final List<Module> modules = new ArrayList<Module>();
 			for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-				Module module = projectSourceParser.getModuleByName(moduleName);
+				final Module module = projectSourceParser.getModuleByName(moduleName);
 				modules.add(module);
 			}
-			for (Module module : modules) {
+			for (final Module module : modules) {
 				final ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
-				for (ModuleImportation im : importsCheck.getImports()) {
+				for (final ModuleImportation im : importsCheck.getImports()) {
 					final Identifier importIdentifier = im.getIdentifier();
 					if (!globalKnownModules.containsKey(importIdentifier.getName())) {
 						//add missing modules
@@ -155,7 +155,7 @@ public class ModuleGraphGenerator extends GraphGenerator {
 		@Override
 		public int visit(final IVisitableNode node) {
 			if(node instanceof ModuleImportation){
-				ModuleImportation mod = (ModuleImportation) node;
+				final ModuleImportation mod = (ModuleImportation) node;
 				setOfModules.add(mod);
 
 				return V_SKIP;

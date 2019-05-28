@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -170,6 +170,32 @@ public class TitanComponent extends Base_Type {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final int otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanComponent otherValue) {
+		return !operator_equals(otherValue);
 	}
 
 	// originally component cast operator
@@ -426,7 +452,7 @@ public class TitanComponent extends Base_Type {
 
 		if (self.get().componentValue == component_reference) {
 			return TTCN_Runtime.get_component_name();
-		} else if(localComponentNames.size() > 0) {
+		} else if(!localComponentNames.isEmpty()) {
 			int min = 0;
 			int max = localComponentNames.size() - 1;
 			while (min < max) {
@@ -454,4 +480,38 @@ public class TitanComponent extends Base_Type {
 	}
 
 	//FIXME implement set_param
+
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param left_value
+	 *                the first value.
+	 * @param right_value
+	 *                the second value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final int left_value, final TitanComponent right_value) {
+		right_value.must_bound("Unbound right operand of float comparison.");
+
+		return right_value.operator_equals(left_value);
+	}
+
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param left_value
+	 *                the first value.
+	 * @param right_value
+	 *                the second value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public static boolean operator_not_equals(final int left_value, final TitanComponent right_value) {
+		right_value.must_bound("Unbound right operand of float comparison.");
+
+		return right_value.operator_not_equals(left_value);
+	}
 }

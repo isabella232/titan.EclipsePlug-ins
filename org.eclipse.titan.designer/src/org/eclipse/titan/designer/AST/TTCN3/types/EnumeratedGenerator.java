@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -147,7 +147,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\treturn enum_num;\n");
 		source.append("\t\t\t}\n\n");
 		generateValueEnumGetValue(aData, source, helper);
-		source.append("\t\t\t}\n\n");
+		source.append("\t\t}\n\n");
 		// end of enum_type
 
 		//== enum_value ==
@@ -239,17 +239,17 @@ public final class EnumeratedGenerator {
 
 	private static void generateValueEnumGetValue(final JavaGenData aData, final StringBuilder source, final StringBuilder helper) {
 		if ( aData.isDebug() ) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Returns the enumeration type belonging to the value.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index\n");
-			source.append("\t\t *                the input value.\n");
-			source.append("\t\t * @return the enumeration type belonging to the input\n");
-			source.append("\t\t *         value if any, {@code UNKNOWN_VALUE} if the\n");
-			source.append("\t\t *         value indicates the unknown index and\n");
-			source.append("\t\t *         {@code UNBOUND_VALUE} if it indicates the\n");
-			source.append("\t\t *         unbound index.\n");
-			source.append("\t\t * */\n");
+			source.append("\t\t\t/**\n");
+			source.append("\t\t\t * Returns the enumeration type belonging to the value.\n");
+			source.append("\t\t\t *\n");
+			source.append("\t\t\t * @param index\n");
+			source.append("\t\t\t *                the input value.\n");
+			source.append("\t\t\t * @return the enumeration type belonging to the input\n");
+			source.append("\t\t\t *         value if any, {@code UNKNOWN_VALUE} if the\n");
+			source.append("\t\t\t *         value indicates the unknown index and\n");
+			source.append("\t\t\t *         {@code UNBOUND_VALUE} if it indicates the\n");
+			source.append("\t\t\t *         unbound index.\n");
+			source.append("\t\t\t * */\n");
 		}
 		source.append("\t\t\tpublic static enum_type getValue(final int index) {\n");
 		source.append("\t\t\t\tswitch (index) {\n");
@@ -412,15 +412,15 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
-		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
-		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
-		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
+		source.append("\t\t\t\t\tRAW_encode(p_td, root);\n");
+		source.append("\t\t\t\t\troot.put_to_buf(p_buf);\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -435,35 +435,35 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\traw_order_t order;\n");
-		source.append("\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
-		source.append("\t\t\t\tcase TOP_BIT_LEFT:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\tcase TOP_BIT_RIGHT:\n");
-		source.append("\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
-		source.append("\t\t\t\tif (rawr < 0) {\n");
-		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
-		source.append("\t\t\t\t\tswitch (temp) {\n");
-		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
-		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\traw_order_t order;\n");
+		source.append("\t\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_LEFT:\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_RIGHT:\n");
 		source.append("\t\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("\t\t\t\t\tif (rawr < 0) {\n");
+		source.append("\t\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
+		source.append("\t\t\t\t\t\tswitch (temp) {\n");
+		source.append("\t\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
+		source.append("\t\t\t\t\t\tcase ET_LEN_ERR:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -1376,13 +1376,15 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor(int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tif(value_list.get(i).match(otherValue)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ displayName +".\");\n");
 		source.append("\t\t\t}\n");
@@ -1463,7 +1465,8 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tif (legacy) {\n");
-		source.append("\t\t\t\t\tfor (int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\t\tfor (int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\t\tif (value_list.get(i).match_omit()) {\n");
 		source.append("\t\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t\t}\n");
@@ -1485,9 +1488,10 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -1495,6 +1499,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -1589,12 +1594,14 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\ttext_buf.push_int(single_value.getInt());\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(value_list.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:{\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tvalue_list.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of enumerated type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,9 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
@@ -39,6 +42,8 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
+import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
 
 /**
  * Expression type for
@@ -228,8 +233,6 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			final IReferenceChain referenceChain) {
 		// check reference1
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
-		// check reference2
-		checkExpressionOperand2(timestamp, expectedValue, referenceChain);
 
 		if (reference1 == null) {
 			setIsErroneous(true);
@@ -255,6 +258,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
 		case TYPE_REFERENCED:
+		case TYPE_REFD_SPEC:
+		case TYPE_SELECTION:
 		case TYPE_VERDICT:
 		case TYPE_PORT:
 		case TYPE_COMPONENT:
@@ -268,6 +273,17 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			break;
 		default:
 			break;
+		}
+
+		boolean attributeValidationDisabled = false;
+		try {
+			String property = getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY));
+			attributeValidationDisabled = property != null && "true".equals(property);
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		if (!attributeValidationDisabled){
+			type.checkCoding(timestamp, false, getMyScope().getModuleScope(), false, reference2.getLocation());
 		}
 
 		// check value3
@@ -383,58 +399,6 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 				setIsErroneous(true);
 			}
 			return;
-		}
-	}
-
-	/**
-	 * Checks the 2nd operand
-	 * out any_type
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param expectedValue
-	 *                the kind of value expected.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 */
-	private void checkExpressionOperand2( final CompilationTimeStamp timestamp,
-			final Expected_Value_type expectedValue,
-			final IReferenceChain referenceChain ) {
-		if (reference1 == null) {
-			setIsErroneous(true);
-			return;
-		}
-
-		final Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
-
-		if (temporalAssignment == null) {
-			setIsErroneous(true);
-			return;
-		}
-
-		IType temporalType = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference2, 1,
-				Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-		if (temporalType == null) {
-			setIsErroneous(true);
-			return;
-		}
-		temporalType = temporalType.getTypeRefdLast(timestamp);
-		switch (temporalType.getTypetype()) {
-		case TYPE_UNDEFINED:
-		case TYPE_NULL:
-		case TYPE_REFERENCED:
-		case TYPE_VERDICT:
-		case TYPE_PORT:
-		case TYPE_COMPONENT:
-		case TYPE_DEFAULT:
-		case TYPE_SIGNATURE:
-		case TYPE_FUNCTION:
-		case TYPE_ALTSTEP:
-		case TYPE_TESTCASE:
-			reference2.getLocation().reportSemanticError(OPERAND2_ERROR1);
-			setIsErroneous(true);
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -763,7 +727,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		}
 
 		final Scope scope = reference2.getMyScope();
-		final boolean isOptional = fieldType.fieldIsOptional(reference2.getSubreferences());
+		final boolean isOptional = type.fieldIsOptional(reference2.getSubreferences());
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
 		if (dynamicEncoding == null) {

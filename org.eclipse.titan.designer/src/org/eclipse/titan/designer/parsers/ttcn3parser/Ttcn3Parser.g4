@@ -2,7 +2,7 @@ parser grammar Ttcn3Parser;
 
 /*
  ******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -1514,7 +1514,29 @@ pr_MessageList[PortTypeBody body]:
 		pr_MessageListInOut[body]
 	)*
 |	pr_PortElementVarDef[body]
+|	m1 = pr_MapKeyword PARAM pr_LParen p = pr_FormalValueParList pr_RParen {
+		$p.parList.setLocation(getLocation($p.start, $p.stop));
+		$body.setMapParams( $p.parList );
+	}
+|	m2 = pr_UnmapKeyword PARAM pr_LParen p = pr_FormalValueParList pr_RParen {
+		$p.parList.setLocation(getLocation($p.start, $p.stop));
+		$body.setUnmapParams( $p.parList );
+	}
 );
+
+pr_FormalValueParList returns[FormalParameterList parList]
+@init {
+	$parList = null;
+	List<FormalParameter> parameters = new ArrayList<FormalParameter>();
+}:
+(	p = pr_FormalValuePar	{ if($p.parameter != null) { parameters.add($p.parameter); }}
+	(	pr_Comma
+		p = pr_FormalValuePar	{ if($p.parameter != null) { parameters.add($p.parameter); }}
+	)*
+)
+{
+	$parList = new FormalParameterList(parameters);
+};
 
 pr_MessageListIn[PortTypeBody body]:
 	t = pr_AllOrTypeList{ $body.addInTypes($t.types); }
@@ -2480,13 +2502,15 @@ pr_CharStringMatch returns[PatternString patternString]
 }:
 (	pr_PatternKeyword
 	(	pr_NoCaseModifier	{	noCase = true;	}	)?
-	pr_PatternChunk[builder, uni, noCase] { if (uni[0]) { $patternString.setPatterntype(PatternType.UNIVCHARSTRING_PATTERN); } }
+	p = pr_PatternChunk[builder, uni, noCase] { if (uni[0]) { $patternString.setPatterntype(PatternType.UNIVCHARSTRING_PATTERN); } }
 	(	STRINGOP
-		pr_PatternChunk[builder, uni, noCase]
+		p = pr_PatternChunk[builder, uni, noCase]
 	)*
 )
 {
 	$patternString.setContent(builder.toString());
+	$patternString.set_nocase(noCase);
+	$patternString.setLocation(getLocation($p.start, $p.stop));
 };
 
 pr_PatternKeyword:
@@ -4976,14 +5000,21 @@ pr_AllCompsAllPortsSpec returns[Connection_Helper helper]
 pr_MapStatement returns[Map_Statement statement]
 @init {
 	$statement = null;
+	ParsedActualParameters parameters = null;
 }:
 (	col = pr_MapKeyword
 	h = pr_SingleConnectionSpec
+	(	PARAM
+		pr_LParen
+		p = pr_FunctionActualParList	{ parameters = $p.parsedParameters; }
+		pr_RParen
+		{	parameters.setLocation(getLocation( $p.start, $p.stop)); }
+	)?
 )
 {
 	if($h.helper != null) {
 		$statement = new Map_Statement( $h.helper.componentReference1, new PortReference($h.helper.portReference1),
-									   $h.helper.componentReference2, new PortReference($h.helper.portReference2) );
+									   $h.helper.componentReference2, new PortReference($h.helper.portReference2), parameters);
 		$statement.setLocation(getLocation( $col.start, $h.stop));
 	}
 };
@@ -4996,9 +5027,16 @@ pr_UnmapStatement returns[Unmap_Statement statement]
 @init {
 	$statement = null;
 	Connection_Helper helper = null;
+	ParsedActualParameters parameters = null;
 }:
 (	col = pr_UnmapKeyword
 	(	h = pr_SingleOrMultiConnectionSpec { helper = $h.helper; }
+		(	PARAM
+			pr_LParen
+			p = pr_FunctionActualParList	{ parameters = $p.parsedParameters; }
+			pr_RParen
+			{	parameters.setLocation(getLocation( $p.start, $p.stop)); }
+		)?
 	|	{	reportUnsupportedConstruct( "Unmap operation on multiple mappings is not yet supported", $col.start, $col.stop );	}
 	)
 )
@@ -5006,7 +5044,7 @@ pr_UnmapStatement returns[Unmap_Statement statement]
 	if(helper != null && helper.componentReference1 != null &&
 		helper.portReference1 != null && helper.componentReference2 != null &&
 		helper.portReference2 != null) {
-		$statement = new Unmap_Statement(helper.componentReference1, new PortReference(helper.portReference1), helper.componentReference2, new PortReference(helper.portReference2));
+		$statement = new Unmap_Statement(helper.componentReference1, new PortReference(helper.portReference1), helper.componentReference2, new PortReference(helper.portReference2), parameters);
 		$statement.setLocation(getLocation( $col.start, $h.stop));
 	} else {
 		reportUnsupportedConstruct( "Unmap operation on multiple mappings is not yet supported", $col.start, $col.stop );

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -89,7 +89,6 @@ class SelectionFinder {
 			+ "return statements. "
 			+ "The operation might produce an erroneous result. ";
 
-	private IStatusLineManager statusLineManager;
 	private ITextSelection textSelection;
 	private ProjectSourceParser sourceParser;
 	private IProject project;
@@ -220,7 +219,7 @@ class SelectionFinder {
 		}
 
 		final TTCN3Editor targetEditor = (TTCN3Editor) editor;
-		statusLineManager = targetEditor.getEditorSite().getActionBars()
+		final IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars()
 				.getStatusLineManager();
 		// getting current selection
 		final ISelectionService selectionService = PlatformUI.getWorkbench().
@@ -307,10 +306,11 @@ class SelectionFinder {
 	}
 
 	private String readFileContents(final IFile toRead) {
-		final StringBuilder sb = new StringBuilder();
 		if (toRead == null || !toRead.exists()) {
 			return null;
 		}
+
+		final StringBuilder sb = new StringBuilder();
 		try {
 			final char[] buf = new char[1024];
 			final InputStream is = toRead.getContents();
@@ -359,17 +359,18 @@ class SelectionFinder {
 		 * only if the semicolon itself is selected).
 		 * */
 		private StatementList createStatementList(final ITextSelection textSel) {
-			final char SEMICOLON = ';';
 			final StatementList sl = new StatementList(statements);
 			if (textSel == null || sl.isEmpty()) {
 				return sl;
 			}
 
-			final String content = textSel.getText();
 			final int ind = sl.getLocation().getEndOffset() - textSel.getOffset();
 			if (ind < 0 || ind >= textSel.getLength()) {
 				return sl;
 			}
+
+			final String content = textSel.getText();
+			final char SEMICOLON = ';';
 			if (content.charAt(ind) != SEMICOLON) {
 				return sl;
 			}
@@ -649,7 +650,7 @@ class SelectionFinder {
 		sb.append("  Return clause: ");
 		sb.append(returnType == null ? "null" : returnType.getIdentifier());
 		sb.append("  Warnings: ");
-		for (RefactoringStatusEntry rse : warnings) {
+		for (final RefactoringStatusEntry rse : warnings) {
 			sb.append("severity: " + rse.getSeverity() + "; msg: "
 					+ rse.getMessage());
 			sb.append('\n');

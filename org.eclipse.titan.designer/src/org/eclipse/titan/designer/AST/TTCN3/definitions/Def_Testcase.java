@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -141,12 +141,8 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public String getOutlineText() {
-		if (lastTimeChecked == null) {
-			check(CompilationTimeStamp.getBaseTimestamp());
-		}
-
 		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
-		if (formalParList == null) {
+		if (formalParList == null || lastTimeChecked == null) {
 			return text.toString();
 		}
 
@@ -601,8 +597,10 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("// intentionally empty\n");
 		source.append("} catch (TC_End error) {\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_str(TTCN_Logger.Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
-		source.append("} finally {\n");
-		getLocation().release_location_object(aData, source);
+		if (aData.getAddSourceInfo()) {
+			source.append("} finally {\n");
+			getLocation().release_location_object(aData, source);
+		}
 		source.append("}\n");
 		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
 		source.append( "}\n" );

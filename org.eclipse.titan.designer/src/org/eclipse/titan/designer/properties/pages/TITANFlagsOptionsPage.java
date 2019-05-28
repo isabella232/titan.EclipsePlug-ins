@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -34,6 +34,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button disableOER;
 	private Button forceXER;
 	private Button disableSubtypeChecking;
+	private Button disableAttributeValidation;
 	private Button defaultAsOmit;
 	//private Button enumHack;
 	private Button forceOldFuncOutPar;
@@ -52,8 +53,8 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button forceGenSeof;
 	private Button activateDebugger;
 
-	//private Composite namingRuleComposite;
-	//private ComboFieldEditor namingRules;
+	//private Composite namingRuleComposite; //TODO: check: is this obsolete?
+	//private ComboFieldEditor namingRules;  //TODO: check: is this obsolete?
 
 	private final boolean CBuilder;
 
@@ -80,6 +81,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 				disableOER.dispose();
 				forceXER.dispose();
 				disableSubtypeChecking.dispose();
+			}
+
+			disableAttributeValidation.dispose();
+			if (CBuilder) {
 				defaultAsOmit.dispose();
 				forceOldFuncOutPar.dispose();
 				gccMessageFormat.dispose();
@@ -145,11 +150,14 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 			forceXER = new Button(mainComposite, SWT.CHECK);
 			forceXER.setText("Force XER in ASN.1 files (-a)");
-		
 
 			disableSubtypeChecking = new Button(mainComposite, SWT.CHECK);
 			disableSubtypeChecking.setText("Disable subtype checking (-y)");
-	
+		}
+
+		disableAttributeValidation = new Button(mainComposite,  SWT.CHECK);
+		disableAttributeValidation.setText("Disable attribute validation (-0)");
+		if (CBuilder) {	
 			defaultAsOmit = new Button(mainComposite, SWT.CHECK);
 			defaultAsOmit.setText("Treat default fields as omit (-d)");
 		
@@ -227,6 +235,11 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			disableOER.setEnabled(enabled);
 			forceXER.setEnabled(enabled);
 			disableSubtypeChecking.setEnabled(enabled);
+		}
+
+		disableAttributeValidation.setEnabled(enabled);
+
+		if (CBuilder) {
 			defaultAsOmit.setEnabled(enabled);
 			forceOldFuncOutPar.setEnabled(enabled);
 			gccMessageFormat.setEnabled(enabled);
@@ -319,6 +332,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			disableOER.setSelection(false);
 			forceXER.setSelection(false);
 			disableSubtypeChecking.setSelection(false);
+		}
+
+		disableAttributeValidation.setSelection(false);
+		if (CBuilder) {
 			defaultAsOmit.setSelection(false);
 			forceOldFuncOutPar.setSelection(false);
 			gccMessageFormat.setSelection(false);
@@ -401,7 +418,12 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY));
 				disableSubtypeChecking.setSelection("true".equals(temp) ? true : false);
+			}
 
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY));
+			disableAttributeValidation.setSelection("true".equals(temp) ? true : false);
+			if (CBuilder) {
 				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						TITANFlagsOptionsData.DEFAULT_AS_OMIT_PROPERTY));
 				defaultAsOmit.setSelection("true".equals(temp) ? true : false);
@@ -475,6 +497,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 				activateDebugger.setSelection("true".equals(temp) ? true : false);
+
 			}
 		} catch (CoreException e) {
 			performDefaults();
@@ -498,6 +521,11 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 				setProperty(project, TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY, forceXER.getSelection() ? "true" : "false");
 				setProperty(project, TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY, disableSubtypeChecking.getSelection() ? "true"
 						: "false");
+			}
+
+			setProperty(project, TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY, disableAttributeValidation.getSelection() ? "true"
+					: "false");
+			if (CBuilder) {
 				setProperty(project, TITANFlagsOptionsData.DEFAULT_AS_OMIT_PROPERTY, defaultAsOmit.getSelection() ? "true" : "false");
 				setProperty(project, TITANFlagsOptionsData.FORCE_OLD_FUNC_OUT_PAR_PROPERTY, forceOldFuncOutPar.getSelection() ? "true" : "false");
 				setProperty(project, TITANFlagsOptionsData.GCC_MESSAGE_FORMAT_PROPERTY, gccMessageFormat.getSelection() ? "true" : "false");
@@ -528,6 +556,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			if (CBuilder) {
 				setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
 			}
+
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return false;

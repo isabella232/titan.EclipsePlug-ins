@@ -1,12 +1,12 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
 package org.eclipse.titan.designer.wizards;
-/*
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -49,7 +49,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
-*/
+
 
 /**
  * This is temporal/experimental code for a new project wizard for a new feature.
@@ -57,8 +57,8 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
  *   CQ request is on the way for the new dependencies.
  *   Users should not be able to activate this feature before it is ready and stable.
  * */
-public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implements IExecutableExtension*/ {
-/*	private static final String NEWPROJECT_WINDOWTITLE = "New TITAN Java Project";
+public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements IExecutableExtension {
+	private static final String NEWPROJECT_WINDOWTITLE = "New TITAN Java Project";
 	private static final String NEWPROJECT_TITLE = "Create a TITAN Java Project";
 	private static final String NEWPROJECT_DESCRIPTION = "Create a new TITAN Java project in the workspace or in an external location";
 	private static final String CREATING_PROJECT = "creating project";
@@ -329,5 +329,5 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 		return true;
 	}
-*/
+
 }

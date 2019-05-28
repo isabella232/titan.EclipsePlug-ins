@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -562,7 +562,6 @@ public class TitanOctetString extends Base_Type {
 
 		val_ptr = new char[n_octets];
 		if (n_octets > 0) {
-			
 			final byte[] temp = new byte[n_octets];
 			text_buf.pull_raw(n_octets, temp);
 			for (int i = 0; i < n_octets; i++) {
@@ -914,7 +913,7 @@ public class TitanOctetString extends Base_Type {
 	 *                the number of characters to shift right.
 	 * @return the new octetstring.
 	 * */
-	public TitanOctetString shift_right(final TitanInteger shift_count){
+	public TitanOctetString shift_right(final TitanInteger shift_count) {
 		shift_count.must_bound("Unbound right operand of octetstring shift right operator.");
 
 		return shift_right(shift_count.get_int());

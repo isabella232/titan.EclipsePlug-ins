@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -35,11 +35,8 @@ import org.eclipse.ui.PlatformUI;
  *
  * @author Viktor Varga
  */
-public class ContextLoggingActionFromEditor extends AbstractHandler {
+public final class ContextLoggingActionFromEditor extends AbstractHandler {
 	private static final String ERR_MSG_NO_SELECTION = "Empty selection! ";
-
-	private TextSelection selection;
-	private IStatusLineManager statusLineManager;
 
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
@@ -54,7 +51,7 @@ public class ContextLoggingActionFromEditor extends AbstractHandler {
 			return null;
 		}
 		// getting status line manager
-		statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
+		final IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
 
 		// getting selected file
 		final IFile selectedFile = Utils.getSelectedFileInEditor("MinimizeVisibility");
@@ -73,7 +70,8 @@ public class ContextLoggingActionFromEditor extends AbstractHandler {
 					" selection is not a TextSelection");
 			return null;
 		}
-		selection = (TextSelection)sel;
+
+		final TextSelection selection = (TextSelection)sel;
 
 		//
 		ContextLoggingRefactoring refactoring;

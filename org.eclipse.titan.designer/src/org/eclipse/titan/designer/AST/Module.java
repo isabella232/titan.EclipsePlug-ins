@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -373,6 +373,17 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	public Declaration getDeclaration() {
 		return Declaration.createInstance(this);
 	}
+
+	/**
+	 * Tells if the modules should be generated or not.
+	 * <p>
+	 * This is an overestimation helping with pre-filtering. The actual code
+	 * generated might still be the one as before.
+	 *
+	 * @return {@code true} if the module should be generated, {@code false}
+	 *         otherwise.
+	 * */
+	public abstract boolean shouldBeGenerated();
 
 	/**
 	 * Add generated java code for this module.

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,7 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 
 public class UnusedStartedRefFuncRetVal extends BaseModuleCodeSmellSpotter {
 	private static final String PROBLEM = "Return type of function type `{0}'' is `{1}'', which does not have the `done'' extension attibute."
-			+ "When the test component terminates the returnes value cannot be retrived with a `done'' operation";
+			+ "When the test component terminates the returned value cannot be retrived with a `done'' operation";
 
 	public UnusedStartedRefFuncRetVal() {
 		super(CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES);
@@ -37,7 +37,6 @@ public class UnusedStartedRefFuncRetVal extends BaseModuleCodeSmellSpotter {
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Start_Referenced_Component_Statement) {
-			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			final Start_Referenced_Component_Statement s = (Start_Referenced_Component_Statement) node;
 
 			final Value dereferredValue = s.getDereferredValue();
@@ -58,6 +57,7 @@ public class UnusedStartedRefFuncRetVal extends BaseModuleCodeSmellSpotter {
 				break;
 			}
 
+			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			IType type = dereferredValue.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (type != null) {
 				type = type.getTypeRefdLast(timestamp);

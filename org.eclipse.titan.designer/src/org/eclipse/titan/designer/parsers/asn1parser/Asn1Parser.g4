@@ -37,7 +37,7 @@ parser grammar Asn1Parser;
 
 /*
 ******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -236,7 +236,7 @@ locals [Identifier identifier, Tag_types defaultTagging, boolean extensionImplie
 	DEFINITIONS
 	b = pr_TagDefault { $defaultTagging = $b.defaultTagging; }
 	c = pr_ExtensionDefault { $extensionImplied = $c.implied; 
-					//reportUnsupportedConstruct( "Extensibility implied is not yet supported.", $c.start, $c.stop );
+					reportUnsupportedConstruct( "EXTENSIBILITY IMPLIED is not supported.", $c.start, $c.stop );
 				}
 	ASSIGNMENT
 	{

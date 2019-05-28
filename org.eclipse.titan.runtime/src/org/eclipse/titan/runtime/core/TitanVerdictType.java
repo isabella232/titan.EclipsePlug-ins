@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -108,6 +108,25 @@ public class TitanVerdictType extends Base_Type {
 	 *                the other value to check against.
 	 * @return {@code true} if the values are equivalent.
 	 */
+	public boolean operator_equals(final VerdictTypeEnum otherValue) {
+		must_bound("The left operand of comparison is an unbound verdict value.");
+
+		if (!is_valid(otherValue)) {
+			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + otherValue + ").");
+		}
+
+		return verdict_value == otherValue;
+	}
+
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * operator== in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
 	public boolean operator_equals(final TitanVerdictType otherValue) {
 		must_bound("The left operand of comparison is an unbound verdict value.");
 		otherValue.must_bound("The right operand of comparison is an unbound verdict value.");
@@ -125,22 +144,48 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	/**
-	 * Checks if the current value is equivalent to the provided one.
+	 * Checks if the current value is not equivalent to the provided one.
 	 *
-	 * operator== in the core
+	 * operator!= in the core
 	 *
 	 * @param otherValue
 	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
+	 * @return {@code true} if the values are not equivalent.
 	 */
-	public boolean operator_equals(final VerdictTypeEnum otherValue) {
-		must_bound("The left operand of comparison is an unbound verdict value.");
+	public boolean operator_not_equals(final VerdictTypeEnum otherValue) {
+		return !operator_equals(otherValue);
+	}
 
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public boolean operator_not_equals(final TitanVerdictType otherValue) {
+		return !operator_equals(otherValue);
+	}
+
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public TitanVerdictType operator_assign(final VerdictTypeEnum otherValue) {
 		if (!is_valid(otherValue)) {
-			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + otherValue + ").");
+			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ").");
 		}
 
-		return verdict_value == otherValue;
+		verdict_value = otherValue;
+		return this;
 	}
 
 	/**
@@ -170,25 +215,6 @@ public class TitanVerdictType extends Base_Type {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
-	}
-
-	/**
-	 * Assigns the other value to this value.
-	 * Overwriting the current content in the process.
-	 *<p>
-	 * operator= in the core.
-	 *
-	 * @param otherValue
-	 *                the other value to assign.
-	 * @return the new value object.
-	 */
-	public TitanVerdictType operator_assign(final VerdictTypeEnum otherValue) {
-		if (!is_valid(otherValue)) {
-			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ").");
-		}
-
-		verdict_value = otherValue;
-		return this;
 	}
 
 	/**
@@ -261,6 +287,21 @@ public class TitanVerdictType extends Base_Type {
 		other_value.must_bound("The right operand of comparison is an unbound verdict value.");
 
 		return par_value == other_value.get_value();
+	}
+
+	/**
+	 * Checks if the first value is not equivalent to the second one.
+	 *
+	 * static operator!= in the core
+	 *
+	 * @param par_value
+	 *                the first value.
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if the values are not equivalent.
+	 */
+	public static boolean operator_not_equals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
+		return !operator_equals(par_value, other_value);
 	}
 
 	//TODO: implement VERDICTTYPE::get_param()

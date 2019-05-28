@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -41,7 +41,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.ORG_IMPORT_METHOD, OrganizeImportPreferencePage.JUST_CHANGE);
 
 		// Code smells
+
 		preferenceStore.setDefault(ProblemTypePreference.STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS.getPreferenceName(), GeneralConstants.WARNING);
+
+		preferenceStore.setDefault(ProblemTypePreference.CONNECTION_DETECTOR.getPreferenceName(), GeneralConstants.ERROR);
+
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_IMPORT.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_LOCAL_DEFINITION.getPreferenceName(), GeneralConstants.WARNING);
@@ -102,6 +106,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.SELECT_WITH_NUMBERS_SORTED.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.ON_THE_FLY_SMELLS, false);
 		preferenceStore.setDefault(ProblemTypePreference.UNNECESSARY_ARRAYS.getPreferenceName(), GeneralConstants.WARNING);
+		preferenceStore.setDefault(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES.getPreferenceName(), GeneralConstants.WARNING);
 
 		// Initialize default values of metrics
 		for (final IMetricEnum metric : MetricGroup.knownMetrics()) {

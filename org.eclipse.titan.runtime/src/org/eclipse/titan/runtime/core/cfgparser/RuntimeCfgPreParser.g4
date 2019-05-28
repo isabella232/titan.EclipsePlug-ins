@@ -2,7 +2,7 @@ parser grammar RuntimeCfgPreParser;
 
 /*
  ******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -437,6 +437,7 @@ pr_PlainLoggingParam:
 |	EMERGENCYLOGGING ASSIGNMENTCHAR	pr_NaturalNumber
 |	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR pr_BufferAllOrMasked
 |	EMERGENCYLOGGINGMASK ASSIGNMENTCHAR	pr_LoggingBitMask
+|	EMERGENCYLOGGINGFORFAILVERDICT ASSIGNMENTCHAR pr_YesNoOrBoolean
 )
 ;
 
@@ -703,7 +704,6 @@ pr_SimpleValue:
 pr_TestportName:
 (	pr_Identifier
 	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
-		//TODO: it can be changed to pr_IndexItemIndex, also in config_process.y
 	)*
 |	STAR
 )
@@ -749,12 +749,20 @@ pr_IntegerPrimaryExpression:
 pr_NaturalNumber:
 (	NATURAL_NUMBER
 |	pr_MacroNaturalNumber
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
 pr_MPNaturalNumber:
 (	NATURAL_NUMBER
+|	pr_MacroNaturalNumber
+)
+;
+
+pr_MPSignedInteger:
+(	(	PLUS
+	|	MINUS
+	)?
+	NATURAL_NUMBER
 |	pr_MacroNaturalNumber
 )
 ;
@@ -776,15 +784,13 @@ pr_CString:
 (	STRING
 |	pr_MacroCString
 |	pr_MacroExpliciteCString
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
 pr_MPCString:
 (	STRING
-|	(	pr_MacroCString
-	|	pr_MacroExpliciteCString
-	)
+|	pr_MacroCString
+|	pr_MacroExpliciteCString
 )
 ;
 
@@ -926,12 +932,14 @@ pr_LengthMatch:
 ;
 
 pr_LengthBound:
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 ;
 
 pr_SimpleParameterValue:
 (	pr_MPNaturalNumber
 |	pr_MPFloat
+|	NANKEYWORD
+|	INFINITYKEYWORD
 |	pr_Boolean
 |	pr_ObjIdValue
 |	pr_VerdictValue
@@ -939,7 +947,7 @@ pr_SimpleParameterValue:
 |	pr_HStringValue
 |	pr_OStringValue
 |	pr_MPCString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 |	OMITKEYWORD
 |	pr_NULLKeyword
 |	MTCKEYWORD
@@ -974,7 +982,7 @@ pr_ParameterNameSegment:
 
 pr_IndexItemIndex:
 	SQUAREOPEN
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	SQUARECLOSE
 ;
 
@@ -1013,14 +1021,20 @@ pr_ArithmeticPrimaryExpression:
 pr_Float:
 (	FLOAT
 |	MACRO_FLOAT
-|	TTCN3IDENTIFIER // module parameter name
 )
 ;
 
 pr_MPFloat:
 (	FLOAT
-|	NANKEYWORD
-|	INFINITYKEYWORD
+|	MACRO_FLOAT
+)
+;
+
+pr_MPSignedFloat:
+(	(	PLUS
+	|	MINUS
+	)?
+	FLOAT
 |	MACRO_FLOAT
 )
 ;
@@ -1040,8 +1054,8 @@ pr_ObjIdValue:
 ;
 
 pr_ObjIdComponent:
-(	pr_NaturalNumber
-|	pr_Identifier LPAREN	pr_NaturalNumber RPAREN
+(	pr_MPNaturalNumber
+|	pr_Identifier LPAREN	pr_MPNaturalNumber RPAREN
 )
 ;
 
@@ -1096,26 +1110,48 @@ pr_OString:
 
 pr_UniversalOrNotStringValue:
 (	pr_CString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 )
 (	STRINGOP
 	(	pr_CString
-	|	pr_Quadruple
+	|	pr_UniversalCharstringValue
 	)
 )*
+;
+
+pr_UniversalCharstringValue:
+	pr_Quadruple
+|	pr_USI
 ;
 
 pr_Quadruple:
 	CHARKEYWORD
 	LPAREN
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	COMMA
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	COMMA
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	COMMA
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	RPAREN
+;
+
+pr_USI:
+	CHARKEYWORD
+	LPAREN
+	pr_UID
+	(	COMMA
+		pr_UID
+	)*
+	RPAREN
+;
+
+pr_UID:
+(	//min 1 max 8 hex digits
+	UID
+|	TTCN3IDENTIFIER
+)
 ;
 
 pr_EnumeratedValue:
@@ -1201,12 +1237,12 @@ pr_IndexValue:
 pr_IntegerRange:
 	LPAREN
 	EXCLUSIVE?
-	(	pr_IntegerValueExpression
+	(	pr_MPSignedInteger
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	EXCLUSIVE?
-	(	pr_IntegerValueExpression
+	(	pr_MPSignedInteger
 	|	INFINITYKEYWORD
 	)
 	RPAREN
@@ -1215,47 +1251,15 @@ pr_IntegerRange:
 pr_FloatRange:
 	LPAREN
 	EXCLUSIVE?
-	(	pr_FloatValueExpression
+	(	pr_MPSignedFloat
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	EXCLUSIVE?
-	(	pr_FloatValueExpression
+	(	pr_MPSignedFloat
 	|	INFINITYKEYWORD
 	)
 	RPAREN
-;
-
-pr_FloatValueExpression:
-	pr_FloatAddExpression
-;
-
-pr_FloatAddExpression:
-	pr_FloatMulExpression
-	(	(	PLUS	pr_FloatMulExpression
-		|	MINUS	pr_FloatMulExpression
-		)
-	)*
-;
-
-pr_FloatMulExpression:
-	pr_FloatUnaryExpression
-	(	STAR	pr_FloatUnaryExpression
-	|	SLASH	pr_FloatUnaryExpression
-	)*
-;
-
-pr_FloatUnaryExpression:
-	(	PLUS
-	|	MINUS
-	)*
-	pr_FloatPrimaryExpression
-;
-
-pr_FloatPrimaryExpression:
-(	pr_Float
-|	LPAREN pr_FloatAddExpression RPAREN
-)
 ;
 
 pr_StringRange:
@@ -1277,7 +1281,7 @@ pr_PatternChunkList:
 
 pr_PatternChunk:
 	pr_CString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 ;
 
 pr_BStringMatch:

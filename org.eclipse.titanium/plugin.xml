@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2000-2018 Ericsson Telecom AB
+ Copyright (c) 2000-2019 Ericsson Telecom AB
 
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v2.0
@@ -23,6 +23,12 @@
       contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
       default="false" icon="resources/icons/titan.gif"
       id="org.eclipse.titanium.graph.editors.ComponentGraphEditor" name="component dependency graph">
+    </editor>
+    <editor
+      class="org.eclipse.titanium.graph.gui.windows.ComponentTopologyGraphEditor"
+      contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+      default="false" icon="resources/icons/titan.gif"
+      id="org.eclipse.titanium.graph.editors.ComponentTopologyGraphEditor" name="testcase components">
     </editor>
   </extension>
   <extension point="org.eclipse.ui.views">
@@ -202,6 +208,9 @@
       description="Add necessary and remove unused imports. Effects of this action can be tuned in the Titanium &gt; Imports preference page."
       id="org.eclipse.titanium.commands.OrganizeImportsCommand" name="Organize imports" />
     <command categoryId="org.eclipse.titanium.commands.Commands"
+      description="List what is running on this component"
+      id="org.eclipse.titanium.commands.ListRunningonDefinitionsCommand" name="List Running on Definitions" />
+    <command categoryId="org.eclipse.titanium.commands.Commands"
       description="Check a module for code smells" id="org.eclipse.titanium.commands.CheckCodeSmellsCommand"
       defaultHandler="org.eclipse.titanium.actions.CheckCodeSmells"
       name="Check code smells" />
@@ -226,6 +235,13 @@
     <command defaultHandler="org.eclipse.titanium.actions.ExportProblems"
       id="org.eclipse.titanium.actions.ExportProblems" name="ExportMarkers">
     </command>
+    <command defaultHandler="org.eclipse.titanium.actions.ModuleGraphFromBrowser"
+      id="org.eclipse.titanium.actions.ModuleGraphFromBrowser" name="ModuleGraphFromBrowser">
+    </command>
+    <command defaultHandler="org.eclipse.titanium.actions.ModuleGraphFromEditor"
+      id="org.eclipse.titanium.actions.ModuleGraphFromEditor" name="ModuleGraphFromEditor">
+    </command>
+    
     <command defaultHandler="org.eclipse.titanium.actions.ExportDataForSonarAction"
       id="org.eclipse.titanium.actions.ExportDataForSonarAction" name="ExportDataForSonarAction">
     </command>
@@ -241,9 +257,12 @@
     <command defaultHandler="org.eclipse.titanium.actions.OrganizeFromEditor"
       id="org.eclipse.titanium.commands.OrganizeImports" name="OrganizeImports">
     </command>
-    <command defaultHandler="org.eclipse.titanium.actions.ComponentFinderFromEditor"
-      id="org.eclipse.titanium.commands.ComponentFinder" name="ComponentFinder">
+    <command defaultHandler="org.eclipse.titanium.actions.ListRunningonDefinitionsFromEditor"
+      id="org.eclipse.titanium.commands.ListRunningonDefinitions" name="List Running on Definitions">
     </command>
+    <!-- command defaultHandler="org.eclipse.titanium.actions.ExportComponentTopologyFromEditor"
+      id="org.eclipse.titanium.commands.ComponentTopology" name="ComponentTopology">
+    </command -->
   </extension>
 
   <!-- Key bindings -->
@@ -384,6 +403,20 @@
             </with>
           </visibleWhen>
         </command>
+        <command commandId="org.eclipse.titanium.actions.ModuleGraphFromBrowser"
+          label="Show module in Module hierarchy" mode="FORCE_TEXT">
+          <visibleWhen checkEnabled="false">
+            <with variable="selection">
+              <iterate operator="or">
+                <adapt type="org.eclipse.core.resources.IFile">
+                  <test property="org.eclipse.core.resources.projectNature"
+                    value="org.eclipse.titan.designer.core.TITANNature">
+                  </test>
+                </adapt>
+              </iterate>
+            </with>
+          </visibleWhen>
+        </command>
         <command commandId="org.eclipse.titanium.actions.ExportDataForSonarAction"
           label="Export data for SonarQube" mode="FORCE_TEXT">
           <visibleWhen checkEnabled="false">
@@ -437,10 +470,18 @@
           icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.OrganizeImports"
           label="Organize imports">
         </command>
-        <command commandId="org.eclipse.titanium.commands.ComponentFinder"
-          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentFinder"
-          label="Component finder">
+         <command commandId="org.eclipse.titanium.actions.ModuleGraphFromEditor"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.actions.ModuleGraphFromEditor"
+          label="Show module in Module hierarchy">
         </command>
+        <command commandId="org.eclipse.titanium.commands.ListRunningonDefinitions"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ListRunningonDefinitions"
+          label="List what is running on this component">
+        </command>
+        <!-- command commandId="org.eclipse.titanium.commands.ComponentTopology"
+          icon="resources/icons/titan.gif" id="org.eclipse.titanium.commands.ComponentTopology"
+          label="Export component topology">
+        </command -->
       </menu>
     </menuContribution>
   </extension>
@@ -460,5 +501,4 @@
       </run>
     </application>
   </extension>
-  
 </plugin>

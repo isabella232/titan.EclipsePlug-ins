@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -354,6 +355,21 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				if (Assignment_type.A_PAR_TIMER.semanticallyEquals(parameter.getAssignmentType())
 						&& Assignment_type.A_PAR_PORT.semanticallyEquals(parameter.getAssignmentType())) {
 					parameter.getLocation().reportSemanticError("A testcase cannot have " + parameter.getAssignmentName());
+				}
+			} else if (Assignment_type.A_PORT.semanticallyEquals(definitionType)) {
+				switch (parameter.getAssignmentType()) {
+				case A_PAR_VAL:
+				case A_PAR_VAL_IN:
+				case A_PAR_VAL_OUT:
+				case A_PAR_VAL_INOUT: {
+					final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+					parameter.getType(CompilationTimeStamp.getBaseTimestamp()).checkMapParameter(timestamp, refChain, parameter.getLocation());
+					refChain.release();
+					break;
+				}
+				default:
+					parameter.getLocation().reportSemanticError(MessageFormat.format("The `map'/`unmap' parameters of a port type cannot have {0}", parameter.getAssignmentName()));
+					break;
 				}
 			} else {
 				// everything is allowed for functions and altsteps

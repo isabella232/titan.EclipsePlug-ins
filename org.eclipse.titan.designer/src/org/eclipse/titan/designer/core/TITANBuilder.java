@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -697,7 +697,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 	 *                a table of builder-specific arguments keyed by
 	 *                argument name
 	 * @param monitor
-	 *                the progress monitor to report errors to.
+	 *                the progress monitor to report progress to.
 	 * @return the list of projects for which this builder would like deltas
 	 *         the next time it is run or <code>null</code> if none
 	 * @exception CoreException
@@ -792,7 +792,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			initialisationMonitor.done();
 			progress.done();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as the builder does not seem to be enabled.");
 			}
 			return project.getReferencedProjects();
 		}
@@ -804,7 +804,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			initialisationMonitor.done();
 			progress.done();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as the working directory is not defined.");
 			}
 			return project.getReferencedProjects();
 		}
@@ -878,7 +878,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			initialisationMonitor.done();
 			progress.done();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as there were no resource changes.");
 			}
 			return project.getReferencedProjects();
 		}
@@ -936,7 +936,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		if (files.isEmpty() && visitor.getCentralStorageFiles().isEmpty() && filesOfReferencedProjects.isEmpty()) {
 			buildJob.schedule();
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("Finished building " + project.getName());
+				TITANDebugConsole.println("Finished building " + project.getName() + " as no files to build were found.");
 			}
 			return project.getReferencedProjects();
 		}
@@ -1020,7 +1020,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			String dynamicLinking = project.getPersistentProperty(
 					new QualifiedName(ProjectBuildPropertyData.QUALIFIER, MakefileCreationData.DYNAMIC_LINKING_PROPERTY));
 			// Setting proper command for the build level.
-			String makeCommand = null;
+			String makeCommand = "default";
 			if (MakeAttributesData.BUILD_LEVEL_5.equals(buildLevel)) {
 				command.add(MAKE_DEP);
 				makeCommand = MAKE_DEP;

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -186,6 +186,9 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				"Visibility attributes should not be mentioned in the names of the definitions\n"
 						+ "They should be explicitly set as visibility attributes of the definition");
 		m.put(ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION, "When runs on component is never used.");
+		m.put(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES,
+				"Groups without attributes might indicate design issues.");
+		m.put(ProblemTypePreference.CONNECTION_DETECTOR, "When out messages list of port is empty");
 
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);
 	}
@@ -243,6 +246,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.PRIVATE_VALUE_VIA_PUBLIC);
 			createField(comp, ProblemTypePreference.VISIBILITY_IN_DEFINITION);
 			createField(comp, ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION);
+			createField(comp, ProblemTypePreference.CONNECTION_DETECTOR);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(true);
@@ -325,6 +329,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.ISVALUE_WITH_VALUE);
 			createField(comp, ProblemTypePreference.ITERATE_ON_WRONG_ARRAY);
 			createField(comp, ProblemTypePreference.READING_OUT_PAR_BEFORE_WRITTEN);
+			createField(comp, ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(false);

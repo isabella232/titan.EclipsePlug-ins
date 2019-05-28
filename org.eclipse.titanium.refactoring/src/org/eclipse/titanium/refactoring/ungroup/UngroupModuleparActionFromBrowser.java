@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -56,8 +56,6 @@ public class UngroupModuleparActionFromBrowser extends AbstractHandler implement
 	}
 
 	private void performUngroupModulepar() {
-		// getting the active editor
-		final TTCN3Editor targetEditor = Utils.getActiveEditor();
 		//find selection
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
@@ -69,6 +67,8 @@ public class UngroupModuleparActionFromBrowser extends AbstractHandler implement
 		Utils.updateASTBeforeRefactoring(projsToUpdate, "UngroupModulepar");
 		Activator.getDefault().pauseHandlingResourceChanges();
 
+		// getting the active editor
+		final TTCN3Editor targetEditor = Utils.getActiveEditor();
 		//create refactoring
 		final UngroupModuleparRefactoring refactoring = new UngroupModuleparRefactoring(structSelection);
 		//open wizard

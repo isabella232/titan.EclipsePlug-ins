@@ -1,11 +1,14 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
@@ -17,7 +20,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
  *
  * @author Kristof Szabados
  */
-public class Runtime_Parallel_main {
+public final class Runtime_Parallel_main {
 
 	private Runtime_Parallel_main() {
 		// private constructor to disable accidental instantiation
@@ -41,7 +44,6 @@ public class Runtime_Parallel_main {
 		try {
 			TTCN_Snapshot.initialize();
 			TTCN_Logger.initialize_logger();
-			TTCN_Logger.set_executable_name();
 			TTCN_Logger.set_start_time();
 
 			try {
@@ -51,8 +53,15 @@ public class Runtime_Parallel_main {
 			} catch (TtcnError error) {
 				returnValue = -1;
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable e) {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
+			final StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+	
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(error.toString());
+			TTCN_Logger.end_event();
 
 			returnValue = -1;
 		}

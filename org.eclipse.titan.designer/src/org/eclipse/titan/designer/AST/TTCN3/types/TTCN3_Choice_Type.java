@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -589,7 +589,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			} else {
 				dummy_raw = rawAttribute;
 			}
-			raw = new RawASTStruct(dummy_raw);
+			raw = new RawASTStruct(dummy_raw, true);
 
 			// building taglist
 			final int taglistSize = dummy_raw.taglist == null ? 0 : dummy_raw.taglist.size();

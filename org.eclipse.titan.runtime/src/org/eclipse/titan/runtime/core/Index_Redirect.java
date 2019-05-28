@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -24,7 +24,7 @@ package org.eclipse.titan.runtime.core;
 **/
 
 
-public class Index_Redirect {
+public abstract class Index_Redirect {
 	/** If the port, timer or component operation in question succeeds, then the
 	 * index in the current dimension of the port, timer or component array is
 	 * stored in the array/record of element indicated by this member. Only used
@@ -47,7 +47,5 @@ public class Index_Redirect {
 		--pos;
 	}
 
-	public void add_index(final int p_index) {
-		pos = p_index;
-	}
+	public abstract void add_index(final int p_index);
 }

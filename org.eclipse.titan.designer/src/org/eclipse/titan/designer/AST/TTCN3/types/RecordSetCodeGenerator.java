@@ -2,6 +2,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -805,15 +806,15 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
-		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
-		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
-		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
+		source.append("\t\t\t\t\tRAW_encode(p_td, root);\n");
+		source.append("\t\t\t\t\troot.put_to_buf(p_buf);\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -828,35 +829,35 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\traw_order_t order;\n");
-		source.append("\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
-		source.append("\t\t\t\tcase TOP_BIT_LEFT:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\tcase TOP_BIT_RIGHT:\n");
-		source.append("\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
-		source.append("\t\t\t\tif (rawr < 0) {\n");
-		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
-		source.append("\t\t\t\t\tswitch (temp) {\n");
-		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
-		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\traw_order_t order;\n");
+		source.append("\t\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_LEFT:\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_RIGHT:\n");
 		source.append("\t\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("\t\t\t\t\tif (rawr < 0) {\n");
+		source.append("\t\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
+		source.append("\t\t\t\t\t\tswitch (temp) {\n");
+		source.append("\t\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
+		source.append("\t\t\t\t\t\tcase ET_LEN_ERR:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -927,26 +928,167 @@ public final class RecordSetCodeGenerator {
 
 							source.append("\t\t// Internal helper function.\n");
 							source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0}_{1,number,#}_{2,number,#}() '{'\n", fieldInfo.mVarName, start, end));
-							source.append("int selected_field = -1;\n");
-							boolean first_value = true;
+							//check to see if the crosstags decoding can be grouped
+							boolean canBeGrouped = true;
 							for (int j = start ; j <= end; j++) {
 								final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
-								if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
-									if (first_value) {
-										source.append("if (");
-										first_value = false;
+								if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+									final rawAST_coding_field_list fields = cur_choice.fields.get(0);
+									for (int l = 0; l < fields.fields.size() -1; l++) {
+										final rawAST_coding_fields field = fields.fields.get(l);
+										if (field.fieldtype != rawAST_coding_field_type.MANDATORY_FIELD) {
+											canBeGrouped = false;
+										}
+									}
+									if (fields.fields.get(fields.fields.size() -1).fieldtype != rawAST_coding_field_type.UNION_FIELD) {
+										canBeGrouped = false;
+									}
+								} else if (cur_choice.fields != null){
+									//not optimized for now
+									canBeGrouped = false;
+								}
+							}
+							if (canBeGrouped) {
+								//detect the groups based on the first check they need to do
+								final HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
+								final HashMap<String, String> commonFirstCheckPrefix = new HashMap<String, String>();
+								for (int j = start ; j <= end; j++) {
+									final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+									final StringBuilder firstCheck = new StringBuilder();
+									String firstCheckPrefix = "";
+									if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+										final rawAST_coding_field_list fields = cur_choice.fields.get(0);
+										//boolean firstExpr = true;
+										firstCheck.append(fields.fields.get(0).nthfieldname);
+										for (int l = 1; l < fields.fields.size() -1; l++) {
+											final rawAST_coding_fields field = fields.fields.get(l);
+											firstCheck.append(MessageFormat.format(".get_field_{0}()", FieldSubReference.getJavaGetterName( field.nthfieldname )));
+										}
+										//it is a union field
+										final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+										firstCheckPrefix = firstCheck.toString();
+										firstCheck.append(MessageFormat.format(".get_selection() == {0}.union_selection_type.ALT_{1}",  field.unionType, field.nthfieldname));
+	
+										final String firstString = firstCheck.toString();
+										if (commonFirstCheck.containsKey(firstString)) {
+											commonFirstCheck.get(firstString).add(j);
+										} else {
+											final ArrayList<Integer> temp = new ArrayList<Integer>();
+											temp.add(j);
+											commonFirstCheck.put(firstString, temp);
+											commonFirstCheckPrefix.put(firstString, firstCheckPrefix);
+										}
+									}
+								}
+								//generate the groups
+								boolean first_group = true;
+								for (final String firstCheck: commonFirstCheck.keySet()) {
+									if (first_group) {
+										source.append("\t\t\tif (");
+										first_group = false;
 									} else {
 										source.append(" else if (");
 									}
-									genRawFieldChecker(source, cur_choice, true);
-									source.append(") {\n");
-									source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
-									source.append('}');
+									source.append(MessageFormat.format("{0}) '{'\n", firstCheck));
+									final String firstCheckPrefix = commonFirstCheckPrefix.get(firstCheck);
+									final ArrayList<Integer> temp = commonFirstCheck.get(firstCheck);
+									// check if we can optimize further within the group
+									boolean canOptimizeForEnum = true;
+									String fieldname = null;
+									for (final int j : temp) {
+										final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+										if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+											for (int k = 0; k < cur_choice.fields.size(); k++) {
+												final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+												final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+												//check
+												if (!field.refersEnum) {
+													canOptimizeForEnum = false;
+												}
+												if (fieldname == null) {
+													fieldname = field.nthfieldname;
+												} else if (!fieldname.equals(field.nthfieldname)) {
+													canOptimizeForEnum = false;
+												}
+											}
+										}
+									}
+									if (canOptimizeForEnum) {
+										String fieldName = null;
+										for (final int j : temp) {
+											final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+											for (int k = 0; k < cur_choice.fields.size(); k++) {
+												final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+												final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+
+												if (fieldName == null) {
+													fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+													source.append(MessageFormat.format("\t\t\t\tswitch ({0}.enum_value) '{'\n", fieldName));
+												}
+
+												source.append(MessageFormat.format("\t\t\t\tcase {0}:\n", field.enumValue));
+												source.append(MessageFormat.format("\t\t\t\t\treturn {0,number,#};\n", cur_choice.fieldnum));
+											}
+										}
+										if (fieldName != null) {
+											source.append("\t\t\t\tdefault:\n");
+											source.append("\t\t\t\t\treturn -1;\n");
+											source.append("\t\t\t\t}\n");
+										}
+									} else {
+										boolean first_value = true;
+										for (final int j : temp) {
+											final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+											if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+												if (first_value) {
+													source.append("\t\t\t\tif (");
+													first_value = false;
+												} else {
+													source.append(" else if (");
+												}
+												for (int k = 0; k < cur_choice.fields.size(); k++) {
+													final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+													final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+
+													final String fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+
+													final StringBuilder expression = fields.nativeExpression.expression;
+													source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
+												}
+												source.append(") {\n");
+												source.append(MessageFormat.format("\t\t\t\t\treturn {0,number,#};\n", cur_choice.fieldnum));
+												source.append("\t\t\t\t}");
+											}
+										}
+										source.append('\n');
+										source.append("\t\t\t\treturn -1;\n");
+									}
+									source.append("\t\t\t}");
 								}
+								source.append('\n');
+								source.append("\t\t\treturn -1;\n");
+								source.append("\t\t}\n");
+							} else {
+								boolean first_value = true;
+								for (int j = start ; j <= end; j++) {
+									final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+									if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+										if (first_value) {
+											source.append("\t\t\tif (");
+											first_value = false;
+										} else {
+											source.append(" else if (");
+										}
+										genRawFieldChecker(source, cur_choice, true);
+										source.append(") {\n");
+										source.append(MessageFormat.format("return {0,number,#};\n", cur_choice.fieldnum));
+										source.append("\t\t\t}");
+									}
+								}
+								source.append('\n');
+								source.append("\t\t\treturn -1;\n");
+								source.append("\t\t}\n");
 							}
-							source.append("\n");
-							source.append("return selected_field;\n");
-							source.append("\t\t}\n");
 						}
 					}
 				}
@@ -1577,7 +1719,7 @@ public final class RecordSetCodeGenerator {
 					} else {
 						genRawDecodeRecordField(aData, source, fieldInfos, i, raw, raw_options, false, prev_ext_group);
 						
-						if (tempRawOption.dependentFields != null && tempRawOption.dependentFields.size() > 0) {
+						if (tempRawOption.dependentFields != null && !tempRawOption.dependentFields.isEmpty()) {
 							for (int j = 0; j < tempRawOption.dependentFields.size(); j++) {
 								final int dependent_field_index = tempRawOption.dependentFields.get(j);
 								source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", dependent_field_index));
@@ -1851,6 +1993,21 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\t}\n\n");
 		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", other_value));\n");
 		aSb.append("\t\t}\n\n");
+
+		if (aData.isDebug()) {
+			aSb.append("\t\t/**\n");
+			aSb.append("\t\t * Checks if the current value is not equivalent to the provided one.\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * operator!= in the core\n");
+			aSb.append("\t\t *\n");
+			aSb.append("\t\t * @param other_value\n");
+			aSb.append("\t\t *                the other value to check against.\n");
+			aSb.append("\t\t * @return {@code true} if all fields are not equivalent, {@code false} otherwise.\n");
+			aSb.append("\t\t */\n");
+		}
+		aSb.append( MessageFormat.format( "\t\tpublic boolean operator_not_equals( final {0} other_value) '{'\n", aClassName ) );
+		aSb.append( "\t\t\treturn !operator_equals(other_value);\n" );
+		aSb.append("\t\t}\n");
 	}
 
 	/**
@@ -2286,7 +2443,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tdefault:\n");
-		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying an uninitialized/unsupported template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tset_selection(other_value);\n");
 		source.append("\t\t}\n");
@@ -2331,7 +2488,8 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t\tcase VALUE_LIST:\n");
 		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		aSb.append("\t\t\t\tif (legacy) {\n");
-		aSb.append("\t\t\t\t\tfor (int l_idx=0; l_idx<list_value.size(); l_idx++) {\n");
+		aSb.append("\t\t\t\t\tfinal int list_size = list_value.size();\n");
+		aSb.append("\t\t\t\t\tfor (int l_idx = 0; l_idx < list_size; l_idx++) {\n");
 		aSb.append("\t\t\t\t\t\tif (list_value.get(l_idx).match_omit_(legacy)) {\n");
 		aSb.append("\t\t\t\t\t\t\treturn template_selection==template_sel.VALUE_LIST;\n");
 		aSb.append("\t\t\t\t\t\t}\n");
@@ -2498,13 +2656,15 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_value.get(list_count).match(other_value, legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
@@ -2571,17 +2731,19 @@ public final class RecordSetCodeGenerator {
 			aSb.append( "\t\t\t\treturn new TitanInteger(sizeof);\n" );
 		}
 
-		aSb.append( "\t\t\tcase VALUE_LIST:\n" );
+		aSb.append( "\t\t\tcase VALUE_LIST: {\n" );
 		aSb.append( "\t\t\t\tif (list_value.isEmpty()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing sizeof() operation on a template of type {0} containing an empty list.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\tfinal int item_size = list_value.get(0).size_of().get_int();\n" );
-		aSb.append( "\t\t\t\tfor (int l_idx = 1; l_idx < list_value.size(); l_idx++) {\n" );
+		aSb.append( "\t\t\t\tfinal int list_size = list_value.size();\n");
+		aSb.append( "\t\t\t\tfor (int l_idx = 1; l_idx < list_size; l_idx++) {\n" );
 		aSb.append( "\t\t\t\t\tif (list_value.get(l_idx).size_of().get_int() != item_size) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing a value list with different sizes.\");\n", displayName ) );
 		aSb.append( "\t\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\t}\n" );
 		aSb.append( "\t\t\t\treturn new TitanInteger(item_size);\n" );
+		aSb.append( "\t\t\t}\n" );
 		aSb.append( "\t\t\tcase OMIT_VALUE:\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing omit value.\");\n", displayName ) );
 		aSb.append( "\t\t\tcase ANY_VALUE:\n" );
@@ -2630,9 +2792,10 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -2640,6 +2803,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -2733,8 +2897,28 @@ public final class RecordSetCodeGenerator {
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fi = aNamesList.get(i);
 
-			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
-			source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append("\t\t\t\tTTCN_Logger.log_event_str(\"");
+			if (i == 0) {
+				source.append('{');
+			} else {
+				source.append(',');
+			}
+			source.append(MessageFormat.format(" {0} := \");\n", fi.mDisplayName ) );
+			if (fi.isOptional) {
+				source.append(MessageFormat.format("\t\t\t\tif (match_value.constGet_field_{0}().ispresent()) '{'\n", fi.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append("\t\t\t\t} else {\n");
+				source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"omit with \");\n");
+				source.append(MessageFormat.format("\t\t\t\t\t{0}.log();\n", fi.mVarName) );
+				source.append(MessageFormat.format("\t\t\t\t\tif ({0}.match_omit(legacy)) '{'\n", fi.mVarName));
+				source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
+				source.append("\t\t\t\t\t} else {\n");
+				source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
+				source.append("\t\t\t\t\t}\n");
+				source.append("\t\t\t\t}\n");
+			} else {
+				source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+			}
 		}
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		source.append("\t\t\t} else {\n");
@@ -2780,12 +2964,14 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(list_value.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < list_value.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tlist_value.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
@@ -3115,7 +3301,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t *\n");
 			source.append("\t\t * @param otherValue\n");
 			source.append("\t\t *                the other value to check against.\n");
-			source.append("\t\t* @return {@code true} if not all fields are equivalent,\n");
+			source.append("\t\t * @return {@code true} if not all fields are equivalent,\n");
 			source.append("\t\t *         {@code false} otherwise.\n");
 			source.append("\t\t */\n");
 		}
@@ -3131,7 +3317,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t *\n");
 			source.append("\t\t * @param otherValue\n");
 			source.append("\t\t *                the other value to check against.\n");
-			source.append("\t\t* @return {@code true} if not all fields are equivalent,\n");
+			source.append("\t\t * @return {@code true} if not all fields are equivalent,\n");
 			source.append("\t\t *         {@code false} otherwise.\n");
 			source.append("\t\t */\n");
 		}
@@ -3173,15 +3359,15 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
-		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
-		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
-		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(false, null, tree_position, 1, p_td.raw);\n");
+		source.append("\t\t\t\t\tRAW_encode(p_td, root);\n");
+		source.append("\t\t\t\t\troot.put_to_buf(p_buf);\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -3196,35 +3382,35 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\traw_order_t order;\n");
-		source.append("\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
-		source.append("\t\t\t\tcase TOP_BIT_LEFT:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\tcase TOP_BIT_RIGHT:\n");
-		source.append("\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
-		source.append("\t\t\t\tif (rawr < 0) {\n");
-		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
-		source.append("\t\t\t\t\tswitch (temp) {\n");
-		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
-		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\traw_order_t order;\n");
+		source.append("\t\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_LEFT:\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_RIGHT:\n");
 		source.append("\t\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("\t\t\t\t\tif (rawr < 0) {\n");
+		source.append("\t\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
+		source.append("\t\t\t\t\t\tswitch (temp) {\n");
+		source.append("\t\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
+		source.append("\t\t\t\t\t\tcase ET_LEN_ERR:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -3538,7 +3724,8 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tif (legacy) {\n");
-		source.append("\t\t\t\t\tfor (int l_idx=0; l_idx<list_value.size(); l_idx++) {\n");
+		source.append("\t\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\t\tfor (int l_idx = 0; l_idx < list_size; l_idx++) {\n");
 		source.append("\t\t\t\t\t\tif (list_value.get(l_idx).match_omit_(legacy)) {\n");
 		source.append("\t\t\t\t\t\t\treturn template_selection==template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t\t}\n");
@@ -3623,13 +3810,15 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_value.get(list_count).match(other_value, legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
@@ -3651,9 +3840,10 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -3661,6 +3851,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -3723,12 +3914,14 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(list_value.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < list_value.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = list_value.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tlist_value.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", classDisplayName));
 		source.append("\t\t\t}\n");
@@ -3817,9 +4010,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\treturn;\n");
 		source.append("\t\t\t}\n");
-		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", classDisplayName));
-		source.append("\t\t\t}\n");
-		source.append("\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Restriction `'{'0'}''''' on template of type '{'1'}' violated.\", get_res_name(restriction), name == null ? \"{0}\" : name));\n", classDisplayName));
+		source.append("\t\t}\n");
+		source.append("\t}\n\n");
 	}
 
 	/**
@@ -3888,7 +4081,7 @@ public final class RecordSetCodeGenerator {
 			if (!firstExpr) {
 				source.append(is_equal ? " && " : " || ");
 			}
-			StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
+			final StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
 			if (is_equal) {
 				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
 			} else {
@@ -4070,27 +4263,175 @@ public final class RecordSetCodeGenerator {
 			source.append("}\n");
 		} else if (crosstagsize > 0) {
 			int other = -1;
-			boolean first_value = true;
-			for (int j = 0; j < crosstagsize; j++) {
+			//check to see if the crosstags decoding can be grouped
+			boolean canBeGrouped = true;
+			for (int j = 0 ; j < crosstagsize; j++) {
 				final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
-				if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
-					if (first_value) {
-						source.append("if (");
-						first_value = false;
-					} else {
-						source.append(" else if (");
+				if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+					final rawAST_coding_field_list fields = cur_choice.fields.get(0);
+					for (int l = 0; l < fields.fields.size() -1; l++) {
+						final rawAST_coding_fields field = fields.fields.get(l);
+						if (field.fieldtype != rawAST_coding_field_type.MANDATORY_FIELD) {
+							canBeGrouped = false;
+						}
 					}
-					genRawFieldChecker(source, cur_choice, true);
-					source.append(") {\n");
-					source.append(MessageFormat.format("selected_field = {0,number,#};\n", cur_choice.fieldnum));
-					source.append('}');
+					if (fields.fields.get(fields.fields.size() -1).fieldtype != rawAST_coding_field_type.UNION_FIELD) {
+						canBeGrouped = false;
+					}
+				} else if (cur_choice.fields != null){
+					//not optimized for now
+					canBeGrouped = false;
+					other = cur_choice.fieldnum;
 				} else {
 					other = cur_choice.fieldnum;
 				}
 			}
-			source.append(" else {\n");
-			source.append(MessageFormat.format("selected_field = {0,number,#};\n", other));
-			source.append("}\n");
+			if (canBeGrouped) {
+				//detect the groups based on the first check they need to do
+				final HashMap<String, ArrayList<Integer>> commonFirstCheck = new HashMap<String, ArrayList<Integer>>();
+				final HashMap<String, String> commonFirstCheckPrefix = new HashMap<String, String>();
+				for (int j = 0 ; j < crosstagsize; j++) {
+					final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+					final StringBuilder firstCheck = new StringBuilder();
+					String firstCheckPrefix = "";
+					if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+						final rawAST_coding_field_list fields = cur_choice.fields.get(0);
+						//boolean firstExpr = true;
+						firstCheck.append(fields.fields.get(0).nthfieldname);
+						for (int l = 1; l < fields.fields.size() -1; l++) {
+							final rawAST_coding_fields field = fields.fields.get(l);
+							firstCheck.append(MessageFormat.format(".get_field_{0}()", FieldSubReference.getJavaGetterName( field.nthfieldname )));
+						}
+						//it is a union field
+						final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+						firstCheckPrefix = firstCheck.toString();
+						firstCheck.append(MessageFormat.format(".get_selection() == {0}.union_selection_type.ALT_{1}",  field.unionType, field.nthfieldname));
+
+						final String firstString = firstCheck.toString();
+						if (commonFirstCheck.containsKey(firstString)) {
+							commonFirstCheck.get(firstString).add(j);
+						} else {
+							final ArrayList<Integer> temp = new ArrayList<Integer>();
+							temp.add(j);
+							commonFirstCheck.put(firstString, temp);
+							commonFirstCheckPrefix.put(firstString, firstCheckPrefix);
+						}
+					}
+				}
+				//generate the groups
+				boolean first_group = true;
+				for (final String firstCheck: commonFirstCheck.keySet()) {
+					if (first_group) {
+						source.append("\t\t\tif (");
+						first_group = false;
+					} else {
+						source.append(" else if (");
+					}
+					source.append(MessageFormat.format("{0}) '{'\n", firstCheck));
+					final String firstCheckPrefix = commonFirstCheckPrefix.get(firstCheck);
+					final ArrayList<Integer> temp = commonFirstCheck.get(firstCheck);
+					// check if we can optimize further within the group
+					boolean canOptimizeForEnum = true;
+					String fieldname = null;
+					for (final int j : temp) {
+						final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+						if (cur_choice.fields != null && cur_choice.fields.size() == 1) {
+							for (int k = 0; k < cur_choice.fields.size(); k++) {
+								final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+								final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+								//check
+								if (!field.refersEnum) {
+									canOptimizeForEnum = false;
+								}
+								if (fieldname == null) {
+									fieldname = field.nthfieldname;
+								} else if (!fieldname.equals(field.nthfieldname)) {
+									canOptimizeForEnum = false;
+								}
+							}
+						}
+					}
+					if (canOptimizeForEnum) {
+						String fieldName = null;
+						for (final int j : temp) {
+							final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+							for (int k = 0; k < cur_choice.fields.size(); k++) {
+								final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+								final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+
+								if (fieldName == null) {
+									fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+									source.append(MessageFormat.format("\t\t\t\tswitch ({0}.enum_value) '{'\n", fieldName));
+								}
+
+								source.append(MessageFormat.format("\t\t\t\tcase {0}:\n", field.enumValue));
+								source.append(MessageFormat.format("\t\t\t\t\tselected_field = {0,number,#};\n", cur_choice.fieldnum));
+								source.append("\t\t\t\t\tbreak;\n");
+							}
+						}
+						if (fieldName != null) {
+							source.append("\t\t\t\tdefault:\n");
+							source.append(MessageFormat.format("\t\t\t\t\tselected_field = {0,number,#};\n", other));
+							source.append("\t\t\t\t\tbreak;\n");
+							source.append("\t\t\t\t}\n");
+						}
+					} else {
+						boolean first_value = true;//might not be needed!
+						for (final int j : temp) {
+							final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+							if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+								if (first_value) {
+									source.append("\t\t\t\tif (");
+									first_value = false;
+								} else {
+									source.append(" else if (");
+								}
+								for (int k = 0; k < cur_choice.fields.size(); k++) {
+									final rawAST_coding_field_list fields = cur_choice.fields.get(k);
+									final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
+
+									final String fieldName = MessageFormat.format("{0}.get_field_{1}()", firstCheckPrefix, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+
+									final StringBuilder expression = fields.nativeExpression.expression;
+									source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
+								}
+								source.append(") {\n");
+								source.append(MessageFormat.format("\t\t\t\t\t\tselected_field = {0,number,#};\n", cur_choice.fieldnum));
+								source.append("\t\t\t\t\t}");
+							}
+						}
+						source.append(" else {\n");
+						source.append(MessageFormat.format("\t\t\t\t\tselected_field = {0,number,#};\n", other));
+						source.append("\t\t\t\t}\n");
+					}
+					source.append("\t\t\t}");
+				}
+				source.append(" else {\n");
+				source.append(MessageFormat.format("\t\t\t\tselected_field = {0,number,#};\n", other));
+				source.append("\t\t\t}\n");
+			} else {
+				boolean first_value = true;
+				for (int j = 0; j < crosstagsize; j++) {
+					final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+					if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+						if (first_value) {
+							source.append("\t\t\tif (");
+							first_value = false;
+						} else {
+							source.append(" else if (");
+						}
+						genRawFieldChecker(source, cur_choice, true);
+						source.append(") {\n");
+						source.append(MessageFormat.format("\t\t\t\tselected_field = {0,number,#};\n", cur_choice.fieldnum));
+						source.append("\t\t\t}");
+					} else {
+						other = cur_choice.fieldnum;//TODO no longer needed
+					}
+				}
+				source.append(" else {\n");
+				source.append(MessageFormat.format("\t\t\t\tselected_field = {0,number,#};\n", other));
+				source.append("\t\t\t}\n");
+			}
 		}
 		/* check the presence of optional field*/
 		if (fieldInfo.isOptional) {
@@ -4152,22 +4493,23 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("decoded_field_length = get_field_{0}(){1}.RAW_decode({2}_descr_, buff, ", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 		source.append(expression.expression);
 		source.append(MessageFormat.format(", local_top_order, {0}", fieldInfo.isOptional ? "true": "no_err"));
+		boolean lengthof_or_crosstag_found = false;
 		if (crosstagsize > 0) {
 			source.append(", selected_field");
+			lengthof_or_crosstag_found = true;
 		} else {
-			source.append(", -1");
-		}
-		boolean found = false;
-		for (int a = 0; a < tempRawOption.lengthof && !found; a++) {
-			final int field_index = tempRawOption.lengthofField.get(a);
-			if (fieldInfos.get(field_index).raw.unit == -1) {
-				source.append(MessageFormat.format(", value_of_length_field{0} != 0", field_index));
-				found = true;
+			for (int a = 0; a < tempRawOption.lengthof && !lengthof_or_crosstag_found; a++) {
+				final int field_index = tempRawOption.lengthofField.get(a);
+				if (fieldInfos.get(field_index).raw.unit == -1) {
+					source.append(MessageFormat.format(", value_of_length_field{0}", field_index));
+					lengthof_or_crosstag_found = true;
+				}
 			}
 		}
-		if (!found) {
-			source.append(", true");
+		if (!lengthof_or_crosstag_found) {
+			source.append(", -1");
 		}
+		source.append(", true");
 		source.append(MessageFormat.format(", field_{0}_force_omit);\n", i));
 
 		if (delayed_decode) {

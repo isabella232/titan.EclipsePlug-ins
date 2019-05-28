@@ -2,7 +2,7 @@ parser grammar CfgParser;
 
 /*
  ******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -915,6 +915,10 @@ pr_PlainLoggingParam
 		Map<LoggingBit, ParseTree> loggingBitMask = $elm.loggingBitMask;
 		//TODO: use loggingBitMask if needed
 	}
+|	EMERGENCYLOGGINGFORFAILVERDICT ASSIGNMENTCHAR elf = pr_YesNoOrBoolean
+	{	logParamEntry.setLogEntityNameRoot( $ctx );
+		logParamEntry.setEmergencyLoggingForFailVerdict( $elf.ctx );
+	}
 )
 ;
 
@@ -1276,14 +1280,20 @@ pr_IntegerPrimaryExpression returns [CFGNumber number]:
 pr_NaturalNumber returns [CFGNumber number]:
 (	a = NATURAL_NUMBER	{$number = new CFGNumber($a.text);}
 |	macro = pr_MacroNaturalNumber { $number = $macro.number; }
-|	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
-		}
 )
 ;
 
 pr_MPNaturalNumber:
 (	NATURAL_NUMBER
+|	pr_MacroNaturalNumber
+)
+;
+
+pr_MPSignedInteger:
+(	(	PLUS
+	|	MINUS
+	)?
+	NATURAL_NUMBER
 |	pr_MacroNaturalNumber
 )
 ;
@@ -1327,9 +1337,6 @@ pr_CString returns [String string]:
 		}
 |	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
 |	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$string = ""; // value is unknown yet, but it should not be null
-		}
 )
 ;
 
@@ -1505,12 +1512,14 @@ pr_LengthMatch:
 ;
 
 pr_LengthBound:
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 ;
 
 pr_SimpleParameterValue:
 (	pr_MPNaturalNumber
 |	pr_MPFloat
+|	NANKEYWORD
+|	INFINITYKEYWORD
 |	pr_Boolean
 |	pr_ObjIdValue
 |	pr_VerdictValue
@@ -1518,7 +1527,7 @@ pr_SimpleParameterValue:
 |	pr_HStringValue
 |	pr_OStringValue
 |	pr_MPCString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 |	OMITKEYWORD
 |	pr_NULLKeyword
 |	MTCKEYWORD
@@ -1552,7 +1561,7 @@ pr_ParameterNameSegment:
 
 pr_IndexItemIndex:
 	SQUAREOPEN
-	pr_IntegerValueExpression
+	pr_ParameterExpression
 	SQUARECLOSE
 ;
 
@@ -1611,16 +1620,20 @@ pr_Float returns [CFGNumber number]:
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
 			$number = new CFGNumber( value.length() > 0 ? value : "0.0" );
 		}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
-		}
 )
 ;
 
 pr_MPFloat:
 (	FLOAT
-|	NANKEYWORD
-|	INFINITYKEYWORD
+|	MACRO_FLOAT
+)
+;
+
+pr_MPSignedFloat:
+(	(	PLUS
+	|	MINUS
+	)?
+	FLOAT
 |	MACRO_FLOAT
 )
 ;
@@ -1644,8 +1657,8 @@ pr_ObjIdValue:
 ;
 
 pr_ObjIdComponent:
-(	pr_NaturalNumber
-|	pr_Identifier LPAREN pr_NaturalNumber RPAREN
+(	pr_MPNaturalNumber
+|	pr_Identifier LPAREN pr_MPNaturalNumber RPAREN
 )
 ;
 
@@ -1703,20 +1716,46 @@ pr_OString returns [String string]:
 
 pr_UniversalOrNotStringValue:
 (	pr_CString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 )
 (	STRINGOP
 	(	pr_CString
-	|	pr_Quadruple
+	|	pr_UniversalCharstringValue
 	)
 )*
+;
+
+pr_UniversalCharstringValue:
+	pr_Quadruple
+|	pr_USI
 ;
 
 pr_Quadruple:
 	CHARKEYWORD
 	LPAREN
-	pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression
+	pr_ParameterExpression
+	COMMA
+	pr_ParameterExpression
+	COMMA
+	pr_ParameterExpression
+	COMMA
+	pr_ParameterExpression
 	RPAREN
+;
+
+pr_USI:
+	CHARKEYWORD
+	LPAREN
+	pr_UID
+	(	COMMA
+		pr_UID
+	)*
+	RPAREN
+;
+
+pr_UID:
+	UID
+|	TTCN3IDENTIFIER
 ;
 
 pr_EnumeratedValue:
@@ -1776,12 +1815,12 @@ pr_IndexValue:
 pr_IntegerRange:
 	LPAREN
 	EXCLUSIVE?
-	(	pr_IntegerValueExpression
+	(	pr_MPSignedInteger
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	EXCLUSIVE?
-	(	pr_IntegerValueExpression
+	(	pr_MPSignedInteger
 	|	INFINITYKEYWORD
 	)
 	RPAREN
@@ -1790,55 +1829,22 @@ pr_IntegerRange:
 pr_FloatRange:
 	LPAREN
 	EXCLUSIVE?
-	(	pr_FloatValueExpression
+	(	pr_MPSignedFloat
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	EXCLUSIVE?
-	(	pr_FloatValueExpression
+	(	pr_MPSignedFloat
 	|	INFINITYKEYWORD
 	)
 	RPAREN
-;
-
-pr_FloatValueExpression:
-	pr_FloatAddExpression
-;
-
-pr_FloatAddExpression:
-	pr_FloatMulExpression
-	(	(	PLUS	pr_FloatMulExpression
-		|	MINUS	pr_FloatMulExpression
-		)
-	)*
-;
-
-pr_FloatMulExpression:
-	pr_FloatUnaryExpression
-	(	(	STAR	pr_FloatUnaryExpression
-		|	SLASH	pr_FloatUnaryExpression
-		)
-	)*
-;
-
-pr_FloatUnaryExpression:
-	(	PLUS
-	|	MINUS
-	)*
-	pr_FloatPrimaryExpression
-;
-
-pr_FloatPrimaryExpression:
-(	pr_Float
-|	LPAREN pr_FloatAddExpression RPAREN
-)
 ;
 
 pr_StringRange:
 	LPAREN
 	EXCLUSIVE?
 	pr_UniversalOrNotStringValue
-	DOTDOT 
+	DOTDOT
 	EXCLUSIVE?
 	pr_UniversalOrNotStringValue
 	RPAREN
@@ -1850,7 +1856,7 @@ pr_PatternChunkList:
 
 pr_PatternChunk:
 	pr_CString
-|	pr_Quadruple
+|	pr_UniversalCharstringValue
 ;
 
 pr_BStringMatch:

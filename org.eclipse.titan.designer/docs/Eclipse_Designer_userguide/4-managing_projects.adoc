@@ -5,16 +5,23 @@
 
 In the TITAN Designer plug-in, you work with projects. A project usually represents the complex procedure of developing a test suite and creating the executable from this test suite.
 
-To manage these projects, it is advised to use the Project Explorer view provided by Eclipse. 
-Other views, like the Navigator view, can also be used; however, beginners shall take special care as those views might provide completely different data. 
-For example, by default the Project Explorer does not show the `.TITAN_properties` file, while the Navigator view does. 
+To manage these projects, it is advised to use the Project Explorer view provided by Eclipse.
+Other views, like the Navigator view, can also be used; however, beginners shall take special care as those views might provide completely different data.
+For example, by default the Project Explorer does not show the `.TITAN_properties` file, while the Navigator view does.
 The role of the `.TITAN_properties` will be explained later in section <<Saving and Loading Project Properties>>
 
 For advanced users it is advised to take also a look on the other navigators, as they might be better in solving some minor problems.
 
 Projects that are handled by the TITAN Designer plug-in will be referred to as TITAN projects although in the Eclipse terminology they should be called TITAN natured projects. More information on natures can be found in the Eclipse documentation.
 
-== Creating a New Project
+From the release of TITAN version 6.6.0 the Designer supports 2 types of TITAN Projects:
+* TITAN Project: is the original way of working, supporting a build system that translates TTCN-3 and ASN.1 modules using C as the intermediate language.
+* TITAN Java Project: if a way of working that supports a build system, that translates TTCN-3 and ASN.1 modules using Java as the intermediate language.
+
+When not specified explicitly the expression "TITAN Project" might refer to both modes.
+As they only differ in a few settings and their way of building, most of the advanced editing features will work exactly the same way on both project types.
+
+== Creating a New TITAN Project
 
 Using the TITAN Designer, new TITAN projects can be created following these three steps:
 
@@ -23,8 +30,8 @@ Using the TITAN Designer, new TITAN projects can be created following these thre
 [[new-resources-menu]]
 image::images/4_F26.png[title="New resources menu"]
 
-2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>> ). 
-By default, the project will be created in the directory of the workbench. 
+2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>> ).
+By default, the project will be created in the directory of the workbench.
 It is not recommended to select a path that contains special characters (like the spaces in "Documents and Settings").
 +
 [[first-page-of-the-new-titan-project-wizard]]
@@ -46,11 +53,35 @@ image::images/4_F29.png[title="Example created project"]
 
 The projects created with this wizard differ from other "General" projects in that the TITAN nature and the TITAN builder (responsible for building the executable) are automatically set on them.
 
-Once the new project is created the property page of that project will be displayed, so that it can be configured immediately. For more information on project properties please refer to section <<_setting_project_properties,Setting Project Properties>>  
+Once the new project is created the property page of that project will be displayed, so that it can be configured immediately. For more information on project properties please refer to section <<_setting_project_properties,Setting Project Properties>>
+
+== Creating a New TITAN Java Project
+
+Using the TITAN Designer, new TITAN Java projects can be created following these three steps:
+
+1. Select *File / New / TITAN Java Project…* from the main menu (see <<new-resources-menu, the next figure>>).(The corresponding TITAN shortcut must be enabled, see section <<2-getting_started.adoc#_enabling_titan_shortcuts,Enabling TITAN Shortcuts>> )
+
+2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>> ).
+By default, the project will be created in the directory of the workbench.
+It is not recommended to select a path that contains special characters (like the spaces in "Documents and Settings").
+
+3. At this point you can select either *Finish*.
++
+If you select *Finish,* the new TITAN Java project will be created immediately.
+
+The final project is only created when you select *Finish*.
+
+Now the new TITAN Java project (called `project1` on the figures) and the 4 directories are created and are listed in the Project Explorer. The TITAN logo is displayed to the left of the project name (provided that the TITAN decorator is enabled, see <<2-getting_started.adoc#_enabling_titan_decorations, here>>). TITAN projects will generally be decorated like this.
+
+image::images/4_F29.png[title="Example created project"]
+
+The projects created with this wizard differ from other "General" projects in that the TITAN nature and the TITAN Java builder (responsible for building the executable) are automatically set on them.
+
+Once the new project is created the property page of that project will be displayed, so that it can be configured immediately. For more information on project properties please refer to section <<_setting_project_properties,Setting Project Properties>>
 
 == Adding Directories to the Project
 
-Directories can be added to projects in the following way: 
+Directories can be added to projects in the following way:
 *right click* the project where the directory should be added to and select *New / Folder* (see the next figure).
 
 [[new-menu]]
@@ -82,8 +113,8 @@ There are two ways to add files to a project. The first one, using wizards, is t
 
 === Using Wizards to Add Files to the Project
 
-Wizards are available to create some of the TITAN modules 
-footnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). 
+Wizards are available to create some of the TITAN modules
+footnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files).
 This functionality is reached by selecting *File / New* (see figure <<new-resources-menu,New resources menu>>).
 
 In the Project Explorer view, the wizards "TTCN-3 Module", "ASN.1 Module" and "Configuration file" can be reached by **right click**ing the content area and selecting *New / Other…* .
@@ -113,9 +144,9 @@ NOTE: The filename will be used as the module name in the inserted module.
 
 === Manually Adding Files to the Project
 
-Manual file addition has moderate means to set file properties compared to the wizard (see <<_using_wizards_to_add_files_to_the_project, here>>). 
-On the other hand, some files can only be inserted into projects manually; 
-namely the following way: *right click* on the project (or on a folder in the project) where the file should be included and select *New / File* 
+Manual file addition has moderate means to set file properties compared to the wizard (see <<_using_wizards_to_add_files_to_the_project, here>>).
+On the other hand, some files can only be inserted into projects manually;
+namely the following way: *right click* on the project (or on a folder in the project) where the file should be included and select *New / File*
 (see <<new-menu,Figure New menu>> above).
 
 On the <<new-file,New File>> window there is a possibility to set:
@@ -133,7 +164,7 @@ NOTE: Linked files are fully handled by Eclipse; no additional resource will be 
 [[new-file]]
 image::images/4_F35.png[title="New file"]
 
-Once the file created, you should see something like shown on <<new-file-created,New file created>>. 
+Once the file created, you should see something like shown on <<new-file-created,New file created>>.
 You have created a project, added a folder and a file to it.
 
 NOTE: Files handled by the TITAN Designer plug-in also have the TITAN moon to the left of their names, just like projects do. Decorators used by TITAN Designer are described <<2-getting_started.adoc#_enabling_titan_decorations, here>>.
@@ -144,17 +175,17 @@ Project properties for local and remote build are set in two separate windows.
 
 === Build Configurations
 
-Our projects support to have several "build configurations" or "sets of build settings". 
+Our projects support to have several "build configurations" or "sets of build settings".
 This means that it is possible to create sets of build settings, which can be switched to in an easy and consistent way.
 
-One excellent usage tip would be, to have "Development" and "Release" modes for projects. 
-Debug could have settings tuned for very fast compilation, at the expense of generating slowly executing code: 
-This way development could be sped up considerably while only loosing features not relevant at development time. 
-Release mode could be fine-tuned for runtime performance, at the cost of increase in build times. 
-This way once the development is over, and the product is ready to be tested/investigated/used, 
+One excellent usage tip would be, to have "Development" and "Release" modes for projects.
+Debug could have settings tuned for very fast compilation, at the expense of generating slowly executing code:
+This way development could be sped up considerably while only loosing features not relevant at development time.
+Release mode could be fine-tuned for runtime performance, at the cost of increase in build times.
+This way once the development is over, and the product is ready to be tested/investigated/used,
 the build system could be set to use the most aggressive optimization methods available.
 
-[.underline]#Changing the active build configuration# is available on all project preference pages, in the upper part of the window, 
+[.underline]#Changing the active build configuration# is available on all project preference pages, in the upper part of the window,
 as seen on Figure <<makefile-creation-attributes,Makefile creation attributes>>.
 
 Using the drop-down control, one can select and switch to any already existing build configuration created for the actual project.
@@ -175,7 +206,7 @@ Even though the settings of the Default configuration can be changed it cannot b
 ====
 
 [[setting-the-local-build-properties-of-a-project]]
-=== Setting the Local Build Properties of a Project
+=== Setting the Local Build Properties of a TITAN Project
 
 To set the project properties for local build first *right click* the project and select *Properties* then select *<<makefile-creation-attributes,TITAN Project Property>>*.
 
@@ -183,9 +214,9 @@ On the main window three options can be set:
 
 * Automatic Makefile management
 +
-configures the TITAN Designer to automatically manage the `Makefile` 
+configures the TITAN Designer to automatically manage the `Makefile`
 +
-NOTE: disabling the automatic `Makefile` management makes it the users’ responsibility to update the file when it is needed. 
+NOTE: disabling the automatic `Makefile` management makes it the users’ responsibility to update the file when it is needed.
 In case it is unchecked, the buttons on the *Makefile creation attributes* tab and on the *Internal makefile creation attributes* tab will be disabled; +
 Default: selected.
 
@@ -430,6 +461,49 @@ In our resource based project representation it is impossible to tell which file
 
 NOTE: if the provided directories are in the project, either as actual directories or linked folders, the generated files can be seen from the workbench.
 
+=== Setting the Local Build Properties of a TITAN Java Project
+
+For TITAN Java projects there are different configuration options available.
+
+To set the project properties for local build first *right click* the project and select *Properties* then select *<<makefile-creation-attributes,TITAN Java Project Property>>*.
+
+[[the-internal-makefile-creation-attributes-tab-Java]]
+==== The Internal Makefile Creation Attributes Tab for TITAN Java Projects
+
+image::images/4_F38_Internal_makefile_creation_attributes_for_TITAN_Java_Projects.png[title="Internal makefile creation attributes for TITAN Java Projects"]
+
+On the Internal makefile creation attributes tab the options that configure the build process can be set. To change the value of an element it must be selected. Depending on the element selected on the left side, the right hand side of the tab will contain different options.
+
+NOTE: In TITAN Java Projects the build system is not using makefiles, the name was kept to be compatible with the TITAN Project look and feel.
+
+. TTCN-3 Preprocessor
+
+. TTCN-3 Preprocessor Symbols
++
+image::images/4_F40_TTCN_3_Preprocessor_symbols_for_TITAN_Java_Projects.png[title="TTCN-3 Preprocessor symbols for TITAN Java Projects"]
++
+On the symbols page it is possible to specify the list of symbols that should be defined and the list of symbols that should be undefined when the TTCN-3 pre-processor tool is executed.
++
+These lists of options are applied during syntactic and semantic checking of the project. By default both lists are empty.
+
+. TTCN-3 Preprocessor Included Directories
++
+image::images/4_F41_TTCN_3_Preprocessor_include_directories_for_TITAN_Java_Projects.png[title="TTCN-3 Preprocessor include directories for TITAN Java Projects"]
++
+On the included directories page, it is possible to specify the list of directories where the TTCN-3 pre-processor can look for included files.
++
+The list of options is applied during syntactic and semantic checking of the project. By default the list is empty.
+
+. TITAN Flags
++
+image::images/4_F42_TITAN_Flags_for_TITAN_Java_Projects.png[title="TITAN Flags for TITAN Java Projects"]
++
+On the TITAN flags page, it is possible to specify the flags the TITAN Java code generator should use when compiling the TTCN-3 and ASN.1 files.
++
+The options will be applied during the execution of the Java code generator.
++
+For more information on the meanings of these options please refer to section 5.1 of the TITAN Programmer’s Technical Reference guide <<12-references.adoc#_12, [12]>>.
+
 === Setting Project and Folder Level Naming Convention Settings
 
 image::images/4_F53.png[title="Project level naming convention settings"]
@@ -520,6 +594,8 @@ The *Copy…* button is used to create a copy of an already existing host. Press
 The *Remove…* button is used to remove an existing host from list of remote build hosts. The command is abandoned by pressing the *Cancel* button, while it is confirmed by pressing the *OK* button.
 
 NOTE: The saving of every change done on this page is validated by pressing the *Apply* or *OK* buttons at the bottom on the property page (Figure 57).
+
+NOTE: The TITAN Java Projects do not have a remote build preference page. As Java is platform independent, there is no need to create platform specific binaries for particular machines.
 
 ==== Pitfalls
 
@@ -831,7 +907,7 @@ NOTE: This way the new tpd will contain the information about itself. It is extr
 
 ==== Exporting Project Content from Command Line Using TPDs
 
-To export the content of whole project sets if each project has a tpd, follow the steps described below. 
+To export the content of whole project sets if each project has a tpd, follow the steps described below.
 Unix environment is required.
 
 . Go to the folder of the top level source project.
@@ -921,7 +997,7 @@ These are "good to have" features in a general sense, and they also provide more
 
 This may happen when editing the `.project` file, where Eclipse stores the natures and projects associated to the given project. Any modification of the `.project` file is discouraged.
 
-Repair can be attempted using the functionality *Toggle TITAN project nature*. It can be activated by *right clicking* the projectand selecting *TITAN / Toggle TITAN project nature*. As shown on Figure 80, this functionality is used to add the TITAN nature and TITAN builder to (or to remove them from) a given project. Removing is useful if only the builder was removed; the user should then first remove the nature from the project, and thereafter add it back together with the builder.
+Repair can be attempted using the functionality *Toggle TITAN project nature*. It can be activated by *right clicking* the project and selecting *TITAN / Toggle TITAN project nature*. As shown on Figure 80, this functionality is used to add the TITAN nature and TITAN builder to (or to remove them from) a given project. Removing is useful if only the builder was removed; the user should then first remove the nature from the project, and thereafter add it back together with the builder.
 
 image::images/4_F85.png[title="Toggle TITAN project nature"]
 
@@ -949,3 +1025,4 @@ This can be done
 
 image::images/4_F86.png[title="Create Make archive"]
 
+NOTE: The TITAN Java Projects do not use makefiles to drive their build process, as such the make archive option is also not available. TITAN Java projects can be exported into archive files by right clicking on the project, selecting the option *Export…> General>Archive File* .

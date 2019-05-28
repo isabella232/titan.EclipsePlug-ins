@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -116,6 +116,8 @@ public final class TTCN3Module extends Module {
 
 	//The MD5 hash of the module
 	private byte[] digest;
+
+	private boolean needsTobeBuilt = true;
 
 	public TTCN3Module(final Identifier identifier, final IProject project) {
 		super(identifier, project);
@@ -447,6 +449,7 @@ public final class TTCN3Module extends Module {
 		T3Doc.check(this.getCommentLocation(), MODULE);
 
 		lastCompilationTimeStamp = timestamp;
+		needsTobeBuilt = true;
 
 		if (getSkippedFromSemanticChecking()) {
 			return;
@@ -494,6 +497,7 @@ public final class TTCN3Module extends Module {
 		T3Doc.check(this.getCommentLocation(), MODULE);
 
 		lastCompilationTimeStamp = timestamp;
+		needsTobeBuilt = true;
 
 		NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_TTCN3MODULE, identifier, "TTCN-3 module");
 
@@ -1073,6 +1077,8 @@ public final class TTCN3Module extends Module {
 	 *                ASN.1 files, to efficiently handle module renaming.
 	 * */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final ProjectSourceParser sourceParser) throws ReParseException {
+		needsTobeBuilt = true;
+
 		if (reparser.getShift() < 0) {
 			throw new ReParseException();
 		}
@@ -1274,7 +1280,15 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean shouldBeGenerated() {
+		return needsTobeBuilt;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
+		needsTobeBuilt = false;
+
 		aData.addBuiltinTypeImport("TTCN_Module");
 
 		for (final ImportModule importModule : importedModules) {

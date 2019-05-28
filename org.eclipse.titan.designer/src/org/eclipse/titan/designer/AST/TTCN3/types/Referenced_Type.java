@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -636,6 +636,19 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		if (refdLast != null) {
+			refdLast.checkMapParameter(timestamp, refChain, errorLocation);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void forceRaw(final CompilationTimeStamp timestamp) {
 		if (refd != null && !refd.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
 			refd.forceRaw(timestamp);
@@ -857,13 +870,13 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
-			return expression;
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
+			return fromName;
 		}
 
-		return refdLast.generateConversion(aData, fromType, expression);
+		return refdLast.generateConversion(aData, fromType, fromName, expression);
 	}
 }

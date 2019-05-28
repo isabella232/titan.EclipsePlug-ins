@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -358,9 +358,19 @@ public final class Int2HexExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2hex(");
-		value1.generateCodeExpressionMandatory(aData, expression, false);
+		if (value1.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value1.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value1.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(", ");
-		value2.generateCodeExpressionMandatory(aData, expression, false);
+		if (value2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value2.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append(')');
 	}
 }

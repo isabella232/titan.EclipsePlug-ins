@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -45,23 +45,23 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 		final Set<Assignment> unused = new HashSet<Assignment>();
 
 		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-			Module module = projectSourceParser.getModuleByName(moduleName);
+			final Module module = projectSourceParser.getModuleByName(moduleName);
 			modules.add(module);
 			final GlobalDefinitionCheck chek = new GlobalDefinitionCheck();
 			module.accept(chek);
 			unused.addAll(chek.getDefinitions());
 		}
 
-		for (Module module : modules) {
+		for (final Module module : modules) {
 			final GlobalUsedDefinitionCheck chekUsed = new GlobalUsedDefinitionCheck();
 			module.accept(chekUsed);
-			Set<Assignment> used = chekUsed.getDefinitions();
+			final Set<Assignment> used = chekUsed.getDefinitions();
 			//remove from the unused list items that are referenced
 			unused.removeAll(used);
 
 			//remove from the unused list undefined items who's real version is referenced
 			final ArrayList<Assignment> tobeRemoved = new ArrayList<Assignment>();
-			for (Assignment assignment : unused) {
+			for (final Assignment assignment : unused) {
 				if (assignment instanceof Undefined_Assignment) {
 					final Assignment realAssignment = ((Undefined_Assignment)assignment).getRealAssignment(CompilationTimeStamp.getBaseTimestamp());
 					if (used.contains(realAssignment)) {
@@ -72,7 +72,7 @@ public class UnusedGlobalDefinition extends BaseProjectCodeSmellSpotter {
 			unused.removeAll(tobeRemoved);
 		}
 
-		for (Assignment ass : unused) {
+		for (final Assignment ass : unused) {
 			final String name = ass.getIdentifier().getDisplayName();
 			final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used globally", ass.getAssignmentName(), name);
 			problems.report(ass.getIdentifier().getLocation(), msg);

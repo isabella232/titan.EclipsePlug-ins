@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -27,29 +27,37 @@ import java.util.ArrayList;
  * */
 public final class TTCN_EncDec_ErrorContext {
 
-	private static ArrayList<TTCN_EncDec_ErrorContext> errors = new ArrayList<TTCN_EncDec_ErrorContext>();
+	private static ThreadLocal<ArrayList<TTCN_EncDec_ErrorContext>> errors = new ThreadLocal<ArrayList<TTCN_EncDec_ErrorContext>>() {
+		@Override
+		protected ArrayList<TTCN_EncDec_ErrorContext> initialValue() {
+			return new ArrayList<TTCN_EncDec_ErrorContext>();
+		}
+	};
 	private String format;
 	private Object[] arguments;
 
 	public TTCN_EncDec_ErrorContext() {
-		errors.add(this);
+		errors.get().add(this);
 	}
 
 	public TTCN_EncDec_ErrorContext(final String fmt, final Object... args) {
 		format = fmt;
 		arguments = args;
-		errors.add(this);
+		errors.get().add(this);
 	}
 
 	public void leave_context() {
-		if (errors.get(errors.size() - 1) != this) {
+		final ArrayList<TTCN_EncDec_ErrorContext> localErrors = errors.get();
+		final TTCN_EncDec_ErrorContext temp = localErrors.get(localErrors.size() - 1);
+		if (temp != this) {
 			throw new TtcnError(" Internal error: TTCN_EncDec_ErrorContext.leaveContext()");
 		}
-		errors.remove(errors.size() - 1);
+
+		localErrors.remove(localErrors.size() - 1);
 	}
 
 	public static void reset_all_contexts() {
-		errors.clear();
+		errors.get().clear();
 	}
 
 	public void set_msg(final String fmt, final Object... args) {
@@ -59,8 +67,9 @@ public final class TTCN_EncDec_ErrorContext {
 
 	public static void error(final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
 		final StringBuilder err_msg = new StringBuilder();
-		for (int i = 0; i < errors.size(); i++) {
-			final TTCN_EncDec_ErrorContext temp = errors.get(i);
+		final ArrayList<TTCN_EncDec_ErrorContext> localErrors = errors.get();
+		for (int i = 0; i < localErrors.size(); i++) {
+			final TTCN_EncDec_ErrorContext temp = localErrors.get(i);
 			if (temp.format == null) {
 				continue;
 			} else if (temp.arguments == null) {
@@ -76,8 +85,9 @@ public final class TTCN_EncDec_ErrorContext {
 
 	public static void error_internal(final String fmt, final Object... args) {
 		final StringBuilder err_msg = new StringBuilder("Internal error: ");
-		for (int i = 0; i < errors.size(); i++) {
-			final TTCN_EncDec_ErrorContext temp = errors.get(i);
+		final ArrayList<TTCN_EncDec_ErrorContext> localErrors = errors.get();
+		for (int i = 0; i < localErrors.size(); i++) {
+			final TTCN_EncDec_ErrorContext temp = localErrors.get(i);
 			err_msg.append(String.format(temp.format, temp.arguments)).append(' ');
 		}
 
@@ -88,8 +98,9 @@ public final class TTCN_EncDec_ErrorContext {
 
 	public void warning(final String fmt, final Object... args) {
 		final StringBuilder warn_msg = new StringBuilder();
-		for (int i = 0; i < errors.size(); i++) {
-			final TTCN_EncDec_ErrorContext temp = errors.get(i);
+		final ArrayList<TTCN_EncDec_ErrorContext> localErrors = errors.get();
+		for (int i = 0; i < localErrors.size(); i++) {
+			final TTCN_EncDec_ErrorContext temp = localErrors.get(i);
 			warn_msg.append(String.format(temp.format, temp.arguments)).append(' ');
 		}
 

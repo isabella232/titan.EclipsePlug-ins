@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -95,6 +96,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	private BuildTimestamp lastBuildTimestamp;
 	private String lastGenName;
+
+	private boolean insideCanHaveCoding = false;
 
 	public Array_Type(final Type elementType, final ArrayDimension dimension, final boolean inTypeDefinition) {
 		this.elementType = elementType;
@@ -642,13 +645,15 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				for (int i = 0; i < nofComponents && fixedSize; i++) {
 					final ITTCN3Template templateComponent = listTemplate.getTemplateByIndex(i);
 					switch (templateComponent.getTemplatetype()) {
-					case PERMUTATION_MATCH:
-						if(((CompositeTemplate)templateComponent).containsAnyornoneOrPermutation()) {
+					case PERMUTATION_MATCH: {
+						final PermutationMatch_Template permutationTemplate = (PermutationMatch_Template) templateComponent;
+						if(permutationTemplate.containsAnyornoneOrPermutation(timestamp)) {
 							fixedSize = false;
 						} else {
-							templateSize += ((CompositeTemplate)templateComponent).getNofTemplates();
+							templateSize += permutationTemplate.getNofTemplatesNotAnyornone(timestamp);
 						}
 						break;
+					}
 					default:
 						templateSize++;
 						break;
@@ -735,20 +740,21 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (refChain.contains(this)) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
+		if (insideCanHaveCoding) {
+			insideCanHaveCoding = false;
 			return true;
 		}
-		refChain.add(this);
-		refChain.markState();
+		insideCanHaveCoding = true;
 
 		if (coding != MessageEncoding_type.JSON) {
+			insideCanHaveCoding = false;
 			return false;
 		}
 
-		final boolean result = elementType.getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain);
-		refChain.previousState();
+		final boolean result = elementType.getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding);
 
+		insideCanHaveCoding = false;
 		return result;
 	}
 
@@ -941,6 +947,19 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		default:
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return null;
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkMapParameter(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Location errorLocation) {
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		if (elementType != null) {
+			elementType.checkMapParameter(timestamp, refChain, errorLocation);
 		}
 	}
 
@@ -1224,6 +1243,30 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} valueof() '{'\n", ownName));
 		source.append(MessageFormat.format("return ({0})super.valueof();\n", ownName));
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void set_type(final template_sel templateType, final int length) {\n");
+		source.append("clean_up();\n");
+		source.append("switch (templateType) {\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("listSize = length;\n");
+		source.append(MessageFormat.format("value_list = new {0}_template[listSize];\n", ownName));
+		source.append("for (int i = 0; i < length; ++i) {\n");
+		source.append(MessageFormat.format("value_list[i] = new {0}_template();\n", ownName));
+		source.append("}\n");
+		source.append("\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(\"Internal error: Setting an invalid type for an array template.\");\n");
+		source.append("}\n");
+		source.append("set_selection(templateType);\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template list_item(final int index) '{'\n", ownName));
+		source.append(MessageFormat.format("return ({0}_template)super.list_item(index);\n", ownName));
 		source.append("}\n");
 		source.append("}\n\n");
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,18 +8,30 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
+import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReferenceAnalyzer;
 
 /**
  * Represents a template that holds a charstring pattern.
@@ -30,6 +42,11 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public final class CharString_Pattern_Template extends TTCN3Template {
 
 	private final PatternString patternstring;
+
+	private static final Pattern PATTERN_DYNAMIC_REFERENCE = Pattern.compile( "(.*?)\\{([A-Za-z].*?[A-Za-z0-9_]*)\\}(.*)" );
+
+	// if assigned to a universal charstring the semantic checking will create a converted value.
+	private TTCN3Template converted = null;
 
 	public CharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.CHARSTRING_PATTERN);
@@ -42,6 +59,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		if (patternstring != null) {
 			patternstring.setFullNameParent(this);
 		}
+
 	}
 
 	public PatternString getPatternstring() {
@@ -113,18 +131,35 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public TTCN3Template setTemplatetype(final CompilationTimeStamp timestamp, final Template_type newType) {
-		TTCN3Template realTemplate;
-
 		switch (newType) {
 		case USTR_PATTERN:
-			realTemplate = new UnivCharString_Pattern_Template(patternstring);
-			realTemplate.copyGeneralProperties(this);
+			converted = new UnivCharString_Pattern_Template(patternstring);
+			converted.copyGeneralProperties(this);
 			break;
 		default:
-			realTemplate = super.setTemplatetype(timestamp, newType);
+			return super.setTemplatetype(timestamp, newType);
 		}
 
-		return realTemplate;
+		return converted;
+	}
+
+	/**
+	 * Calculates the referenced template, and while doing so checks the
+	 * reference too.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param referenceChain
+	 *                the reference chain used to detect cyclic references.
+	 *
+	 * @return the template referenced
+	 * */
+	public TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
+		if (converted == null || converted.getIsErroneous(timestamp)) {
+			return this;
+		}
+
+		return converted.getTemplateReferencedLast(timestamp, referenceChain);
 	}
 
 	@Override
@@ -132,6 +167,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
+		}
+
+		if (converted != null) {
+			return converted.getExpressionReturntype(timestamp, expectedValue);
 		}
 
 		return Type_type.TYPE_CHARSTRING;
@@ -183,6 +222,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
+		if (converted != null) {
+			return converted.hasSingleExpression();
+		}
+
 		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
 			return false;
 		}
@@ -196,6 +239,11 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		lastTimeBuilt = aData.getBuildTimstamp();
 
+		if (converted != null) {
+			converted.generateCodeInit(aData, source, name);
+			return;
+		}
+
 		final StringBuilder preamble = new StringBuilder();
 		final String returnValue = patternstring.create_charstring_literals(myScope.getModuleScopeGen(), preamble);
 
@@ -204,8 +252,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		final String escaped = Charstring_Value.get_stringRepr(returnValue);
 
 		source.append(preamble);
-		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, new TitanCharString(\"{2}\")));\n", name, myGovernor.getGenNameTemplate(aData, source), escaped));
-
+		source.append(MessageFormat.format("{0}.operator_assign(new {1}(template_sel.STRING_PATTERN, {2}, {3}));\n", name, myGovernor.getGenNameTemplate(aData, source), create_charstring_literals(null, aData), patternstring.get_nocase()));
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
 				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
@@ -222,6 +269,10 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		if (converted != null) {
+			return converted.getSingleExpression(aData, castIsNeeded);
+		}
+
 		final StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
@@ -237,10 +288,163 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		final String escaped = Charstring_Value.get_stringRepr(patternstring.getFullString());
-		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result), escaped ) );
+		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"), {2})", myGovernor.getGenNameTemplate(aData, result), create_charstring_literals(null, aData), patternstring.get_nocase()));	
 
 		//TODO handle cast needed
 
 		return result;
+	}
+
+	//TODO: comments
+	public void generateCodeStrPattern(final JavaGenData aData, final StringBuilder source) {
+		source.append(create_charstring_literals(null, aData));
+	}
+
+	/**
+	 * Parse a String to a Reference type.
+	 * 
+	 * @param refToParse - the reference which will be parsed.
+	 * @return the parsed reference
+	 */
+	public Reference parseRegexp(final String refToParse) {
+		TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
+		Reference parsedReference = analyzer.parse((IFile) patternstring.getLocation().getFile(), refToParse, false, patternstring.getLocation().getLine(), patternstring.getLocation().getOffset());
+		parsedReference.setCodeSection(getCodeSection());
+		parsedReference.setMyScope(getMyScope());
+		return parsedReference;
+	}
+
+	//semantic check for charstring patterns
+	public void checkRef(final Reference reference, final PatternType pstr_type, final Expected_Value_type expected_value, final CompilationTimeStamp timestamp) {
+		IValue v = null;
+		IValue v_last = null;
+		if (reference.getId().getName() == "CHARSTRING") {
+			return;
+		}
+		Assignment ass = reference.getRefdAssignment(timestamp, false);
+		if (ass == null) {
+			return;
+		}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+		IType ref_type = ass.getType(timestamp).getTypeRefdLast(timestamp).getFieldType(timestamp, reference, 1, expected_value, null, false);
+		Type_type tt;
+		if (pstr_type == PatternType.CHARSTRING_PATTERN && ref_type.getTypetype() != Type_type.TYPE_CHARSTRING) {
+			reference.getLocation().reportSemanticError(MessageFormat.format("Type of the referenced {0} {1} should be 'charstring'",  ass.getAssignmentName(), reference.getDisplayName()));
+		} else {
+			tt = Type_type.TYPE_CHARSTRING;
+		}
+		IType refcheckertype = null;
+		refcheckertype = new CharString_Type();
+		switch (ass.getAssignmentType()) {
+		case A_TYPE:
+			break;
+		case A_MODULEPAR_TEMPLATE:
+		case A_VAR_TEMPLATE:
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_OUT:
+		case A_PAR_TEMP_INOUT:
+			// error reporting moved up
+			break;
+		case A_TEMPLATE:
+			ITTCN3Template templ = null;
+			templ = ((Def_Template) ass).getTemplate(timestamp);
+			refcheckertype.checkThisTemplateRef(timestamp, templ);
+			switch (templ.getTemplatetype()) {
+			case SPECIFIC_VALUE:
+				v_last = templ.getValue();
+				break;
+				//TODO: template concat in RT2
+			case CSTR_PATTERN:
+				v_last = this.getPatternstring().get_value();
+				break;
+			default:
+				reference.getLocation().reportSemanticError(MessageFormat.format("Unable to resolve referenced {0} to character string type. {1} template cannot be used.", reference.getDisplayName(), templ.getTemplateTypeName()));
+				break;
+			}
+			break;
+		case A_VAR:
+		default:
+			v = new Referenced_Value(reference);
+			v.setMyGovernor(refcheckertype);
+			v.setMyScope(reference.getMyScope());
+			v.setLocation(reference.getLocation());
+			refcheckertype.checkThisValueRef(lastTimeChecked, v);
+			v_last = v.getValueRefdLast(timestamp, null);
+		}
+		v = null;
+	}
+
+	public String create_charstring_literals(final StringBuilder preamble, final JavaGenData aData) {
+		int parent = 0; 
+		StringBuilder s = new StringBuilder();
+		//escaped value
+		String ttcnPattern = Charstring_Value.get_stringRepr(patternstring.getFullString());
+		Matcher m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
+		//no reference in the pattern
+		if (!m.matches()) {
+			s.append("new TitanCharString(\"");
+			s.append(ttcnPattern);
+			s.append("\")");
+			return s.toString();
+		}
+		while ( m.matches() ) {
+			//characters before reference
+			if (m.group(1) != null && !m.group(1).isEmpty()) {
+				if (m.group(2) != null && !m.group(2).isEmpty()) {
+					s.append("new TitanCharString(\"");
+					s.append(m.group(1));
+					s.append("\").operator_concatenate(");
+					parent++;
+				} else {
+					s.append("new TitanCharString(\"");
+					s.append(m.group(1));
+					s.append("\")");
+				}
+			}
+			//the reference
+			String ref = m.group(2);
+			Reference parsedRef = parseRegexp(ref);
+			checkRef(parsedRef, PatternType.CHARSTRING_PATTERN, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
+			ExpressionStruct expr = new ExpressionStruct();
+			parsedRef.generateConstRef(aData, expr);
+			Value.generateCodeExpressionOptionalFieldReference(aData, expr, parsedRef);
+			if (expr.preamble == null || expr.postamble == null) {
+				//TODO: check
+			}
+			s.append("new TitanCharString(");
+			s.append(expr.expression);
+			Assignment refd_last = parsedRef.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			switch (refd_last.getAssignmentType()) {
+			case A_TEMPLATE:
+			case A_VAR_TEMPLATE:
+			case A_MODULEPAR_TEMPLATE:
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_OUT:
+			case A_PAR_TEMP_INOUT:
+				s.append(".castForPatterns()");
+				break;
+			default:
+				break;
+			}
+			//characters after the reference
+			if (m.group(3) != null && !m.group(3).isEmpty()) { 
+				s.append(").operator_concatenate(");
+				parent++;	
+			} else {
+				s.append(")");
+			}
+			ttcnPattern = m.group(3);
+			m = PATTERN_DYNAMIC_REFERENCE.matcher( ttcnPattern );
+		}
+		//remaining characters
+		if (ttcnPattern != null && !ttcnPattern.isEmpty()) {
+			s.append("new TitanCharString(\"");
+			s.append(ttcnPattern);
+			s.append("\")");
+		}
+		while(parent > 0) {
+			s.append(")");
+			parent--;
+		}
+		return s.toString();
 	}
 }

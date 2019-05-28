@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -1258,7 +1258,7 @@ public final class FormalParameter extends Definition {
 			break;
 		case A_PAR_TIMER:
 			aData.addBuiltinTypeImport("TitanTimer");
-			result.append(MessageFormat.format("TitanTimer {0}", identifier.getName()));
+			result.append(MessageFormat.format("final TitanTimer {0}", identifier.getName()));
 			break;
 		default:
 			break;

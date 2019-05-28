@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -230,7 +230,10 @@ public class Ttcn2StringExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("TitanCharString");
+		aData.addBuiltinTypeImport("TTCN_Logger.data_log_format_t");
 
+		expression.preamble.append( "//TODO: initial implement, original: Logger_Format_Scope\n" );
+		expression.preamble.append("TTCN_Logger.set_log_format(data_log_format_t.LF_TTCN);\n");
 		expression.preamble.append( "TTCN_Logger.begin_event_log2str();\n");
 		final ExpressionStruct expression2 = new ExpressionStruct();
 		if (templateInstance != null) {
@@ -243,6 +246,7 @@ public class Ttcn2StringExpression extends Expression_Value {
 
 		final String tempId = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TTCN_Logger.end_event_log2str();\n", tempId));
+		expression.preamble.append("TTCN_Logger.set_log_format(data_log_format_t.LF_LEGACY);\n");
 
 		expression.expression.append(tempId);
 	}

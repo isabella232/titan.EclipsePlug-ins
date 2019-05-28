@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -297,46 +297,46 @@ public class ChangeCreator {
 		int endOffset = loc.getEndOffset();
 		if (includePrefix) {
 			filestart: {
-				for (int i=offset-1;i>=0;i--) {
-					switch (fileContent.charAt(i)) {
-						case ' ':
-						case '\t':
-							break;
-						default:
-							offset = i+1;
-							break filestart;
-					}
+			for (int i=offset-1;i>=0;i--) {
+				switch (fileContent.charAt(i)) {
+				case ' ':
+				case '\t':
+					break;
+				default:
+					offset = i+1;
+					break filestart;
 				}
-				//reached position #0
-				offset = 0;
 			}
+			//reached position #0
+			offset = 0;
+		}
 		}
 		boolean comment = false;
 		fileend: {
 			for (int i=endOffset;i<fileContent.length();i++) {
 				switch (fileContent.charAt(i)) {
-					case '\n':
-					case '\r':
+				case '\n':
+				case '\r':
+					endOffset = i;
+					break fileend;
+				case '/':
+					if (fileContent.length() > i+1 && fileContent.charAt(i+1) == '/') {
+						comment = true;
+						i++;
+					} else if (!comment) {
 						endOffset = i;
 						break fileend;
-					case '/':
-						if (fileContent.length() > i+1 && fileContent.charAt(i+1) == '/') {
-							comment = true;
-							i++;
-						} else if (!comment) {
-							endOffset = i;
-							break fileend;
-						}
-						break;
-					case ' ':
-					case '\t':
-					case ';':
-						break;
-					default:
-						if (!comment) {
-							endOffset = i;
-							break fileend;
-						}
+					}
+					break;
+				case ' ':
+				case '\t':
+				case ';':
+					break;
+				default:
+					if (!comment) {
+						endOffset = i;
+						break fileend;
+					}
 				}
 			}
 			//reached eof
@@ -350,11 +350,11 @@ public class ChangeCreator {
 	private int findLineBeginningOffset(final String fileContent, final int fromOffset) {
 		for (int i=fromOffset-1;i>=0;i--) {
 			switch (fileContent.charAt(i)) {
-				case ' ':
-				case '\t':
-					break;
-				default:
-					return i+1;
+			case ' ':
+			case '\t':
+				break;
+			default:
+				return i+1;
 			}
 		}
 		return 0;
@@ -364,6 +364,16 @@ public class ChangeCreator {
 	 * Returns the {@link Location} of the {@DeleteEdit} to remove a variable from a declaration list
 	 * */
 	private Location calculateMultiDeclarationCutLoc(final String fileContent, final StatementNode declStNode) {
+		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
+		final Location declStmtLoc = declStmt.getLocation();
+		final String stmtContent = fileContent.substring(declStmtLoc.getOffset(), declStmtLoc.getEndOffset());
+		if (!stmtContent.contains(",")) {
+			ErrorReporter.logError("ChangeCreator.calculateMultiDeclarationCutLoc(): Given statement" +
+					" is not a multi-declaration statement; loc: " + declStmtLoc.getOffset() + "-" +
+					declStmtLoc.getEndOffset() + " in file " + declStmtLoc.getFile());
+			return null;
+		}
+
 		/*
 		 * rules for removing multideclaration parts:
 		 * 	if part is only one left: remove statement
@@ -374,16 +384,8 @@ public class ChangeCreator {
 		final MultiDeclaration md = declStNode.getMultiDeclaration();
 		final StatementNode firstDeclPart = md.getFirstStatement();
 		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
-		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
 		final boolean firstDefInMdMoved = firstDeclPart.isMoved();
-		final Location declStmtLoc = declStmt.getLocation();
-		final String stmtContent = fileContent.substring(declStmtLoc.getOffset(), declStmtLoc.getEndOffset());
-		if (!stmtContent.contains(",")) {
-			ErrorReporter.logError("ChangeCreator.calculateMultiDeclarationCutLoc(): Given statement" +
-					" is not a multi-declaration statement; loc: " + declStmtLoc.getOffset() + "-" +
-					declStmtLoc.getEndOffset() + " in file " + declStmtLoc.getFile());
-			return null;
-		}
+
 		//
 		if (md.getSize() <= 1) {
 			final Location cutLoc = findStatementLocation(fileContent, declStmt.getLocation(), true);
@@ -414,38 +416,38 @@ public class ChangeCreator {
 		boolean insideBlockComment = false;
 		while (offset>stopAtOffset) {
 			switch (fileContent.charAt(offset-1)) {
-				case ' ':
-				case '\t':
-				case '\n':
-				case '\r':
-				case ',':
+			case ' ':
+			case '\t':
+			case '\n':
+			case '\r':
+			case ',':
+				offset--;
+				continue;
+			case '/':
+				if (offset > 1 && fileContent.charAt(offset-2) == '*') {
+					insideBlockComment = true;
+					offset -= 2;
+					continue;
+				} else if (insideBlockComment) {
 					offset--;
 					continue;
-				case '/':
-					if (offset > 1 && fileContent.charAt(offset-2) == '*') {
-						insideBlockComment = true;
-						offset -= 2;
-						continue;
-					} else if (insideBlockComment) {
-						offset--;
-						continue;
-					}
-					break;
-				case '*':
-					if (insideBlockComment && offset > 1 && fileContent.charAt(offset-2) == '/') {
-						insideBlockComment = false;
-						offset -= 2;
-						continue;
-					} else if (insideBlockComment) {
-						offset--;
-						continue;
-					}
-					break;
-				default:
-					if (insideBlockComment) {
-						offset--;
-						continue;
-					}
+				}
+				break;
+			case '*':
+				if (insideBlockComment && offset > 1 && fileContent.charAt(offset-2) == '/') {
+					insideBlockComment = false;
+					offset -= 2;
+					continue;
+				} else if (insideBlockComment) {
+					offset--;
+					continue;
+				}
+				break;
+			default:
+				if (insideBlockComment) {
+					offset--;
+					continue;
+				}
 			}
 			break;
 		}
@@ -497,10 +499,6 @@ public class ChangeCreator {
 	 * Returns the content of an {@InsertEdit} to move a variable from a declaration list
 	 * */
 	private String calculateMultiDeclarationMoveContent(final String fileContent, final StatementNode declStNode) {
-		final MultiDeclaration md = declStNode.getMultiDeclaration();
-		final StatementNode firstDeclPart = md.getFirstStatement();
-		final Definition firstDefInStmt = firstDeclPart.getDeclaredVar().getDefinition();
-		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
 		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
 		final Location declStmtLoc = declStmt.getLocation();
 		final String stmtContent = fileContent.substring(declStmtLoc.getOffset(), declStmtLoc.getEndOffset());
@@ -510,6 +508,11 @@ public class ChangeCreator {
 					declStmtLoc.getEndOffset() + " in file " + declStmtLoc.getFile());
 			return null;
 		}
+
+		final MultiDeclaration md = declStNode.getMultiDeclaration();
+		final StatementNode firstDeclPart = md.getFirstStatement();
+		final Definition firstDefInStmt = firstDeclPart.getDeclaredVar().getDefinition();
+		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
 		int prefixOffset;
 		int prefixEndOffset;
 		if (firstDefInStmt.equals(defVarToMove)) {
@@ -662,14 +665,14 @@ public class ChangeCreator {
 				return V_CONTINUE;
 			}
 			if (node instanceof Reference && suspendReferencesForNode == null) {
-				final Reference ref = (Reference)node;
-				final Assignment as = ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				final StatementNode refSt = (StatementNode)currStack.peek();
 				if (refSt == null) {
 					//should be a return type or runs on reference (ignore it)
 					return V_SKIP;
 				}
 
+				final Reference ref = (Reference)node;
+				final Assignment as = ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				//does the statement contain function calls?
 				if (as instanceof Def_Function || as instanceof Def_Extfunction) {
 					refSt.setHasFunctionCall();

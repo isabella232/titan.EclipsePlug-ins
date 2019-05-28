@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -32,7 +32,7 @@ import org.eclipse.titanium.swt.SWTResourceManager;
 /**
  * This class implements a node searching Eclipse window, it is inherited from
  * {@link Dialog}
- * 
+ *
  * @author Gabor Jenei
  * @author Balazs Maitz
  */
@@ -45,11 +45,11 @@ public class FindWindow<T extends Comparable> extends Dialog {
 	private Label lblResults;
 	private Tree tree;
 	private final SortedSet<T> treeItems;
-	protected final GUIErrorHandler errorHandler = new GUIErrorHandler(); 
+	protected final GUIErrorHandler errorHandler = new GUIErrorHandler();
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parent
 	 *            : The parent shell
 	 * @param view
@@ -66,7 +66,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		if (totalList==null) {
 			throw new IllegalArgumentException("The totalList parameter of FindWindow's constructor mustn't be null!");
 		}
-		
+
 		this.view = view;
 		treeItems = new TreeSet<T>();
 		this.totalSet = totalList;

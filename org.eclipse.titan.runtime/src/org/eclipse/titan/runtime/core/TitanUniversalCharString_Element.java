@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -685,24 +685,6 @@ public class TitanUniversalCharString_Element {
 		return str_val.toString() + " index: " + char_pos;
 	}
 
-	// static functions
-	/**
-	 * Checks if the first value is equivalent to the second one.
-	 *
-	 * static operator== in the core
-	 *
-	 * @param ucharValue
-	 *                the first value.
-	 * @param otherValue
-	 *                the other value to check against.
-	 * @return {@code true} if the values are equivalent.
-	 */
-	public static boolean operator_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
-		otherValue.must_bound("The right operand of comparison is an unbound universal charstring element.");
-
-		return ucharValue.operator_equals(otherValue.get_char());
-	}
-
 	/**
 	 * Logs this element.
 	 */
@@ -724,6 +706,24 @@ public class TitanUniversalCharString_Element {
 		} else {
 			TTCN_Logger.log_event_unbound();
 		}
+	}
+	
+	// static functions
+	/**
+	 * Checks if the first value is equivalent to the second one.
+	 *
+	 * static operator== in the core
+	 *
+	 * @param ucharValue
+	 *                the first value.
+	 * @param otherValue
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public static boolean operator_equals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
+		otherValue.must_bound("The right operand of comparison is an unbound universal charstring element.");
+
+		return ucharValue.operator_equals(otherValue.get_char());
 	}
 
 	/**

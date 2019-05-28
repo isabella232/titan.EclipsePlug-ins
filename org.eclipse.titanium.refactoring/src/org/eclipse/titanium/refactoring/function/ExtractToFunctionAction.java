@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -43,9 +43,6 @@ public class ExtractToFunctionAction extends AbstractHandler {
 			return null;
 		}
 
-		final IFile selectedFile = refactoring.getSelectedFile();
-		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(selectedFile.getProject());
-
 		Activator.getDefault().pauseHandlingResourceChanges();
 
 		//find params & create function from string builders
@@ -76,6 +73,8 @@ public class ExtractToFunctionAction extends AbstractHandler {
 		}
 
 		//report outdating
+		final IFile selectedFile = refactoring.getSelectedFile();
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(selectedFile.getProject());
 		projectSourceParser.reportOutdating(selectedFile);
 		projectSourceParser.analyzeAll();
 

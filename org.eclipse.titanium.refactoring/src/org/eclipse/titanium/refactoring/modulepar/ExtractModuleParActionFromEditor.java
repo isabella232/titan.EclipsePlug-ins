@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -37,8 +37,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ExtractModuleParActionFromEditor extends AbstractHandler {
 
-	private IProject sourceProj;
-
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 
@@ -54,7 +52,7 @@ public class ExtractModuleParActionFromEditor extends AbstractHandler {
 		}
 
 		//getting current project
-		sourceProj = selectedFile.getProject();
+		final IProject sourceProj = selectedFile.getProject();
 		if (sourceProj == null) {
 			ErrorReporter.logError("ExtractModuleParActionFromEditor: Source project is null. ");
 			return null;

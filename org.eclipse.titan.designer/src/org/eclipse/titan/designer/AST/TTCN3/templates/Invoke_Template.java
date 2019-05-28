@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -30,7 +30,10 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
@@ -377,8 +380,27 @@ public final class Invoke_Template extends TTCN3Template {
 		}
 
 		if (actualParameter_list != null) {
+			FormalParameterList formalParameterList = null;
+			if (value.getValuetype() == Value_type.FUNCTION_REFERENCE_VALUE) {
+				final Definition definition = ((Function_Reference_Value) value).getReferredFunction();
+				switch (definition.getAssignmentType()) {
+				case A_FUNCTION:
+				case A_FUNCTION_RVAL:
+				case A_FUNCTION_RTEMP:
+					formalParameterList = ((Def_Function)definition).getFormalParameterList();
+					break;
+				case A_EXT_FUNCTION:
+				case A_EXT_FUNCTION_RVAL:
+				case A_EXT_FUNCTION_RTEMP:
+					formalParameterList = ((Def_Extfunction)definition).getFormalParameterList();
+					break;
+				default:
+					break;
+				}
+			}
 			for (int i = 0; i < actualParameter_list.getNofParameters(); i++) {
-				if (!actualParameter_list.getParameter(i).hasSingleExpression()) {
+				FormalParameter formalPar = formalParameterList == null ? null : formalParameterList.getParameterByIndex(i);
+				if (!actualParameter_list.getParameter(i).hasSingleExpression(formalPar)) {
 					return false;
 				}
 			}

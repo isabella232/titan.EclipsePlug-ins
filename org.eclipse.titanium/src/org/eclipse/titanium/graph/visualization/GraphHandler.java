@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -63,7 +63,7 @@ public class GraphHandler {
 
 	private DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> g;
 	private static final Function<NodeDescriptor, String> NODE_LABELER = new Function<NodeDescriptor, String>() {
-		public String apply(NodeDescriptor o) {
+		public String apply(final NodeDescriptor o) {
 			return o.toString();
 		}
 	};

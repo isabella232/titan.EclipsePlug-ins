@@ -2,7 +2,7 @@ parser grammar RuntimeCfgParser;
 
 /*
  ******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring_Templat
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_CustomName;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
@@ -86,9 +87,12 @@ import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 import java.io.File;
+import java.math.BigInteger;
+import java.text.MessageFormat;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 }
@@ -117,6 +121,9 @@ import java.util.regex.Pattern;
 
 	// pattern for matching typed macro string, for example: ${a, float}
 	private final static Pattern PATTERN_TYPED_MACRO = Pattern.compile("\\$\\s*\\{\\s*([A-Za-z][A-Za-z0-9_]*)\\s*,\\s*[A-Za-z][A-Za-z0-9_]*\\s*\\}");
+	
+	private static final String STRING_TO_TTCN_PREFIX = "$#&&&(#TTCNSTRINGPARSING$#&&^#%";
+	private static final String STRING_TO_TTCN_COMPONENT_PREFIX = "$#&&&(#TTCNSTRINGPARSING_COMPONENT$#&&^#% ";
 
 	private File mActualFile = null;
 
@@ -130,10 +137,6 @@ import java.util.regex.Pattern;
 	private MCSectionHandler mcSectionHandler = new MCSectionHandler();
 	private ExternalCommandSectionHandler externalCommandsSectionHandler = new ExternalCommandSectionHandler();
 	private ExecuteSectionHandler executeSectionHandler = new ExecuteSectionHandler();
-
-	private void reportWarning(TITANMarker marker){
-		//TODO: implement
-	}
 
 	public void setActualFile(File file) {
 		mActualFile = file;
@@ -157,60 +160,6 @@ import java.util.regex.Pattern;
 
 	public ExecuteSectionHandler getExecuteSectionHandler() {
 		return executeSectionHandler;
-	}
-
-	/**
-	 * Creates a marker.
-	 * Locations of input tokens are not moved by offset and line yet, this function does this conversion.
-	 * @param aMessage marker message
-	 * @param aStartToken the 1st token, its line and start position will be used for the location
-	 *                  NOTE: start position is the column index of the tokens 1st character.
-	 *                        Column index starts with 0.
-	 * @param aEndToken the last token, its end position will be used for the location.
-	 *                  NOTE: end position is the column index after the token's last character.
-	 * @param aSeverity severity (info/warning/error)
-	 * @param aPriority priority (low/normal/high)
-	 * @return new marker
-	 */
-	private TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
-		TITANMarker marker = new TITANMarker(
-			aMessage,
-			(aStartToken != null) ? mLine - 1 + aStartToken.getLine() : -1,
-			(aStartToken != null) ? mOffset + aStartToken.getStartIndex() : -1,
-			(aEndToken != null) ? mOffset + aEndToken.getStopIndex() + 1 : -1,
-			aSeverity, aPriority );
-		return marker;
-	}
-
-	/**
-	 * Adds an error marker.
-	 * Locations of input tokens are not moved by offset and line yet, this function does this conversion.
-	 * @param aMessage marker message
-	 * @param aStartToken the 1st token, its line and start position will be used for the location
-	 *                  NOTE: start position is the column index of the tokens 1st character.
-	 *                        Column index starts with 0.
-	 * @param aEndToken the last token, its end position will be used for the location.
-	 *                  NOTE: end position is the column index after the token's last character.
-	 */
-	private void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
-		TITANMarker marker = createError( aMessage, aStartToken, aEndToken );
-		//TODO: implement
-	}
-
-	/**
-	 * Creates an error marker.
-	 * Locations of input tokens are not moved by offset and line yet, this function does this conversion.
-	 * @param aMessage marker message
-	 * @param aStartToken the 1st token, its line and start position will be used for the location
-	 *                  NOTE: start position is the column index of the tokens 1st character.
-	 *                        Column index starts with 0.
-	 * @param aEndToken the last token, its end position will be used for the location.
-	 *                  NOTE: end position is the column index after the token's last character.
-	 * @return the created error marker
-	 */
-	private TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
-		final TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, SEVERITY_ERROR, PRIORITY_NORMAL );
-		return marker;
 	}
 
 	/**
@@ -240,33 +189,100 @@ import java.util.regex.Pattern;
 		Module_List.set_param(param);
 	}
 
+	private boolean error_flag = false;
+
 	/**
-	 * Logs error during the process
-	 * @param errorMsg error message
+	 * @return true if error happened during CFG parsing, false otherwise
 	 */
-	private void config_process_error(final String errorMsg)	{
-		//TODO: implement
+	public boolean get_error_flag() {
+		return error_flag;
 	}
 
 	//TODO: use these variables
-	private static boolean file_name_set = false;
-	private static boolean file_mask_set = true;
-	private static boolean console_mask_set = true;
-	private static boolean timestamp_format_set = false;
-	private static boolean source_info_format_set = false;
-	private static boolean append_file_set = false;
-	private static boolean log_event_types_set = false;
-	private static boolean log_entity_name_set = false;
-	private static boolean begin_controlpart_command_set = false;
-	private static boolean end_controlpart_command_set = false;
-	private static boolean begin_testcase_command_set = false;
-	private static boolean end_testcase_command_set = false;
-	private static boolean log_file_size_set = true;
-	private static boolean log_file_number_set = true;
-	private static boolean log_disk_full_action_set = true;
-	private static boolean matching_verbosity_set = false;
-	private static boolean logger_plugins_set = false;
-	private static boolean plugin_specific_set = false;
+	private StringBuilder parsing_error_messages = null;
+	// originally Debugger_Value_Parsing.happening()
+	private boolean debugger_Value_Parsing_happening = false;
+	// originally Ttcn_String_Parsing.happening()
+	private boolean ttcn_String_Parsing_happening = false;
+
+	/**
+	 * Gets the last token of the current rule.
+	 * This is used inside the rule, because \$stop is filled only
+	 * in the finally block in the generated java code, so it does
+	 * NOT have the correct value in @after and @finally actions.
+	 * This method can be used in any part of the rule.
+	 * @return last consumed token
+	 */
+	public Token getStopToken() {
+		return _input.get( _input.index() - 1 );
+	}
+
+	/**
+	 * Logs error during the process
+	 * @param error_str error message
+	 */
+	private void config_process_error(final String error_str)	{
+		config_process_error(error_str, getStopToken() );
+	}
+
+	private void config_process_error(final String error_str, final Token token)	{
+		final String config_process_text = token.getText();
+		final int current_line = token.getLine();
+		if (ttcn_String_Parsing_happening || debugger_Value_Parsing_happening) {
+			if ( parsing_error_messages == null ) {
+				parsing_error_messages = new StringBuilder();
+			}
+			parsing_error_messages.append('\n');
+			if (debugger_Value_Parsing_happening) {
+				parsing_error_messages.append(MessageFormat.format("Parse error at or before token `{0}': {1}",
+						config_process_text, error_str));
+			}
+			else { // Ttcn_String_Parsing.happening()
+				parsing_error_messages.append(MessageFormat.format("Parse error in line {0}, at or before token `{1}': {2}",
+						current_line, config_process_text, error_str));
+			}
+			error_flag = true;
+			return;
+		}
+		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+		if ( mActualFile != null ) {
+			TTCN_Logger.log_event("Parse error in configuration file `%s': in line %d, at or before token `%s': ",
+					mActualFile, current_line,
+					config_process_text
+					);
+		} else {
+			TTCN_Logger.log_event("Parse error while reading configuration information: in line %d, at or before token `%s': ",
+					current_line, config_process_text);
+		}
+		TTCN_Logger.log_event(error_str);
+		TTCN_Logger.end_event();
+		error_flag = true;
+	}
+
+	/*
+	  For detecting duplicate entries in the config file. Start out as false,
+	  set to true by check_duplicate_option().
+	  Exception: duplication of parameters that can be component specific is checked
+	  by set_xxx(), these start out as true.
+	*/
+	private static AtomicBoolean file_name_set = new AtomicBoolean(false);
+	private static AtomicBoolean file_mask_set = new AtomicBoolean(false);
+	private static AtomicBoolean console_mask_set = new AtomicBoolean(false);
+	private static AtomicBoolean timestamp_format_set = new AtomicBoolean(false);
+	private static AtomicBoolean source_info_format_set = new AtomicBoolean(false);
+	private static AtomicBoolean append_file_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_event_types_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_entity_name_set = new AtomicBoolean(false);
+	private static AtomicBoolean begin_controlpart_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean end_controlpart_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean begin_testcase_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean end_testcase_command_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_file_size_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_file_number_set = new AtomicBoolean(false);
+	private static AtomicBoolean log_disk_full_action_set = new AtomicBoolean(false);
+	private static AtomicBoolean matching_verbosity_set = new AtomicBoolean(false);
+	private static AtomicBoolean logger_plugins_set = new AtomicBoolean(false);
+	private static AtomicBoolean plugin_specific_set = new AtomicBoolean(false);
 
 	public static void reset_configuration_options() {
 		/* Section [MODULE_PARAMETERS] */
@@ -274,14 +290,14 @@ import java.util.regex.Pattern;
 		/* Section [LOGGING] */
 		TTCN_Logger.close_file();
 		TTCN_Logger.reset_configuration();
-		file_name_set = false;
-		file_mask_set = true;
-		console_mask_set = true;
-		timestamp_format_set = false;
-		source_info_format_set = false;
-		append_file_set = false;
-		log_event_types_set = false;
-		log_entity_name_set = false;
+		file_name_set.set(false);
+		file_mask_set.set(false);
+		console_mask_set.set(false);
+		timestamp_format_set.set(false);
+		source_info_format_set.set(false);
+		append_file_set.set(false);
+		log_event_types_set.set(false);
+		log_entity_name_set.set(false);
 		/* Section [TESTPORT_PARAMETERS] */
 		TitanPort.clear_parameters();
 		/* Section [EXTERNAL_COMMANDS] */
@@ -289,16 +305,90 @@ import java.util.regex.Pattern;
 		//TODO: implement
 		//TTCN_Runtime.clear_external_commands();
 
-		begin_controlpart_command_set = false;
-		end_controlpart_command_set = false;
-		begin_testcase_command_set = false;
-		end_testcase_command_set = false;
+		begin_controlpart_command_set.set(false);
+		end_controlpart_command_set.set(false);
+		begin_testcase_command_set.set(false);
+		end_testcase_command_set.set(false);
 	}
+
+	/**
+	 * Converts USI format to universal char
+	 * @param text hexadecimal string starting with [Uu][+]?, example: U+123, uAA0A
+	 * @return converted universal char, or null on error 
+	 */
+	private TitanUniversalChar usiToUc( final String text ) {
+		if (null == text) {
+			config_process_error("USI string is null ");
+			return null;
+		}
+		if (text.length() < 2) {
+			config_process_error("USI string is too short: " + text);
+			return null;
+		}
+		// Always starts with u or U
+		if ('u' != text.charAt(0) && 'U' != text.charAt(0) ) {
+			config_process_error("Invalid USI format: " + text);
+			return null;
+		}
+		// Optional '+'
+		final int offset = '+' == text.charAt(1) ? 2 : 1;
+		final String hex = text.substring(offset);
+		if (hex.length() > 8) {
+			//Error, should not happen
+			config_process_error("Hexadecimal string " + hex + " is too long. Maximum 8 hex digits are allowed.");
+			return null;
+		}
+		try {
+			long int_val = Long.parseLong(hex, 16);
+			//Fill in the quadruple
+			final char uc_group = (char) ((int_val >> 24) & 0xFF);
+			final char uc_plane = (char) ((int_val >> 16) & 0xFF);
+			final char uc_row   = (char) ((int_val >> 8) & 0xFF);
+			final char uc_cell  = (char) (int_val & 0xFF);
+			return new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell);
+		} catch (NumberFormatException e) {
+			//Error, should not happen
+			config_process_error("Invalid hexadecimal string " + hex);
+			return null;
+		}
+	}
+ 
+	private static TitanInteger toTitanInteger( BigInteger bi ) {
+		final int i = bi.intValue();
+		if (bi.equals(BigInteger.valueOf(i))) {
+			// value fits to an int
+			return new TitanInteger(i);
+		}
+		return new TitanInteger(bi);
+	}
+
+	private static void TTCN_warning(final String warning_msg, final Object... args) {
+		TTCN_Logger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Warning: ");
+		TTCN_Logger.log_event_va_list(warning_msg, args);
+		TTCN_Logger.end_event();
+	}
+
+	private static void check_duplicate_option(final String section_name, final String option_name, AtomicBoolean option_flag) {
+		if (option_flag.get()) {
+			TTCN_warning("Option `%s' was given more than once in section [%s] of the configuration file.", option_name, section_name);
+		} else {
+			option_flag.set(true);
+		}
+	}
+
+
 }
 
 pr_ConfigFile:
 	pr_Section+
 	EOF
+;
+
+pr_String2TtcnStatement returns[Module_Parameter parsed_module_param]:
+	v = pr_ParameterValue {
+		$parsed_module_param = $v.moduleparameter; 
+	}	
 ;
 
 pr_Section:
@@ -353,9 +443,7 @@ pr_MainControllerItemKillTimer:
 	ASSIGNMENTCHAR
 	k = pr_ArithmeticValueExpression
 	SEMICOLON?
-	{	if ( $k.number != null ) {
-			mcSectionHandler.setKillTimer( $k.number );
-		}
+	{	mcSectionHandler.setKillTimer( $k.floatnum );
 	}
 ;
 
@@ -456,22 +544,26 @@ pr_ExternalCommand:
 	(	BEGINCONTROLPART
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setBeginControlPart( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "BeginControlPart", begin_controlpart_command_set);
+				externalCommandsSectionHandler.setBeginControlPart( $v.text );
 			}
 	|	ENDCONTROLPART
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setEndControlPart( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "EndControlPart", end_controlpart_command_set);
+				externalCommandsSectionHandler.setEndControlPart( $v.text );
 			}
 	|	BEGINTESTCASE
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setBeginTestcase( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "BeginTestCase", begin_testcase_command_set);
+				externalCommandsSectionHandler.setBeginTestcase( $v.text );
 			}
 	|	ENDTESTCASE
 		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
-			{	externalCommandsSectionHandler.setEndTestcase( $v.text );
+			{	check_duplicate_option("EXTERNAL_COMMANDS", "EndTestCase", end_testcase_command_set);
+				externalCommandsSectionHandler.setEndTestcase( $v.text );
 			}
 	)
 ;
@@ -766,41 +858,49 @@ pr_PlainLoggingParam
 )?
 (	FILEMASK ASSIGNMENTCHAR fileMask = pr_LoggingBitMask
 		{	TTCN_Logger.set_file_mask(comp, $fileMask.loggingBitMask);
+			check_duplicate_option("LOGGING", "FileMask", file_mask_set);
 		}
 |	CONSOLEMASK ASSIGNMENTCHAR consoleMask = pr_LoggingBitMask
 		{	TTCN_Logger.set_console_mask(comp, $consoleMask.loggingBitMask);
+			check_duplicate_option("LOGGING", "ConsoleMask", console_mask_set);
 		}
 |	DISKFULLACTION ASSIGNMENTCHAR pr_DiskFullActionValue
 |	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_NaturalNumber
-		{	TTCN_Logger.set_file_number( $lfn.integer.getIntegerValue() );
+		{	TTCN_Logger.set_file_number( $lfn.integer.intValue() );
+			check_duplicate_option("LOGGING", "LogFileNumber", log_file_number_set);
 		}
 |	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_NaturalNumber
-		{	TTCN_Logger.set_file_size( $lfs.integer.getIntegerValue() );
+		{	TTCN_Logger.set_file_size( $lfs.integer.intValue() );
+			check_duplicate_option("LOGGING", "LogFileSize", log_file_size_set);
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
 		{	TTCN_Logger.set_file_name( $f.string, true );
+			check_duplicate_option("LOGGING", "LogFile", file_name_set);
 		}
 |	TIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
 		{	TTCN_Logger.set_timestamp_format( to_timestamp_format( $ttv.text ) );
+			check_duplicate_option("LOGGING", "TimeStampFormat", timestamp_format_set);
 		}
 |	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
-		{	//TODO: add TTCN_Logger.set_console_timestamp_format(timestamp_format_t)
-			//TTCN_Logger.set_console_timestamp_format( to_timestamp_format( $ttv.text ) );
-		}
+		// nothing to do
 |	SOURCEINFOFORMAT ASSIGNMENTCHAR
 	(	pr_SourceInfoValue
 	|	b = pr_YesNoOrBoolean
 		{	TTCN_Logger.set_source_info_format( $b.bool ? source_info_format_t.SINFO_SINGLE : source_info_format_t.SINFO_NONE);
 		}
 	)
+	{	check_duplicate_option("LOGGING", "SourceInfoFormat", source_info_format_set);	}
 |	APPENDFILE ASSIGNMENTCHAR af = pr_YesNoOrBoolean
 	{	TTCN_Logger.set_append_file( $af.bool );
+		check_duplicate_option("LOGGING", "AppendFile", append_file_set);
 	}
 |	LOGEVENTTYPES ASSIGNMENTCHAR let = pr_LogEventTypesValue
 		{	TTCN_Logger.set_log_event_types( $let.type );
+			check_duplicate_option("LOGGING", "LogEventTypes", log_event_types_set);
 		}
 |	LOGENTITYNAME ASSIGNMENTCHAR len = pr_LogEventTypesValue
 		{	TTCN_Logger.set_log_entity_name( $len.type );
+			check_duplicate_option("LOGGING", "LogEntityName", log_entity_name_set);
 		}
 |	MATCHINGHINTS ASSIGNMENTCHAR pr_MatchingHintsValue
 |	o1 = pr_PluginSpecificParamName ASSIGNMENTCHAR o2 = pr_StringValue
@@ -813,13 +913,22 @@ pr_PlainLoggingParam
 		logging_param.str_val = $o2.string;
 		logging_setting.logparam = logging_param;
 		TTCN_Logger.add_parameter(logging_setting);
+		// It would be an overkill to check for the infinite number of custom parameters...
+		check_duplicate_option("LOGGING", "PluginSpecific", plugin_specific_set);
 	}
 |	EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
-	{	TTCN_Logger.set_emergency_logging( $el.integer.getIntegerValue() );
+	{	TTCN_Logger.set_emergency_logging( $el.integer.intValue() );
+		//TODO: check_duplicate_option("LOGGING", ...);
 	}
 |	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR pr_BufferAllOrMasked
+		//TODO: check_duplicate_option("LOGGING", ...);
 |	EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
 	{	TTCN_Logger.set_emergency_logging_mask(comp, $elm.loggingBitMask);
+		//TODO: check_duplicate_option("LOGGING", ...);
+	}
+|	EMERGENCYLOGGINGFORFAILVERDICT ASSIGNMENTCHAR b = pr_YesNoOrBoolean
+	{	TTCN_Logger.set_emergency_logging_for_fail_verdict($b.bool);
+		//TODO: check_duplicate_option("LOGGING", ...);
 	}
 )
 ;
@@ -862,6 +971,7 @@ pr_DiskFullActionValue:
 	)?
 	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_RETRY, retry_interval);	}
 )
+{	check_duplicate_option("LOGGING", "DiskFullAction", log_disk_full_action_set);	}
 ;
 
 pr_ComponentID returns [component_id_t comp]
@@ -874,7 +984,7 @@ pr_ComponentID returns [component_id_t comp]
 		}
 |	n = pr_NaturalNumber
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
-			$comp.id_compref = $n.integer.getIntegerValue();
+			$comp.id_compref = $n.integer.intValue();
 		}
 |	MTCKEYWORD
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
@@ -923,6 +1033,7 @@ pr_LogEventTypesValue returns [ log_event_types_t type ]:
 pr_MatchingHintsValue:
 	COMPACT		{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_COMPACT );	}
 |	DETAILED	{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_FULL );	}
+{	check_duplicate_option("LOGGING", "MatchingVerbosity", matching_verbosity_set);	}
 ;
 
 pr_LogEventType [ Logging_Bits loggingBitMask ]:
@@ -1031,8 +1142,7 @@ pr_deprecatedEventTypeSet [ Logging_Bits loggingBitMask ]:
 |  a14 = TTCN_MATCHING1		{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
 |  a15 = TTCN_DEBUG1		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
 )
-{	reportWarning(new TITANMarker("Deprecated logging option " + $start.getText(), $start.getLine(),
-		$start.getStartIndex(), $start.getStopIndex(), SEVERITY_WARNING, PRIORITY_NORMAL));
+{	TTCN_warning("Deprecated logging option " + $start.getText() + " in line " + $start.getLine());
 }
 ;
 
@@ -1137,7 +1247,6 @@ pr_SimpleValue:
 pr_TestportName:
 (	pr_Identifier
 	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
-		//TODO: it can be changed to pr_IndexItemIndex, also in config_process.y
 	)*
 |	STAR
 )
@@ -1153,63 +1262,72 @@ pr_Identifier returns [String identifier]:
 )
 ;
 
-pr_IntegerValueExpression returns [CFGNumber integer]:
+// integers outside of the [MODULE_PARAMETERS] section
+//IntegerValue in titan.core/config_process.y
+pr_IntegerValueExpression returns [BigInteger integer]:
 	a = pr_IntegerAddExpression	{	$integer = $a.integer;	}
 ;
 
-pr_IntegerAddExpression returns [CFGNumber integer]:
+pr_IntegerAddExpression returns [BigInteger integer]:
 	a = pr_IntegerMulExpression	{	$integer = $a.integer;	}
-	(	PLUS	b1 = pr_IntegerMulExpression	{	$integer.add($b1.integer);	}
-	|	MINUS	b2 = pr_IntegerMulExpression	{	$b2.integer.mul(-1); $integer.add($b2.integer);	}
+	(	PLUS	b1 = pr_IntegerMulExpression	{	$integer = $integer.add($b1.integer);	}
+	|	MINUS	b2 = pr_IntegerMulExpression	{	$integer = $integer.subtract($b2.integer);	}
 	)*
 ;
 
-pr_IntegerMulExpression returns [CFGNumber integer]:
+pr_IntegerMulExpression returns [BigInteger integer]:
 	a = pr_IntegerUnaryExpression	{	$integer = $a.integer;	}
-	(	STAR	b1 = pr_IntegerUnaryExpression	{	$integer.mul($b1.integer);	}
+	(	STAR	b1 = pr_IntegerUnaryExpression	{	$integer = $integer.multiply($b1.integer);	}
 	|	SLASH	b2 = pr_IntegerUnaryExpression
 		{	try {
-				$integer.div($b2.integer);
+				$integer = $integer.divide($b2.integer);
 			} catch ( ArithmeticException e ) {
-				// division by 0
-				reportError( e.getMessage(), $a.start, $b2.stop );
-				$integer = new CFGNumber( "0" );
+				config_process_error("Integer division by zero.");
+				$integer = BigInteger.ZERO;
 			}
 		}
 	)*
 ;
 
-pr_IntegerUnaryExpression returns [CFGNumber integer]:
+pr_IntegerUnaryExpression returns [BigInteger integer]:
 {	boolean negate = false;
 }
 	(	PLUS
 	|	MINUS	{	negate = !negate;	}
 	)*
 	a = pr_IntegerPrimaryExpression
-		{	$integer = $a.integer;
-			if ( negate ) {
-				$integer.mul( -1 );
-			}
+		{	$integer = negate ? $a.integer.negate() : $a.integer;
 		}
 ;
 
-pr_IntegerPrimaryExpression returns [CFGNumber integer]:
+pr_IntegerPrimaryExpression returns [BigInteger integer]:
 (	a = pr_NaturalNumber	{	$integer = $a.integer;	}
 |	LPAREN b = pr_IntegerAddExpression RPAREN	{	$integer = $b.integer;	}
 )
 ;
 
-pr_NaturalNumber returns [CFGNumber integer]:
-(	a = NATURAL_NUMBER	{$integer = new CFGNumber($a.text);}
-|	macro = pr_MacroNaturalNumber
-|	TTCN3IDENTIFIER // module parameter name
-		{	$integer = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
-		}//TODO: incorrect behaviour
+pr_NaturalNumber returns [BigInteger integer]:
+(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.getText());}
+|	pr_MacroNaturalNumber
 )
 ;
 
-pr_MPNaturalNumber returns [TitanInteger integer]:
-(	a = NATURAL_NUMBER	{$integer = new TitanInteger($a.text);}
+pr_MPNaturalNumber returns [BigInteger integer]:
+(	a = NATURAL_NUMBER	{$integer = new BigInteger($a.getText());}
+|	pr_MacroNaturalNumber
+)
+;
+
+pr_MPSignedInteger returns [BigInteger integer]:
+(
+	{	boolean negate = false;
+	}
+	(	PLUS
+	|	MINUS	{	negate = true;	}
+	)?
+	a = NATURAL_NUMBER
+	{	$integer = negate ? new BigInteger($a.getText()).negate() : new BigInteger($a.getText());
+	}
 |	pr_MacroNaturalNumber
 )
 ;
@@ -1252,9 +1370,6 @@ pr_CString returns [String string]:
 		}
 |	pr_MacroCString
 |	pr_MacroExpliciteCString
-|	TTCN3IDENTIFIER // module parameter name
-		{	$string = ""; // value is unknown yet, but it should not be null
-		}
 )
 ;
 
@@ -1270,9 +1385,6 @@ pr_MPCString returns [String string]:
 |	(	pr_MacroCString
 	|	pr_MacroExpliciteCString
 	)
-	{	// runtime cfg parser should have resolved the macros already, so raise error
-		config_process_error("Macro is not resolved");
-	}
 )
 ;
 
@@ -1444,15 +1556,15 @@ pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
 }:
 	LENGTHKEYWORD
 	LPAREN
-	(	single = pr_LengthBound	{	$length_restriction.set_single($single.integer.getIntegerValue());	}
-	|	min = pr_LengthBound	{	$length_restriction.set_min($min.integer.getIntegerValue());	}
+	(	single = pr_LengthBound	{	$length_restriction.set_single($single.integer);	}
+	|	min = pr_LengthBound	{	$length_restriction.set_min($min.integer);	}
 		DOTDOT
 		(	max = pr_LengthBound
 			{
-				if ($min.integer.getIntegerValue() > $max.integer.getIntegerValue()) {
+				if ($min.integer > $max.integer) {
 					config_process_error("invalid length restriction: lower bound > upper bound");
 				}
-				$length_restriction.set_max($max.integer.getIntegerValue());
+				$length_restriction.set_max($max.integer);
 			}
 		|	INFINITYKEYWORD
 		)
@@ -1460,16 +1572,32 @@ pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
 	RPAREN
 ;
 
-pr_LengthBound returns [CFGNumber integer]:
-	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
+pr_LengthBound returns [int integer]:
+	i = pr_ParameterExpression
+	{
+		$i.moduleparameter.set_id(new Module_Param_CustomName("length bound"));
+		final TitanInteger tmp = new TitanInteger();
+		tmp.set_param($i.moduleparameter);
+		if ( !tmp.is_native() ) {
+			config_process_error("bignum length restriction bound.");
+			$integer = 0;
+		} else if ( tmp.get_int() < 0 ) {
+			config_process_error("negative length restriction bound.");
+			$integer = 0;
+		} else {
+			$integer = tmp.get_int();
+		}
+	}
 ;
 
 pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 @init {
 	$moduleparameter = null;
 }:
-(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer($i.integer);	}
+(	i = pr_MPNaturalNumber			{	$moduleparameter = new Module_Param_Integer(toTitanInteger($i.integer));	}
 |	f = pr_MPFloat					{	$moduleparameter = new Module_Param_Float($f.floatnum);	}
+|	NANKEYWORD						{	$moduleparameter = new Module_Param_Float(Double.NaN);	}
+|	INFINITYKEYWORD					{	$moduleparameter = new Module_Param_Float(Double.POSITIVE_INFINITY);	}
 |	bool = pr_Boolean				{	$moduleparameter = new Module_Param_Boolean($bool.bool);	}
 |	oi = pr_ObjIdValue
 	{	final List<TitanInteger> cs = $oi.components;
@@ -1481,7 +1609,7 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	hstr = pr_HStringValue			{	$moduleparameter = new Module_Param_Hexstring($hstr.string);	}
 |	ostr = pr_OStringValue			{	$moduleparameter = new Module_Param_Octetstring($ostr.string);	}
 |	cs = pr_MPCString				{	$moduleparameter = new Module_Param_Charstring(new TitanCharString($cs.string));	}
-|	ucs = pr_Quadruple				{	$moduleparameter = new Module_Param_Universal_Charstring($ucs.ucstr);	}
+|	ucs = pr_UniversalCharstringValue	{	$moduleparameter = new Module_Param_Universal_Charstring($ucs.ucstr);	}
 |	OMITKEYWORD						{	$moduleparameter = new Module_Param_Omit();	}
 |	nulltext = pr_NULLKeyword
 	{	if ("null".equals($nulltext.text)) {
@@ -1497,15 +1625,15 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	STAR							{	$moduleparameter = new Module_Param_AnyOrNone();	}
 |	ir = pr_IntegerRange
 	{	$moduleparameter = new Module_Param_IntRange(
-			$ir.min != null ? new TitanInteger($ir.min.getIntegerValue()) : null,
-			$ir.max != null ? new TitanInteger($ir.max.getIntegerValue()) : null,
+			$ir.min != null ? toTitanInteger($ir.min) : null,
+			$ir.max != null ? toTitanInteger($ir.max) : null,
 			$ir.min_exclusive, $ir.max_exclusive );
 	}
 |	fr = pr_FloatRange
 	{	$moduleparameter = new Module_Param_FloatRange(
-			$fr.min != null ? $fr.min.getValue() : 0,
+			$fr.min != null ? $fr.min : 0,
 			$fr.min != null,
-			$fr.max != null ? $fr.max.getValue() : 0,
+			$fr.max != null ? $fr.max : 0,
 			$fr.max != null,
 			$fr.min_exclusive, $fr.max_exclusive );
 	}
@@ -1542,9 +1670,7 @@ pr_ParameterNameSegment returns [List<String> names]:
 |	pns = pr_ParameterNameSegment
 	iii = pr_IndexItemIndex
 	{	$names = $pns.names;
-		int size = $names.size();
-		final String last = $names.get(size - 1);
-		$names.set(size - 1, last + $iii.text);
+		$names.add(Integer.toString($iii.integer));
 	}
 |	i = pr_Identifier
 	{	$names = new ArrayList<String>();
@@ -1552,75 +1678,96 @@ pr_ParameterNameSegment returns [List<String> names]:
 	}
 ;
 
-pr_IndexItemIndex returns [CFGNumber integer]:
+pr_IndexItemIndex returns [int integer]:
 	SQUAREOPEN
-	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
+	i = pr_ParameterExpression
 	SQUARECLOSE
+	{
+		final Module_Parameter mp = $i.moduleparameter; 
+		mp.set_id( new Module_Param_CustomName("array index") );
+		final TitanInteger tmp = new TitanInteger();
+		tmp.set_param(mp);
+		if ( !tmp.is_native() ) {
+			config_process_error("bignum index.");
+		} else if ( tmp.get_int() < 0 ) {
+			config_process_error("negative index.");
+		}
+		$integer = tmp.get_int();
+	}
 ;
 
-pr_ArithmeticValueExpression returns [CFGNumber number]:
-	a = pr_ArithmeticAddExpression	{	$number = $a.number;	}
+//TODO: rename Arithmetic -> Float
+pr_ArithmeticValueExpression returns [double floatnum]:
+	a = pr_ArithmeticAddExpression	{	$floatnum = $a.floatnum;	}
 ;
 
-pr_ArithmeticAddExpression returns [CFGNumber number]:
-	a = pr_ArithmeticMulExpression	{	$number = $a.number;	}
-	(	PLUS	b1 = pr_ArithmeticMulExpression	{	$number.add($b1.number);	}
-	|	MINUS	b2 = pr_ArithmeticMulExpression	{	$b2.number.mul(-1); $number.add($b2.number);	}
+pr_ArithmeticAddExpression returns [double floatnum]:
+	a = pr_ArithmeticMulExpression	{	$floatnum = $a.floatnum;	}
+	(	PLUS	b1 = pr_ArithmeticMulExpression	{	$floatnum += $b1.floatnum;	}
+	|	MINUS	b2 = pr_ArithmeticMulExpression	{	$floatnum -= $b2.floatnum;	}
 	)*
 ;
 
-pr_ArithmeticMulExpression returns [CFGNumber number]:
-	a = pr_ArithmeticUnaryExpression	{	$number = $a.number;	}
-	(	STAR	b1 = pr_ArithmeticUnaryExpression	{	$number.mul($b1.number);	}
+pr_ArithmeticMulExpression returns [double floatnum]:
+	a = pr_ArithmeticUnaryExpression	{	$floatnum = $a.floatnum;	}
+	(	STAR	b1 = pr_ArithmeticUnaryExpression	{	$floatnum *= $b1.floatnum;	}
 	|	SLASH	b2 = pr_ArithmeticUnaryExpression
 		{	try {
-				$number.div($b2.number);
+				$floatnum /= $b2.floatnum;
 			} catch ( ArithmeticException e ) {
-				// division by 0
-				reportError( e.getMessage(), $a.start, $b2.stop );
-				$number = new CFGNumber( "0.0" );
+				config_process_error("Floating point division by zero.");
+				$floatnum = 0.0;
 			}
 		}
 	)*
 ;
 
-pr_ArithmeticUnaryExpression returns [CFGNumber number]:
+pr_ArithmeticUnaryExpression returns [double floatnum]:
 {	boolean negate = false;
 }
 	(	PLUS
 	|	MINUS	{	negate = !negate;	}
 	)*
 	a = pr_ArithmeticPrimaryExpression
-		{	$number = $a.number;
-			if ( negate ) {
-				$number.mul( -1 );
-			}
+		{	$floatnum = negate ? -$a.floatnum : $a.floatnum;
 		}
 ;
 
-pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
-(	a = pr_Float	{$number = $a.floatnum;}
-|	b = pr_NaturalNumber	{$number = $b.integer;}
-|	LPAREN c = pr_ArithmeticAddExpression RPAREN {$number = $c.number;}
+pr_ArithmeticPrimaryExpression returns [double floatnum]:
+(	a = pr_Float	{$floatnum = $a.floatnum;}
+|	b = pr_NaturalNumber	{$floatnum = $b.integer.doubleValue();}
+|	LPAREN c = pr_ArithmeticAddExpression RPAREN {$floatnum = $c.floatnum;}
 )
 ;
 
-pr_Float returns [CFGNumber floatnum]:
-(	a = FLOAT {$floatnum = new CFGNumber($a.text);}
+pr_Float returns [double floatnum]:
+(	a = FLOAT	{	$floatnum = Double.parseDouble($a.getText());	}
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
 	}
-|	TTCN3IDENTIFIER // module parameter name
-		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
-		}//TODO: incorrect behaviour
 )
 ;
 
 pr_MPFloat returns [double floatnum]:
-(	a = FLOAT {$floatnum = Double.parseDouble($a.text);}
-|	NANKEYWORD	{	$floatnum = Double.NaN;	}
-|	INFINITYKEYWORD	{	$floatnum = Double.POSITIVE_INFINITY;	}
+(	a = FLOAT {$floatnum = Double.parseDouble($a.getText());}
+|	MACRO_FLOAT
+	{	// runtime cfg parser should have resolved the macros already, so raise error
+		config_process_error("Macro is not resolved");
+	}
+)
+;
+
+pr_MPSignedFloat returns [double floatnum]:
+(
+	{	boolean negate = false;
+	}
+	(	PLUS
+	|	MINUS	{	negate = true;	}
+	)?
+	a = FLOAT
+	{	$floatnum = negate ? -Double.parseDouble($a.getText()) : Double.parseDouble($a.getText());
+	}
 |	MACRO_FLOAT
 	{	// runtime cfg parser should have resolved the macros already, so raise error
 		config_process_error("Macro is not resolved");
@@ -1644,14 +1791,14 @@ pr_ObjIdValue returns[List<TitanInteger> components]
 }:
 	OBJIDKEYWORD
 	BEGINCHAR
-	(	c = pr_ObjIdComponent { $components.add($c.integer);}
+	(	c = pr_ObjIdComponent { $components.add( toTitanInteger( $c.integer ) );}
 	)+
 	ENDCHAR
 ;
 
-pr_ObjIdComponent returns [TitanInteger integer]:
-(	n = pr_NaturalNumber	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
-|	pr_Identifier LPAREN n = pr_NaturalNumber RPAREN	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
+pr_ObjIdComponent returns [BigInteger integer]:
+(	n = pr_MPNaturalNumber	{	$integer = $n.integer;	}
+|	pr_Identifier LPAREN n = pr_MPNaturalNumber RPAREN	{	$integer = $n.integer;	}
 )
 ;
 
@@ -1734,7 +1881,7 @@ pr_OString returns [String string]:
 //returns TitanCharString or TitanUniversalCharString
 pr_UniversalOrNotStringValue returns [Base_Type cstr]:
 (	c = pr_CString	{ 	$cstr = new TitanCharString($c.string);	}
-|	q = pr_Quadruple	{ 	$cstr = $q.ucstr;	}
+|	q = pr_UniversalCharstringValue	{ 	$cstr = $q.ucstr;	}
 )
 (	STRINGOP
 	(	c = pr_CString
@@ -1746,7 +1893,7 @@ pr_UniversalOrNotStringValue returns [Base_Type cstr]:
 				$cstr = ucs.operator_concatenate($c.string);
 			}
 		}
-	|	q = pr_Quadruple
+	|	q = pr_UniversalCharstringValue
 		{	if ($cstr instanceof TitanCharString) {
 				final TitanCharString cs = (TitanCharString)$cstr;
 				$cstr = cs.operator_concatenate($q.ucstr);
@@ -1759,22 +1906,105 @@ pr_UniversalOrNotStringValue returns [Base_Type cstr]:
 )*
 ;
 
+pr_UniversalCharstringValue returns [TitanUniversalCharString ucstr]:
+	q = pr_Quadruple {	$ucstr = $q.ucstr;	}
+|	u = pr_USI {	$ucstr = $u.ucstr;	}
+;
+
 pr_Quadruple returns [TitanUniversalCharString ucstr]:
 	CHARKEYWORD
 	LPAREN
-	i1 = pr_IntegerValueExpression
+	group = pr_ParameterExpression
 	COMMA
-	i2 = pr_IntegerValueExpression
+	plane = pr_ParameterExpression
 	COMMA
-	i3 = pr_IntegerValueExpression
+	row = pr_ParameterExpression
 	COMMA
-	i4 = pr_IntegerValueExpression
+	cell = pr_ParameterExpression
 	RPAREN
-	{	$ucstr = new TitanUniversalCharString(	(char)$i1.integer.getIntegerValue().intValue(),
-												(char)$i2.integer.getIntegerValue().intValue(),
-												(char)$i3.integer.getIntegerValue().intValue(),
-												(char)$i4.integer.getIntegerValue().intValue()	);
+	{
+		$group.moduleparameter.set_id(new Module_Param_CustomName("quadruple group"));
+		$plane.moduleparameter.set_id(new Module_Param_CustomName("quadruple plane"));
+		$row.moduleparameter.set_id(new Module_Param_CustomName("quadruple row"));
+		$cell.moduleparameter.set_id(new Module_Param_CustomName("quadruple cell"));
+		final TitanInteger g = new TitanInteger(); 
+		final TitanInteger p = new TitanInteger(); 
+		final TitanInteger r = new TitanInteger(); 
+		final TitanInteger c = new TitanInteger(); 
+		g.set_param($group.moduleparameter);
+		p.set_param($plane.moduleparameter);
+		r.set_param($row.moduleparameter);
+		c.set_param($cell.moduleparameter);
+		int uc_group;
+		int uc_plane;
+		int uc_row;
+		int uc_cell;
+		if (g.is_less_than(0) || g.is_greater_than(127)) {
+			config_process_error("The first number of quadruple (group) must be within the range 0 .. 127 instead of "+g+".");
+			uc_group = g.is_less_than(0) ? 0 : 127;
+		} else {
+			uc_group = g.get_int();
+		}
+		if (p.is_less_than(0) || p.is_greater_than(255)) {
+			config_process_error("The second number of quadruple (plane) must be within the range 0 .. 255 instead of "+p+".");
+			uc_plane = p.is_less_than(0) ? 0 : 255;
+		} else {
+			uc_plane = p.get_int();
+		}
+		if (r.is_less_than(0) || r.is_greater_than(255)) {
+			config_process_error("The third number of quadruple (row) must be within the range 0 .. 255 instead of "+r+".");
+			uc_row = r.is_less_than(0) ? 0 : 255;
+		} else {
+			uc_row = r.get_int();
+		}
+		if (c.is_less_than(0) || c.is_greater_than(255)) {
+			config_process_error("The fourth number of quadruple (cell) must be within the range 0 .. 255 instead of "+c+".");
+			uc_cell = c.is_less_than(0) ? 0 : 255;
+		} else {
+			uc_cell = c.get_int();
+		}
+		$ucstr = new TitanUniversalCharString( (char)uc_group, (char)uc_plane, (char)uc_row, (char)uc_cell );
 	}
+;
+
+pr_USI returns [TitanUniversalCharString ucstr]
+@init {
+	$ucstr = null;
+}:
+	CHARKEYWORD
+	LPAREN
+	u = pr_UID
+		{	if ( null != $u.uc ) {
+				if ( null == $ucstr ) {
+					$ucstr = new TitanUniversalCharString($u.uc);
+				} else {
+					$ucstr = $ucstr.operator_concatenate($u.uc);
+				}
+			}
+		}
+	(	COMMA
+		u = pr_UID
+		{	if ( null != $u.uc ) {
+				if ( null == $ucstr ) {
+					$ucstr = new TitanUniversalCharString($u.uc);
+				} else {
+					$ucstr = $ucstr.operator_concatenate($u.uc);
+				}
+			}
+		}
+	)*
+	RPAREN
+;
+
+pr_UID returns [TitanUniversalChar uc]:
+(	//min 1 max 8 hex digits
+	u = UID
+	{	$uc = usiToUc( $u.text );
+	}
+|	i = TTCN3IDENTIFIER
+	{	$uc = usiToUc( $i.text );
+	}
+)
 ;
 
 pr_EnumeratedValue returns [String identifier]:
@@ -1890,11 +2120,11 @@ pr_TemplateItemList returns [List<Module_Parameter> mplist]:
 pr_IndexValue returns [Module_Parameter moduleparameter]:
 	iii = pr_IndexItemIndex ASSIGNMENTCHAR pv = pr_ParameterValue
 	{	$moduleparameter = $pv.moduleparameter;
-		$moduleparameter.set_id(new Module_Param_Index($iii.integer.getIntegerValue(),true));
+		$moduleparameter.set_id( new Module_Param_Index( $iii.integer, true ) );
 	}
 ;
 
-pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
+pr_IntegerRange returns [BigInteger min, BigInteger max, boolean min_exclusive, boolean max_exclusive]
 @init {
 	$min = null;
 	$max = null;
@@ -1904,19 +2134,19 @@ pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bo
 	LPAREN
 	(	EXCLUSIVE	{	$min_exclusive = true;	}
 	)?
-	(	i1 = pr_IntegerValueExpression	{	$min = $i1.integer;	}
+	(	i1 = pr_MPSignedInteger	{	$min = $i1.integer;	}
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	(	EXCLUSIVE	{	$max_exclusive = true;	}
 	)?
-	(	i2 = pr_IntegerValueExpression	{	$max = $i2.integer;	}
+	(	i2 = pr_MPSignedInteger	{	$max = $i2.integer;	}
 	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
 
-pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
+pr_FloatRange returns [Double min, Double max, boolean min_exclusive, boolean max_exclusive]
 @init {
 	$min = null;
 	$max = null;
@@ -1926,63 +2156,16 @@ pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bool
 	LPAREN
 	(	EXCLUSIVE	{	$min_exclusive = true;	}
 	)?
-	(	f1 = pr_FloatValueExpression	{	$min = $f1.floatnum;	}
+	(	f1 = pr_MPSignedFloat	{	$min = $f1.floatnum;	}
 	|	MINUS	INFINITYKEYWORD
 	)
 	DOTDOT
 	(	EXCLUSIVE	{	$max_exclusive = true;	}
 	)?
-	(	f2 = pr_FloatValueExpression	{	$max = $f2.floatnum;	}
+	(	f2 = pr_MPSignedFloat	{	$max = $f2.floatnum;	}
 	|	INFINITYKEYWORD
 	)
 	RPAREN
-;
-
-pr_FloatValueExpression returns [CFGNumber floatnum]:
-	a = pr_FloatAddExpression	{	$floatnum = $a.floatnum;	}
-;
-
-pr_FloatAddExpression returns [CFGNumber floatnum]:
-	a = pr_FloatMulExpression	{	$floatnum = $a.floatnum;	}
-	(	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum.add($b1.floatnum);	}
-		|	MINUS	b2 = pr_FloatMulExpression	{	$b2.floatnum.mul(-1); $floatnum.add($b2.floatnum);	}
-		)
-	)*
-;
-
-pr_FloatMulExpression returns [CFGNumber floatnum]:
-	a = pr_FloatUnaryExpression	{	$floatnum = $a.floatnum;	}
-	(	STAR	b1 = pr_FloatUnaryExpression	{	$floatnum.mul($b1.floatnum);	}
-	|	SLASH	b2 = pr_FloatUnaryExpression
-		{	try {
-				$floatnum.div($b2.floatnum);
-			} catch ( ArithmeticException e ) {
-				// division by 0
-				reportError( e.getMessage(), $a.start, $b2.stop );
-				$floatnum = new CFGNumber( "0" );
-			}
-		}
-	)*
-;
-
-pr_FloatUnaryExpression returns [CFGNumber floatnum]:
-{	boolean negate = false;
-}
-	(	PLUS
-	|	MINUS	{	negate = !negate;	}
-	)*
-	a = pr_FloatPrimaryExpression
-		{	$floatnum = $a.floatnum;
-			if ( negate ) {
-				$floatnum.mul( -1 );
-			}
-		}
-;
-
-pr_FloatPrimaryExpression returns [CFGNumber floatnum]:
-(	a = pr_Float	{	$floatnum = $a.floatnum;	}
-|	LPAREN b = pr_FloatAddExpression RPAREN	{	$floatnum = $b.floatnum;	}
-)
 ;
 
 pr_StringRange returns [Module_Param_StringRange stringrange]
@@ -2060,7 +2243,7 @@ pr_PatternChunk returns [TitanUniversalCharString ucstr]:
 			$ucstr = new TitanUniversalCharString($cstr.text.replaceAll("^\"|\"$", ""));
 		}
 	}
-|	q = pr_Quadruple	{	$ucstr = $q.ucstr;	}
+|	q = pr_UniversalCharstringValue	{	$ucstr = $q.ucstr;	}
 ;
 
 pr_BStringMatch returns [String string]:

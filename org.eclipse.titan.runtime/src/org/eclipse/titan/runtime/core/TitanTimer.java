@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -154,7 +154,14 @@ public class TitanTimer {
 			return;
 		}
 
-		localTimers.addLast(this);
+		int i = 0;
+		for (final TitanTimer timer : localTimers) {
+			if (timer.time_expires > time_expires) {
+				break;
+			}
+			i++;
+		}
+		localTimers.add(i, this);
 	}
 
 	/**
@@ -227,6 +234,8 @@ public class TitanTimer {
 			}
 
 			TTCN_Logger.log_timer_start(timer_name, startValue);
+			time_started = TTCN_Snapshot.time_now();
+			time_expires = time_started + startValue;
 			add_to_list();
 		} else {
 			if (startValue < 0.0) {
@@ -240,10 +249,10 @@ public class TitanTimer {
 
 			is_started = true;
 			TTCN_Logger.log_timer_guard(startValue);
-		}
 
-		time_started = TTCN_Snapshot.time_now();
-		time_expires = time_started + startValue;
+			time_started = TTCN_Snapshot.time_now();
+			time_expires = time_started + startValue;
+		}
 	}
 
 	// originally start(const FLOAT& start_val)
@@ -442,6 +451,7 @@ public class TitanTimer {
 			} else if (!minFlag || timer.time_expires < minValue.getValue()){
 				minValue.setValue(timer.time_expires);
 				minFlag = true;
+				break;
 			}
 		}
 
@@ -455,10 +465,8 @@ public class TitanTimer {
 		}
 
 		final LinkedList<TitanTimer> localTimers = RUNNING_TIMERS.get();
-		if (!localTimers.isEmpty()) {
-			BACKUP_TIMERS.get().addAll(localTimers);
-			localTimers.clear();
-		}
+		RUNNING_TIMERS.set(BACKUP_TIMERS.get());
+		BACKUP_TIMERS.set(localTimers);
 		control_timer_saved = true;
 	}
 
@@ -472,10 +480,8 @@ public class TitanTimer {
 		}
 
 		final LinkedList<TitanTimer> localBackupTimers = BACKUP_TIMERS.get();
-		if (!localBackupTimers.isEmpty()) {
-			RUNNING_TIMERS.get().addAll(localBackupTimers);
-			localBackupTimers.clear();
-		}
+		BACKUP_TIMERS.set(RUNNING_TIMERS.get());
+		RUNNING_TIMERS.set(localBackupTimers);
 		control_timer_saved = false;
 	}
 

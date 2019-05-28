@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -32,6 +33,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
@@ -98,7 +100,7 @@ public final class SymbolicLinkHandler {
 	 */
 	public static void addSymlinkCreationCommand(final Map<String, IFile> files, final String workingDirectory, final TITANJob buildJob,
 			final Map<String, IFile> lastTimeRemovedFiles, final IProgressMonitor monitor, final boolean automaticMakefileManagement) {
-		final List<String> symlinkFiles = new ArrayList<String>();
+		final ConcurrentHashMap<String, String> symlinkFiles = new ConcurrentHashMap<String, String>(files.size());
 		final boolean win32 = Platform.OS_WIN32.equals(Platform.getOS());
 		final String extension = win32 ? LINK_EXTENSION : EMPTY_STRING;
 
@@ -108,7 +110,16 @@ public final class SymbolicLinkHandler {
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		int availableProcessors = Runtime.getRuntime().availableProcessors();
+		IPreferencesService prefs = Platform.getPreferencesService();
+		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
+				availableProcessors, null);
+		if (NUMBER_OF_PROCESSORS < 1) {
+			NUMBER_OF_PROCESSORS = 1;
+		}
+		if (reportDebugInformation) {
+			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink creation.");
+		}
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 
@@ -148,7 +159,7 @@ public final class SymbolicLinkHandler {
 
 					if (tempFile.exists() && !tempFileRemoved) {
 						if (win32) {
-							symlinkFiles.add(lastSegment);
+							symlinkFiles.put(lastSegment, lastSegment);
 							latch.countDown();
 							internalMonitor.worked(1);
 							return;
@@ -158,7 +169,7 @@ public final class SymbolicLinkHandler {
 							final String canonicalPath = tempFile.getCanonicalPath();
 							final String absolutePath = tempFile.getAbsolutePath();
 							if (!absolutePath.equals(canonicalPath) && path.toString().equals(canonicalPath)) {
-								symlinkFiles.add(lastSegment);
+								symlinkFiles.put(lastSegment, lastSegment);
 								latch.countDown();
 								internalMonitor.worked(1);
 								return;
@@ -170,14 +181,14 @@ public final class SymbolicLinkHandler {
 
 					// bugfix: checks if the symbolic link would point to itself
 					if (tempFile.getAbsolutePath().equals(file.getLocation().toOSString())) {
-						symlinkFiles.add(lastSegment);
+						symlinkFiles.put(lastSegment, lastSegment);
 						latch.countDown();
 						internalMonitor.worked(1);
 						return;
 					}
 
 					if (!symlinkFiles.contains(lastSegment)) {
-						symlinkFiles.add(lastSegment);
+						symlinkFiles.put(lastSegment, lastSegment);
 						List<String> command = new ArrayList<String>();
 						command.add(LINK_CREATION);
 						command.add(FORCE_LINK_CREATION);
@@ -383,7 +394,16 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		int availableProcessors = Runtime.getRuntime().availableProcessors();
+		IPreferencesService prefs = Platform.getPreferencesService();
+		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
+				availableProcessors, null);
+		if (NUMBER_OF_PROCESSORS < 1) {
+			NUMBER_OF_PROCESSORS = 1;
+		}
+		if (reportDebugInformation) {
+			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for removed files).");
+		}
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		for (final String key : files.keySet()) {
@@ -453,7 +473,16 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+		int availableProcessors = Runtime.getRuntime().availableProcessors();
+		IPreferencesService prefs = Platform.getPreferencesService();
+		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
+				availableProcessors, null);
+		if (NUMBER_OF_PROCESSORS < 1) {
+			NUMBER_OF_PROCESSORS = 1;
+		}
+		if (reportDebugInformation) {
+			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for excluded files).");
+		}
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		for (final Map.Entry<String, IFile> entry : files.entrySet()) {

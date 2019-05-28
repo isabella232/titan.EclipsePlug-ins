@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -40,9 +40,9 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 
-/** 
- * 
- * @author Farkas Izabella Ingrid 
+/**
+ *
+ * @author Farkas Izabella Ingrid
  */
 
 public class ChangeCreator {
@@ -117,14 +117,14 @@ public class ChangeCreator {
 	 *
 	 * These changes are not applied in the function, just collected in a
 	 * <link>MultiTextEdit</link>, which is then returned.
-	 * 
+	 *
 	 * @param module where the runs on component modifier is not yet minimal.
-	 * @param toVisit 
-	 * 
+	 * @param toVisit
+	 *
 	 * @return The edit, which contains the proper changes.
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
-	private MultiTextEdit runsOnScopeEdit(final TTCN3Module module, IFile toVisit) throws BadLocationException, CoreException {
+	private MultiTextEdit runsOnScopeEdit(final TTCN3Module module, final IFile toVisit) throws BadLocationException, CoreException {
 		final MultiTextEdit edit = new MultiTextEdit();
 
 		final Set<Definition> list;
@@ -136,7 +136,7 @@ public class ChangeCreator {
 		}
 		list = visit.getLocations();
 
-		for (Definition node : list) {
+		for (final Definition node : list) {
 
 			final Set<Identifier> definitions = new HashSet<Identifier>();
 			final Reference runsOnReference;
@@ -193,7 +193,7 @@ public class ChangeCreator {
 							lenght--;
 							currOffset++;
 						}
-						
+
 					} catch (IOException e) {
 						ErrorReporter.logError("RunsOnScopeReductionRefactoring.ChangeCreator: Error while reading source project.");
 						ErrorReporter.logExceptionStackTrace(e);
@@ -201,7 +201,7 @@ public class ChangeCreator {
 						ErrorReporter.logError("ChangeCreator.loadFileContent(): Unable to get file contents (CoreException) for file: " + toVisit.getName());
 						return null;
 					}
-					
+
 					edit.addChild(new DeleteEdit(offset-currOffset, endoffset - offset+currOffset));
 				}
 			} else if (!definitions.contains(runsOnReference.getId())) {
@@ -212,7 +212,7 @@ public class ChangeCreator {
 					final ComponentTypeBody variable = searchComponent(componentType.getComponentBody(), definitions, new HashSet<Identifier>());
 					if (variable != null && variable.getIdentifier() != runsOnReference.getId()) {
 						edit.addChild(new ReplaceEdit(offset, endoffset - offset, variable.getIdentifier().getDisplayName()));
-					}		
+					}
 				}
 			}
 
@@ -221,7 +221,7 @@ public class ChangeCreator {
 		return edit;
 	}
 
-	private static ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, Set<Identifier> identifiersOfTree) {
+	private static ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, final Set<Identifier> identifiersOfTree) {
 		final List<ComponentTypeBody> parentComponentBodies = component.getExtensions().getComponentBodies();
 		if (parentComponentBodies.isEmpty()) {
 			identifiersOfTree.add(component.getIdentifier());
@@ -229,7 +229,7 @@ public class ChangeCreator {
 		}
 		final Set<Identifier> setNodes = new HashSet<Identifier>();
 		setNodes.add(component.getIdentifier());
-		for (ComponentTypeBody variable : parentComponentBodies) {
+		for (final ComponentTypeBody variable : parentComponentBodies) {
 			final Set<Identifier> identifiersOfNode = new HashSet<Identifier>();
 			final ComponentTypeBody cb = searchComponent(variable, definitions, identifiersOfNode);
 			if (cb != null) {
@@ -274,7 +274,7 @@ class ReferenceCheck extends ASTVisitor {
 				final Assignment assignment = reference.getRefdAssignment(timestamp, false);
 				if (assignment != null){
 					if (assignment instanceof Def_Function) {
-						final Component_Type componentType = ((Def_Function) assignment).getRunsOnType(timestamp); 
+						final Component_Type componentType = ((Def_Function) assignment).getRunsOnType(timestamp);
 						if (componentType == null) {
 							return V_CONTINUE;
 						}

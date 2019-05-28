@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -214,7 +214,7 @@ public class DecodeMatch_template extends TTCN3Template {
 
 		targetBody.setMyGovernor(targetType);
 		boolean selfReference = targetBody.checkThisTemplateGeneric(timestamp, targetType, target.getDerivedReference() == null ? false : true, false, true, true, implicitOmit, lhs);
-		targetType.checkCoding(timestamp, false, getMyScope().getModuleScope(), false);
+		targetType.checkCoding(timestamp, false, getMyScope().getModuleScope(), false, target.getLocation());
 
 		if (stringEncoding != null) {
 			if (type.getTypetype() != Type_type.TYPE_UCHARSTRING) {

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -410,7 +410,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1495);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1498);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1882,19 +1882,20 @@ public class AST_tests {
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `encvalue' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The operand of the `encvalue' operation cannot be encoded",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("No coding rule specified for type `verdicttype'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The operand of the `encvalue' operation cannot be encoded",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to `function' cannot be used as the first operand of the `decvalue operation",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to parameterized definition `f_encvalueTests' without actual parameter list",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to `constant' cannot be used as the first operand of the `decvalue' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Reference to `template' cannot be used as the first operand of the `decvalue' operation", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("The second operand of the `decvalue' operation is unable to hold a decoded value",  --lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to `template' cannot be used as the first operand of the `decvalue' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("No coding rule specified for type `@expression_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to `template' cannot be used as the first operand of the `decvalue' operation",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The second operand of the `decvalue' operation is unable to hold a decoded value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `encdecres1' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `vl_i' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("No coding rule specified for type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `decvalue' operation is unable to hold a decoded value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `t_encdecvar3' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
@@ -5737,7 +5738,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4539);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4544);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7244,12 +7245,18 @@ public class AST_tests {
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 10;
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("A non-empty set template was expected for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value list notation is not allowed for set type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -9188,7 +9195,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5297);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5293);
 		int lineNum = 20;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -10311,9 +10318,7 @@ public class AST_tests {
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Invalid field reference `nonExi': type `@value_tests.t_altstep' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `@value_tests.t_altstep' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Type `@value_tests.t_altstep' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `nonExi': type `@value_tests.t_altstep' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
@@ -10355,9 +10360,7 @@ public class AST_tests {
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Invalid field reference `nonExi': type `@value_tests.t_testcase' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `@value_tests.t_testcase' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Type `@value_tests.t_testcase' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `nonExi': type `@value_tests.t_testcase' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 7;
 		for (i = 0; i < 11; i++) {
 			markersToCheck.add(new MarkerToCheck("NULL value was expected", lineNum++, IMarker.SEVERITY_ERROR));

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,13 +8,11 @@
 package org.eclipse.titan.designer.AST.ASN1.definitions;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignments;
-import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
@@ -22,7 +20,6 @@ import org.eclipse.titan.designer.AST.ModuleImportation;
 import org.eclipse.titan.designer.AST.ModuleImportationChain;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.ASN1.Defined_Reference;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -117,17 +114,17 @@ public final class ImportModule extends ModuleImportation {
 
 			for (int i = 0; i < symbols.size(); i++) {
 				final Identifier id = symbols.getNthElement(i);
-				final List<ISubReference> list = new ArrayList<ISubReference>();
-				list.add(new FieldSubReference(id));
-				final Defined_Reference reference = new Defined_Reference(null, list);
-				reference.setLocation(identifier.getLocation());
 
-				if (null != referredModule.getAssBySRef(timestamp, reference)) {
+				if (((ASN1Module) referredModule).getAssignments().hasAssignmentWithId(timestamp, id)
+						|| referredModule.hasImportedAssignmentWithID(timestamp, id)) {
 					if (!((ASN1Module) referredModule).exportsSymbol(timestamp, id)) {
 						identifier.getLocation().reportSemanticError(
 								MessageFormat.format(SYMBOLNOTEXPORTED, id.getDisplayName(), referredModule
 										.getIdentifier().getDisplayName()));
 					}
+				} else {
+					id.getLocation().reportSemanticError(
+							MessageFormat.format(ASN1Module.NOASSIGNMENTORSYMBOL, id.getDisplayName(), identifier.getDisplayName()));
 				}
 			}
 

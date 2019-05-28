@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -53,6 +53,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.FunctionPrototype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageMappedTypeInfo;
@@ -141,6 +142,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	private TypeMappings outMappings;
 
 	private Definitions vardefs;
+	private FormalParameterList mapParams;
+	private FormalParameterList unmapParams;
 
 	private boolean realtime;
 
@@ -215,6 +218,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (vardefs == child) {
 			return builder.append(".<port_var>");
 		}
+		if (mapParams == child) {
+			return builder.append(".<map_params>");
+		}
+		if (unmapParams == child) {
+			return builder.append(".<unmap_params>");
+		}
 
 		return builder;
 	}
@@ -269,9 +278,37 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			vardefs = new Definitions();
 		}
 
-		for (Definition def : definitions) {
+		for (final Definition def : definitions) {
 			vardefs.addDefinition(def);
 		}
+	}
+
+	public void setMapParams(final FormalParameterList params) {
+		if (mapParams != null) {
+			location.reportSemanticError("Multiple `map' parameter lists in port type definition");
+
+			return;
+		}
+
+		mapParams = params;
+	}
+
+	public FormalParameterList getMapParameters() {
+		return mapParams;
+	}
+
+	public void setUnmapParams(final FormalParameterList params) {
+		if (unmapParams != null) {
+			location.reportSemanticError("Multiple `unmap' parameter lists in port type definition");
+
+			return;
+		}
+
+		unmapParams = params;
+	}
+
+	public FormalParameterList getUnmapParameters() {
+		return unmapParams;
 	}
 
 	public void setRealtime() {
@@ -308,6 +345,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (vardefs != null) {
 			vardefs.setParentScope(scope);
+		}
+		if (mapParams != null) {
+			mapParams.setMyScope(scope);
+		}
+		if (unmapParams != null) {
+			unmapParams.setMyScope(scope);
 		}
 	}
 
@@ -387,7 +430,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		IType t = null;
 		// in case of 'user' port types the address visible and supported by the 'provider' port type is relevant
-		if (PortType_type.PT_USER.equals(portType) && providerTypes.size() > 0) {
+		if (PortType_type.PT_USER.equals(portType) && !providerTypes.isEmpty()) {
 			t = providerTypes.get(0);
 		} else {
 			t = myType;
@@ -549,10 +592,16 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			checkList(timestamp, inoutTypes, true, true);
 		}
 		if (vardefs != null) {
-			if (providerReferences.size() == 0 && vardefs.getNofAssignments() > 0) {
+			if (providerReferences.isEmpty() && vardefs.getNofAssignments() > 0) {
 				getLocation().reportSemanticError("Port variables can only be used when the port is a translation port.");
 			}
 			vardefs.check(timestamp);
+		}
+		if (mapParams != null) {
+			mapParams.check(timestamp, Assignment_type.A_PORT);
+		}
+		if (unmapParams != null) {
+			unmapParams.check(timestamp, Assignment_type.A_PORT);
 		}
 	}
 
@@ -1821,6 +1870,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 			reparser.updateLocation(vardefs.getLocation());
 		}
+		if (mapParams != null) {
+			mapParams.updateSyntax(reparser, false);
+			reparser.updateLocation(mapParams.getLocation());
+		}
+		if (unmapParams != null) {
+			unmapParams.updateSyntax(reparser, false);
+			reparser.updateLocation(unmapParams.getLocation());
+		}
 	}
 
 	@Override
@@ -1852,6 +1909,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (vardefs != null) {
 			vardefs.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (mapParams != null) {
+			mapParams.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (unmapParams != null) {
+			unmapParams.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -1893,6 +1956,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (vardefs!=null && !vardefs.accept(v)) {
 			return false;
 		}
+		if (mapParams != null && !mapParams.accept(v)) {
+			return false;
+		}
+		if (unmapParams != null && !unmapParams.accept(v)) {
+			return false;
+		}
 		return true;
 	}
 
@@ -1931,7 +2000,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 */
 	public PortDefinition generateDefinitionForCodeGeneration(final JavaGenData aData, final StringBuilder source) {
 		final String genName = myType.getGenNameOwn();
-		final Scope myScope = myType.getMyScope();
 
 		final PortDefinition portDefinition = new PortDefinition(genName, getFullName());
 		portDefinition.legacy = legacy;
@@ -2019,10 +2087,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			portDefinition.portType = PortType.USER;
 
 			if (legacy) {
-				final PortTypeBody providerBody = providerTypes.get(0).getPortBody();
+				final Port_Type providerType = providerTypes.get(0);
+				final PortTypeBody providerBody = providerType.getPortBody();
 
 				portDefinition.providerMessageOutList = new ArrayList<PortGenerator.portMessageProvider>();
-				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerTypes.get(0).getGenNameValue(aData, source), null, providerBody.realtime);
+				final String providerName = providerType.getGenNameOwn();
+				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerName, null, providerBody.realtime);
 				portDefinition.providerMessageOutList.add(temp);
 
 				if (providerBody.inMessages != null) {
@@ -2183,7 +2253,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				}
 
 				//collect and handle all of the functions with `port' clause belonging to this port type
-				HashSet<Def_Function> functions = new HashSet<Def_Function>();
+				final HashSet<Def_Function> functions = new HashSet<Def_Function>();
 				if (outMappings != null) {
 					for (int i = 0; i < outMappings.getNofMappings(); i++) {
 						final TypeMapping mapping = outMappings.getMappingByIndex(i);

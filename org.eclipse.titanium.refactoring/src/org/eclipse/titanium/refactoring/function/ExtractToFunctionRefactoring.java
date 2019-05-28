@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -193,15 +193,7 @@ public class ExtractToFunctionRefactoring extends Refactoring {
 
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
-				final StatementList selectedStatements = selectionFinder.getSelectedStatements();
-				final Module selectedModule = getSelectedModule();
-				final IFile selectedFile = getSelectedFile();
-
-				final Reference runsOnRef = selectionFinder.getRunsOnRef();
-				final Type returnType = selectionFinder.getReturnType();
-				final ReturnCertainty retCertainty = selectionFinder.getReturnCertainty();
 				parentFunc = selectionFinder.getParentFunc();
-
 				if (parentFunc == null) {
 					ErrorReporter.logError("ExtractToFunctionRefactoring.createFunction(): Could not find the enclosing function of the selection! ");
 					return Status.CANCEL_STATUS;
@@ -211,6 +203,8 @@ public class ExtractToFunctionRefactoring extends Refactoring {
 					return Status.CANCEL_STATUS;
 				}
 
+				final StatementList selectedStatements = selectionFinder.getSelectedStatements();
+				final Module selectedModule = getSelectedModule();
 				if (selectedStatements == null || selectedStatements.isEmpty() || selectedModule == null) {
 					ErrorReporter.logError("ExtractToFunctionRefactoring.createFunction(): No or invalid selection! ");
 					return Status.CANCEL_STATUS;
@@ -225,6 +219,10 @@ public class ExtractToFunctionRefactoring extends Refactoring {
 					return Status.CANCEL_STATUS;
 				}
 				//create new function text
+				final IFile selectedFile = getSelectedFile();
+				final Reference runsOnRef = selectionFinder.getRunsOnRef();
+				final Type returnType = selectionFinder.getReturnType();
+				final ReturnCertainty retCertainty = selectionFinder.getReturnCertainty();
 				functionCreator = new FunctionCreator(selectedStatements, selectedFile, newFuncName,
 						params, runsOnRef, returnType, retCertainty);
 
@@ -255,7 +253,7 @@ public class ExtractToFunctionRefactoring extends Refactoring {
 		}
 
 		final StringBuilder ret = new StringBuilder();
-		for (StringBuilder sb: functionText) {
+		for (final StringBuilder sb: functionText) {
 			ret.append(sb);
 		}
 		functionTextReady = ret.toString();
@@ -274,7 +272,7 @@ public class ExtractToFunctionRefactoring extends Refactoring {
 		}
 
 		final StringBuilder ret = new StringBuilder();
-		for (StringBuilder sb: functionCallText) {
+		for (final StringBuilder sb: functionCallText) {
 			ret.append(sb);
 		}
 		functionCallTextReady = ret.toString();

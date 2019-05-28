@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -511,7 +511,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case DECODE_MATCH: {
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
 			TTCN_EncDec.clear_error();
-			final TitanOctetString os = new TitanOctetString(AdditionalFunctions.bit2oct(otherValue));
+			final TitanOctetString os = AdditionalFunctions.bit2oct(otherValue);
 			final TTCN_Buffer buffer = new TTCN_Buffer(os);
 			final boolean ret_val = dec_match.match(buffer);
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_DEFAULT);
@@ -834,7 +834,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			this.operator_assign(new TitanBitString((int[])param.get_string_data(), param.get_string_size()));
 			break;
 		case MP_Bitstring_Template:
-			this.operator_assign(new TitanBitString_template((String)param.get_string_data()));
+			this.operator_assign(new TitanBitString_template((TitanBitString_template)param.get_string_data()));
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {

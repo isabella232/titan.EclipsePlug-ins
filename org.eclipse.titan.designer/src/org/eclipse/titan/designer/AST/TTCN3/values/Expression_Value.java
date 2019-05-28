@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -337,10 +337,11 @@ public abstract class Expression_Value extends Value {
 			result = result.getReferencedSubValue(timestamp, reference, actualSubReference, refChain);
 			if (result != null && result.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
+				return this;
 			}
 		}
 
-		return this;
+		return result;
 	}
 
 	/**

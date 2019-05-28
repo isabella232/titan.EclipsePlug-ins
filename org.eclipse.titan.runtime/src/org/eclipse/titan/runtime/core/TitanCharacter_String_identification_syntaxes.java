@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -143,6 +143,18 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING.identification.syntaxes", other_value));
 	}
 
+	/**
+	 * Checks if the current value is not equivalent to the provided one.
+	 *
+	 * operator!= in the core
+	 *
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if all fields are not equivalent, {@code false} otherwise.
+	 */
+	public boolean operator_not_equals( final TitanCharacter_String_identification_syntaxes other_value) {
+		return !operator_equals(other_value);
+	}
 	/**
 	 * Gives access to the field abstract.
 	 *

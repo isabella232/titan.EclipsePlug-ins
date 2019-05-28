@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -28,7 +27,6 @@ import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
@@ -109,7 +107,6 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 	 *                the document region which has been changed
 	 */
 	public void reconcileSyntax(final DirtyRegion dirtyRegion) {
-		final double parserStart = System.nanoTime();
 		if (document == null) {
 			return;
 		}
@@ -189,11 +186,6 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		}
 		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		lastIncrementalSyntaxCheck = sourceParser.updateSyntax(editedFile, reparser);
-
-		final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		if (store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION)) {
-			TITANDebugConsole.println("Refreshing the syntax took " + (System.nanoTime() - parserStart) * (1e-9) + " secs");
-		}
 
 		final WorkspaceJob op = new WorkspaceJob(FOLDING_UPDATE) {
 			@Override

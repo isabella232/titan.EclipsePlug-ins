@@ -153,7 +153,7 @@ public final class UnionGenerator {
 		generateValueGetSelection(aData, source, genName, fieldInfos);
 		generateValueLog(source, fieldInfos);
 		generateValueSetParam(source, displayName, fieldInfos);
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			generateValueSetImplicitOmit(source, fieldInfos);
 		}
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
@@ -446,6 +446,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tswitch (union_selection) {\n");
 		source.append("\t\t\tcase UNBOUND_VALUE:\n");
 		source.append("\t\t\t\treturn false;\n");
+		//TODO could this be optimized?
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -507,6 +508,7 @@ public final class UnionGenerator {
 
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tswitch (union_selection) {\n");
+		//TODO could this be optimized?
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -548,7 +550,7 @@ public final class UnionGenerator {
 			source.append("\t\t *\n");
 			source.append("\t\t * @param otherValue\n");
 			source.append("\t\t *                the other value to check against.\n");
-			source.append("\t\t* @return {@code true} if either the selections or the field\n");
+			source.append("\t\t * @return {@code true} if either the selections or the field\n");
 			source.append("\t\t *         values are not equivalent.\n");
 			source.append("\t\t */\n");
 		}
@@ -587,7 +589,7 @@ public final class UnionGenerator {
 			}
 			source.append(MessageFormat.format("\t\tpublic {0} get_field_{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\tif (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t//clean_up();\n");
 			source.append(MessageFormat.format("\t\t\t\tfield = new {0}();\n", fieldInfo.mJavaTypeName));
 			source.append(MessageFormat.format("\t\t\t\tunion_selection = union_selection_type.ALT_{0};\n", fieldInfo.mJavaVarName));
 			source.append("\t\t\t}\n");
@@ -631,7 +633,7 @@ public final class UnionGenerator {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Returns the current selection.\n");
 			source.append(MessageFormat.format("\t\t * It will return {0}.union_selection_type.UNBOUND_VALUE if the value is unbound,\n", genName));
-			if (fieldInfos.size() > 0) {
+			if (!fieldInfos.isEmpty()) {
 				source.append(MessageFormat.format("\t\t * {0}.union_selection_type.ALT_{1} if the first field was selected, and so on.\n", genName, fieldInfos.get(0).mJavaVarName));
 			}
 			source.append("\t\t *\n");
@@ -656,6 +658,7 @@ public final class UnionGenerator {
 		source.append("\t\tpublic void log() {\n");
 		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			//TODO could this be optimized?
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
@@ -753,6 +756,7 @@ public final class UnionGenerator {
 		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
 		source.append("\t\t\tswitch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			//TODO could this be optimized?
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0,number,#});\n", i + 1));
@@ -762,7 +766,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an unbound value of union type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			source.append("\t\t\tfield.encode_text(text_buf);\n");
 		}
 		source.append("\t\t}\n\n");
@@ -811,15 +815,15 @@ public final class UnionGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
-		source.append("\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
-		source.append("\t\t\t\tRAW_encode(p_td, root);\n");
-		source.append("\t\t\t\troot.put_to_buf(p_buf);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tr_pos tree_position = new RAW_enc_tr_pos(0, null);\n");
+		source.append("\t\t\t\t\tfinal RAW_enc_tree root = new RAW_enc_tree(true, null, tree_position, 1, p_td.raw);\n");
+		source.append("\t\t\t\t\tRAW_encode(p_td, root);\n");
+		source.append("\t\t\t\t\troot.put_to_buf(p_buf);\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -834,35 +838,35 @@ public final class UnionGenerator {
 		source.append("\t\t\tcase CT_RAW: {\n");
 		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
 		source.append("\t\t\t\ttry{\n");
-		source.append("\t\t\t\tif (p_td.raw == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\traw_order_t order;\n");
-		source.append("\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
-		source.append("\t\t\t\tcase TOP_BIT_LEFT:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\tcase TOP_BIT_RIGHT:\n");
-		source.append("\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
-		source.append("\t\t\t\tif (rawr < 0) {\n");
-		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
-		source.append("\t\t\t\t\tswitch (temp) {\n");
-		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
-		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\traw_order_t order;\n");
+		source.append("\t\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_LEFT:\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\tcase TOP_BIT_RIGHT:\n");
 		source.append("\t\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
 		source.append("\t\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("\t\t\t\t\tif (rawr < 0) {\n");
+		source.append("\t\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
+		source.append("\t\t\t\t\t\tswitch (temp) {\n");
+		source.append("\t\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
+		source.append("\t\t\t\t\t\tcase ET_LEN_ERR:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\tcase ET_UNBOUND:\n");
+		source.append("\t\t\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t} finally {\n");
-		source.append("\t\t\t\terrorContext.leave_context();\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
@@ -990,7 +994,7 @@ public final class UnionGenerator {
 					final int start = iteration * maxFieldsLength ;
 					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 					source.append("\t\t// Internal helper function.\n");
-					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) '{'\n", start, end));
+					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) '{'\n", start, end));
 					source.append("\t\t\tint decoded_length = 0;\n");
 					source.append("\t\t\tswitch (sel_field) {\n");
 					for (int i = start ; i <= end; i++) {
@@ -1009,7 +1013,7 @@ public final class UnionGenerator {
 					source.append("\t\t}\n\n");
 
 					source.append("\t\t// Internal helper function.\n");
-					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper2_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit, final int starting_pos) '{'\n", start, end));
+					source.append(MessageFormat.format("\t\tprivate int RAW_decode_helper2_{0,number,#}_{1,number,#}(final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit, final int starting_pos) '{'\n", start, end));
 					source.append("\t\t\tint decoded_length = 0;\n");
 					for (int i = start ; i <= end; i++) {
 						if (tag_type[i] == 0) {
@@ -1037,13 +1041,19 @@ public final class UnionGenerator {
 			source.append("final int starting_pos = buff.get_pos_bit();\n");
 			source.append("if (sel_field != -1) {\n");
 			if (fieldInfos.size() > maxFieldsLength) {
-				source.append("\t\t\t\tif (sel_field == 0 ) {\n");
+				boolean first = true;
 				final int fullSize = fieldInfos.size();
 				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
 					final int start = iteration * maxFieldsLength;
 					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-					source.append(MessageFormat.format("\t\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+					if (first) {
+						first = false;
+						source.append("\t\t\t\t");
+					} else {
+						source.append("\t\t\t\t} else ");
+					}
+					source.append(MessageFormat.format("if (sel_field <= {0,number,#}) '{'\n", end + 1));
 					source.append(MessageFormat.format("\t\t\t\t\tdecoded_length = RAW_decode_helper_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit);\n", start, end));
 				}
 				source.append("\t\t\t\t}\n");
@@ -1428,6 +1438,7 @@ public final class UnionGenerator {
 		if (!fieldInfos.isEmpty()) {
 			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				//TODO could this be optimized?
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append(MessageFormat.format("\t\t\t\t\t(({0})single_value).clean_up();\n", fieldInfo.mJavaTemplateName));
@@ -1596,13 +1607,15 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when matching a template of union type {0}.\");\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor(int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tif(value_list.get(i).match(other_value, legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
 		source.append("\t\t\t}\n");
@@ -1652,17 +1665,19 @@ public final class UnionGenerator {
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn single_value_union_selection == checked_selection;\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tif (value_list.isEmpty()) {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");\n", displayName));
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tif(!value_list.get(i).ischosen(checked_selection)) {\n");
 						//FIXME this is incorrect in the compiler
 		source.append("\t\t\t\t\t\treturn false;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
@@ -1687,6 +1702,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tswitch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			//TODO could this be optimized?
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\treturn (({0})single_value).is_value();\n", fieldInfo.mJavaTemplateName));
@@ -1808,7 +1824,8 @@ public final class UnionGenerator {
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tif (legacy) {\n");
-		source.append("\t\t\t\t\tfor (int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\t\tfor (int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\t\tif (value_list.get(i).match_omit(legacy)) {\n");
 		source.append("\t\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t\t}\n");
@@ -1901,14 +1918,25 @@ public final class UnionGenerator {
 		source.append("\t\t\tswitch (template_selection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("\t\t\t\tsingle_value.log();\n");
+			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				source.append(MessageFormat.format("\t\t\t\t\tcase ALT_{0}:\n", fieldInfos.get(i).mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fieldInfos.get(i).mJavaVarName));
+				source.append("\t\t\t\t\t\tsingle_value.log();\n");
+				source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
+				source.append("\t\t\t\t\t\tbreak;\n");
+			}
+			source.append("\t\t\t\t\tdefault:\n");
+			source.append("\t\t\t\t\t\tTTCN_Logger.log_event_unbound();\n");
+			source.append("\t\t\t\t}\n");
 		}
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -1916,6 +1944,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -2082,12 +2111,14 @@ public final class UnionGenerator {
 		}
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(value_list.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tvalue_list.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
@@ -2104,11 +2135,15 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:{\n");
 		source.append("\t\t\t\tfinal int temp = text_buf.pull_int().get_int();\n");
-		source.append("\t\t\t\tswitch (temp) {\n");
+		source.append(MessageFormat.format("\t\t\t\tsingle_value_union_selection = {0}.union_selection_type.values()[temp];\n", genName));
+		source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
+		source.append("\t\t\t\tcase UNBOUND_VALUE:\n");
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Text decoder: Unrecognized union selector was received for a template of type {0}.\");\n", displayName));
+
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("\t\t\t\tcase {0,number,#}:\n", i));
+			source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\t\tsingle_value = new {0}();\n", fieldInfo.mJavaTemplateName));
 			source.append("\t\t\t\t\tsingle_value.decode_text(text_buf);\n");
 			source.append("\t\t\t\t\tbreak;\n");
@@ -2381,11 +2416,8 @@ public final class UnionGenerator {
 			if (!firstExpr) {
 				source.append(is_equal ? " && " : " || ");
 			}
-			if ("id".equals(fieldName)) {
-				int z = 0;
-				z++;
-			}
-			StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
+
+			final StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
 			if (is_equal) {
 				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
 			} else {

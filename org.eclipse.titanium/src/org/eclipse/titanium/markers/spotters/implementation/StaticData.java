@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -49,6 +49,7 @@ public final class StaticData {
 		m.put(CodeSmellType.DUPLICATE_NAME, new BaseModuleCodeSmellSpotter[] { new DuplicateName() });
 		m.put(CodeSmellType.EMPTY_STATEMENT_BLOCK, new BaseModuleCodeSmellSpotter[] { new EmptyStatementBlock() });
 		m.put(CodeSmellType.GOTO, new BaseModuleCodeSmellSpotter[] { new Goto() });
+		m.put(CodeSmellType.GROUPS_WITHOUT_ATTRIBUTES, new BaseModuleCodeSmellSpotter[] { new GroupsWithoutAttributes() });
 		m.put(CodeSmellType.PRIVATE_COMPONENT_VARIABLE_ACCESS, new BaseModuleCodeSmellSpotter[] { new PrivateComponentVariableAccess() });
 		m.put(CodeSmellType.IF_INSTEAD_ALTGUARD, new BaseModuleCodeSmellSpotter[] { new IfInsteadAltguard() });
 		m.put(CodeSmellType.IF_INSTEAD_RECEIVE_TEMPLATE, new BaseModuleCodeSmellSpotter[] { new IfInsteadReceiveTemplate() });
@@ -114,6 +115,7 @@ public final class StaticData {
 		m.put(CodeSmellType.VISIBILITY_IN_DEFINITION, new BaseModuleCodeSmellSpotter[] { new Visibility() });
 		m.put(CodeSmellType.RUNS_ON_SCOPE_REDUCTION, new BaseModuleCodeSmellSpotter[] {new RunsOnScopeReduction() });
 		m.put(CodeSmellType.UNNECESSARY_ARRAYS, new BaseModuleCodeSmellSpotter[] {new UnnecessaryArrays() });
+		m.put(CodeSmellType.CONNECTION_DETECTOR, new BaseModuleCodeSmellSpotter[] {new ConnectionDetector()});
 
 		return Collections.unmodifiableMap(m);
 	}

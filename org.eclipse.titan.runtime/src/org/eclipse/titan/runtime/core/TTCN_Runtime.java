@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
+import org.eclipse.titan.runtime.core.TitanPort.Map_Params;
 import org.eclipse.titan.runtime.core.TitanPort.translation_port_state;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
@@ -35,12 +36,12 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
  */
 public final class TTCN_Runtime {
 	public static final int TTCN3_MAJOR = 6;
-	public static final int TTCN3_MINOR = 5;
-	public static final int TTCN3_PATCHLEVEL = 1;
+	public static final int TTCN3_MINOR = 6;
+	public static final int TTCN3_PATCHLEVEL = 0;
 	public static final int TTCN3_BUILDNUMBER = 0;
 
-	public static final String VERSION_STRING = "6.5.1";
-	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R5B";
+	public static final String VERSION_STRING = "6.6.0";
+	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R6A";
 
 	public enum executorStateEnum {
 		UNDEFINED_STATE,
@@ -535,6 +536,11 @@ public final class TTCN_Runtime {
 		return new TitanCharString(testcaseDefinitionName.get());
 	}
 
+	/**
+	 * Calculates and returns the number of seconds elapsed since the testcase began.
+	 *
+	 * @return the time passed since the testcase was started.
+	 * */
 	public static TitanFloat now() {
 		if (startTime.get() == 0.0) {
 			throw new TtcnError("Accessing the test system time while no test case is running.");
@@ -977,6 +983,7 @@ public final class TTCN_Runtime {
 
 				TTCN_Communication.send_done_req(component_reference);
 				local_status_table.get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+				create_done_killed_compref.set(component_reference);
 				// wait for DONE_ACK
 				wait_for_state_change();
 
@@ -1254,8 +1261,9 @@ public final class TTCN_Runtime {
 		// the operation is successful if there is a component reference with a successful done or killed operation
 		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
 		for ( int i = 0; i < local_status_table.size(); i++) {
-			if (local_status_table.get(i).done_status == TitanAlt_Status.ALT_YES ||
-					local_status_table.get(i).killed_status == TitanAlt_Status.ALT_YES) {
+			final component_status_table_struct componentStatus = local_status_table.get(i);
+			if (componentStatus.done_status == TitanAlt_Status.ALT_YES ||
+					componentStatus.killed_status == TitanAlt_Status.ALT_YES) {
 				TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
 
 				return TitanAlt_Status.ALT_YES;
@@ -1474,8 +1482,9 @@ public final class TTCN_Runtime {
 		if (in_component_status_table(component_reference)) {
 			final int index = get_component_status_table_index(component_reference);
 			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
-			if (local_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
-					local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
+			final component_status_table_struct tempComponent = local_status_table.get(index);
+			if (tempComponent.done_status == TitanAlt_Status.ALT_YES ||
+					tempComponent.killed_status == TitanAlt_Status.ALT_YES) {
 				return false;
 			}
 		}
@@ -1679,8 +1688,9 @@ public final class TTCN_Runtime {
 		if (in_component_status_table(component_reference)) {
 			final int index = get_component_status_table_index(component_reference);
 			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
-			if (local_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
-					local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
+			final component_status_table_struct tempComponent = local_status_table.get(index);
+			if (tempComponent.done_status == TitanAlt_Status.ALT_YES ||
+					tempComponent.killed_status == TitanAlt_Status.ALT_YES) {
 				TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not running. Stop operation had no effect.", component_reference));
 
 				return;
@@ -1945,7 +1955,7 @@ public final class TTCN_Runtime {
 
 
 	//originally map_port
-	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final boolean translation) {
+	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final Map_Params params, final boolean translation) {
 		check_port_name(sourePort, "map", "first");
 		check_port_name(destinationPort, "map", "second");
 
@@ -1995,20 +2005,22 @@ public final class TTCN_Runtime {
 				throw new TtcnError("Only the ports of mtc can be mapped in single mode.");
 			}
 
-			TitanPort.map_port(componentPort, systemPort, false);
+			TitanPort.map_port(componentPort, systemPort, params, false);
 			if (translation) {
-				TitanPort.map_port(componentPort, systemPort, true);
+				TitanPort.map_port(componentPort, systemPort, params, true);
 			}
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.MTC_MAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.PTC_MAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		default:
 			if (in_controlPart()) {
@@ -2022,7 +2034,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally unmap_port
-	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final boolean translation) {
+	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final Map_Params params, final boolean translation) {
 		check_port_name(sourePort, "unmap", "first");
 		check_port_name(destinationPort, "unmap", "second");
 
@@ -2072,20 +2084,22 @@ public final class TTCN_Runtime {
 				throw new TtcnError("Only the ports of mtc can be unmapped in single mode.");
 			}
 
-			TitanPort.unmap_port(componentPort, systemPort, false);
+			TitanPort.unmap_port(componentPort, systemPort, params, false);
 			if (translation) {
-				TitanPort.unmap_port(componentPort, systemPort, true);
+				TitanPort.unmap_port(componentPort, systemPort, params, true);
 			}
 			break;
 		case MTC_TESTCASE:
-			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.MTC_UNMAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		case PTC_FUNCTION:
-			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, translation);
+			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, params, translation);
 			executorState.set(executorStateEnum.PTC_UNMAP);
 			wait_for_state_change();
+			params.operator_assign(TitanPort.map_params_cache.get());
 			break;
 		default:
 			if (in_controlPart()) {
@@ -2392,8 +2406,8 @@ public final class TTCN_Runtime {
 				//stuff from Parallel_main::main after hc_main call
 				//FIXME clear stuff before mtc_main
 				TitanComponent.clear_component_names();
-				//TTCN_Logger::close_file();
-				//TTCN_Logger::set_start_time();
+				TTCN_Logger.close_file();
+				TTCN_Logger.set_start_time();
 				mtc_main();
 				//FIXME close down stuff after mtc_main
 			}
@@ -2445,12 +2459,11 @@ public final class TTCN_Runtime {
 				//What now???
 
 				//stuff from Parallel_main::main after hc_main call
-				//FIXME clear stuff before mtc_main
 				TitanComponent.clear_component_names();
-				//TTCN_Logger::close_file();
-				//TTCN_Logger::set_start_time();
+				TTCN_Logger.close_file();
+				TTCN_Logger.set_start_time();
 				ptc_main();
-				//FIXME close down stuff after mtc_main
+				//FIXME close down stuff after ptc_main
 			}
 
 		};
@@ -2563,8 +2576,9 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
 		}
 
-		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
-		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
+		final VerdictTypeEnum localVerdictEnum = localVerdict.get();
+		TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+		TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 
 		final int n_PTCS = text_buf.pull_int().get_int();
 		if (n_PTCS > 0) {
@@ -2578,17 +2592,17 @@ public final class TTCN_Runtime {
 				}
 
 				final VerdictTypeEnum ptc_verdict = VerdictTypeEnum.values()[verdictInt];
-				VerdictTypeEnum newVerdict = localVerdict.get();
-				if (ptc_verdict.ordinal() > localVerdict.get().ordinal()) {
+				VerdictTypeEnum newVerdict = localVerdictEnum;
+				if (ptc_verdict.ordinal() > localVerdictEnum.ordinal()) {
 					newVerdict = ptc_verdict;
 					verdictReason.set(ptc_verdict_reason);
 				}
 
-				TTCN_Logger.log_final_verdict(true, ptc_verdict, localVerdict.get(), newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
+				TTCN_Logger.log_final_verdict(true, ptc_verdict, localVerdictEnum, newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
 				localVerdict.set(newVerdict);
 			}
 		} else {
-			TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+			TTCN_Logger.log_final_verdict(false, localVerdictEnum, localVerdictEnum, localVerdictEnum, verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		}
 
 		final boolean continueExecution = text_buf.pull_int().get_int() == 0 ? false : true;
@@ -2707,8 +2721,10 @@ public final class TTCN_Runtime {
 		case TitanComponent.MTC_COMPREF:
 		case TitanComponent.SYSTEM_COMPREF:
 			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.set_component_killed: invalid component reference: {0}.", component_reference));
-		default:
-			component_status_table.get().get(get_component_status_table_index(component_reference)).killed_status = TitanAlt_Status.ALT_YES;
+		default:{
+			final int index = get_component_status_table_index(component_reference);
+			component_status_table.get().get(index).killed_status = TitanAlt_Status.ALT_YES;
+		}
 		}
 	}
 
@@ -2762,6 +2778,7 @@ public final class TTCN_Runtime {
 			if (component_index >= localTables.size()) {
 				// component_reference is still not in the table
 				// the table has to be extended at the end
+				localTables.ensureCapacity(component_index);
 				for (int i = localTables.size(); i <= component_index; i++) {
 					final component_status_table_struct temp = new component_status_table_struct();
 					temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2778,8 +2795,7 @@ public final class TTCN_Runtime {
 		} else {
 			// component_reference has to be inserted before the existing table
 			final int offset_diff = component_status_table_offset.get().intValue() - component_reference;
-			final int new_size = localTables.size() + offset_diff;
-			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
+			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>(offset_diff);
 			for (int i = 0; i < offset_diff; i++) {
 				final component_status_table_struct temp = new component_status_table_struct();
 				temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2798,7 +2814,8 @@ public final class TTCN_Runtime {
 	}
 
 	private static TitanAlt_Status get_killed_status(final int component_reference) {
-		return component_status_table.get().get(get_component_status_table_index(component_reference)).killed_status;
+		final int index = get_component_status_table_index(component_reference);
+		return component_status_table.get().get(index).killed_status;
 	}
 
 	private static boolean in_component_status_table(final int component_reference) {

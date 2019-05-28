@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -331,7 +331,7 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
 		if (coding == MessageEncoding_type.BER) {
 			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
 		}
@@ -490,9 +490,9 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateConversion(final JavaGenData aData, final IType fromType, final StringBuilder expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 
-		return new StringBuilder(MessageFormat.format("TitanCharString.convert_to_CharString({0})", expression));
+		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
 	}
 }

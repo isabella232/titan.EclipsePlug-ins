@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -70,10 +70,31 @@ public final class FunctionReferenceGenerator {
 		switch (def.type) {
 		case FUNCTION:
 			source.append("\t\tpublic interface function_pointer {\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getModuleName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the definition of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getDefinitionName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Invoke the referenced function.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\t{0} invoke({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
 			if (def.isStartable) {
+				if ( aData.isDebug() ) {
+					source.append("\t\t\t/**\n");
+					source.append("\t\t\t * Starts the referenced function on the provided component.\n");
+					source.append("\t\t\t * @param component_reference the component to start on.\n");
+					source.append("\t\t\t * */\n");
+				}
 				source.append("\t\t\tvoid start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
@@ -87,17 +108,60 @@ public final class FunctionReferenceGenerator {
 			aData.addBuiltinTypeImport("Default_Base");
 
 			source.append("\t\tpublic interface function_pointer {\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getModuleName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the definition of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getDefinitionName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Invoke the referenced sltstep directly.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\t{0} invoke_standalone({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Activate the referenced altstep.\n");
+				source.append("\t\t\t * @return the default.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\tDefault_Base activate({0});\n", def.formalParList));
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Invokes the referenced altstep once (no looping involved).\n");
+				source.append("\t\t\t * @return the status reported after checking the conditions.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\tTitanAlt_Status invoke({0});\n", def.formalParList));
 			source.append("\t\t}\n");
 			break;
 		case TESTCASE:
 			source.append("\t\tpublic interface function_pointer {\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getModuleName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * @return the name of the definition of this function type.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append("\t\t\tString getDefinitionName();\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t\t/**\n");
+				source.append("\t\t\t * Execute the referenced testcase.\n");
+				source.append("\t\t\t * @return the verdict of the testcase.\n");
+				source.append("\t\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\t\tTitanVerdictType execute({0});\n", def.formalParList));
 			source.append("\t\t}\n");
 			break;
@@ -120,6 +184,7 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t\t\tthrow new TtcnError(\"null reference cannot be invoked.\");\n");
 			source.append("\t\t\t}\n");
 			if (def.isStartable) {
+				source.append("\t\t\t@Override\n");
 				source.append("\t\t\tpublic void start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
@@ -221,7 +286,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(Base_Type otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic {0} operator_assign(final Base_Type otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0})otherValue);\n", def.genName));
 		source.append("\t\t\t}\n");
@@ -301,6 +366,11 @@ public final class FunctionReferenceGenerator {
 
 		switch (def.type) {
 		case FUNCTION:
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Invoke the referenced function.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append("\t\tpublic ");
 			if (def.returnType == null) {
 				source.append("void");
@@ -319,6 +389,12 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t}\n");
 
 			if (def.isStartable) {
+				if ( aData.isDebug() ) {
+					source.append("\t\t/**\n");
+					source.append("\t\t * Starts the referenced function on the provided component.\n");
+					source.append("\t\t * @param component_reference the component to start on.\n");
+					source.append("\t\t * */\n");
+				}
 				source.append("\t\tpublic void start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
@@ -336,18 +412,35 @@ public final class FunctionReferenceGenerator {
 			}
 			break;
 		case ALTSTEP:
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Invoke the referenced sltstep directly.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic void invoke_standalone({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Call of unbound altstep.\");\n");
 			source.append("\t\t\treferred_function.invoke_standalone(");
 			source.append(def.actualParList);
 			source.append(");\n");
-			source.append("\t\t}\n");
+			source.append("\t\t}\n\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Activate the referenced altstep.\n");
+				source.append("\t\t * @return the default.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic Default_Base activate({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Activation of unbound altstep.\");\n");
 			source.append("\t\t\treturn referred_function.activate(");
 			source.append(def.actualParList);
 			source.append(");\n");
-			source.append("\t\t}\n");
+			source.append("\t\t}\n\n");
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * Invokes the referenced altstep once (no looping involved).\n");
+				source.append("\t\t * @return the status reported after checking the conditions.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic TitanAlt_Status invoke({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Call of unbound altstep.\");\n");
 			source.append("\t\t\treturn referred_function.invoke(");
@@ -356,6 +449,11 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t}\n");
 			break;
 		case TESTCASE:
+			if ( aData.isDebug() ) {
+				source.append("\t\t/**\n");
+				source.append("\t\t * @return the name of the module of this function type.\n");
+				source.append("\t\t * */\n");
+			}
 			source.append(MessageFormat.format("\t\tpublic TitanVerdictType execute({0}) '{'\n", def.formalParList));
 			source.append("\t\t\tmust_bound(\"Call of unbound testcase.\");\n");
 			source.append("\t\t\tif (referred_function == null) {\n");
@@ -459,6 +557,7 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t\t\t\tpublic String getDefinitionName() {\n");
 			source.append("\t\t\t\t\t\treturn definitionName;\n");
 			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\t@Override\n");
 			source.append("\t\t\t\t\tpublic ");
 			if (def.returnType == null) {
 				source.append("void");
@@ -484,6 +583,7 @@ public final class FunctionReferenceGenerator {
 			source.append("\t\t\t\t\t}\n");
 
 			if (def.isStartable) {
+				source.append("\t\t\t\t\t@Override\n");
 				source.append("\t\t\t\t\tpublic void start(final TitanComponent component_reference");
 				if (def.formalParList != null && def.formalParList.length() > 0) {
 					source.append(", ");
@@ -805,7 +905,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(Base_Type otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Type otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0})otherValue);\n", def.genName));
 		source.append("\t\t\t}\n");
@@ -813,7 +913,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(Base_Template otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic {0}_template operator_assign(final Base_Template otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}_template) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template)otherValue);\n", def.genName));
 		source.append("\t\t\t}\n");
@@ -821,7 +921,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t}\n");
 
 		source.append("\t\t@Override\n");
-		source.append(MessageFormat.format("\t\tpublic boolean match(Base_Type otherValue, final boolean legacy) '{'\n", def.genName));
+		source.append(MessageFormat.format("\t\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("\t\t\t\treturn match(({0})otherValue, legacy);\n", def.genName));
 		source.append("\t\t\t}\n");
@@ -860,13 +960,15 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\t\treturn single_value.getDefinitionName().equals(other_value.getDefinitionName());\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tfor(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor(int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tif(value_list.get(i).match(other_value, legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn template_selection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported {0} template.\");\n", def.displayName));
 		source.append("\t\t\t}\n");
@@ -949,7 +1051,8 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tif (legacy) {\n");
-		source.append("\t\t\t\t\tfor (int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("\t\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\t\tfor (int i = 0 ; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\t\tif (value_list.get(i).match_omit(legacy)) {\n");
 		source.append("\t\t\t\t\t\t\treturn template_selection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t\t}\n");
@@ -974,9 +1077,10 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
-		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase VALUE_LIST: {\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
-		source.append("\t\t\t\tfor (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_size; list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
 		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
@@ -984,6 +1088,7 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -1055,12 +1160,14 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\ttext_buf.push_int(value_list.size());\n");
-		source.append("\t\t\t\tfor (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tfinal int list_size = value_list.size();\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_size);\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_size; i++) {\n");
 		source.append("\t\t\t\t\tvalue_list.get(i).encode_text(text_buf);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", def.displayName));
 		source.append("\t\t\t}\n");

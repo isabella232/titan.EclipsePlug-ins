@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -37,7 +37,7 @@ public class TTCN_Pattern {
 	 * "\N{IDENTIFIER}"
 	 * NOTE: \N is already parsed
 	 */
-	private static final Pattern PATTERN_CHARSET_REFERENCE = Pattern.compile( "\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
+	private static final Pattern PATTERN_CHARSET_REFERENCE = Pattern.compile( "\\\\N\\{([A-Za-z][A-Za-z0-9_]*)\\}(.*)" );
 
 	/**
 	 * Pattern for universal char quadruple
@@ -134,14 +134,26 @@ public class TTCN_Pattern {
 	 */
 	public static String regexp( final String s, final Pattern javaPattern, final int groupno, final boolean nocase ) {
 		String result = "";
+		String regexpPatternString = javaPattern.pattern();
+		//nocase pattern
+		if (nocase) {
+			regexpPatternString = "(?i)" + regexpPatternString;
+		}
+		//multiline string
+		if (s.contains("\n") || s.contains("\r")) {
+			regexpPatternString = "(?s)" + regexpPatternString;
+		}
+
+		final Pattern tempPattern = Pattern.compile(regexpPatternString);
 		try {
-			final Matcher m = javaPattern.matcher( nocase ? s.toLowerCase() : s );
+			final Matcher m = tempPattern.matcher(s);
 			if ( m.matches() ) {
-				result = m.group( groupno );
+				result = m.group( groupno + 1 );
 			}
 		} catch (Exception e) {
 			throw new TtcnError( MessageFormat.format( "Pattern matching error: {0}", e.toString() ) );
 		}
+
 		return result;
 	}
 
@@ -224,6 +236,9 @@ public class TTCN_Pattern {
 				final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
 				if ( c2 == '"' ) {
 					javaPattern.append('"');
+				} else {
+					pos.decrementAndGet();
+					javaPattern.append('\"');
 				}
 				// else is not needed, because single '"' is the end of the string, which is handled by the parser
 				break;
@@ -241,11 +256,13 @@ public class TTCN_Pattern {
 				convert_repetition( ttcnPattern, pos, javaPattern );
 				break;
 			}
+			//FIXME:don't need any converts because references are already resolved
 			case '{': {
-				final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
-				if ( c2 == '\\' ) {
-					convert_static_reference( ttcnPattern, pos, javaPattern, refs );
-				}
+				javaPattern.append("\\{");
+				//final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
+				//if ( c2 == '\\' ) {
+				//	convert_static_reference( ttcnPattern, pos, javaPattern, refs );
+				//}
 				// else is not needed, because dynamic references are already resolved
 				break;
 			}
@@ -409,11 +426,13 @@ public class TTCN_Pattern {
 		if ( m.matches() ) {
 			final int offset = m.toMatchResult().start(2);
 			pos.getAndAdd(offset);
-			final String ref = m.group(1);
-			final String refValue = refs.get(ref);
-			javaPattern.append( isSet ? refValue : '[' + refValue + ']' );
-		} else {
+			javaPattern.append( isSet ? m.group(1) : '[' + m.group(1) + ']' );
+			pos.getAndAdd(m.group(1).length());
+		} else if(input == null) {
 			throw new TtcnError("Invalid character set reference at position " + pos.get());
+		} else {
+			javaPattern.append( isSet ? input : '[' + input + ']' );
+			pos.getAndAdd(input.length());
 		}
 	}
 
@@ -472,7 +491,7 @@ public class TTCN_Pattern {
 			for (final String uchar : uchars) {
 				final String hexstr = uchar.substring(1);
 				final int hex = Integer.parseInt(hexstr, 16);
-				javaPattern.append((char) hex);
+				javaPattern.append(String.valueOf(Character.toChars(hex)));
 			}
 		} else {
 			m = PATTERN_UNICHAR_QUADRUPLE.matcher(input);
@@ -488,7 +507,7 @@ public class TTCN_Pattern {
 				final int row = Integer.parseInt(rowStr);
 				final int cell = Integer.parseInt(cellStr);
 				final TitanUniversalChar uc = new TitanUniversalChar( (char)group, (char)plane, (char)row, (char)cell);
-				javaPattern.append(uc.to_utf());
+				javaPattern.append(uc.to_utf(true));
 			} else {
 				throw new TtcnError("Invalid unichar list at position " + pos.get());
 			}

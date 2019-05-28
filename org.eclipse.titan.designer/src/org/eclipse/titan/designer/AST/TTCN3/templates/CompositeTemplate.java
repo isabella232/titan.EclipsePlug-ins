@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -130,13 +130,15 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	 *
 	 * @return true if an any or none symbol was found, false otherwise.
 	 * */
-	public boolean containsAnyornoneOrPermutation() {
+	public boolean containsAnyornoneOrPermutation(final CompilationTimeStamp timestamp) {
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			final ITTCN3Template template = templates.getTemplateByIndex(i);
 			switch (template.getTemplatetype()) {
 			case ANY_OR_OMIT:
 			case PERMUTATION_MATCH:
 				return true;
+			case ALL_FROM:
+				return ((All_From_Template)template).containsAnyornoneOrPermutation(timestamp);
 			default:
 				break;
 			}

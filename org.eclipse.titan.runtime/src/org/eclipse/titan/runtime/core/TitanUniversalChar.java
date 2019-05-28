@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -203,13 +203,19 @@ public class TitanUniversalChar {
 	/**
 	 * @return decoded quadruple as unicode string
 	 */
-	public String to_utf() {
+	public String to_utf(final boolean is_alone) {
 		byte[] arr = new byte[4];
-		arr[0] = (byte)uc_group;
-		arr[1] = (byte)uc_plane;
-		arr[2] = (byte)uc_row;
-		arr[3] = (byte)uc_cell;
+		arr[0] = (byte)(uc_group & 0xFF);
+		arr[1] = (byte)(uc_plane & 0xFF);
+		arr[2] = (byte)(uc_row & 0xFF);
+		arr[3] = (byte)(uc_cell & 0xFF);
 		try {
+			if (is_alone) {
+				//special cases: last two bytes are a BOM
+				if (arr[0] == 0 && arr[1] == 0 && arr[2] == -2 && arr[3]== -1) {
+					return new String(arr, "UTF-32LE");
+				}
+			}
 			return new String(arr, "UTF-32");
 		} catch (UnsupportedEncodingException e) {
 			throw new TtcnError(MessageFormat.format("Cannot decode quadruple: {0}, {1}, {2}, {3}", uc_group, uc_plane, uc_row, uc_cell));

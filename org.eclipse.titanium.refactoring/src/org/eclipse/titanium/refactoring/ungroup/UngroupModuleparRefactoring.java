@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -33,12 +33,12 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
  * @author Nagy Mátyás
  */
 public class UngroupModuleparRefactoring extends Refactoring {
-	
+
 	private final IStructuredSelection selection;
 	private final Set<IProject> projects = new HashSet<IProject>();
 
 	private Object[] affectedObjects;		//the list of objects affected by the change
-	
+
 	public UngroupModuleparRefactoring(final IStructuredSelection selection) {
 		this.selection = selection;
 
@@ -75,7 +75,7 @@ public class UngroupModuleparRefactoring extends Refactoring {
 			throws CoreException, OperationCanceledException {
 		return new RefactoringStatus();
 	}
-	
+
 	@Override
 	public Change createChange(final IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		if (selection == null) {
@@ -97,7 +97,7 @@ public class UngroupModuleparRefactoring extends Refactoring {
 		return cchange;
 	}
 	//METHODS FROM REFACTORING END
-	
+
 	/**
 	 * Visits all the files of a folder or project (any {@link IResource}).
 	 * Creates the {@link Change} for all files and then merges them into a single

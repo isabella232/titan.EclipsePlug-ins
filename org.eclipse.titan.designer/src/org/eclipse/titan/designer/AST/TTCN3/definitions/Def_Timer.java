@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -580,7 +580,7 @@ public final class Def_Timer extends Definition {
 			if(dimensions == null) {
 				// single timer instance
 				if (defaultDuration == null) {
-					source.append(MessageFormat.format("ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
+					source.append(MessageFormat.format("final ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
 					source.append("@Override\n" );
 					source.append("protected TitanTimer initialValue() {\n");
 					source.append(MessageFormat.format("return new TitanTimer(\"{0}\");\n", identifier.getDisplayName()));
@@ -589,14 +589,14 @@ public final class Def_Timer extends Definition {
 				} else {
 					if (defaultDuration.canGenerateSingleExpression()) {
 						//known in compile time
-						source.append(MessageFormat.format("ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
+						source.append(MessageFormat.format("final ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
 						source.append("@Override\n" );
 						source.append("protected TitanTimer initialValue() {\n");
 						source.append(MessageFormat.format("return new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
 						source.append("}\n");
 						source.append("};\n");
 					} else {
-						source.append(MessageFormat.format("ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
+						source.append(MessageFormat.format("final ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
 						source.append("@Override\n" );
 						source.append("protected TitanTimer initialValue() {\n");
 						source.append(MessageFormat.format("return new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
@@ -625,7 +625,7 @@ public final class Def_Timer extends Definition {
 				final ExpressionStruct expression = new ExpressionStruct();
 				final String elementName = generateClassCode(aData, sb, classNames);
 
-				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", elementName, genName));
+				source.append(MessageFormat.format("final ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", elementName, genName));
 				source.append("@Override\n" );
 				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", elementName));
 				source.append(MessageFormat.format("return new {0}();\n",elementName));
@@ -647,13 +647,13 @@ public final class Def_Timer extends Definition {
 			if(dimensions == null) {
 				// single timer instance
 				if (defaultDuration == null) {
-					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
+					source.append(MessageFormat.format("final TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 				} else {
 					if (defaultDuration.canGenerateSingleExpression()) {
 						//known in compile time
-						source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
+						source.append(MessageFormat.format("final TitanTimer {0} = new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
 					} else {
-						source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
+						source.append(MessageFormat.format("final TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 
 						final ExpressionStruct expression = new ExpressionStruct();
 						expression.expression.append(genName);
@@ -675,7 +675,7 @@ public final class Def_Timer extends Definition {
 				final ExpressionStruct expression = new ExpressionStruct();
 				aData.addBuiltinTypeImport("TitanTimer_Array");
 				final String elementName = generateClassCode(aData, sb, classNames);
-				source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
+				source.append(MessageFormat.format("final {0} {1} = new {0}();\n",elementName, genName));
 
 				if (defaultDuration != null) {
 					generateCodeArrayDuration(aData, initComp, genName, classNames, defaultDuration, 0);
@@ -707,13 +707,13 @@ public final class Def_Timer extends Definition {
 		if(dimensions == null) {
 			// single timer instance
 			if (defaultDuration == null) {
-				source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
+				source.append(MessageFormat.format("final TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 			} else {
 				if (defaultDuration.canGenerateSingleExpression()) {
 					//known in compile time
-					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
+					source.append(MessageFormat.format("final TitanTimer {0} = new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
 				} else {
-					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
+					source.append(MessageFormat.format("final TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
@@ -731,7 +731,7 @@ public final class Def_Timer extends Definition {
 
 			final StringBuilder sb = aData.getCodeForType(genName);
 			final String elementName = generateClassCode(aData, sb, classNames);
-			source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
+			source.append(MessageFormat.format("final {0} {1} = new {0}();\n",elementName, genName));
 
 
 			if (defaultDuration != null) {

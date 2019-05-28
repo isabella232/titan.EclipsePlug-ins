@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -213,7 +213,7 @@ public final class Param_Types {
 			}
 			if (!is_template) {
 				if (has_ifpresent) {
-					throw new TtcnError(MessageFormat.format("{0] cannot have an 'ifpresent' attribute", what));
+					throw new TtcnError(MessageFormat.format("{0} cannot have an 'ifpresent' attribute", what));
 				}
 			}
 			if (!is_template || !is_list) {
@@ -264,7 +264,6 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_string_size()");
 		}
 
-		//TODO: need to check later (original void*)
 		public Object get_string_data() {
 			throw new TtcnError("Internal error: Module_Param.get_string_data()");
 		}
@@ -349,7 +348,7 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_operand2()");
 		}
 
-		public void error(final String err, Object... args) {
+		public void error(final String err, final Object... args) {
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 			TTCN_Logger.log_event_str("Error while ");
 			switch (operation_type) {
@@ -363,6 +362,7 @@ public final class Param_Types {
 				TTCN_Logger.log_event_str("???");
 				break;
 			}
+
 			TTCN_Logger.log_event_str(" ");
 			if (id != null && id.is_custom()) {
 				final String custom_ctx = id.get_str();
@@ -374,6 +374,7 @@ public final class Param_Types {
 				TTCN_Logger.log_event_str(param_ctx);
 				TTCN_Logger.log_event_str("'");
 			}
+
 			switch (operation_type) {
 			case OT_ASSIGN:
 				TTCN_Logger.log_event_str(" to '");
@@ -385,15 +386,17 @@ public final class Param_Types {
 				TTCN_Logger.log_event_str("' ??? '");
 				break;
 			}
+
 			log(false);
 			TTCN_Logger.log_event_str("': ");
 			TTCN_Logger.log_event_va_list(err, args);
 			TTCN_Logger.send_event_as_error();
 			TTCN_Logger.end_event();
+			throw new TtcnError("");
 		}
 
 		public void type_error(final String expected, final String type_name) {
-			//TODO: implement
+			 error(String.format("Type mismatch: %s was expected instead of %s.", expected, type_name));
 		}
 
 		public void type_error(final String expected) {
@@ -401,9 +404,8 @@ public final class Param_Types {
 		}
 
 		public void expr_type_error(final String type_name) {
-			throw new TtcnError(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
+			error(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
 		}
-		//TODO: error functions, now we throw a TtcnError 
 	}
 
 	/**
@@ -418,6 +420,7 @@ public final class Param_Types {
 		private final expression_operand_t expr_type;
 		private final Module_Parameter operand1;
 		private final Module_Parameter operand2;
+		private boolean no_case = false;
 
 		public Module_Param_Expression(final expression_operand_t p_type, final Module_Parameter p_op1, final Module_Parameter p_op2) {
 			expr_type = p_type;
@@ -505,6 +508,19 @@ public final class Param_Types {
 			}
 			if (expr_type != expression_operand_t.EXPR_NEGATE) {
 				operand2.log_value();
+			}
+		}
+
+		public boolean get_nocase() {
+			return no_case;
+		}
+
+		public void set_nocase(final boolean nocase) {
+			no_case = nocase;
+			if (parent != null && parent != this) {
+				if (parent.get_type() == type_t.MP_Expression) {
+					((Module_Param_Expression)(parent)).set_nocase(no_case);
+				}
 			}
 		}
 	}

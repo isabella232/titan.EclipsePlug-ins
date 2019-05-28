@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -471,7 +471,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		case DECODE_MATCH: {
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
 			TTCN_EncDec.clear_error();
-			final TitanOctetString os = new TitanOctetString(AdditionalFunctions.hex2oct(otherValue));
+			final TitanOctetString os = AdditionalFunctions.hex2oct(otherValue);
 			final TTCN_Buffer buffer = new TTCN_Buffer(os);
 			final boolean ret_val = dec_match.match(buffer);
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_DEFAULT);
