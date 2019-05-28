@@ -131,8 +131,6 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.LAZY,
 				"When an in parameter evaluation not sure under code execution it should be a @lazy parameter, "
 				+ "otherwise not.");
-		
-		
 		m.put(ProblemTypePreference.LOGIC_INVERSION,
 				"When an if statement has negated condition, and consists only an if- and an else branch,"
 						+ " the negation can be left simply by swapping the two branches.");
