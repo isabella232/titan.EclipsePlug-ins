@@ -23,7 +23,6 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 
 public class FunctionsWithInoutParametersWithStartupStatement extends BaseModuleCodeSmellSpotter{
 	private static final String PROBLEM = "detecting the usage of functions with out / inout formal  parameters in startup statement ";
-	private static final String ERROR_MESSAGE = "detecting the usage of functions with out / inout formal  parameters in startup statement ";
 
 	public FunctionsWithInoutParametersWithStartupStatement() {
 		super(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS);
@@ -59,7 +58,6 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 				return;
 			}
 
-			int inoutPArametersCount=0;
 			FormalParameterList fpl=function.getFormalParameterList();
 			int formalParametersNum= fpl.getNofParameters();
 			int inoutFormalParametersCount=0;
@@ -79,8 +77,7 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 			}
 
 			if (inoutFormalParametersCount>0) {
-				String msg =PROBLEM;
-				problems.report(s.getFunctionInstanceReference().getLocation(), msg);
+				problems.report(s.getFunctionInstanceReference().getLocation(), PROBLEM);
 			}
 		}
 	}
