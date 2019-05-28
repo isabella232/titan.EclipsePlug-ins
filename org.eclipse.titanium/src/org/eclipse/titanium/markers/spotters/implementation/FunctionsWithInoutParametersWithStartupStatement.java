@@ -1,5 +1,4 @@
 package org.eclipse.titanium.markers.spotters.implementation;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,17 +56,17 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 			}
 
 			final FormalParameterList fpl = function.getFormalParameterList();
-			int formalParametersNum = fpl.getNofParameters();
+			final int formalParametersNum = fpl.getNofParameters();
 			int inoutFormalParametersCount = 0;
 
 			for (int i = 0; i < formalParametersNum; i++) {
 				final FormalParameter fp = fpl.getParameterByIndex(i);
 				switch (fp.getAssignmentType()) {
 				case A_PAR_VAL_OUT:
-					inoutFormalParametersCount += 1;
+					inoutFormalParametersCount++;
 					break;
 				case A_PAR_VAL_INOUT:
-					inoutFormalParametersCount += 1;
+					inoutFormalParametersCount++;
 					break;
 				default:
 					break;
