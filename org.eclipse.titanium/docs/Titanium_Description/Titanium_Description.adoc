@@ -234,6 +234,7 @@ Code smells in this category indicate issues related to bad or misunderstood arc
 * *Report uncommented functions:* procedures without documented headers.
 * *Report stop statement in functions:* Functions whose body contains stop statement, which will stop the test’s execution without releasing resources and driving the SUT in correct state.
 * *Report unused function return values:* function return value is not used, or function is started on component without being able to retrieve any return value.
+* *Report starting functions with out inout parameters:* when starting a function with out or inout parameters, the resulting values of those parameters will be lost.
 * *Report receive statements accepting any value*: the alt branch has a receive statement that accepts any value, but uses value redirection.
 * *Report insufficient altstep coverage:* When an altstep or alt statement might receive a message type without having a corresponding alt branch that could accept.
 * *Report alt branches that should use alt guards:* When an alt branch starts with an if statement, it should be considered whether an alt guard could be used instead of the conditional statement.
