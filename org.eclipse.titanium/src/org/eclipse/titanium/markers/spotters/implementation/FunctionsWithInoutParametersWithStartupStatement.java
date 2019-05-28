@@ -15,8 +15,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 /**
- * .
- *
  * @author Basil Kaikoni 27-05-2019
  * detecting the usage of functions with out / inout formal  parameters in startup statement 
  */
@@ -58,25 +56,25 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 				return;
 			}
 
-			FormalParameterList fpl=function.getFormalParameterList();
-			int formalParametersNum= fpl.getNofParameters();
-			int inoutFormalParametersCount=0;
+			FormalParameterList fpl = function.getFormalParameterList();
+			int formalParametersNum = fpl.getNofParameters();
+			int inoutFormalParametersCount = 0;
 
-			for(int i=0;i<formalParametersNum;i++) {
-				FormalParameter fp=fpl.getParameterByIndex(i);
-				switch(fp.getAssignmentType()) {
+			for (int i = 0; i < formalParametersNum; i++) {
+				FormalParameter fp = fpl.getParameterByIndex(i);
+				switch (fp.getAssignmentType()) {
 				case A_PAR_VAL_OUT:
-					inoutFormalParametersCount +=1;
+					inoutFormalParametersCount += 1;
 					break;
-				case A_PAR_VAL_INOUT :
-					inoutFormalParametersCount +=1;
+				case A_PAR_VAL_INOUT:
+					inoutFormalParametersCount += 1;
 					break;
-				default :
+				default:
 					break;
 				}
 			}
 
-			if (inoutFormalParametersCount>0) {
+			if (inoutFormalParametersCount > 0) {
 				problems.report(s.getFunctionInstanceReference().getLocation(), PROBLEM);
 			}
 		}
