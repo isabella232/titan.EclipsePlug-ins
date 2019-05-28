@@ -100,9 +100,9 @@ public final class StaticData {
 				new UnnecessaryControl.Select(), new UnnecessaryControl.While() });
 		m.put(CodeSmellType.UNUSED_FUNTION_RETURN_VALUES, new BaseModuleCodeSmellSpotter[] { new UnusedRetval() });
 		m.put(CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES, new BaseModuleCodeSmellSpotter[] {
-				new UnusedStartedRefFuncRetVal(), new UnusedStartedFuncRetVal() });
+				new UnusedStartedRefFuncRetVal()});
 		m.put(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS, new BaseModuleCodeSmellSpotter[] {
-				new FunctionsWithInoutParametersWithStartupStatement(), new FunctionsWithInoutParametersWithStartupStatement() });
+				new FunctionsWithInoutParametersWithStartupStatement() });
 		m.put(CodeSmellType.UNUSED_LOCAL_DEFINITION, new BaseModuleCodeSmellSpotter[] { new UnusedLocalDefinition() });
 		m.put(CodeSmellType.VISIBILITY_IN_DEFINITION, new BaseModuleCodeSmellSpotter[] { new Visibility() });
 		m.put(CodeSmellType.RUNS_ON_SCOPE_REDUCTION, new BaseModuleCodeSmellSpotter[] {new RunsOnScopeReduction() });
