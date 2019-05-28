@@ -21,6 +21,8 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * </p>
  *
  * @author poroszd
+ * 
+ * update by Basil Kaikoni 27-05-2019 (add STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS)
  *
  */
 public enum ProblemTypePreference {
@@ -79,6 +81,8 @@ public enum ProblemTypePreference {
 	UNNECESSARY_VALUEOF("Report unnecessary 'valueof' operation", EnumSet.of(CodeSmellType.UNNECESSARY_VALUEOF)),
 	UNUSED_FUNTION_RETURN_VALUES("Report unused function return values", EnumSet.of(CodeSmellType.UNUSED_FUNTION_RETURN_VALUES,
 			CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES)),
+	STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS("Report startupfunctions with out inout startup function", EnumSet.of(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS,
+			CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS)),
 	UNUSED_GLOBAL_DEFINITION("Report unused module level definitions", EnumSet.of(CodeSmellType.UNUSED_GLOBAL_DEFINITION)),
 	UNUSED_IMPORT("Report unused module importation", EnumSet.of(CodeSmellType.UNUSED_IMPORT)),
 	UNUSED_LOCAL_DEFINITION("Report unused local definition", EnumSet.of(CodeSmellType.UNUSED_LOCAL_DEFINITION)),

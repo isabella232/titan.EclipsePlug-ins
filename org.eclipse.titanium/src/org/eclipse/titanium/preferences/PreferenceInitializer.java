@@ -27,6 +27,7 @@ import org.eclipse.titanium.preferences.pages.OrganizeImportPreferencePage;
 /**
  * This class is used for initializing the internal values to their default
  * state.
+ * update Basil Kaikoni 27-05-2019 (STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS added)
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override
@@ -40,7 +41,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.ORG_IMPORT_METHOD, OrganizeImportPreferencePage.JUST_CHANGE);
 
 		// Code smells
+
+		preferenceStore.setDefault(ProblemTypePreference.STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS.getPreferenceName(), GeneralConstants.WARNING);
+
 		preferenceStore.setDefault(ProblemTypePreference.CONNECTION_DETECTOR.getPreferenceName(), GeneralConstants.ERROR);
+
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_IMPORT.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.UNUSED_LOCAL_DEFINITION.getPreferenceName(), GeneralConstants.WARNING);
@@ -173,6 +178,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_LOCAL_DEFINITION, 2, 300);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_FUNTION_RETURN_VALUES, 2, 2000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES, 3, 5000);
+		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS, 3, 5000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.INFINITE_LOOP, 3, 80000);
 		// setSmellImpactAndBaseLine(preferenceStore, SemanticProblemType., 3,
 		// 400000); // TODO: busy wait

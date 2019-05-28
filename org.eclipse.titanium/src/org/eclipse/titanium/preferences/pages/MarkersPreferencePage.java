@@ -55,6 +55,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
  * Preference page of code smells.
  *
  * @author poroszd
+ * update by Basil Kaikoni 27-05-2019 ( add STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS)
  *
  */
 public final class MarkersPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
@@ -130,6 +131,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.LAZY,
 				"When an in parameter evaluation not sure under code execution it should be a @lazy parameter, "
 				+ "otherwise not.");
+		
+		
 		m.put(ProblemTypePreference.LOGIC_INVERSION,
 				"When an if statement has negated condition, and consists only an if- and an else branch,"
 						+ " the negation can be left simply by swapping the two branches.");
@@ -174,6 +177,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.UNNECESSARY_ARRAYS, "Report when arrays are used in code.");
 		m.put(ProblemTypePreference.UNNECESSARY_VALUEOF, "Report when 'valueof' is applied to an actual value, thus having no effect");
 		m.put(ProblemTypePreference.UNUSED_FUNTION_RETURN_VALUES, "When a function returns a value or a template, but it is not used.");
+		m.put(ProblemTypePreference.STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS, "startup functions with out inout parameters 2.");
 		m.put(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION, "When a module level definition is never read/written.\n"
 				+ " Also when a type is not used to declare other definitions.");
 		m.put(ProblemTypePreference.UNUSED_IMPORT, "When nothing is used in the module from the imported module.");
@@ -311,6 +315,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.UNCOMMENTED_FUNCTION);
 			createField(comp, ProblemTypePreference.STOP_IN_FUNCTION);
 			createField(comp, ProblemTypePreference.UNUSED_FUNTION_RETURN_VALUES);
+			createField(comp, ProblemTypePreference.STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS);
 			createField(comp, ProblemTypePreference.RECEIVE_ANY_TEMPLATE);
 			createField(comp, ProblemTypePreference.ALTSTEP_COVERAGE);
 			createField(comp, ProblemTypePreference.IF_INSTEAD_ALTGUARD);
