@@ -25,15 +25,6 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 	
 	public FunctionsWithInoutParametersWithStartupStatement() {
 		super(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS);
-		
-		   try{    
-	           FileWriter fw=new FileWriter("D:\\testout.txt");    
-	           fw.append("initialized\n");    
-	           fw.close();    
-	          }catch(Exception e){System.out.println(e);}    
-	          System.out.println("Success...");    
-	       
-         
 	}
 	//parameters will remain unchanged at the end of the operation.
 
