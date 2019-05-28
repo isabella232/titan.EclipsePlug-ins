@@ -56,12 +56,12 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 				return;
 			}
 
-			FormalParameterList fpl = function.getFormalParameterList();
+			final FormalParameterList fpl = function.getFormalParameterList();
 			int formalParametersNum = fpl.getNofParameters();
 			int inoutFormalParametersCount = 0;
 
 			for (int i = 0; i < formalParametersNum; i++) {
-				FormalParameter fp = fpl.getParameterByIndex(i);
+				final FormalParameter fp = fpl.getParameterByIndex(i);
 				switch (fp.getAssignmentType()) {
 				case A_PAR_VAL_OUT:
 					inoutFormalParametersCount += 1;
