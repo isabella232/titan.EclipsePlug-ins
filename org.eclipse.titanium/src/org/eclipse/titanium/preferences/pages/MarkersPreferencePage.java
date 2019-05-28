@@ -175,7 +175,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.UNNECESSARY_ARRAYS, "Report when arrays are used in code.");
 		m.put(ProblemTypePreference.UNNECESSARY_VALUEOF, "Report when 'valueof' is applied to an actual value, thus having no effect");
 		m.put(ProblemTypePreference.UNUSED_FUNTION_RETURN_VALUES, "When a function returns a value or a template, but it is not used.");
-		m.put(ProblemTypePreference.STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS, "startup functions with out inout parameters 2.");
+		m.put(ProblemTypePreference.STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS, "Starting functions with out or inout parameters.");
 		m.put(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION, "When a module level definition is never read/written.\n"
 				+ " Also when a type is not used to declare other definitions.");
 		m.put(ProblemTypePreference.UNUSED_IMPORT, "When nothing is used in the module from the imported module.");

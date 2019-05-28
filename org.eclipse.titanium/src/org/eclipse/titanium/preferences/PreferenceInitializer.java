@@ -175,6 +175,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_LOCAL_DEFINITION, 2, 300);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_FUNTION_RETURN_VALUES, 2, 2000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES, 3, 5000);
+		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS, 3, 5000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.INFINITE_LOOP, 3, 80000);
 		// setSmellImpactAndBaseLine(preferenceStore, SemanticProblemType., 3,
 		// 400000); // TODO: busy wait
