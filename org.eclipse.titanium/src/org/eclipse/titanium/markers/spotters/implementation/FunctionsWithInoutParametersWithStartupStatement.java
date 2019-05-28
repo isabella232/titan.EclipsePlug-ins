@@ -22,16 +22,12 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  */
 
 public class FunctionsWithInoutParametersWithStartupStatement extends BaseModuleCodeSmellSpotter{
-	
+	private static final String PROBLEM = "detecting the usage of functions with out / inout formal  parameters in startup statement ";
+	private static final String ERROR_MESSAGE = "detecting the usage of functions with out / inout formal  parameters in startup statement ";
+
 	public FunctionsWithInoutParametersWithStartupStatement() {
 		super(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS);
 	}
-	//parameters will remain unchanged at the end of the operation.
-
-	private static final String PROBLEM = "detecting the usage of functions with out / inout formal  parameters in startup statement ";
-
-    private static final String ERROR_MESSAGE = "detecting the usage of functions with out / inout formal  parameters in startup statement ";
-
 
 	@Override
 	protected void process(IVisitableNode node, Problems problems) {
@@ -44,11 +40,7 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 			if (assignment == null) {
 				return;
 			}
-			
-			
-		
-			
-			
+
 			switch (assignment.getAssignmentType()) {
 			case A_FUNCTION:
 				break;
@@ -59,53 +51,39 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 			default:
 				return;
 			}
-             
-		
-			
+
 			final Def_Function function = (Def_Function) assignment;
 			final IType runsOnType = function.getRunsOnType(timestamp);
 
 			if (compType == null || runsOnType == null || !function.isStartable()) {
 				return;
 			}
-			
-			 int inoutPArametersCount=0;
-			 FormalParameterList fpl=function.getFormalParameterList();
-			 int formalParametersNum= fpl.getNofParameters();
-			 int inoutFormalParametersCount=0;
-			 
-			 for(int i=0;i<formalParametersNum;i++) {
-				 FormalParameter fp=fpl.getParameterByIndex(i);
-				 switch(fp.getAssignmentType()) {
-				 case A_PAR_VAL_OUT:
-					 inoutFormalParametersCount +=1;
-					 break;
-				 case A_PAR_VAL_INOUT :
-					 inoutFormalParametersCount +=1;
-					 break;
-				 default :
-					 break;
-				 }
-				 
-			 }
-			
-	
-		          
-				if (inoutFormalParametersCount>0) {
-					
-			
-					
-					 String msg =PROBLEM;
-					
-					problems.report(s.getFunctionInstanceReference().getLocation(), msg);
+
+			int inoutPArametersCount=0;
+			FormalParameterList fpl=function.getFormalParameterList();
+			int formalParametersNum= fpl.getNofParameters();
+			int inoutFormalParametersCount=0;
+
+			for(int i=0;i<formalParametersNum;i++) {
+				FormalParameter fp=fpl.getParameterByIndex(i);
+				switch(fp.getAssignmentType()) {
+				case A_PAR_VAL_OUT:
+					inoutFormalParametersCount +=1;
+					break;
+				case A_PAR_VAL_INOUT :
+					inoutFormalParametersCount +=1;
+					break;
+				default :
+					break;
 				}
-				
-			    
+			}
+
+			if (inoutFormalParametersCount>0) {
+				String msg =PROBLEM;
+				problems.report(s.getFunctionInstanceReference().getLocation(), msg);
 			}
 		}
-		
-		
-	
+	}
 
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
@@ -113,7 +91,4 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 		ret.add(Start_Component_Statement.class);
 		return ret;
 	}
-	
-
-
 }
