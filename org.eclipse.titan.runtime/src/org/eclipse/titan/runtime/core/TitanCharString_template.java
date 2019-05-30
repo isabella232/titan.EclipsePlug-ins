@@ -541,6 +541,15 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list charstring template.");
+		}
+
+		return value_list.size();
+	}
+
+	@Override
 	public TitanCharString_template list_item(final int list_index) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list charstring template. ");

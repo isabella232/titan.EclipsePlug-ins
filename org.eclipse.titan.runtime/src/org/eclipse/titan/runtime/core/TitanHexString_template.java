@@ -658,6 +658,15 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list hexstring template.");
+		}
+
+		return value_list.size();
+	}
+
+	@Override
 	public TitanHexString_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list hexstring template.");

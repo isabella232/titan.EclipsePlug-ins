@@ -370,6 +370,15 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list verdict template.");
+		}
+
+		return value_list.size();
+	}
+
+	@Override
 	public TitanVerdictType_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list verdict template.");

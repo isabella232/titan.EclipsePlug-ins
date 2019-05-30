@@ -186,8 +186,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-
-	void encode_text_restricted(final Text_Buf text_buf) {
+	protected void encode_text_restricted(final Text_Buf text_buf) {
 		encode_text_base(text_buf);
 		text_buf.push_int(length_restriction_type.ordinal());
 		switch (length_restriction_type) {
@@ -208,7 +207,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	void decode_text_restricted(final Text_Buf text_buf) {
+	protected void decode_text_restricted(final Text_Buf text_buf) {
 		decode_text_base(text_buf);
 		length_restriction_type = length_restriction_type_t.values()[ text_buf.pull_int().get_int() ];
 		switch (length_restriction_type) {

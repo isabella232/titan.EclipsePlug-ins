@@ -353,6 +353,15 @@ public class TitanComponent_template extends Base_Template {
 	}
 
 	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list component reference template.");
+		}
+
+		return value_list.size();
+	}
+
+	@Override
 	public TitanComponent_template list_item(final int list_index) {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list component reference template.");

@@ -396,6 +396,15 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list integer template.");
+		}
+
+		return value_list.size();
+	}
+
+	@Override
 	public TitanInteger_template list_item(final int listIndex) {
 		if (!template_sel.VALUE_LIST.equals(template_selection) &&
 				!template_sel.COMPLEMENTED_LIST.equals(template_selection)) {

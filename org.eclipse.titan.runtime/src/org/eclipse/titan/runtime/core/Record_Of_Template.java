@@ -207,4 +207,10 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 
 		return false;
 	}
+
+	public abstract int n_elem();
+	public abstract Base_Template get_at(final int index_value);
+	public abstract Base_Template get_at(final TitanInteger index_value);
+	public abstract Base_Template constGet_at(final int index_value);
+	public abstract Base_Template constGet_at(final TitanInteger index_value);
 }

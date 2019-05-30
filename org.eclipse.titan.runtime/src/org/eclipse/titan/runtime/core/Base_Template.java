@@ -323,6 +323,8 @@ public abstract class Base_Template {
 	 * */
 	public abstract void set_type(final template_sel template_type, final int list_length);
 
+	public abstract int n_list_elem();
+
 	/**
 	 * Returns the template at the specified position in a value list or
 	 * complemented list template.

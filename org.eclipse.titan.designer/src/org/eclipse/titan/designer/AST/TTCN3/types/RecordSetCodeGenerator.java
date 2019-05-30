@@ -2551,7 +2551,14 @@ public final class RecordSetCodeGenerator {
 	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
-		aSb.append('\n');
+		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic int n_list_elem() {\n");
+		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
+		aSb.append(MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of enumeration type {0}.\");\n", displayName ) );
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\treturn list_value.size();\n");
+		aSb.append("\t\t}\n\n");
+
 		aSb.append("\t\t@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0}_template list_item(final int list_index) '{'\n", genName ) );
 		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
@@ -3743,6 +3750,14 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", classDisplayName));
 		source.append("\t\t\t}\n");
 		source.append(MessageFormat.format("\t\t\treturn new {0}(TitanNull_Type.NULL_VALUE);\n", className));
+		source.append("\t\t}\n\n");
+
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic int n_list_elem() {\n");
+		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of type {0}.\");\n", classDisplayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn list_value.size();\n");
 		source.append("\t\t}\n\n");
 
 		source.append("\t\t@Override\n");

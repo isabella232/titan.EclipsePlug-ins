@@ -547,6 +547,13 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type EMBEDDED PDV.");
 		}
 	}
+	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.");
+		}
+		return list_value.size();
+	}
 
 	@Override
 	public TitanEmbedded_PDV_template list_item(final int list_index) {

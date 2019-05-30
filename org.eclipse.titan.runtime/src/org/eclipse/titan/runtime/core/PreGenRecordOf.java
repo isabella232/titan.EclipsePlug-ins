@@ -104,7 +104,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		super("PreGenRecordOf", module_type_enum.TTCN3_MODULE, new byte[] {(byte)2, (byte)172, (byte)107, (byte)74, (byte)67, (byte)37, (byte)48, (byte)47, (byte)113, (byte)216, (byte)134, (byte)12, (byte)12, (byte)157, (byte)70, (byte)204});
 	}
 
-	public static class PREGEN__RECORD__OF__INTEGER__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__INTEGER__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanInteger> valueElements;
 
@@ -126,6 +126,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -152,6 +162,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanInteger> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanInteger> newList = new ArrayList<TitanInteger>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanInteger newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -184,6 +208,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__INTEGER__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED.");
 		}
@@ -242,6 +269,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanInteger leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -268,6 +326,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -275,7 +337,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__INTEGER__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -1102,6 +1188,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -1183,6 +1273,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template temp = new PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanInteger_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanInteger_template temp = new TitanInteger_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template temp = new PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -1326,6 +1449,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER__OPTIMIZED) {
@@ -1339,6 +1470,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template.");
@@ -1790,6 +1925,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -2181,7 +2323,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING extends Base_Type {
+	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING extends Record_Of_Type {
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -2210,6 +2352,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -2236,6 +2388,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanUniversalCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanUniversalCharString> newList = new ArrayList<TitanUniversalCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanUniversalCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -2268,6 +2434,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING) {
 				return operator_equals((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING.");
 		}
@@ -2303,6 +2472,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING right_ptr, final int right_index) {
@@ -2345,6 +2524,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -2352,7 +2535,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -3123,7 +3330,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanUniversalCharString_template> value_elements;
@@ -3202,6 +3409,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -3294,6 +3505,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanUniversalCharString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template temp = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanUniversalCharString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -3448,6 +3702,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING) {
@@ -3461,6 +3723,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template) {
 				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template.");
@@ -3712,6 +3978,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -3992,6 +4264,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -4178,7 +4457,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -4209,7 +4488,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -4323,7 +4602,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -4363,7 +4642,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanOctetString> valueElements;
 
@@ -4385,6 +4664,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -4411,6 +4700,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanOctetString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanOctetString> newList = new ArrayList<TitanOctetString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanOctetString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -4443,6 +4746,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.");
 		}
@@ -4501,6 +4807,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanOctetString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -4527,6 +4864,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -4534,7 +4875,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -5361,6 +5726,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -5442,6 +5811,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanOctetString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanOctetString_template temp = new TitanOctetString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -5585,6 +5987,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED) {
@@ -5598,6 +6008,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template.");
@@ -6049,6 +6463,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -6440,7 +6861,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__FLOAT extends Base_Type {
+	public static class PREGEN__RECORD__OF__FLOAT extends Record_Of_Type {
 
 		protected List<TitanFloat> valueElements;
 
@@ -6462,6 +6883,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__FLOAT( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -6488,6 +6919,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanFloat> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanFloat> newList = new ArrayList<TitanFloat>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanFloat newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -6520,6 +6965,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT) {
 				return operator_equals((PREGEN__RECORD__OF__FLOAT)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__FLOAT.");
 		}
@@ -6578,6 +7026,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanFloat leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -6604,6 +7083,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__FLOAT operator_assign(final Base_Type otherValue) {
@@ -6611,7 +7094,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__FLOAT)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__FLOAT.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__FLOAT operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -7438,6 +7945,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__FLOAT_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -7519,6 +8030,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__FLOAT_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__FLOAT_template temp = new PREGEN__RECORD__OF__FLOAT_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanFloat_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanFloat_template temp = new TitanFloat_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__FLOAT_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__FLOAT_template temp = new PREGEN__RECORD__OF__FLOAT_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -7662,6 +8206,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__FLOAT_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__FLOAT_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT) {
@@ -7675,6 +8227,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__FLOAT_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT_template) {
 				return operator_assign((PREGEN__RECORD__OF__FLOAT_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__FLOAT_template.");
@@ -8126,6 +8682,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__FLOAT_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -8517,7 +9080,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING extends Base_Type {
+	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING extends Record_Of_Type {
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -8539,6 +9102,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -8565,6 +9138,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanUniversalCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanUniversalCharString> newList = new ArrayList<TitanUniversalCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanUniversalCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -8597,6 +9184,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING) {
 				return operator_equals((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.");
 		}
@@ -8655,6 +9245,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanUniversalCharString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -8681,6 +9302,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -8688,7 +9313,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -9515,6 +10164,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -9596,6 +10249,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template temp = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template temp = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -9739,6 +10425,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING) {
@@ -9752,6 +10446,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template) {
 				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template.");
@@ -10203,6 +10901,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -10594,7 +11299,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__BITSTRING extends Base_Type {
+	public static class PREGEN__RECORD__OF__BITSTRING extends Record_Of_Type {
 
 		protected List<TitanBitString> valueElements;
 
@@ -10616,6 +11321,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__BITSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -10642,6 +11357,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBitString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBitString> newList = new ArrayList<TitanBitString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBitString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -10674,6 +11403,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING) {
 				return operator_equals((PREGEN__RECORD__OF__BITSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BITSTRING.");
 		}
@@ -10732,6 +11464,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanBitString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -10758,6 +11521,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BITSTRING operator_assign(final Base_Type otherValue) {
@@ -10765,7 +11532,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__BITSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BITSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__BITSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -11592,6 +12383,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__BITSTRING_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -11673,6 +12468,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__BITSTRING_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__BITSTRING_template temp = new PREGEN__RECORD__OF__BITSTRING_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBitString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBitString_template temp = new TitanBitString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__BITSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__BITSTRING_template temp = new PREGEN__RECORD__OF__BITSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -11816,6 +12644,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__BITSTRING_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__BITSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING) {
@@ -11829,6 +12665,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__BITSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING_template) {
 				return operator_assign((PREGEN__RECORD__OF__BITSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BITSTRING_template.");
@@ -12280,6 +13120,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__BITSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -12671,7 +13518,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanBoolean> valueElements;
 
@@ -12693,6 +13540,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -12719,6 +13576,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBoolean> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBoolean> newList = new ArrayList<TitanBoolean>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBoolean newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -12751,6 +13622,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.");
 		}
@@ -12809,6 +13683,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanBoolean leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -12835,6 +13740,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -12842,7 +13751,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -13669,6 +14602,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -13750,6 +14687,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template temp = new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBoolean_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBoolean_template temp = new TitanBoolean_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template temp = new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -13893,6 +14863,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED) {
@@ -13906,6 +14884,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template.");
@@ -14357,6 +15339,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -14748,7 +15737,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__CHARSTRING extends Base_Type {
+	public static class PREGEN__RECORD__OF__CHARSTRING extends Record_Of_Type {
 
 		protected List<TitanCharString> valueElements;
 
@@ -14770,6 +15759,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__CHARSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -14796,6 +15795,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanCharString> newList = new ArrayList<TitanCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -14828,6 +15841,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING) {
 				return operator_equals((PREGEN__RECORD__OF__CHARSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__CHARSTRING.");
 		}
@@ -14886,6 +15902,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanCharString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -14912,6 +15959,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -14919,7 +15970,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__CHARSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__CHARSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -15746,6 +16821,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__CHARSTRING_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -15827,6 +16906,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__CHARSTRING_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__CHARSTRING_template temp = new PREGEN__RECORD__OF__CHARSTRING_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanCharString_template temp = new TitanCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__CHARSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__CHARSTRING_template temp = new PREGEN__RECORD__OF__CHARSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -15970,6 +17082,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__CHARSTRING_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__CHARSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING) {
@@ -15983,6 +17103,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__CHARSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING_template) {
 				return operator_assign((PREGEN__RECORD__OF__CHARSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__CHARSTRING_template.");
@@ -16434,6 +17558,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__CHARSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -16825,7 +17956,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__BOOLEAN extends Base_Type {
+	public static class PREGEN__RECORD__OF__BOOLEAN extends Record_Of_Type {
 
 		protected List<TitanBoolean> valueElements;
 
@@ -16847,6 +17978,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__BOOLEAN( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -16873,6 +18014,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBoolean> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBoolean> newList = new ArrayList<TitanBoolean>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBoolean newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -16905,6 +18060,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN) {
 				return operator_equals((PREGEN__RECORD__OF__BOOLEAN)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BOOLEAN.");
 		}
@@ -16963,6 +18121,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanBoolean leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -16989,6 +18178,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BOOLEAN operator_assign(final Base_Type otherValue) {
@@ -16996,7 +18189,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__BOOLEAN)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BOOLEAN.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__BOOLEAN operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -17823,6 +19040,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__BOOLEAN_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -17904,6 +19125,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__BOOLEAN_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__BOOLEAN_template temp = new PREGEN__RECORD__OF__BOOLEAN_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBoolean_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBoolean_template temp = new TitanBoolean_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__BOOLEAN_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__BOOLEAN_template temp = new PREGEN__RECORD__OF__BOOLEAN_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -18047,6 +19301,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__BOOLEAN_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__BOOLEAN_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN) {
@@ -18060,6 +19322,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__BOOLEAN_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN_template) {
 				return operator_assign((PREGEN__RECORD__OF__BOOLEAN_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BOOLEAN_template.");
@@ -18511,6 +19777,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__BOOLEAN_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -18902,7 +20175,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__BITSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__BITSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanBitString> valueElements;
 
@@ -18924,6 +20197,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -18950,6 +20233,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBitString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBitString> newList = new ArrayList<TitanBitString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBitString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -18982,6 +20279,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__BITSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.");
 		}
@@ -19040,6 +20340,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanBitString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -19066,6 +20397,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -19073,7 +20408,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__BITSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -19900,6 +21259,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -19981,6 +21344,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBitString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBitString_template temp = new TitanBitString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -20124,6 +21520,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING__OPTIMIZED) {
@@ -20137,6 +21541,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template.");
@@ -20588,6 +21996,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -20979,7 +22394,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__INTEGER extends Base_Type {
+	public static class PREGEN__RECORD__OF__INTEGER extends Record_Of_Type {
 
 		protected List<TitanInteger> valueElements;
 
@@ -21001,6 +22416,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__INTEGER( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -21027,6 +22452,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanInteger> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanInteger> newList = new ArrayList<TitanInteger>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanInteger newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -21059,6 +22498,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER) {
 				return operator_equals((PREGEN__RECORD__OF__INTEGER)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__INTEGER.");
 		}
@@ -21117,6 +22559,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanInteger leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -21143,6 +22616,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__INTEGER operator_assign(final Base_Type otherValue) {
@@ -21150,7 +22627,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__INTEGER)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__INTEGER.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__INTEGER operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -21977,6 +23478,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__INTEGER_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -22058,6 +23563,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__INTEGER_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__INTEGER_template temp = new PREGEN__RECORD__OF__INTEGER_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanInteger_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanInteger_template temp = new TitanInteger_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__INTEGER_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__INTEGER_template temp = new PREGEN__RECORD__OF__INTEGER_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -22201,6 +23739,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__INTEGER_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__INTEGER_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER) {
@@ -22214,6 +23760,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__INTEGER_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER_template) {
 				return operator_assign((PREGEN__RECORD__OF__INTEGER_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__INTEGER_template.");
@@ -22665,6 +24215,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__INTEGER_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -23056,7 +24613,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -23085,6 +24642,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -23111,6 +24678,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanUniversalCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanUniversalCharString> newList = new ArrayList<TitanUniversalCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanUniversalCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -23143,6 +24724,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
@@ -23178,6 +24762,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -23220,6 +24814,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -23227,7 +24825,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -23998,7 +25620,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanUniversalCharString_template> value_elements;
@@ -24077,6 +25699,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -24169,6 +25795,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanUniversalCharString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template temp = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanUniversalCharString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -24323,6 +25992,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
@@ -24336,6 +26013,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template.");
@@ -24587,6 +26268,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -24867,6 +26554,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -25053,7 +26747,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -25084,7 +26778,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -25198,7 +26892,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -25238,7 +26932,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__BOOLEAN extends Base_Type {
+	public static class PREGEN__SET__OF__BOOLEAN extends Record_Of_Type {
 
 		protected List<TitanBoolean> valueElements;
 
@@ -25267,6 +26961,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__BOOLEAN( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -25293,6 +26997,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBoolean> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBoolean> newList = new ArrayList<TitanBoolean>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBoolean newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -25325,6 +27043,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN) {
 				return operator_equals((PREGEN__SET__OF__BOOLEAN)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BOOLEAN.");
 		}
@@ -25360,6 +27081,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN right_ptr, final int right_index) {
@@ -25402,6 +27133,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BOOLEAN operator_assign(final Base_Type otherValue) {
@@ -25409,7 +27144,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__BOOLEAN)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BOOLEAN.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__BOOLEAN operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -26180,7 +27939,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__BOOLEAN_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__BOOLEAN_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanBoolean_template> value_elements;
@@ -26259,6 +28018,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__BOOLEAN_template( final PREGEN__SET__OF__BOOLEAN_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__BOOLEAN_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -26351,6 +28114,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanBoolean_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanBoolean_template temp = new TitanBoolean_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBoolean_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBoolean_template temp = new TitanBoolean_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__BOOLEAN_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__BOOLEAN_template temp = new PREGEN__SET__OF__BOOLEAN_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanBoolean_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanBoolean_template temp = new TitanBoolean_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -26505,6 +28311,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__BOOLEAN_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__BOOLEAN_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN) {
@@ -26518,6 +28332,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__BOOLEAN_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN_template) {
 				return operator_assign((PREGEN__SET__OF__BOOLEAN_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BOOLEAN_template.");
@@ -26769,6 +28587,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -27049,6 +28873,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__BOOLEAN_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -27235,7 +29066,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -27266,7 +29097,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -27380,7 +29211,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -27420,7 +29251,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanFloat> valueElements;
 
@@ -27449,6 +29280,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__FLOAT__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -27475,6 +29316,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanFloat> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanFloat> newList = new ArrayList<TitanFloat>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanFloat newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -27507,6 +29362,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__FLOAT__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__FLOAT__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__FLOAT__OPTIMIZED.");
 		}
@@ -27542,6 +29400,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT__OPTIMIZED right_ptr, final int right_index) {
@@ -27584,6 +29452,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -27591,7 +29463,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__FLOAT__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__FLOAT__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -28362,7 +30258,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanFloat_template> value_elements;
@@ -28441,6 +30337,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED_template( final PREGEN__SET__OF__FLOAT__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__FLOAT__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -28533,6 +30433,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanFloat_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanFloat_template temp = new TitanFloat_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanFloat_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanFloat_template temp = new TitanFloat_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__FLOAT__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__FLOAT__OPTIMIZED_template temp = new PREGEN__SET__OF__FLOAT__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanFloat_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanFloat_template temp = new TitanFloat_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -28687,6 +30630,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__FLOAT__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__FLOAT__OPTIMIZED) {
@@ -28700,6 +30651,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__FLOAT__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__FLOAT__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__FLOAT__OPTIMIZED_template.");
@@ -28951,6 +30906,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -29231,6 +31192,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__FLOAT__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -29417,7 +31385,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -29448,7 +31416,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -29562,7 +31530,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -29602,7 +31570,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__INTEGER extends Base_Type {
+	public static class PREGEN__SET__OF__INTEGER extends Record_Of_Type {
 
 		protected List<TitanInteger> valueElements;
 
@@ -29631,6 +31599,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__INTEGER( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -29657,6 +31635,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanInteger> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanInteger> newList = new ArrayList<TitanInteger>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanInteger newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -29689,6 +31681,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__INTEGER) {
 				return operator_equals((PREGEN__SET__OF__INTEGER)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__INTEGER.");
 		}
@@ -29724,6 +31719,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER right_ptr, final int right_index) {
@@ -29766,6 +31771,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__INTEGER operator_assign(final Base_Type otherValue) {
@@ -29773,7 +31782,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__INTEGER)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__INTEGER.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__INTEGER operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -30544,7 +32577,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__INTEGER_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__INTEGER_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanInteger_template> value_elements;
@@ -30623,6 +32656,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__INTEGER_template( final PREGEN__SET__OF__INTEGER_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__INTEGER_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -30715,6 +32752,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanInteger_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanInteger_template temp = new TitanInteger_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanInteger_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanInteger_template temp = new TitanInteger_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__INTEGER_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__INTEGER_template temp = new PREGEN__SET__OF__INTEGER_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanInteger_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanInteger_template temp = new TitanInteger_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -30869,6 +32949,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__INTEGER_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__INTEGER_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__INTEGER) {
@@ -30882,6 +32970,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__INTEGER_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__INTEGER_template) {
 				return operator_assign((PREGEN__SET__OF__INTEGER_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__INTEGER_template.");
@@ -31133,6 +33225,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -31413,6 +33511,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__INTEGER_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -31599,7 +33704,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -31630,7 +33735,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -31744,7 +33849,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -31784,7 +33889,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_INTEGER" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__CHARSTRING extends Base_Type {
+	public static class PREGEN__SET__OF__CHARSTRING extends Record_Of_Type {
 
 		protected List<TitanCharString> valueElements;
 
@@ -31813,6 +33918,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__CHARSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -31839,6 +33954,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanCharString> newList = new ArrayList<TitanCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -31871,6 +34000,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING) {
 				return operator_equals((PREGEN__SET__OF__CHARSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__CHARSTRING.");
 		}
@@ -31906,6 +34038,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING right_ptr, final int right_index) {
@@ -31948,6 +34090,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__CHARSTRING operator_assign(final Base_Type otherValue) {
@@ -31955,7 +34101,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__CHARSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__CHARSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -32726,7 +34896,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__CHARSTRING_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__CHARSTRING_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanCharString_template> value_elements;
@@ -32805,6 +34975,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__CHARSTRING_template( final PREGEN__SET__OF__CHARSTRING_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__CHARSTRING_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -32897,6 +35071,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanCharString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanCharString_template temp = new TitanCharString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanCharString_template temp = new TitanCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__CHARSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__CHARSTRING_template temp = new PREGEN__SET__OF__CHARSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanCharString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanCharString_template temp = new TitanCharString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -33051,6 +35268,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__CHARSTRING_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__CHARSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING) {
@@ -33064,6 +35289,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__CHARSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING_template) {
 				return operator_assign((PREGEN__SET__OF__CHARSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__CHARSTRING_template.");
@@ -33315,6 +35544,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -33595,6 +35830,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__CHARSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -33781,7 +36023,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -33812,7 +36054,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -33926,7 +36168,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -33966,7 +36208,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -33988,6 +36230,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -34014,6 +36266,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanUniversalCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanUniversalCharString> newList = new ArrayList<TitanUniversalCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanUniversalCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -34046,6 +36312,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
@@ -34104,6 +36373,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanUniversalCharString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -34130,6 +36430,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -34137,7 +36441,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -34964,6 +37292,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -35045,6 +37377,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanUniversalCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -35188,6 +37553,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
@@ -35201,6 +37574,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template.");
@@ -35652,6 +38029,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -36043,7 +38427,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__HEXSTRING extends Base_Type {
+	public static class PREGEN__SET__OF__HEXSTRING extends Record_Of_Type {
 
 		protected List<TitanHexString> valueElements;
 
@@ -36072,6 +38456,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__HEXSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -36098,6 +38492,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanHexString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanHexString> newList = new ArrayList<TitanHexString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanHexString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -36130,6 +38538,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING) {
 				return operator_equals((PREGEN__SET__OF__HEXSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__HEXSTRING.");
 		}
@@ -36165,6 +38576,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING right_ptr, final int right_index) {
@@ -36207,6 +38628,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__HEXSTRING operator_assign(final Base_Type otherValue) {
@@ -36214,7 +38639,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__HEXSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__HEXSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__HEXSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -36985,7 +39434,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__HEXSTRING_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__HEXSTRING_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanHexString_template> value_elements;
@@ -37064,6 +39513,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__HEXSTRING_template( final PREGEN__SET__OF__HEXSTRING_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__HEXSTRING_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -37156,6 +39609,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanHexString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanHexString_template temp = new TitanHexString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanHexString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanHexString_template temp = new TitanHexString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__HEXSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__HEXSTRING_template temp = new PREGEN__SET__OF__HEXSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanHexString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanHexString_template temp = new TitanHexString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -37310,6 +39806,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__HEXSTRING_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__HEXSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING) {
@@ -37323,6 +39827,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__HEXSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING_template) {
 				return operator_assign((PREGEN__SET__OF__HEXSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__HEXSTRING_template.");
@@ -37574,6 +40082,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -37854,6 +40368,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__HEXSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -38040,7 +40561,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -38071,7 +40592,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -38185,7 +40706,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -38225,7 +40746,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanHexString> valueElements;
 
@@ -38254,6 +40775,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -38280,6 +40811,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanHexString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanHexString> newList = new ArrayList<TitanHexString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanHexString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -38312,6 +40857,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED.");
 		}
@@ -38347,6 +40895,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -38389,6 +40947,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -38396,7 +40958,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -39167,7 +41753,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanHexString_template> value_elements;
@@ -39246,6 +41832,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template( final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -39338,6 +41928,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanHexString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanHexString_template temp = new TitanHexString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanHexString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanHexString_template temp = new TitanHexString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template temp = new PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanHexString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanHexString_template temp = new TitanHexString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -39492,6 +42125,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING__OPTIMIZED) {
@@ -39505,6 +42146,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template.");
@@ -39756,6 +42401,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -40036,6 +42687,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -40222,7 +42880,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -40253,7 +42911,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -40367,7 +43025,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -40407,7 +43065,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__OCTETSTRING extends Base_Type {
+	public static class PREGEN__SET__OF__OCTETSTRING extends Record_Of_Type {
 
 		protected List<TitanOctetString> valueElements;
 
@@ -40436,6 +43094,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__OCTETSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -40462,6 +43130,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanOctetString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanOctetString> newList = new ArrayList<TitanOctetString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanOctetString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -40494,6 +43176,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING) {
 				return operator_equals((PREGEN__SET__OF__OCTETSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__OCTETSTRING.");
 		}
@@ -40529,6 +43214,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING right_ptr, final int right_index) {
@@ -40571,6 +43266,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__OCTETSTRING operator_assign(final Base_Type otherValue) {
@@ -40578,7 +43277,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__OCTETSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__OCTETSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__OCTETSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -41349,7 +44072,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__OCTETSTRING_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__OCTETSTRING_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanOctetString_template> value_elements;
@@ -41428,6 +44151,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__OCTETSTRING_template( final PREGEN__SET__OF__OCTETSTRING_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__OCTETSTRING_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -41520,6 +44247,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanOctetString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanOctetString_template temp = new TitanOctetString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanOctetString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanOctetString_template temp = new TitanOctetString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__OCTETSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__OCTETSTRING_template temp = new PREGEN__SET__OF__OCTETSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanOctetString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanOctetString_template temp = new TitanOctetString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -41674,6 +44444,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__OCTETSTRING_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__OCTETSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING) {
@@ -41687,6 +44465,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__OCTETSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING_template) {
 				return operator_assign((PREGEN__SET__OF__OCTETSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__OCTETSTRING_template.");
@@ -41938,6 +44720,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -42218,6 +45006,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__OCTETSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -42404,7 +45199,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -42435,7 +45230,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -42549,7 +45344,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -42589,7 +45384,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__FLOAT extends Base_Type {
+	public static class PREGEN__SET__OF__FLOAT extends Record_Of_Type {
 
 		protected List<TitanFloat> valueElements;
 
@@ -42618,6 +45413,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__FLOAT( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -42644,6 +45449,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanFloat> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanFloat> newList = new ArrayList<TitanFloat>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanFloat newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -42676,6 +45495,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__FLOAT) {
 				return operator_equals((PREGEN__SET__OF__FLOAT)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__FLOAT.");
 		}
@@ -42711,6 +45533,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT right_ptr, final int right_index) {
@@ -42753,6 +45585,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__FLOAT operator_assign(final Base_Type otherValue) {
@@ -42760,7 +45596,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__FLOAT)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__FLOAT.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__FLOAT operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -43531,7 +46391,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__FLOAT_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__FLOAT_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanFloat_template> value_elements;
@@ -43610,6 +46470,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__FLOAT_template( final PREGEN__SET__OF__FLOAT_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__FLOAT_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -43702,6 +46566,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanFloat_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanFloat_template temp = new TitanFloat_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanFloat_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanFloat_template temp = new TitanFloat_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__FLOAT_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__FLOAT_template temp = new PREGEN__SET__OF__FLOAT_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanFloat_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanFloat_template temp = new TitanFloat_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -43856,6 +46763,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__FLOAT_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__FLOAT_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__FLOAT) {
@@ -43869,6 +46784,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__FLOAT_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__FLOAT_template) {
 				return operator_assign((PREGEN__SET__OF__FLOAT_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__FLOAT_template.");
@@ -44120,6 +47039,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -44400,6 +47325,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__FLOAT_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -44586,7 +47518,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -44617,7 +47549,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -44731,7 +47663,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -44771,7 +47703,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_FLOAT" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanInteger> valueElements;
 
@@ -44800,6 +47732,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__INTEGER__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -44826,6 +47768,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanInteger> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanInteger> newList = new ArrayList<TitanInteger>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanInteger newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -44858,6 +47814,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__INTEGER__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__INTEGER__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__INTEGER__OPTIMIZED.");
 		}
@@ -44893,6 +47852,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER__OPTIMIZED right_ptr, final int right_index) {
@@ -44935,6 +47904,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -44942,7 +47915,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__INTEGER__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__INTEGER__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -45713,7 +48710,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanInteger_template> value_elements;
@@ -45792,6 +48789,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED_template( final PREGEN__SET__OF__INTEGER__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__INTEGER__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -45884,6 +48885,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanInteger_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanInteger_template temp = new TitanInteger_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanInteger_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanInteger_template temp = new TitanInteger_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__INTEGER__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__INTEGER__OPTIMIZED_template temp = new PREGEN__SET__OF__INTEGER__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanInteger_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanInteger_template temp = new TitanInteger_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -46038,6 +49082,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__INTEGER__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__INTEGER__OPTIMIZED) {
@@ -46051,6 +49103,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__INTEGER__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__INTEGER__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__INTEGER__OPTIMIZED_template.");
@@ -46302,6 +49358,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -46582,6 +49644,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__INTEGER__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -46768,7 +49837,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -46799,7 +49868,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -46913,7 +49982,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -46953,7 +50022,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanOctetString> valueElements;
 
@@ -46982,6 +50051,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -47008,6 +50087,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanOctetString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanOctetString> newList = new ArrayList<TitanOctetString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanOctetString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -47040,6 +50133,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.");
 		}
@@ -47075,6 +50171,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -47117,6 +50223,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -47124,7 +50234,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -47895,7 +51029,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanOctetString_template> value_elements;
@@ -47974,6 +51108,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template( final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -48066,6 +51204,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanOctetString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanOctetString_template temp = new TitanOctetString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanOctetString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanOctetString_template temp = new TitanOctetString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template temp = new PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanOctetString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanOctetString_template temp = new TitanOctetString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -48220,6 +51401,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING__OPTIMIZED) {
@@ -48233,6 +51422,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template.");
@@ -48484,6 +51677,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -48764,6 +51963,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -48950,7 +52156,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -48981,7 +52187,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -49095,7 +52301,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -49135,7 +52341,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__OCTETSTRING extends Base_Type {
+	public static class PREGEN__RECORD__OF__OCTETSTRING extends Record_Of_Type {
 
 		protected List<TitanOctetString> valueElements;
 
@@ -49157,6 +52363,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__OCTETSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -49183,6 +52399,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanOctetString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanOctetString> newList = new ArrayList<TitanOctetString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanOctetString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -49215,6 +52445,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING) {
 				return operator_equals((PREGEN__RECORD__OF__OCTETSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__OCTETSTRING.");
 		}
@@ -49273,6 +52506,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanOctetString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -49299,6 +52563,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING operator_assign(final Base_Type otherValue) {
@@ -49306,7 +52574,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__OCTETSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__OCTETSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -50133,6 +53425,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__OCTETSTRING_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -50214,6 +53510,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__OCTETSTRING_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__OCTETSTRING_template temp = new PREGEN__RECORD__OF__OCTETSTRING_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanOctetString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanOctetString_template temp = new TitanOctetString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__OCTETSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__OCTETSTRING_template temp = new PREGEN__RECORD__OF__OCTETSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -50357,6 +53686,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__OCTETSTRING_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING) {
@@ -50370,6 +53707,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__OCTETSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING_template) {
 				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__OCTETSTRING_template.");
@@ -50821,6 +54162,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__OCTETSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -51212,7 +54560,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__HEXSTRING extends Base_Type {
+	public static class PREGEN__RECORD__OF__HEXSTRING extends Record_Of_Type {
 
 		protected List<TitanHexString> valueElements;
 
@@ -51234,6 +54582,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__HEXSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -51260,6 +54618,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanHexString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanHexString> newList = new ArrayList<TitanHexString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanHexString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -51292,6 +54664,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING) {
 				return operator_equals((PREGEN__RECORD__OF__HEXSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__HEXSTRING.");
 		}
@@ -51350,6 +54725,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanHexString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -51376,6 +54782,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__HEXSTRING operator_assign(final Base_Type otherValue) {
@@ -51383,7 +54793,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__HEXSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__HEXSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__HEXSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -52210,6 +55644,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__HEXSTRING_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -52291,6 +55729,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__HEXSTRING_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__HEXSTRING_template temp = new PREGEN__RECORD__OF__HEXSTRING_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanHexString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanHexString_template temp = new TitanHexString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__HEXSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__HEXSTRING_template temp = new PREGEN__RECORD__OF__HEXSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -52434,6 +55905,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__HEXSTRING_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__HEXSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING) {
@@ -52447,6 +55926,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__HEXSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING_template) {
 				return operator_assign((PREGEN__RECORD__OF__HEXSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__HEXSTRING_template.");
@@ -52898,6 +56381,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__HEXSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -53289,7 +56779,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanCharString> valueElements;
 
@@ -53318,6 +56808,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -53344,6 +56844,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanCharString> newList = new ArrayList<TitanCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -53376,6 +56890,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED.");
 		}
@@ -53411,6 +56928,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -53453,6 +56980,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -53460,7 +56991,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -54231,7 +57786,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanCharString_template> value_elements;
@@ -54310,6 +57865,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template( final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -54402,6 +57961,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanCharString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanCharString_template temp = new TitanCharString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanCharString_template temp = new TitanCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template temp = new PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanCharString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanCharString_template temp = new TitanCharString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -54556,6 +58158,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING__OPTIMIZED) {
@@ -54569,6 +58179,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template.");
@@ -54820,6 +58434,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -55100,6 +58720,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -55286,7 +58913,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -55317,7 +58944,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -55431,7 +59058,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -55471,7 +59098,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__BITSTRING extends Base_Type {
+	public static class PREGEN__SET__OF__BITSTRING extends Record_Of_Type {
 
 		protected List<TitanBitString> valueElements;
 
@@ -55500,6 +59127,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__BITSTRING( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -55526,6 +59163,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBitString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBitString> newList = new ArrayList<TitanBitString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBitString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -55558,6 +59209,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BITSTRING) {
 				return operator_equals((PREGEN__SET__OF__BITSTRING)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BITSTRING.");
 		}
@@ -55593,6 +59247,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING right_ptr, final int right_index) {
@@ -55635,6 +59299,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BITSTRING operator_assign(final Base_Type otherValue) {
@@ -55642,7 +59310,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__BITSTRING)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BITSTRING.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__BITSTRING operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -56413,7 +60105,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__BITSTRING_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__BITSTRING_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanBitString_template> value_elements;
@@ -56492,6 +60184,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__BITSTRING_template( final PREGEN__SET__OF__BITSTRING_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__BITSTRING_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -56584,6 +60280,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanBitString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanBitString_template temp = new TitanBitString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBitString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBitString_template temp = new TitanBitString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__BITSTRING_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__BITSTRING_template temp = new PREGEN__SET__OF__BITSTRING_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanBitString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanBitString_template temp = new TitanBitString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -56738,6 +60477,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__BITSTRING_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__BITSTRING_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BITSTRING) {
@@ -56751,6 +60498,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__BITSTRING_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BITSTRING_template) {
 				return operator_assign((PREGEN__SET__OF__BITSTRING_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BITSTRING_template.");
@@ -57002,6 +60753,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -57282,6 +61039,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__BITSTRING_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -57468,7 +61232,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -57499,7 +61263,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -57613,7 +61377,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -57653,7 +61417,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanBoolean> valueElements;
 
@@ -57682,6 +61446,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -57708,6 +61482,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBoolean> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBoolean> newList = new ArrayList<TitanBoolean>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBoolean newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -57740,6 +61528,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED.");
 		}
@@ -57775,6 +61566,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED right_ptr, final int right_index) {
@@ -57817,6 +61618,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -57824,7 +61629,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -58595,7 +62424,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanBoolean_template> value_elements;
@@ -58674,6 +62503,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template( final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -58766,6 +62599,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanBoolean_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanBoolean_template temp = new TitanBoolean_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBoolean_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBoolean_template temp = new TitanBoolean_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template temp = new PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanBoolean_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanBoolean_template temp = new TitanBoolean_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -58920,6 +62796,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN__OPTIMIZED) {
@@ -58933,6 +62817,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template.");
@@ -59184,6 +63072,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -59464,6 +63358,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -59650,7 +63551,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -59681,7 +63582,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -59795,7 +63696,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -59835,7 +63736,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanCharString> valueElements;
 
@@ -59857,6 +63758,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -59883,6 +63794,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanCharString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanCharString> newList = new ArrayList<TitanCharString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanCharString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -59915,6 +63840,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.");
 		}
@@ -59973,6 +63901,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanCharString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -59999,6 +63958,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -60006,7 +63969,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -60833,6 +64820,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -60914,6 +64905,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanCharString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanCharString_template temp = new TitanCharString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -61057,6 +65081,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED) {
@@ -61070,6 +65102,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template.");
@@ -61521,6 +65557,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -61912,7 +65955,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__FLOAT__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__FLOAT__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanFloat> valueElements;
 
@@ -61934,6 +65977,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -61960,6 +66013,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanFloat> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanFloat> newList = new ArrayList<TitanFloat>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanFloat newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -61992,6 +66059,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__FLOAT__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED.");
 		}
@@ -62050,6 +66120,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanFloat leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -62076,6 +66177,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -62083,7 +66188,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__FLOAT__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -62910,6 +67039,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -62991,6 +67124,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template temp = new PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanFloat_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanFloat_template temp = new TitanFloat_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template temp = new PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -63134,6 +67300,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT__OPTIMIZED) {
@@ -63147,6 +67321,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template.");
@@ -63598,6 +67776,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -63989,7 +68174,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanBitString> valueElements;
 
@@ -64018,6 +68203,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__SET__OF__BITSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -64044,6 +68239,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanBitString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanBitString> newList = new ArrayList<TitanBitString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanBitString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -64076,6 +68285,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BITSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__SET__OF__BITSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BITSTRING__OPTIMIZED.");
 		}
@@ -64111,6 +68323,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 
 			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+		}
+
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -64153,6 +68375,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -64160,7 +68386,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__SET__OF__BITSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BITSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -64931,7 +69181,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 	}
-	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED_template extends Record_Of_Template {
+	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED_template extends Set_Of_Template {
 
 		//originally single_value/value_elements
 		protected List<TitanBitString_template> value_elements;
@@ -65010,6 +69260,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                the value to initialize to.
 		 * */
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED_template( final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template otherValue ) {
+			copy_template( otherValue );
+		}
+
+		public PREGEN__SET__OF__BITSTRING__OPTIMIZED_template( final Set_Of_Template otherValue ) {
 			copy_template( otherValue );
 		}
 
@@ -65102,6 +69356,49 @@ public final class PreGenRecordOf extends TTCN_Module {
 				set_items = new ArrayList<TitanBitString_template>(other_value.set_items.size());
 				for (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {
 					final TitanBitString_template temp = new TitanBitString_template(other_value.set_items.get(set_count));
+					set_items.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Set_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanBitString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanBitString_template temp = new TitanBitString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__SET__OF__BITSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__SET__OF__BITSTRING__OPTIMIZED_template temp = new PREGEN__SET__OF__BITSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
+					list_value.add(temp);
+				}
+				break;
+			case SUPERSET_MATCH:
+			case SUBSET_MATCH:
+				final int otherSetSize = other_value.n_set_items();
+				set_items = new ArrayList<TitanBitString_template>(otherSetSize);
+				for (int set_count = 0; set_count < otherSetSize; set_count++) {
+					final TitanBitString_template temp = new TitanBitString_template();
+					temp.operator_assign(other_value.set_item(set_count));
 					set_items.add(temp);
 				}
 				break;
@@ -65256,6 +69553,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__SET__OF__BITSTRING__OPTIMIZED_template operator_assign( final Set_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BITSTRING__OPTIMIZED) {
@@ -65269,6 +69574,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__SET__OF__BITSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__SET__OF__BITSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Set_Of_Template) {
+				return operator_assign((Set_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BITSTRING__OPTIMIZED_template.");
@@ -65520,6 +69829,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return constGet_at(index_value.get_int());
 		}
 
+		public int n_set_items() {
+			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
+				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			}
+			return set_items.size();
+		}
 		/**
 		 * Internal function for setting an element of a superset of
 		 * subset template.
@@ -65800,6 +70115,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
+		@Override
 		public PREGEN__SET__OF__BITSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -65986,7 +70308,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
-			encode_text_permutation(text_buf);
+			encode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -66017,7 +70339,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			clean_up();
-			decode_text_permutation(text_buf);
+			decode_text_restricted(text_buf);
 			switch (template_selection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -66131,7 +70453,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				return false;
 			} else if ("permutation".equals(type)) {
-				return get_number_of_permutations() != 0;
+				return false;
 			} else if ("length".equals(type)) {
 				return length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;
 			} else {
@@ -66171,7 +70493,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED" : name));
 		}
 	}
-	public static class PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED extends Base_Type {
+	public static class PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED extends Record_Of_Type {
 
 		protected List<TitanHexString> valueElements;
 
@@ -66193,6 +70515,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = copy_list( otherValue.valueElements );
 		}
 
+		/**
+		 * Initializes to a given value.
+		 *
+		 * @param otherValue
+		 *                the value to initialize to.
+		 * */
+		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED( final Record_Of_Type otherValue ) {
+			otherValue.must_bound("Copying an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+			valueElements = copy_list( otherValue );
+		}
 
 		/**
 		 * Initializes to a given value.
@@ -66219,6 +70551,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return newList;
 		}
+
+		private static final List<TitanHexString> copy_list( final Record_Of_Type otherValue ) {
+			final List<TitanHexString> newList = new ArrayList<TitanHexString>( otherValue.n_elem() );
+			for (int i = 0; i < otherValue.n_elem(); i++) {
+				final Base_Type srcElem = otherValue.constGet_at(i);
+				final TitanHexString newElem = get_unbound_elem();
+				if (srcElem.is_bound()) {
+					newElem.operator_assign( srcElem );
+				}
+				newList.add( newElem );
+			}
+			return newList;
+		}
+
 
 		@Override
 		public boolean is_present() {
@@ -66251,6 +70597,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public boolean operator_equals(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED) {
 				return operator_equals((PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED)otherValue);
+			}
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)otherValue);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.");
 		}
@@ -66309,6 +70658,37 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
+		public boolean operator_equals( final Record_Of_Type otherValue ) {
+			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+			otherValue.must_bound("The right operand of comparison is an unbound value.");
+			if (this == otherValue) {
+				return true;
+			}
+
+			final int size = valueElements.size();
+			if ( size != otherValue.n_elem() ) {
+				return false;
+			}
+
+			for ( int i = 0; i < size; i++ ) {
+				final TitanHexString leftElem = valueElements.get( i );
+				final Base_Type rightElem = otherValue.constGet_at(i);
+				if (leftElem.is_bound()) {
+					if (rightElem.is_bound()) {
+						if ( !leftElem.operator_equals( rightElem ) ) {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				} else if (rightElem.is_bound()) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		/**
 		 * Checks if the current value is not equivalent to the provided one.
 		 *
@@ -66335,6 +70715,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return !operator_equals(otherValue);
 		}
 
+		public boolean operator_not_equals( final Record_Of_Type otherValue ) {
+			return !operator_equals(otherValue);
+		}
+
 
 		@Override
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
@@ -66342,7 +70726,31 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return operator_assign((PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED)otherValue);
 			}
 
+			if (otherValue instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)otherValue);
+			}
+
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.");
+		}
+
+		/**
+		 * Assigns the other value to this value.
+		 * Overwriting the current content in the process.
+		 *<p>
+		 * operator= in the core.
+		 *
+		 * @param otherValue
+		 *                the other value to assign.
+		 * @return the new value object.
+		 */
+		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
+			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
+			if (this == otherValue) {
+				return this;
+			}
+
+			valueElements = copy_list( otherValue );
+			return this;
 		}
 
 		/**
@@ -67169,6 +71577,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 			copy_template( otherValue );
 		}
 
+		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template( final Record_Of_Template otherValue ) {
+			copy_template( otherValue );
+		}
+
 		/**
 		 * Initializes to a given value.
 		 * The template becomes a specific template with the provided value.
@@ -67250,6 +71662,39 @@ public final class PreGenRecordOf extends TTCN_Module {
 				list_value = new ArrayList<PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template>(other_value.list_value.size());
 				for(int i = 0; i < other_value.list_value.size(); i++) {
 					final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template(other_value.list_value.get(i));
+					list_value.add(temp);
+				}
+				break;
+			default:
+				throw new TtcnError("Copying an uninitialized template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+			}
+			set_selection(other_value);
+		}
+
+		private void copy_template(final Record_Of_Template other_value) {
+			switch (other_value.get_selection()) {
+			case SPECIFIC_VALUE:
+				value_elements = new ArrayList<TitanHexString_template>();
+				final int otherSize = other_value.n_elem();
+				for (int elem_count = 0; elem_count < otherSize; elem_count++) {
+					final TitanHexString_template temp = new TitanHexString_template();
+					if (other_value.constGet_at(elem_count).is_bound()) {
+						temp.operator_assign(other_value.constGet_at(elem_count));
+					}
+					value_elements.add( temp );
+				}
+				break;
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				final int otherListSize = other_value.n_list_elem();
+				list_value = new ArrayList<PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template>(otherListSize);
+				for(int i = 0; i < otherListSize; i++) {
+					final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template temp = new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template();
+					temp.operator_assign(other_value.list_item(i));
 					list_value.add(temp);
 				}
 				break;
@@ -67393,6 +71838,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return this;
 		}
 
+		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template operator_assign( final Record_Of_Template otherValue ) {
+			if (otherValue != this) {
+				clean_up();
+				copy_template(otherValue);
+			}
+			return this;
+		}
+
 		@Override
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template operator_assign(final Base_Type otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED) {
@@ -67406,6 +71859,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template operator_assign(final Base_Template otherValue) {
 			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template) {
 				return operator_assign((PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template)otherValue);
+			}
+
+			if (otherValue instanceof Record_Of_Template) {
+				return operator_assign((Record_Of_Template)otherValue);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template.");
@@ -67856,6 +72313,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			set_selection(template_type);
 		}
 
+		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+			}
+			return list_value.size();
+		}
 		@Override
 		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_template list_item(final int list_index) {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
@@ -68809,6 +73273,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
+		public int n_list_elem() {
+			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.anytype.");
+			}
+			return value_list.size();
+		}
+
+		@Override
 		public anytype_template list_item(final int list_index)  {
 			if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type @PreGenRecordOf.anytype.");
@@ -68955,7 +73427,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 				break;
 			case SPECIFIC_VALUE:{
 				final int temp = text_buf.pull_int().get_int();
-				switch (temp) {
+				single_value_union_selection = anytype.union_selection_type.values()[temp];
+				switch (single_value_union_selection) {
+				case UNBOUND_VALUE:
+					throw new TtcnError("Text decoder: Unrecognized union selector was received for a template of type @PreGenRecordOf.anytype.");
 				}
 				break;
 			}

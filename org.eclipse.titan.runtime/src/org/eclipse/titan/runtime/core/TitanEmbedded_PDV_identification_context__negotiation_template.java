@@ -489,6 +489,13 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 	}
+	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.identification.context-negotiation.");
+		}
+		return list_value.size();
+	}
 
 	@Override
 	public TitanEmbedded_PDV_identification_context__negotiation_template list_item(final int list_index) {

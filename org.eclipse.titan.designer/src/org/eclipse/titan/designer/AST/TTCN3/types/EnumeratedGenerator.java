@@ -1438,6 +1438,14 @@ public final class EnumeratedGenerator {
 
 	private static void generateTemplateListItem(final StringBuilder source, final String name, final String displayName) {
 		source.append("\t\t@Override\n");
+		source.append("\t\tpublic int n_list_elem() {\n");
+		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of enumeration type {0}.\");\n", displayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn value_list.size();\n");
+		source.append("\t\t}\n\n");
+
+		source.append("\t\t@Override\n");
 		source.append(MessageFormat.format("\t\tpublic {0}_template list_item(final int list_index) '{'\n", name));
 		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", displayName));

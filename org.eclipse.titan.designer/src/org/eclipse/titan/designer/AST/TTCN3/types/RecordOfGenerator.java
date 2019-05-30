@@ -65,6 +65,7 @@ public final class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TitanNull_Type");
 		aData.addBuiltinTypeImport("AdditionalFunctions");
 		aData.addBuiltinTypeImport("RecordOf_Match");
+		aData.addBuiltinTypeImport("Record_Of_Type");
 		aData.addBuiltinTypeImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
@@ -84,7 +85,7 @@ public final class RecordOfGenerator {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		}
 
-		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", genName));
+		source.append(MessageFormat.format("\tpublic static class {0} extends Record_Of_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName, isSetOf );
 		generateValueConstructors( aData, source, genName, ofTypeName, displayName );
@@ -138,7 +139,6 @@ public final class RecordOfGenerator {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("Text_Buf");
-		aData.addBuiltinTypeImport("Record_Of_Template");
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("RecordOf_Match");
@@ -147,20 +147,23 @@ public final class RecordOfGenerator {
 		aData.addBuiltinTypeImport("Optional");
 		aData.addBuiltinTypeImport("TTCN_Logger");
 		if ( isSetOf ) {
+			aData.addBuiltinTypeImport("Set_Of_Template");
 			aData.addBuiltinTypeImport("RecordOf_Match.log_function_t");
+		} else {
+			aData.addBuiltinTypeImport("Record_Of_Template");
 		}
 
-		source.append( MessageFormat.format( "\tpublic static class {0}_template extends Record_Of_Template '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic static class {0}_template extends {1}_Of_Template '{'\n", genName, isSetOf ? "Set" : "Record" ) );
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
 		if ( isSetOf ) {
 			generateTemplateDeclarationSetOf( source, genName, ofTypeName );
 		}
-		generateTemplateConstructors( aData, source, genName, ofTypeName, displayName );
+		generateTemplateConstructors( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateCopyTemplate( aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateMatch( aData, source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
-		generateTemplateoperator_assign(aData, source, genName, ofTypeName, displayName );
+		generateTemplateoperator_assign(aData, source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateCleanup( source );
 		generateTemplateReplace( aData, source, genName, displayName );
 		generateTemplateGetterSetters( aData, source, genName, ofTypeName, displayName );
@@ -183,9 +186,9 @@ public final class RecordOfGenerator {
 		generateTemplateValueOf( source, genName, displayName );
 		generateTemplateSubstr( aData, source, genName );
 		generateTemplateLog( aData, source, genName, displayName, isSetOf );
-		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName);
+		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName, isSetOf);
 		generateTemplateSetParam(source, displayName, isSetOf);
-		generateTemplateGetIstemplateKind( source, genName );
+		generateTemplateGetIstemplateKind( source, genName, isSetOf );
 		generateTemplateCheckRestriction(source, displayName);
 
 		source.append("\t}\n");
@@ -244,9 +247,8 @@ public final class RecordOfGenerator {
 		}
 		source.append( MessageFormat.format( "\t\tpublic {0}() '{'\n", genName ) );
 		source.append("\t\t\t// do nothing\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
 		if ( aData.isDebug() ) {
 			source.append( "\t\t/**\n" );
 			source.append( "\t\t * Initializes to a given value.\n" );
@@ -260,7 +262,19 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tvalueElements = copy_list( otherValue.valueElements );\n");
 		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		if ( aData.isDebug() ) {
+			source.append( "\t\t/**\n" );
+			source.append( "\t\t * Initializes to a given value.\n" );
+			source.append( "\t\t *\n" );
+			source.append( "\t\t * @param otherValue\n" );
+			source.append( "\t\t *                the value to initialize to.\n" );
+			source.append( "\t\t * */\n" );
+		}
+		source.append( MessageFormat.format("\t\tpublic {0}( final Record_Of_Type otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format("\t\t\totherValue.must_bound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t\tvalueElements = copy_list( otherValue );\n");
+		source.append("\t\t}\n\n");
+
 		if ( aData.isDebug() ) {
 			source.append( "\t\t/**\n" );
 			source.append( "\t\t * Initializes to a given value.\n" );
@@ -298,7 +312,20 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tnewList.add( newElem );\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn newList;\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
+
+		source.append( MessageFormat.format( "\t\tprivate static final List<{0}> copy_list( final Record_Of_Type otherValue ) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\tfinal List<{0}> newList = new ArrayList<{0}>( otherValue.n_elem() );\n", ofTypeName ) );
+		source.append("\t\t\tfor (int i = 0; i < otherValue.n_elem(); i++) {\n");
+		source.append("\t\t\t\tfinal Base_Type srcElem = otherValue.constGet_at(i);\n");
+		source.append( MessageFormat.format( "\t\t\t\tfinal {0} newElem = get_unbound_elem();\n", ofTypeName ) );
+		source.append("\t\t\t\tif (srcElem.is_bound()) {\n");
+		source.append("\t\t\t\t\tnewElem.operator_assign( srcElem );\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tnewList.add( newElem );\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn newList;\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -384,10 +411,13 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tif (otherValue instanceof {0}) '{'\n", genName) );
 		source.append( MessageFormat.format( "\t\t\t\treturn operator_equals(({0})otherValue);\n", genName) );
 		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (otherValue instanceof Record_Of_Type) {\n");
+		source.append("\t\t\t\treturn operator_equals((Record_Of_Type)otherValue);\n");
+		source.append("\t\t\t}\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", genName ) );
 		source.append("\t\t}\n");
 		source.append('\n');
-
+//Record_Of_Type
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Checks if the current value is equivalent to the provided one.\n");
@@ -450,6 +480,40 @@ public final class RecordOfGenerator {
 		}
 		source.append("\t\t}\n\n");
 
+		source.append( "\t\tpublic boolean operator_equals( final Record_Of_Type otherValue ) {\n" );
+		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+		source.append( "\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value.\");\n" );
+		source.append("\t\t\tif (this == otherValue) {\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\t}\n\n");
+		if ( isSetOf ) {
+			source.append("\t\t\treturn RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);\n");
+		} else {
+			source.append("\t\t\tfinal int size = valueElements.size();\n");
+			source.append("\t\t\tif ( size != otherValue.n_elem() ) {\n");
+			source.append("\t\t\t\treturn false;\n");
+			source.append("\t\t\t}\n");
+			source.append('\n');
+			source.append("\t\t\tfor ( int i = 0; i < size; i++ ) {\n");
+			source.append( MessageFormat.format( "\t\t\t\tfinal {0} leftElem = valueElements.get( i );\n", ofTypeName ) );
+			source.append( "\t\t\t\tfinal Base_Type rightElem = otherValue.constGet_at(i);\n" );
+			source.append("\t\t\t\tif (leftElem.is_bound()) {\n");
+			source.append("\t\t\t\t\tif (rightElem.is_bound()) {\n");
+			source.append("\t\t\t\t\t\tif ( !leftElem.operator_equals( rightElem ) ) {\n");
+			source.append("\t\t\t\t\t\t\treturn false;\n");
+			source.append("\t\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\t\treturn false;\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t} else if (rightElem.is_bound()) {\n");
+			source.append("\t\t\t\t\treturn false;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t}\n");
+			source.append('\n');
+			source.append("\t\t\treturn true;\n");
+		}
+		source.append("\t\t}\n\n");
+
 		if ( isSetOf ) {
 			source.append( MessageFormat.format( "\t\tprivate boolean compare_set(final {0} left_ptr, final int left_index, final {0} right_ptr, final int right_index) '{'\n", genName ) );
 			source.append( MessageFormat.format( "\t\t\tleft_ptr.must_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
@@ -495,6 +559,10 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tpublic boolean operator_not_equals( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\t\treturn !operator_equals(otherValue);\n");
 		source.append("\t\t}\n\n");
+
+		source.append("\t\tpublic boolean operator_not_equals( final Record_Of_Type otherValue ) {\n" );
+		source.append("\t\t\treturn !operator_equals(otherValue);\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -519,7 +587,32 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tif (otherValue instanceof {0}) '{'\n", genName) );
 		source.append( MessageFormat.format( "\t\t\t\treturn operator_assign(({0})otherValue);\n", genName) );
 		source.append("\t\t\t}\n\n");
+		source.append("\t\t\tif (otherValue instanceof Record_Of_Type) {\n");
+		source.append("\t\t\t\treturn operator_assign((Record_Of_Type)otherValue);\n");
+		source.append("\t\t\t}\n\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n\n");
+
+		if ( aData.isDebug() ) {
+			source.append("\t\t/**\n");
+			source.append("\t\t * Assigns the other value to this value.\n");
+			source.append("\t\t * Overwriting the current content in the process.\n");
+			source.append("\t\t *<p>\n");
+			source.append("\t\t * operator= in the core.\n");
+			source.append("\t\t *\n");
+			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t *                the other value to assign.\n");
+			source.append("\t\t * @return the new value object.\n");
+			source.append("\t\t */\n");
+		}
+		source.append( MessageFormat.format( "\t\tpublic {0} operator_assign( final Record_Of_Type otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format("\t\t\totherValue.must_bound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
+		source.append("\t\t\tif (this == otherValue) {\n");
+		source.append("\t\t\t\treturn this;\n");
+		source.append("\t\t\t}\n");
+		source.append('\n');
+		source.append("\t\t\tvalueElements = copy_list( otherValue );\n");
+		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n\n");
 
 		if ( aData.isDebug() ) {
@@ -1575,8 +1668,10 @@ public final class RecordOfGenerator {
 	 *                type name of the "record of/set of" element
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateTemplateConstructors( final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName, final boolean isSetOf) {
 		source.append('\n');
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
@@ -1628,9 +1723,12 @@ public final class RecordOfGenerator {
 		}
 		source.append( MessageFormat.format( "\t\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\t\tcopy_template( otherValue );\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
-		source.append('\n');
+		source.append( MessageFormat.format( "\t\tpublic {0}_template( final {1}_Of_Template otherValue ) '{'\n", genName, isSetOf ? "Set" : "Record" ) );
+		source.append("\t\t\tcopy_template( otherValue );\n");
+		source.append("\t\t}\n\n");
+		
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Initializes to a given value.\n");
@@ -1750,6 +1848,54 @@ public final class RecordOfGenerator {
 			source.append( MessageFormat.format( "\t\t\t\tset_items = new ArrayList<{0}>(other_value.set_items.size());\n", ofTypeName ) );
 			source.append("\t\t\t\tfor (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {\n");
 			source.append( MessageFormat.format( "\t\t\t\t\tfinal {0} temp = new {0}(other_value.set_items.get(set_count));\n", ofTypeName ) );
+			source.append("\t\t\t\t\tset_items.add(temp);\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tbreak;\n");
+		}
+		source.append("\t\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tset_selection(other_value);\n");
+		source.append("\t\t}\n\n");
+
+		source.append(MessageFormat.format("\t\tprivate void copy_template(final {0}_Of_Template other_value) '{'\n", isSetOf ? "Set" : "Record"));
+		source.append("\t\t\tswitch (other_value.get_selection()) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append( MessageFormat.format( "\t\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append("\t\t\t\tfinal int otherSize = other_value.n_elem();\n");
+		source.append("\t\t\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tfinal {0} temp = new {0}();\n", ofTypeName ) );
+		source.append("\t\t\t\t\tif (other_value.constGet_at(elem_count).is_bound()) {\n");
+		source.append("\t\t\t\t\t\ttemp.operator_assign(other_value.constGet_at(elem_count));\n");
+		//source.append( MessageFormat.format( "\t\t\t\t\t\tvalue_elements.add( new {0}(other_value.constGet_at(elem_count)) );\n", ofTypeName ) );
+		//source.append("\t\t\t\t\t} else {\n");
+		//source.append( MessageFormat.format( "\t\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\t\tvalue_elements.add( temp );\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tfinal int otherListSize = other_value.n_list_elem();\n");
+		source.append( MessageFormat.format( "\t\t\t\tlist_value = new ArrayList<{0}_template>(otherListSize);\n", genName));
+		source.append("\t\t\t\tfor(int i = 0; i < otherListSize; i++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", genName));
+		source.append("\t\t\t\t\ttemp.operator_assign(other_value.list_item(i));\n");
+		source.append("\t\t\t\t\tlist_value.add(temp);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		if ( isSetOf ) {
+			source.append("\t\t\tcase SUPERSET_MATCH:\n");
+			source.append("\t\t\tcase SUBSET_MATCH:\n");
+			source.append("\t\t\t\tfinal int otherSetSize = other_value.n_set_items();\n");
+			source.append( MessageFormat.format( "\t\t\t\tset_items = new ArrayList<{0}>(otherSetSize);\n", ofTypeName ) );
+			source.append("\t\t\t\tfor (int set_count = 0; set_count < otherSetSize; set_count++) {\n");
+			source.append( MessageFormat.format( "\t\t\t\t\tfinal {0} temp = new {0}();\n", ofTypeName ) );
+			source.append("\t\t\t\t\ttemp.operator_assign(other_value.set_item(set_count));\n");
 			source.append("\t\t\t\t\tset_items.add(temp);\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tbreak;\n");
@@ -1920,8 +2066,10 @@ public final class RecordOfGenerator {
 	 *                type name of the "record of/set of" element
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateTemplateoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName, final boolean isSetOf) {
 		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign( final template_sel otherValue ) '{'\n", genName ) );
 		source.append("\t\t\tcheck_single_selection(otherValue);\n");
@@ -1966,6 +2114,14 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tcopy_template(otherValue);\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n\n");
+
+		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign( final {1}_Of_Template otherValue ) '{'\n", genName, isSetOf ? "Set" : "Record" ) );
+		source.append("\t\t\tif (otherValue != this) {\n");
+		source.append("\t\t\t\tclean_up();\n");
+		source.append("\t\t\t\tcopy_template(otherValue);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n");
 
 		source.append('\n');
@@ -1982,6 +2138,9 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tpublic {0}_template operator_assign(final Base_Template otherValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tif (otherValue instanceof {0}_template) '{'\n", genName) );
 		source.append( MessageFormat.format( "\t\t\t\treturn operator_assign(({0}_template)otherValue);\n", genName) );
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tif (otherValue instanceof {0}_Of_Template) '{'\n", isSetOf ? "Set" : "Record"));
+		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}_Of_Template)otherValue);\n", isSetOf ? "Set" : "Record"));
 		source.append("\t\t\t}\n\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", genName ) );
 		source.append("\t\t}\n\n");
@@ -2313,6 +2472,13 @@ public final class RecordOfGenerator {
 	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateGetterSettersSetOf(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+		source.append("\t\tpublic int n_set_items() {\n");
+		source.append("\t\t\tif (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a set element of a non-set template of type {0}.\");\n", displayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn set_items.size();\n");
+		source.append("\t\t}\n");
+
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Internal function for setting an element of a superset of\n");
@@ -2831,6 +2997,14 @@ public final class RecordOfGenerator {
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic int n_list_elem() {\n");
+		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
+		aSb.append(MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName ) );
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\treturn list_value.size();\n");
+		aSb.append("\t\t}\n");
+
+		aSb.append("\t\t@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0}_template list_item(final int list_index) '{'\n", genName ) );
 		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
@@ -3163,11 +3337,13 @@ public final class RecordOfGenerator {
 	 *                type name of the "record of/set of" element
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateEncodeDecodeText( final StringBuilder aSb, final String genName, final String displayName, final String ofTypeName) {
+	private static void generateTemplateEncodeDecodeText( final StringBuilder aSb, final String genName, final String displayName, final String ofTypeName, final boolean isSetOf) {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
-		aSb.append("\t\t\tencode_text_permutation(text_buf);\n");
+		aSb.append(MessageFormat.format("\t\t\tencode_text_{0}(text_buf);\n", isSetOf ? "restricted" : "permutation"));
 		aSb.append("\t\t\tswitch (template_selection) {\n");
 		aSb.append("\t\t\tcase OMIT_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_VALUE:\n");
@@ -3198,7 +3374,7 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
 		aSb.append("\t\t\tclean_up();\n");
-		aSb.append("\t\t\tdecode_text_permutation(text_buf);\n");
+		aSb.append(MessageFormat.format("\t\t\tdecode_text_{0}(text_buf);\n", isSetOf ? "restricted" : "permutation"));
 		aSb.append("\t\t\tswitch (template_selection) {\n");
 		aSb.append("\t\t\tcase OMIT_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_VALUE:\n");
@@ -3381,7 +3557,7 @@ public final class RecordOfGenerator {
 			}
 		}
 	}
-
+*/
 	//TODO: implement Module_Param* get_param(Module_Param_Name& param_name) const
 
 	/**
@@ -3392,8 +3568,10 @@ public final class RecordOfGenerator {
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                "record of/set of" type.
+	 * @param isSetOf
+	 *                {@code true}: set of, {@code false}: record of
 	 */
-	private static void generateTemplateGetIstemplateKind(final StringBuilder source, final String genName) {
+	private static void generateTemplateGetIstemplateKind(final StringBuilder source, final String genName, final boolean isSetOf) {
 		source.append('\n');
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic boolean get_istemplate_kind(final String type) {\n");
@@ -3420,7 +3598,11 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t} else if (\"permutation\".equals(type)) {\n");
-		source.append("\t\t\t\treturn get_number_of_permutations() != 0;\n");
+		if (isSetOf) {
+			source.append("\t\t\t\treturn false;\n");
+		} else {
+			source.append("\t\t\t\treturn get_number_of_permutations() != 0;\n");
+		}
 		source.append("\t\t\t} else if (\"length\".equals(type)) {\n");
 		source.append("\t\t\t\treturn length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;\n");
 		source.append("\t\t\t} else {\n");

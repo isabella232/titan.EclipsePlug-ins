@@ -426,6 +426,14 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	}
 
 	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type CHARACTER STRING.identification.");
+		}
+		return value_list.size();
+	}
+
+	@Override
 	public TitanCharacter_String_identification_template list_item(final int list_index)  {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type CHARACTER STRING.identification.");
@@ -901,28 +909,31 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			break;
 		case SPECIFIC_VALUE:{
 			final int temp = text_buf.pull_int().get_int();
-			switch (temp) {
-			case 0:
+			single_value_union_selection = TitanCharacter_String_identification.union_selection_type.values()[temp];
+			switch (single_value_union_selection) {
+			case UNBOUND_VALUE:
+				throw new TtcnError("Text decoder: Unrecognized union selector was received for a template of type CHARACTER STRING.identification.");
+			case ALT_syntaxes:
 				single_value = new TitanCharacter_String_identification_syntaxes_template();
 				single_value.decode_text(text_buf);
 				break;
-			case 1:
+			case ALT_syntax:
 				single_value = new TitanObjectid_template();
 				single_value.decode_text(text_buf);
 				break;
-			case 2:
+			case ALT_presentation__context__id:
 				single_value = new TitanInteger_template();
 				single_value.decode_text(text_buf);
 				break;
-			case 3:
+			case ALT_context__negotiation:
 				single_value = new TitanCharacter_String_identification_context__negotiation_template();
 				single_value.decode_text(text_buf);
 				break;
-			case 4:
+			case ALT_transfer__syntax:
 				single_value = new TitanObjectid_template();
 				single_value.decode_text(text_buf);
 				break;
-			case 5:
+			case ALT_fixed:
 				single_value = new TitanAsn_Null_template();
 				single_value.decode_text(text_buf);
 				break;

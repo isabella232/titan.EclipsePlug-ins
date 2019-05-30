@@ -725,6 +725,15 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list universal charstring template.");
+		}
+
+		return value_list.size();
+	}
+
+	@Override
 	public TitanUniversalCharString_template list_item(final int listIndex) {
 		if (template_selection != template_sel.VALUE_LIST &&
 				template_selection != template_sel.COMPLEMENTED_LIST) {

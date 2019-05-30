@@ -734,6 +734,15 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		set_selection(templateType);
 	}
 
+	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list array template.");
+		}
+
+		return value_list.length;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public TitanTemplate_Array<Tvalue, Ttemplate> list_item(final int index) {

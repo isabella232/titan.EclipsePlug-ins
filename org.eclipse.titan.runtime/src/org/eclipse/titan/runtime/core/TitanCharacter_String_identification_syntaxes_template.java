@@ -489,6 +489,13 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type CHARACTER STRING.identification.syntaxes.");
 		}
 	}
+	@Override
+	public int n_list_elem() {
+		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type CHARACTER STRING.identification.syntaxes.");
+		}
+		return list_value.size();
+	}
 
 	@Override
 	public TitanCharacter_String_identification_syntaxes_template list_item(final int list_index) {
