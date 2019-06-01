@@ -867,19 +867,7 @@ public final class RecordOfGenerator {
 	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateValueGetterSetters(final JavaGenData aData, final StringBuilder source, final String ofTypeName , final String displayName) {
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives access to the given element. Indexing begins from zero. If this\n");
-			source.append("\t\t * element of the variable was never used before, new (unbound) elements\n");
-			source.append("\t\t * will be allocated up to (and including) this index.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * operator[] in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format("\t\tpublic {0} get_at( final int index_value ) '{'\n", ofTypeName ) );
 		source.append("\t\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
@@ -898,36 +886,13 @@ public final class RecordOfGenerator {
 		source.append("\t\t\treturn temp;\n");
 		source.append("\t\t}\n\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives access to the given element. Indexing begins from zero. If this\n");
-			source.append("\t\t * element of the variable was never used before, new (unbound) elements\n");
-			source.append("\t\t * will be allocated up to (and including) this index.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * operator[] in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format("\t\tpublic {0} get_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\tindex_value.must_bound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
 		source.append("\t\t\treturn get_at( index_value.get_int() );\n");
 		source.append("\t\t}\n\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives read-only access to the given element. Index overflow causes\n");
-			source.append("\t\t * dynamic test case error.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * const operator[] const in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format("\t\tpublic {0} constGet_at( final int index_value ) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound( \"Accessing an element in an unbound value of type {0}.\" );\n", displayName ) );
 		source.append("\t\t\tif (index_value < 0) {\n");
@@ -942,18 +907,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\treturn ( elem == null ) ? get_unbound_elem(): elem ;\n");
 		source.append("\t\t}\n\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives read-only access to the given element. Index overflow causes\n");
-			source.append("\t\t * dynamic test case error.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * const operator[] const in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0} constGet_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\tindex_value.must_bound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
 		source.append("\t\t\treturn constGet_at( index_value.get_int() );\n");
@@ -977,15 +931,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\treturn new TitanInteger(valueElements.size());\n");
 		source.append("\t\t}\n\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Returns the number of elements.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * n_elem in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @return the number of elements.\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append("\t\tpublic int n_elem() {\n");
 		source.append("\t\t\treturn size_of().get_int();\n");
 		source.append("\t\t}\n\n");
@@ -2348,22 +2294,7 @@ public final class RecordOfGenerator {
 	 *                the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateGetterSetters(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives access to the given element. Indexing begins from zero. If this\n");
-			source.append("\t\t * element of the variable was never used before, new (unbound) elements\n");
-			source.append("\t\t * will be allocated up to (and including) this index.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * Index underflow and overflow causes dynamic test case error.\n");
-			source.append("\t\t * Also if the template is not a specific value template.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * operator[] in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0} get_at(final int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\t\tif (index_value < 0) {\n");
 		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
@@ -2387,40 +2318,14 @@ public final class RecordOfGenerator {
 		source.append("\t\t\treturn value_elements.get(index_value);\n");
 		source.append("\t\t}\n\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives access to the given element. Indexing begins from zero. If this\n");
-			source.append("\t\t * element of the variable was never used before, new (unbound) elements\n");
-			source.append("\t\t * will be allocated up to (and including) this index.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * Index underflow and overflow causes dynamic test case error.\n");
-			source.append("\t\t * Also if the template is not a specific value template.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * operator[] in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0} get_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\tindex_value.must_bound(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append('\n');
 		source.append("\t\t\treturn get_at(index_value.get_int());\n");
 		source.append("\t\t}\n\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives read-only access to the given element. Index underflow and overflow causes\n");
-			source.append("\t\t * dynamic test case error. Also if the template is not a specific value template.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * const operator[] const in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0} constGet_at(final int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\t\tif (index_value < 0) {\n");
 		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
@@ -2437,18 +2342,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\treturn value_elements.get(index_value);\n");
 		source.append("\t\t}\n\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Gives read-only access to the given element. Index underflow and overflow causes\n");
-			source.append("\t\t * dynamic test case error. Also if the template is not a specific value template.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * const operator[] const in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param index_value\n");
-			source.append("\t\t *            the index of the element to return.\n");
-			source.append("\t\t * @return the element at the specified position in this list\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0} constGet_at(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\tindex_value.must_bound(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append('\n');
@@ -2479,16 +2373,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\treturn set_items.size();\n");
 		source.append("\t\t}\n");
 
-		if (aData.isDebug()) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Internal function for setting an element of a superset of\n");
-			source.append("\t\t * subset template.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param set_index\n");
-			source.append("\t\t *                the index of the element to use.\n");
-			source.append("\t\t * @return the element at the specified position.\n");
-			source.append("\t\t * */\n");
-		}
+		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format( "\t\tpublic {0} set_item(final int set_index) '{'\n", ofTypeName ) );
 		source.append("\t\t\tif (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a set element of a non-set template of type {0}.\");\n", displayName ) );

@@ -539,17 +539,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
@@ -568,32 +558,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
 			if (index_value < 0) {
@@ -608,16 +579,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -639,13 +601,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -1625,20 +1581,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -1663,36 +1606,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -1709,16 +1630,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 
@@ -2737,17 +2649,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
@@ -2766,32 +2668,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
 			if (index_value < 0) {
@@ -2806,16 +2689,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -2837,13 +2711,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -3878,20 +3746,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -3916,36 +3771,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -3962,16 +3795,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 
@@ -3984,14 +3808,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanUniversalCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -5077,17 +4894,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -5106,32 +4913,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -5146,16 +4934,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -5177,13 +4956,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -6163,20 +5936,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -6201,36 +5961,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -6247,16 +5985,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 
@@ -7296,17 +7025,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index: "+index_value+".");
@@ -7325,32 +7044,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
 			if (index_value < 0) {
@@ -7365,16 +7065,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
 			return constGet_at( index_value.get_int() );
@@ -7396,13 +7087,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -8382,20 +8067,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index: {0}.", index_value ) );
@@ -8420,36 +8092,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index: {0}.", index_value ) );
@@ -8466,16 +8116,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 
@@ -9515,17 +9156,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
@@ -9544,32 +9175,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
 			if (index_value < 0) {
@@ -9584,16 +9196,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -9615,13 +9218,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -10601,20 +10198,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -10639,36 +10223,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -10685,16 +10247,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 
@@ -11734,17 +11287,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index: "+index_value+".");
@@ -11763,32 +11306,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
 			if (index_value < 0) {
@@ -11803,16 +11327,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -11834,13 +11349,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -12820,20 +12329,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index: {0}.", index_value ) );
@@ -12858,36 +12354,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index: {0}.", index_value ) );
@@ -12904,16 +12378,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 
@@ -13953,17 +13418,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
@@ -13982,32 +13437,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
 			if (index_value < 0) {
@@ -14022,16 +13458,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -14053,13 +13480,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -15039,20 +14460,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -15077,36 +14485,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -15123,16 +14509,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 
@@ -16172,17 +15549,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index: "+index_value+".");
@@ -16201,32 +15568,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
 			if (index_value < 0) {
@@ -16241,16 +15589,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -16272,13 +15611,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -17258,20 +16591,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -17296,36 +16616,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -17342,16 +16640,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 
@@ -18391,17 +17680,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index: "+index_value+".");
@@ -18420,32 +17699,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
 			if (index_value < 0) {
@@ -18460,16 +17720,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
 			return constGet_at( index_value.get_int() );
@@ -18491,13 +17742,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -19477,20 +18722,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index: {0}.", index_value ) );
@@ -19515,36 +18747,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index: {0}.", index_value ) );
@@ -19561,16 +18771,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 
@@ -20610,17 +19811,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -20639,32 +19830,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -20679,16 +19851,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -20710,13 +19873,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -21696,20 +20853,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -21734,36 +20878,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -21780,16 +20902,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 
@@ -22829,17 +21942,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index: "+index_value+".");
@@ -22858,32 +21961,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
 			if (index_value < 0) {
@@ -22898,16 +21982,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
 			return constGet_at( index_value.get_int() );
@@ -22929,13 +22004,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -23915,20 +22984,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index: {0}.", index_value ) );
@@ -23953,36 +23009,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index: {0}.", index_value ) );
@@ -23999,16 +23033,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 
@@ -25027,17 +24052,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -25056,32 +24071,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -25096,16 +24092,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -25127,13 +24114,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -26168,20 +25149,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -26206,36 +25174,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -26252,16 +25198,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
@@ -26274,14 +25211,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanUniversalCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -27346,17 +26276,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index: "+index_value+".");
@@ -27375,32 +26295,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
 			if (index_value < 0) {
@@ -27415,16 +26316,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
 			return constGet_at( index_value.get_int() );
@@ -27446,13 +26338,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -28487,20 +27373,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index: {0}.", index_value ) );
@@ -28525,36 +27398,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index: {0}.", index_value ) );
@@ -28571,16 +27422,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 
@@ -28593,14 +27435,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanBoolean_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -29665,17 +28500,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
@@ -29694,32 +28519,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
 			if (index_value < 0) {
@@ -29734,16 +28540,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -29765,13 +28562,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -30806,20 +29597,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -30844,36 +29622,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -30890,16 +29646,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 
@@ -30912,14 +29659,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanFloat_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -31984,17 +30724,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index: "+index_value+".");
@@ -32013,32 +30743,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
 			if (index_value < 0) {
@@ -32053,16 +30764,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
 			return constGet_at( index_value.get_int() );
@@ -32084,13 +30786,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -33125,20 +31821,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index: {0}.", index_value ) );
@@ -33163,36 +31846,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index: {0}.", index_value ) );
@@ -33209,16 +31870,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 
@@ -33231,14 +31883,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanInteger_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -34303,17 +32948,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index: "+index_value+".");
@@ -34332,32 +32967,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
 			if (index_value < 0) {
@@ -34372,16 +32988,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -34403,13 +33010,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -35444,20 +34045,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -35482,36 +34070,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index: {0}.", index_value ) );
@@ -35528,16 +34094,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 
@@ -35550,14 +34107,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -36643,17 +35193,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -36672,32 +35212,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -36712,16 +35233,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -36743,13 +35255,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -37729,20 +36235,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -37767,36 +36260,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -37813,16 +36284,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanUniversalCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 
@@ -38841,17 +37303,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index: "+index_value+".");
@@ -38870,32 +37322,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
 			if (index_value < 0) {
@@ -38910,16 +37343,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -38941,13 +37365,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -39982,20 +38400,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index: {0}.", index_value ) );
@@ -40020,36 +38425,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index: {0}.", index_value ) );
@@ -40066,16 +38449,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 
@@ -40088,14 +38462,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanHexString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -41160,17 +39527,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -41189,32 +39546,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -41229,16 +39567,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -41260,13 +39589,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -42301,20 +40624,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -42339,36 +40649,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -42385,16 +40673,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 
@@ -42407,14 +40686,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanHexString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -43479,17 +41751,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index: "+index_value+".");
@@ -43508,32 +41770,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
 			if (index_value < 0) {
@@ -43548,16 +41791,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -43579,13 +41813,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -44620,20 +42848,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index: {0}.", index_value ) );
@@ -44658,36 +42873,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index: {0}.", index_value ) );
@@ -44704,16 +42897,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 
@@ -44726,14 +42910,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanOctetString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -45798,17 +43975,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index: "+index_value+".");
@@ -45827,32 +43994,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
 			if (index_value < 0) {
@@ -45867,16 +44015,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
 			return constGet_at( index_value.get_int() );
@@ -45898,13 +44037,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -46939,20 +45072,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index: {0}.", index_value ) );
@@ -46977,36 +45097,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index: {0}.", index_value ) );
@@ -47023,16 +45121,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 
@@ -47045,14 +45134,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanFloat_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -48117,17 +46199,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
@@ -48146,32 +46218,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
 			if (index_value < 0) {
@@ -48186,16 +46239,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -48217,13 +46261,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -49258,20 +47296,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -49296,36 +47321,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -49342,16 +47345,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanInteger_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 
@@ -49364,14 +47358,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanInteger_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -50436,17 +48423,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -50465,32 +48442,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -50505,16 +48463,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -50536,13 +48485,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -51577,20 +49520,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -51615,36 +49545,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -51661,16 +49569,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 
@@ -51683,14 +49582,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanOctetString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -52776,17 +50668,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index: "+index_value+".");
@@ -52805,32 +50687,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
 			if (index_value < 0) {
@@ -52845,16 +50708,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -52876,13 +50730,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -53862,20 +51710,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index: {0}.", index_value ) );
@@ -53900,36 +51735,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index: {0}.", index_value ) );
@@ -53946,16 +51759,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanOctetString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 
@@ -54995,17 +52799,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index: "+index_value+".");
@@ -55024,32 +52818,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
 			if (index_value < 0) {
@@ -55064,16 +52839,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -55095,13 +52861,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -56081,20 +53841,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index: {0}.", index_value ) );
@@ -56119,36 +53866,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index: {0}.", index_value ) );
@@ -56165,16 +53890,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 
@@ -57193,17 +54909,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -57222,32 +54928,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -57262,16 +54949,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -57293,13 +54971,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -58334,20 +56006,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -58372,36 +56031,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -58418,16 +56055,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 
@@ -58440,14 +56068,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanCharString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -59512,17 +57133,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index: "+index_value+".");
@@ -59541,32 +57152,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
 			if (index_value < 0) {
@@ -59581,16 +57173,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
 			return constGet_at( index_value.get_int() );
@@ -59612,13 +57195,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -60653,20 +58230,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index: {0}.", index_value ) );
@@ -60691,36 +58255,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index: {0}.", index_value ) );
@@ -60737,16 +58279,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 
@@ -60759,14 +58292,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanBitString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -61831,17 +59357,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
@@ -61860,32 +59376,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
 			if (index_value < 0) {
@@ -61900,16 +59397,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -61931,13 +59419,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -62972,20 +60454,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -63010,36 +60479,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -63056,16 +60503,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBoolean_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 
@@ -63078,14 +60516,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanBoolean_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -64171,17 +61602,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -64200,32 +61621,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -64240,16 +61642,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -64271,13 +61664,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -65257,20 +62644,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -65295,36 +62669,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -65341,16 +62693,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanCharString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 
@@ -66390,17 +63733,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
@@ -66419,32 +63752,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
 			if (index_value < 0) {
@@ -66459,16 +63773,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -66490,13 +63795,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -67476,20 +64775,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -67514,36 +64800,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -67560,16 +64824,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanFloat_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 
@@ -68588,17 +65843,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -68617,32 +65862,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -68657,16 +65883,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -68688,13 +65905,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -69729,20 +66940,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -69767,36 +66965,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -69813,16 +66989,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanBitString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 
@@ -69835,14 +67002,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			return set_items.size();
 		}
-		/**
-		 * Internal function for setting an element of a superset of
-		 * subset template.
-		 *
-		 * @param set_index
-		 *                the index of the element to use.
-		 * @return the element at the specified position.
-		 * */
+		@Override
 		public TitanBitString_template set_item(final int set_index) {
 			if (template_selection != template_sel.SUPERSET_MATCH && template_selection != template_sel.SUBSET_MATCH) {
 				throw new TtcnError("Internal error: Accessing a set element of a non-set template of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -70928,17 +68088,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			valueElements = null;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at( final int index_value ) {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
@@ -70957,32 +68107,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return temp;
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString get_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
 			return get_at( index_value.get_int() );
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at( final int index_value ) {
 			must_bound( "Accessing an element in an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
 			if (index_value < 0) {
@@ -70997,16 +68128,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return ( elem == null ) ? get_unbound_elem(): elem ;
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index overflow causes
-		 * dynamic test case error.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString constGet_at(final TitanInteger index_value) {
 			index_value.must_bound( "Using an unbound integer value for indexing a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
 			return constGet_at( index_value.get_int() );
@@ -71028,13 +68150,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger(valueElements.size());
 		}
 
-		/**
-		 * Returns the number of elements.
-		 *
-		 * n_elem in the core.
-		 *
-		 * @return the number of elements.
-		 * */
+		@Override
 		public int n_elem() {
 			return size_of().get_int();
 		}
@@ -72014,20 +69130,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return valueof().replace(index.get_int(), len.get_int(), repl);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -72052,36 +69155,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives access to the given element. Indexing begins from zero. If this
-		 * element of the variable was never used before, new (unbound) elements
-		 * will be allocated up to (and including) this index.
-		 *
-		 * Index underflow and overflow causes dynamic test case error.
-		 * Also if the template is not a specific value template.
-		 *
-		 * operator[] in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template get_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 
 			return get_at(index_value.get_int());
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index: {0}.", index_value ) );
@@ -72098,16 +69179,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return value_elements.get(index_value);
 		}
 
-		/**
-		 * Gives read-only access to the given element. Index underflow and overflow causes
-		 * dynamic test case error. Also if the template is not a specific value template.
-		 *
-		 * const operator[] const in the core.
-		 *
-		 * @param index_value
-		 *            the index of the element to return.
-		 * @return the element at the specified position in this list
-		 * */
+		@Override
 		public TitanHexString_template constGet_at(final TitanInteger index_value) {
 			index_value.must_bound("Using an unbound integer value for indexing a template of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 

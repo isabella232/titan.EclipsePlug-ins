@@ -208,9 +208,68 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		return false;
 	}
 
+	/**
+	 * Returns the number of elements.
+	 *
+	 * n_elem in the core.
+	 *
+	 * @return the number of elements.
+	 * */
 	public abstract int n_elem();
+
+	/**
+	 * Gives access to the given element. Indexing begins from zero. If this
+	 * element of the variable was never used before, new (unbound) elements
+	 * will be allocated up to (and including) this index.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public abstract Base_Template get_at(final int index_value);
+
+	/**
+	 * Gives access to the given element. Indexing begins from zero. If this
+	 * element of the variable was never used before, new (unbound) elements
+	 * will be allocated up to (and including) this index.
+	 *
+	 * Index underflow and overflow causes dynamic test case error.
+	 * Also if the template is not a specific value template.
+	 *
+	 * operator[] in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public abstract Base_Template get_at(final TitanInteger index_value);
+
+	/**
+	 * Gives read-only access to the given element. Index underflow and overflow causes
+	 * dynamic test case error. Also if the template is not a specific value template.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public abstract Base_Template constGet_at(final int index_value);
+
+	/**
+	 * Gives read-only access to the given element. Index underflow and overflow causes
+	 * dynamic test case error. Also if the template is not a specific value template.
+	 *
+	 * const operator[] const in the core.
+	 *
+	 * @param index_value
+	 *            the index of the element to return.
+	 * @return the element at the specified position in this list
+	 * */
 	public abstract Base_Template constGet_at(final TitanInteger index_value);
 }
