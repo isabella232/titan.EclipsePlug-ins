@@ -34,22 +34,14 @@ public class ConnectionDetector extends BaseModuleCodeSmellSpotter {
 		if (node instanceof Connect_Statement) {
 			final Connect_Statement s = (Connect_Statement) node;
 
-			PortTypeBody body1;
-			PortTypeBody body2;
-
 			final IType portType1 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference1(), s.getPortReference1(), false);
-			if (portType1 == null) {
-				body1 = null;
-			} else {
-				body1 = ((Port_Type) portType1).getPortBody();
+			final IType portType2 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference2(), s.getPortReference2(), false);
+			if (portType1 == null || portType2 == null) {
+				return;
 			}
 
-			final IType portType2 = Port_Utility.checkConnectionEndpoint(CompilationTimeStamp.getBaseTimestamp(), s, s.getComponentReference2(), s.getPortReference2(), false);
-			if (portType2 == null) {
-				body2 = null;
-			} else {
-				body2 = ((Port_Type) portType2).getPortBody();
-			}
+			final PortTypeBody body1 = ((Port_Type) portType1).getPortBody();
+			final PortTypeBody body2 = ((Port_Type) portType2).getPortBody();
 
 			if ((OperationModes.OP_Message.equals(body1.getOperationMode()) || OperationModes.OP_Mixed.equals(body1.getOperationMode()))
 					&& (OperationModes.OP_Message.equals(body2.getOperationMode()) || OperationModes.OP_Mixed.equals(body2.getOperationMode()))
