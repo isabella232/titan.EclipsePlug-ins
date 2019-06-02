@@ -81,7 +81,7 @@ public enum ProblemTypePreference {
 	UNNECESSARY_VALUEOF("Report unnecessary 'valueof' operation", EnumSet.of(CodeSmellType.UNNECESSARY_VALUEOF)),
 	UNUSED_FUNTION_RETURN_VALUES("Report unused function return values", EnumSet.of(CodeSmellType.UNUSED_FUNTION_RETURN_VALUES,
 			CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES)),
-	STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS("Report startupfunctions with out inout startup function", EnumSet.of(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS,
+	STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS("Report starting functions with out inout parameters", EnumSet.of(CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS,
 			CodeSmellType.STARTED_FUNCTION_WITH_OUT_INOUT_FORMAL_PARAMETERS)),
 	UNUSED_GLOBAL_DEFINITION("Report unused module level definitions", EnumSet.of(CodeSmellType.UNUSED_GLOBAL_DEFINITION)),
 	UNUSED_IMPORT("Report unused module importation", EnumSet.of(CodeSmellType.UNUSED_IMPORT)),
