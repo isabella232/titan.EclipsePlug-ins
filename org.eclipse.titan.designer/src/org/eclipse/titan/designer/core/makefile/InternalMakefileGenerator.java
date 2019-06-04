@@ -619,7 +619,11 @@ public final class InternalMakefileGenerator {
 		} catch (UnknownHostException e) {
 			contents.append("unknown");
 		}
-		contents.append(") on ").append(new Date()).append("\n\n");
+		final String pattern = "MMMM dd yyyy";
+		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		final String date = simpleDateFormat.format(new Date());
+
+		contents.append(") on ").append(date).append("\n\n");
 		contents.append("# ").append(GeneralConstants.COPYRIGHT_STRING).append('\n');
 		contents.append('\n');
 		contents.append("# The following make commands are available:\n");
