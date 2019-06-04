@@ -184,13 +184,19 @@ public final class Module_List {
 		
 	}
 
+	public void list_testcases() {
+		for (final TTCN_Module module: modules) {
+			module.list_testcases();
+		}
+	}
+
+	//FIXME still need to be called
 	public void list_modulepars() {
 		for (final TTCN_Module module: modules) {
 			module.list_modulepars();
 		}
 	}
 
-	//FIXME implement list_testcases
 	public static void push_version(final Text_Buf text_buf) {
 		text_buf.push_int(modules.size());
 		for (final TTCN_Module module: modules) {

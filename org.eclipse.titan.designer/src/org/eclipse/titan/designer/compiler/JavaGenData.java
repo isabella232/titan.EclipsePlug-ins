@@ -63,6 +63,9 @@ public class JavaGenData {
 	/** the contents of init_system_port*/
 	private final StringBuilder initSystemPort;
 
+	/** the contents of list_testcases */
+	private final StringBuilder listTestcases;
+
 	/** the contents of list_modulepars */
 	private final StringBuilder listModulePars;
 
@@ -135,6 +138,7 @@ public class JavaGenData {
 		executeAllTestcases = new StringBuilder();
 		initComp = new StringBuilder();
 		initSystemPort = new StringBuilder();
+		listTestcases = new StringBuilder();
 		listModulePars = new StringBuilder();
 
 		// TreeSet keeps elements in natural order (alphabetical)
@@ -294,6 +298,13 @@ public class JavaGenData {
 	 * */
 	public StringBuilder getInitSystemPort() {
 		return initSystemPort;
+	}
+
+	/**
+	 * @return the string where testcase listing code is written.
+	 * */
+	public StringBuilder getListTestcases() {
+		return listTestcases;
 	}
 
 	/**
