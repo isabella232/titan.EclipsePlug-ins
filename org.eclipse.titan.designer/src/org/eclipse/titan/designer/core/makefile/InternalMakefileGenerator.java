@@ -7,14 +7,17 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.core.makefile;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -2169,16 +2172,18 @@ public final class InternalMakefileGenerator {
 				}
 
 				final IFile sampleMakefile = project.getFile(samplePath.append("/" + makefileName));
-				sampleMakefile.refreshLocal(0, null);
-				if (sampleMakefile.exists()) {
-					sampleMakefile.setContents(new ByteArrayInputStream(contents.toString().getBytes()), IResource.FORCE
-							| IResource.KEEP_HISTORY, null);
-				} else {
-					sampleMakefile.create(new ByteArrayInputStream(contents.toString().getBytes()), IResource.FORCE, null);
-				}
+				if (needsUpdate(sampleMakefile, contents.toString())) {
+					sampleMakefile.refreshLocal(0, null);
+					if (sampleMakefile.exists()) {
+						sampleMakefile.setContents(new ByteArrayInputStream(contents.toString().getBytes()), IResource.FORCE
+								| IResource.KEEP_HISTORY, null);
+					} else {
+						sampleMakefile.create(new ByteArrayInputStream(contents.toString().getBytes()), IResource.FORCE, null);
+					}
 
-				ResourceUtils.refreshResources(Arrays.asList(sampleMakefile));
-				sampleMakefile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
+					ResourceUtils.refreshResources(Arrays.asList(sampleMakefile));
+					sampleMakefile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
+				}
 			} else {
 				final IPath makefilepath = workingDirectoryPath.append(makefileName);
 
@@ -2197,6 +2202,30 @@ public final class InternalMakefileGenerator {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
+	}
+
+	private static boolean needsUpdate(final IFile file, final String content) throws CoreException {
+		boolean result = true;
+		final InputStream filestream = file.getContents();
+		final BufferedInputStream bufferedFile = new BufferedInputStream(filestream);
+		final InputStream contentStream = new ByteArrayInputStream( content.getBytes() );
+		final BufferedInputStream bufferedOutput = new BufferedInputStream(contentStream);
+		try {
+			int read1 = bufferedFile.read();
+			int read2 = bufferedOutput.read();
+			while (read1 != -1 && read1 == read2) {
+				read1 = bufferedFile.read();
+				read2 = bufferedOutput.read();
+			}
+
+			result = read1 != read2;
+			bufferedFile.close();
+			bufferedOutput.close();
+		} catch (IOException exception) {
+			return true;
+		}
+
+		return result;
 	}
 
 	public void gatherInformation() {
