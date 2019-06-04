@@ -349,8 +349,6 @@ public final class Send_Statement extends Statement {
 			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
-		
-
 		if (toClause != null) {
 			expression.expression.append(", ");
 			toClause.generateCodeExpression(aData, expression, true);
