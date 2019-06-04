@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 /**
  * Variant attribute parser analyzer
  *
- * FIXME currently does only syntactic checking, no data structure is extracted
+ * FIXME currently does only syntactic checking, only RAW coding data structure is extracted
  *
  * @author Kristof Szabados
  *
