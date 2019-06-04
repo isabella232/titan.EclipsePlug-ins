@@ -24,10 +24,12 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Function_Reference_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -329,12 +331,21 @@ public final class ApplyExpression extends Expression_Value {
 			return;
 		}
 
-		// FIXME a bit more complicated
-		value.generateCodeExpressionMandatory(aData, expression, true);
-		expression.expression.append(".invoke(");
-		if (actualParameters != null) {
-			actualParameters.generateCodeAlias(aData, expression, null);
+		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		if (last.getValuetype() == Value_type.FUNCTION_REFERENCE_VALUE) {
+			final Definition def = ((Function_Reference_Value)last).getReferredFunction();
+			expression.expression.append(MessageFormat.format("{0}(", def.getGenNameFromScope(aData, expression.expression, "")));
+			if (actualParameters != null) {
+				actualParameters.generateCodeAlias(aData, expression, null);
+			}
+			expression.expression.append(")");
+		} else {
+			value.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(".invoke(");
+			if (actualParameters != null) {
+				actualParameters.generateCodeAlias(aData, expression, null);
+			}
+			expression.expression.append(")");
 		}
-		expression.expression.append(")");
 	}
 }
