@@ -396,7 +396,7 @@ public final class IsValueExpression extends Expression_Value {
 			if (templateInstance.getDerivedReference() == null
 					&& template.getLengthRestriction() == null
 					&& !template.getIfPresent()) {
-				// FIXME implement support for cast
+				// FIXME implement support for explicit cast
 				value.generateCodeExpressionMandatory(aData, expression, true);
 			} else {
 				templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
