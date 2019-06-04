@@ -597,6 +597,12 @@ public class ProjectSourceCompiler {
 			aSb.append("\t}\n\n");
 		}
 
+		if (aData.getListTestcases().length() > 0) {
+			aSb.append("\tpublic void list_testcases() {\n");
+			aSb.append(aData.getListTestcases());
+			aSb.append("\t}\n\n");
+		}
+
 		if (aData.getListModulePars().length() > 0) {
 			aSb.append("\tpublic void list_modulepars() {\n");
 			aSb.append(aData.getListModulePars());

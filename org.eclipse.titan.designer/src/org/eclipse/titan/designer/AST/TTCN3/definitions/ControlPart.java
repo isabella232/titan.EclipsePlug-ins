@@ -410,5 +410,8 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 			sb.append( "\t\tTTCN_Runtime.end_controlpart();\n" );
 		}
 		sb.append( "\t}\n" );
+
+		final StringBuilder listTestcases = aData.getListTestcases();
+		listTestcases.append(MessageFormat.format("System.out.println(\"{0}.control\");\n", getMyScope().getModuleScope().getIdentifier().getDisplayName()));
 	}
 }
