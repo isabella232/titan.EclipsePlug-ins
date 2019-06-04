@@ -922,7 +922,7 @@ public final class GeneralOptionsSubPage {
 
 		createLogFileNode(lte, logentry, "\"%e.%h-%r-part%i.%s\"");
 		createTimeStampFormatNode(lte, logentry, "Time");
-		createConsoleTimeStampFormatNode(lte, logentry, "None");
+		createConsoleTimeStampFormatNode(lte, logentry, "Time");
 		createSourceInfoFormatNode(lte, logentry, "None");
 		createAppendFileNode(lte, logentry, "No");
 		createLogEventTypesNode(lte, logentry, "No");
