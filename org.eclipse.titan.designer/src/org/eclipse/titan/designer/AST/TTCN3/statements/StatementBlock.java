@@ -71,8 +71,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
-// FIXME add support for determining if this statementblock has receiving
-// statements or not.
 public final class StatementBlock extends TTCN3Scope implements ILocateableNode, IIncrementallyUpdateable {
 	private static final String FULLNAMEPART = ".statement_";
 	private static final String INFINITELOOP = "Inifinite loop detected: the program can not escape from this goto statement";
