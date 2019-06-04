@@ -40,6 +40,7 @@ public final class Runtime_Parallel_main {
 		String local_addr = null;
 		final String MC_host = argv[0];
 		final int MC_port = Integer.parseInt(argv[1]);
+		//FIXME implement call for Module_list ... list_testcases/list_modulepars
 
 		try {
 			TTCN_Snapshot.initialize();

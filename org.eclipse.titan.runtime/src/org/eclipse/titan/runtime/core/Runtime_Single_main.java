@@ -34,6 +34,7 @@ public final class Runtime_Single_main {
 
 	//FIXME this is much more complicated
 	public static int singleMain(final String[] args ) {
+		//FIXME implement call for Module_list ... list_testcases/list_modulepars
 		int returnValue = 0;
 		TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
