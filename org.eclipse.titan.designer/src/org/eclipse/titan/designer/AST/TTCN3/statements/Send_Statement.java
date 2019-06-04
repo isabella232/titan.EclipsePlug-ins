@@ -342,7 +342,7 @@ public final class Send_Statement extends Statement {
 				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			//optimize for value
 			final IValue value = ((SpecificValue_Template) templateBody).getValue();
-			//FIXME check if casting is needed
+			// FIXME implement support for explicit cast
 			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
 			//real template, can not be optimized

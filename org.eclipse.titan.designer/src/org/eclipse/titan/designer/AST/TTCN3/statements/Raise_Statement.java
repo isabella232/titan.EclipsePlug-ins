@@ -367,7 +367,7 @@ public final class Raise_Statement extends Statement {
 		if (parameter.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
 			// the exception is a value: optimization is possible
 			final IValue value = ((SpecificValue_Template) templateBody).getSpecificValue();
-			//FIXME implement the case where cast is needed (if really needed)
+			// FIXME implement support for explicit cast
 			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
 			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
