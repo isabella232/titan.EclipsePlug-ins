@@ -96,6 +96,12 @@ public abstract class Set_Of_Template extends Restricted_Length_Template {
 	 * */
 	public abstract Base_Template constGet_at(final TitanInteger index_value);
 
+	/**
+	 * Returns the number of set elements.
+	 * Calling on non-set templates causes dynamic test case error.
+	 *
+	 * @return the number of set elements.
+	 * */
 	public abstract int n_set_items();
 
 	/**
