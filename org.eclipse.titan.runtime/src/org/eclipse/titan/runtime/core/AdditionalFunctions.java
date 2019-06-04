@@ -29,8 +29,6 @@ import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
  * @author Gergo Ujhelyi
  *
  * In the core in Addfunc.{hh,cc}
- *
- * FIXME implement rest
  */
 public final class AdditionalFunctions {
 	// table to reverse the hex digits within an octet
