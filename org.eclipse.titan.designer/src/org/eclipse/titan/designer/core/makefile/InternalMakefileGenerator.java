@@ -2341,6 +2341,10 @@ public final class InternalMakefileGenerator {
 		}
 
 		for (final IProject referencedProject : referencedProjects) {
+			if (!referencedProject.isAccessible()) {
+				continue;
+			}
+
 			final String[] optionList = LinkerLibrariesOptionsData.getLinkerSearchPaths(referencedProject);
 			if (optionList.length > 0) {
 				final IPath location = referencedProject.getLocation();
