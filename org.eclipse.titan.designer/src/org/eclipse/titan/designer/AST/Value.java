@@ -717,7 +717,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @param expression the expression to generate source code into
 	 * */
 	public void generateCodeLog(final JavaGenData aData, final ExpressionStruct expression) {
-		//FIXME add support for explicit cast if needed.
+		// FIXME implement support for explicit cast
 		generateCodeExpression(aData, expression, true);
 		expression.expression.append(".log()");
 	}
