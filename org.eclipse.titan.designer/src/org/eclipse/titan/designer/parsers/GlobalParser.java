@@ -157,14 +157,14 @@ public final class GlobalParser {
 		}
 
 		if (resource instanceof IProject || resource instanceof IFolder) {
-			IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (IResource res : children) {
+			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
+			for (final IResource res : children) {
 				if (hasTtcnppFiles(res)) {
 					return true;
 				}
 			}
 		} else if (resource instanceof IFile) {
-			IFile file = (IFile) resource;
+			final IFile file = (IFile) resource;
 			return "ttcnpp".equals(file.getFileExtension());
 		}
 
