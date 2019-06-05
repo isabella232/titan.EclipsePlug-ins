@@ -763,8 +763,16 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 					if (referenceType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), redirectionType)) {
 						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign(par{1}{2});\n", i, subrefsString, optionalSuffix));
 					} else {
-						//FIXME implement 
-						setValuesString.append("//FIXME type conversion is not yet supported\n");
+						final ExpressionStruct localExpression = new ExpressionStruct();
+						final String parname = MessageFormat.format("par{0}{1}", subrefsString, optionalSuffix);
+						final String conversionResult = redirectionType.generateConversion(aData, referenceType, parname, localExpression);
+						if (localExpression.preamble.length() > 0) {
+							setValuesString.append(localExpression.preamble);
+						}
+						setValuesString.append(MessageFormat.format("ptr_{0}.operator_assign({1});\n", i, conversionResult));
+						if (localExpression.postamble.length() > 0) {
+							setValuesString.append(localExpression.postamble);
+						}
 					}
 				}
 				if (subrefExpression.postamble.length() > 0) {
