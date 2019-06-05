@@ -37,16 +37,6 @@ public class MinimizeScopeRefactoring extends Refactoring {
 
 	private Object[] affectedObjects;		//the list of objects affected by the change
 
-	/*
-	 * TODO
-	 * 	check javadoc
-	 *  remove unused code from the package
-	 *
-	 *  use Utils.createLocationString()
-	 *
-	 *
-	 * */
-
 	/** Use this constructor when the selection is a set of files, folders, or projects. */
 	public MinimizeScopeRefactoring(final IStructuredSelection selection, final Settings settings) {
 		this.defSelection = null;
