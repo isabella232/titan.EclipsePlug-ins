@@ -150,8 +150,6 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		return new TitanInteger(0);
 	}
 
-	// TODO: void set_param(Module_Param& param);
-
 	// originally not implemented operator=
 	@SuppressWarnings("unchecked")
 	@Override
