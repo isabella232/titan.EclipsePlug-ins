@@ -80,12 +80,6 @@ public class ExtractModuleParRefactoring {
 	/** this contains the list of files to be copied completely */
 	private List<IFile> filesToCopy;
 
-	/*
-	 * TODO
-	 *
-	 *
-	 * */
-
 
 	/** Use this constructor only when a workbench is available. */
 	ExtractModuleParRefactoring(final IProject sourceProj) {

@@ -32,7 +32,6 @@ import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
-//TODO
 /**
  * This class represents the 'Change union to select union' refactoring operation.
  * <p>

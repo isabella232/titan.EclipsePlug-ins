@@ -46,14 +46,6 @@ public class OrderFieldNamesRefactoring extends Refactoring {
 
 	private Object[] affectedObjects;		//the list of objects affected by the change
 
-	/*
-	 * TODO dev:
-	 *
-	 *
-	 * TODO fix:
-	 *
-	 * */
-
 	public OrderFieldNamesRefactoring(final IStructuredSelection selection) {
 		this.selection = selection;
 

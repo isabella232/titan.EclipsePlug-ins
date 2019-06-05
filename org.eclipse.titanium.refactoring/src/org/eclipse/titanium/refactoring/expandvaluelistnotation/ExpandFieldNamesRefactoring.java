@@ -43,14 +43,6 @@ public class ExpandFieldNamesRefactoring extends Refactoring {
 
 	private Object[] affectedObjects;		//the list of objects affected by the change
 
-	/*
-	 * TODO dev:
-	 *
-	 *
-	 * TODO fix:
-	 *
-	 * */
-
 	public ExpandFieldNamesRefactoring(final IStructuredSelection selection) {
 		this.selection = selection;
 
