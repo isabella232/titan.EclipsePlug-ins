@@ -11,6 +11,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -26,6 +29,7 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
@@ -43,6 +47,8 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.properties.data.MakefileCreationData;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 
 /**
  * Represents the value redirection of several operations (done, port check,
@@ -291,9 +297,32 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 			}
 
 			if (expectedType != null && varType != null) {
-				//TODO support for type compatibility
-				if (!varType.isIdentical(timestamp, expectedType)) {
-					redirect.getLocation().reportSemanticError(MessageFormat.format("Type mismatch in value redirect: A variable of type `{0}'' was expected instead of `{1}''", expectedType.getTypename(), varType.getTypename()));
+				boolean useRuntime2 = false;
+				try {
+					if ("true".equals(getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+							MakefileCreationData.FUNCTIONTESTRUNTIME_PROPERTY)))) {
+						useRuntime2 = true;
+					}
+				} catch (CoreException e) {
+					ErrorReporter.logExceptionStackTrace("Error while reading persistent property", e);
+				}
+
+				if (!useRuntime2) {
+					if (!varType.isIdentical(timestamp, expectedType)) {
+						redirect.getLocation().reportSemanticError(MessageFormat.format("Type mismatch in value redirect: A variable of type `{0}'' was expected instead of `{1}''", expectedType.getTypename(), varType.getTypename()));
+					}
+				} else {
+					final TypeCompatibilityInfo info = new TypeCompatibilityInfo(expectedType, varType, true);
+					info.setStr2Elem(variableReference.refersToStringElement());
+					if (!expectedType.isCompatible(timestamp, varType, info, null, null)) {
+						if(info.getSubtypeError() != null) {
+							redirect.getLocation().reportSemanticError(info.getSubtypeError());
+						} else if (info.getErrorStr() != null) {
+							redirect.getLocation().reportSemanticError(info.getErrorStr());
+						} else {
+							redirect.getLocation().reportSemanticError(MessageFormat.format("Type mismatch in value redirect: A variable of type `{0}'' was expected instead of `{1}''", expectedType.getTypename(), varType.getTypename()));
+						}
+					}
 				}
 			}
 		}
