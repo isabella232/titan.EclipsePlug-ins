@@ -114,11 +114,11 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		return false;
 	}
 
-	//FIXME: originally array_elements.get(i).clean_up()
 	@Override
 	public void clean_up() {
-		//array_elements.clear();
-		array_elements = null;
+		for (int i = 0; i < array_size; ++i) {
+			array_elements[i].clean_up();
+		}
 	}
 
 	@Override
