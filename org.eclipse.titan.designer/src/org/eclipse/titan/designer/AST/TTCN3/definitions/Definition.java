@@ -792,12 +792,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
 	/**
-	 * Add generated java code on Type level
-	 * @param aData the generated java code with other info
-	 */
-	//public abstract void generateCode( final JavaGenData aData );
-
-	/**
 	 * Generate Java code for definitions embedded in statementblocks.
 	 *
 	 * generate_code_str in the compiler

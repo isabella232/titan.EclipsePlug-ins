@@ -1054,6 +1054,12 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+		aData.getSrc().append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		source.append("final ");
