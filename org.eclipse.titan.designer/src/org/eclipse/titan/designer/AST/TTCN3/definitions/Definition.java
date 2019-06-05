@@ -790,7 +790,6 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		return returnValue;
 	}
 
-	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
 	/**
 	 * Generate Java code for definitions embedded in statementblocks.
 	 *
@@ -800,10 +799,8 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * @param source the source code generated
 	 */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
-		//default implementation
-		source.append( "\t//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCodeString() is not implemented!\n" );
+		ErrorReporter.INTERNAL_ERROR("Code generator reached Definition.generateCodeString `" + getFullName() + "'' incorrectly");
+		aData.getSrc().append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 
 	/**
@@ -816,7 +813,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * types, the generic version causes \a FATAL_ERROR.
 	 * */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
-		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+		ErrorReporter.INTERNAL_ERROR("Code generator reached Definition.generateCodeInitComp `" + getFullName() + "'' incorrectly");
 		aData.getSrc().append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 }
