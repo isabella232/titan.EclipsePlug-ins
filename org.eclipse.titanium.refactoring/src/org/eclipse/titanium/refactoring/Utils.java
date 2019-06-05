@@ -35,6 +35,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor;
@@ -369,9 +370,10 @@ public class Utils {
 
 		final StringBuilder sb = new StringBuilder();
 		final ILocateableNode lnode = (ILocateableNode) node;
-		sb.append(' ').append(lnode.getLocation().getOffset()).append('-').append(lnode.getLocation().getEndOffset());
-		sb.append(" in file ").append(lnode.getLocation().getFile().getName()).append(':');
-		sb.append(lnode.getLocation().getLine()).append(' ');
+		final Location location = lnode.getLocation();
+		sb.append(' ').append(location.getOffset()).append('-').append(location.getEndOffset());
+		sb.append(" in file ").append(location.getFile().getName()).append(':');
+		sb.append(location.getLine()).append(' ');
 		return sb.toString();
 	}
 
