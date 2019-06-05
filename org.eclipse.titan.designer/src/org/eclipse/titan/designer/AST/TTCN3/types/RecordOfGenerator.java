@@ -183,7 +183,7 @@ public final class RecordOfGenerator {
 		generateTemplateSetType( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateListItem( source, genName, displayName );
 		generateTemplateGetListItem( aData, source, genName, displayName );
-		generateTemplateValueOf( source, genName, displayName );
+		generateTemplateValueOf( source, genName, ofTypeName, displayName );
 		generateTemplateSubstr( aData, source, genName );
 		generateTemplateLog( aData, source, genName, displayName, isSetOf );
 		generateTemplateEncodeDecodeText(source, genName, displayName, ofTypeName, isSetOf);
@@ -2951,10 +2951,12 @@ public final class RecordOfGenerator {
 	 * @param genName
 	 *                the name of the generated class representing the
 	 *                "record of/set of" type.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
 	 * @param displayName
 	 *                the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateValueOf( final StringBuilder aSb, final String genName, final String displayName ) {
+	private static void generateTemplateValueOf( final StringBuilder aSb, final String genName, final String ofTypeName, final String displayName ) {
 		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
 		aSb.append( MessageFormat.format( "\t\tpublic {0} valueof() '{'\n", genName ) );
@@ -2964,9 +2966,9 @@ public final class RecordOfGenerator {
 		aSb.append( MessageFormat.format( "\t\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		aSb.append("\t\t\tfinal int elements_size = value_elements.size();\n");
 		aSb.append("\t\t\tfor (int elem_count = 0; elem_count < elements_size; elem_count++) {\n");
-		//TODO use temp?
-		aSb.append("\t\t\t\tif (value_elements.get(elem_count).is_bound()) {\n");
-		aSb.append("\t\t\t\t\tret_val.valueElements.add( value_elements.get(elem_count).valueof() );\n");
+		aSb.append(MessageFormat.format("\t\t\t\tfinal {0} temp = value_elements.get(elem_count);\n", ofTypeName));
+		aSb.append("\t\t\t\tif (temp.is_bound()) {\n");
+		aSb.append("\t\t\t\t\tret_val.valueElements.add( temp.valueof() );\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn ret_val;\n");
@@ -3733,9 +3735,9 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tint i = 0;\n");
 		source.append("\t\t\tfinal int elements_size = value_elements.size();\n");
 		source.append("\t\t\tfor (int elem_count = 0; elem_count < elements_size; elem_count++) {\n");
-		//TODO temp?
-		source.append("\t\t\t\tif (value_elements.get(elem_count).is_bound()) {\n");
-		source.append("\t\t\t\t\tret_val.get_at(i).operator_assign(value_elements.get(elem_count).valueof());\n");
+		source.append(MessageFormat.format("\t\t\t\tfinal {0} temp = value_elements.get(elem_count);\n", ofTypeName));
+		source.append("\t\t\t\tif (temp.is_bound()) {\n");
+		source.append("\t\t\t\t\tret_val.get_at(i).operator_assign(temp.valueof());\n");
 		source.append("\t\t\t\t\ti++;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
