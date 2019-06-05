@@ -143,8 +143,8 @@ public final class GlobalParser {
 	}
 
 	/**
-	 * Returns true if the resource (file, folder or project) is not excluded from the project and contains ttcnpp file 
-	 * not excluded from the project.
+	 * Returns true if the resource (file, folder or project) is not excluded from the project 
+	 * and contains ttcnpp file not excluded from the project.
 	 * 
 	 * @param resource
 	 * @return {@code true} if there is a ttcnpp file in the project, {@code false} otherwise.
