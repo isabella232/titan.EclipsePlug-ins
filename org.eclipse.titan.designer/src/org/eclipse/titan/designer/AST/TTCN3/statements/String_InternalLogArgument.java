@@ -45,7 +45,6 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
-		//FIXME somewhat more complicated
 		if (argument != null) {
 			//TODO this will be the final generated code
 			if (argument.length() == 0) {
