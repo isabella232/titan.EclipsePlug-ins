@@ -28,7 +28,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  */
-// FIXME enhance when values become available
 public final class FieldSetting_Value extends FieldSetting {
 
 	private final IValue setting;
