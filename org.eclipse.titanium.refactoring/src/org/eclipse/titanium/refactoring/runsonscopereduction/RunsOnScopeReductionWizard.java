@@ -35,7 +35,6 @@ public class RunsOnScopeReductionWizard  extends RefactoringWizard implements IE
 	@Override
 	public void setInitializationData(final IConfigurationElement config, final String propertyName, final Object data)
 			throws CoreException {
-		// TODO Auto-generated method stub
 	}
 
 }

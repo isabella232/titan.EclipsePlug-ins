@@ -51,7 +51,6 @@ public class RunsOnScopeReductionFromBrowser extends AbstractHandler implements 
 
 	@Override
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
-		// TODO Auto-generated method stub
 	}
 
 	private void performRunsOnScopeReduction() {
