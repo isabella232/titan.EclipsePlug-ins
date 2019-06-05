@@ -104,7 +104,7 @@ public class DependencyCollector {
 				NavigableSet<ILocateableNode> dependencies = new TreeSet<ILocateableNode>(new LocationComparator());
 				for (Def_ModulePar def: selection) {
 					/*
-					 * Def_ModulePars with mutliple entries in a single modulepar block have incorrect location info
+					 * Def_ModulePars with multiple entries in a single modulepar block have incorrect location info
 					 *  (all entries have a location info equal to the location of their parent block)
 					 *  that is why the dependencies must be collected into a set that is not sorted by location
 					 *
