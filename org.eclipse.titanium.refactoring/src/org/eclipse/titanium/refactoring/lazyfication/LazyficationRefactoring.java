@@ -90,7 +90,7 @@ public class LazyficationRefactoring extends Refactoring {
 			pm.worked(1);
 			// check that there are no ttcnpp files in the project
 			for (final IProject project : projects) {
-				if (GlobalParser.hasTtcnppFiles(project)) {//FIXME actually all referencing and referenced projects need to be checked too !
+				if (GlobalParser.hasTtcnppFiles(project)) {
 					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
 				}
 			}
