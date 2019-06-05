@@ -145,7 +145,7 @@ public class RenameRefactoring extends Refactoring {
 			}
 
 			// check that there are no ttcnpp files in the project
-			if (hasTtcnppFiles(file.getProject())) {//FIXME actually all referencing and referenced projects need to be checked too !
+			if (GlobalParser.hasTtcnppFiles(file.getProject())) {//FIXME actually all referencing and referenced projects need to be checked too !
 				result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, file.getProject()));
 			}
 			pm.worked(1);
@@ -318,36 +318,6 @@ public class RenameRefactoring extends Refactoring {
 		}
 
 		return result;
-	}
-
-	/**
-	 * Returns true if the resource (file, folder or project) is not excluded from the project and contains ttcnpp file 
-	 * not excluded from the project
-	 * 
-	 * @param resource
-	 * @return
-	 * @throws CoreException
-	 */
-	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
-		if(resource instanceof IFolder && ResourceExclusionHelper.isDirectlyExcluded((IFolder) resource)) {
-			return false;
-		} else if(resource instanceof IFile && ResourceExclusionHelper.isDirectlyExcluded((IFile) resource)) {
-			return false;
-		}
-
-		if (resource instanceof IProject || resource instanceof IFolder) {
-			IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (IResource res : children) {
-				if (hasTtcnppFiles(res)) {
-					return true;
-				}
-			}
-		} else if (resource instanceof IFile) {
-			IFile file = (IFile) resource;
-			return "ttcnpp".equals(file.getFileExtension());
-		}
-
-		return false;
 	}
 
 	/**

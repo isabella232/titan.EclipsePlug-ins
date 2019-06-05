@@ -20,14 +20,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -110,7 +109,7 @@ public class MoveFunctionRefactoring extends Refactoring {
 			// check that there are no ttcnpp files in the
 			// project
 			for (final IProject project : projects) {
-				if (hasTtcnppFiles(project)) {//FIXME actually all referencing and referenced projects need to be checked too !
+				if (GlobalParser.hasTtcnppFiles(project)) {//FIXME actually all referencing and referenced projects need to be checked too !
 					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
 				}
 			}
@@ -142,22 +141,6 @@ public class MoveFunctionRefactoring extends Refactoring {
 	public RefactoringStatus checkFinalConditions(final IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		return new RefactoringStatus();
-	}
-
-	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
-		//
-		if (resource instanceof IProject || resource instanceof IFolder) {
-			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (final IResource res : children) {
-				if (hasTtcnppFiles(res)) {
-					return true;
-				}
-			}
-		} else if (resource instanceof IFile) {
-			final IFile file = (IFile) resource;
-			return "ttcnpp".equals(file.getFileExtension());
-		}
-		return false;
 	}
 
 

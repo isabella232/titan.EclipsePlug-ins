@@ -11,9 +11,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.WorkspaceJob;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
 
 /**
  * General parsing related static class. Provides a common root for such
@@ -135,6 +140,36 @@ public final class GlobalParser {
 			CFG_PARSERS.put(project, tempParser);
 		}
 		return tempParser;
+	}
+
+	/**
+	 * Returns true if the resource (file, folder or project) is not excluded from the project and contains ttcnpp file 
+	 * not excluded from the project.
+	 * 
+	 * @param resource
+	 * @return {@code true} if there is a ttcnpp file in the project, {@code false} otherwise.
+	 * @throws CoreException
+	 */
+	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
+		if(resource instanceof IFolder && ResourceExclusionHelper.isDirectlyExcluded((IFolder) resource)) {
+			return false;
+		} else if(resource instanceof IFile && ResourceExclusionHelper.isDirectlyExcluded((IFile) resource)) {
+			return false;
+		}
+
+		if (resource instanceof IProject || resource instanceof IFolder) {
+			IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
+			for (IResource res : children) {
+				if (hasTtcnppFiles(res)) {
+					return true;
+				}
+			}
+		} else if (resource instanceof IFile) {
+			IFile file = (IFile) resource;
+			return "ttcnpp".equals(file.getFileExtension());
+		}
+
+		return false;
 	}
 
 	/**

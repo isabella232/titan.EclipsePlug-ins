@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -31,6 +30,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
@@ -101,7 +101,7 @@ public class InsertFieldRefactoring extends Refactoring {
 			// check that there are no ttcnpp files in the
 			// project
 			for (final IProject project : projects) {
-				if (hasTtcnppFiles(project)) {
+				if (GlobalParser.hasTtcnppFiles(project)) {
 					result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, project));
 				}
 			}
@@ -161,20 +161,6 @@ public class InsertFieldRefactoring extends Refactoring {
 		return cchange;
 	}
 
-	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
-		if (resource instanceof IProject || resource instanceof IFolder) {
-			final IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
-			for (final IResource res : children) {
-				if (hasTtcnppFiles(res)) {
-					return true;
-				}
-			}
-		} else if (resource instanceof IFile) {
-			final IFile file = (IFile) resource;
-			return "ttcnpp".equals(file.getFileExtension());
-		}
-		return false;
-	}
 	//METHODS FROM REFACTORING END
 
 	/**
