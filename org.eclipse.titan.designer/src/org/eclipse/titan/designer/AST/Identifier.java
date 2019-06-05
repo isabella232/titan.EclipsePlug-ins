@@ -196,11 +196,14 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"volatile_", "volatile", "volatile"},
 		/* Java types used by the generated code postfixed */
 		{"String_", "String", "String"},
+		{"System_", "System", "System"},
 		{"MessageFormat_", "MessageFormat", "MessageFormat"},
 		{"ArrayList_", "ArrayList", "ArrayList"},
 		{"List_", "List", "List"},
 		{"AtomicBoolean_", "AtomicBoolean", "AtomicBoolean"},
 		{"AtomicInteger_", "AtomicInteger", "AtomicInteger"},
+		{"java_", "java", "java"},
+		{"sun_", "sun", "sun"},
 		/* Java keywords postfixed - keywords in TTCN */
 		{"and__", "and", "and_"},
 		{"boolean__","boolean", "boolean_"},
