@@ -695,8 +695,7 @@ public final class ProjectSourceParser {
 		temporalList.addLast(project);
 		tobeAnalyzed.remove(project);
 		while (!temporalList.isEmpty()) {
-			final IProject tempProject = temporalList.getFirst();
-			temporalList.removeFirst();
+			final IProject tempProject = temporalList.removeFirst();
 			if (!tobeAnalyzed.contains(tempProject)) {
 				tobeAnalyzed.add(tempProject);
 
