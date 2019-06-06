@@ -2397,7 +2397,7 @@ public final class RecordSetCodeGenerator {
 			source.append( MessageFormat.format( "\t\t\tif (other_value.get_field_{0}().is_bound()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
 				source.append( MessageFormat.format( "\t\t\t\tif (other_value.get_field_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
-				source.append( MessageFormat.format( "\t\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}().get());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t\tget_field_{0}().operator_assign(other_value.get_field_{0}().constGet());\n", fi.mJavaVarName ) );
 				source.append("\t\t\t\t} else {\n");
 				source.append( MessageFormat.format( "\t\t\t\t\tget_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				source.append("\t\t\t\t}\n");
@@ -2654,7 +2654,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get_field_{0}().ispresent() ? !{1}.match(other_value.get_field_{0}().get(), legacy) : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get_field_{0}().ispresent() ? !{1}.match(other_value.get_field_{0}().constGet(), legacy) : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
 			} else {
 				source.append( MessageFormat.format( "\t\t\t\tif(!{1}.match(other_value.get_field_{0}(), legacy)) '{'\n", fi.mJavaVarName, fi.mVarName )  );
 			}
@@ -2868,9 +2868,9 @@ public final class RecordSetCodeGenerator {
 
 			if (fi.isOptional) {
 				source.append(MessageFormat.format("\t\t\t\t\t\tif (match_value.constGet_field_{0}().ispresent()) '{'\n", fi.mJavaVarName ) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\tif( !{0}.match(match_value.constGet_field_{1}().get(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tif( !{0}.match(match_value.constGet_field_{1}().constGet(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}().constGet(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 				source.append("\t\t\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\t\t} else {\n");
@@ -2913,7 +2913,7 @@ public final class RecordSetCodeGenerator {
 			source.append(MessageFormat.format(" {0} := \");\n", fi.mDisplayName ) );
 			if (fi.isOptional) {
 				source.append(MessageFormat.format("\t\t\t\tif (match_value.constGet_field_{0}().ispresent()) '{'\n", fi.mJavaVarName));
-				source.append(MessageFormat.format("\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}().constGet(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append("\t\t\t\t} else {\n");
 				source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"omit with \");\n");
 				source.append(MessageFormat.format("\t\t\t\t\t{0}.log();\n", fi.mVarName) );
