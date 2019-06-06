@@ -2913,7 +2913,7 @@ public final class RecordSetCodeGenerator {
 			source.append(MessageFormat.format(" {0} := \");\n", fi.mDisplayName ) );
 			if (fi.isOptional) {
 				source.append(MessageFormat.format("\t\t\t\tif (match_value.constGet_field_{0}().ispresent()) '{'\n", fi.mJavaVarName));
-				source.append(MessageFormat.format("\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t{0}.log_match(match_value.constGet_field_{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 				source.append("\t\t\t\t} else {\n");
 				source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"omit with \");\n");
 				source.append(MessageFormat.format("\t\t\t\t\t{0}.log();\n", fi.mVarName) );
