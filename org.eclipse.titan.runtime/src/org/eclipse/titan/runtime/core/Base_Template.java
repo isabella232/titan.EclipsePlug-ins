@@ -222,7 +222,7 @@ public abstract class Base_Template {
 		throw new TtcnError(MessageFormat.format( "Incorrect second parameter ({0}) was passed to istemplatekind.", type));
 	}
 
-	protected boolean get_istemplate_kind(final TitanCharString type) {
+	public boolean get_istemplate_kind(final TitanCharString type) {
 		return get_istemplate_kind(type.get_value().toString());
 	}
 
