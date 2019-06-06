@@ -898,7 +898,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tfinal int nofElements = n_elem();\n");
+		source.append("\t\t\tfinal int nofElements = valueElements.size();\n");
 		source.append("\t\t\tif ( index_value >= nofElements ) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError( \"Index overflow in a value of type {0}: The index is \"+index_value+\", but the value has only \"+nofElements+\" elements.\" );\n", displayName ) );
 		source.append("\t\t\t}\n");
