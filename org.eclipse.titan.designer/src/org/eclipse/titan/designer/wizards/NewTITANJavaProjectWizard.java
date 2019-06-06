@@ -92,7 +92,12 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 		setWindowTitle(NEWPROJECT_WINDOWTITLE);
 	}
 
-	//TODO comment
+	/**
+	 * Creates the new TITAN Java project.
+	 * That is the Eclipse project, its main folders and applies the project nature.
+	 *
+	 * @return the new project.
+	 * */
 	private IProject createNewProject() {
 		final IProject tempProjectHandle = mainPage.getProjectHandle();
 
@@ -169,7 +174,18 @@ public class NewTITANJavaProjectWizard extends BasicNewResourceWizard implements
 		return newProject;
 	}
 
-	//TODO comment
+	/**
+	 * Creates the Eclipse project and opens it for work.
+	 *
+	 * @param description
+	 *                the description of the project to use.
+	 * @param projectHandle
+	 *                the handle of the project to be created.
+	 * @param monitor
+	 *                the monitor to report progress to.
+	 * @throws CoreException
+	 *                 if the method fails.
+	 * */
 	protected void createProject(final IProjectDescription description, final IProject projectHandle, final IProgressMonitor monitor)
 			throws CoreException {
 		final SubMonitor progress = SubMonitor.convert(monitor, 101);
