@@ -398,10 +398,14 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO actually a bit more complicated
 		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		expression.expression.append( ".get_istemplate_kind( " );
-		value.generateCodeExpression(aData, expression, false);
+		if (value.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			value.generateCodeExpressionMandatory(aData, expression, false);
+		} else {
+			final IValue refdLast = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			refdLast.generateCodeExpression(aData, expression, false);
+		}
 		expression.expression.append( ')' );
 	}
 }
