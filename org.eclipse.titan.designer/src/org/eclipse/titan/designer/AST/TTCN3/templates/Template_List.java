@@ -694,7 +694,7 @@ public final class Template_List extends CompositeTemplate {
 
 							setSize.append(" + ");
 							final ExpressionStruct referenceExpression = new ExpressionStruct();
-							reference.generateCode(aData, referenceExpression);
+							reference.generateConstRef(aData, referenceExpression);
 							switch (assignment.getAssignmentType()) {
 							case A_CONST:
 							case A_EXT_CONST:
@@ -707,7 +707,7 @@ public final class Template_List extends CompositeTemplate {
 							case A_FUNCTION_RVAL:
 							case A_EXT_FUNCTION_RVAL:
 								if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
-									referenceExpression.expression.append(".get()");
+									referenceExpression.expression.append(".constGet()");
 								}
 								break;
 							default:

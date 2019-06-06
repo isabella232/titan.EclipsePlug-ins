@@ -202,7 +202,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 				setType.append(" + ");
 
 				final ExpressionStruct expression = new ExpressionStruct();
-				reference.generateCode(aData, expression);
+				reference.generateConstRef(aData, expression);
 				if (expression.preamble.length() > 0) {
 					preamble.append(expression.preamble);
 				}
@@ -219,7 +219,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 				case A_FUNCTION_RVAL:
 				case A_EXT_FUNCTION_RVAL:
 					if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
-						expression.expression.append(".get()");
+						expression.expression.append(".constGet()");
 					}
 					break;
 				default:
