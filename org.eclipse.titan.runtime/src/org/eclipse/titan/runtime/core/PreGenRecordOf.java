@@ -570,7 +570,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -2681,7 +2681,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -4927,7 +4927,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -7059,7 +7059,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -9191,7 +9191,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -11323,7 +11323,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -13455,7 +13455,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -15587,7 +15587,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -17719,7 +17719,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -19851,7 +19851,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -21983,7 +21983,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -24094,7 +24094,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -26319,7 +26319,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -28544,7 +28544,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -30769,7 +30769,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -32994,7 +32994,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -35240,7 +35240,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -37351,7 +37351,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -39576,7 +39576,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -41801,7 +41801,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -44026,7 +44026,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -46251,7 +46251,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -48476,7 +48476,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -50722,7 +50722,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -52854,7 +52854,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -54965,7 +54965,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -57190,7 +57190,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -59415,7 +59415,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -61661,7 +61661,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -63793,7 +63793,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -65904,7 +65904,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
@@ -68150,7 +68150,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (index_value < 0) {
 				throw new TtcnError( "Accessing an element of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED using a negative index: "+index_value+".");
 			}
-			final int nofElements = n_elem();
+			final int nofElements = valueElements.size();
 			if ( index_value >= nofElements ) {
 				throw new TtcnError( "Index overflow in a value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED: The index is "+index_value+", but the value has only "+nofElements+" elements." );
 			}
