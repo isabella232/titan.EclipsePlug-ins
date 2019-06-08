@@ -187,7 +187,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES,
 				"Groups without attributes might indicate design issues.");
 		m.put(ProblemTypePreference.CONNECTION_DETECTOR, "When out messages list of port is empty");
-
+		m.put(ProblemTypePreference.OVERRIDE_IN_ATTRIBUTES, "Runs when attributes are being overridden");
+		
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);
 	}
 
@@ -266,6 +267,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.TYPENAME_IN_DEFINITION);
 			createField(comp, ProblemTypePreference.MAGIC_CONSTANTS);
 			createField(comp, ProblemTypePreference.DUPLICATE_NAME);
+			createField(comp, ProblemTypePreference.OVERRIDE_IN_ATTRIBUTES);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(false);
