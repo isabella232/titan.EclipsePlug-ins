@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Group;
@@ -43,7 +44,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 			if(attributePath != null) {
 				final int sizeG = attributePath.getNofElements();
 				for(int i = 0; i < sizeG; i++) {
-					if(attributePath.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
+					if(attributePath.getAttribute(i).getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						problems.report(attributePath.getAttribute(i).getLocation(), WARNING_MESSAGE);
 					}
 				}
@@ -54,7 +55,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 			if(attributePathForModule != null) {
 				final int sizeM = attributePathForModule.getNofElements();
 				for(int i = 0; i < sizeM; i++) {
-					if(attributePathForModule.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
+					if(attributePathForModule.getAttribute(i).getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						problems.report(attributePathForModule.getAttribute(i).getLocation(), WARNING_MESSAGE);
 					}
 				}
@@ -66,7 +67,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 			if(attributePathForTypeDefinition != null) {
 				final int sizeD = attributePathForTypeDefinition.getNofElements();
 				for(int i = 0; i < sizeD; i++) {
-					if(attributePathForTypeDefinition.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
+					if(attributePathForTypeDefinition.getAttribute(i).getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						problems.report(attributePathForTypeDefinition.getAttribute(i).getLocation(), WARNING_MESSAGE);
 					}
 				}
@@ -77,7 +78,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 			if(attributePathForDefinition != null) {
 				final int sizeD = attributePathForDefinition.getNofElements();
 				for(int i = 0; i < sizeD; i++) {
-					if(attributePathForDefinition.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
+					if(attributePathForDefinition.getAttribute(i).getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						problems.report(attributePathForDefinition.getAttribute(i).getLocation(), WARNING_MESSAGE);
 					}
 				}
