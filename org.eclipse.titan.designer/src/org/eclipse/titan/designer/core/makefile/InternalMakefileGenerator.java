@@ -2177,7 +2177,7 @@ public final class InternalMakefileGenerator {
 
 				final IFile sampleMakefile = project.getFile(samplePath.append("/" + makefileName));
 				if (needsUpdate(sampleMakefile, contents.toString())) {
-					sampleMakefile.refreshLocal(0, null);
+					sampleMakefile.refreshLocal(IResource.DEPTH_ZERO, null);
 					if (sampleMakefile.exists()) {
 						sampleMakefile.setContents(new ByteArrayInputStream(contents.toString().getBytes()), IResource.FORCE
 								| IResource.KEEP_HISTORY, null);
