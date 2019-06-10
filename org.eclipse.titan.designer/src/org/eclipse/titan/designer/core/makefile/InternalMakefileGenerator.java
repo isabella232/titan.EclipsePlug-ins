@@ -2209,6 +2209,10 @@ public final class InternalMakefileGenerator {
 	}
 
 	private static boolean needsUpdate(final IFile file, final String content) throws CoreException {
+		if (!file.isAccessible()) {
+			return true;
+		}
+
 		boolean result = true;
 		final InputStream filestream = file.getContents();
 		final BufferedInputStream bufferedFile = new BufferedInputStream(filestream);
