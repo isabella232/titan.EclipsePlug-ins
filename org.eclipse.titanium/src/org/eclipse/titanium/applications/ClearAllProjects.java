@@ -45,6 +45,14 @@ public class ClearAllProjects implements IApplication {
 		final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (final IProject project : projects) {
 			try {
+				project.close(null);
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace("Error while deleting project " + project.getName(), e);
+				result = false;
+			}
+		}
+		for (final IProject project : projects) {
+			try {
 				if (project.isLinked()) {
 					project.delete(false, false, null);
 				} else {
