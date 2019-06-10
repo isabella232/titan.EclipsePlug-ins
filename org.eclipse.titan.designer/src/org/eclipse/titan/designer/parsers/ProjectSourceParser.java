@@ -1203,6 +1203,10 @@ public final class ProjectSourceParser {
 	// FIXME this function is only temporary, it should be removed once its
 	// functionality is available on any other way
 	public void makefileCreatingAnalyzeAll() {
+		if (lastTimeChecked != null) {
+			return;
+		}
+
 		fullAnalyzersRunning.incrementAndGet();
 		final ISchedulingRule rule = getSchedulingRule();
 		Job.getJobManager().beginRule(rule, new NullProgressMonitor());
