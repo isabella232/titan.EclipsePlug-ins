@@ -131,7 +131,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			WorkspaceJob refreshJob = new WorkspaceJob("Refreshing built resources") {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
-					boolean	proceedingOK = TITANBuilder.regenerateMakefile(resouce.getProject());
+					boolean proceedingOK = TITANBuilder.regenerateMakefile(resouce.getProject());
 					if (proceedingOK) {
 						proceedingOK = TITANBuilder.removeExecutable(resouce.getProject());
 					}
