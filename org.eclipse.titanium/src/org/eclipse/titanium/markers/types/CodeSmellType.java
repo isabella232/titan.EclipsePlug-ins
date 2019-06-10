@@ -9,7 +9,6 @@ package org.eclipse.titanium.markers.types;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titanium.Activator;
-import org.eclipse.titanium.markers.spotters.implementation.OverrideInAttributes;
 
 /**
  * Types of the code smell markers.
@@ -82,7 +81,7 @@ public enum CodeSmellType implements ProblemType{
 	DUPLICATE_NAME("Duplicate name", 0.5, 1.0, 80.0),
 	GROUPS_WITHOUT_ATTRIBUTES("Groups without attributes", 0.0, 0.0, 0.0),//FIXME measure
 	CONNECTION_DETECTOR("Connection detector", 0.0, 0.0, 0.0),//FIXME measure
-	OVERRIDE_IN_ATTRIBUTES("Attributes overriding", 1.5, 3.0, 21.0);
+	OVERRIDE_IN_ATTRIBUTES("Attributes overriding", 0.0, 0.0, 0.0);//FIXME measure
 
 	public static final String MARKER_ID = "org.eclipse.titanium.markers.CodeSmellMarker";
 	public static final String PROBLEM = "problem";
