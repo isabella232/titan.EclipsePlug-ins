@@ -107,7 +107,14 @@ public class ExportedProblemMerger {
 	 */
 	private String getProjectName(final HSSFSheet sheet) {
 		final Cell cell = sheet.getRow(0).getCell(0);
-		return cell.getStringCellValue();
+		final String value = cell.getStringCellValue();
+		final int index = value.indexOf(" including ( ");
+		if (index == -1) {
+			//single project only
+			return value;
+		}
+
+		return value.substring(0, index);
 	}
 
 	/**
