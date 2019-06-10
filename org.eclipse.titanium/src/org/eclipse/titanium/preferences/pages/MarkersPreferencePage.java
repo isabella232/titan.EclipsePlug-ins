@@ -188,7 +188,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				"Groups without attributes might indicate design issues.");
 		m.put(ProblemTypePreference.CONNECTION_DETECTOR, "When out messages list of port is empty");
 		m.put(ProblemTypePreference.OVERRIDE_IN_ATTRIBUTES, "Runs when attributes are being overridden");
-		
+
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);
 	}
 
