@@ -30,7 +30,7 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 
 
 public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
-	private static final String WARNING_MESSAGE = "It is not recommended to override attributes";
+	private static final String WARNING_MESSAGE = "Overriding attributes might signal too complex design";
 
 	public OverrideInAttributes() {
 		super(CodeSmellType.OVERRIDE_IN_ATTRIBUTES);
@@ -85,7 +85,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 			}
 		}
 	}
-	
+
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(1);
@@ -94,5 +94,4 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 		ret.add(TTCN3Module.class);
 		return ret;
 	}
-
 }
