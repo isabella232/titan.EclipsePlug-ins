@@ -22,6 +22,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.wizards.projectFormat.TpdImporter;
 
@@ -61,6 +62,7 @@ public class LoadFromTpd implements IApplication {
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {
+				Activator.getDefault().pauseHandlingResourceChanges();
 				final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 				for (final IProject project: projects) {
 					try {
@@ -94,6 +96,8 @@ public class LoadFromTpd implements IApplication {
 				} catch (Exception e) {
 					ErrorReporter.logExceptionStackTrace(e);
 				}
+
+				Activator.getDefault().resumeHandlingResourceChanges();
 			}
 		});
 
