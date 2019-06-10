@@ -55,7 +55,6 @@ public class ImportProjectsFromTpd implements IApplication {
 		final TpdImporter tpdImporter = new TpdImporter(null, true);
 		final List<IProject> projectsCreated = new ArrayList<IProject>();
 		result = tpdImporter.internalFinish(projectFiles[0], false, false, projectsCreated, new NullProgressMonitor(), null);
-		Activator.getDefault().resumeHandlingResourceChanges();
 
 		try {
 			ResourcesPlugin.getWorkspace().save(true, null);
