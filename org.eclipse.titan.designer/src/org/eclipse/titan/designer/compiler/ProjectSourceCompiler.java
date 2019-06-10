@@ -275,7 +275,7 @@ public class ProjectSourceCompiler {
 		contentBuilder.append(MessageFormat.format("import {0}.TTCN_Logger;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.TitanLoggerApi;\n", PACKAGE_RUNTIME_ROOT));
 
-		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		for ( final String moduleName : knownModuleNames ) {
 			final Module referencedModule = sourceParser.getModuleByName(moduleName);
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", getPackageGeneratedRoot(referencedModule.getProject()), moduleName));
@@ -348,7 +348,7 @@ public class ProjectSourceCompiler {
 		contentBuilder.append(MessageFormat.format("import {0}.TTCN_Logger;\n", PACKAGE_RUNTIME_ROOT));
 		contentBuilder.append(MessageFormat.format("import {0}.TitanLoggerApi;\n", PACKAGE_RUNTIME_ROOT));
 
-		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		for ( final String moduleName : knownModuleNames ) {
 			final Module referencedModule = sourceParser.getModuleByName(moduleName);
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", getPackageGeneratedRoot(referencedModule.getProject()), moduleName));
@@ -469,7 +469,7 @@ public class ProjectSourceCompiler {
 			aSb.append( ";\n" );
 		}
 
-		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		for (final String importName : aData.getInterModuleImports()) {
 			final Module referencedModule = sourceParser.getModuleByName(importName);
 			aSb.append(MessageFormat.format("import {0}.{1};\n", getPackageGeneratedRoot(referencedModule.getProject()), importName));
