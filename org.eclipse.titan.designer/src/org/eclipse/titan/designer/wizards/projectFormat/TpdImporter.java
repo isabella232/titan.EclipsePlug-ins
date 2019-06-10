@@ -121,7 +121,9 @@ public class TpdImporter {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("while disabling autobuild on the workspace", e);
 		}
-		Activator.getDefault().pauseHandlingResourceChanges();
+		if (!headless) {
+			Activator.getDefault().pauseHandlingResourceChanges();
+		}
 	}
 
 	/**
@@ -419,7 +421,9 @@ public class TpdImporter {
 				ErrorReporter.logExceptionStackTrace("Resetting autobuild settings to" + wasAutoBuilding, e);
 			}
 		}
-		Activator.getDefault().resumeHandlingResourceChanges();
+		if (!headless) {
+			Activator.getDefault().resumeHandlingResourceChanges();
+		}
 	}
 
 	/**
