@@ -10,7 +10,6 @@ package org.eclipse.titanium.markers.spotters.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
@@ -60,32 +59,26 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 					}
 				}
 			}
+		} else if (node instanceof Def_Type) {
+			final Def_Type def = (Def_Type) node;
+			final Type tempType = def.getType(CompilationTimeStamp.getBaseTimestamp());
+			final MultipleWithAttributes attributePathForTypeDefinition = tempType.getAttributePath().getAttributes();
+			if(attributePathForTypeDefinition != null) {
+				final int sizeD = attributePathForTypeDefinition.getNofElements();
+				for(int i = 0; i < sizeD; i++) {
+					if(attributePathForTypeDefinition.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
+						problems.report(attributePathForTypeDefinition.getAttribute(i).getLocation(), WARNING_MESSAGE);
+					}
+				}
+			}
 		} else if (node instanceof Definition) {
 			final Definition d = (Definition) node;
-			final Assignment type = d.getType(CompilationTimeStamp.getBaseTimestamp()).getDefiningAssignment();
-			
-			if (type != null) {
-				if(type.getAssignmentName() == "type") {
-					final Def_Type def = (Def_Type) node;
-					final Type tempType = def.getType(CompilationTimeStamp.getBaseTimestamp());
-					final MultipleWithAttributes attributePathForTypeDefinition = tempType.getAttributePath().getAttributes();
-					if(attributePathForTypeDefinition != null) {
-						final int sizeD = attributePathForTypeDefinition.getNofElements();
-						for(int i = 0; i < sizeD; i++) {
-							if(attributePathForTypeDefinition.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
-								problems.report(attributePathForTypeDefinition.getAttribute(i).getLocation(), WARNING_MESSAGE);
-							}
-						}
-					}
-				} else {
-					final MultipleWithAttributes attributePathForDefinition = d.getAttributePath().getAttributes();
-					if(attributePathForDefinition != null) {
-						final int sizeD = attributePathForDefinition.getNofElements();
-						for(int i = 0; i < sizeD; i++) {
-							if(attributePathForDefinition.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
-								problems.report(attributePathForDefinition.getAttribute(i).getLocation(), WARNING_MESSAGE);
-							}
-						}
+			final MultipleWithAttributes attributePathForDefinition = d.getAttributePath().getAttributes();
+			if(attributePathForDefinition != null) {
+				final int sizeD = attributePathForDefinition.getNofElements();
+				for(int i = 0; i < sizeD; i++) {
+					if(attributePathForDefinition.getAttribute(i).getModifier().toString() == "MOD_OVERRIDE") {
+						problems.report(attributePathForDefinition.getAttribute(i).getLocation(), WARNING_MESSAGE);
 					}
 				}
 			}
@@ -98,7 +91,6 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 		ret.add(Group.class);
 		ret.add(Definition.class);
 		ret.add(TTCN3Module.class);
-		ret.add(Def_Type.class);
 		return ret;
 	}
 
