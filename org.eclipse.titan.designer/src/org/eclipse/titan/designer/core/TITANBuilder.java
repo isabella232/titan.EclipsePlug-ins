@@ -463,7 +463,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 
 		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
 		for (IProject tempProject : referencedProjects) {
-			removeMakefile(tempProject, processedProjects);
+			regenerateMakefile(tempProject, processedProjects);
 		}
 
 		return true;
