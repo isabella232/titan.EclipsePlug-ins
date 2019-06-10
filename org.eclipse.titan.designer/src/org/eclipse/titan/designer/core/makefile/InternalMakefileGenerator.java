@@ -2242,11 +2242,14 @@ public final class InternalMakefileGenerator {
 			ErrorReporter.logExceptionStackTrace(e);
 			return;
 		}
-	
-		reachableProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+
+		final List<IProject> tempReachableProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+		reachableProjects = new ArrayList<IProject>(tempReachableProjects.size());
 		boolean foundClosedProject = false;
-		for (final IProject reachableProject : reachableProjects) {
-			if (!reachableProject.isAccessible()) {
+		for (final IProject reachableProject : tempReachableProjects) {
+			if (reachableProject.isAccessible()) {
+				reachableProjects.add(reachableProject);
+			} else {
 				final StringBuilder builder = new StringBuilder("The project `" + reachableProject.getName()
 						+ "' (reachable from project `" + project.getName()
 						+ "') is not accessible.");
@@ -2259,7 +2262,11 @@ public final class InternalMakefileGenerator {
 				}
 				ErrorReporter.logError(builder.toString());
 				foundClosedProject = true;
-			} else if (!reachableProject.equals(project)) {
+			}
+		}
+
+		for (final IProject reachableProject : reachableProjects) {
+			if (!reachableProject.equals(project)) {
 				centralStorage = true;
 				try {
 					reachableProject.accept(new MakefileGeneratorVisitor(this, reachableProject));
