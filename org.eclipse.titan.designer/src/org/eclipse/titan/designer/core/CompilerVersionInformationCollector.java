@@ -197,7 +197,7 @@ public final class CompilerVersionInformationCollector {
 		BufferedReader stdout;
 
 		final StringBuilder tempCommand = new StringBuilder();
-		for (String c : command) {
+		for (final String c : command) {
 			tempCommand.append(c).append(SPACE);
 		}
 

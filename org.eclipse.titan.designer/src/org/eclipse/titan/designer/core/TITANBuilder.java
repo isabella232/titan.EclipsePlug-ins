@@ -128,7 +128,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 
 		@Override
 		public void propertyChanged(final IResource resouce) {
-			WorkspaceJob refreshJob = new WorkspaceJob("Refreshing built resources") {
+			final WorkspaceJob refreshJob = new WorkspaceJob("Refreshing built resources") {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
 					boolean proceedingOK = TITANBuilder.regenerateMakefile(resouce.getProject());
@@ -164,7 +164,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 	 *         project resource delta
 	 */
 	private TITANBuilderResourceDeltaVisitor getDeltaVisitor(final IResourceDelta delta) {
-		TITANBuilderResourceDeltaVisitor visitor = new TITANBuilderResourceDeltaVisitor(delta);
+		final TITANBuilderResourceDeltaVisitor visitor = new TITANBuilderResourceDeltaVisitor(delta);
 		if (delta != null) {
 			try {
 				delta.accept(visitor);
@@ -172,6 +172,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				ErrorReporter.logExceptionStackTrace("While visiting resource delta: " + delta, e);
 			}
 		}
+
 		return visitor;
 	}
 
@@ -202,7 +203,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 
 		try {
-			String targetExecutable = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+			final String targetExecutable = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY));
 			return removeExecutable(project, targetExecutable, processedProjects, sync);
 		} catch (CoreException e) {
@@ -259,7 +260,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		String realTargetExecutable = targetExecutable;
 
 		List<String> command;
-		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(false);
+		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(false);
 		if (workingDir == null || !workingDir.toFile().exists()) {
 			return true;
 		}
@@ -277,7 +278,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			command.add(REMOVE);
 			command.add(FORCE_EXECUTION);
 
-			boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+			final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 			if ((new File(realTargetExecutable)).exists()) {
@@ -300,7 +301,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 
 			// create and schedule the job, that will execute the
 			// command
-			TITANJob job = new TITANJob(BUILD_PROCESS, new HashMap<String, IFile>(), workingDir.toFile(), project);
+			final TITANJob job = new TITANJob(BUILD_PROCESS, new HashMap<String, IFile>(), workingDir.toFile(), project);
 			job.setPriority(Job.DECORATE);
 			job.setUser(true);
 			job.addCommand(command, REMOVING_EXECUTABLE);
@@ -312,8 +313,8 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			}
 		}
 
-		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
-		for (IProject tempProject : referencedProjects) {
+		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
+		for (final IProject tempProject : referencedProjects) {
 			removeExecutable(tempProject, processedProjects, sync);
 		}
 
@@ -357,7 +358,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 		processedProjects.add(project);
 
-		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
+		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
 		if (workingDir == null || !workingDir.toFile().exists()) {
 			return true;
 		}
@@ -370,18 +371,18 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				// instead of just deleting it
 				// this looks better on the user interface as
 				// the file does not disappears from the user.
-				InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(project);
+				final InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(project);
 				makefileGenerator.generateMakefile();
 			} else {
-				File file = new File(workingDir.toOSString() + File.separatorChar + MAKEFILE);
+				final File file = new File(workingDir.toOSString() + File.separatorChar + MAKEFILE);
 				if (file.exists()) {
 					file.delete();
 				}
 			}
 		}
 
-		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
-		for (IProject tempProject : referencedProjects) {
+		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
+		for (final IProject tempProject : referencedProjects) {
 			removeMakefile(tempProject, processedProjects);
 		}
 
@@ -445,7 +446,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				// instead of just deleting it
 				// this looks better on the user interface as
 				// the file does not disappear from the user.
-				InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(project);
+				final InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(project);
 				makefileGenerator.generateMakefile();
 			} else {
 				final TITANJob buildJob = new TITANJob(BUILD_PROCESS, new HashMap<String, IFile>(), workingDir.toFile(),
@@ -454,15 +455,15 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				buildJob.setUser(true);
 				buildJob.setRule(project);
 
-				List<String> command = ExternalMakefileGenerator.createMakefileGeneratorCommand(project);
+				final List<String> command = ExternalMakefileGenerator.createMakefileGeneratorCommand(project);
 				buildJob.addCommand(command, CREATE_MAKEFILE);
 
 				buildJob.schedule();
 			}
 		}
 
-		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
-		for (IProject tempProject : referencedProjects) {
+		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
+		for (final IProject tempProject : referencedProjects) {
 			regenerateMakefile(tempProject, processedProjects);
 		}
 
@@ -482,7 +483,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			return;
 		}
 
-		WorkspaceJob refreshJob = new WorkspaceJob("Build") {
+		final WorkspaceJob refreshJob = new WorkspaceJob("Build") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				try {
@@ -533,7 +534,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			return;
 		}
 
-		WorkspaceJob refreshJob = new WorkspaceJob("Build") {
+		final WorkspaceJob refreshJob = new WorkspaceJob("Build") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				ProjectBasedBuilder.setForcedMakefileRebuild(project);
@@ -563,8 +564,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			return;
 		}
 
-		IWorkspaceDescription description = project.getWorkspace().getDescription();
-
+		final IWorkspaceDescription description = project.getWorkspace().getDescription();
 		if (description != null && description.isAutoBuilding()) {
 			invokeForcedBuild(project);
 		}
@@ -587,7 +587,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				return;
 			}
 
-			WorkspaceJob refreshJob = new WorkspaceJob("Build") {
+			final WorkspaceJob refreshJob = new WorkspaceJob("Build") {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
 					try {
@@ -623,14 +623,14 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 	 *                 </ul>
 	 * */
 	private void createMakefile(final TITANJob buildJob) throws CoreException {
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		if (ProjectBuildPropertyData.useInternalMakefilegeneration(getProject())) {
-			InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(getProject());
+			final InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(getProject());
 			makefileGenerator.generateMakefile();
 		} else {
-			List<String> command = ExternalMakefileGenerator.createMakefileGeneratorCommand(getProject());
+			final List<String> command = ExternalMakefileGenerator.createMakefileGeneratorCommand(getProject());
 			buildJob.addCommand(command, CREATE_MAKEFILE);
 		}
 
@@ -638,7 +638,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				new QualifiedName(ProjectBuildPropertyData.QUALIFIER, MakeAttributesData.TEMPORAL_MAKEFILE_SCRIPT_PROPERTY));
 
 		if (makefileScript != null && makefileScript.length() > 0) {
-			URI uri = TITANPathUtilities.resolvePathURI(makefileScript, getProject().getLocation().toOSString());
+			final URI uri = TITANPathUtilities.resolvePathURI(makefileScript, getProject().getLocation().toOSString());
 			makefileScript = URIUtil.toPath(uri).toOSString();
 
 			List<String> command = new ArrayList<String>();
@@ -705,8 +705,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 	 */
 	@Override
 	protected IProject[] build(final int kind, @SuppressWarnings("rawtypes") final Map args, final IProgressMonitor monitor) throws CoreException {
-
-		IProject project = getProject();
+		final IProject project = getProject();
 		if (!TITANInstallationValidator.check(true)) {
 			return project.getReferencedProjects();
 		}
@@ -720,15 +719,15 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			return project.getReferencedProjects();
 		}
 
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		boolean reportDebugInformation = store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION);
+		final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		final boolean reportDebugInformation = store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION);
 
 		final SubMonitor progress = SubMonitor.convert(monitor);
 
-		String consoleActionBeforeBuild = store.getString(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD);	 
+		final String consoleActionBeforeBuild = store.getString(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD);	 
 
 		if ( PreferenceConstantValues.BEFORE_BUILD_PRINT_CONSOLE_DELIMITERS.equals(consoleActionBeforeBuild) ) {
-			String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
+			final String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
 			TITANConsole.println(
 				"**************************************************************" + 
 		        "\n" + timeStamp + ": starting to build " + project.getName() +
@@ -742,7 +741,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			// IF the option to treat on-the-fly errors as fatal for
 			// build was set, and we find an error marker, quit the build.
 			IMarker[] markers = project.findMarkers(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
+			for (final IMarker marker : markers) {
 				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
 					TITANConsole.println("Build failed because of syntactical errors");
 					return project.getReferencedProjects();
@@ -750,7 +749,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			}
 
 			markers = project.findMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
+			for (final IMarker marker : markers) {
 				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
 					TITANConsole.println("Build failed because of semantic errors");
 					return project.getReferencedProjects();
@@ -758,7 +757,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			}
 
 			markers = project.findMarkers(GeneralConstants.ONTHEFLY_MIXED_MARKER, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
+			for (final IMarker marker : markers) {
 				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
 					TITANConsole.println("Build failed because of mixed errors");
 					return project.getReferencedProjects();
@@ -786,7 +785,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 
 		progress.beginTask("Build", 6);
-		IProgressMonitor initialisationMonitor = progress.newChild(1);
+		final IProgressMonitor initialisationMonitor = progress.newChild(1);
 		initialisationMonitor.beginTask("Checking prerequisites", 3);
 		if (!isBuilderEnabled(project)) {
 			initialisationMonitor.done();
@@ -797,7 +796,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			return project.getReferencedProjects();
 		}
 		initialisationMonitor.worked(1);
-		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
+		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
 
 		if (workingDir == null) {
 			ErrorReporter.logError("The working directory could not be created because it hasn't been defined yet");
@@ -815,7 +814,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 
 		final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(true);
-		for (IContainer workingDirectory : workingDirectories) {
+		for (final IContainer workingDirectory : workingDirectories) {
 			if (workingDirectory != null) {
 				if (!workingDirectory.isSynchronized(IResource.DEPTH_ZERO)) {
 					workingDirectory.refreshLocal(IResource.DEPTH_ZERO, null);
@@ -834,7 +833,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		String targetExecutable = project.getPersistentProperty(
 				new QualifiedName(ProjectBuildPropertyData.QUALIFIER, MakefileCreationData.TARGET_EXECUTABLE_PROPERTY));
 		if (targetExecutable != null && targetExecutable.length() != 0) {
-			URI uri = TITANPathUtilities.resolvePathURI(targetExecutable, project.getLocation().toOSString());
+			final URI uri = TITANPathUtilities.resolvePathURI(targetExecutable, project.getLocation().toOSString());
 			IPath path = URIUtil.toPath(uri);
 			path = path.removeLastSegments(1);
 			targetExecutable = path.toOSString();
@@ -847,17 +846,17 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 
 		initialisationMonitor.worked(1);
-		TITANBuilderResourceDeltaVisitor deltavisitor = getDeltaVisitor(getDelta(project));
+		final TITANBuilderResourceDeltaVisitor deltavisitor = getDeltaVisitor(getDelta(project));
 		// Makefile needs to be rebuilt if a new resource has been added
 		// to or an existing one
 		// has been deleted from the project.
-		boolean mandatoryMakefileRebuild = deltavisitor.needsMakefileRebuild() || ProjectBasedBuilder.getForcedMakefileRebuild(project);
+		final boolean mandatoryMakefileRebuild = deltavisitor.needsMakefileRebuild() || ProjectBasedBuilder.getForcedMakefileRebuild(project);
 		int nofChangedResources = deltavisitor.getChangedResources().size();
 		if (ProjectBasedBuilder.getForcedBuild(project) || mandatoryMakefileRebuild) {
 			nofChangedResources++;
 		}
 		if (mandatoryMakefileRebuild) {
-			IProject[] referencingProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
+			final IProject[] referencingProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencingProjects();
 			for (int i = 0; i < referencingProjects.length; i++) {
 				ProjectBasedBuilder.setForcedMakefileRebuild(referencingProjects[i]);
 			}
@@ -882,9 +881,10 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			}
 			return project.getReferencedProjects();
 		}
+
 		initialisationMonitor.worked(1);
-		TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
-		Map<String, IFile> files = visitor.getFiles();
+		final TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
+		final Map<String, IFile> files = visitor.getFiles();
 
 		initialisationMonitor.done();
 
@@ -897,7 +897,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			@Override
 			public void done(final IJobChangeEvent event) {
 				try {
-					boolean buildSucceeded = buildJob.getResult().isOK();
+					final boolean buildSucceeded = buildJob.getResult().isOK();
 					getProject().setSessionProperty(GeneralConstants.PROJECT_UP_TO_DATE, buildSucceeded);
 
 					TITANDecorator.refreshSelectively(getProject());
@@ -916,12 +916,11 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		SymbolicLinkHandler
 				.copyExternalFileToWorkingDirectory(files, workingDir.toOSString(), symboliclinkMonitor.newChild(1));
 
-		boolean automaticMakefileGeneration = ProjectBuildPropertyData.useAutomaticMakefilegeneration(project);
-		boolean useInternalMakefileGeneration = ProjectBuildPropertyData.useInternalMakefilegeneration(project);
-		boolean useSymbolicLinks = ProjectBuildPropertyData.useSymbolicLinks(project);
+		final boolean automaticMakefileGeneration = ProjectBuildPropertyData.useAutomaticMakefilegeneration(project);
+		final boolean useInternalMakefileGeneration = ProjectBuildPropertyData.useInternalMakefilegeneration(project);
+		final boolean useSymbolicLinks = ProjectBuildPropertyData.useSymbolicLinks(project);
 
 		if (useSymbolicLinks){
-
 			SymbolicLinkHandler.addSymlinkRemovingCommandForRemovedFiles(workingDir.toOSString(), buildJob,
 					deltavisitor.getLastTimeRemovedFiles(), symboliclinkMonitor.newChild(1));
 
@@ -930,7 +929,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 		symboliclinkMonitor.done();
 
-		Map<String, IFile> filesOfReferencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project)
+		final Map<String, IFile> filesOfReferencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project)
 				.getFilesofReferencedProjects();
 
 		if (files.isEmpty() && visitor.getCentralStorageFiles().isEmpty() && filesOfReferencedProjects.isEmpty()) {
@@ -945,9 +944,9 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		filepreparserMonitor.beginTask("removing markers from files", files.size());
 		if (PreferenceConstantValues.ONTHEFLYOPTIONREMOVE.equals(store.getString(PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER))) {
 
-			List<IFile> outdatedFiles = new ArrayList<IFile>();
-			List<IFile> semanticallyOutdatedFiles = new ArrayList<IFile>();
-			for (IFile tempFile : files.values()) {
+			final List<IFile> outdatedFiles = new ArrayList<IFile>();
+			final List<IFile> semanticallyOutdatedFiles = new ArrayList<IFile>();
+			for (final IFile tempFile : files.values()) {
 				// As all of the on-the-fly markers will be
 				// deleted during the build,
 				// we have to mark (outdate) those files with
@@ -980,16 +979,16 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 		filepreparserMonitor.done();
 
-		IPath makefile = new Path(workingDir.toOSString() + File.separatorChar + MAKEFILE);
-		boolean makefileExists = makefile.toFile().exists();
+		final IPath makefile = new Path(workingDir.toOSString() + File.separatorChar + MAKEFILE);
+		final boolean makefileExists = makefile.toFile().exists();
 		// It is true if the makefile is going to exist before the build
 		// is started
-		boolean makefileWillExist = automaticMakefileGeneration && (mandatoryMakefileRebuild || !makefileExists);
+		final boolean makefileWillExist = automaticMakefileGeneration && (mandatoryMakefileRebuild || !makefileExists);
 
 		if (makefileWillExist) {
 			if (!useInternalMakefileGeneration) {
-				IProject[] projects = project.getReferencedProjects();
-				for (IProject referencedProject : projects) {
+				final IProject[] projects = project.getReferencedProjects();
+				for (final IProject referencedProject : projects) {
 					if ( ! ProjectBuildPropertyData.useSymbolicLinks(referencedProject) ) {
 						ErrorReporter.logError("Can not generate a makefile to project `" + project.getName()
 								+ "' with the external makefile generator as project `" + referencedProject.getName()
@@ -1015,9 +1014,9 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		if (makefileExists || makefileWillExist) {
 			List<String> command = new ArrayList<String>();
 
-			String makeFlags = project.getPersistentProperty(
+			final String makeFlags = project.getPersistentProperty(
 					new QualifiedName(ProjectBuildPropertyData.QUALIFIER, MakeAttributesData.TEMPORAL_MAKEFILE_FLAGS_PROPERTY));
-			String dynamicLinking = project.getPersistentProperty(
+			final String dynamicLinking = project.getPersistentProperty(
 					new QualifiedName(ProjectBuildPropertyData.QUALIFIER, MakefileCreationData.DYNAMIC_LINKING_PROPERTY));
 			// Setting proper command for the build level.
 			String makeCommand = "default";
@@ -1089,9 +1088,9 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				makeCommand = MAKE_ALL;
 			}
 
-			int availableProcessors = Runtime.getRuntime().availableProcessors();
-			IPreferencesService prefs = Platform.getPreferencesService();
-			int processingUnitsToUse = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
+			final int availableProcessors = Runtime.getRuntime().availableProcessors();
+			final IPreferencesService prefs = Platform.getPreferencesService();
+			final int processingUnitsToUse = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
 					availableProcessors, null);
 
 			if (processingUnitsToUse > 1) {
@@ -1110,7 +1109,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			ErrorReporter.logError(BUILD_WITHOUT_MAKEFILE_ERROR + project.getName());
 		}
 
-		IStatus status = buildJob.runInWorkspace(progress.newChild(3));
+		final IStatus status = buildJob.runInWorkspace(progress.newChild(3));
 		try {
 			project.setSessionProperty(GeneralConstants.PROJECT_UP_TO_DATE, status.isOK());
 			TITANDecorator.refreshSelectively(project);
@@ -1125,7 +1124,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		if (buildJob.foundErrors() || progress.isCanceled()) {
 			if (kind == FULL_BUILD || kind == INCREMENTAL_BUILD) {
 				final IProject project2 = project;
-				WorkspaceJob op = new WorkspaceJob("Touching the project") {
+				final WorkspaceJob op = new WorkspaceJob("Touching the project") {
 					@Override
 					public IStatus runInWorkspace(final IProgressMonitor monitor) {
 						try {
@@ -1169,25 +1168,23 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 
 		getProject().touch(progress.newChild(1));
 
-		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(getProject()).getWorkingDirectoryPath(true);
-
+		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(getProject()).getWorkingDirectoryPath(true);
 		if (workingDir == null) {
 			progress.done();
 			return;
 		}
 
-		IPath makefile = new Path(workingDir.toOSString() + File.separatorChar + MAKEFILE);
-		boolean makefileExists = makefile.toFile().exists();
-
+		final IPath makefile = new Path(workingDir.toOSString() + File.separatorChar + MAKEFILE);
+		final boolean makefileExists = makefile.toFile().exists();
 		if (makefileExists) {
-			TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(getProject()).getResourceVisitor();
+			final TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(getProject()).getResourceVisitor();
 
-			TITANJob titanJob = new TITANJob(MAKE_CLEAN, visitor.getFiles(), workingDir.toFile(), getProject());
+			final TITANJob titanJob = new TITANJob(MAKE_CLEAN, visitor.getFiles(), workingDir.toFile(), getProject());
 			titanJob.setPriority(Job.DECORATE);
 			titanJob.setUser(true);
 			titanJob.setRule(getProject());
 
-			List<String> command = new ArrayList<String>();
+			final List<String> command = new ArrayList<String>();
 			command.add(MAKE_CLEAN);
 			titanJob.addCommand(command, MAKE_CLEAN);
 
@@ -1220,7 +1217,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			return false;
 		}
 
-		ICommand[] cmds = description.getBuildSpec();
+		final ICommand[] cmds = description.getBuildSpec();
 		for (int i = 0; i < cmds.length; i++) {
 			if (BUILDER_ID.equals(cmds[i].getBuilderName())) {
 				return true;

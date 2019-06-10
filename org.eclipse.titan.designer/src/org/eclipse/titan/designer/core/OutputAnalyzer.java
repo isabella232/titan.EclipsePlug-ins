@@ -124,7 +124,7 @@ public final class OutputAnalyzer {
 	public void dispose() {
 		documentMap.clear();
 		final ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
-		for (IPath path : filesOpened) {
+		for (final IPath path : filesOpened) {
 			try {
 				manager.disconnect(path,LocationKind.IFILE,null);
 			} catch (CoreException e) {
@@ -261,7 +261,7 @@ public final class OutputAnalyzer {
 				found = true;
 			}
 			if (!found) {
-				for (IFile file2 : files.values()) {
+				for (final IFile file2 : files.values()) {
 					final IPath path2 = file2.getProject().getLocation().append(fileName);
 					final String temp = path2.toOSString();
 					if (files.containsKey(temp)) {
@@ -272,7 +272,7 @@ public final class OutputAnalyzer {
 				}
 			}
 			if (!found) {
-				for (IFile file2 : files.values()) {
+				for (final IFile file2 : files.values()) {
 					final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(file2.getProject()).getWorkingDirectoryPath(
 							true);
 					if (workingDir != null) {

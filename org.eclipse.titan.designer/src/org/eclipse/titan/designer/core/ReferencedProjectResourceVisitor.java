@@ -121,7 +121,7 @@ public final class ReferencedProjectResourceVisitor implements IResourceVisitor 
 			}
 			return false;
 		case IResource.FOLDER:
-			for (IContainer workingDirectory : workingDirectories) {
+			for (final IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(resource)) {
 					return false;
 				}

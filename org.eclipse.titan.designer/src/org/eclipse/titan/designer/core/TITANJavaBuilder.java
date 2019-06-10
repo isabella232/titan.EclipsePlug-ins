@@ -42,27 +42,26 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 	@Override
 	protected IProject[] build(final int kind, final Map<String, String> args, final IProgressMonitor monitor) throws CoreException {
-		IProject project = getProject();
+		final IProject project = getProject();
 
 		if (!LicenseValidator.check()) {
 			return project.getReferencedProjects();
 		}
 
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		final IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		final boolean reportDebugInformation = store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION);
 
 		final SubMonitor progress = SubMonitor.convert(monitor);
 		progress.beginTask("Build", 2);
 
-		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		//TODO: this is temporary code!
 		sourceParser.makefileCreatingAnalyzeAll();
 
 		progress.worked(1);
 
-		BuildTimestamp timestamp = BuildTimestamp.getNewBuildCounter();
-
-		IProgressMonitor codeGeneratorMonitor = progress.newChild(1);
+		final BuildTimestamp timestamp = BuildTimestamp.getNewBuildCounter();
+		final IProgressMonitor codeGeneratorMonitor = progress.newChild(1);
 		final Collection<Module> localModules = sourceParser.getModules();
 		final Set<String> knownModuleNames = sourceParser.getKnownModuleNames();
 		codeGeneratorMonitor.beginTask("Checking prerequisites", localModules.size() + 1);
@@ -113,8 +112,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		final SubMonitor progress = SubMonitor.convert(monitor, 100);
 		progress.subTask("Deleting java_src/org");
 
-		IProject project = getProject();
-
+		final IProject project = getProject();
 		IFolder folder = project.getFolder( "java_src/org");
 		if( folder.exists() ) {
 			try {
@@ -157,7 +155,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 			return false;
 		}
 
-		ICommand[] cmds = description.getBuildSpec();
+		final ICommand[] cmds = description.getBuildSpec();
 		for (int i = 0; i < cmds.length; i++) {
 			if (BUILDER_ID.equals(cmds[i].getBuilderName())) {
 				return true;

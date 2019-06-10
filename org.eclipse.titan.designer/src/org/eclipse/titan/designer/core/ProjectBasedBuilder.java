@@ -214,7 +214,7 @@ public final class ProjectBasedBuilder {
 
 		final int size = referenceChain.size();
 		referenceChain.add(actualProject);
-		for (IProject temporalProject : referencedProjects) {
+		for (final IProject temporalProject : referencedProjects) {
 			getAllReachableProjects(referenceChain, temporalProject, knownProjects);
 		}
 
@@ -267,7 +267,7 @@ public final class ProjectBasedBuilder {
 
 		final int size = referenceChain.size();
 		referenceChain.add(actualProject);
-		for (IProject temporalProject : referencingProjects) {
+		for (final IProject temporalProject : referencingProjects) {
 			getAllReferencingProjects(referenceChain, temporalProject, knownProjects);
 		}
 
@@ -357,12 +357,12 @@ public final class ProjectBasedBuilder {
 		final IProject[] projects = getReferencedProjects();
 		final Map<String, IFile> files = new HashMap<String, IFile>();
 
-		for (IProject tempProject : projects) {
+		for (final IProject tempProject : projects) {
 			try {
 				if (tempProject.isAccessible() && !visitedProjects.contains(tempProject)) {
 					final IContainer[] workingDirectories = getProjectBasedBuilder(tempProject).getWorkingDirectoryResources(false);
 					final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(tempProject).getWorkingDirectoryPath(false);
-					ReferencedProjectResourceVisitor visitor = new ReferencedProjectResourceVisitor(workingDirectories,
+					final ReferencedProjectResourceVisitor visitor = new ReferencedProjectResourceVisitor(workingDirectories,
 							workingDir);
 
 					visitedProjects.add(tempProject);
@@ -390,7 +390,7 @@ public final class ProjectBasedBuilder {
 		final Location location = new Location(project);
 		String codeSplitting = "";
 		boolean errorFound = false;
-		StringBuilder wrongProjects = new StringBuilder();
+		final StringBuilder wrongProjects = new StringBuilder();
 		wrongProjects.append("Code splitting setting failure in project(s): ");
 		try {
 			codeSplitting = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
@@ -401,7 +401,7 @@ public final class ProjectBasedBuilder {
 			}
 			String tempCodeSplitting;
 			final IProject[] projects = getReferencedProjects();
-			for (IProject tempProject : projects) { 
+			for (final IProject tempProject : projects) { 
 				if(tempProject.isAccessible()) {
 					tempCodeSplitting = tempProject.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 							MakefileCreationData.CODE_SPLITTING_PROPERTY));

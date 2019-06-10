@@ -110,8 +110,8 @@ public final class SymbolicLinkHandler {
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		int availableProcessors = Runtime.getRuntime().availableProcessors();
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final int availableProcessors = Runtime.getRuntime().availableProcessors();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
 				availableProcessors, null);
 		if (NUMBER_OF_PROCESSORS < 1) {
@@ -189,7 +189,7 @@ public final class SymbolicLinkHandler {
 
 					if (!symlinkFiles.contains(lastSegment)) {
 						symlinkFiles.put(lastSegment, lastSegment);
-						List<String> command = new ArrayList<String>();
+						final List<String> command = new ArrayList<String>();
 						command.add(LINK_CREATION);
 						command.add(FORCE_LINK_CREATION);
 						command.add(APOSTROPHE
@@ -239,7 +239,7 @@ public final class SymbolicLinkHandler {
 		final IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 		internalMonitor.beginTask("Checking the symbolic links of external files", files.size());
 
-		for (IFile file : files.values()) {
+		for (final IFile file : files.values()) {
 			final IPath path = file.getLocation();
 			if (path == null) {
 				try {
@@ -394,8 +394,8 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		int availableProcessors = Runtime.getRuntime().availableProcessors();
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final int availableProcessors = Runtime.getRuntime().availableProcessors();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
 				availableProcessors, null);
 		if (NUMBER_OF_PROCESSORS < 1) {
@@ -473,8 +473,8 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		int availableProcessors = Runtime.getRuntime().availableProcessors();
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final int availableProcessors = Runtime.getRuntime().availableProcessors();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
 				availableProcessors, null);
 		if (NUMBER_OF_PROCESSORS < 1) {

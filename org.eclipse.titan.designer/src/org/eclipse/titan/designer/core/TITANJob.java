@@ -171,7 +171,7 @@ public class TITANJob extends WorkspaceJob {
 	 * */
 	protected List<String> getFinalCommand(final List<String> actualCommand) {
 		final StringBuilder tempCommand = new StringBuilder();
-		for (String c : actualCommand) {
+		for (final String c : actualCommand) {
 			tempCommand.append(c).append(SPACE);
 		}
 
@@ -254,7 +254,7 @@ public class TITANJob extends WorkspaceJob {
 				MarkerHandler.markMarkersForRemoval(GeneralConstants.ONTHEFLY_MIXED_MARKER, project);
 			}
 
-			for (IFile file : files.values()) {
+			for (final IFile file : files.values()) {
 				if (removeCompilerMarkers) {
 					MarkerHandler.markMarkersForRemoval(GeneralConstants.COMPILER_ERRORMARKER, file);
 					MarkerHandler.markMarkersForRemoval(GeneralConstants.COMPILER_WARNINGMARKER, file);
@@ -284,7 +284,7 @@ public class TITANJob extends WorkspaceJob {
 			final List<String> finalCommand = getFinalCommand(currentCommand);
 			final StringBuilder builder = new StringBuilder();
 
-			for (String c : finalCommand) {
+			for (final String c : finalCommand) {
 				builder.append(c + SPACE);
 			}
 			TITANConsole.println(builder.toString(),stream);
@@ -429,7 +429,7 @@ public class TITANJob extends WorkspaceJob {
 				@Override
 				public void run() {
 					final StringBuilder builder = new StringBuilder();
-					for (String c : command) {
+					for (final String c : command) {
 						builder.append(c).append(SPACE);
 					}
 					if (errorOutput == null || errorOutput.length() == 0) {
