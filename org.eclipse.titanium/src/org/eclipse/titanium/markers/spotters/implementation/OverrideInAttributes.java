@@ -49,8 +49,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 					}
 				}
 			}
-		}
-		else if (node instanceof TTCN3Module) {
+		} else if (node instanceof TTCN3Module) {
 			final TTCN3Module t = (TTCN3Module) node;
 			final MultipleWithAttributes attributePathForModule = t.getAttributePath().getAttributes();
 			if(attributePathForModule != null) {
@@ -61,8 +60,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 					}
 				}
 			}
-		}
-		else if (node instanceof Definition) {
+		} else if (node instanceof Definition) {
 			final Definition d = (Definition) node;
 			final Assignment type = d.getType(CompilationTimeStamp.getBaseTimestamp()).getDefiningAssignment();
 			
