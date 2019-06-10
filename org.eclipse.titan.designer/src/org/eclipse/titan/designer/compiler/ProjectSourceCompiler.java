@@ -31,6 +31,13 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 public class ProjectSourceCompiler {
 	public static boolean generated;
 
+	/**
+	 * Private constructor to disable accidental instantiation.
+	 * */
+	private ProjectSourceCompiler() {
+		//intentionally empty
+	}
+
 	/** the root package of the generated java source */
 	private static String getPackageGeneratedRoot(final IProject project) {
 		final String projectName = project.getName().replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "_");
