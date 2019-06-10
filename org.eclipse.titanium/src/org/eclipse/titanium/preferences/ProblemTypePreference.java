@@ -10,7 +10,6 @@ package org.eclipse.titanium.preferences;
 import java.util.EnumSet;
 import java.util.Set;
 
-import org.eclipse.titanium.markers.spotters.implementation.OverrideInAttributes;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
