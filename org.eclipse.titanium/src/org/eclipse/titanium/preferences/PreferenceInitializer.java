@@ -104,7 +104,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.GROUPS_WITHOUT_ATTRIBUTES.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.CONNECTION_DETECTOR.getPreferenceName(), GeneralConstants.ERROR);
 		preferenceStore.setDefault(ProblemTypePreference.STARTED_FUNCTION_WITH_OUT_INOUT_PARAMETERS.getPreferenceName(), GeneralConstants.WARNING);
-
+		preferenceStore.setDefault(ProblemTypePreference.OVERRIDE_IN_ATTRIBUTES.getPreferenceName(), GeneralConstants.WARNING);
+		
 		// Initialize default values of metrics
 		for (final IMetricEnum metric : MetricGroup.knownMetrics()) {
 			final String name = metric.id();

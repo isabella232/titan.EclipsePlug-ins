@@ -207,6 +207,7 @@ Code smells in this category indicate some issue in coding style.
 * *Report if the name of the module is mentioned in the name of the definition*: In TTCN-3 it is supported to refer definitions in a module name prefixed way. In cases the module reference notation is not need, this naming style only makes the name longer.
 * *Report if the name of the type is mentioned in the name of the definition*: In repeating the name of the type of a definition in the definitions name is a convenience method, but in some cases this makes the name of definition very large without adding any information.
 * *Report magic constants:* an integer higher than 5 or any string literal.
+* *Report if the attributes are being overridden*: When attributes are being overridden. 
 
 === Potential performance problems
 

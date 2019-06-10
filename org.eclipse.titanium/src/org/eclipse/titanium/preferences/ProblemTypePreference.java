@@ -10,6 +10,7 @@ package org.eclipse.titanium.preferences;
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.eclipse.titanium.markers.spotters.implementation.OverrideInAttributes;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
@@ -89,8 +90,8 @@ public enum ProblemTypePreference {
 	VISIBILITY_IN_DEFINITION("Report visibility settings mentioned in the name of definitions", EnumSet.of(CodeSmellType.VISIBILITY_IN_DEFINITION)),
 	RUNS_ON_SCOPE_REDUCTION("Report runs on scope reduction",EnumSet.of(CodeSmellType.RUNS_ON_SCOPE_REDUCTION)),
 	GROUPS_WITHOUT_ATTRIBUTES("Report groups without attributes", EnumSet.of(CodeSmellType.GROUPS_WITHOUT_ATTRIBUTES)),
-	CONNECTION_DETECTOR("Report unusable connection", EnumSet.of(CodeSmellType.CONNECTION_DETECTOR));
-
+	CONNECTION_DETECTOR("Report unusable connection", EnumSet.of(CodeSmellType.CONNECTION_DETECTOR)),
+	OVERRIDE_IN_ATTRIBUTES("Report Overridden values", EnumSet.of(CodeSmellType.OVERRIDE_IN_ATTRIBUTES));
 	public static final String PREFIX = "CODE_SMELL.";
 
 	private String preferenceName;

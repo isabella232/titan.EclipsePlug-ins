@@ -108,7 +108,8 @@ public final class StaticData {
 		m.put(CodeSmellType.RUNS_ON_SCOPE_REDUCTION, new BaseModuleCodeSmellSpotter[] {new RunsOnScopeReduction() });
 		m.put(CodeSmellType.UNNECESSARY_ARRAYS, new BaseModuleCodeSmellSpotter[] {new UnnecessaryArrays() });
 		m.put(CodeSmellType.CONNECTION_DETECTOR, new BaseModuleCodeSmellSpotter[] {new ConnectionDetector()});
-
+		m.put(CodeSmellType.OVERRIDE_IN_ATTRIBUTES, new BaseModuleCodeSmellSpotter[] {new ConnectionDetector()} );
+		
 		return Collections.unmodifiableMap(m);
 	}
 
