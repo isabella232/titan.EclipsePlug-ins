@@ -46,7 +46,7 @@ public enum CodeSmellType implements ProblemType{
 	LOGIC_INVERSION("Logic inversion", 0.0, 0.5, 3.5),
 	NONPRIVATE_PRIVATE("Definition should be private", 0.0, 0.5, 4.5),
 	PRIVATE_FIELD_VIA_PUBLIC("Private field wrapped into public definition", 1.0, 2.0, 6.5),
-	PRIVATE_VALUE_VIA_PUBLIC("Private field wrapped into public definition", 1.0, 2.0, 6.5),
+	PRIVATE_VALUE_VIA_PUBLIC("Private value wrapped into public definition", 1.0, 2.0, 6.5),
 	READING_OUT_PAR_BEFORE_WRITTEN("Reading out parameter before written", 0.0, 0.5, 2.0),
 	READONLY_LOC_VARIABLE("Readonly local variable", 0.0, 2.0, 5.0),
 	READONLY_OUT_PARAM("Readonly out formal parameter", 0.0, 2.0, 5.0),
