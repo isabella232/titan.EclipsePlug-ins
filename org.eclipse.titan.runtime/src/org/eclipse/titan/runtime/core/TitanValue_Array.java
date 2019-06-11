@@ -94,7 +94,9 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	@Override
 	public void set_implicit_omit() {
 		for (int i = 0; i < array_size; ++i) {
-			array_elements[i].set_implicit_omit();
+			if (array_elements[i].is_bound()) {
+				array_elements[i].set_implicit_omit();
+			}
 		}
 	}
 
