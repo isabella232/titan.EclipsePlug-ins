@@ -7,16 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IASTNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
@@ -31,14 +29,15 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.ps_elem_t.kind_t;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.UniversalCharstring_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
-import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReferenceAnalyzer;
 
 // FIXME: implement
 /**
@@ -67,12 +66,61 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 	private Location location = null;
 
+	/** String elements for the PatternStringLexer */
+	private List<ps_elem_t> elems = new ArrayList<ps_elem_t>();
+
 	public PatternString() {
 		patterntype = PatternType.CHARSTRING_PATTERN;
 	}
 
 	public PatternString(final PatternType pt) {
 		patterntype = pt;
+	}
+
+	public ps_elem_t get_last_elem() {
+		if (elems.isEmpty()) {
+			return null;
+		}
+		ps_elem_t last_elem = elems.get(elems.size()-1);
+		if (last_elem.kind == kind_t.PSE_STR) {
+			return last_elem;
+		} else {
+			return null;
+		}
+	}
+
+	public void addChar(final char c) {
+		ps_elem_t last_elem = get_last_elem();
+		if (last_elem != null) {
+			last_elem.str += c;
+		}
+		else {
+			elems.add(new ps_elem_t(kind_t.PSE_STR, String.valueOf(c)));
+		}
+	}
+
+	public void addString(final String p_str) {
+		ps_elem_t last_elem = get_last_elem();
+		if (last_elem != null) {
+			last_elem.str += p_str;
+		}
+		else {
+			elems.add(new ps_elem_t(kind_t.PSE_STR, p_str));
+		}
+	}
+
+	public void addStringUSI(final List<String> usi_str) {
+		UniversalCharstring s = new UniversalCharstring(usi_str, null);
+		ps_elem_t last_elem = get_last_elem();
+		if (last_elem != null) {
+			last_elem.str += s.getStringRepresentationForPattern();
+		} else {
+			elems.add(new ps_elem_t(kind_t.PSE_STR, s.getStringRepresentationForPattern()));
+		}
+	}
+
+	public void addRef(final Reference p_ref, final boolean N) {
+		elems.add(new ps_elem_t(kind_t.PSE_REF, p_ref, N));
 	}
 
 	public PatternType getPatterntype() {
@@ -205,7 +253,6 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		return nocase;
 	}
 
-	//TODO: maybe this need later
 	// =================================
 	// ===== PatternString.ps_elem_t
 	// =================================
@@ -421,6 +468,19 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				break;
 			}
 		}
+		@Override
+		public String toString() {
+			switch (kind) {
+			case PSE_STR:
+				return str;
+			case PSE_REF:
+			case PSE_REFDSET:
+				return ref.getDisplayName();
+			default:
+				return "null";
+			}
+		}
+		
 	}
 }
 
