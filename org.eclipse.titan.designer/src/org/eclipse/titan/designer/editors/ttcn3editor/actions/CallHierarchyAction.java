@@ -18,6 +18,9 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.titan.designer.graphics.ImageCache;
+import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchy;
+import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
+import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView;
 
 /**
  * <p>
@@ -31,7 +34,7 @@ import org.eclipse.titan.designer.graphics.ImageCache;
  * @see org.eclipse.core.commands.AbstractHandler
  * @author Sándor Bálazs
  * */
-public class CallHierarchyAction extends AbstractHandler implements IEditorActionDelegate {
+public final class CallHierarchyAction extends AbstractHandler implements IEditorActionDelegate {
 	/**
 	 * Store the current selection from the TTCN3 Editor at the time of the right click action.<br>
 	 * Updated in the {@link #selectionChanged(IAction, ISelection)}.
@@ -115,7 +118,26 @@ public class CallHierarchyAction extends AbstractHandler implements IEditorActio
 	 * </p>
 	 */
 	private void processing() {
-
+		clearStatusLineMessage();
+		
+		final CallHierarchyView callHierarchyView = CallHierarchyView.showView();
+		if(callHierarchyView == null) {
+			showStatusLineMessage(SHOW_VIEW_ERROR, STATUS_LINE_LEVEL_ERROR);
+			return;
+		}
+		
+		final CallHierarchy callHierarchy = callHierarchyView.getCallHierarchy();
+		callHierarchy.setActiveEditor(targetEditor);
+		
+		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(selection);
+		if(selectedNode == null) {
+			showStatusLineMessage(REFERENCE_SEARCH_FAILED, STATUS_LINE_LEVEL_ERROR);
+			return;
+		}
+		
+		final CallHierarchyNode root = new CallHierarchyNode();
+		root.addChild(selectedNode);
+		callHierarchyView.setInput(root);
 	}
 	
 	/**
