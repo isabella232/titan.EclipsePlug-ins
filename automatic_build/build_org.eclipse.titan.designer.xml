@@ -165,6 +165,7 @@
 				<include name="ttcn3parser/Ttcn3CharstringLexer.g4" />
 				<include name="ttcn3parser/Ttcn3Parser.g4" />
 				<include name="ttcn3parser/Ttcn3Reparser.g4" />
+				<include name= "ttcn3parser/PatternStringLexer.g4" />
 				<!-- TODO: add new g4 files here -->
 			</fileset>
 		</apply>

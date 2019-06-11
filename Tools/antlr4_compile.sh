@@ -55,6 +55,8 @@ $ANTLR4 Ttcn3KeywordlessLexer.g4 -no-listener -no-visitor -encoding UTF-8 -packa
 $ANTLR4 Ttcn3CharstringLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 $ANTLR4 Ttcn3Parser.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 $ANTLR4 Ttcn3Reparser.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
+$ANTLR4 PatternStringLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
+
 
 # Extension attribute
 cd $WORKSPACE_PATH/org.eclipse.titan.designer/src/org/eclipse/titan/designer/parsers/extensionattributeparser/
