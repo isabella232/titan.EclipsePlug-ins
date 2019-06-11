@@ -27,6 +27,17 @@ import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
  * 
  * @author Sándor Bálazs
  */
-public class CallHierarchyLabelProvider {
-	
+public class CallHierarchyLabelProvider extends LabelProvider implements ITableLabelProvider {
+
+	@Override
+	public Image getColumnImage(Object element, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
