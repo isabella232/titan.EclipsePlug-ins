@@ -53,12 +53,11 @@ import org.eclipse.swt.widgets.Event;
  * The <code>CallHierarchyView</code> class represent the view for the call hierarchy data visualization.
  * <p>
  * 
- * @author Sándor Bálazs
- * 
  * @see ViewPart
  * @see ISelectionChangedListener
+ * @author Sándor Bálazs
  */
-public final class CallHierarchyView  extends ViewPart implements ISelectionChangedListener {
+public final class CallHierarchyView extends ViewPart implements ISelectionChangedListener {
 	/**
 	 * The <code>treeViewer</code> visualize the call hierarchy graph state
 	 * and the call hierarchy search results.

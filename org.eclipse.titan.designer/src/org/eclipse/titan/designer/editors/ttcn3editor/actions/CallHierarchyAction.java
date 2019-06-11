@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView;
  * This class define the "Open Call Hierarchy" action in the TTCN3 editors right click menu.<br>
  * The class show the necessary view and run the reference search when the user trigger the action.
  * </p>
+ * 
  * @see CallHierarchy
  * @see CallHierarchyView
  * @see CallHierarchyNode

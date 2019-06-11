@@ -22,9 +22,9 @@ import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
  * Label provider for the {@link CallHierarchyView}'s TreeViewer and TableViewer.<br>
  * The label provider work on {@link CallHierarchyNode}s and references.
  * </p>
+ * 
  * @see CallHierarchyView
  * @see CallHierarchyNode
- * 
  * @author Sándor Bálazs
  */
 public class CallHierarchyLabelProvider extends LabelProvider implements ITableLabelProvider {

@@ -45,6 +45,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * This class implement the searching algorithms for the Call Hierarchy View.
  * The class use the {@link CallHierarchyNode} for the Call Hierarchy graph representation.
  * 
+ * @see CallHierarchyNode
  * @author Sándor Bálazs
  */
 public class CallHierarchy {

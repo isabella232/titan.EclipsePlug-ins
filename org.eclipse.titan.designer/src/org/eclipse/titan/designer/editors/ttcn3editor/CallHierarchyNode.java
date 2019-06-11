@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
  * <code>CallHierarchyNode</code> is a representation of a CallHierarchy graph node.<br>
  * The graph algorithms are implemented here: {@link CallHierarchy}
  * </p>
+ * 
  * @see CallHierarchy
  * @author Sándor Bálazs
  */

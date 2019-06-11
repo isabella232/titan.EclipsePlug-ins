@@ -14,10 +14,9 @@ import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
 /**
  * Content provider for the {@link CallHierarchyView}'s TreeViewer.<br>
  * The content provider work on {@link CallHierarchyNode}s.
-
+ * 
  * @see CallHierarchyView
  * @see CallHierarchyNode
- * 
  * @author Sándor Bálazs
  */
 public class CallHierarchyContentProvider implements ITreeContentProvider {
