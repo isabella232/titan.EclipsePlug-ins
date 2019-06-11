@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -341,12 +342,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		public String parameter_value;
 	}
 
-	private static final ThreadLocal<LinkedList<Port_Parameter>> PORT_PARAMETERS = new ThreadLocal<LinkedList<Port_Parameter>>() {
-		@Override
-		protected LinkedList<Port_Parameter> initialValue() {
-			return new LinkedList<Port_Parameter>();
-		}
-	};
+	/**
+	 * Test port parameters collected from the configuration file.
+	 * This list is accessed by multiple threads, but it doesn't need to be synchronized,
+	 * because at the beginning one thread fills it, after that the other threads just read it.
+	 */
+	private static final List<Port_Parameter> PORT_PARAMETERS = new LinkedList<Port_Parameter>();
 
 	private static void apply_parameter(final Port_Parameter parameter) {
 		if (parameter.port_name == null) {
@@ -363,7 +364,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private void set_system_parameters(final String system_port) {
-		for (final Port_Parameter parameter : PORT_PARAMETERS.get()) {
+		for (final Port_Parameter parameter : PORT_PARAMETERS) {
 			if (parameter.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_SYSTEM && (parameter.port_name == null || parameter.port_name.equals(system_port))) {
 				set_parameter(parameter.parameter_name, parameter.parameter_value);
 			}
@@ -391,11 +392,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		newParameter.parameter_name = parameter_name;
 		newParameter.parameter_value = parameter_value;
 
-		PORT_PARAMETERS.get().add(newParameter);
+		PORT_PARAMETERS.add(newParameter);
 	}
 
 	public static void clear_parameters() {
-		PORT_PARAMETERS.get().clear();
+		PORT_PARAMETERS.clear();
 	}
 
 	/**
@@ -413,7 +414,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 *                the name of the component.
 	 * */
 	public static void set_parameters(final int component_reference, final String component_name) {
-		for (final Port_Parameter parameter : PORT_PARAMETERS.get()) {
+		for (final Port_Parameter parameter : PORT_PARAMETERS) {
 			switch (parameter.component_id.id_selector) {
 			case COMPONENT_ID_NAME:
 				if (component_name != null && component_name.equals(parameter.component_id.id_name)) {
