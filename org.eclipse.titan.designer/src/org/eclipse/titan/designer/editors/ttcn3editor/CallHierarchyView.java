@@ -174,7 +174,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	}
 
 	/**
-	 * This static method can show a {@link CallHierarchyView}.
+	 * This static method can show a {@link CallHierarchyView}.<br>
 	 * @return
 	 * 			Return the opened {@link CallHierarchyView}<br>
 	 * 			Return <b>NULL</b> if showing the view is not success.
@@ -197,13 +197,15 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		}
 
 		CallHierarchyView view = (CallHierarchyView) viewPart;
+
 		return view;
 	}
 
 	/**
 	 * Set the {@link #treeViewer} input.<br>
 	 * Initialize the {@link #tableViewer} to empty.<br>
-	 * Set the {@link #treeViewerSelectedNode} to the root.
+	 * Set the {@link #treeViewerSelectedNode} to the root.<br>
+	 * Set the focus to the {@link #treeViewer}.
 	 * @param node
 	 * 			The new root {@link CallHierarchyNode} for the {@link #treeViewer}.
 	 */
@@ -220,7 +222,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	}
 
 	/**
-	 * This method set up the {@link CallHierarchyView}.
+	 * This method set up the {@link CallHierarchyView}.<br>
+	 * Set the focus to the {@link #treeViewer}.
 	 * @param parent
 	 * 			The parent {@link Composite} of the new {@link CallHierarchyView}.
 	 */
@@ -257,6 +260,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 		statusLineManager = getViewSite().getActionBars().getStatusLineManager();
 		callHierarchy.setStatusLineManager(statusLineManager);
+
+		treeViewer.getControl().setFocus();
 	}
 
 	/**
