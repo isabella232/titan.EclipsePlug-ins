@@ -132,7 +132,6 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 		}
 
 		final CallHierarchy callHierarchy = callHierarchyView.getCallHierarchy();
-		callHierarchy.setActiveEditor(targetEditor);
 
 		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(selection);
 		if(selectedNode == null) {
