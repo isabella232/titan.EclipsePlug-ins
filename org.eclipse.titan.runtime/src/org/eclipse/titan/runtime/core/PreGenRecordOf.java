@@ -912,7 +912,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -3023,7 +3025,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -5269,7 +5273,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -7401,7 +7407,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -9533,7 +9541,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -11665,7 +11675,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -13797,7 +13809,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -15929,7 +15943,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -18061,7 +18077,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -20193,7 +20211,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -22325,7 +22345,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -24436,7 +24458,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -26661,7 +26685,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -28886,7 +28912,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -31111,7 +31139,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -33336,7 +33366,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -35582,7 +35614,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -37693,7 +37727,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -39918,7 +39954,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -42143,7 +42181,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -44368,7 +44408,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -46593,7 +46635,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -48818,7 +48862,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -51064,7 +51110,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -53196,7 +53244,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -55307,7 +55357,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -57532,7 +57584,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -59757,7 +59811,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -62003,7 +62059,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -64135,7 +64193,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -66246,7 +66306,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
@@ -68492,7 +68554,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				valueElements.get(i).set_implicit_omit();
+				if (valueElements.get(i).is_bound()) {
+					valueElements.get(i).set_implicit_omit();
+				}
 			}
 		}
 
