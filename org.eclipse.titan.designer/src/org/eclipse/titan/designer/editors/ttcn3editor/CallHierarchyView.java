@@ -230,9 +230,15 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		gridLayout.makeColumnsEqualWidth = true;
 		parent.setLayout(gridLayout);
 
-		messageLabel = new Label(parent, SWT.WRAP);
-		messageLabel.setAlignment(SWT.LEFT);
-		messageLabel.setText(INITIAL_MESSAGE);
+		final GridData gridDataForLabel = new GridData();
+		gridDataForLabel.horizontalAlignment = GridData.FILL;
+		gridDataForLabel.grabExcessHorizontalSpace = true;
+		gridDataForLabel.minimumWidth = 100;
+
+        messageLabel = new Label(parent, SWT.WRAP);
+        messageLabel.setLayoutData(gridDataForLabel);
+        messageLabel.setAlignment(SWT.LEFT);
+        messageLabel.setText(INITIAL_MESSAGE);
 
 		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -463,6 +469,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 */
 	public void setMessage(String message) {
 		messageLabel.setText(message);
+		messageLabel.getParent().layout();
 	}
 
 	/**
@@ -472,6 +479,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 */
 	public void setMessageVisible(boolean visible) {
 		messageLabel.setVisible(visible);
+		messageLabel.getParent().layout();
 	}
 
 	/**
