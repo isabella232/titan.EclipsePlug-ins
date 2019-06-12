@@ -29,6 +29,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 	/**
 	 * The content provider's constructor.<br>
 	 * The <code>callHierarchy</code> object is needed because of the graph processing algorithms.
+	 *
 	 * @param callHierarchy
 	 * 			The previous created <code>callHierarchy</code> object.
 	 * @see CallHierarchy
@@ -36,33 +37,34 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 	public CallHierarchyContentProvider(final CallHierarchy callHierarchy) {
 		this.callHierarchy = callHierarchy;
 	}
-	
+
 	/**
 	 * Return array of the parent node's children as Object.<br>
 	 * Use for the {@link CallHierarchyView}'s treeWiever.<br>
 	 * <b>The search run as only when the current node is not updated yet!<b>
+	 *
 	 * @see CallHierarchyNode#getChildren()
 	 * @see ITreeContentProvider
 	 * @param parentElement
-	 * 			The parent node as an Object which the method get the children.
-	 * @return
-	 * 			Array of the parent node's children as Object.
+	 *                The parent node as an Object which the method get the
+	 *                children.
+	 * @return Array of the parent node's children as Object.
 	 */
 	@Override
 	public Object[] getChildren(final Object parentElement) {
 		if (!(parentElement instanceof CallHierarchyNode)) {
 			return new Object[] {};
 		}
-		
+
 		CallHierarchyNode parentNode = (CallHierarchyNode) parentElement;
 		if(!parentNode.isUpdated()) {
 			CallHierarchyNode updatedParentNode = callHierarchy.functionCallFinder(parentNode);
 			return updatedParentNode.getChildren();
 		}
-		
+
 		return parentNode.getChildren();
 	}
-	
+
 	/**
 	 * Unused method in this implementation.
 	 */
@@ -70,7 +72,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 	public Object getParent(final Object element) {
 		return null;
 	}
-	
+
 	/**
 	 * Always return true, because the child searching run when the user get the children on the TreeViewer.
 	 * @see #getChildren()
@@ -83,6 +85,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 	/**
 	 * Return array of the parent node's children as Object.<br>
 	 * Use for the {@link CallHierarchyView}'s treeWiever.
+	 *
 	 * @see CallHierarchyNode#getChildren()
 	 * @see ITreeContentProvider
 	 * @param parentElement
@@ -95,7 +98,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 		if (!(inputElement instanceof CallHierarchyNode)) {
 			return null;
 		}
-		
+
 		return getChildren(inputElement);
 	}
 

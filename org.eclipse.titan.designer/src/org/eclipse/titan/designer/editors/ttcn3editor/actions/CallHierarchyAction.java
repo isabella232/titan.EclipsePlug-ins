@@ -41,20 +41,20 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 * Updated in the {@link #selectionChanged(IAction, ISelection)}.
 	 */
 	private ISelection selection;
-	
+
 	/**
 	 * The current editor.<br>
 	 * Updated in the {@link #setActiveEditor(IAction, IEditorPart)}<br>
 	 * and in the {@link #CallHierarchyAction()}.
 	 */
 	private IEditorPart targetEditor;
-	
+
 	private static final String SHOW_VIEW_ERROR 		= "The \"Call Hierarchy\" view cannot be displayed.";
 	private static final String REFERENCE_SEARCH_FAILED = "The Call Hierarchy search failed.";
 	private static final int STATUS_LINE_LEVEL_MESSAGE	= 0;
 	private static final int STATUS_LINE_LEVEL_ERROR 	= 1;
 	private static final int STATUS_LINE_CLEAR 			= -1;
-	
+
 	/**
 	 * The <code>CallHierarchyAction</code> class constructor.<br>
 	 * Set the current selection empty.
@@ -63,20 +63,22 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 		selection 		= TextSelection.emptySelection();
 		targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 	}
-	
+
 	/**
 	 * The run method react for the triggered action.
+	 *
 	 * @see #processing()
 	 * @param action
-	 * 			The current triggered action.
+	 *                The current triggered action.
 	 */
 	@Override
 	public void run(final IAction action) {
 		processing();
 	}
-	
+
 	/**
 	 * Always record the current selection.
+	 *
 	 * @param action
 	 * 			The current triggered action.
 	 * @param selection
@@ -89,6 +91,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 
 	/**
 	 * Set the active targetEditor in this action ant the {@link CallHierarchyView} too.
+	 *
 	 * @param action
 	 * 			The current triggered action.
 	 * @param selection
@@ -101,6 +104,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 
 	/**
 	 * The execute method react for the triggered event.
+	 *
 	 * @see #processing()
 	 * @param event
 	 * 			The execute triggering event.
@@ -110,7 +114,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 		processing();
 		return null;
 	}
-	
+
 	/**
 	 * <p>
 	 * The real processing method.<br>
@@ -120,27 +124,27 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 */
 	private void processing() {
 		clearStatusLineMessage();
-		
+
 		final CallHierarchyView callHierarchyView = CallHierarchyView.showView();
 		if(callHierarchyView == null) {
 			showStatusLineMessage(SHOW_VIEW_ERROR, STATUS_LINE_LEVEL_ERROR);
 			return;
 		}
-		
+
 		final CallHierarchy callHierarchy = callHierarchyView.getCallHierarchy();
 		callHierarchy.setActiveEditor(targetEditor);
-		
+
 		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(selection);
 		if(selectedNode == null) {
 			showStatusLineMessage(REFERENCE_SEARCH_FAILED, STATUS_LINE_LEVEL_ERROR);
 			return;
 		}
-		
+
 		final CallHierarchyNode root = new CallHierarchyNode();
 		root.addChild(selectedNode);
 		callHierarchyView.setInput(root);
 	}
-	
+
 	/**
 	 * Show message on the target editors status bar.<br>
 	 * The message level is automatically STATUS_LINE_LEVEL_MESSAGE.
@@ -152,7 +156,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	public void showStatusLineMessage(final String message) {
 		showStatusLineMessage(message, STATUS_LINE_LEVEL_MESSAGE);
 	}
-	
+
 	/**
 	 * Show message on the target editors status bar.<br>
 	 * The message level possible ERROR OR MESSAGE. The level define by the level parameter.<br>
@@ -168,24 +172,24 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 		if(targetEditor == null) {
 			return;
 		}
-		
+
 		IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
 		if(statusLineManager == null) {
 			return;
 		}
-		
+
 		statusLineManager.setMessage(null);
 		statusLineManager.setErrorMessage(null);
-		
+
 		if(level == STATUS_LINE_LEVEL_MESSAGE) {
 			statusLineManager.setMessage(ImageCache.getImage("titan.gif"), message);
 		}
-		
+
 		if(level == STATUS_LINE_LEVEL_ERROR) {
 			statusLineManager.setErrorMessage(ImageCache.getImage("compiler_error_fresh.gif"), message);
 		}
 	}
-	
+
 	/**
 	 * Clear the target editors status bar.<br>
 	 * Use: {@link #showStatusLineMessage(String, int)}

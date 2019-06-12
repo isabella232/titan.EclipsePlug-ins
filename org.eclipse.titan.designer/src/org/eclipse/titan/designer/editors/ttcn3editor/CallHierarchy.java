@@ -54,7 +54,7 @@ public class CallHierarchy {
 	 * Contains the result types for the {@link ReferenceFinder#detectAssignmentDataByOffset}
 	 */
 	private final HashSet<Assignment_type> filterAssignmentType;
-	
+
 	private static final String FILENOTIDENTIFIABLE 			= "The file related to the editor could not be identified.";
 	private static final String EXCLUDEDFROMBUILD 				= "The name of the module in the file \"{0}\" could not be identified, the file is excluded from build.";
 	private static final String NOTFOUNDMODULE 					= "The module in file \"{0}\" could not be found.";
@@ -64,42 +64,42 @@ public class CallHierarchy {
 	private static final String CALL_HIERARCY_BUILDING_COMPLETE = "Call Hierarchy building complete on the \"{0}\".";
 	private static final int    STATUS_LINE_LEVEL_MESSAGE = 0;
 	private static final int    STATUS_LINE_LEVEL_ERROR = 1;
-	
+
 	/**
 	 * The current editor. <br> Setting in the {@link #initialization()} or in the  {@link #setActiveEditor(IEditorPart)}.
 	 */
 	private IEditorPart targetEditor = null;
-	
+
 	/**
 	 * The current project. <br> Setting in the {@link #initialization()}.
 	 */
 	private IProject currentProject = null;
-	
+
 	/**
 	 * The projectSourceParser. <br> Setting in the {@link #initialization()}.
 	 */
 	private ProjectSourceParser projectSourceParser = null;
-	
+
 	/**
 	 * The selected file. <br> Setting in the {@link #initialization()}.
 	 */
 	private IFile selectedFile = null;
-	
+
 	/**
 	 * The selected module. <br> Setting in the {@link #initialization()}.
 	 */
 	private Module selectedModule = null;
-	
+
 	/**
 	 *  The statusLineManager. <br> Setting in the {@link #initialization()} or in the  {@link #setStatusLineManager(IStatusLineManager)}.
 	 */
 	private IStatusLineManager  statusLineManager	= null;
-	
+
 	/**
 	 * The selected Assignment. Setting in the {@link #functionCallFinder(ISelection)()}.
 	 */
 	private Assignment selectedAssignment = null;
-	
+
 	/**
 	 * Constructor of CallHierarchy.<br>
 	 * Set the Assignment filters ({@link #filterAssignmentType}) for the find {@link #functionCallFinder(ISelection)}.
@@ -115,7 +115,7 @@ public class CallHierarchy {
 		filterAssignmentType.add(Assignment_type.A_TESTCASE);
 		this.initialization();
 	}
-	
+
 	/**
 	 * Initialization process for the search algorithms.<br>
 	 * This method initialize the global variables.<br>
@@ -132,7 +132,7 @@ public class CallHierarchy {
 		if (targetEditor == null)  {
 			return false;
 		}
-		
+
 		if (statusLineManager == null) {
 			statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
 		}
@@ -140,7 +140,7 @@ public class CallHierarchy {
 			return false;
 		}
 		statusLineManager.setErrorMessage(null);
-		
+
 		selectedFile = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
 		if (selectedFile == null) {
 			showStatusLineMessage(FILENOTIDENTIFIABLE, STATUS_LINE_LEVEL_ERROR);
@@ -150,31 +150,32 @@ public class CallHierarchy {
 			showStatusLineMessage(TITANNature.NO_TITAN_FILE_NATURE_FOUND, STATUS_LINE_LEVEL_ERROR);
 			return false;
 		}
-		
+
 		currentProject = selectedFile.getProject();
 		if (currentProject == null) {
 			showStatusLineMessage(MessageFormat.format(PROJECT_NOT_FOUND, selectedFile.getName()), STATUS_LINE_LEVEL_ERROR);
 			return false;
 		}
-		
+
 		projectSourceParser = GlobalParser.getProjectSourceParser(selectedFile.getProject());
 		if (ResourceExclusionHelper.isExcluded(selectedFile)) {
 			showStatusLineMessage(MessageFormat.format(EXCLUDEDFROMBUILD, selectedFile.getFullPath()), STATUS_LINE_LEVEL_ERROR);
 			return false;
 		}
-		
+
 		selectedModule = projectSourceParser.containedModule(selectedFile);
 		if (selectedModule == null) {
 			showStatusLineMessage(MessageFormat.format(NOTFOUNDMODULE, selectedFile.getName()), STATUS_LINE_LEVEL_ERROR);
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * The <code>functionCallFinder<code> can find an Assignment from a selection and can search this Assignment's references.<br>
 	 * The <code>functionCallFinder<code> use the {@link ReferenceFinder}.
+	 *
 	 * @param selection
 	 * 			The searched selection.
 	 * @return
@@ -189,11 +190,11 @@ public class CallHierarchy {
 			return null;
 		}
 		showStatusLineMessage(CALL_HIERARCY_BUILDING);
-		
+
 		final IPreferencesService preferencesService = Platform.getPreferencesService();
 		final boolean reportDebugInformation = preferencesService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
-																			 PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
-		
+				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
+
 		int offset;
 		if (selection instanceof TextSelection && !selection.isEmpty() && !"".equals(((TextSelection) selection).getText())) {
 			if (reportDebugInformation) TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
@@ -202,41 +203,40 @@ public class CallHierarchy {
 		} else {
 			offset = ((IEditorWithCarretOffset) targetEditor).getCarretOffset();
 		}
-		
+
 		final ReferenceFinder referenceFinder = new ReferenceFinder();
 		final boolean isDetected = referenceFinder.detectAssignmentDataByOffset(selectedModule, offset, targetEditor, true,
-																				reportDebugInformation, filterAssignmentType);
-		
+				reportDebugInformation, filterAssignmentType);
+
 		if (!isDetected) {
 			showStatusLineMessage(SELECTED_ASSIGNMENT_NOT_FOUND, STATUS_LINE_LEVEL_ERROR);
 			return null;
 		}
-		
+
 		selectedAssignment = referenceFinder.assignment;
 		if(!(selectedAssignment instanceof Definition)) {
 			return null;
 		}
+
 		final Definition selectedDefinition = (Definition) selectedAssignment;
-		
 		final CallHierarchyNode node = new CallHierarchyNode(selectedModule, selectedDefinition);
-		
 		final Map<Module, List<Hit>> functionCalls = referenceFinder.findAllReferences(selectedModule, currentProject, null , false);
-		
 		for (final Map.Entry<Module, List<Hit>> functionCallsInModule : functionCalls.entrySet()) {
 			final Module currentModule = functionCallsInModule.getKey();
-			
+
 			for (final Hit functionCallHit : functionCallsInModule.getValue()) {
 				node.addChild(currentModule, functionCallHit.reference);
 			}
 		}
-		
+
 		showStatusLineMessage(MessageFormat.format(CALL_HIERARCY_BUILDING_COMPLETE, getSelectedAssignmentName()));
 		return node;
 	}
-	
+
 	/**
 	 * The <code>functionCallFinder<code> can search an Assignment's references and add them to the {@link CallHierarchyNode}<br>
 	 * The <code>functionCallFinder<code> use the {@link FunctionCallVisitor}.
+	 *
 	 * @param selection
 	 * 			The searched selection.
 	 * @return
@@ -250,30 +250,30 @@ public class CallHierarchy {
 		if(!initializationStatus)  {
 			return null;
 		}
-		
+
 		final Set<String> modules = projectSourceParser.getKnownModuleNames();
-		
+
 		showStatusLineMessage(CALL_HIERARCY_BUILDING);
-		
+
 		for (String moduleName : modules) {
 			final Module module = projectSourceParser.getModuleByName(moduleName);
 			if(module == null) continue;
-			
+
 			final FunctionCallVisitor functionCallVisitor = new FunctionCallVisitor((Assignment) node.getNodeDefinition());
 
 			module.accept(functionCallVisitor);
-			
+
 			final Set<Reference> setOfCallreferences = functionCallVisitor.getFunctionCalls();
 			for (Reference reference : setOfCallreferences) {
 				node.addChild(module, reference);
 			}
 		}
-		
+
 		showStatusLineMessage(MessageFormat.format(CALL_HIERARCY_BUILDING_COMPLETE, getSelectedAssignmentName()));
-		
+
 		return node;
 	}
-	
+
 	/**
 	 * <p>
 	 * The <code>FunctionCallVisitor</code> is a reference searcher visitor.
@@ -287,14 +287,15 @@ public class CallHierarchy {
 		 * The search's target Assignment.
 		 */
 		private final Assignment target;
-		
+
 		/**
 		 * The results of the searching.
 		 */
 		private final Set<Reference> setOfreferences = new HashSet<Reference>();
-		
+
 		/**
 		 * The <code>FunctionCallVisitor</code>'s constructor.
+		 *
 		 * @param target
 		 * 			The search's target Assignment.
 		 */
@@ -302,18 +303,20 @@ public class CallHierarchy {
 			this.target = target;
 			setOfreferences.clear();
 		}
-		
+
 		/**
 		 * Get the collected references.
+		 *
 		 * @return
 		 * 			The results of the searching.
 		 */
 		public Set<Reference> getFunctionCalls() {
 			return setOfreferences;
 		}
-		
+
 		/**
 		 * The target matching with the current node.
+		 *
 		 * @param node
 		 * 			The actual visited node.
 		 * @see ASTVisitor
@@ -323,31 +326,31 @@ public class CallHierarchy {
 			if (!(node instanceof Reference)) {
 				return V_CONTINUE;
 			}
-			
+
 			final Reference reference = (Reference) node;
 			final Assignment referedAssignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-			
+
 			if(referedAssignment == null) {
 				return V_CONTINUE;
 			}
-			
+
 			if(!(referedAssignment instanceof Definition)) {
 				return V_CONTINUE;
 			}
-			
+
 			if(!(referedAssignment.equals(target))) {
 				return V_CONTINUE;
 			}
-			
+
 			setOfreferences.add(reference);
 			return V_CONTINUE;
 		}
 	}
-	
+
 	/**
 	 * Show message on the target editors status bar.<br>
 	 * The message level is automatically STATUS_LINE_LEVEL_MESSAGE.
-	 * 
+	 *
 	 * @see #showStatusLineMessage(String, int)
 	 * @param message
 	 * 			The string of the message.
@@ -355,11 +358,11 @@ public class CallHierarchy {
 	public void showStatusLineMessage(final String message) {
 		showStatusLineMessage(message, STATUS_LINE_LEVEL_MESSAGE);
 	}
-	
+
 	/**
 	 * Show message on the target editors status bar.<br>
 	 * The message level possible ERROR OR MESSAGE. The level define by the level parameter.
-	 * 
+	 *
 	 * @param message
 	 * 			The string of the message.
 	 * @param level
@@ -370,21 +373,22 @@ public class CallHierarchy {
 		if (statusLineManager == null)  {
 			return;
 		}
-		
+
 		statusLineManager.setErrorMessage(null);
-		
+
 		if(level == STATUS_LINE_LEVEL_MESSAGE) {
 			statusLineManager.setMessage(ImageCache.getImage("titan.gif"), message);
 		}
-		
+
 		if(level == STATUS_LINE_LEVEL_ERROR) {
 			statusLineManager.setMessage(ImageCache.getImage("compiler_error_fresh.gif"), message);
 		}
 	}
-	
+
 	/**
 	 * Return the actual selected assignment.<br>
 	 * Setting in the {@link #initialization()}.
+	 *
 	 * @return
 	 * 			The actual selected assignment.
 	 * @see #initialization()
@@ -392,10 +396,11 @@ public class CallHierarchy {
 	public Assignment getSelectedAssignment() {
 		return this.selectedAssignment;
 	}
-	
+
 	/**
 	 * Return the current project.<br>
 	 * Setting in the {@link #initialization()}.
+	 *
 	 * @return
 	 * 			The current project.
 	 * @see #initialization()
@@ -403,10 +408,11 @@ public class CallHierarchy {
 	public IProject getCurrentProject() {
 		return this.currentProject;
 	}
-	
+
 	/**
 	 * Return the actual selected assignment's name.<br>
 	 * Setting in the {@link #initialization()}.
+	 *
 	 * @return
 	 * 			The actual selected assignment's name.
 	 * @see #initialization()
@@ -414,10 +420,11 @@ public class CallHierarchy {
 	public String getSelectedAssignmentName() {
 		return this.selectedAssignment.getFullName();
 	}
-	
+
 	/**
 	 * Set the used editor.
 	 * Setting in the {@link #initialization()}.
+	 *
 	 * @param targetEditor
 	 * 		The new editor.
 	 * @see #initialization()
@@ -425,24 +432,25 @@ public class CallHierarchy {
 	public void setActiveEditor(final IEditorPart targetEditor) {
 		this.targetEditor = targetEditor;
 	}
-	
+
 	/**
 	 * Return the current active editor.
-	 * @return
-	 * 			 The current active editor.
+	 *
+	 * @return The current active editor.
 	 */
 	public IEditorPart getActiveEditor()  {
 		return this.targetEditor;
 	}
-	
+
 	/**
 	 * Set the used StatusLineManager for change the messages place.<br>
 	 * Usage in: {@link #showStatusLineMessage(String, int)}
+	 *
 	 * @param newStatusLineManager
 	 * 			The new StatusLineManager.
 	 * @see #initialization()
 	 */
 	public void setStatusLineManager(final IStatusLineManager newStatusLineManager) {
 		this.statusLineManager = newStatusLineManager;
-	 }
+	}
 }

@@ -27,34 +27,34 @@ public class CallHierarchyNode {
 	 * The node's definition's module.
 	 */
 	private Module nodeModule;
-	
+
 	/**
 	 * The Definition what the node Represent.
 	 */
 	private Definition nodeDefinition;
-	
+
 	/**
 	 * The node's children. Indexed by own Definitions.
 	 */
 	private HashMap<Definition, CallHierarchyNode> nodeChildren;
-	
+
 	/**
 	 * The node's references.
 	 */
 	private HashMap<Reference, Module> nodeReferences;
-	
+
 	/**
 	 * Updating flag for prevent the multiple node update in the {@link CallHierarchyContentProvider}.
 	 */
 	private boolean isUpdated;
-	
+
 	/**
 	 * Constructor for empty node. The constructor is: {@link #CallHierarchyNode(Module, Definition)}
 	 */
 	public CallHierarchyNode() {
 		this(null, null);
 	}
-	
+
 	/**
 	 * <p>
 	 * Constructor for creating new Nodes. The constructor create a node from a Definition and the definition's module.<br>
@@ -73,21 +73,21 @@ public class CallHierarchyNode {
 		this.nodeReferences 	= new HashMap<Reference, Module>();
 		this.isUpdated 			= false;
 	}
-	
+
 	/**
 	 * Set updating flag for prevent the multiple node update or override.
 	 */
 	public void update() {
 		this.isUpdated = true;
 	}
-	
+
 	/**
 	 * Check updating flag for prevent the multiple node update in the {@link CallHierarchyContentProvider}.
 	 */
 	public boolean isUpdated() {
 		return this.isUpdated;
 	}
-	
+
 	/**
 	 * Return theDefinition's name what the node Represent.
 	 * @see CallHierarchyLabelProvider
@@ -97,7 +97,7 @@ public class CallHierarchyNode {
 	public String getName() {
 		return nodeDefinition.getFullName();
 	}
-	
+
 	/**
 	 * Return the Definition what the node Represent.<br>
 	 * @see CallHierarchyLabelProvider
@@ -107,7 +107,7 @@ public class CallHierarchyNode {
 	public Definition getNodeDefinition() {
 		return nodeDefinition;
 	}
-	
+
 	/**
 	 * Return the node's definition's module's name.
 	 * @return
@@ -116,7 +116,7 @@ public class CallHierarchyNode {
 	public String getModuleName() {
 		return nodeModule.getFullName();
 	}
-	
+
 	/**
 	 * Return the node's definition's module.
 	 * @return
@@ -125,7 +125,7 @@ public class CallHierarchyNode {
 	public Module getNodeModule() {
 		return nodeModule;
 	}
-	
+
 	/**
 	 * Return array of the node's References as Object.<br>
 	 * Use for the reference list visualization.
@@ -136,7 +136,7 @@ public class CallHierarchyNode {
 	public Object[] getReferences() {
 		return nodeReferences.keySet().toArray();
 	}
-	
+
 	/**
 	 * Return references number.<br>
 	 * @return
@@ -145,10 +145,11 @@ public class CallHierarchyNode {
 	public int getReferencesNumber() {
 		return nodeReferences.size();
 	}
-	
+
 	/**
 	 * Return array of the node's children as Object.<br>
 	 * Use for the call hierarchy tree visualization.
+	 *
 	 * @see CallHierarchyContentProvider
 	 * @return
 	 * 			Array of the node's children as Object.
@@ -156,7 +157,7 @@ public class CallHierarchyNode {
 	public Object[] getChildren() {
 		return nodeChildren.values().toArray();
 	}
-	
+
 	/**
 	 * Check the node children.
 	 * @return
@@ -165,9 +166,10 @@ public class CallHierarchyNode {
 	public boolean hasChildren() {
 		return nodeChildren.size() > 0;
 	}
-	
+
 	/**
 	 * Add child for the node from a {@link CallHierarchyNode}.
+	 *
 	 * @see CallHierarchyAction#processing()
 	 * @param node
 	 * 			The new child as a {@link CallHierarchyNode}.
@@ -175,11 +177,12 @@ public class CallHierarchyNode {
 	public void addChild(final CallHierarchyNode node) {
 		this.nodeChildren.put(node.getNodeDefinition(), node);
 	}
-	
+
 	/**
 	 * Add child for the node from a <code>Reference</code> and a <code>Module</code>.<br>
 	 * When the reference's parent function is an exist child, the method add the reference to the child.<br>
 	 * When the parent is new, the method create a new child and add the reference to it.<br>
+	 *
 	 * @see CallHierarchy#functionCallFinder(org.eclipse.jface.viewers.ISelection)
 	 * @see CallHierarchy#functionCallFinder(CallHierarchyNode)
 	 * @param referenceModule
@@ -195,9 +198,10 @@ public class CallHierarchyNode {
 		CallHierarchyNode node = addNode(referenceModule, parentDefinition);
 		node.addReference(referenceModule, reference);
 	}
-	
+
 	/**
 	 * Add a new reference to the node.
+	 *
 	 * @param referenceModule
 	 * 			The reference contain module.
 	 * @param reference
@@ -207,10 +211,11 @@ public class CallHierarchyNode {
 	public void addReference(final Module referenceModule, final Reference reference) {
 		nodeReferences.put(reference, referenceModule);
 	}
-	
+
 	/**
 	 * Create a new {@link CallHierarchyNode} and add to this node as a child.<br>
 	 * When the node already exist and registered as a child the method return the exiting child node.
+	 *
 	 * @param definitionModule
 	 * 			The new node's definition's module.
 	 * 			
@@ -229,9 +234,10 @@ public class CallHierarchyNode {
 			return newNode;
 		}
 	}
-	
+
 	/**
 	 * Return a reference's parent. The return definition contain the reference.
+	 *
 	 * @param reference
 	 * 			The reference which the method searching the parent.
 	 * @return
@@ -243,6 +249,7 @@ public class CallHierarchyNode {
 		if(!(referenceParentNode instanceof Definition)) {
 			return null;
 		}
+
 		final Definition parentDefinition = (Definition) referenceParentNode;
 		return parentDefinition;
 	}
