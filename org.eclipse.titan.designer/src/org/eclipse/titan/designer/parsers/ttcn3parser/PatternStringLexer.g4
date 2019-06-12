@@ -115,20 +115,45 @@ NUMBER
 	INT
 ;
 /* ***************** rules ************************* */
-REFERENCE_RULE : '{' WS? IDENTIFIER (( WS? '.' WS? IDENTIFIER ) | ( WS? '[' WS? ( IDENTIFIER | NUMBER ) WS? ']'))* WS? '}' {
+REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? '[' (WS)? ( IDENTIFIER | NUMBER ) (WS)? ']'))* (WS)? '}' {
 	if (in_set) {
 		// in a set a reference (without the \N at start) is just simple text,
   		// the matched token does not contain characters that are special in a set
   		
   		ps.addString(tokenStr);
 	} else {
+		/**
+		 * Find references in the actual token but in another way than C++.
+		 * 1. Skip '{', whitespace and '['.
+		 * 2. Get the ID(s) string.
+		 * 3. Break at '}'.
+		 */
+		//end of the reference(s)
+		int end = 0;
 		List<String> identifiers = new ArrayList<String>();
-		List<Integer> beginnings = new ArrayList<Integer>();
-		/*for(;;) {
-			
-			}*/ 
+		while(tokenStr.charAt(end) != '}') {
+			//current ID begin/end
+			int current_begin = 0;
+			int current_end = 0;
+			// skip whitespace and [	
+			while(Character.isWhitespace(tokenStr.charAt(end)) || tokenStr.charAt(end) == '[' || tokenStr.charAt(end) == '{') {
+				end++;
+			}
+			current_begin = end;
+			current_end = current_begin;
+			while(Character.isLetterOrDigit(tokenStr.charAt(current_end)) || tokenStr.charAt(current_end) == '_') {
+				current_end++;
+			}
+			String identifier = tokenStr.substring(current_begin, current_end);
+			identifiers.add(identifier);
+			end = current_end;
+			while(Character.isWhitespace(tokenStr.charAt(end)) || tokenStr.charAt(end) == ']') {
+				end++;
+			}	
+		}
+		
+		
 	}
-	
 }
 ;
 
@@ -157,13 +182,12 @@ REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
 		}
 };
 
-UNIVERSAL_CHARSTRING_REFERENCE : '\\N' WS? '{' WS? 'universal' WS? 'charstring' WS? '}' {
-	/* The third {WS?} is optional but if it's empty then the previous rule catches it*/
+UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charstring' (WS)? '}' {
+	/* The third {(WS)?} is optional but if it's empty then the previous rule catches it*/
 	final String id_str = "universal charstring";
  
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
 	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
-
 
 	ps.addRef(ref, true); 
 	ref.setLocation(location);
@@ -172,12 +196,12 @@ UNIVERSAL_CHARSTRING_REFERENCE : '\\N' WS? '{' WS? 'universal' WS? 'charstring' 
 	} 
 };
 
-INVALID_SET_REFERENCE_RULE : '\\N' WS? '{' [^}]* '}' {
-  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+INVALID_SET_REFERENCE_RULE : '\\N' (WS)? '{' [^}]* '}' {
+  Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid character set reference: %s", tokenStr));
 };
 
-QUADRUPLE_RULE : '\\q'  WS? '{' WS? NUMBER WS? ',' WS? NUMBER WS? ',' WS? NUMBER  WS? ',' WS? NUMBER WS? '}' {
+QUADRUPLE_RULE : '\\q'  (WS)? '{' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ',' (WS)? NUMBER  (WS)? ',' (WS)? NUMBER (WS)? '}' {
 /* quadruple - group */
 			int group_begin = 3;
 			while (!Character.isDigit(tokenStr.charAt(group_begin))) {
@@ -190,7 +214,7 @@ QUADRUPLE_RULE : '\\q'  WS? '{' WS? NUMBER WS? ',' WS? NUMBER WS? ',' WS? NUMBER
 			final String group_str = tokenStr.substring(group_begin, group_end); 
 			int group = Integer.parseInt(group_str); 
 			if (group < 0 || group > 127) {
-				Location group_location = new Location(actualFile, actualLine, startToken.getStartIndex() + group_begin, startToken.getStartIndex() + group_end);  
+				Location group_location = new Location(actualFile, actualLine, startToken.getStartIndex() + group_begin + 1, startToken.getStartIndex() + group_end + 1);  
 				group_location.reportSemanticError(String.format("The first number of quadruple (group) must be within the range 0 .. 127 instead of %s", group_str));
 				group = group < 0 ? 0 : 127; 
 			}
@@ -207,7 +231,7 @@ QUADRUPLE_RULE : '\\q'  WS? '{' WS? NUMBER WS? ',' WS? NUMBER WS? ',' WS? NUMBER
 			final String plane_str = tokenStr.substring(plane_begin, plane_end); 
 			int plane = Integer.parseInt(plane_str); 
 			if (plane < 0 || plane > 255) {
-				Location plane_location = new Location(actualFile, actualLine, startToken.getStartIndex() + plane_begin, startToken.getStartIndex() + plane_end);  
+				Location plane_location = new Location(actualFile, actualLine, startToken.getStartIndex() + plane_begin + 1, startToken.getStartIndex() + plane_end + 1);  
 				plane_location.reportSemanticError(String.format("The second number of quadruple (plane) must be within the range 0 .. 255 instead of %s", plane_str));
 				plane = plane < 0 ? 0 : 255; 
 			} 
@@ -224,7 +248,7 @@ QUADRUPLE_RULE : '\\q'  WS? '{' WS? NUMBER WS? ',' WS? NUMBER WS? ',' WS? NUMBER
 			final String row_str = tokenStr.substring(row_begin, row_end); 
 			int row = Integer.parseInt(row_str); 
 			if (row < 0 || row > 255) {
-				Location row_location = new Location(actualFile, actualLine, startToken.getStartIndex() + row_begin, startToken.getStartIndex() + row_end);  
+				Location row_location = new Location(actualFile, actualLine, startToken.getStartIndex() + row_begin + 1, startToken.getStartIndex() + row_end + 1);  
 				row_location.reportSemanticError(String.format("The third number of quadruple (row) must be within the range 0 .. 255 instead of %s", row_str));
 				row = row < 0 ? 0 : 255; 
 			}
@@ -241,7 +265,7 @@ QUADRUPLE_RULE : '\\q'  WS? '{' WS? NUMBER WS? ',' WS? NUMBER WS? ',' WS? NUMBER
 			final String cell_str = tokenStr.substring(cell_begin, cell_end); 
 			int cell = Integer.parseInt(cell_str); 
 			if (cell < 0 || cell > 255) {
-				Location cell_location = new Location(actualFile, actualLine, startToken.getStartIndex() + cell_begin, startToken.getStartIndex() + cell_end);  
+				Location cell_location = new Location(actualFile, actualLine, startToken.getStartIndex() + cell_begin + 1, startToken.getStartIndex() + cell_end + 1);  
 				cell_location.reportSemanticError(String.format("The fourth number of quadruple (cell) must be within the range 0 .. 255 instead of %s", cell_str));
 				cell = cell < 0 ? 0 : 255; 
 			}
@@ -290,7 +314,7 @@ QUADRUPLE_RULE : '\\q'  WS? '{' WS? NUMBER WS? ',' WS? NUMBER WS? ',' WS? NUMBER
 			}
 };
 
-UID_RULE : '\\q' ( WS? '{' WS? ( UID WS? ',' WS? )* UID WS? '}') {
+UID_RULE : '\\q' ( (WS)? '{' (WS)? ( UID (WS)? ',' (WS)? )* UID (WS)? '}') {
 //Split UID-s. For example: \q{ U23423 , U+001 } -> [U23423, U+001] 
 	int begin = 3; 
 	List<String> uids = new ArrayList<String>();
@@ -316,8 +340,8 @@ UID_RULE : '\\q' ( WS? '{' WS? ( UID WS? ',' WS? )* UID WS? '}') {
 	uids = null;
 };
 
-INVALID_QUADRUPLE_UID_RULE : '\\q' ( WS? '{' [ ^}]* '}')? {
-  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+INVALID_QUADRUPLE_UID_RULE : '\\q' ( (WS)? '{' [ ^}]* '}')? {
+  Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid quadruple or UID-like notation: %s", tokenStr));
 };
 
@@ -386,7 +410,7 @@ METACHARS : [dwtnrsb?*\\\[\]\-\^|()#+] {
  }
  ps.addString(tokenStr.substring(1,tokenStr.length() - 1));
 }; */
-REPETITION : '#' WS? [0-9] {
+REPETITION : '#' (WS)? [0-9] {
 	if (in_set) {
 		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#n' cannot be given inside a set expression");
@@ -397,7 +421,7 @@ REPETITION : '#' WS? [0-9] {
 }
 ;
  
-N_REPETITION: '#' WS? '(' WS? NUMBER WS? ')' {
+N_REPETITION: '#' (WS)? '(' (WS)? NUMBER (WS)? ')' {
 	if (in_set) {
 		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#(n)' cannot be given inside a set expression");
@@ -421,7 +445,7 @@ N_REPETITION: '#' WS? '(' WS? NUMBER WS? ')' {
  	}
 }; 
 
-N_M_REPETITION : '#' WS? '(' WS? NUMBER WS? ',' WS? NUMBER WS? ')' {
+N_M_REPETITION : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ')' {
 	if (in_set) {
 		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#(n,m)' cannot be given inside a set expression");		 
@@ -470,7 +494,7 @@ N_M_REPETITION : '#' WS? '(' WS? NUMBER WS? ',' WS? NUMBER WS? ')' {
 		} 	
 }; 
 
-N_M_REPETITION_WITHOUT_M : '#' WS? '(' WS? NUMBER WS? ',' WS? ')' {
+N_M_REPETITION_WITHOUT_M : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? ')' {
   if (in_set) {
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
     location.reportSemanticError("Number of repetitions `#(n,)' cannot be given inside a set expression");
@@ -496,7 +520,7 @@ N_M_REPETITION_WITHOUT_M : '#' WS? '(' WS? NUMBER WS? ',' WS? ')' {
   }
 };
 
-N_M_REPETITION_WITHOUT_N : '#' WS? '(' WS? ',' WS? NUMBER WS? ')' {
+N_M_REPETITION_WITHOUT_N : '#' (WS)? '(' (WS)? ',' (WS)? NUMBER (WS)? ')' {
   if (in_set) {
   	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
     location.reportSemanticError("Number of repetitions `#(,m)' cannot be given inside a set expression");
@@ -520,7 +544,7 @@ N_M_REPETITION_WITHOUT_N : '#' WS? '(' WS? ',' WS? NUMBER WS? ')' {
   }
 }; 
 
-EMPTY_REPETITION : '#' (WS)? '(' WS? ',' WS? ')' {
+EMPTY_REPETITION : '#' (WS)? '(' (WS)? ',' (WS)? ')' {
  if (in_set) {
  	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
  	location.reportSyntacticError("Number of repetitions `#(,)' cannot be given inside a set expression");
@@ -531,7 +555,7 @@ EMPTY_REPETITION : '#' (WS)? '(' WS? ',' WS? ')' {
 
  
  
-INVALID_NUMBER_REPETITION : '#' WS? '(' [^)]* ')' {
+INVALID_NUMBER_REPETITION : '#' (WS)? '(' [^)]* ')' {
  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
  location.reportSyntacticError(String.format("Invalid notation for the number of repetitions: %s", tokenStr));
 }; 
@@ -556,7 +580,7 @@ PLUS : '+' {
   ps.addChar('+');
 };
 
-DOT_OR_NEWLINE : .| NEWLINE {
+LETTER_OR_NEWLINE : .| NEWLINE {
   ps.addString(tokenStr);
 };
  
