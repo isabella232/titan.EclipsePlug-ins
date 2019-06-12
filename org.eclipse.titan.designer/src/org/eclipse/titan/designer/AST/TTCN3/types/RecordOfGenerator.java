@@ -1313,7 +1313,9 @@ public final class RecordOfGenerator {
 
 		source.append("\t\t\tfinal int elements_size = valueElements.size();\n");
 		source.append("\t\t\tfor (int i = 0; i < elements_size; i++) {\n");
-		source.append("\t\t\t\tvalueElements.get(i).set_implicit_omit();\n");
+		source.append("\t\t\t\tif (valueElements.get(i).is_bound()) {\n");
+		source.append("\t\t\t\t\tvalueElements.get(i).set_implicit_omit();\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 	}
