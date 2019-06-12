@@ -209,7 +209,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @param node
 	 * 			The new root {@link CallHierarchyNode} for the {@link #treeViewer}.
 	 */
-	public void setInput(CallHierarchyNode node) {
+	public void setInput(final CallHierarchyNode node) {
 		treeViewer.setInput(node);
 		treeViewer.refresh();
 
@@ -378,7 +378,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * 		The {@link SelectionChangedEvent}.
 	 */
 	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
+	public void selectionChanged(final SelectionChangedEvent event) {
 		final Location location = getEventLocation(event);
 		if (location == null) {
 			return;
@@ -432,7 +432,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @return
 	 * 			A {@link Location}.
 	 */
-	private Location getEventLocation(SelectionChangedEvent event) {
+	private Location getEventLocation(final SelectionChangedEvent event) {
 		final ISelection selection = event.getSelection();
 		if (selection.isEmpty()) {
 			return null;
@@ -483,7 +483,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @param message
 	 * 			The {@link #messageLabel}'s text.
 	 */
-	public void setMessage(String message) {
+	public void setMessage(final String message) {
 		messageLabel.setText(message);
 		messageLabel.getParent().layout();
 	}
@@ -493,7 +493,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @param visible
 	 * 			The {@link #messageLabel}'s visible.
 	 */
-	public void setMessageVisible(boolean visible) {
+	public void setMessageVisible(final boolean visible) {
 		messageLabel.setVisible(visible);
 		messageLabel.getParent().layout();
 	}
