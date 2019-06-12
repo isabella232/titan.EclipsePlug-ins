@@ -324,13 +324,13 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				last = last.setValuetype(timestamp, Value_type.CHOICE_VALUE);
 				if (!last.getIsErroneous(timestamp)) {
 					selfReference = checkThisValueChoice(timestamp, (Choice_Value) last, lhs, valueCheckingOptions.expected_value,
-							valueCheckingOptions.incomplete_allowed, valueCheckingOptions.str_elem);
+							valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 				}
 			}
 			break;
 		case CHOICE_VALUE:
 			selfReference = checkThisValueChoice(timestamp, (Choice_Value) last, lhs, valueCheckingOptions.expected_value,
-					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.str_elem);
+					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
 		case MACRO_VALUE:
@@ -358,7 +358,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	}
 
 	private boolean checkThisValueChoice(final CompilationTimeStamp timestamp, final Choice_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
-			final boolean incompleteAllowed, final boolean strElem) {
+			final boolean incompleteAllowed, final boolean implicit_omit, final boolean strElem) {
 		boolean selfReference = false;
 		final Identifier name = value.getName();
 		if (!hasComponentWithName(name.getName())) {
@@ -381,7 +381,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		alternativeValue.setMyGovernor(alternativeType);
 		alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
 		selfReference = alternativeType.checkThisValue(timestamp, alternativeValue, lhs, new ValueCheckingOptions(expectedValue,
-				incompleteAllowed, false, true, false, strElem));
+				incompleteAllowed, false, true, implicit_omit, strElem));
 
 		value.setLastTimeChecked(timestamp);
 
