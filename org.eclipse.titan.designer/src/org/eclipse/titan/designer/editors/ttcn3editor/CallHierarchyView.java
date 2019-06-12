@@ -216,6 +216,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 		treeViewerSelectedNode = node;
 		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getSelectedAssignment().getFullName(), callHierarchy.getCurrentProject().getName()));
+		treeViewer.getControl().setFocus();
 	}
 
 	/**
@@ -404,10 +405,20 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			showView();
 		}
 
-		IEditorPart targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		ITextEditor editor = (ITextEditor) targetEditor;
+		selectLocation(location);
+    }
+
+    /**
+     * Select a {@link Location} in the current opened editor!<br>
+     * <b>Important:</b> The {@link Location} must be in the current opened editor.
+     * @param location
+     * 			The selected {@link Location}.
+     */
+    private void selectLocation(final Location location)  {
+		IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		ITextEditor editor 			= (ITextEditor) targetEditor;
 		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
-	}
+    }
 
 	/**
 	 * Return {@link Location} of a {@link CallHierarchyNode} or a {@link Reference} from a {@link SelectionChangedEvent}.
