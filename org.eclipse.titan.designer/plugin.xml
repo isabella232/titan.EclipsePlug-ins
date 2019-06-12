@@ -128,6 +128,11 @@
           name="Find Function Calls">
     </command>
     <command
+          defaultHandler="org.eclipse.titan.designer.editors.ttcn3editor.actions.CallHierarchyAction"
+          id="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyAction"
+          name="Open Call Hierarchy">
+    </command>
+    <command
           defaultHandler="org.eclipse.titan.designer.editors.asn1editor.actions.OpenDeclaration"
           id="org.eclipse.titan.designer.editors.asn1editor.OpenDeclaration"
           name="Open Declaration">
@@ -536,6 +541,12 @@
         icon="icons/titan.gif"
         id="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
         label="Find Function Calls">
+      </command>
+      <command
+        commandId="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyAction"
+        icon="icons/titan.gif"
+        id="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyAction"
+        label="Open Call Hierarchy">
       </command>
       <command
         commandId="org.eclipse.titan.designer.editors.ttcn3editor.RenameRefactoringAction"
@@ -1017,6 +1028,10 @@
       id="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
       name="Find Function Calls" />
     <command categoryId="org.eclipse.titan.designer.editors.TITANCommands"
+      description="Call Hierarchy"
+      id="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyAction"
+      name="Call Hierarchy View" />
+    <command categoryId="org.eclipse.titan.designer.editors.TITANCommands"
       description="Rename refactoring"
       id="org.eclipse.titan.designer.editors.ttcn3editor.RenameRefactoring"
       name="Rename refactoring" />
@@ -1114,6 +1129,10 @@
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
       sequence="F4" />
     <key commandId="org.eclipse.titan.designer.editors.ttcn3editor.FindFunctionCalls"
+      contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
+      schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+      sequence="Ctrl+Shift+H" />
+	<key commandId="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyAction"
       contextId="org.eclipse.titan.designer.editors.TTCN3EditorScope"
       schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
       sequence="Ctrl+Alt+H" />
@@ -1397,4 +1416,11 @@
   </extension>
   <extension-point id="org.eclipse.titan.designer.extensions.post_analyze"
     name="Post-analyze" schema="schema/post_analyze.exsd" />
+  <extension point="org.eclipse.ui.views">
+    <view id="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView"
+      name="Call Hierarcy"
+      class="org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView"
+      icon="icons/titan.gif">
+    </view>
+  </extension>
 </plugin>
