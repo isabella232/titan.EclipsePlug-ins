@@ -128,8 +128,10 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 		 * 2. Get the ID(s) string.
 		 * 3. Break at '}'.
 		 */
-		//end of the reference(s)
+		//end of the reference
 		int end = 0;
+		//begin of the reference (reference location)
+		int begin = 0;
 		List<String> identifiers = new ArrayList<String>();
 		while(tokenStr.charAt(end) != '}') {
 			//current ID begin/end
@@ -141,6 +143,7 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 			}
 			current_begin = end;
 			current_end = current_begin;
+			begin = current_begin;
 			while(Character.isLetterOrDigit(tokenStr.charAt(current_end)) || tokenStr.charAt(current_end) == '_') {
 				current_end++;
 			}
@@ -151,14 +154,32 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 				end++;
 			}	
 		}
-		
-		
+		Location ref_location = new Location(actualFile, actualLine, startToken.getStartIndex() + begin + 1, startToken.getStopIndex() + end);
+		Reference ref = null;
+		if (identifiers.size() == 1) {
+			ref = new Reference(new Identifier(Identifier_type.ID_TTCN, identifiers.get(0), ref_location));
+		} else if (identifiers.size() > 1) {
+			String id_str = "";
+			for (int i = 0; i < identifiers.size(); i++) {
+				if (i == 0) {
+					id_str = identifiers.get(i);
+				} else {
+					id_str += "[" + identifiers.get(i) +"]";
+				}						
+			}
+			ref = new Reference(new Identifier(Identifier_type.ID_TTCN, identifiers.get(0), ref_location));
+		}
+		if (ref != null) {
+			ps.addRef(ref, false);
+		} else {
+			ref_location.reportSemanticError("Invalid reference expression");
+		}	
 	}
 }
 ;
 
 INVALID_REFERENCE_RULE : '{' [ ^} ]* '}' {
-  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+  Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid reference expression: %s", tokenStr));	
 };
 
@@ -172,11 +193,9 @@ REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
 		id_end++;
 		}
 	String id_str = tokenStr.substring(id_begin, id_end);
-	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin, id_end);
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin + 1, startToken.getStartIndex() + id_end + 1);
 	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
 	ps.addRef(ref, true);
-	
-	ref.setLocation(location);
 	if (in_set) {
 			location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
 		}
@@ -384,24 +403,22 @@ CLOSING_SQUARE_BRACKET : ']' {
     ps.addString("\\]");
   }
 };
-/* 
 SQUARE_BRACES : '{'|'}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex() + 1);
   location.reportSyntacticWarning(String.format("Unmatched %c was treated literally", tokenStr.charAt(0)));
   ps.addString("\\");
   ps.addChar(tokenStr.charAt(0));
 };
-*/
 QUOTE_MARKS : '\\\"' |'\"\"' {
   ps.addChar('"');
 };
  
-/* \metachars and escaped metachars  
+/*metachars and escaped metachars  
 METACHARS : [dwtnrsb?*\\\[\]\-\^|()#+] {
  ps.addString(tokenStr);
 }; 
  */
-/*UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
+UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStartIndex() + 1);
  if (!Character.isISOControl(tokenStr.charAt(1)) && !Character.isWhitespace((tokenStr.charAt(1)))) {
  	location.reportSyntacticWarning(String.format("Use of unrecognized escape sequence `\\%c' is deprecated", tokenStr.charAt(1)));
@@ -409,7 +426,7 @@ METACHARS : [dwtnrsb?*\\\[\]\-\^|()#+] {
  	location.reportSyntacticWarning("Use of unrecognized escape sequence is deprecated");
  }
  ps.addString(tokenStr.substring(1,tokenStr.length() - 1));
-}; */
+};
 REPETITION : '#' (WS)? [0-9] {
 	if (in_set) {
 		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
