@@ -126,9 +126,7 @@ public class CallHierarchy {
 	 * 			Return true when the initialization is success!
 	 */
 	public boolean initialization() {
-		if (targetEditor == null) {
-			targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		}
+		targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (targetEditor == null)  {
 			return false;
 		}
@@ -419,27 +417,6 @@ public class CallHierarchy {
 	 */
 	public String getSelectedAssignmentName() {
 		return this.selectedAssignment.getFullName();
-	}
-
-	/**
-	 * Set the used editor.
-	 * Setting in the {@link #initialization()}.
-	 *
-	 * @param targetEditor
-	 * 		The new editor.
-	 * @see #initialization()
-	 */
-	public void setActiveEditor(final IEditorPart targetEditor) {
-		this.targetEditor = targetEditor;
-	}
-
-	/**
-	 * Return the current active editor.
-	 *
-	 * @return The current active editor.
-	 */
-	public IEditorPart getActiveEditor()  {
-		return this.targetEditor;
 	}
 
 	/**

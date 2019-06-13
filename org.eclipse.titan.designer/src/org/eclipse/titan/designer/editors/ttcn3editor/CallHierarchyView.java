@@ -174,7 +174,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	}
 
 	/**
-	 * This static method can show a {@link CallHierarchyView}.
+	 * This static method can show a {@link CallHierarchyView}.<br>
 	 * @return
 	 * 			Return the opened {@link CallHierarchyView}<br>
 	 * 			Return <b>NULL</b> if showing the view is not success.
@@ -197,17 +197,19 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		}
 
 		CallHierarchyView view = (CallHierarchyView) viewPart;
+
 		return view;
 	}
 
 	/**
 	 * Set the {@link #treeViewer} input.<br>
 	 * Initialize the {@link #tableViewer} to empty.<br>
-	 * Set the {@link #treeViewerSelectedNode} to the root.
+	 * Set the {@link #treeViewerSelectedNode} to the root.<br>
+	 * Set the focus to the {@link #treeViewer}.
 	 * @param node
 	 * 			The new root {@link CallHierarchyNode} for the {@link #treeViewer}.
 	 */
-	public void setInput(CallHierarchyNode node) {
+	public void setInput(final CallHierarchyNode node) {
 		treeViewer.setInput(node);
 		treeViewer.refresh();
 
@@ -216,10 +218,12 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 		treeViewerSelectedNode = node;
 		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getSelectedAssignment().getFullName(), callHierarchy.getCurrentProject().getName()));
+		treeViewer.getControl().setFocus();
 	}
 
 	/**
-	 * This method set up the {@link CallHierarchyView}.
+	 * This method set up the {@link CallHierarchyView}.<br>
+	 * Set the focus to the {@link #treeViewer}.
 	 * @param parent
 	 * 			The parent {@link Composite} of the new {@link CallHierarchyView}.
 	 */
@@ -230,9 +234,15 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		gridLayout.makeColumnsEqualWidth = true;
 		parent.setLayout(gridLayout);
 
-		messageLabel = new Label(parent, SWT.WRAP);
-		messageLabel.setAlignment(SWT.LEFT);
-		messageLabel.setText(INITIAL_MESSAGE);
+		final GridData gridDataForLabel = new GridData();
+		gridDataForLabel.horizontalAlignment = GridData.FILL;
+		gridDataForLabel.grabExcessHorizontalSpace = true;
+		gridDataForLabel.minimumWidth = 100;
+
+        messageLabel = new Label(parent, SWT.WRAP);
+        messageLabel.setLayoutData(gridDataForLabel);
+        messageLabel.setAlignment(SWT.LEFT);
+        messageLabel.setText(INITIAL_MESSAGE);
 
 		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -250,6 +260,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 		statusLineManager = getViewSite().getActionBars().getStatusLineManager();
 		callHierarchy.setStatusLineManager(statusLineManager);
+
+		treeViewer.getControl().setFocus();
 	}
 
 	/**
@@ -366,7 +378,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * 		The {@link SelectionChangedEvent}.
 	 */
 	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
+	public void selectionChanged(final SelectionChangedEvent event) {
 		final Location location = getEventLocation(event);
 		if (location == null) {
 			return;
@@ -398,10 +410,20 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			showView();
 		}
 
-		IEditorPart targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		ITextEditor editor = (ITextEditor) targetEditor;
+		selectLocation(location);
+    }
+
+    /**
+     * Select a {@link Location} in the current opened editor!<br>
+     * <b>Important:</b> The {@link Location} must be in the current opened editor.
+     * @param location
+     * 			The selected {@link Location}.
+     */
+    private void selectLocation(final Location location)  {
+		IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		ITextEditor editor 			= (ITextEditor) targetEditor;
 		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
-	}
+    }
 
 	/**
 	 * Return {@link Location} of a {@link CallHierarchyNode} or a {@link Reference} from a {@link SelectionChangedEvent}.
@@ -410,7 +432,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @return
 	 * 			A {@link Location}.
 	 */
-	private Location getEventLocation(SelectionChangedEvent event) {
+	private Location getEventLocation(final SelectionChangedEvent event) {
 		final ISelection selection = event.getSelection();
 		if (selection.isEmpty()) {
 			return null;
@@ -461,8 +483,9 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @param message
 	 * 			The {@link #messageLabel}'s text.
 	 */
-	public void setMessage(String message) {
+	public void setMessage(final String message) {
 		messageLabel.setText(message);
+		messageLabel.getParent().layout();
 	}
 
 	/**
@@ -470,8 +493,9 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @param visible
 	 * 			The {@link #messageLabel}'s visible.
 	 */
-	public void setMessageVisible(boolean visible) {
+	public void setMessageVisible(final boolean visible) {
 		messageLabel.setVisible(visible);
+		messageLabel.getParent().layout();
 	}
 
 	/**
