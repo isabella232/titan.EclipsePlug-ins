@@ -22,3 +22,5 @@
 /Ttcn3ParserBaseListener.java
 /Ttcn3ReparserBaseListener.java
 /Ttcn3ReparserListener.java
+/PatternStringLexer.java
+/PatternStringLexer.tokens
