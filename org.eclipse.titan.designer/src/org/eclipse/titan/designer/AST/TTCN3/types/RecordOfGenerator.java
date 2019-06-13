@@ -104,7 +104,7 @@ public final class RecordOfGenerator {
 		generateValueReplace( aData, source, genName, ofTypeName, displayName );
 		generateValueLog( source );
 		generateValueSetParam(source, displayName, isSetOf);
-		generateValueSetImplicitOmit(source);
+		generateValueSetImplicitOmit(source, ofTypeName);
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
 		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded, forceGenSeof, extension_bit);
 
@@ -1303,8 +1303,10 @@ public final class RecordOfGenerator {
 	 *
 	 * @param source
 	 *                where the source code is to be generated.
+	 * @param ofTypeName
+	 *                type name of the "record of/set of" element
 	 */
-	private static void generateValueSetImplicitOmit(final StringBuilder source) {
+	private static void generateValueSetImplicitOmit(final StringBuilder source, final String ofTypeName) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void set_implicit_omit() {\n");
 		source.append("\t\t\tif(valueElements == null) {\n");
@@ -1313,8 +1315,9 @@ public final class RecordOfGenerator {
 
 		source.append("\t\t\tfinal int elements_size = valueElements.size();\n");
 		source.append("\t\t\tfor (int i = 0; i < elements_size; i++) {\n");
-		source.append("\t\t\t\tif (valueElements.get(i).is_bound()) {\n");
-		source.append("\t\t\t\t\tvalueElements.get(i).set_implicit_omit();\n");
+		source.append( MessageFormat.format( "\t\t\t\tfinal {0} temp = valueElements.get(i);\n", ofTypeName));
+		source.append("\t\t\t\tif (temp != null && temp.is_bound()) {\n");
+		source.append("\t\t\t\t\ttemp.set_implicit_omit();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");

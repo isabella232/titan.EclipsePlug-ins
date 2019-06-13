@@ -912,8 +912,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanInteger temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -3025,8 +3026,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanUniversalCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -5273,8 +5275,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanOctetString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -7407,8 +7410,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanFloat temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -9541,8 +9545,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanUniversalCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -11675,8 +11680,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBitString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -13809,8 +13815,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBoolean temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -15943,8 +15950,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -18077,8 +18085,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBoolean temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -20211,8 +20220,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBitString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -22345,8 +22355,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanInteger temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -24458,8 +24469,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanUniversalCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -26685,8 +26697,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBoolean temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -28912,8 +28925,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanFloat temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -31139,8 +31153,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanInteger temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -33366,8 +33381,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -35614,8 +35630,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanUniversalCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -37727,8 +37744,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanHexString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -39954,8 +39972,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanHexString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -42181,8 +42200,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanOctetString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -44408,8 +44428,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanFloat temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -46635,8 +46656,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanInteger temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -48862,8 +48884,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanOctetString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -51110,8 +51133,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanOctetString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -53244,8 +53268,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanHexString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -55357,8 +55382,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -57584,8 +57610,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBitString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -59811,8 +59838,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBoolean temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -62059,8 +62087,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanCharString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -64193,8 +64222,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanFloat temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -66306,8 +66336,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanBitString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
@@ -68554,8 +68585,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			}
 			final int elements_size = valueElements.size();
 			for (int i = 0; i < elements_size; i++) {
-				if (valueElements.get(i).is_bound()) {
-					valueElements.get(i).set_implicit_omit();
+				final TitanHexString temp = valueElements.get(i);
+				if (temp != null && temp.is_bound()) {
+					temp.set_implicit_omit();
 				}
 			}
 		}
