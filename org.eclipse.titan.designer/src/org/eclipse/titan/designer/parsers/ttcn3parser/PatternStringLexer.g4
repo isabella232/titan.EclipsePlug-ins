@@ -128,8 +128,10 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 		 * 2. Get the ID(s) string.
 		 * 3. Break at '}'.
 		 */
-		//end of the reference(s)
+		//end of the reference
 		int end = 0;
+		//begin of the reference (reference location)
+		int begin = 0;
 		List<String> identifiers = new ArrayList<String>();
 		while(tokenStr.charAt(end) != '}') {
 			//current ID begin/end
@@ -141,6 +143,7 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 			}
 			current_begin = end;
 			current_end = current_begin;
+			begin = current_begin;
 			while(Character.isLetterOrDigit(tokenStr.charAt(current_end)) || tokenStr.charAt(current_end) == '_') {
 				current_end++;
 			}
@@ -151,14 +154,32 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 				end++;
 			}	
 		}
-		
-		
+		Location ref_location = new Location(actualFile, actualLine, startToken.getStartIndex() + begin + 1, startToken.getStopIndex() + end);
+		Reference ref = null;
+		if (identifiers.size() == 1) {
+			ref = new Reference(new Identifier(Identifier_type.ID_TTCN, identifiers.get(0), ref_location));
+		} else if (identifiers.size() > 1) {
+			String id_str = "";
+			for (int i = 0; i < identifiers.size(); i++) {
+				if (i == 0) {
+					id_str = identifiers.get(i);
+				} else {
+					id_str += "[" + identifiers.get(i) +"]";
+				}						
+			}
+			ref = new Reference(new Identifier(Identifier_type.ID_TTCN, identifiers.get(0), ref_location));
+		}
+		if (ref != null) {
+			ps.addRef(ref, false);
+		} else {
+			ref_location.reportSemanticError("Invalid reference expression");
+		}	
 	}
 }
 ;
 
 INVALID_REFERENCE_RULE : '{' [ ^} ]* '}' {
-  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+  Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid reference expression: %s", tokenStr));	
 };
 
@@ -172,11 +193,9 @@ REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
 		id_end++;
 		}
 	String id_str = tokenStr.substring(id_begin, id_end);
-	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin, id_end);
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin + 1, startToken.getStartIndex() + id_end + 1);
 	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
 	ps.addRef(ref, true);
-	
-	ref.setLocation(location);
 	if (in_set) {
 			location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
 		}
@@ -340,7 +359,7 @@ UID_RULE : '\\q' ( (WS)? '{' (WS)? ( UID (WS)? ',' (WS)? )* UID (WS)? '}') {
 	uids = null;
 };
 
-INVALID_QUADRUPLE_UID_RULE : '\\q' ( (WS)? '{' [ ^}]* '}')? {
+INVALID_QUADRUPLE_UID_RULE : '\\q' ( (WS)? '{' (IDENTIFIER)? [ ^}]* '}')? {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid quadruple or UID-like notation: %s", tokenStr));
 };
@@ -384,24 +403,20 @@ CLOSING_SQUARE_BRACKET : ']' {
     ps.addString("\\]");
   }
 };
-/* 
 SQUARE_BRACES : '{'|'}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex() + 1);
   location.reportSyntacticWarning(String.format("Unmatched %c was treated literally", tokenStr.charAt(0)));
   ps.addString("\\");
   ps.addChar(tokenStr.charAt(0));
 };
-*/
 QUOTE_MARKS : '\\\"' |'\"\"' {
   ps.addChar('"');
 };
- 
-/* \metachars and escaped metachars  
-METACHARS : [dwtnrsb?*\\\[\]\-\^|()#+] {
+//metachars and escaped metachars  
+METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+] {
  ps.addString(tokenStr);
-}; 
- */
-/*UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
+};
+UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStartIndex() + 1);
  if (!Character.isISOControl(tokenStr.charAt(1)) && !Character.isWhitespace((tokenStr.charAt(1)))) {
  	location.reportSyntacticWarning(String.format("Use of unrecognized escape sequence `\\%c' is deprecated", tokenStr.charAt(1)));
@@ -409,10 +424,10 @@ METACHARS : [dwtnrsb?*\\\[\]\-\^|()#+] {
  	location.reportSyntacticWarning("Use of unrecognized escape sequence is deprecated");
  }
  ps.addString(tokenStr.substring(1,tokenStr.length() - 1));
-}; */
+};
 REPETITION : '#' (WS)? [0-9] {
 	if (in_set) {
-		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+		Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#n' cannot be given inside a set expression");
 	} else if (tokenStr.charAt(tokenStr.length() - 1) != '1')  {
 		ps.addChar('#'); 
@@ -423,7 +438,7 @@ REPETITION : '#' (WS)? [0-9] {
  
 N_REPETITION: '#' (WS)? '(' (WS)? NUMBER (WS)? ')' {
 	if (in_set) {
-		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+		Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#(n)' cannot be given inside a set expression");
  	} else {
  		int number_begin = 2;
@@ -437,7 +452,7 @@ N_REPETITION: '#' (WS)? '(' (WS)? NUMBER (WS)? ')' {
  		String number_str = tokenStr.substring(number_begin, number_end);
  		int number = Integer.parseInt(number_str);
  		if (number < 0) {
- 			Location number_location = new Location(actualFile, actualLine, startToken.getStartIndex() + number_begin, startToken.getStartIndex() + number_end);
+ 			Location number_location = new Location(actualFile, actualLine, startToken.getStartIndex() + number_begin + 1, startToken.getStartIndex() + number_end);
  			number_location.reportSemanticError(String.format("A non-negative integer value was expected as the number of repetitions instead of %s", number_str));
  		} else if (number != 1) {
 			ps.addString("#(" + number_str + ")"); 
@@ -447,7 +462,7 @@ N_REPETITION: '#' (WS)? '(' (WS)? NUMBER (WS)? ')' {
 
 N_M_REPETITION : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ')' {
 	if (in_set) {
-		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+		Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#(n,m)' cannot be given inside a set expression");		 
 	}  
  	int lower_begin = 2;
@@ -459,7 +474,7 @@ N_M_REPETITION : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ')' {
  		lower_end++;
  	}
  	String lower_str = tokenStr.substring(lower_begin, lower_end); 
-	Location lower_location = new Location(actualFile, actualLine, startToken.getStartIndex() + lower_begin, startToken.getStartIndex() + lower_end);
+	Location lower_location = new Location(actualFile, actualLine, startToken.getStartIndex() + lower_begin + 1, startToken.getStartIndex() + lower_end);
 	int lower = Integer.parseInt(lower_str);
 	if (lower < 0) {
 		lower_location.reportSemanticError(String.format("A non-negative integer value was expected as the minimum number of repetitions instead of %s", lower_str));
@@ -474,12 +489,12 @@ N_M_REPETITION : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ')' {
  		upper_end++;
  	}
  	String upper_str = tokenStr.substring(upper_begin, upper_end); 
-	Location upper_location = new Location(actualFile, actualLine, startToken.getStartIndex() + upper_begin, startToken.getStartIndex() + upper_end);
+	Location upper_location = new Location(actualFile, actualLine, startToken.getStartIndex() + upper_begin + 1, startToken.getStartIndex() + upper_end);
 	int upper = Integer.parseInt(upper_str);
 	if (upper < 0) {
 		upper_location.reportSemanticError(String.format("A non-negative integer value was expected as the maximum number of repetitions instead of %s", upper_str));
 	} else if (lower > upper) {
-		Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+		Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 		location.reportSemanticError(String.format("The lower bound is higher than the upper bound in the number of repetitions: `#(%s,%s)'", lower_str, upper_str)); 	
 	} else if (lower == upper) {
 		if (lower != 1) {
@@ -496,7 +511,7 @@ N_M_REPETITION : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ')' {
 
 N_M_REPETITION_WITHOUT_M : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? ')' {
   if (in_set) {
-	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
     location.reportSemanticError("Number of repetitions `#(n,)' cannot be given inside a set expression");
   } else {
     int lower_begin = 2;
@@ -522,7 +537,7 @@ N_M_REPETITION_WITHOUT_M : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? ')' {
 
 N_M_REPETITION_WITHOUT_N : '#' (WS)? '(' (WS)? ',' (WS)? NUMBER (WS)? ')' {
   if (in_set) {
-  	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+  	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
     location.reportSemanticError("Number of repetitions `#(,m)' cannot be given inside a set expression");
   } else {
     int upper_begin = 3;
@@ -546,7 +561,7 @@ N_M_REPETITION_WITHOUT_N : '#' (WS)? '(' (WS)? ',' (WS)? NUMBER (WS)? ')' {
 
 EMPTY_REPETITION : '#' (WS)? '(' (WS)? ',' (WS)? ')' {
  if (in_set) {
- 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+ 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
  	location.reportSyntacticError("Number of repetitions `#(,)' cannot be given inside a set expression");
   } else { 
   	ps.addString("#(,)");
@@ -556,12 +571,12 @@ EMPTY_REPETITION : '#' (WS)? '(' (WS)? ',' (WS)? ')' {
  
  
 INVALID_NUMBER_REPETITION : '#' (WS)? '(' [^)]* ')' {
- Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+ Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
  location.reportSyntacticError(String.format("Invalid notation for the number of repetitions: %s", tokenStr));
 }; 
  
 HASHMARK : '#' {
-	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 	if (in_set) {
 		location.reportSyntacticWarning("Unescaped `#' inside character set was treated literally");
 		ps.addChar('\\');
@@ -573,7 +588,7 @@ HASHMARK : '#' {
 
 PLUS : '+' {
   if (in_set) {
-	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
     location.reportSyntacticWarning("Unescaped `+' inside character set was treated literally");
     ps.addChar('\\');
   }
