@@ -146,10 +146,6 @@ public final class StringConcatenationExpression extends Expression_Value {
 			// only way out.
 			value1.setLoweridToReference(timestamp);
 			tempType = value1.getExpressionReturntype(timestamp, expectedValue);
-			if (!Type_type.TYPE_UCHARSTRING.equals(tempType)) {
-				value2.setLoweridToReference(timestamp);
-				tempType = value2.getExpressionReturntype(timestamp, expectedValue);
-			}
 		} else {
 			last.setLoweridToReference(timestamp);
 			tempType = last.getExpressionReturntype(timestamp, expectedValue);
