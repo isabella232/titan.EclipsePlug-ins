@@ -407,12 +407,12 @@ public final class RecordOfGenerator {
 													 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic boolean operator_equals(final Base_Type otherValue) {\n");
-		source.append( MessageFormat.format( "\t\t\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\t\t\treturn operator_equals(({0})otherValue);\n", genName) );
+		source.append("\t\tpublic boolean operator_equals(final Base_Type other_value) {\n");
+		source.append( MessageFormat.format( "\t\t\tif (other_value instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\t\t\treturn operator_equals(({0})other_value);\n", genName) );
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tif (otherValue instanceof Record_Of_Type) {\n");
-		source.append("\t\t\t\treturn operator_equals((Record_Of_Type)otherValue);\n");
+		source.append("\t\t\tif (other_value instanceof Record_Of_Type) {\n");
+		source.append("\t\t\t\treturn operator_equals((Record_Of_Type)other_value);\n");
 		source.append("\t\t\t}\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", genName ) );
 		source.append("\t\t}\n");
@@ -440,29 +440,29 @@ public final class RecordOfGenerator {
 			source.append("\t\t *\n");
 			source.append("\t\t * operator== in the core\n");
 			source.append("\t\t *\n");
-			source.append("\t\t * @param otherValue\n");
+			source.append("\t\t * @param other_value\n");
 			source.append("\t\t *                the other value to check against.\n");
 			source.append("\t\t * @return true if the values are equivalent.\n");
 			source.append("\t\t */\n");
 		}
-		source.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} otherValue ) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\t\tpublic boolean operator_equals( final {0} other_value ) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-		source.append( MessageFormat.format( "\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-		source.append("\t\t\tif (this == otherValue) {\n");
+		source.append( MessageFormat.format( "\t\t\tother_value.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t\tif (this == other_value) {\n");
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\t}\n");
 		source.append('\n');
 		if ( isSetOf ) {
-			source.append("\t\t\treturn RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);\n");
+			source.append("\t\t\treturn RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);\n");
 		} else {
 			source.append("\t\t\tfinal int size = valueElements.size();\n");
-			source.append("\t\t\tif ( size != otherValue.valueElements.size() ) {\n");
+			source.append("\t\t\tif ( size != other_value.valueElements.size() ) {\n");
 			source.append("\t\t\t\treturn false;\n");
 			source.append("\t\t\t}\n");
 			source.append('\n');
 			source.append("\t\t\tfor ( int i = 0; i < size; i++ ) {\n");
 			source.append( MessageFormat.format( "\t\t\t\tfinal {0} leftElem = valueElements.get( i );\n", ofTypeName ) );
-			source.append( MessageFormat.format( "\t\t\t\tfinal {0} rightElem = otherValue.valueElements.get( i );\n", ofTypeName ) );
+			source.append( MessageFormat.format( "\t\t\t\tfinal {0} rightElem = other_value.valueElements.get( i );\n", ofTypeName ) );
 			source.append("\t\t\t\tif (leftElem.is_bound()) {\n");
 			source.append("\t\t\t\t\tif (rightElem.is_bound()) {\n");
 			source.append("\t\t\t\t\t\tif ( !leftElem.operator_equals( rightElem ) ) {\n");
@@ -480,23 +480,24 @@ public final class RecordOfGenerator {
 		}
 		source.append("\t\t}\n\n");
 
-		source.append( "\t\tpublic boolean operator_equals( final Record_Of_Type otherValue ) {\n" );
+		source.append("\t\t@Override\n");
+		source.append( "\t\tpublic boolean operator_equals( final Record_Of_Type other_value ) {\n" );
 		source.append( MessageFormat.format( "\t\t\tmust_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-		source.append( "\t\t\totherValue.must_bound(\"The right operand of comparison is an unbound value.\");\n" );
-		source.append("\t\t\tif (this == otherValue) {\n");
+		source.append( "\t\t\tother_value.must_bound(\"The right operand of comparison is an unbound value.\");\n" );
+		source.append("\t\t\tif (this == other_value) {\n");
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\t}\n\n");
 		if ( isSetOf ) {
-			source.append("\t\t\treturn RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);\n");
+			source.append("\t\t\treturn RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);\n");
 		} else {
 			source.append("\t\t\tfinal int size = valueElements.size();\n");
-			source.append("\t\t\tif ( size != otherValue.n_elem() ) {\n");
+			source.append("\t\t\tif ( size != other_value.n_elem() ) {\n");
 			source.append("\t\t\t\treturn false;\n");
 			source.append("\t\t\t}\n");
 			source.append('\n');
 			source.append("\t\t\tfor ( int i = 0; i < size; i++ ) {\n");
 			source.append( MessageFormat.format( "\t\t\t\tfinal {0} leftElem = valueElements.get( i );\n", ofTypeName ) );
-			source.append( "\t\t\t\tfinal Base_Type rightElem = otherValue.constGet_at(i);\n" );
+			source.append( "\t\t\t\tfinal Base_Type rightElem = other_value.constGet_at(i);\n" );
 			source.append("\t\t\t\tif (leftElem.is_bound()) {\n");
 			source.append("\t\t\t\t\tif (rightElem.is_bound()) {\n");
 			source.append("\t\t\t\t\t\tif ( !leftElem.operator_equals( rightElem ) ) {\n");
@@ -583,35 +584,24 @@ public final class RecordOfGenerator {
 	private static void generateValueoperator_assign(final JavaGenData aData, final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
 		source.append("\t\t@Override\n");
-		source.append( MessageFormat.format( "\t\tpublic {0} operator_assign(final Base_Type otherValue) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\t\t\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\t\t\treturn operator_assign(({0})otherValue);\n", genName) );
+		source.append( MessageFormat.format( "\t\tpublic {0} operator_assign(final Base_Type other_value) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tif (other_value instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\t\t\treturn operator_assign(({0})other_value);\n", genName) );
 		source.append("\t\t\t}\n\n");
-		source.append("\t\t\tif (otherValue instanceof Record_Of_Type) {\n");
-		source.append("\t\t\t\treturn operator_assign((Record_Of_Type)otherValue);\n");
+		source.append("\t\t\tif (other_value instanceof Record_Of_Type) {\n");
+		source.append("\t\t\t\treturn operator_assign((Record_Of_Type)other_value);\n");
 		source.append("\t\t\t}\n\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
 		source.append("\t\t}\n\n");
 
-		if ( aData.isDebug() ) {
-			source.append("\t\t/**\n");
-			source.append("\t\t * Assigns the other value to this value.\n");
-			source.append("\t\t * Overwriting the current content in the process.\n");
-			source.append("\t\t *<p>\n");
-			source.append("\t\t * operator= in the core.\n");
-			source.append("\t\t *\n");
-			source.append("\t\t * @param otherValue\n");
-			source.append("\t\t *                the other value to assign.\n");
-			source.append("\t\t * @return the new value object.\n");
-			source.append("\t\t */\n");
-		}
-		source.append( MessageFormat.format( "\t\tpublic {0} operator_assign( final Record_Of_Type otherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format("\t\t\totherValue.must_bound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
-		source.append("\t\t\tif (this == otherValue) {\n");
+		source.append("\t\t@Override\n");
+		source.append( MessageFormat.format( "\t\tpublic {0} operator_assign( final Record_Of_Type other_value ) '{'\n", genName ) );
+		source.append( MessageFormat.format("\t\t\tother_value.must_bound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
+		source.append("\t\t\tif (this == other_value) {\n");
 		source.append("\t\t\t\treturn this;\n");
 		source.append("\t\t\t}\n");
 		source.append('\n');
-		source.append("\t\t\tvalueElements = copy_list( otherValue );\n");
+		source.append("\t\t\tvalueElements = copy_list( other_value );\n");
 		source.append("\t\t\treturn this;\n");
 		source.append("\t\t}\n\n");
 
