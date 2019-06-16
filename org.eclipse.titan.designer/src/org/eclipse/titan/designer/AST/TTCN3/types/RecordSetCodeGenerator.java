@@ -4579,7 +4579,7 @@ public final class RecordSetCodeGenerator {
 				}
 			} else if (fieldInfo.raw.union_member_num > 0) {
 				source.append(MessageFormat.format("switch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
-				for (int m = 0; m < fieldInfo.raw.member_name.size(); m++) {
+				for (int m = 1; m < fieldInfo.raw.member_name.size(); m++) {
 					source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.raw.member_name.get(m)));
 					if (fieldInfo.raw.lengthto_offset != 0) {
 						source.append(MessageFormat.format("{0}{1}.get_field_{2}().operator_assign({0}{1}.get_field_{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
