@@ -4569,7 +4569,7 @@ public final class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("if ({0}{1}.get_field_{2}().is_present()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname)));
 				}
 				if (fieldInfo.raw.lengthto_offset != 0) {
-					source.append(MessageFormat.format("{0}{1}.get_field_{2}(){3}.operator_assign({0}{1}.get_field_{2}(){3} - {4});\n",
+					source.append(MessageFormat.format("{0}{1}.get_field_{2}(){3}.operator_assign({0}{1}.get_field_{2}(){3}.sub({4}));\n",
 							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
 				}
 				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}(){4}.get_long() * {5};\n",
@@ -4582,7 +4582,7 @@ public final class RecordSetCodeGenerator {
 				for (int m = 1; m < fieldInfo.raw.member_name.size(); m++) {
 					source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.raw.member_name.get(m)));
 					if (fieldInfo.raw.lengthto_offset != 0) {
-						source.append(MessageFormat.format("{0}{1}.get_field_{2}().operator_assign({0}{1}.get_field_{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
+						source.append(MessageFormat.format("{0}{1}.get_field_{2}().operator_assign({0}{1}.get_field_{2}().sub({3}));\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
 					}
 					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get_field_{3}().get_long() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 					source.append("break;\n");
