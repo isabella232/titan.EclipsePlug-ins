@@ -1244,7 +1244,6 @@ public final class RecordSetCodeGenerator {
 					source.append("}\n");
 
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].calc = calc_type.CALC_LENGTH;\n", i));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].coding_descr = {1}_descr_;\n", i, fieldInfo.raw.lengthindex.typedesc));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].length = {1};\n", i, fieldInfo.raw.fieldlength));
