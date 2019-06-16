@@ -205,12 +205,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__INTEGER__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__INTEGER__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__INTEGER__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED.");
 		}
@@ -234,25 +234,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__INTEGER__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__INTEGER__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanInteger leftElem = valueElements.get( i );
-				final TitanInteger rightElem = otherValue.valueElements.get( i );
+				final TitanInteger rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -269,21 +269,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanInteger leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -332,35 +333,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__INTEGER__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__INTEGER__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__INTEGER__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__INTEGER__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__INTEGER__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -2347,12 +2339,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING) {
-				return operator_equals((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING) {
+				return operator_equals((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING.");
 		}
@@ -2376,28 +2368,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING right_ptr, final int right_index) {
@@ -2446,35 +2439,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING) {
-				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)otherValue);
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING) {
+				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -4568,12 +4552,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.");
 		}
@@ -4597,25 +4581,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanOctetString leftElem = valueElements.get( i );
-				final TitanOctetString rightElem = otherValue.valueElements.get( i );
+				final TitanOctetString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -4632,21 +4616,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanOctetString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -4695,35 +4680,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -6703,12 +6679,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT) {
-				return operator_equals((PREGEN__RECORD__OF__FLOAT)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__FLOAT) {
+				return operator_equals((PREGEN__RECORD__OF__FLOAT)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__FLOAT.");
 		}
@@ -6732,25 +6708,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__FLOAT otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__FLOAT other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanFloat leftElem = valueElements.get( i );
-				final TitanFloat rightElem = otherValue.valueElements.get( i );
+				final TitanFloat rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -6767,21 +6743,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanFloat leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -6830,35 +6807,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__FLOAT operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT) {
-				return operator_assign((PREGEN__RECORD__OF__FLOAT)otherValue);
+		public PREGEN__RECORD__OF__FLOAT operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__FLOAT) {
+				return operator_assign((PREGEN__RECORD__OF__FLOAT)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__FLOAT.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__FLOAT operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__FLOAT operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -8838,12 +8806,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING) {
-				return operator_equals((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING) {
+				return operator_equals((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.");
 		}
@@ -8867,25 +8835,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanUniversalCharString leftElem = valueElements.get( i );
-				final TitanUniversalCharString rightElem = otherValue.valueElements.get( i );
+				final TitanUniversalCharString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -8902,21 +8870,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanUniversalCharString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -8965,35 +8934,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING) {
-				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING)otherValue);
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING) {
+				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -10973,12 +10933,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING) {
-				return operator_equals((PREGEN__RECORD__OF__BITSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BITSTRING) {
+				return operator_equals((PREGEN__RECORD__OF__BITSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BITSTRING.");
 		}
@@ -11002,25 +10962,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__BITSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__BITSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBitString leftElem = valueElements.get( i );
-				final TitanBitString rightElem = otherValue.valueElements.get( i );
+				final TitanBitString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -11037,21 +10997,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBitString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -11100,35 +11061,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__BITSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING) {
-				return operator_assign((PREGEN__RECORD__OF__BITSTRING)otherValue);
+		public PREGEN__RECORD__OF__BITSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BITSTRING) {
+				return operator_assign((PREGEN__RECORD__OF__BITSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BITSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__BITSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__BITSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -13108,12 +13060,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.");
 		}
@@ -13137,25 +13089,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBoolean leftElem = valueElements.get( i );
-				final TitanBoolean rightElem = otherValue.valueElements.get( i );
+				final TitanBoolean rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -13172,21 +13124,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBoolean leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -13235,35 +13188,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -15243,12 +15187,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING) {
-				return operator_equals((PREGEN__RECORD__OF__CHARSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__CHARSTRING) {
+				return operator_equals((PREGEN__RECORD__OF__CHARSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__CHARSTRING.");
 		}
@@ -15272,25 +15216,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__CHARSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__CHARSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanCharString leftElem = valueElements.get( i );
-				final TitanCharString rightElem = otherValue.valueElements.get( i );
+				final TitanCharString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -15307,21 +15251,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanCharString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -15370,35 +15315,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__CHARSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING) {
-				return operator_assign((PREGEN__RECORD__OF__CHARSTRING)otherValue);
+		public PREGEN__RECORD__OF__CHARSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__CHARSTRING) {
+				return operator_assign((PREGEN__RECORD__OF__CHARSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__CHARSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__CHARSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -17378,12 +17314,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN) {
-				return operator_equals((PREGEN__RECORD__OF__BOOLEAN)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BOOLEAN) {
+				return operator_equals((PREGEN__RECORD__OF__BOOLEAN)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BOOLEAN.");
 		}
@@ -17407,25 +17343,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__BOOLEAN otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__BOOLEAN other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBoolean leftElem = valueElements.get( i );
-				final TitanBoolean rightElem = otherValue.valueElements.get( i );
+				final TitanBoolean rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -17442,21 +17378,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBoolean leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -17505,35 +17442,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__BOOLEAN operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BOOLEAN) {
-				return operator_assign((PREGEN__RECORD__OF__BOOLEAN)otherValue);
+		public PREGEN__RECORD__OF__BOOLEAN operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BOOLEAN) {
+				return operator_assign((PREGEN__RECORD__OF__BOOLEAN)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BOOLEAN.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__BOOLEAN operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__BOOLEAN operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -19513,12 +19441,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__BITSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BITSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__BITSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.");
 		}
@@ -19542,25 +19470,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBitString leftElem = valueElements.get( i );
-				final TitanBitString rightElem = otherValue.valueElements.get( i );
+				final TitanBitString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -19577,21 +19505,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanBitString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -19640,35 +19569,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__BITSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__BITSTRING__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__BITSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__BITSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__BITSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -21648,12 +21568,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER) {
-				return operator_equals((PREGEN__RECORD__OF__INTEGER)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__INTEGER) {
+				return operator_equals((PREGEN__RECORD__OF__INTEGER)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__INTEGER.");
 		}
@@ -21677,25 +21597,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__INTEGER otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__INTEGER other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanInteger leftElem = valueElements.get( i );
-				final TitanInteger rightElem = otherValue.valueElements.get( i );
+				final TitanInteger rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -21712,21 +21632,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanInteger leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -21775,35 +21696,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__INTEGER operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__INTEGER) {
-				return operator_assign((PREGEN__RECORD__OF__INTEGER)otherValue);
+		public PREGEN__RECORD__OF__INTEGER operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__INTEGER) {
+				return operator_assign((PREGEN__RECORD__OF__INTEGER)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__INTEGER.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__INTEGER operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__INTEGER operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -23790,12 +23702,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
@@ -23819,28 +23731,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -23889,35 +23802,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -26018,12 +25922,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN) {
-				return operator_equals((PREGEN__SET__OF__BOOLEAN)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BOOLEAN) {
+				return operator_equals((PREGEN__SET__OF__BOOLEAN)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BOOLEAN.");
 		}
@@ -26047,28 +25951,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__BOOLEAN otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__BOOLEAN other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN right_ptr, final int right_index) {
@@ -26117,35 +26022,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__BOOLEAN operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN) {
-				return operator_assign((PREGEN__SET__OF__BOOLEAN)otherValue);
+		public PREGEN__SET__OF__BOOLEAN operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BOOLEAN) {
+				return operator_assign((PREGEN__SET__OF__BOOLEAN)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BOOLEAN.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__BOOLEAN operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__BOOLEAN operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -28246,12 +28142,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__FLOAT__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__FLOAT__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__FLOAT__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__FLOAT__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__FLOAT__OPTIMIZED.");
 		}
@@ -28275,28 +28171,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__FLOAT__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__FLOAT__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT__OPTIMIZED right_ptr, final int right_index) {
@@ -28345,35 +28242,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__FLOAT__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__FLOAT__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__FLOAT__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__FLOAT__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__FLOAT__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__FLOAT__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -30474,12 +30362,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__INTEGER) {
-				return operator_equals((PREGEN__SET__OF__INTEGER)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__INTEGER) {
+				return operator_equals((PREGEN__SET__OF__INTEGER)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__INTEGER.");
 		}
@@ -30503,28 +30391,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__INTEGER otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__INTEGER other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER right_ptr, final int right_index) {
@@ -30573,35 +30462,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__INTEGER operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__INTEGER) {
-				return operator_assign((PREGEN__SET__OF__INTEGER)otherValue);
+		public PREGEN__SET__OF__INTEGER operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__INTEGER) {
+				return operator_assign((PREGEN__SET__OF__INTEGER)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__INTEGER.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__INTEGER operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__INTEGER operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -32702,12 +32582,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING) {
-				return operator_equals((PREGEN__SET__OF__CHARSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__CHARSTRING) {
+				return operator_equals((PREGEN__SET__OF__CHARSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__CHARSTRING.");
 		}
@@ -32731,28 +32611,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__CHARSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__CHARSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING right_ptr, final int right_index) {
@@ -32801,35 +32682,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__CHARSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING) {
-				return operator_assign((PREGEN__SET__OF__CHARSTRING)otherValue);
+		public PREGEN__SET__OF__CHARSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__CHARSTRING) {
+				return operator_assign((PREGEN__SET__OF__CHARSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__CHARSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__CHARSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__CHARSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -34923,12 +34795,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
@@ -34952,25 +34824,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanUniversalCharString leftElem = valueElements.get( i );
-				final TitanUniversalCharString rightElem = otherValue.valueElements.get( i );
+				final TitanUniversalCharString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -34987,21 +34859,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanUniversalCharString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -35050,35 +34923,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -37065,12 +36929,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING) {
-				return operator_equals((PREGEN__SET__OF__HEXSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__HEXSTRING) {
+				return operator_equals((PREGEN__SET__OF__HEXSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__HEXSTRING.");
 		}
@@ -37094,28 +36958,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__HEXSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__HEXSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING right_ptr, final int right_index) {
@@ -37164,35 +37029,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__HEXSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING) {
-				return operator_assign((PREGEN__SET__OF__HEXSTRING)otherValue);
+		public PREGEN__SET__OF__HEXSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__HEXSTRING) {
+				return operator_assign((PREGEN__SET__OF__HEXSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__HEXSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__HEXSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__HEXSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -39293,12 +39149,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__HEXSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED.");
 		}
@@ -39322,28 +39178,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__HEXSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__HEXSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -39392,35 +39249,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__HEXSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__HEXSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__HEXSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__HEXSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__HEXSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -41521,12 +41369,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING) {
-				return operator_equals((PREGEN__SET__OF__OCTETSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__OCTETSTRING) {
+				return operator_equals((PREGEN__SET__OF__OCTETSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__OCTETSTRING.");
 		}
@@ -41550,28 +41398,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__OCTETSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__OCTETSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING right_ptr, final int right_index) {
@@ -41620,35 +41469,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__OCTETSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING) {
-				return operator_assign((PREGEN__SET__OF__OCTETSTRING)otherValue);
+		public PREGEN__SET__OF__OCTETSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__OCTETSTRING) {
+				return operator_assign((PREGEN__SET__OF__OCTETSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__OCTETSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__OCTETSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__OCTETSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -43749,12 +43589,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__FLOAT) {
-				return operator_equals((PREGEN__SET__OF__FLOAT)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__FLOAT) {
+				return operator_equals((PREGEN__SET__OF__FLOAT)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__FLOAT.");
 		}
@@ -43778,28 +43618,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__FLOAT otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__FLOAT other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT right_ptr, final int right_index) {
@@ -43848,35 +43689,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__FLOAT operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__FLOAT) {
-				return operator_assign((PREGEN__SET__OF__FLOAT)otherValue);
+		public PREGEN__SET__OF__FLOAT operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__FLOAT) {
+				return operator_assign((PREGEN__SET__OF__FLOAT)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__FLOAT.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__FLOAT operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__FLOAT operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -45977,12 +45809,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__INTEGER__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__INTEGER__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__INTEGER__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__INTEGER__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__INTEGER__OPTIMIZED.");
 		}
@@ -46006,28 +45838,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__INTEGER__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__INTEGER__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER__OPTIMIZED right_ptr, final int right_index) {
@@ -46076,35 +45909,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__INTEGER__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__INTEGER__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__INTEGER__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__INTEGER__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__INTEGER__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__INTEGER__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -48205,12 +48029,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__OCTETSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.");
 		}
@@ -48234,28 +48058,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -48304,35 +48129,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__OCTETSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__OCTETSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__OCTETSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__OCTETSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -50426,12 +50242,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING) {
-				return operator_equals((PREGEN__RECORD__OF__OCTETSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__OCTETSTRING) {
+				return operator_equals((PREGEN__RECORD__OF__OCTETSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__OCTETSTRING.");
 		}
@@ -50455,25 +50271,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__OCTETSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__OCTETSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanOctetString leftElem = valueElements.get( i );
-				final TitanOctetString rightElem = otherValue.valueElements.get( i );
+				final TitanOctetString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -50490,21 +50306,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanOctetString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -50553,35 +50370,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__OCTETSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__OCTETSTRING) {
-				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING)otherValue);
+		public PREGEN__RECORD__OF__OCTETSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__OCTETSTRING) {
+				return operator_assign((PREGEN__RECORD__OF__OCTETSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__OCTETSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__OCTETSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__OCTETSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -52561,12 +52369,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING) {
-				return operator_equals((PREGEN__RECORD__OF__HEXSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__HEXSTRING) {
+				return operator_equals((PREGEN__RECORD__OF__HEXSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__HEXSTRING.");
 		}
@@ -52590,25 +52398,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__HEXSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__HEXSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanHexString leftElem = valueElements.get( i );
-				final TitanHexString rightElem = otherValue.valueElements.get( i );
+				final TitanHexString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -52625,21 +52433,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanHexString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -52688,35 +52497,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__HEXSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING) {
-				return operator_assign((PREGEN__RECORD__OF__HEXSTRING)otherValue);
+		public PREGEN__RECORD__OF__HEXSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__HEXSTRING) {
+				return operator_assign((PREGEN__RECORD__OF__HEXSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__HEXSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__HEXSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__HEXSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -54703,12 +54503,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__CHARSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED.");
 		}
@@ -54732,28 +54532,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__CHARSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__CHARSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -54802,35 +54603,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__CHARSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__CHARSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__CHARSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__CHARSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -56931,12 +56723,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BITSTRING) {
-				return operator_equals((PREGEN__SET__OF__BITSTRING)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BITSTRING) {
+				return operator_equals((PREGEN__SET__OF__BITSTRING)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BITSTRING.");
 		}
@@ -56960,28 +56752,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__BITSTRING otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__BITSTRING other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING right_ptr, final int right_index) {
@@ -57030,35 +56823,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__BITSTRING operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BITSTRING) {
-				return operator_assign((PREGEN__SET__OF__BITSTRING)otherValue);
+		public PREGEN__SET__OF__BITSTRING operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BITSTRING) {
+				return operator_assign((PREGEN__SET__OF__BITSTRING)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BITSTRING.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__BITSTRING operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__BITSTRING operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -59159,12 +58943,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BOOLEAN__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED.");
 		}
@@ -59188,28 +58972,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__BOOLEAN__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__BOOLEAN__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED right_ptr, final int right_index) {
@@ -59258,35 +59043,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BOOLEAN__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BOOLEAN__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__BOOLEAN__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BOOLEAN__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__BOOLEAN__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -61380,12 +61156,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.");
 		}
@@ -61409,25 +61185,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanCharString leftElem = valueElements.get( i );
-				final TitanCharString rightElem = otherValue.valueElements.get( i );
+				final TitanCharString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -61444,21 +61220,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanCharString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -61507,35 +61284,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -63515,12 +63283,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__FLOAT__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__FLOAT__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__FLOAT__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED.");
 		}
@@ -63544,25 +63312,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__FLOAT__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__FLOAT__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanFloat leftElem = valueElements.get( i );
-				final TitanFloat rightElem = otherValue.valueElements.get( i );
+				final TitanFloat rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -63579,21 +63347,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanFloat leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -63642,35 +63411,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__FLOAT__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__FLOAT__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__FLOAT__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__FLOAT__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__FLOAT__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__FLOAT__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -65657,12 +65417,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BITSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__SET__OF__BITSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BITSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__SET__OF__BITSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__SET__OF__BITSTRING__OPTIMIZED.");
 		}
@@ -65686,28 +65446,29 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__SET__OF__BITSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__SET__OF__BITSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(otherValue, otherValue.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -65756,35 +65517,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__SET__OF__BITSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__SET__OF__BITSTRING__OPTIMIZED)otherValue);
+		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__SET__OF__BITSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__SET__OF__BITSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__SET__OF__BITSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__SET__OF__BITSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
@@ -67878,12 +67630,12 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public boolean operator_equals(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED) {
-				return operator_equals((PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED)otherValue);
+		public boolean operator_equals(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED) {
+				return operator_equals((PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED)other_value);
 			}
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_equals((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_equals((Record_Of_Type)other_value);
 			}
 			throw new TtcnError("Internal Error: The left operand of comparison is not of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.");
 		}
@@ -67907,25 +67659,25 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *
 		 * operator== in the core
 		 *
-		 * @param otherValue
+		 * @param other_value
 		 *                the other value to check against.
 		 * @return true if the values are equivalent.
 		 */
-		public boolean operator_equals( final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED otherValue ) {
+		public boolean operator_equals( final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.valueElements.size() ) {
+			if ( size != other_value.valueElements.size() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanHexString leftElem = valueElements.get( i );
-				final TitanHexString rightElem = otherValue.valueElements.get( i );
+				final TitanHexString rightElem = other_value.valueElements.get( i );
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -67942,21 +67694,22 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return true;
 		}
 
-		public boolean operator_equals( final Record_Of_Type otherValue ) {
+		@Override
+		public boolean operator_equals( final Record_Of_Type other_value ) {
 			must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
-			otherValue.must_bound("The right operand of comparison is an unbound value.");
-			if (this == otherValue) {
+			other_value.must_bound("The right operand of comparison is an unbound value.");
+			if (this == other_value) {
 				return true;
 			}
 
 			final int size = valueElements.size();
-			if ( size != otherValue.n_elem() ) {
+			if ( size != other_value.n_elem() ) {
 				return false;
 			}
 
 			for ( int i = 0; i < size; i++ ) {
 				final TitanHexString leftElem = valueElements.get( i );
-				final Base_Type rightElem = otherValue.constGet_at(i);
+				final Base_Type rightElem = other_value.constGet_at(i);
 				if (leftElem.is_bound()) {
 					if (rightElem.is_bound()) {
 						if ( !leftElem.operator_equals( rightElem ) ) {
@@ -68005,35 +67758,26 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 
 		@Override
-		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type otherValue) {
-			if (otherValue instanceof PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED) {
-				return operator_assign((PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED)otherValue);
+		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_assign(final Base_Type other_value) {
+			if (other_value instanceof PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED) {
+				return operator_assign((PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED)other_value);
 			}
 
-			if (otherValue instanceof Record_Of_Type) {
-				return operator_assign((Record_Of_Type)otherValue);
+			if (other_value instanceof Record_Of_Type) {
+				return operator_assign((Record_Of_Type)other_value);
 			}
 
 			throw new TtcnError("Internal Error: The left operand of assignment is not of type PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.");
 		}
 
-		/**
-		 * Assigns the other value to this value.
-		 * Overwriting the current content in the process.
-		 *<p>
-		 * operator= in the core.
-		 *
-		 * @param otherValue
-		 *                the other value to assign.
-		 * @return the new value object.
-		 */
-		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_assign( final Record_Of_Type otherValue ) {
-			otherValue.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
-			if (this == otherValue) {
+		@Override
+		public PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED operator_assign( final Record_Of_Type other_value ) {
+			other_value.must_bound( "Assigning an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED." );
+			if (this == other_value) {
 				return this;
 			}
 
-			valueElements = copy_list( otherValue );
+			valueElements = copy_list( other_value );
 			return this;
 		}
 
