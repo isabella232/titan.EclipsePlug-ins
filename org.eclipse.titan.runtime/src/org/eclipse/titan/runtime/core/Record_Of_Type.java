@@ -13,7 +13,6 @@ package org.eclipse.titan.runtime.core;
  * @author Kristof Szabados
  */
 public abstract class Record_Of_Type extends Base_Type {
-	//TODO operator_assign, operator_equals
 
 	/**
 	 * Gives access to the given element. Indexing begins from zero. If this
@@ -73,4 +72,27 @@ public abstract class Record_Of_Type extends Base_Type {
 	 * @return the number of elements.
 	 * */
 	public abstract int n_elem();
+
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param other_value
+	 *                the other value to assign.
+	 * @return the new value object.
+	 */
+	public abstract Record_Of_Type operator_assign( final Record_Of_Type other_value );
+
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *<p>
+	 * operator== in the core
+	 *
+	 * @param other_value
+	 *                the other value to check against.
+	 * @return {@code true} if the values are equivalent.
+	 */
+	public abstract boolean operator_equals( final Record_Of_Type other_value );
 }
