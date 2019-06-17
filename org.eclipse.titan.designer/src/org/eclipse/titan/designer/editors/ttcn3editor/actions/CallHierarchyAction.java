@@ -172,7 +172,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 			return;
 		}
 
-		IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
+		final IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
 		if(statusLineManager == null) {
 			return;
 		}
