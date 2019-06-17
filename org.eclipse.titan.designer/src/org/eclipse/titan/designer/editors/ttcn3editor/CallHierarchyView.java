@@ -81,13 +81,13 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * The content provider for the {@link #treeViewer}.
 	 * @see CallHierarchyContentProvider
 	 */
-	private CallHierarchyContentProvider contentProvider;
+	private final CallHierarchyContentProvider contentProvider;
 
 	/**
 	 * The label provider for the {@link #treeViewer} and the {@link #tableViewer}.
 	 * @see CallHierarchyLabelProvider
 	 */
-	private CallHierarchyLabelProvider labelProvider;
+	private final CallHierarchyLabelProvider labelProvider;
 
 	/**
 	 * The <code>statusLineManager</code> is part of the view.<br>
@@ -108,7 +108,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * The {@link CallHierarchy} contains the in the call hierarchy view used search algorithms implementation.
 	 * @see CallHierarchy
 	 */
-	private CallHierarchy callHierarchy;
+	private final CallHierarchy callHierarchy;
 
 	/**
 	 * The current selected {@link CallHierarchyNode} in the {@link #treeViewer}.
