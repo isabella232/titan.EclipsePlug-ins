@@ -196,7 +196,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			return null;
 		}
 
-		CallHierarchyView view = (CallHierarchyView) viewPart;
+		final CallHierarchyView view = (CallHierarchyView) viewPart;
 
 		return view;
 	}
@@ -229,7 +229,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 */
 	@Override
 	public void createPartControl(final Composite parent) {
-		GridLayout gridLayout = new GridLayout();
+		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		gridLayout.makeColumnsEqualWidth = true;
 		parent.setLayout(gridLayout);
@@ -250,7 +250,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessVerticalSpace = true;
 
-		SashForm splitter = new SashForm(parent, SWT.NONE);
+		final SashForm splitter = new SashForm(parent, SWT.NONE);
 		splitter.setLayoutData(gridData);
 
 		setUpTreeViewer(splitter, gridData);
@@ -300,14 +300,14 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		final ArrayList<TableColumn> tableColumns = new ArrayList<TableColumn>();
 		for (int i = 0; i < columnHeaders.length; i++) {
 			tableLayout.addColumnData(columnLayouts[i]);
-			TableColumn tc = new TableColumn(table, SWT.NONE,i);
+			final TableColumn tc = new TableColumn(table, SWT.NONE,i);
 			tc.setResizable(columnLayouts[i].resizable);
 			tc.setText(columnHeaders[i]);
 			tableColumns.add(tc);
 		}
 
 		final Listener sortListener = new Listener() {
-			public void handleEvent(Event e) {
+			public void handleEvent(final Event e) {
 				int sortDirection = table.getSortDirection();
 
 				Object[] references = treeViewerSelectedNode.getReferences();
@@ -362,9 +362,9 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 */
 	public final Comparator<Object> getReferenceComparator = new Comparator<Object>() {
 		@Override
-		public int compare(Object object1, Object object2) {
-			Reference reference1 = (Reference) object1;
-			Reference reference2 = (Reference) object2;
+		public int compare(final Object object1, final Object object2) {
+			final Reference reference1 = (Reference) object1;
+			final Reference reference2 = (Reference) object2;
 			if (reference1.getLocation().getLine() < reference2.getLocation().getLine()) return -1;
 			if (reference1.getLocation().getLine() > reference2.getLocation().getLine()) return 1;
 			return 0;
@@ -384,11 +384,11 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			return;
 		}
 
-		IFile selectedFile = (IFile) location.getFile().getAdapter(IFile.class);
+		final IFile selectedFile = (IFile) location.getFile().getAdapter(IFile.class);
 		boolean isFileAlredyOpened = false;
 		IEditorReference openedEditor = null;
 
-		IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+		final IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
 		for (int i = 0; i < editorReferences.length; i++) {
 			if(editorReferences[i].getName().equals(selectedFile.getName())) {
 				isFileAlredyOpened = true;
@@ -400,7 +400,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		if(isFileAlredyOpened) {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().bringToTop(openedEditor.getPart(true));
 		} else {
-			IEditorInput input = new FileEditorInput(selectedFile);
+			final IEditorInput input = new FileEditorInput(selectedFile);
 			try {
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ProductConstants.PRODUCT_ID_DESIGNER + ".editors.ttcn3editor.TTCN3Editor");
 			} catch (PartInitException e) {
@@ -420,10 +420,10 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
      * 			The selected {@link Location}.
      */
     private void selectLocation(final Location location)  {
-		IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		ITextEditor editor 			= (ITextEditor) targetEditor;
-		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
-    }
+	final IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	final ITextEditor editor 			= (ITextEditor) targetEditor;
+	editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
+	}
 
 	/**
 	 * Return {@link Location} of a {@link CallHierarchyNode} or a {@link Reference} from a {@link SelectionChangedEvent}.
@@ -446,9 +446,9 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 			location = treeViewerSelectedNode.getNodeDefinition().getLocation();
 
-			Object[] references = treeViewerSelectedNode.getReferences();
+			final Object[] references = treeViewerSelectedNode.getReferences();
 
-			int sortDirection = table.getSortDirection();
+			final int sortDirection = table.getSortDirection();
 			if(sortDirection == SWT.UP) {
 				Arrays.sort(references, getReferenceComparator);
 			} else {
@@ -461,7 +461,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		}
 
 		if (selectedElement instanceof Reference) {
-			Reference reference = (Reference) selectedElement;
+			final Reference reference = (Reference) selectedElement;
 			location = reference.getLocation();
 			inFocus = TABLE_VIEWEVR;
 		}
