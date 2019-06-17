@@ -365,8 +365,13 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		public int compare(final Object object1, final Object object2) {
 			final Reference reference1 = (Reference) object1;
 			final Reference reference2 = (Reference) object2;
-			if (reference1.getLocation().getLine() < reference2.getLocation().getLine()) return -1;
-			if (reference1.getLocation().getLine() > reference2.getLocation().getLine()) return 1;
+			if (reference1.getLocation().getLine() < reference2.getLocation().getLine()) {
+				return -1;
+			}
+			if (reference1.getLocation().getLine() > reference2.getLocation().getLine()) {
+				return 1;
+			}
+
 			return 0;
 		}
 	}; 
