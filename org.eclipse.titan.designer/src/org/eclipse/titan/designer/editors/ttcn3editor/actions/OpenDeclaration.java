@@ -161,6 +161,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 					TITANDebugConsole.println("The project " + file.getProject() + " was last checked in " + projectSourceParser.getLastTimeChecked().toString());
 				}
 			}
+
 			return;
 		}
 
@@ -171,11 +172,10 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("No visible elements found");
 			}
+
 			return;
 		}
 
 		selectAndRevealDeclaration(decl.getIdentifier().getLocation());
-
-		return;
 	}
 }
