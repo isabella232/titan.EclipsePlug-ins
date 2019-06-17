@@ -239,10 +239,10 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		gridDataForLabel.grabExcessHorizontalSpace = true;
 		gridDataForLabel.minimumWidth = 100;
 
-        messageLabel = new Label(parent, SWT.WRAP);
-        messageLabel.setLayoutData(gridDataForLabel);
-        messageLabel.setAlignment(SWT.LEFT);
-        messageLabel.setText(INITIAL_MESSAGE);
+		messageLabel = new Label(parent, SWT.WRAP);
+		messageLabel.setLayoutData(gridDataForLabel);
+		messageLabel.setAlignment(SWT.LEFT);
+		messageLabel.setText(INITIAL_MESSAGE);
 
 		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
@@ -411,18 +411,18 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		}
 
 		selectLocation(location);
-    }
+	}
 
-    /**
-     * Select a {@link Location} in the current opened editor!<br>
-     * <b>Important:</b> The {@link Location} must be in the current opened editor.
-     * @param location
-     * 			The selected {@link Location}.
-     */
-    private void selectLocation(final Location location)  {
-	final IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-	final ITextEditor editor 			= (ITextEditor) targetEditor;
-	editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
+	/**
+	 * Select a {@link Location} in the current opened editor!<br>
+	 * <b>Important:</b> The {@link Location} must be in the current opened editor.
+	 * @param location
+	 * 			The selected {@link Location}.
+	 */
+	private void selectLocation(final Location location)  {
+		final IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		final ITextEditor editor 			= (ITextEditor) targetEditor;
+		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
 	}
 
 	/**
