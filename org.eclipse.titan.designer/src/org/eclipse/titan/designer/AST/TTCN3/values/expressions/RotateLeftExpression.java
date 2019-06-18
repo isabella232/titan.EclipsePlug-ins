@@ -392,12 +392,13 @@ public final class RotateLeftExpression extends Expression_Value {
 			lastValue = new Charstring_Value(rotateLeft(string, shiftSize));
 			lastValue.copyGeneralProperties(this);
 			break;
-		case UNIVERSALCHARSTRING_VALUE:
+		case UNIVERSALCHARSTRING_VALUE: {
 			final UniversalCharstring string2 = ((UniversalCharstring_Value) last1).getValue();
 			shiftSize = ((Integer_Value) last2).intValue();
 			lastValue = new UniversalCharstring_Value(rotateLeft(string2, shiftSize));
 			lastValue.copyGeneralProperties(this);
 			break;
+		}
 		default:
 			setIsErroneous(true);
 			break;

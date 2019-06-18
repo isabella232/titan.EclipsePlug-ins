@@ -388,12 +388,13 @@ public final class RotateRightExpression extends Expression_Value {
 			lastValue = new Charstring_Value(rotateRight(string, shiftSize));
 			lastValue.copyGeneralProperties(this);
 			break;
-		case UNIVERSALCHARSTRING_VALUE:
+		case UNIVERSALCHARSTRING_VALUE: {
 			final UniversalCharstring string2 = ((UniversalCharstring_Value) last1).getValue();
 			shiftSize = ((Integer_Value) last2).intValue();
 			lastValue = new UniversalCharstring_Value(rotateRight(string2, shiftSize));
 			lastValue.copyGeneralProperties(this);
 			break;
+		}
 		default:
 			setIsErroneous(true);
 			break;
