@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
@@ -173,6 +174,11 @@ public final class RotateLeftExpression extends Expression_Value {
 			setIsErroneous(true);
 			return Type_type.TYPE_UNDEFINED;
 		}
+	}
+
+	@Override
+	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
+		return value1.getExpressionGovernor(timestamp, expectedValue);
 	}
 
 	@Override
