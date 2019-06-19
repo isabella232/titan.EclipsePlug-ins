@@ -59,7 +59,7 @@ public class IncorrectShift {
 			}
 
 			final CompilationTimeStamp ct = CompilationTimeStamp.getBaseTimestamp();
-			final Type_type tempType2 = value2.getExpressionReturntype(ct, null);
+			final Type_type tempType2 = value2.getExpressionReturntype(ct, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (Type_type.TYPE_INTEGER != tempType2) {
 				return;
 			}
@@ -148,7 +148,7 @@ public class IncorrectShift {
 			return 0;
 		}
 
-		final Type_type tempType1 = value.getExpressionReturntype(ct, null);
+		final Type_type tempType1 = value.getExpressionReturntype(ct, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 		final IValue refd = value.getValueRefdLast(ct, null);
 		long stringSize = 0;
 		switch (tempType1) {
