@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
@@ -61,6 +62,8 @@ public final class RotateRightExpression extends Expression_Value {
 
 	private final Value value1;
 	private final Value value2;
+
+	private boolean needsConversion = false;
 
 	public RotateRightExpression(final Value value1, final Value value2) {
 		this.value1 = value1;
@@ -271,14 +274,32 @@ public final class RotateRightExpression extends Expression_Value {
 					valueSize = ((SetOf_Value) tempValue).getNofComponents();
 				}
 				break;
-			case TYPE_SEQUENCE_OF:
+			case TYPE_SEQUENCE_OF: {
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (Value_type.SEQUENCEOF_VALUE.equals(tempValue.getValuetype())) {
 					valueSize = ((SequenceOf_Value) tempValue).getNofComponents();
 				} else if (Value_type.SETOF_VALUE.equals(tempValue.getValuetype())) {
 					valueSize = ((SetOf_Value) tempValue).getNofComponents();
 				}
+
+				final IType v1_governor = value1.getExpressionGovernor(timestamp, expectedValue);
+				final IValue temp = v1_governor.checkThisValueRef(timestamp, value1);
+				v1_governor.checkThisValue(timestamp, temp, null, new IType.ValueCheckingOptions(expectedValue, false, false, true, false, false));
+				final TypeCompatibilityInfo info = new TypeCompatibilityInfo(getMyGovernor(), v1_governor, true);
+				if (myGovernor != null && !myGovernor.isCompatible(timestamp, v1_governor , info, null, null)) {
+					if (info.getSubtypeError() == null) {
+						//FIXME implement more precise check
+					} else {
+						// this is ok.
+						if (info.getNeedsConversion()) {
+							needsConversion = true;
+						}
+					}
+				} else if (info.getNeedsConversion()) {
+					needsConversion = true;
+				}
 				break;
+			}
 			case TYPE_ARRAY:
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (Value_type.SEQUENCEOF_VALUE.equals(tempValue.getValuetype())) {
@@ -352,6 +373,7 @@ public final class RotateRightExpression extends Expression_Value {
 		isErroneous = false;
 		lastTimeChecked = timestamp;
 		lastValue = this;
+		needsConversion = false;
 
 		if (value1 == null || value2 == null) {
 			return lastValue;
@@ -543,16 +565,32 @@ public final class RotateRightExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
+		return !needsConversion && value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//FIXME handle the needs conversion case
-		value1.generateCodeExpressionMandatory(aData, expression, true);
-		expression.expression.append(".rotate_right( ");
-		value2.generateCodeExpressionMandatory(aData, expression, false);
-		expression.expression.append(" )");
+		if (needsConversion) {
+			final ExpressionStruct tempExpr = new ExpressionStruct();
+			final String tempId1 = aData.getTemporaryVariableName();
+			final IType myGovernor = getMyGovernor();
+			final IType v1Governor = value1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+			expression.preamble.append(MessageFormat.format("{0} {1} = ", v1Governor.getGenNameValue(aData, expression.preamble), tempId1));
+			value1.generateCodeExpressionMandatory(aData, tempExpr, true);
+			tempExpr.expression.append(".rotate_right( ");
+			value2.generateCodeExpressionMandatory(aData, tempExpr, false);
+			tempExpr.expression.append(" )");
+			tempExpr.expression.append(";\n");
+			tempExpr.mergeExpression(expression.preamble);
+
+			final String tempId2 = myGovernor.generateConversion(aData, v1Governor, tempId1, expression);
+			expression.expression.append(tempId2);
+		} else {
+			value1.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(".rotate_right( ");
+			value2.generateCodeExpressionMandatory(aData, expression, false);
+			expression.expression.append(" )");
+		}
 	}
 }
