@@ -626,7 +626,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					componentValue.setMyGovernor(type);
 					if (Value_type.NOTUSED_VALUE.equals(componentValue.getValuetype())) {
 						if (!incompleteAllowed) {
-							componentValue.getLocation().reportSemanticError(INCOMPLETEPRESENTERROR);
+							componentValue.getLocation().reportSemanticWarning(INCOMPLETEPRESENTERROR);
 						}
 					} else {
 						final IValue tempValue = type.checkThisValueRef(timestamp, componentValue);

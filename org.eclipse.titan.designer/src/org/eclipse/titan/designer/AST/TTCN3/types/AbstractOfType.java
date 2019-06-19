@@ -343,7 +343,7 @@ public abstract class AbstractOfType extends ASN1Type {
 				component.setMyGovernor(getOfType());
 				if (Value_type.NOTUSED_VALUE.equals(component.getValuetype())) {
 					if (!incompleteAllowed) {
-						component.getLocation().reportSemanticError(INCOMPLETEPRESENTERROR);
+						component.getLocation().reportSemanticWarning(INCOMPLETEPRESENTERROR);
 					}
 				} else {
 					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
