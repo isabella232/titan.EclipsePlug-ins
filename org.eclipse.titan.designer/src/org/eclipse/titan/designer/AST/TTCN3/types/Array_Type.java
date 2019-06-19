@@ -683,7 +683,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 					break;
 				case TEMPLATE_NOTUSED:
 					if (!isModified) {
-						templateComponent.getLocation().reportSemanticError(NOTUSEDNOTALLOWED);
+						templateComponent.getLocation().reportSemanticWarning(NOTUSEDNOTALLOWED);
 					}
 					break;
 				default:

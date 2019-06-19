@@ -655,7 +655,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					break;
 				case TEMPLATE_NOTUSED:
 					if (Completeness_type.MUST_COMPLETE.equals(completeness)) {
-						component.getLocation().reportSemanticError(NOTUSEDNOTALLOWED1);
+						component.getLocation().reportSemanticWarning(NOTUSEDNOTALLOWED1);
 					} else if (Completeness_type.PARTIAL.equals(completeness) && i >= nofBaseComps) {
 						component.getLocation().reportSemanticError(NOTUSEDNOTALLOWED2);
 					}
