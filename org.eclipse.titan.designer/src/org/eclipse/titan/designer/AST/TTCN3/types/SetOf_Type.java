@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
@@ -765,22 +766,35 @@ public final class SetOf_Type extends AbstractOfType {
 			break;
 		}
 
-		if (!aData.getForceGenSeof() && fromType.getTypetype() == Type_type.TYPE_SET_OF && simpleOfType) {
+		if (!aData.getForceGenSeof() && refdType.getTypetype() == Type_type.TYPE_SET_OF && simpleOfType) {
 			// happens to map to the same type
 			return fromName;
 		}
 
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
-		final String name = getGenNameValue(aData, expression.expression);
 
+		final String name = getGenNameValue(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
-		expression.preamble.append(MessageFormat.format("{0}.set_size({1}.n_elem());\n", tempId, fromName));
-
-		final String tempLoopId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("for (int {0} = 0; {0} < {1}.n_elem(); {0}++) '{'\n", tempLoopId, fromName));
-		expression.preamble.append(MessageFormat.format("{0}.get_at({1}).operator_assign({2}.constGet_at({1}));\n", tempId, tempLoopId, fromName));
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
 		expression.preamble.append("}\n");
+
+		if (!aData.hasTypeConversion(ConversionFunctionName)) {
+			final StringBuilder conversionFunctionBody = new StringBuilder();
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			conversionFunctionBody.append("\t\tto.set_size(from.n_elem());\n");
+	
+			conversionFunctionBody.append("\t\tfor (int i = 0; i < from.n_elem(); i++) {\n");
+			conversionFunctionBody.append("\t\t\tif(from.constGet_at(i).is_bound()) {\n");
+			conversionFunctionBody.append("\t\t\t\tto.get_at(i).operator_assign(from.constGet_at(i));\n");
+			conversionFunctionBody.append("\t\t\t}\n");
+			conversionFunctionBody.append("\t\t}\n");
+			conversionFunctionBody.append("\t\treturn true;\n");
+			conversionFunctionBody.append("\t}\n\n");
+			aData.addTypeConversion(ConversionFunctionName, conversionFunctionBody.toString());
+		}
 
 		return tempId;
 	}
