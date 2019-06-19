@@ -33,7 +33,7 @@ import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView;
  * @see CallHierarchyNode
  * @see org.eclipse.ui.IEditorActionDelegate
  * @see org.eclipse.core.commands.AbstractHandler
- * @author Sándor Bálazs
+ * @author Sandor Balazs
  * */
 public final class CallHierarchyAction extends AbstractHandler implements IEditorActionDelegate {
 	/**

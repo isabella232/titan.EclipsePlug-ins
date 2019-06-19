@@ -55,7 +55,7 @@ import org.eclipse.swt.widgets.Event;
  * 
  * @see ViewPart
  * @see ISelectionChangedListener
- * @author Sándor Bálazs
+ * @author Sandor Balazs
  */
 public final class CallHierarchyView extends ViewPart implements ISelectionChangedListener {
 	/**

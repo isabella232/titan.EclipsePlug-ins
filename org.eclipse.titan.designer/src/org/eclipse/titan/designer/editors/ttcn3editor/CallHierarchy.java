@@ -46,7 +46,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * The class use the {@link CallHierarchyNode} for the Call Hierarchy graph representation.
  * 
  * @see CallHierarchyNode
- * @author Sándor Bálazs
+ * @author Sandor Balazs
  */
 public class CallHierarchy {
 	/**

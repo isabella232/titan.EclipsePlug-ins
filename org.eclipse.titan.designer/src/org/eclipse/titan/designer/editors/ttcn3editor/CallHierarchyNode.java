@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
  * </p>
  * 
  * @see CallHierarchy
- * @author Sándor Bálazs
+ * @author Sandor Balazs
  */
 public class CallHierarchyNode {
 	/**

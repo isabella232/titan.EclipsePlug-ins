@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
  * 
  * @see CallHierarchyView
  * @see CallHierarchyNode
- * @author Sándor Bálazs
+ * @author Sandor Balazs
  */
 public class CallHierarchyContentProvider implements ITreeContentProvider {
 	/**
