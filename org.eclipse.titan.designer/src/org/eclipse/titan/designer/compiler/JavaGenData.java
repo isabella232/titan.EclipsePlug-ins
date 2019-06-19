@@ -80,6 +80,9 @@ public class JavaGenData {
 
 	private final HashMap<String, StringBuilder> types;
 
+	/** The conversion functions to be generated. */
+	private final HashMap<String, String> typeConversionFunctions;
+
 	/** are omits allowed in value list (legacy mode) */
 	private boolean allowOmitInValueList = false;
 
@@ -147,6 +150,7 @@ public class JavaGenData {
 		mInterModuleImports = new TreeSet<String>();
 		mDebug = false;
 		types = new HashMap<String, StringBuilder>();
+		typeConversionFunctions = new HashMap<String, String>();
 	}
 
 	public void collectProjectSettings(final Location location) {
@@ -358,6 +362,13 @@ public class JavaGenData {
 	}
 
 	/**
+	 * @return the type conversion functions for code generation.
+	 * */
+	public HashMap<String, String> getTypesConversions() {
+		return typeConversionFunctions;
+	}
+
+	/**
 	 * @return the internal imports with short class names in alphabetical order
 	 */
 	public Set<String> getInternalImports() {
@@ -432,5 +443,33 @@ public class JavaGenData {
 	 */
 	public boolean getLegacyCodecHandling() {
 		return legacyCodecHandling;
+	}
+
+	/**
+	 * Checks if a type conversion function with the provided name is
+	 * already registered.
+	 *
+	 * @param functionName
+	 *                the name to look for.
+	 * @return {@code true} if a function with the same name is already
+	 *         registered for generation, {@code false} otherwise.
+	 * */
+	public boolean hasTypeConversion(final String functionName) {
+		return typeConversionFunctions.containsKey(functionName);
+	}
+
+	/**
+	 * Registers a type conversion functions for code generation, for this
+	 * module.
+	 *
+	 * @param functionName
+	 *                the name of the function to register.
+	 * @param functionBody
+	 *                the body of the function to register.
+	 * */
+	public void addTypeConversion(final String functionName, final String functionBody) {
+		if (!typeConversionFunctions.containsKey(functionName)) {
+			typeConversionFunctions.put(functionName, functionBody);
+		}
 	}
 }

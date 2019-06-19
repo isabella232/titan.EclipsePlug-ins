@@ -117,6 +117,10 @@ public class ProjectSourceCompiler {
 			sourceCode.append(typeString);
 		}
 
+		for(final String typeConversion: data.getTypesConversions().values()) {
+			sourceCode.append(typeConversion);
+		}
+
 		sourceCode.append(data.getSrc());
 
 		writeFooter(data, sourceCode, sourceFile, aModule);

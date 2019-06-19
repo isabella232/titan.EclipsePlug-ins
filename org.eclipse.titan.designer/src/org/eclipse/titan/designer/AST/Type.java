@@ -3312,6 +3312,29 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		needs_any_from_done = true;
 	}
 
+	/**
+	 * Calculate and return the name of the function that would be generated
+	 * when converting from one type to the other.
+	 *
+	 * @param aData
+	 *                used to access the build context.
+	 * @param from
+	 *                the type to convert from.
+	 * @param to
+	 *                the type to convert to.
+	 * @param source
+	 *                the StringBuilder where errors can be reported to.
+	 * @return the name of the function.
+	 * */
+	public static String getConversionFunction(final JavaGenData aData, final IType from, final IType to, final StringBuilder source) {
+		final String fromName = from.getGenNameValue( aData, source );
+		final String toName = to.getGenNameValue( aData, source );
+		final StringBuilder returnValue = new StringBuilder();
+		returnValue.append("conv_").append(fromName.replace('.', '_')).append("_").append(toName.replace('.', '_'));
+
+		return returnValue.toString();
+	}
+
 	@Override
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		// the default implementation does nothing
