@@ -584,8 +584,7 @@ public final class RotateRightExpression extends Expression_Value {
 			value1.generateCodeExpressionMandatory(aData, tempExpr, true);
 			tempExpr.expression.append(".rotate_right( ");
 			value2.generateCodeExpressionMandatory(aData, tempExpr, false);
-			tempExpr.expression.append(" )");
-			tempExpr.expression.append(";\n");
+			tempExpr.expression.append(" );\n");
 			tempExpr.mergeExpression(expression.preamble);
 
 			final String tempId2 = myGovernor.generateConversion(aData, v1Governor, tempId1, expression);
