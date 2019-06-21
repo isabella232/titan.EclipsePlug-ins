@@ -265,7 +265,7 @@ public final class RotateLeftExpression extends Expression_Value {
 					valueSize = ((UniversalCharstring_Value) tempValue).getValueLength();
 				}
 				break;
-			case TYPE_SET_OF:
+			case TYPE_SET_OF: {
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (Value_type.SEQUENCEOF_VALUE.equals(tempValue.getValuetype())) {
 					tempValue = tempValue.setValuetype(timestamp, Value_type.SETOF_VALUE);
@@ -273,7 +273,29 @@ public final class RotateLeftExpression extends Expression_Value {
 				if (Value_type.SETOF_VALUE.equals(tempValue.getValuetype())) {
 					valueSize = ((SetOf_Value) tempValue).getNofComponents();
 				}
+
+				final IType v1_governor = tempValue.getExpressionGovernor(timestamp, expectedValue);
+				final IValue temp = v1_governor.checkThisValueRef(timestamp, tempValue);
+				v1_governor.checkThisValue(timestamp, temp, null, new IType.ValueCheckingOptions(expectedValue, false, false, true, false, false));
+				final TypeCompatibilityInfo info = new TypeCompatibilityInfo(getMyGovernor(), v1_governor, true);
+				if (myGovernor != null && !myGovernor.isCompatible(timestamp, v1_governor , info, null, null)) {
+					if (info.getSubtypeError() == null) {
+						if (info.getErrorStr() == null) {
+							getLocation().reportSemanticError(MessageFormat.format("First operand of operation `<@'' is of type `{0}'', but a value of type `{1}'' was expected here", v1_governor.getTypename(), myGovernor.getTypename()));
+						} else {
+							getLocation().reportSemanticError(info.getErrorStr());
+						}
+					} else {
+						// this is ok.
+						if (info.getNeedsConversion()) {
+							needsConversion = true;
+						}
+					}
+				} else if (info.getNeedsConversion()) {
+					needsConversion = true;
+				}
 				break;
+			}
 			case TYPE_SEQUENCE_OF: {
 				tempValue = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (Value_type.SEQUENCEOF_VALUE.equals(tempValue.getValuetype())) {
