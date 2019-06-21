@@ -176,8 +176,7 @@ public final class TypeCompatibilityInfo {
 	 *
 	 * @return the assembled message
 	 * */
-	@Override
-	public String toString() {
+	public String getErrorStringString() {
 		final StringBuilder returnValue = new StringBuilder("Type mismatch: ");
 		final String op1DisplayString = op1RefStr.toString();
 		final String op2DisplayString = op2RefStr.toString();

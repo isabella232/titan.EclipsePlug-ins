@@ -310,10 +310,10 @@ public final class RotateLeftExpression extends Expression_Value {
 				final TypeCompatibilityInfo info = new TypeCompatibilityInfo(getMyGovernor(), v1_governor, true);
 				if (myGovernor != null && !myGovernor.isCompatible(timestamp, v1_governor , info, null, null)) {
 					if (info.getSubtypeError() == null) {
-						if (info.getErrorStr() == null) {
+						if (info.getErrorStringString() == null) {
 							getLocation().reportSemanticError(MessageFormat.format("First operand of operation `<@'' is of type `{0}'', but a value of type `{1}'' was expected here", v1_governor.getTypename(), myGovernor.getTypename()));
 						} else {
-							getLocation().reportSemanticError(info.getErrorStr());
+							getLocation().reportSemanticError(info.getErrorStringString());
 						}
 					} else {
 						// this is ok.

@@ -278,7 +278,7 @@ public final class ExpressionUtilities {
 				final boolean retVal1 = type1.isCompatible(timestamp, type2, info1, null, null);
 				final boolean retVal2 = type2.isCompatible(timestamp, type1, info2, null, null);
 				if (!retVal1 && !retVal2) {
-					expression.getLocation().reportSemanticError(info1.toString());
+					expression.getLocation().reportSemanticError(info1.getErrorStringString());
 					expression.setIsErroneous(true);
 					return;
 				}
