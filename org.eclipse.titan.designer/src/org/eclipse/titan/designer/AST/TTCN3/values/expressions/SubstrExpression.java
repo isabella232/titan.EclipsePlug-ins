@@ -278,8 +278,6 @@ public final class SubstrExpression extends Expression_Value {
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
-		Type_type tempType2 = null;
-		Type_type tempType3 = null;
 		IValue value1 = null;
 
 		if (templateInstance1 != null) {
@@ -341,7 +339,7 @@ public final class SubstrExpression extends Expression_Value {
 
 		if (value2 != null) {
 			value2.setLoweridToReference(timestamp);
-			tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
+			final Type_type tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType2) {
 			case TYPE_INTEGER:
@@ -371,7 +369,7 @@ public final class SubstrExpression extends Expression_Value {
 
 		if (value3 != null) {
 			value3.setLoweridToReference(timestamp);
-			tempType3 = value3.getExpressionReturntype(timestamp, expectedValue);
+			final Type_type tempType3 = value3.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType3) {
 			case TYPE_INTEGER:
