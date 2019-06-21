@@ -1603,7 +1603,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				if (compatibilityLevel == CompatibilityLevel.INCOMPATIBLE_SUBTYPE) {
 					value.getLocation().reportSemanticError(info.getSubtypeError());
 				} else {
-					value.getLocation().reportSemanticError(info.toString());
+					value.getLocation().reportSemanticError(info.getErrorStringString());
 				}
 				break;
 			default:
