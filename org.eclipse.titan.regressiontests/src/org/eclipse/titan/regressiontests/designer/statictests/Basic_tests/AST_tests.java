@@ -410,7 +410,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1498);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1503);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -868,6 +868,7 @@ public class AST_tests {
 		lineNum += 31;
 		markersToCheck.add(new MarkerToCheck("The first operand of operation `substr' should be a string, `record of', or a `set of' value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Incompatible value: `bitstring' was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.myrecof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum, IMarker.SEVERITY_ERROR));
@@ -885,9 +886,13 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (6) and third operand (1) of operation `substr' is greater than the length of the first operand (1)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (2) and third operand (6) of operation `substr' is greater than the length of the first operand (1)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (6) and third operand (1) of operation `substr' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.myrecof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (2) and third operand (6) of operation `substr' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.myrecof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (6) and third operand (1) of operation `substr' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.mysetof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (2) and third operand (6) of operation `substr' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.mysetof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 38;
 		markersToCheck.add(new MarkerToCheck("The second operand of the `&' operation should be a string, `record of', or a `set of' value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of the `&' operation should be a string, `record of', or a `set of' value",  ++lineNum, IMarker.SEVERITY_ERROR));

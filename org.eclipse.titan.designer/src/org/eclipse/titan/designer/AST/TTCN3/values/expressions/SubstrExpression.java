@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
@@ -65,6 +66,8 @@ public final class SubstrExpression extends Expression_Value {
 	private final TemplateInstance templateInstance1;
 	private final Value value2;
 	private final Value value3;
+
+	private boolean needsConversion = false;
 
 	public SubstrExpression(final TemplateInstance templateInstance1, final Value value2, final Value value3) {
 		this.templateInstance1 = templateInstance1;
@@ -275,7 +278,6 @@ public final class SubstrExpression extends Expression_Value {
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
-		Type_type tempType1 = null;
 		Type_type tempType2 = null;
 		Type_type tempType3 = null;
 		IValue value1 = null;
@@ -288,18 +290,45 @@ public final class SubstrExpression extends Expression_Value {
 			}
 			value1 = ((SpecificValue_Template) temp).getSpecificValue();
 			value1.setLoweridToReference(timestamp);
-			tempType1 = value1.getExpressionReturntype(timestamp, internalExpectation);
+			final IType templateGovernor = templateInstance1.getExpressionGovernor(timestamp, expectedValue);
+			final IType lastTemplateGovernor = templateGovernor.getTypeRefdLast(timestamp);
 
-			switch (tempType1) {
+			switch (lastTemplateGovernor.getTypetype()) {
 			case TYPE_BITSTRING:
 			case TYPE_HEXSTRING:
 			case TYPE_OCTETSTRING:
 			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
-			case TYPE_SET_OF:
-			case TYPE_SEQUENCE_OF:
 				value1.getValueRefdLast(timestamp, internalExpectation, referenceChain);
 				break;
+			case TYPE_SET_OF:
+			case TYPE_SEQUENCE_OF: {
+				IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance1, lastTemplateGovernor, referenceChain, expectedValue);
+				if (getIsErroneous(timestamp)) {
+					return;
+				}
+
+				templateInstance1.getTemplateBody().checkSpecificValue(timestamp, false);
+
+				final TypeCompatibilityInfo info = new TypeCompatibilityInfo(myGovernor, lastTemplateGovernor, true);
+				if (myGovernor != null && !myGovernor.isCompatible(timestamp, lastTemplateGovernor , info, null, null)) {
+					if (info.getSubtypeError() == null) {
+						if (info.getErrorStringString() == null) {
+							getLocation().reportSemanticError(MessageFormat.format("First operand of operation `substr'' is of type `{0}'', but a value of type `{1}'' was expected here", lastTemplateGovernor.getTypename(), myGovernor.getTypename()));
+						} else {
+							getLocation().reportSemanticError(info.getErrorStringString());
+						}
+					} else {
+						// this is ok.
+						if (info.getNeedsConversion()) {
+							needsConversion = true;
+						}
+					}
+				} else if (info.getNeedsConversion()) {
+					needsConversion = true;
+				}
+				break;
+			}
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
 				break;
@@ -460,6 +489,7 @@ public final class SubstrExpression extends Expression_Value {
 		isErroneous = false;
 		lastTimeChecked = timestamp;
 		lastValue = this;
+		needsConversion = false;
 
 		if (templateInstance1 == null || value2 == null || value3 == null) {
 			return lastValue;
@@ -600,7 +630,7 @@ public final class SubstrExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
+		return !needsConversion && templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
 				&& value3.canGenerateSingleExpression();
 	}
 
