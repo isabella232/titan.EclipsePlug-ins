@@ -640,10 +640,35 @@ public final class SubstrExpression extends Expression_Value {
 			return;
 		}
 
+		if (needsConversion) {
+			ExpressionStruct tempExpression = new ExpressionStruct();
+			generateCodeExpressionSubstring(aData, tempExpression);
+			final IType templateGovernor = templateInstance1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+			final IType lastTemplateGovernor = templateGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+			final String tempId1 = aData.getTemporaryVariableName();
+			if (tempExpression.preamble.length() > 0) {
+				expression.preamble.append(tempExpression.preamble);
+			}
+
+			expression.preamble.append(MessageFormat.format("{0} {1} = {2};\n", lastTemplateGovernor.getGenNameValue(aData, expression.preamble), tempId1, tempExpression.expression));
+			if (tempExpression.postamble.length() > 0) {
+				expression.postamble.append(tempExpression.postamble);
+			}
+
+			final String tempId2 = myGovernor.generateConversion(aData, lastTemplateGovernor, tempId1, expression);
+			expression.expression.append(tempId2);
+		} else {
+			generateCodeExpressionSubstring(aData, expression);
+		}
+	}
+
+	private void generateCodeExpressionSubstring(final JavaGenData aData, final ExpressionStruct expression) {
 		final IValue lastValue2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 
-		switch(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()) {
+		final Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		switch (expressionType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
 		case TYPE_OCTETSTRING:
@@ -678,59 +703,33 @@ public final class SubstrExpression extends Expression_Value {
 		}
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF: {
-			ExpressionStruct tempExpression;
-			if (needsConversion) {
-				tempExpression = new ExpressionStruct();
-			} else {
-				tempExpression = expression;
-			}
-
-			templateInstance1.generateCode(aData, tempExpression, Restriction_type.TR_NONE);
-			tempExpression.expression.append(".substr( ");
+			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			expression.expression.append(".substr( ");
 			if (lastValue2 instanceof Integer_Value) {
 				final long tempNative = ((Integer_Value) lastValue2).getValue();
-				tempExpression.expression.append(tempNative);
+				expression.expression.append(tempNative);
 			} else if (lastValue2.returnsNative()) {
-				lastValue2.generateCodeExpressionMandatory(aData, tempExpression, false);
+				lastValue2.generateCodeExpressionMandatory(aData, expression, false);
 			} else {
-				lastValue2.generateCodeExpressionMandatory(aData, tempExpression, true);
-				tempExpression.expression.append(".get_int()");
+				lastValue2.generateCodeExpressionMandatory(aData, expression, true);
+				expression.expression.append(".get_int()");
 			}
-			tempExpression.expression.append(", ");
+			expression.expression.append(", ");
 			if (lastValue3 instanceof Integer_Value) {
 				final long tempNative = ((Integer_Value) lastValue3).getValue();
-				tempExpression.expression.append(tempNative);
+				expression.expression.append(tempNative);
 			} else if (lastValue3.returnsNative()) {
-				lastValue3.generateCodeExpressionMandatory(aData, tempExpression, false);
+				lastValue3.generateCodeExpressionMandatory(aData, expression, false);
 			} else {
-				lastValue3.generateCodeExpressionMandatory(aData, tempExpression, true);
-				tempExpression.expression.append(".get_int()");
+				lastValue3.generateCodeExpressionMandatory(aData, expression, true);
+				expression.expression.append(".get_int()");
 			}
-			tempExpression.expression.append(')');
-
-			if (needsConversion) {
-				final IType templateGovernor = templateInstance1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
-				final IType lastTemplateGovernor = templateGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-
-				final String tempId1 = aData.getTemporaryVariableName();
-				if (tempExpression.preamble.length() > 0) {
-					expression.preamble.append(tempExpression.preamble);
-				}
-
-				expression.preamble.append(MessageFormat.format("{0} {1} = {2};\n", lastTemplateGovernor.getGenNameValue(aData, expression.preamble), tempId1, tempExpression.expression));
-				if (tempExpression.postamble.length() > 0) {
-					expression.postamble.append(tempExpression.postamble);
-				}
-
-				final String tempId2 = myGovernor.generateConversion(aData, lastTemplateGovernor, tempId1, expression);
-				expression.expression.append(tempId2);
-			}
+			expression.expression.append(')');
 			break;
 		}
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 			break;
 		}
-
 	}
 }
