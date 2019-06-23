@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
@@ -69,6 +70,8 @@ public final class ReplaceExpression extends Expression_Value {
 	private final Value value2;
 	private final Value value3;
 	private final TemplateInstance templateInstance4;
+
+	private boolean needsConversion = false;
 
 	public ReplaceExpression(final TemplateInstance templateInstance1, final Value value2, final Value value3,
 			final TemplateInstance templateInstance4) {
@@ -342,16 +345,42 @@ public final class ReplaceExpression extends Expression_Value {
 			value1 = ((SpecificValue_Template) temp).getSpecificValue();
 			value1.setLoweridToReference(timestamp);
 			tempType1 = value1.getExpressionReturntype(timestamp, internalExpectation);
+			final IType lastTemplateGovernor = governor.getTypeRefdLast(timestamp);
 
-			switch (tempType1) {
+			switch (lastTemplateGovernor.getTypetype()) {
 			case TYPE_BITSTRING:
 			case TYPE_HEXSTRING:
 			case TYPE_OCTETSTRING:
 			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
+				value1.getValueRefdLast(timestamp, internalExpectation, referenceChain);
+				break;
 			case TYPE_SET_OF:
 			case TYPE_SEQUENCE_OF:
-				value1.getValueRefdLast(timestamp, internalExpectation, referenceChain);
+				IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance1, lastTemplateGovernor, referenceChain, expectedValue);
+				if (getIsErroneous(timestamp)) {
+					return;
+				}
+
+				templateInstance1.getTemplateBody().checkSpecificValue(timestamp, false);
+
+				final TypeCompatibilityInfo info = new TypeCompatibilityInfo(myGovernor, lastTemplateGovernor, true);
+				if (myGovernor != null && !myGovernor.isCompatible(timestamp, lastTemplateGovernor , info, null, null)) {
+					if (info.getSubtypeError() == null) {
+						if (info.getErrorStringString() == null) {
+							getLocation().reportSemanticError(MessageFormat.format("First operand of operation `replace'' is of type `{0}'', but a value of type `{1}'' was expected here", lastTemplateGovernor.getTypename(), myGovernor.getTypename()));
+						} else {
+							getLocation().reportSemanticError(info.getErrorStringString());
+						}
+					} else {
+						// this is ok.
+						if (info.getNeedsConversion()) {
+							needsConversion = true;
+						}
+					}
+				} else if (info.getNeedsConversion()) {
+					needsConversion = true;
+				}
 				break;
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
@@ -462,16 +491,42 @@ public final class ReplaceExpression extends Expression_Value {
 
 			value4.setLoweridToReference(timestamp);
 			tempType4 = value4.getExpressionReturntype(timestamp, internalExpectation);
+			final IType lastTemplateGovernor = governor.getTypeRefdLast(timestamp);
 
-			switch (tempType4) {
+			switch (lastTemplateGovernor.getTypetype()) {
 			case TYPE_BITSTRING:
 			case TYPE_HEXSTRING:
 			case TYPE_OCTETSTRING:
 			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
+				value4.getValueRefdLast(timestamp, internalExpectation, referenceChain);
+				break;
 			case TYPE_SET_OF:
 			case TYPE_SEQUENCE_OF:
-				value4.getValueRefdLast(timestamp, internalExpectation, referenceChain);
+				IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance4, lastTemplateGovernor, referenceChain, expectedValue);
+				if (getIsErroneous(timestamp)) {
+					return;
+				}
+
+				templateInstance4.getTemplateBody().checkSpecificValue(timestamp, false);
+
+				final TypeCompatibilityInfo info = new TypeCompatibilityInfo(myGovernor, lastTemplateGovernor, true);
+				if (myGovernor != null && !myGovernor.isCompatible(timestamp, lastTemplateGovernor , info, null, null)) {
+					if (info.getSubtypeError() == null) {
+						if (info.getErrorStringString() == null) {
+							getLocation().reportSemanticError(MessageFormat.format("Fourth operand of operation `replace'' is of type `{0}'', but a value of type `{1}'' was expected here", lastTemplateGovernor.getTypename(), myGovernor.getTypename()));
+						} else {
+							getLocation().reportSemanticError(info.getErrorStringString());
+						}
+					} else {
+						// this is ok.
+						if (info.getNeedsConversion()) {
+							needsConversion = true;
+						}
+					}
+				} else if (info.getNeedsConversion()) {
+					needsConversion = true;
+				}
 				break;
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
@@ -576,6 +631,7 @@ public final class ReplaceExpression extends Expression_Value {
 		isErroneous = false;
 		lastTimeChecked = timestamp;
 		lastValue = this;
+		needsConversion = false;
 
 		if (templateInstance1 == null || value2 == null || value3 == null || templateInstance4 == null) {
 			setIsErroneous(true);
@@ -760,7 +816,7 @@ public final class ReplaceExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
+		return !needsConversion && templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
 				&& value3.canGenerateSingleExpression() && templateInstance4.hasSingleExpression();
 	}
 
@@ -789,13 +845,35 @@ public final class ReplaceExpression extends Expression_Value {
 			return;
 		}
 
+		if (needsConversion) {
+			ExpressionStruct tempExpression = new ExpressionStruct();
+			generateCodeExpressionReplace(aData, tempExpression);
+			final IType templateGovernor = templateInstance1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+			final IType lastTemplateGovernor = templateGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+			final String tempId1 = aData.getTemporaryVariableName();
+			if (tempExpression.preamble.length() > 0) {
+				expression.preamble.append(tempExpression.preamble);
+			}
+
+			expression.preamble.append(MessageFormat.format("{0} {1} = {2};\n", lastTemplateGovernor.getGenNameValue(aData, expression.preamble), tempId1, tempExpression.expression));
+			if (tempExpression.postamble.length() > 0) {
+				expression.postamble.append(tempExpression.postamble);
+			}
+
+			final String tempId2 = myGovernor.generateConversion(aData, lastTemplateGovernor, tempId1, expression);
+			expression.expression.append(tempId2);
+		} else {
+			generateCodeExpressionReplace(aData, expression);
+		}
+	}
+
+	private void generateCodeExpressionReplace(final JavaGenData aData, final ExpressionStruct expression) {
 		final IValue lastValue2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 
-		//TODO extract to template instance
 		final boolean isValue1 = templateInstance1.getDerivedReference() == null && templateInstance1.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp());
 		final boolean isValue4 = templateInstance4.getDerivedReference() == null && templateInstance4.getTemplateBody() instanceof SpecificValue_Template;
-		// TODO handle the needs conversion case
 		final Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		switch (expressionType) {
 		case TYPE_BITSTRING:
@@ -836,7 +914,7 @@ public final class ReplaceExpression extends Expression_Value {
 			expression.expression.append(')');
 			break;
 		case TYPE_SEQUENCE_OF:
-		case TYPE_SET_OF:
+		case TYPE_SET_OF: {
 			if (isValue1) {
 				final IValue value1 = ((SpecificValue_Template) templateInstance1.getTemplateBody()).getValue();
 				value1.generateCodeExpressionMandatory(aData, expression, true);
@@ -872,6 +950,7 @@ public final class ReplaceExpression extends Expression_Value {
 			}
 			expression.expression.append(')');
 			break;
+		}
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 			break;
