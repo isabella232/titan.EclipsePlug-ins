@@ -27,15 +27,21 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.ps_elem_t.kind_t;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.UniversalCharstring_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
+import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.Range_ParsedSubType;
+import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.Single_ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -110,10 +116,10 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 	}
 
 	public void addStringUSI(final List<String> usi_str) {
-		UniversalCharstring s = new UniversalCharstring(usi_str, null);
+		UniversalCharstring s = new UniversalCharstring(usi_str, location);
 		ps_elem_t last_elem = get_last_elem();
 		if (last_elem != null) {
-			last_elem.str += s.getStringRepresentationForPattern();
+			last_elem.str = last_elem.str.concat(s.getStringRepresentationForPattern());
 		} else {
 			elems.add(new ps_elem_t(kind_t.PSE_STR, s.getStringRepresentationForPattern()));
 		}
@@ -183,6 +189,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		myScope = scope;
+		for (int i = 0; i < elems.size(); i++) {
+			elems.get(i).setScope(scope);
+		}
 	}
 
 	@Override
@@ -197,7 +206,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 	 * @param codeSection the code section where this pattern should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		//FIXME implement
+		for (int i = 0; i < elems.size(); i++) {
+			elems.get(i).setCodeSection(codeSection);
+		}
 	}
 
 	/**
@@ -230,9 +241,176 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 	}
 
 	//FIXME comment
-	public String create_charstring_literals(final Module module, final StringBuilder preamble) {
-		//FIXME implement correctly
+	public String create_charstring_literals(JavaGenData aData, final Module module, final StringBuilder preamble) {
+		StringBuilder s = new StringBuilder();
+		check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
+		if (patterntype == PatternType.CHARSTRING_PATTERN) {
+			s.append("TitanCharString_template(template_sel.STRING_PATTERN, new TitanCharString(");
+		} else {
+			s.append("TitanUniversalCharString_template(template_sel.STRING_PATTERN, new TitanCharString(");
+		}
+		if (elems.isEmpty() && content != null && !content.isEmpty()) {
+			addString(content);
+		}
+		for (int i = 0; i < elems.size(); i++) {
+			if(i > 0) {
+				s.append(" + ");
+			}
+			ps_elem_t pse = elems.get(i);
 
+			if (pse.is_charstring) {
+				s.append("\"?\"");
+				continue;
+			} else if (pse.is_universal_charstring) {
+				s.append("\"?\"");
+				continue;
+			}
+
+			switch (pse.kind) {
+			// Known in compile time: string literal, const etc.
+			case PSE_STR:
+				s.append("\"");
+				s.append(pse.str);
+				s.append("\"");
+				break;
+				// Known in compile time: string type with(out) range or list
+			case PSE_REFDSET:
+				if (pse.t == null) {
+					System.err.println("PatternString::create_charstring_literals()");
+					break;
+				}
+				if (pse.t.getSubtype()== null) {
+					// just a string type without any restrictions (or alias)
+					s.append("\"?\"");
+					continue;
+				}
+				List<ParsedSubType> vec = pse.t.getSubtype().getSubtypeParsed();
+				s.append("\"");
+				for (int j = 0; j < vec.size(); j++) {
+					ParsedSubType pst = vec.get(j);
+					if (j > 0) {
+						s.append("|\"+");
+					} else {
+						s.append("\"+");
+					}
+					switch (pst.getSubTypetype()) {
+					case RANGE_PARSEDSUBTYPE:
+						//double check to avoid ClassCastException
+						if (pst instanceof Range_ParsedSubType) {
+							Range_ParsedSubType range = (Range_ParsedSubType)pst;
+							s.append("\"[\" + ");
+							switch (range.getMin().getValuetype()) {
+							case CHARSTRING_VALUE:
+								s.append("\"");
+								s.append(((Charstring_Value)range.getMin()).getValue());
+								s.append("\"");
+								s.append("+ \"-\" +");
+								s.append("\"");
+								s.append(((Charstring_Value)range.getMax()).getValue());
+								s.append("\"");
+								break;
+							case UNIVERSALCHARSTRING_VALUE:
+								s.append("\"");
+								s.append(((UniversalCharstring_Value)range.getMin()).getValue().getStringRepresentationForPattern());
+								s.append("\"");
+								s.append("+ \"-\" +");
+								s.append("\"");
+								s.append(((UniversalCharstring_Value)range.getMax()).getValue().getStringRepresentationForPattern());
+								s.append("\"");
+								break;
+							default:
+								System.err.println("PatternString::create_charstring_literals()");
+								break;
+							}
+							s.append(" + \"]\"");
+						}
+						break;
+					case SINGLE_PARSEDSUBTYPE:
+						//double check to avoid ClassCastException
+						if (pst instanceof Single_ParsedSubType) {
+							Single_ParsedSubType single = (Single_ParsedSubType)pst;
+							switch (single.getValue().getValuetype()) {
+							case CHARSTRING_VALUE:
+								s.append("\"");
+								s.append(((Charstring_Value)single.getValue()).getValue());
+								s.append("\"");
+								break;
+							case UNIVERSALCHARSTRING_VALUE:
+								s.append("\"");
+								s.append(((UniversalCharstring_Value)single.getValue()).getValue().getStringRepresentationForPattern());
+								s.append("\"");
+								break;
+							default:
+								System.err.println("PatternString::create_charstring_literals()");
+								break;
+							}
+						}
+						break;
+					default:
+						System.err.println("PatternString::create_charstring_literals()");
+						break;
+					}
+					s.append("+\"");
+				}
+				s.append("\"");
+				break;
+				// Not known in compile time
+			case PSE_REF:
+				Assignment assign = pse.ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				ExpressionStruct expr = new ExpressionStruct();
+				pse.ref.generateConstRef(aData, expr);
+				Value.generateCodeExpressionOptionalFieldReference(aData, expr, pse.ref);
+				//TODO: preamble, postamble check
+				s.append(expr.expression);
+				if (pse.with_N && assign != null) {
+					if ((assign.getAssignmentType() == Assignment_type.A_TEMPLATE
+							|| assign.getAssignmentType() == Assignment_type.A_MODULEPAR_TEMPLATE
+							|| assign.getAssignmentType() == Assignment_type.A_VAR_TEMPLATE
+							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_IN
+							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT
+							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT)) {
+						String value_literal = "value";
+						s.append(String.format("if (%s.get_istemplate_kind(%s) == false) {\\n" 
+								+ "throw new TtcnError(\"Only specific value template allowed in pattern reference with \\\\N{ref}\");\n"
+								+ "}\n", expr.expression.toString(), value_literal));
+					}
+
+					expr.preamble.append((String.format("if (%s.lengthof() != 1)\n"
+							+ "{\n"
+							+ "throw new TtcnError(\"The length of the %scharstring must be of length one, when it is being referenced in a pattern with \\\\N{ref}\");\n"
+							+ "}\n", expr.expression.toString(), assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING ? "universal" : "")));
+				}
+				if (assign != null && (assign.getAssignmentType() == Assignment_type.A_TEMPLATE
+						|| assign.getAssignmentType() == Assignment_type.A_MODULEPAR_TEMPLATE
+						|| assign.getAssignmentType() == Assignment_type.A_VAR_TEMPLATE
+						|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_IN
+						|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT
+						|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT)) {
+					if ((assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_CHARSTRING
+							|| assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) && !pse.with_N) {
+						s.append(".get_single_value()");
+					} else if (assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING && pse.with_N) {
+						s.append(".valueof().get_stringRepr_for_pattern()");
+					} else {
+						s.append(".valueof()");
+					}
+				} else if (assign != null && (assign.getAssignmentType() == Assignment_type.A_MODULEPAR
+						|| assign.getAssignmentType() == Assignment_type.A_VAR
+						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL
+						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_IN
+						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_OUT
+						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_INOUT)
+						&& assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
+					s.append(".get_stringRepr_for_pattern()");
+				}
+
+				expr = null;
+				break;
+			} //for
+		}
+		s.append(") ,");
+		s.append(nocase ? "true" : "false");
+		s.append(")");
 		return content;
 	}
 
@@ -251,6 +429,22 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 	public boolean get_nocase() {
 		return nocase;
+	}
+
+	public void check_refs(final Expected_Value_type expected_value, final CompilationTimeStamp timestamp) {
+		for (int i = 0; i < elems.size(); i++) {
+			ps_elem_t pse = elems.get(i);
+			switch (pse.kind) {
+			case PSE_STR:
+				break;
+			case PSE_REFDSET:
+				/* actually, not supported */
+				break;
+			case PSE_REF:
+				pse.checkRef(patterntype, expected_value, timestamp);
+				break;
+			}
+		}
 	}
 
 	// =================================
@@ -359,10 +553,14 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 			IValue v = null;
 			IValue v_last = null;
-			if (ref.getId().getName() == "CHARSTRING") {
+			/**
+			 * Use @code Reference.getDisplayName() instead of  @code Reference.getId().getName()
+			 * because it is a manipulated ID/Reference.  
+			 */
+			if (ref.getDisplayName().equals("charstring")) {
 				is_charstring = true;
 				return;
-			} else if (ref.getId().getName() == "UNIVERSAL_CHARSTRING") {
+			} else if (ref.getDisplayName().equals("universal charstring")) {
 				is_universal_charstring = true;
 				return;
 			}
@@ -480,7 +678,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				return "null";
 			}
 		}
-		
+
 	}
 }
 
