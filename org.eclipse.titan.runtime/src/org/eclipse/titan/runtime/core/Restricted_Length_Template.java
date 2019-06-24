@@ -108,7 +108,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 								operation_name, type_name, operation_name, min_size, range_length_min_length));
 					}
 				} else {
-					throw new TtcnError(MessageFormat.format("Performing {0}of() operation on {1} {2} with no exact {4}.",
+					throw new TtcnError(MessageFormat.format("Performing {0}of() operation on {1} {2} with no exact {3}.",
 							operation_name, type_name_prefix, type_name, operation_name));
 				}
 			}
