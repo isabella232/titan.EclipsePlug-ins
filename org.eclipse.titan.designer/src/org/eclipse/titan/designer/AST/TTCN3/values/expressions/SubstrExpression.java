@@ -311,10 +311,11 @@ public final class SubstrExpression extends Expression_Value {
 				final TypeCompatibilityInfo info = new TypeCompatibilityInfo(myGovernor, lastTemplateGovernor, true);
 				if (myGovernor != null && !myGovernor.isCompatible(timestamp, lastTemplateGovernor , info, null, null)) {
 					if (info.getSubtypeError() == null) {
-						if (info.getErrorStringString() == null) {
+						final String errorString = info.getErrorStringString();
+						if (errorString == null) {
 							getLocation().reportSemanticError(MessageFormat.format("First operand of operation `substr'' is of type `{0}'', but a value of type `{1}'' was expected here", lastTemplateGovernor.getTypename(), myGovernor.getTypename()));
 						} else {
-							getLocation().reportSemanticError(info.getErrorStringString());
+							getLocation().reportSemanticError(errorString);
 						}
 					} else {
 						// this is ok.
