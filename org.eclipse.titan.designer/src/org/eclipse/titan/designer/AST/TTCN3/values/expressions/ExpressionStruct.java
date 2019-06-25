@@ -56,13 +56,13 @@ public class ExpressionStruct {
 	 * @return the source parameter.
 	 * */
 	public StringBuilder openMergeExpression(final StringBuilder source) {
-		if(preamble.length() > 0 || postamble.length() > 0) {
+		if(preamble.length() > 0) {
 			source.append(preamble);
 		}
 
 		source.append(expression);
 
-		if(preamble.length() > 0 || postamble.length() > 0) {
+		if(postamble.length() > 0) {
 			source.append(postamble);
 		}
 
