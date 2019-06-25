@@ -35,7 +35,7 @@ ANTLR 4.3
   select ANTLR 4.3 from the distribution list (or add $HOME/antlr/antlr-4.3-complete if is not in the list, see 2.0)
 -Under Options
   type  into the "Directory" field:./src
-  set the other fields yes,no,yes,yes,"UTF-8"
+  set the other fields no,no,yes,yes,"UTF-8"
 2.1.2 Set the new JDK in Window -> Preferences -> Java -> Installed JREs
 
 2.1.3 Install additional dependencies
