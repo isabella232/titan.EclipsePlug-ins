@@ -766,11 +766,26 @@ public final class SetOf_Type extends AbstractOfType {
 			break;
 		}
 
-		if (!aData.getForceGenSeof() && refdType.getTypetype() == Type_type.TYPE_SET_OF && simpleOfType) {
-			// happens to map to the same type
-			return fromName;
+		switch(refdType.getTypetype()) {
+		case TYPE_SEQUENCE_OF: {
+			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
+			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
 		}
+		case TYPE_SET_OF: {
+			if (!aData.getForceGenSeof() && simpleOfType) {
+				// happens to map to the same type
+				return fromName;
+			}
 
+			final IType fromOfType = ((SetOf_Type)refdType).getOfType();
+			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
+		}
+		default:
+			return "FATAL ERROR during converting to type " + getTypename();
+		}
+	}
+
+	private String generateConversionSetSeqOfToSetSeqOf(final JavaGenData aData, final IType fromType, final String fromName, final IType toOfType, final IType fromOfType, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -785,10 +800,18 @@ public final class SetOf_Type extends AbstractOfType {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
 			conversionFunctionBody.append("\t\tto.set_size(from.n_elem());\n");
-	
 			conversionFunctionBody.append("\t\tfor (int i = 0; i < from.n_elem(); i++) {\n");
-			conversionFunctionBody.append("\t\t\tif(from.constGet_at(i).is_bound()) {\n");
-			conversionFunctionBody.append("\t\t\t\tto.get_at(i).operator_assign(from.constGet_at(i));\n");
+
+			final String tempId2 = aData.getTemporaryVariableName();
+			conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_at(i);\n", fromOfType.getGenNameValue(aData, conversionFunctionBody), tempId2));
+			conversionFunctionBody.append(MessageFormat.format("\t\t\tif({0}.is_bound()) '{'\n", tempId2));
+
+			final ExpressionStruct tempExpression = new ExpressionStruct();
+			final String tempId3 = toOfType.generateConversion(aData, fromOfType, tempId2, tempExpression);
+			if (tempExpression.preamble.length() > 0) {
+				conversionFunctionBody.append(tempExpression.preamble);
+			}
+			conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_at(i).operator_assign({0});\n", tempId3));
 			conversionFunctionBody.append("\t\t\t}\n");
 			conversionFunctionBody.append("\t\t}\n");
 			conversionFunctionBody.append("\t\treturn true;\n");
