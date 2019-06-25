@@ -20,7 +20,16 @@ public class ExpressionStruct {
 	public StringBuilder expression = new StringBuilder();
 	public StringBuilder postamble = new StringBuilder();
 
-	//merge_free_expr in compiler
+	/**
+	 * Merge this expression into the provided stringbuilder.
+	 * Also putting scoping brackets around it.
+	 *
+	 * merge_free_expr in compiler
+	 *
+	 * @param source the stringbuilder to extend.
+	 *
+	 * @return the source parameter.
+	 * */
 	public StringBuilder mergeExpression(final StringBuilder source) {
 		if(preamble.length() > 0 || postamble.length() > 0) {
 			source.append("{\n");
@@ -33,6 +42,28 @@ public class ExpressionStruct {
 		if(preamble.length() > 0 || postamble.length() > 0) {
 			source.append(postamble);
 			source.append("}\n");
+		}
+
+		return source;
+	}
+
+	/**
+	 * Merge this expression into the provided stringbuilder.
+	 * Without putting scoping brackets around it.
+	 *
+	 * @param source the stringbuilder to extend.
+	 *
+	 * @return the source parameter.
+	 * */
+	public StringBuilder openMergeExpression(final StringBuilder source) {
+		if(preamble.length() > 0 || postamble.length() > 0) {
+			source.append(preamble);
+		}
+
+		source.append(expression);
+
+		if(preamble.length() > 0 || postamble.length() > 0) {
+			source.append(postamble);
 		}
 
 		return source;

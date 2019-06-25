@@ -1127,9 +1127,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 			final ExpressionStruct tempExpression = new ExpressionStruct();
 			final String tempId3 = toOfType.generateConversion(aData, fromOfType, tempId2, tempExpression);
-			if (tempExpression.preamble.length() > 0) {
-				conversionFunctionBody.append(tempExpression.preamble);
-			}
+			tempExpression.openMergeExpression(conversionFunctionBody);
+
 			conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_at(i).operator_assign({0});\n", tempId3));
 			conversionFunctionBody.append("\t\t\t}\n");
 			conversionFunctionBody.append("\t\t}\n");
