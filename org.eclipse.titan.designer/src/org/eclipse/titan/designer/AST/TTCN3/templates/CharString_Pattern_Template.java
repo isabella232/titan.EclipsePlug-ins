@@ -245,7 +245,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		}
 
 		final StringBuilder preamble = new StringBuilder();
-		final String returnValue = patternstring.create_charstring_literals(myScope.getModuleScopeGen(), preamble);
+		final String returnValue = patternstring.create_charstring_literals(aData, myScope.getModuleScopeGen(), preamble);
 
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
