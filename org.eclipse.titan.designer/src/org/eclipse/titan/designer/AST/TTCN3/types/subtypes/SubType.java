@@ -1435,4 +1435,14 @@ public final class SubType implements IIncrementallyUpdateable {
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		// TODO:not yet supported in Titan
 	}
+	
+	/**
+	 * Originally - get_subtype_parsed
+	 * Use for get the parsed restrictions.
+	 * 
+	 * @return parsedRestrictions the list of the parsed restrictions
+	 */
+	public List<ParsedSubType> getSubtypeParsed() {
+		return parsedRestrictions;
+	}
 }
