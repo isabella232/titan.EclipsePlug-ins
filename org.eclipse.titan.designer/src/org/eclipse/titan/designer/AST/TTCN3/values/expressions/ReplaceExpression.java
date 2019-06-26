@@ -341,6 +341,12 @@ public final class ReplaceExpression extends Expression_Value {
 				setIsErroneous(true);
 				return;
 			}
+
+			if (governor == null) {
+				//TODO check
+				return;
+			}
+
 			// temp is specific value:
 			value1 = ((SpecificValue_Template) temp).getSpecificValue();
 			value1.setLoweridToReference(timestamp);
