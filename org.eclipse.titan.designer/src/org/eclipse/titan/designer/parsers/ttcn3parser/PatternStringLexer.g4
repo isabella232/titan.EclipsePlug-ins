@@ -39,7 +39,7 @@ private String tokenStr = null;
 private Location actualLocation = null;
 private Token startToken = null;
 private Token endToken = null;
-
+private int actualColumn = 0;
 
 public void setActualFile(IFile file) {
 	actualFile = file;
@@ -119,8 +119,13 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 	if (in_set) {
 		// in a set a reference (without the \N at start) is just simple text,
   		// the matched token does not contain characters that are special in a set
-  		
-  		ps.addString(tokenStr);
+  		int begin = actualColumn; 
+  		int end = actualColumn; 
+  		while(tokenStr.charAt(end) != '}') {
+  			end++;
+  		}
+  		ps.addString(tokenStr.substring(begin,end));
+  		actualColumn = end;
 	} else {
 		/**
 		 * Find references in the actual token but in another way than C++.
@@ -129,9 +134,9 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 		 * 3. Break at '}'.
 		 */
 		//end of the reference
-		int end = 0;
+		int end = actualColumn;
 		//begin of the reference (reference location)
-		int begin = 0;
+		int begin = actualColumn;
 		List<String> identifiers = new ArrayList<String>();
 		while(tokenStr.charAt(end) != '}') {
 			//current ID begin/end
@@ -154,10 +159,12 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 				end++;
 			}	
 		}
+		actualColumn = end + 1;
+		TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
 		Location ref_location = new Location(actualFile, actualLine, startToken.getStartIndex() + begin + 1, startToken.getStopIndex() + end);
 		Reference ref = null;
 		if (identifiers.size() == 1) {
-			ref = new Reference(new Identifier(Identifier_type.ID_TTCN, identifiers.get(0), ref_location));
+			ref = analyzer.parse(actualFile, identifiers.get(0), false, ref_location.getLine(), ref_location.getOffset());
 		} else if (identifiers.size() > 1) {
 			String id_str = "";
 			for (int i = 0; i < identifiers.size(); i++) {
@@ -167,7 +174,7 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 					id_str += "[" + identifiers.get(i) +"]";
 				}						
 			}
-			ref = new Reference(new Identifier(Identifier_type.ID_TTCN, identifiers.get(0), ref_location));
+			ref = analyzer.parse(actualFile, id_str, false, ref_location.getLine(), ref_location.getOffset());
 		}
 		if (ref != null) {
 			ps.addRef(ref, false);
@@ -184,7 +191,7 @@ INVALID_REFERENCE_RULE : '{' [ ^} ]* '}' {
 };
 
 REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
-	int id_begin = 3;
+	int id_begin = 3 + actualColumn;
 	while(!Character.isAlphabetic(tokenStr.charAt(id_begin))) {
 		id_begin++;
 		}
@@ -193,6 +200,7 @@ REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
 		id_end++;
 		}
 	String id_str = tokenStr.substring(id_begin, id_end);
+	actualColumn = id_end + 1;
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin + 1, startToken.getStartIndex() + id_end + 1);
 	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
 	ps.addRef(ref, true);
@@ -201,7 +209,7 @@ REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
 		}
 };
 
-UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charstring' (WS)? '}' {
+UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charstring' (WS)? '}' (WS)? {
 	/* The third {(WS)?} is optional but if it's empty then the previous rule catches it*/
 	final String id_str = "universal charstring";
  
@@ -212,9 +220,31 @@ UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charst
 	ref.setLocation(location);
 	if (in_set) {
 		location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
-	} 
+	}
+	int end = actualColumn;
+	while(tokenStr.charAt(end) != '}') {
+		end++;
+	}
+	actualColumn = end + 1; 
 };
+CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'charstring' (WS)? '}' (WS)? {
+	/* The third {(WS)?} is optional but if it's empty then the previous rule catches it*/
+	final String id_str = "charstring";
+ 
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
 
+	ps.addRef(ref, true); 
+	ref.setLocation(location);
+	if (in_set) {
+		location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
+	}
+	int end = actualColumn;
+	while(tokenStr.charAt(end) != '}') {
+		end++;
+	}
+	actualColumn = end + 1;
+}; 
 INVALID_SET_REFERENCE_RULE : '\\N' (WS)? '{' [^}]* '}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid character set reference: %s", tokenStr));
@@ -222,7 +252,7 @@ INVALID_SET_REFERENCE_RULE : '\\N' (WS)? '{' [^}]* '}' {
 
 QUADRUPLE_RULE : '\\q'  (WS)? '{' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ',' (WS)? NUMBER  (WS)? ',' (WS)? NUMBER (WS)? '}' {
 /* quadruple - group */
-			int group_begin = 3;
+			int group_begin = 3 + actualColumn;
 			while (!Character.isDigit(tokenStr.charAt(group_begin))) {
 				group_begin++;
 			} 
@@ -288,6 +318,11 @@ QUADRUPLE_RULE : '\\q'  (WS)? '{' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ',' 
 				cell_location.reportSemanticError(String.format("The fourth number of quadruple (cell) must be within the range 0 .. 255 instead of %s", cell_str));
 				cell = cell < 0 ? 0 : 255; 
 			}
+			int end = cell_end;
+			while(tokenStr.charAt(end) != '}') {
+				end++;
+			}
+			actualColumn = end + 1;
 			boolean add_quadruple = true;
 			if (group == 0 && plane == 0 && row == 0) {
 				if(!Character.isISOControl((char) cell) && !Character.isWhitespace((char) cell)) { 
@@ -329,20 +364,21 @@ QUADRUPLE_RULE : '\\q'  (WS)? '{' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ',' 
 				}
 			}
 			if (add_quadruple) {
-				ps.addString(String.format("\\q{%s, %s, %s, %s}", group, plane, row, cell));
+				ps.addString(String.format("\\\\q{%s, %s, %s, %s}", group, plane, row, cell));
 			}
 };
 
 UID_RULE : '\\q' ( (WS)? '{' (WS)? ( UID (WS)? ',' (WS)? )* UID (WS)? '}') {
 //Split UID-s. For example: \q{ U23423 , U+001 } -> [U23423, U+001] 
-	int begin = 3; 
+	int begin = 3 + actualColumn;
+	int end = 0;
 	List<String> uids = new ArrayList<String>();
 	while(tokenStr.charAt(begin) != '}') {
 		//Find first digit
 		while(tokenStr.charAt(begin) != 'U' && tokenStr.charAt(begin) != 'u') {
 			begin++; 		
 		}
-		int end = begin + 2; 
+		end = begin + 2; 
 		//Find last digit
 		while(Character.isDigit(tokenStr.charAt(end))) {
 			end++;
@@ -350,10 +386,14 @@ UID_RULE : '\\q' ( (WS)? '{' (WS)? ( UID (WS)? ',' (WS)? )* UID (WS)? '}') {
 		uids.add(tokenStr.substring(begin, end)); 
 		//Skip whitespaces until the next UID or the end
 		while(!Character.isDigit(tokenStr.charAt(end)) && tokenStr.charAt(end) != 'U' && tokenStr.charAt(end) != 'u' && tokenStr.charAt(end) != '}') {
+			if (tokenStr.charAt(end) == '-') {
+				ps.addChar('-'); 
+			}	
 			 end++;
 		}
 		begin = end; 	
 	}
+	actualColumn = end + 1;
 	ps.addStringUSI(uids);
 	//Free
 	uids = null;
@@ -371,7 +411,8 @@ SQUARE_BRACKETS: '[]' {
   } else {
     ps.addString("[\\]");
     in_set = true;
-  } 
+  }
+  actualColumn += 2;
 };
  
 COMPLEMENT: '[^]' {
@@ -382,6 +423,7 @@ COMPLEMENT: '[^]' {
     ps.addString("[^\\]");
     in_set = true;
   }
+  actualColumn += 3;
 };
 
 OPENING_SQUARE_BRACKET : '[' {
@@ -391,6 +433,7 @@ OPENING_SQUARE_BRACKET : '[' {
     ps.addChar('[');
     in_set = true;
   }
+  actualColumn++;
 };
 
 CLOSING_SQUARE_BRACKET : ']' {
@@ -402,19 +445,23 @@ CLOSING_SQUARE_BRACKET : ']' {
     location.reportSyntacticError("Unmatched `]'. Did you mean `\\]'?");
     ps.addString("\\]");
   }
+  actualColumn++;
 };
 SQUARE_BRACES : '{'|'}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex() + 1);
   location.reportSyntacticWarning(String.format("Unmatched %c was treated literally", tokenStr.charAt(0)));
   ps.addString("\\");
   ps.addChar(tokenStr.charAt(0));
+  actualColumn++;
 };
 QUOTE_MARKS : '\\\"' |'\"\"' {
   ps.addChar('"');
+  actualColumn += 2;
 };
 //metachars and escaped metachars  
-METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+] {
+METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+-] {
  ps.addString(tokenStr);
+ actualColumn += 2;
 };
 UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStartIndex() + 1);
@@ -423,18 +470,19 @@ UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
  } else {
  	location.reportSyntacticWarning("Use of unrecognized escape sequence is deprecated");
  }
- ps.addString(tokenStr.substring(1,tokenStr.length() - 1));
+ ps.addString(tokenStr.substring(actualColumn , actualColumn + 1));
+ actualColumn += 2;
 };
 REPETITION : '#' (WS)? [0-9] {
 	if (in_set) {
 		Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#n' cannot be given inside a set expression");
-	} else if (tokenStr.charAt(tokenStr.length() - 1) != '1')  {
+	} else if (tokenStr.charAt(actualColumn - 1) != '1')  {
 		ps.addChar('#'); 
-		ps.addChar(tokenStr.charAt(tokenStr.length() - 1));
+		ps.addChar(tokenStr.charAt(actualColumn - 1));
  	}
-}
-;
+ 	
+};
  
 N_REPETITION: '#' (WS)? '(' (WS)? NUMBER (WS)? ')' {
 	if (in_set) {
@@ -465,7 +513,7 @@ N_M_REPETITION : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ')' {
 		Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#(n,m)' cannot be given inside a set expression");		 
 	}  
- 	int lower_begin = 2;
+ 	int lower_begin = 2 + actualColumn;
  	while(!Character.isDigit(tokenStr.charAt(lower_begin))) {
  		lower_begin++;
  	}
@@ -506,7 +554,8 @@ N_M_REPETITION : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? NUMBER (WS)? ')' {
 		} else {
 			ps.addString("#(" + lower_str + "," + upper_str + ")");	
 			}
-		} 	
+		}
+	actualColumn = upper_end + 1;
 }; 
 
 N_M_REPETITION_WITHOUT_M : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? ')' {
@@ -514,7 +563,7 @@ N_M_REPETITION_WITHOUT_M : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? ')' {
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
     location.reportSemanticError("Number of repetitions `#(n,)' cannot be given inside a set expression");
   } else {
-    int lower_begin = 2;
+    int lower_begin = 2 + actualColumn;
     while(!Character.isDigit(tokenStr.charAt(lower_begin))) {
  		lower_begin++;
  	}
@@ -532,6 +581,11 @@ N_M_REPETITION_WITHOUT_M : '#' (WS)? '(' (WS)? NUMBER (WS)? ',' (WS)? ')' {
      } else {
     	ps.addString("#(" + lower_str + ",)");
    	 }
+   	 int end = lower_end; 
+   	 while(tokenStr.charAt(end) != ')') {
+   	 	end++;
+   	 }
+   	 actualColumn = end + 1;
   }
 };
 
@@ -540,7 +594,7 @@ N_M_REPETITION_WITHOUT_N : '#' (WS)? '(' (WS)? ',' (WS)? NUMBER (WS)? ')' {
   	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
     location.reportSemanticError("Number of repetitions `#(,m)' cannot be given inside a set expression");
   } else {
-    int upper_begin = 3;
+    int upper_begin = 3 + actualColumn;
     while(!Character.isDigit(tokenStr.charAt(upper_begin))) {
  		upper_begin++;
  	}
@@ -556,6 +610,11 @@ N_M_REPETITION_WITHOUT_N : '#' (WS)? '(' (WS)? ',' (WS)? NUMBER (WS)? ')' {
     } else {
     	 ps.addString("#(," + upper_str + ")");
     }
+    int end = upper_end;
+    while(tokenStr.charAt(end) != ')') {
+    	end++;
+    }
+    actualColumn = end + 1;
   }
 }; 
 
@@ -583,7 +642,8 @@ HASHMARK : '#' {
 		ps.addChar('#');
 		} else {
 			location.reportSyntacticError("Syntax error in the number of repetitions `#...'");
-			}
+		}
+	actualColumn++;
 };
 
 PLUS : '+' {
@@ -593,10 +653,23 @@ PLUS : '+' {
     ps.addChar('\\');
   }
   ps.addChar('+');
+  actualColumn++;
+}; 
+  
+COMPLEMENT_SIGN: '^' {
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
+	if(in_set) {
+		ps.addChar('^');
+		actualColumn++;
+	}
 };
-
-LETTER_OR_NEWLINE : .| NEWLINE {
-  ps.addString(tokenStr);
+ANY_OR_NEWLINE : (. | NEWLINE | IDENTIFIER | NUMBER) { 
+//a possible end
+int begin = actualColumn;
+int end = actualColumn;
+while(tokenStr.charAt(end) != '{' && tokenStr.charAt(end) != '\\' && tokenStr.charAt(end) != '\"' && tokenStr.charAt(end) != '[' && tokenStr.charAt(end) != ']' && tokenStr.charAt(end) != '#' && tokenStr.charAt(end) != '+' && tokenStr.charAt(end) != '^' && end < tokenStr.length() - 1) {
+	end++;	
+}
+ps.addString(tokenStr.substring(begin,end));
+actualColumn = end;
 };
- 
-
