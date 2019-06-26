@@ -1651,4 +1651,82 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 		expression.expression.append(closingBrackets);
 	}
+
+	protected String generateConversionTTCNSetSeqToTTCNSetSeq(final JavaGenData aData, final TTCN3_Set_Seq_Choice_BaseType fromType, final String fromName, final ExpressionStruct expression) {
+		final String tempId = aData.getTemporaryVariableName();
+		final String name = getGenNameValue(aData, expression.preamble);
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
+		expression.preamble.append("}\n");
+
+		if (!aData.hasTypeConversion(ConversionFunctionName)) {
+			final StringBuilder conversionFunctionBody = new StringBuilder();
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			for (int i = 0; i < getNofComponents(); i++) {
+				final CompField toComp = getComponentByIndex(i);
+				final CompField fromComp = fromType.getComponentByIndex(i);
+				final Identifier toFieldName = toComp.getIdentifier();
+				final Identifier fromFieldName = fromComp.getIdentifier();
+				final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final String tempId2 = aData.getTemporaryVariableName();
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() )));
+				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
+
+				final ExpressionStruct tempExpression = new ExpressionStruct();
+				final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				tempExpression.openMergeExpression(conversionFunctionBody);
+
+				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_field_{0}().operator_assign({1});\n", FieldSubReference.getJavaGetterName( toFieldName.getName() ), tempId3));
+				conversionFunctionBody.append("\t\t}\n");
+			}
+			conversionFunctionBody.append("\t\treturn true;\n");
+			conversionFunctionBody.append("\t}\n\n");
+			aData.addTypeConversion(ConversionFunctionName, conversionFunctionBody.toString());
+		}
+
+		return tempId;
+	}
+
+	protected String generateConversionASNSetSeqToTTCNSetSeq(final JavaGenData aData, final ASN1_Set_Seq_Choice_BaseType fromType, final String fromName, final ExpressionStruct expression) {
+		final String tempId = aData.getTemporaryVariableName();
+		final String name = getGenNameValue(aData, expression.preamble);
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
+		expression.preamble.append("}\n");
+
+		if (!aData.hasTypeConversion(ConversionFunctionName)) {
+			final StringBuilder conversionFunctionBody = new StringBuilder();
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			for (int i = 0; i < getNofComponents(); i++) {
+				final CompField toComp = getComponentByIndex(i);
+				final CompField fromComp = fromType.getComponentByIndex(i);
+				final Identifier toFieldName = toComp.getIdentifier();
+				final Identifier fromFieldName = fromComp.getIdentifier();
+				final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final String tempId2 = aData.getTemporaryVariableName();
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() )));
+				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
+
+				final ExpressionStruct tempExpression = new ExpressionStruct();
+				final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				tempExpression.openMergeExpression(conversionFunctionBody);
+
+				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_field_{0}().operator_assign({1});\n", FieldSubReference.getJavaGetterName( toFieldName.getName() ), tempId3));
+				conversionFunctionBody.append("\t\t}\n");
+			}
+			conversionFunctionBody.append("\t\treturn true;\n");
+			conversionFunctionBody.append("\t}\n\n");
+			aData.addTypeConversion(ConversionFunctionName, conversionFunctionBody.toString());
+		}
+
+		return tempId;
+	}
 }

@@ -51,6 +51,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
@@ -1093,5 +1094,35 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 
 		return compField.getType().isPresentAnyvalueEmbeddedField(expression, subreferences, beginIndex + 1);
+	}
+
+	@Override
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if (refdType == null || this == refdType) {
+			//no need to convert
+			return fromName;
+		}
+
+		switch (refdType.getTypetype()) {
+		case TYPE_TTCN3_SEQUENCE:
+		case TYPE_TTCN3_SET: {
+			//heavy conversion is needed
+			final TTCN3_Set_Seq_Choice_BaseType realFromType = (TTCN3_Set_Seq_Choice_BaseType) refdType;
+			return generateConversionTTCNSetSeqToASNSetSeq(aData, realFromType, fromName, expression);
+		}
+		case TYPE_ASN1_SEQUENCE:
+		case TYPE_ASN1_SET: {
+			//heavy conversion is needed
+			final ASN1_Set_Seq_Choice_BaseType realFromType = (ASN1_Set_Seq_Choice_BaseType) refdType;
+			return generateConversionASNSetSeqToASNSetSeq(aData, realFromType, fromName, expression);
+		}
+		default:
+			expression.expression.append(MessageFormat.format("//FIXME conversion from {0} to {1} is not needed or nor supported yet\n", fromType.getTypename(), getTypename()));
+			break;
+		}
+
+		// the default implementation does nothing
+		return fromName;
 	}
 }
