@@ -410,7 +410,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1503);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1505);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1638,12 +1638,11 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("Cannot determine the type of the operand in the `replace()' operation", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 12;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum, IMarker.SEVERITY_ERROR));
-		}
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of operation `replace' should be a string, `record of', or a `set of' value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The fourth operand of operation `replace' should be a string, `record of', or a `set of' value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Incompatible value: `bitstring' was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.myrecof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of operation `replace' should not be negative",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The third operand of operation `replace' should not be negative",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (6) and the third operand (1) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -1657,9 +1656,13 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (6) and the third operand (1) of operation `replace' is greater than the length of the first operand (1)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (2) and the third operand (6) of operation `replace' is greater than the length of the first operand (1)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (6) and the third operand (1) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.myrecof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (2) and the third operand (6) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.myrecof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (6) and the third operand (1) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.mysetof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (2) and the third operand (6) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `bitstring' and `@expression_tests.mysetof1' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 11;
 		for (i = 0; i < 9; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `rnd' operation should be a float value", lineNum++, IMarker.SEVERITY_ERROR));
