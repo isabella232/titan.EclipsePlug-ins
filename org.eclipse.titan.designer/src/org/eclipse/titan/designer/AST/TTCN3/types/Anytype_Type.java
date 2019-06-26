@@ -18,13 +18,13 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
-import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -1001,5 +1001,84 @@ public final class Anytype_Type extends Type {
 		}
 
 		return false;
+	}
+
+	@Override
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if (refdType == null || this == refdType) {
+			//no need to convert
+			return fromName;
+		}
+
+		switch (refdType.getTypetype()) {
+		case TYPE_ANYTYPE:{
+			//heavy conversion is needed
+			final Anytype_Type realFromType = (Anytype_Type) refdType;
+			return generateConversionAnytypeToAnytype(aData, realFromType, fromName, expression);
+		}
+		default:
+			expression.expression.append(MessageFormat.format("//FIXME conversion from {0} to {1} is not needed or nor supported yet\n", fromType.getTypename(), getTypename()));
+			break;
+		}
+
+		// the default implementation does nothing
+		return fromName;
+	}
+
+	protected String generateConversionAnytypeToAnytype(final JavaGenData aData, final Anytype_Type fromType, final String fromName, final ExpressionStruct expression) {
+		final String tempId = aData.getTemporaryVariableName();
+		final String name = getGenNameValue(aData, expression.preamble);
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
+		expression.preamble.append("}\n");
+
+		if (!aData.hasTypeConversion(ConversionFunctionName)) {
+			final StringBuilder conversionFunctionBody = new StringBuilder();
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			conversionFunctionBody.append("\t\tif(!from.is_bound()) {\n");
+			conversionFunctionBody.append("\t\t\treturn false;\n");
+			conversionFunctionBody.append("\t\t}\n");
+			conversionFunctionBody.append("\t\tswitch (from.get_selection()) {\n");
+
+			for (int i = 0; i < fromType.getNofComponents(); i++) {
+				final CompField fromComp = fromType.getComponentByIndex(i);
+				final Identifier fromFieldName = fromComp.getIdentifier();
+				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				for (int j = 0; j < getNofComponents(); j++) {
+					final CompField toComp = getComponentByIndex(j);
+					final Identifier toFieldName = toComp.getIdentifier();
+					final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					if (fromFieldName.equals(toFieldName) && fromFieldType.isCompatible(CompilationTimeStamp.getBaseTimestamp(), toFieldType, null, null, null)) {
+						conversionFunctionBody.append(MessageFormat.format("\t\tcase ALT_{0}: '{'\n", fromFieldName.getName()));
+						final String tempId2 = aData.getTemporaryVariableName();
+						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, fromFieldName.getName()));
+						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
+
+						final ExpressionStruct tempExpression = new ExpressionStruct();
+						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+						tempExpression.openMergeExpression(conversionFunctionBody);
+
+						conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_field_{0}().operator_assign({1});\n", toFieldName.getName() , tempId3));
+
+						conversionFunctionBody.append("\t\t\t}\n");
+						conversionFunctionBody.append("\t\t\tbreak;\n");
+						conversionFunctionBody.append("\t\t}\n");
+					}
+				}
+			}
+
+			conversionFunctionBody.append("\t\tdefault:\n");
+			conversionFunctionBody.append("\t\t\treturn false;\n");
+			conversionFunctionBody.append("\t\t}\n");
+			conversionFunctionBody.append("\t\treturn true;\n");
+			conversionFunctionBody.append("\t}\n\n");
+
+			aData.addTypeConversion(ConversionFunctionName, conversionFunctionBody.toString());
+		}
+
+		return tempId;
 	}
 }
