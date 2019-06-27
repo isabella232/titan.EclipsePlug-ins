@@ -145,8 +145,9 @@ public final class TTCN_Buffer {
 
 		buf_len = p_cs.lengthof().get_int();
 		data_ptr = new byte[buf_len];
-		for (int i = 0; i < buf_len; i++) {//FIXME optimize away get_at
-			data_ptr[i] =  (byte)p_cs.get_at(i).get_char();
+		final StringBuilder temp = p_cs.get_value();
+		for (int i = 0; i < buf_len; i++) {
+			data_ptr[i] =  (byte)temp.charAt(i);
 		}
 		reset_buffer();
 	}
@@ -191,8 +192,9 @@ public final class TTCN_Buffer {
 
 		buf_len = p_cs.lengthof().get_int();
 		data_ptr = new byte[buf_len];
-		for (int i = 0; i < buf_len; i++) {//FIXME optimize away get_at
-			data_ptr[i] =  (byte)p_cs.get_at(i).get_char();
+		final StringBuilder temp = p_cs.get_value();
+		for (int i = 0; i < buf_len; i++) {
+			data_ptr[i] =  (byte)temp.charAt(i);
 		}
 		reset_buffer();
 		return this;
@@ -360,16 +362,18 @@ public final class TTCN_Buffer {
 
 		final int n_chars = p_cs.lengthof().get_int();
 		if (n_chars > 0) { // there is something in the CHARSTRING
+			final StringBuilder temp = p_cs.get_value();
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(n_chars);
-				for (int i = 0; i < n_chars; i++) {//FIXME don't get_value in loops
-					data_ptr[buf_len + i] = (byte)p_cs.get_value().charAt(i);
+				
+				for (int i = 0; i < n_chars; i++) {
+					data_ptr[buf_len + i] = (byte)temp.charAt(i);
 				}
 				buf_len += n_chars;
 			} else { // share the data
 				data_ptr = new byte[n_chars];
-				for (int i = 0; i < n_chars; i++) {//FIXME don't get_value in loops
-					data_ptr[i] = (byte)p_cs.get_value().charAt(i);
+				for (int i = 0; i < n_chars; i++) {
+					data_ptr[i] = (byte)temp.charAt(i);
 				}
 				buf_len = n_chars;
 			}
