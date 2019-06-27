@@ -132,7 +132,10 @@ public final class TTCN_Buffer {
 
 		buf_len = p_os.lengthof().get_int();
 		data_ptr = new char[buf_len];
-		System.arraycopy(p_os.get_value(), 0, data_ptr, 0, buf_len);
+		final byte[] source = p_os.get_value();
+		for (int i = 0; i < buf_len; i++) {//FIXME optimize away
+			data_ptr[i] = (char)(source[i] & 0xFF);
+		}
 		reset_buffer();
 	}
 
@@ -422,11 +425,13 @@ public final class TTCN_Buffer {
 	public void get_string(final TitanOctetString p_os) {
 		p_os.clean_up();
 		if (buf_len > 0) {
-			final char[] data = new char[buf_len];
-			System.arraycopy(data_ptr, 0, data, 0, buf_len);
+			final byte[] data = new byte[buf_len];
+			for (int i = 0; i < buf_len; i++) {//FIXME optimize away
+				data[i] = (byte)(data_ptr[i] & 0xFF);
+			}
 			p_os.set_value(data);
 		} else {
-			p_os.set_value(new char[]{});
+			p_os.set_value(new byte[]{});
 		}
 	}
 
@@ -544,11 +549,11 @@ public final class TTCN_Buffer {
 		TTCN_Logger.log_event_str(MessageFormat.format("Buffer: size: {0}, pos: {1}, len: {2} data: (", data_ptr.length, buf_pos, buf_len));
 		if (buf_len > 0) {
 			for (int i = 0; i < buf_pos; i++) {
-				TTCN_Logger.log_octet(data_ptr[i]);
+				TTCN_Logger.log_octet((byte)data_ptr[i]);
 			}
 			TTCN_Logger.log_event_str(" | ");
 			for (int i = buf_pos; i < buf_len; i++) {
-				TTCN_Logger.log_octet(data_ptr[i]);
+				TTCN_Logger.log_octet((byte)data_ptr[i]);
 			}
 		}
 		TTCN_Logger.log_char(')');

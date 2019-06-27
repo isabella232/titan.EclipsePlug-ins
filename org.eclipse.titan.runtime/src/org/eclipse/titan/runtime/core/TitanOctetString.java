@@ -42,7 +42,7 @@ public class TitanOctetString extends Base_Type {
 	 *
 	 * Packed storage of hex digit pairs, filled from LSB.
 	 */
-	private char val_ptr[];
+	private byte val_ptr[];
 
 	/**
 	 * Initializes to unbound value.
@@ -57,8 +57,8 @@ public class TitanOctetString extends Base_Type {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
-	public TitanOctetString(final char otherValue[]) {
-		val_ptr = TitanString_Utils.copy_char_list(otherValue);
+	public TitanOctetString(final byte otherValue[]) {
+		val_ptr = TitanString_Utils.copy_byte_list(otherValue);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString(final TitanOctetString otherValue) {
 		otherValue.must_bound("Copying an unbound octetstring value.");
 
-		val_ptr = TitanString_Utils.copy_char_list(otherValue.val_ptr);
+		val_ptr = TitanString_Utils.copy_byte_list(otherValue.val_ptr);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString(final TitanOctetString_Element otherValue) {
 		otherValue.must_bound("Copying an unbound octetstring element.");
 
-		val_ptr = new char[1];
+		val_ptr = new byte[1];
 		val_ptr[0] = otherValue.get_nibble();
 	}
 
@@ -92,8 +92,8 @@ public class TitanOctetString extends Base_Type {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
-	public TitanOctetString(final char value) {
-		val_ptr = new char[1];
+	public TitanOctetString(final byte value) {
+		val_ptr = new byte[1];
 		val_ptr[0] = value;
 	}
 
@@ -111,13 +111,13 @@ public class TitanOctetString extends Base_Type {
 	 * @param aHexString string representation of octetstring, it contains exatcly even number of hex digits
 	 * @return value list of the octetstring, groupped in 2 bytes (java Character)
 	 */
-	private static char[] octetstr2bytelist(final String aHexString) {
+	private static byte[] octetstr2bytelist(final String aHexString) {
 		final int len = aHexString.length();
-		final char result[] = new char[(len + 1) / 2];
+		final byte result[] = new byte[(len + 1) / 2];
 		for (int i = 0; i < len; i += 2) {
 			final char hexDigit1 = aHexString.charAt(i);
 			final char hexDigit2 = aHexString.charAt(i + 1);
-			final char value = octet2value(hexDigit1, hexDigit2);
+			final byte value = octet2value(hexDigit1, hexDigit2);
 			result[i / 2] = value;
 		}
 
@@ -130,8 +130,8 @@ public class TitanOctetString extends Base_Type {
 	 * @param aHexDigit2 2nd digit of an octet, string representation of hex digit, possible value: [0-9A-F] characters
 	 * @return value of the octet
 	 */
-	private static char octet2value(final char aHexDigit1, final char aHexDigit2) {
-		return (char) (16 * TitanHexString.hexdigit2byte(aHexDigit1) + TitanHexString.hexdigit2byte(aHexDigit2));
+	private static byte octet2value(final char aHexDigit1, final char aHexDigit2) {
+		return (byte) (16 * TitanHexString.hexdigit2byte(aHexDigit1) + TitanHexString.hexdigit2byte(aHexDigit2));
 	}
 
 	/** Return the nibble at index i
@@ -139,11 +139,11 @@ public class TitanOctetString extends Base_Type {
 	 * @param nibble_index
 	 * @return
 	 */
-	public char get_nibble(final int nibble_index) {
+	public byte get_nibble(final int nibble_index) {
 		return val_ptr[nibble_index];
 	}
 
-	public void set_nibble(final int nibble_index, final char new_value) {
+	public void set_nibble(final int nibble_index, final byte new_value) {
 		val_ptr[nibble_index] = new_value;
 	}
 
@@ -160,7 +160,7 @@ public class TitanOctetString extends Base_Type {
 	 *
 	 * @return the internal representation of the octetstring.
 	 * */
-	public char[] get_value() {
+	public byte[] get_value() {
 		return val_ptr;
 	}
 
@@ -178,7 +178,7 @@ public class TitanOctetString extends Base_Type {
 	 *
 	 * @param other_value the internal representation of the octetstring.
 	 * */
-	public void set_value(final char[] other_value) {
+	public void set_value(final byte[] other_value) {
 		val_ptr = other_value;
 	}
 
@@ -214,7 +214,7 @@ public class TitanOctetString extends Base_Type {
 	 */
 	public TitanOctetString operator_assign(final TitanOctetString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound octetstring element to an octetstring.");
-		val_ptr = new char[1];
+		val_ptr = new byte[1];
 		val_ptr[0] = otherValue.get_nibble();
 
 		return this;
@@ -351,7 +351,7 @@ public class TitanOctetString extends Base_Type {
 	 * */
 	public TitanOctetString_Element get_at(final int index_value) {
 		if (val_ptr == null && index_value == 0) {
-			val_ptr = new char[1];
+			val_ptr = new byte[1];
 			return new TitanOctetString_Element(false, this, 0);
 		} else {
 			must_bound("Accessing an element of an unbound octetstring value.");
@@ -366,7 +366,7 @@ public class TitanOctetString extends Base_Type {
 						", but the string has only " + n_nibbles + " hexadecimal digits.");
 			}
 			if (index_value == n_nibbles) {
-				final char temp[] = new char[val_ptr.length + 1];
+				final byte temp[] = new byte[val_ptr.length + 1];
 				System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 				val_ptr = temp;
 				return new TitanOctetString_Element(false, this, index_value);
@@ -436,14 +436,14 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
-	public void log() {
+	public void log() {//FIXME optimize away char castings
 		if (val_ptr != null) {
 			boolean onlyPrintable = true;
 			TTCN_Logger.log_char('\'');
 			for (int i = 0; i < val_ptr.length; i++) {
-				final char octet = val_ptr[i];
+				final byte octet = val_ptr[i];
 				TTCN_Logger.log_octet(octet); // get_nibble(i)
-				if (onlyPrintable && !(TTCN_Logger.is_printable(octet))) {
+				if (onlyPrintable && !(TTCN_Logger.is_printable((char)octet))) {
 					onlyPrintable = false;
 				}
 			}
@@ -451,7 +451,7 @@ public class TitanOctetString extends Base_Type {
 			if (onlyPrintable && val_ptr.length > 0) {
 				TTCN_Logger.log_event_str("(\"");
 				for (int i = 0; i < val_ptr.length; i++) {
-					TTCN_Logger.log_char_escaped(val_ptr[i]);
+					TTCN_Logger.log_char_escaped((char)val_ptr[i]);
 				}
 				TTCN_Logger.log_event_str("\")");
 			}
@@ -469,14 +469,14 @@ public class TitanOctetString extends Base_Type {
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				clean_up();
-				val_ptr = new char[param.get_string_size()];
-				System.arraycopy((char[])param.get_string_data(), 0, val_ptr, 0, param.get_string_size());
+				val_ptr = new byte[param.get_string_size()];
+				System.arraycopy((byte[])param.get_string_data(), 0, val_ptr, 0, param.get_string_size());
 				break;
 			case OT_CONCAT:
 				if (is_bound()) {
-					this.operator_assign(this.operator_concatenate(new TitanOctetString((char[]) param.get_string_data())));
+					this.operator_assign(this.operator_concatenate(new TitanOctetString((byte[]) param.get_string_data())));
 				} else {
-					this.operator_assign(new TitanOctetString((char[]) param.get_string_data()));
+					this.operator_assign(new TitanOctetString((byte[]) param.get_string_data()));
 				}
 				break;
 			default:
@@ -542,11 +542,7 @@ public class TitanOctetString extends Base_Type {
 		final int octets = val_ptr.length;
 		text_buf.push_int(octets);
 		if (octets > 0) {
-			byte[] temp = new byte[octets];
-			for (int i = 0; i < octets; i++) {
-				temp[i] = (byte)(val_ptr[i] & 0xFF);
-			}
-			text_buf.push_raw(temp.length, temp);
+			text_buf.push_raw(val_ptr.length, val_ptr);
 		}
 	}
 
@@ -560,13 +556,9 @@ public class TitanOctetString extends Base_Type {
 			throw new TtcnError("Text decoder: Invalid length was received for an octetstring.");
 		}
 
-		val_ptr = new char[n_octets];
+		val_ptr = new byte[n_octets];
 		if (n_octets > 0) {
-			final byte[] temp = new byte[n_octets];
-			text_buf.pull_raw(n_octets, temp);
-			for (int i = 0; i < n_octets; i++) {
-				val_ptr[i] = (char) (temp[i] & 0xFF);
-			}
+			text_buf.pull_raw(n_octets, val_ptr);
 		}
 	}
 
@@ -596,7 +588,7 @@ public class TitanOctetString extends Base_Type {
 			return new TitanOctetString(this);
 		}
 
-		final char temp[] = new char[val_ptr.length + other_value.val_ptr.length];
+		final byte temp[] = new byte[val_ptr.length + other_value.val_ptr.length];
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 		System.arraycopy(other_value.val_ptr, 0, temp, val_ptr.length, other_value.val_ptr.length);
 
@@ -617,7 +609,7 @@ public class TitanOctetString extends Base_Type {
 		must_bound("Unbound left operand of octetstring concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring element concatenation.");
 
-		final char temp[] = new char[val_ptr.length + 1];
+		final byte temp[] = new byte[val_ptr.length + 1];
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 		temp[val_ptr.length] = other_value.get_nibble();
 
@@ -635,13 +627,14 @@ public class TitanOctetString extends Base_Type {
 		must_bound("Unbound octetstring operand of operator not4b.");
 
 		final TitanOctetString result = new TitanOctetString();
-		result.val_ptr = new char[val_ptr.length];
+		result.val_ptr = new byte[val_ptr.length];
 		for (int i = 0; i < val_ptr.length; i++) {
-			final int digit1 = val_ptr[i] / 16;
-			final int digit2 = val_ptr[i] % 16;
+			//TODO extract common parts
+			final int digit1 = (val_ptr[i] & 0xFF) / 16;
+			final int digit2 = (val_ptr[i] & 0xFF) % 16;
 			final int negDigit1 = ~digit1 & 0x0F;
 			final int negDigit2 = ~digit2 & 0x0F;
-			result.val_ptr[i] = (char)((negDigit1  << 4) + negDigit2);
+			result.val_ptr[i] = (byte)((negDigit1  << 4) + negDigit2);
 		}
 
 		return result;
@@ -668,10 +661,10 @@ public class TitanOctetString extends Base_Type {
 		}
 
 		final TitanOctetString result = new TitanOctetString();
-		result.val_ptr = new char[val_ptr.length];
+		result.val_ptr = new byte[val_ptr.length];
 
 		for (int i = 0; i < val_ptr.length; i++) {
-			result.val_ptr[i] = (char) (val_ptr[i] & otherValue.val_ptr[i]);
+			result.val_ptr[i] = (byte) (val_ptr[i] & otherValue.val_ptr[i]);
 		}
 
 		return result;
@@ -697,7 +690,7 @@ public class TitanOctetString extends Base_Type {
 			throw new TtcnError("The octetstring operands of operator and4b must have the same length.");
 		}
 
-		return new TitanOctetString((char)(val_ptr[0] & otherValue.get_nibble()));
+		return new TitanOctetString((byte)(val_ptr[0] & otherValue.get_nibble()));
 	}
 
 	/**
@@ -721,9 +714,9 @@ public class TitanOctetString extends Base_Type {
 		}
 
 		final TitanOctetString result = new TitanOctetString();
-		result.val_ptr = new char[val_ptr.length];
+		result.val_ptr = new byte[val_ptr.length];
 		for (int i = 0; i < val_ptr.length; i++) {
-			result.val_ptr[i] = (char) (val_ptr[i] | otherValue.val_ptr[i]);
+			result.val_ptr[i] = (byte) (val_ptr[i] | otherValue.val_ptr[i]);
 		}
 
 		return result;
@@ -750,7 +743,7 @@ public class TitanOctetString extends Base_Type {
 			throw new TtcnError("The octetstring operands of operator or4b must have the same length.");
 		}
 
-		return new TitanOctetString((char)(val_ptr[0] | otherValue.get_nibble()));
+		return new TitanOctetString((byte)(val_ptr[0] | otherValue.get_nibble()));
 	}
 
 	/**
@@ -774,9 +767,9 @@ public class TitanOctetString extends Base_Type {
 		}
 
 		final TitanOctetString result = new TitanOctetString();
-		result.val_ptr = new char[val_ptr.length];
+		result.val_ptr = new byte[val_ptr.length];
 		for (int i = 0; i < val_ptr.length; i++) {
-			result.val_ptr[i] = (char)(val_ptr[i] ^ otherValue.val_ptr[i]);
+			result.val_ptr[i] = (byte)(val_ptr[i] ^ otherValue.val_ptr[i]);
 		}
 
 		return result;
@@ -802,7 +795,7 @@ public class TitanOctetString extends Base_Type {
 			throw new TtcnError("The octetstring operands of operator xor4b must have the same length.");
 		}
 
-		return new TitanOctetString((char)(val_ptr[0] ^ otherValue.get_nibble()));
+		return new TitanOctetString((byte)(val_ptr[0] ^ otherValue.get_nibble()));
 	}
 
 	/**
@@ -825,7 +818,7 @@ public class TitanOctetString extends Base_Type {
 			}
 
 			final TitanOctetString result = new TitanOctetString();
-			result.val_ptr = new char[val_ptr.length];
+			result.val_ptr = new byte[val_ptr.length];
 			if (shift_count > val_ptr.length) {
 				shift_count = val_ptr.length;
 			}
@@ -883,7 +876,7 @@ public class TitanOctetString extends Base_Type {
 			}
 
 			final TitanOctetString result = new TitanOctetString();
-			result.val_ptr = new char[val_ptr.length];
+			result.val_ptr = new byte[val_ptr.length];
 			if (shift_count > val_ptr.length) {
 				shift_count = val_ptr.length;
 			}
@@ -943,7 +936,7 @@ public class TitanOctetString extends Base_Type {
 			}
 
 			final TitanOctetString result = new TitanOctetString();
-			result.val_ptr = new char[val_ptr.length];
+			result.val_ptr = new byte[val_ptr.length];
 			System.arraycopy(val_ptr, rotate_count, result.val_ptr, 0, val_ptr.length - rotate_count);
 			System.arraycopy(val_ptr, 0, result.val_ptr, val_ptr.length - rotate_count, rotate_count);
 
@@ -994,7 +987,7 @@ public class TitanOctetString extends Base_Type {
 			}
 
 			final TitanOctetString result = new TitanOctetString();
-			result.val_ptr = new char[val_ptr.length];
+			result.val_ptr = new byte[val_ptr.length];
 			if (rotate_count > val_ptr.length) {
 				rotate_count = val_ptr.length;
 			}
@@ -1111,7 +1104,11 @@ public class TitanOctetString extends Base_Type {
 					bc[a] = (char) (val_ptr[a] << 1);
 				}
 			} else {
-				myleaf.data_array = val_ptr;
+				final char[] tmp_nibbles = new char[val_ptr.length];//FIXME optimize away if possible
+				for (int i = 0; i < val_ptr.length; i++) {
+					tmp_nibbles[i] = (char)val_ptr[i];
+				}
+				myleaf.data_array = tmp_nibbles;
 			}
 			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 				myleaf.align = align_length;
@@ -1183,8 +1180,12 @@ public class TitanOctetString extends Base_Type {
 				decode_length = count * 8;
 			}
 			val_ptr = null;
-			val_ptr = new char[decode_length / 8];
-			buff.get_b(decode_length, val_ptr, cp, top_bit_ord);
+			val_ptr = new byte[decode_length / 8];
+			final char[] tmp_nibbles = new char[decode_length / 8];//FIXME optimize away if possible
+			buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
+			for (int i = 0; i < decode_length / 8; i++) {
+				val_ptr[i] = (byte)tmp_nibbles[i];
+			}
 			if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
 				if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 					System.arraycopy(val_ptr, decode_length / 8 - val_ptr.length, val_ptr, 0, val_ptr.length);
@@ -1192,7 +1193,7 @@ public class TitanOctetString extends Base_Type {
 			}
 			if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && cp.bitorder == raw_order_t.ORDER_MSB) {
 				for (int a = 0; a < decode_length / 8; a++) {
-					val_ptr[a] = (char) (val_ptr[a] >> 1 | val_ptr[a] << 7);
+					val_ptr[a] = (byte) (val_ptr[a] >> 1 | val_ptr[a] << 7);
 				}
 			}
 			decode_length += buff.increase_pos_padd(p_td.raw.padding);

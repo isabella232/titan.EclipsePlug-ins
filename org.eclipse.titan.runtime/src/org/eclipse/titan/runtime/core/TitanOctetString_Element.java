@@ -190,9 +190,9 @@ public class TitanOctetString_Element {
 		must_bound("Unbound left operand of octetstring element concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring concatenation.");
 
-		final char src_ptr[] = other_value.get_value();
+		final byte src_ptr[] = other_value.get_value();
 		final int n_nibbles = src_ptr.length;
-		final char dest_ptr[] = new char[1 + n_nibbles];
+		final byte dest_ptr[] = new byte[1 + n_nibbles];
 		dest_ptr[0] = str_val.get_nibble(nibble_pos);
 		// chars in the result minus 1
 		System.arraycopy(src_ptr, 0, dest_ptr, 1, n_nibbles);
@@ -214,7 +214,7 @@ public class TitanOctetString_Element {
 		must_bound("Unbound left operand of octetstring element concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring element concatenation.");
 
-		final char dest_ptr[] = new char[2];
+		final byte dest_ptr[] = new byte[2];
 		dest_ptr[0] = str_val.get_nibble(nibble_pos);
 		dest_ptr[1] = other_value.get_nibble();
 
@@ -236,7 +236,7 @@ public class TitanOctetString_Element {
 		final int digit2 = temp & 0x0F;
 		final int negDigit1 = ~digit1 & 0x0F;
 		final int negDigit2 = ~digit2 & 0x0F;
-		return new TitanOctetString((char) ((negDigit1 << 4) + negDigit2));
+		return new TitanOctetString((byte) ((negDigit1 << 4) + negDigit2));
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class TitanOctetString_Element {
 			throw new TtcnError("The octetstring operands of operator and4b must have the same length.");
 		}
 
-		final char result = (char) (str_val.get_nibble(nibble_pos) & other_value.get_nibble(0));
+		final byte result = (byte) (str_val.get_nibble(nibble_pos) & other_value.get_nibble(0));
 		return new TitanOctetString(result);
 	}
 
@@ -279,7 +279,7 @@ public class TitanOctetString_Element {
 		must_bound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.must_bound("Right operand of operator and4b is an unbound octetstring element.");
 
-		final char result = (char) (str_val.get_nibble(nibble_pos) & other_value.str_val.get_nibble(other_value.nibble_pos));
+		final byte result = (byte) (str_val.get_nibble(nibble_pos) & other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanOctetString(result);
 	}
 
@@ -303,7 +303,7 @@ public class TitanOctetString_Element {
 			throw new TtcnError("The octetstring operands of operator or4b must have the same length.");
 		}
 
-		final char result = (char) (str_val.get_nibble(nibble_pos) | other_value.get_nibble(0));
+		final byte result = (byte) (str_val.get_nibble(nibble_pos) | other_value.get_nibble(0));
 		return new TitanOctetString(result);
 	}
 
@@ -323,7 +323,7 @@ public class TitanOctetString_Element {
 		must_bound("Left operand of operator or4b is an unbound octetstring element.");
 		other_value.must_bound("Right operand of operator or4b is an unbound octetstring element.");
 
-		final char result = (char) (str_val.get_nibble(nibble_pos) | other_value.str_val.get_nibble(other_value.nibble_pos));
+		final byte result = (byte) (str_val.get_nibble(nibble_pos) | other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanOctetString(result);
 	}
 
@@ -347,7 +347,7 @@ public class TitanOctetString_Element {
 			throw new TtcnError("The octetstring operands of operator xor4b must have the same length.");
 		}
 
-		final char result = (char) (str_val.get_nibble(nibble_pos) ^ other_value.get_nibble(0));
+		final byte result = (byte) (str_val.get_nibble(nibble_pos) ^ other_value.get_nibble(0));
 		return new TitanOctetString(result);
 	}
 
@@ -367,12 +367,12 @@ public class TitanOctetString_Element {
 		must_bound("Left operand of operator xor4b is an unbound octetstring element.");
 		other_value.must_bound("Right operand of operator xor4b is an unbound octetstring element.");
 
-		final char result = (char) (str_val.get_nibble(nibble_pos) ^ other_value.str_val.get_nibble(other_value.nibble_pos));
+		final byte result = (byte) (str_val.get_nibble(nibble_pos) ^ other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanOctetString(result);
 	}
 
-	public char get_nibble() {
-		return (char) str_val.get_nibble(nibble_pos);
+	public byte get_nibble() {
+		return str_val.get_nibble(nibble_pos);
 	}
 
 	/**

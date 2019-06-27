@@ -1120,7 +1120,12 @@ public class TitanUniversalCharString extends Base_Type {
 		p_buff.get_string(os);
 		if (new TitanCharString("UTF-8").operator_equals(AdditionalFunctions.get_stringencoding(os))) {
 			final TitanUniversalCharString ret = new TitanUniversalCharString();
-			ret.decode_utf8(p_buff.get_data(), CharCoding.UTF_8, false);
+			final char[] source = p_buff.get_data();
+			final byte[] temp = new byte[source.length];
+			for (int i = 0; i < source.length; i++) {//FIXME optimize away if possible
+				temp[i] = (byte)source[i];
+			}
+			ret.decode_utf8(temp, CharCoding.UTF_8, false);
 			return ret;
 		} else {
 			if (p_buff.get_data() != null) {
@@ -1694,7 +1699,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	// decode
 
-	public void decode_utf8(final char[] valueStr, final CharCoding code, final boolean checkBOM) {
+	public void decode_utf8(final byte[] valueStr, final CharCoding code, final boolean checkBOM) {
 		// approximate the number of characters
 		final int lenghtOctets = valueStr.length;
 		int lenghtUnichars = 0;
@@ -1718,7 +1723,7 @@ public class TitanUniversalCharString extends Base_Type {
 			// perform the decoding character by character
 			if (valueStr[i] <= 0x7F)  {
 				// character encoded on a single octet: 0xxxxxxx (7 useful bits)
-				val_ptr.add(lenghtUnichars, new TitanUniversalChar((char)0,(char) 0,(char) 0, valueStr[i]));
+				val_ptr.add(lenghtUnichars, new TitanUniversalChar((char)0,(char) 0,(char) 0, (char)valueStr[i]));
 				i++;
 				lenghtUnichars++;
 			} else if (valueStr[i] <= 0xBF)  {
@@ -1834,7 +1839,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	public void decode_utf16(final int n_octets, final char[] octets_ptr, final CharCoding expected_coding) {
+	public void decode_utf16(final int n_octets, final byte[] octets_ptr, final CharCoding expected_coding) {
 		if (n_octets % 2 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 2", n_octets);
 		}
@@ -1905,7 +1910,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	public void decode_utf32(final int n_octets, final char[] octets_ptr, final CharCoding expected_coding) {
+	public void decode_utf32(final int n_octets, final byte[] octets_ptr, final CharCoding expected_coding) {
 		if (n_octets % 4 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-32 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 4", n_octets);
 		}
@@ -1943,7 +1948,7 @@ public class TitanUniversalCharString extends Base_Type {
 			} else if (0x0010FFFF < DW) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UTF-32 code (0x%08X) greater than 0x0010FFFF is ill-formed", DW);
 			} else {
-				val_ptr.add(new TitanUniversalChar(octets_ptr[first], octets_ptr[second], octets_ptr[third], octets_ptr[fourth]));
+				val_ptr.add(new TitanUniversalChar((char)octets_ptr[first], (char)octets_ptr[second], (char)octets_ptr[third], (char)octets_ptr[fourth]));
 				++n_uchars;
 			}
 		}
@@ -1958,7 +1963,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	public int check_BOM(final CharCoding code, final char[] ostr) {
+	public int check_BOM(final CharCoding code, final byte[] ostr) {
 		String coding_str;
 		//BOM indicates that the byte order is determined by a byte order mark, 
 		//if present at the beginning the length of BOM is returned.
@@ -2013,10 +2018,10 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public static void fill_continuing_octets(final int n_continuing, final char[] continuing_ptr, final int n_octets,
-			final char[] octets_ptr, final int start_pos, final int uchar_pos) {
+			final byte[] octets_ptr, final int start_pos, final int uchar_pos) {
 		for (int i = 0; i < n_continuing; i++) {
 			if (start_pos + i < n_octets) {
-				final char octet = octets_ptr[start_pos + i];
+				final byte octet = octets_ptr[start_pos + i];
 				if ((octet & 0xC0) != 0x80) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
 							MessageFormat.format("Malformed: At character position {0}, octet position {1}: {2} is not a valid continuing octet.", uchar_pos, start_pos + i, octet));
@@ -2365,7 +2370,7 @@ public class TitanUniversalCharString extends Base_Type {
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		try {
 			final int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
-			final char[] tmp_val_ptr = buff_str.get_value().toString().toCharArray();
+			final byte[] tmp_val_ptr = AdditionalFunctions.char2oct(buff_str).get_value();
 			if(buff_str.is_bound()) {
 				charstring = true;
 				for (int i = 0; i < buff_str.lengthof().get_int(); ++i) {

@@ -274,7 +274,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	// originally operator=
-	public TitanOctetString_template operator_assign(final char[] otherValue) {
+	public TitanOctetString_template operator_assign(final byte[] otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue);
@@ -833,7 +833,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			for (int i = 0; i < pattern_value.length; i++) {
 				final char pattern = pattern_value[i];
 				if (pattern < 256) {
-					TTCN_Logger.log_octet(pattern);
+					TTCN_Logger.log_octet((byte)pattern);
 				} else if (pattern == 256) {
 					TTCN_Logger.log_char('?');
 				} else if (pattern == 257) {
@@ -907,7 +907,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			break;
 		}
 		case MP_Octetstring:
-			this.operator_assign(new TitanOctetString((char[]) param.get_string_data()));
+			this.operator_assign(new TitanOctetString((byte[]) param.get_string_data()));
 			break;
 		case MP_Octetstring_Template:
 			this.operator_assign((TitanOctetString_template)param.get_string_data());

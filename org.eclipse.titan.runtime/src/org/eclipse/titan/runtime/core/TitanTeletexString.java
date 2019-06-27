@@ -24,12 +24,12 @@ public class TitanTeletexString extends TitanUniversalCharString {
 	 *                the source octetstring.
 	 * */
 	public static TitanTeletexString TTCN_ISO2022_2_TeletexString(final TitanOctetString p_os) {
-		final char osstr[] = p_os.get_value();
+		final byte osstr[] = p_os.get_value();
 		final int len = osstr.length;
 		final ArrayList<TitanUniversalChar> ucstr = new ArrayList<TitanUniversalChar>(len);
 
 		for (int i = 0; i < len; i++) {
-			ucstr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, osstr[i]));
+			ucstr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, (char)osstr[i]));
 		}
 
 		return new TitanTeletexString(ucstr);

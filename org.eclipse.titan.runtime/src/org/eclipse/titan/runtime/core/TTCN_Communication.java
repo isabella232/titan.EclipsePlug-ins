@@ -1712,7 +1712,7 @@ public final class TTCN_Communication {
 		final byte[] data = local_incoming_buf.get_data();
 		final int begin = local_incoming_buf.get_begin();
 		for (int i = local_incoming_buf.get_pos(); i < msg_end; i++) {
-			TTCN_Logger.log_octet((char)data[begin + i]);
+			TTCN_Logger.log_octet(data[begin + i]);
 		}
 		TTCN_Logger.end_event();
 		local_incoming_buf.cut_message();

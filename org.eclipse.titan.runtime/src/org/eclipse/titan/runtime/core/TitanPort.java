@@ -1882,7 +1882,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				TTCN_Logger.log_event_str(MessageFormat.format(":{0}: ", connection.remote_port));
 				final byte[] msg = incoming_buffer.get_data();
 				for (int i = 0; i < msg_len; i++) {
-					TTCN_Logger.log_octet((char)msg[i]);
+					TTCN_Logger.log_octet(msg[i]);
 				}
 				TtcnError.TtcnWarningEnd();
 			}

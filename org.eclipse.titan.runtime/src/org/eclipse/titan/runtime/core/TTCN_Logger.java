@@ -1138,7 +1138,7 @@ public final class TTCN_Logger {
 		}
 	}
 
-	public static void log_octet( final char aOctet ) {
+	public static void log_octet( final byte aOctet ) {
 		log_char(TitanHexString.HEX_DIGITS.charAt((aOctet & 0xF0)>>4));
 		log_char(TitanHexString.HEX_DIGITS.charAt(aOctet & 0x0F));
 	}

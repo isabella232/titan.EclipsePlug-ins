@@ -154,7 +154,7 @@ public final class AdditionalFunctions {
 	private static CharCoding is_ascii(final TitanOctetString ostr) {
 		final int nonASCII = 1 << 7; // MSB is 1 in case of non ASCII character
 		CharCoding ret = CharCoding.ASCII;
-		final char[] strptr = ostr.get_value();
+		final byte[] strptr = ostr.get_value();
 		for (int i = 0; i < strptr.length; i++) {
 			if (((strptr[i] & 0xFF) & nonASCII) != 0) {
 				ret = CharCoding.UNKNOWN;
@@ -168,7 +168,7 @@ public final class AdditionalFunctions {
 		final int MSB = 1 << 7; // MSB is 1 in case of non ASCII character
 		final int MSBmin1 = 1 << 6; // 0100 0000 
 		int i = 0;
-		final char strptr[] = ostr.get_value();
+		final byte strptr[] = ostr.get_value();
 		while (ostr.lengthof().get_int() > i) {
 			if (((strptr[i] & 0xFF) & MSB) != 0) { //non ASCII char
 				int maskUTF8 = 1 << 6; // 111x xxxx shows how many additional bytes are there
@@ -543,10 +543,10 @@ public final class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value:", length));
 		}
 
-		final char octets_ptr[] = new char[length];
+		final byte octets_ptr[] = new byte[length];
 		int tmp_value = value;
 		for (int i = length - 1; i >= 0; i--) {
-			octets_ptr[i] = (char) (tmp_value & 0xFF);
+			octets_ptr[i] = (byte) (tmp_value & 0xFF);
 			tmp_value >>= 8;
 		}
 		if (tmp_value != 0) {
@@ -601,10 +601,10 @@ public final class AdditionalFunctions {
 			}
 
 			BigInteger tmp_val = value.get_BigInteger();
-			final char octets_ptr[] = new char[length];
+			final byte octets_ptr[] = new byte[length];
 			final BigInteger helper = new BigInteger("255");
 			for (int i = length - 1; i >= 0; i--) {
-				octets_ptr[i] = (char) (tmp_val.and(helper).intValue());
+				octets_ptr[i] = (byte) (tmp_val.and(helper).intValue());
 				tmp_val = tmp_val.shiftRight(8);
 			}
 			if (tmp_val.compareTo(BigInteger.ZERO) != 0) {
@@ -856,7 +856,7 @@ public final class AdditionalFunctions {
 			return new TitanOctetString("");
 		}
 
-		final char octets_ptr[] = new char[value.length()];
+		final byte octets_ptr[] = new byte[value.length()];
 		for (int i = 0; i < value.length(); i++) {
 			octets_ptr[i] = int2oct((int) value.charAt(i), 1).get_nibble(0);
 		}
@@ -1107,9 +1107,9 @@ public final class AdditionalFunctions {
 		}
 
 		// to please the constructor
-		final char ret_val[] = new char[octets_ptr.length];
-		for (int i = 0; i < octets_ptr.length; i++) {
-			ret_val[i] = (char) octets_ptr[i];
+		final byte ret_val[] = new byte[octets_ptr.length];
+		for (int i = 0; i < octets_ptr.length; i++) {//FIXME optimize away
+			ret_val[i] = (byte) octets_ptr[i];
 		}
 
 		return new TitanOctetString(ret_val);
@@ -1128,7 +1128,7 @@ public final class AdditionalFunctions {
 	public static TitanOctetString bit2oct(final TitanBitString_Element value) {
 		value.must_bound("The argument of function bit2oct() is an unbound bitstring element.");
 
-		return new TitanOctetString((char) (value.get_bit() ? 1 : 0));
+		return new TitanOctetString((byte) (value.get_bit() ? 1 : 0));
 	}
 
 	// C.15 - bit2str
@@ -1329,15 +1329,15 @@ public final class AdditionalFunctions {
 		final int n_nibbles = value.lengthof().get_int();
 		final int n_octets = (n_nibbles + 1) / 2;
 		final int n_padding_nibble = n_nibbles % 2;
-		final char octet_ptr[] = new char[n_octets];
+		final byte octet_ptr[] = new byte[n_octets];
 		final byte nibbles_ptr[] = new byte[n_nibbles + n_padding_nibble];
 
 		if ((n_nibbles & 1) == 1) {
 			nibbles_ptr[0] = (byte) 0;
 		}
-		System.arraycopy(value.get_value(), 0, nibbles_ptr, n_padding_nibble, value.get_value().length);
+		System.arraycopy(value.get_value(), 0, nibbles_ptr, n_padding_nibble, value.get_value().length);//FIXME optimize away
 		for (int i = 1; i < nibbles_ptr.length; i += 2) {
-			octet_ptr[i / 2] = (char) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]);
+			octet_ptr[i / 2] = (byte) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]);
 		}
 
 		return new TitanOctetString(octet_ptr);
@@ -1356,7 +1356,7 @@ public final class AdditionalFunctions {
 	public static TitanOctetString hex2oct(final TitanHexString_Element value) {
 		value.must_bound("The argument of function hex2oct() is an unbound hexstring element.");
 
-		final char octet = value.get_nibble();
+		final byte octet = value.get_nibble();
 		return new TitanOctetString(octet);
 	}
 
@@ -1422,7 +1422,7 @@ public final class AdditionalFunctions {
 	public static TitanInteger oct2int(final TitanOctetString value) {
 		value.must_bound("The argument of function oct2int() is an unbound octetstring value.");
 
-		final char octets_ptr[] = value.get_value();
+		final byte octets_ptr[] = value.get_value();
 		final int n_octets = octets_ptr.length;
 
 		// skip the leading zero hex digits
@@ -1495,7 +1495,7 @@ public final class AdditionalFunctions {
 
 		final int n_octets = value.lengthof().get_int();
 		final int bits_ptr[] = new int[n_octets];
-		final char octets_ptr[] = value.get_value();
+		final byte octets_ptr[] = value.get_value();
 
 		for (int i = 0; i < n_octets; i++) {
 			bits_ptr[i] = bit_reverse_table[octets_ptr[i] & 0xFF];
@@ -1538,7 +1538,7 @@ public final class AdditionalFunctions {
 
 		final int n_octets = value.lengthof().get_int();
 		final byte ret_val[] = new byte[n_octets * 2];
-		final char octets_ptr[] = value.get_value();
+		final byte octets_ptr[] = value.get_value();
 
 		for (int i = 0; i < n_octets; i++) {
 			ret_val[i * 2] = (byte) ((octets_ptr[i] & 0xF0) >> 4);
@@ -1656,8 +1656,8 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2char(final TitanOctetString_Element value) {
 		value.must_bound("The argument of function oct2char() is an unbound octetstring element.");
 
-		final char octet = value.get_nibble();
-		if ((int) octet > 127) {
+		final byte octet = value.get_nibble();
+		if (octet > 127) {
 			throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains the octet {0}, which is outside the allowed range 00 .. 7F.", octet));
 		}
 
@@ -1940,7 +1940,7 @@ public final class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The argument of function str2oct() must have even number of characters containing hexadecimal digits, but the length of the string is odd: {0}.", value_len));
 		}
 
-		final char octets_ptr[] = new char[value_len / 2];
+		final byte octets_ptr[] = new byte[value_len / 2];
 		final StringBuilder chars_ptr = new StringBuilder();
 		chars_ptr.append(value.get_value().toString());
 		for (int i = 0; i < value_len; i++) {
@@ -1953,9 +1953,9 @@ public final class AdditionalFunctions {
 				TtcnError.TtcnErrorEnd();
 			}
 			if (i % 2 != 0) {
-				octets_ptr[i / 2] = (char) (octets_ptr[i / 2] | hexdigit);
+				octets_ptr[i / 2] = (byte) (octets_ptr[i / 2] | hexdigit);
 			} else {
-				octets_ptr[i / 2] = (char) (hexdigit << 4);
+				octets_ptr[i / 2] = (byte) (hexdigit << 4);
 			}
 		}
 
@@ -2298,7 +2298,12 @@ public final class AdditionalFunctions {
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
-		return new TitanOctetString(buf.get_data());
+		final char[] source = buf.get_data();
+		byte[] temp = new byte[source.length]; //FIXME optimize away
+		for (int i = 0; i < source.length; i++) {
+			temp[i] = (byte)source.length;
+		}
+		return new TitanOctetString(temp);
 	}
 
 	/**
@@ -2345,7 +2350,12 @@ public final class AdditionalFunctions {
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
-		return new TitanOctetString(buf.get_data());
+		final char[] source = buf.get_data();
+		byte[] temp = new byte[source.length]; //FIXME optimize away
+		for (int i = 0; i < source.length; i++) {
+			temp[i] = (byte)source.length;
+		}
+		return new TitanOctetString(temp);
 	}
 
 	/**
@@ -2789,8 +2799,8 @@ public final class AdditionalFunctions {
 		value.must_bound("The first argument (value) of function substr() is an unbound octetstring value.");
 
 		check_substr_arguments(value.lengthof().get_int(), idx, returncount, "octetstring", "octet");
-		final char ret_val[] = new char[returncount];
-		final char src_ptr[] = value.get_value();
+		final byte ret_val[] = new byte[returncount];
+		final byte src_ptr[] = value.get_value();
 		System.arraycopy(src_ptr, idx, ret_val, 0, returncount);
 
 		return new TitanOctetString(ret_val);
@@ -3961,9 +3971,9 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "octetstring", "octet");
 
 		final int repl_len = repl.lengthof().get_int();
-		final char src_ptr[] = value.get_value();
-		final char repl_ptr[] = repl.get_value();
-		final char ret_val[] = new char[value_len + repl_len - len];
+		final byte src_ptr[] = value.get_value();
+		final byte repl_ptr[] = repl.get_value();
+		final byte ret_val[] = new byte[value_len + repl_len - len];
 
 		System.arraycopy(src_ptr, 0, ret_val, 0, idx);
 		System.arraycopy(repl_ptr, 0, ret_val, idx, repl_len);
@@ -4847,7 +4857,7 @@ public final class AdditionalFunctions {
 
 		int i = 0;
 		final int length = encoded_value.lengthof().get_int();
-		final char[] strptr = encoded_value.get_value();
+		final byte[] strptr = encoded_value.get_value();
 
 		if(length >= 2) {
 			switch (strptr[0] & 0xFF) {
@@ -4907,8 +4917,9 @@ public final class AdditionalFunctions {
 	 *         sequence.
 	 * */
 	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
-		final char str[] = encoded_value.get_value();
+		final byte str[] = encoded_value.get_value();
 		int length_of_BOM = 0;
+		//TODO maybe some common checks could be extracted
 		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
 			length_of_BOM = 4;
 		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF) && 0x00 == (str[2] & 0xFF) && 0x00 == (str[3] & 0xFF)) { // UTF-32LE
@@ -4923,7 +4934,7 @@ public final class AdditionalFunctions {
 			return new TitanOctetString(encoded_value);
 		}
 
-		final char tmp_str[] = new char[str.length - length_of_BOM];
+		final byte tmp_str[] = new byte[str.length - length_of_BOM];
 		System.arraycopy(str, length_of_BOM, tmp_str, 0, str.length - length_of_BOM);
 
 		return new TitanOctetString(tmp_str);
@@ -5345,7 +5356,7 @@ public final class AdditionalFunctions {
 
 	public static TitanCharString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
 		final char pad = '=';
-		final char[] p_msg = msg.get_value();
+		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = msg.lengthof().get_int();
 		char[] output = new char[((octets_left*22) >> 4) + 7];
@@ -5388,7 +5399,7 @@ public final class AdditionalFunctions {
 
 	public static TitanCharString encode_base64(final TitanOctetString msg) {
 		final char pad = '=';
-		final char[] p_msg = msg.get_value();
+		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = msg.lengthof().get_int();
 		char[] output = new char[((octets_left*22) >> 4) + 7];
@@ -5425,7 +5436,7 @@ public final class AdditionalFunctions {
 		final byte[] p_b64 = b64.get_value().toString().getBytes();
 		int b64Pos = 0;
 		int chars_left = b64.lengthof().get_int();
-		char[] output = new char[((chars_left >> 2) + 1 ) * 3 ];
+		byte[] output = new byte[((chars_left >> 2) + 1 ) * 3 ];
 		int outpotPos = 0;
 		int bits = 0;
 		int n_bits = 0;
@@ -5437,7 +5448,7 @@ public final class AdditionalFunctions {
 				bits |= decode_table[p_b64[b64Pos]];
 				n_bits += 6;
 				if (n_bits >= 8) {
-					output[outpotPos++] = (char)(( bits >> (n_bits - 8)) & 0xff);
+					output[outpotPos++] = (byte)(( bits >> (n_bits - 8)) & 0xff);
 					n_bits -= 8;
 				}
 			} else if (p_b64[b64Pos] == '=') {
@@ -5453,7 +5464,7 @@ public final class AdditionalFunctions {
 			b64Pos++;
 		}
 
-		final char[] result = new char[outpotPos];
+		final byte[] result = new byte[outpotPos];
 		System.arraycopy(output, 0, result, 0, outpotPos);
 
 		return new TitanOctetString(result);

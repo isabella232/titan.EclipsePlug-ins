@@ -362,8 +362,8 @@ public class TitanHexString_Element {
 		return new TitanHexString(result);
 	}
 
-	public char get_nibble() {
-		return (char) str_val.get_nibble(nibble_pos);
+	public byte get_nibble() {
+		return (byte) str_val.get_nibble(nibble_pos);
 	}
 
 	/**
