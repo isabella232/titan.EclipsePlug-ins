@@ -629,9 +629,9 @@ public class TitanOctetString extends Base_Type {
 		final TitanOctetString result = new TitanOctetString();
 		result.val_ptr = new byte[val_ptr.length];
 		for (int i = 0; i < val_ptr.length; i++) {
-			//TODO extract common parts
-			final int digit1 = (val_ptr[i] & 0xFF) / 16;
-			final int digit2 = (val_ptr[i] & 0xFF) % 16;
+			final int act_octet = val_ptr[i] & 0xFF;
+			final int digit1 = act_octet / 16;
+			final int digit2 = act_octet % 16;
 			final int negDigit1 = ~digit1 & 0x0F;
 			final int negDigit2 = ~digit2 & 0x0F;
 			result.val_ptr[i] = (byte)((negDigit1  << 4) + negDigit2);
