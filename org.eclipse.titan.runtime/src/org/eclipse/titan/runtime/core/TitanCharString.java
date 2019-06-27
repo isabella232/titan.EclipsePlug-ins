@@ -1166,9 +1166,7 @@ public class TitanCharString extends Base_Type {
 			} else {
 				// NULL terminated
 				final TTCN_Buffer temp_buff = new TTCN_Buffer();
-				//TODO: can be more simple
-				byte[] ch = new byte[1];
-				ch[0] = 0;
+				final byte[] ch = new byte[] {0};
 				int str_len = 0;
 				int null_found = 0;
 				while (str_len < decode_length) {
