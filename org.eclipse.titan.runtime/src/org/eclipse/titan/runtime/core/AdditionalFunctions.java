@@ -1096,7 +1096,7 @@ public final class AdditionalFunctions {
 		final int n_bits = value.lengthof().get_int();
 		final int n_octets = (n_bits + 7) / 8;
 		final int padding_bits = 8 * n_octets - n_bits;
-		final int octets_ptr[] = new int[n_octets];
+		final byte octets_ptr[] = new byte[n_octets];
 		final int bits_ptr[] = value.get_value();
 
 		// bitstring conversion to hex characters
@@ -1106,13 +1106,7 @@ public final class AdditionalFunctions {
 			}
 		}
 
-		// to please the constructor
-		final byte ret_val[] = new byte[octets_ptr.length];
-		for (int i = 0; i < octets_ptr.length; i++) {//FIXME optimize away
-			ret_val[i] = (byte) octets_ptr[i];
-		}
-
-		return new TitanOctetString(ret_val);
+		return new TitanOctetString(octets_ptr);
 	}
 
 	/**
@@ -1335,7 +1329,7 @@ public final class AdditionalFunctions {
 		if ((n_nibbles & 1) == 1) {
 			nibbles_ptr[0] = (byte) 0;
 		}
-		System.arraycopy(value.get_value(), 0, nibbles_ptr, n_padding_nibble, value.get_value().length);//FIXME optimize away
+		System.arraycopy(value.get_value(), 0, nibbles_ptr, n_padding_nibble, value.get_value().length);
 		for (int i = 1; i < nibbles_ptr.length; i += 2) {
 			octet_ptr[i / 2] = (byte) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]);
 		}
@@ -2298,12 +2292,7 @@ public final class AdditionalFunctions {
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
-		final byte[] source = buf.get_data();
-		byte[] temp = new byte[source.length]; //FIXME optimize away
-		for (int i = 0; i < source.length; i++) {
-			temp[i] = (byte)source[i];
-		}
-		return new TitanOctetString(temp);
+		return new TitanOctetString(buf.get_data());
 	}
 
 	/**
@@ -2350,12 +2339,7 @@ public final class AdditionalFunctions {
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
-		final byte[] source = buf.get_data();
-		byte[] temp = new byte[source.length]; //FIXME optimize away
-		for (int i = 0; i < source.length; i++) {
-			temp[i] = (byte)source[i];
-		}
-		return new TitanOctetString(temp);
+		return new TitanOctetString(buf.get_data());
 	}
 
 	/**
