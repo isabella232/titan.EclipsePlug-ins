@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -41,6 +42,17 @@ public class CfgPreProcessor {
 	private static final int RECURSION_LIMIT = 100;
 
 	private boolean error_flag = false;
+
+	/**
+	 * Pairs of definition name and their value (represented by a token list) collected from the [DEFINE] sections
+	 */
+	Map<String, List<Token>> definitions = null;
+	
+	/**
+	 * Pairs of definition name and their resolved value.
+	 * The definitions are filled by getDefinitionValue() when a new definition value is calculated
+	 */
+	final Map<String, String> resolvedDefinitions = new LinkedHashMap<String, String>();
 
 	private void config_preproc_error(String error_str, final File actualFile, final Token token) {
 		TTCN_Logger.begin_event(TTCN_Logger.Severity.ERROR_UNQUALIFIED);
@@ -149,7 +161,7 @@ public class CfgPreProcessor {
 	 * and the macro references are replaced with their values.
 	 * After a successful define preparsing we get a CFG file that will not contain any [DEFINE] sections.
 	 * Define preparsing is done after include preparsing, so the result will not contain any
-	 * [INCLUDE] or [ORDERED_INCLUDE] sections as well.
+	 * [INCLUDE] or [ORDERED_INCLUDE] sections.
 	 * @param in cfg file content to preparse
 	 * @param modified (in/out) set to true, if the cfg file content is modified during preparsing,
 	 *                 otherwise the value is left untouched
@@ -172,31 +184,24 @@ public class CfgPreProcessor {
 		parser.setBuildParseTree(false);
 		parser.pr_ConfigFile();
 		final DefineSectionHandler defineSectionHandler = parser.getDefineSectionHandler();
-		final Map<String, List<Token>> defs = defineSectionHandler.getDefinitions();
+		definitions = defineSectionHandler.getDefinitions();
 		parser = null;
-		checkCircularReferences(defs);
 
-		// modified during macro resolving
-		AtomicBoolean modifiedMacro = new AtomicBoolean(false);
-		// in the 1st round we can use the lexer which was created for the parser
-		StringBuilder out = resolveMacros(tokenStream, modifiedMacro, defineSectionHandler);
-		reader.close();
-		while ( modifiedMacro.get() ) {
-			modified.set(true);
-			reader = new StringReader( out.toString() );
-			tokenStream = CfgAnalyzer.createTokenStream(reader, listener);
-			tokenStream.fill();
-			modifiedMacro = new AtomicBoolean(false);
-			out = resolveMacros(tokenStream, modifiedMacro, defineSectionHandler);
-			reader.close();
+		checkCircularReferences();
+		if ( error_flag ) {
+			return null;
 		}
+
+		// we can use the lexer which was created for the parser
+		StringBuilder out = resolveMacros(tokenStream, modified);
+		reader.close();
 		return out;
 	}
 
-	private void checkCircularReferences(final Map<String, List<Token>> defs) {
-		for (final Map.Entry<String, List<Token>> entry : defs.entrySet()) {
+	private void checkCircularReferences() {
+		for (final Map.Entry<String, List<Token>> entry : definitions.entrySet()) {
 			final String defName = entry.getKey();
-			checkCircularReferences(defName, defName, defs);
+			checkCircularReferences(defName, defName, definitions);
 		}
 	}
 
@@ -238,7 +243,6 @@ public class CfgPreProcessor {
 				break;
 			}
 		}
-		
 	}
 
 	/**
@@ -246,17 +250,18 @@ public class CfgPreProcessor {
 	 * @param tokenStream input tokens
 	 * @param modified (in/out) set to true, if the cfg file content is modified during preparsing,
 	 *                 otherwise the value is left untouched
-	 * @param defineSectionHandler define handler for getting collection of definition name value pairs
 	 * @return output string buffer, where the resolved content is written
 	 */
-	private static StringBuilder resolveMacros(final CommonTokenStream tokenStream, final AtomicBoolean modified, final DefineSectionHandler defineSectionHandler) {
+	private StringBuilder resolveMacros(final CommonTokenStream tokenStream, final AtomicBoolean modified) {
 		final List<Token> tokens = tokenStream.getTokens();
 		final ListIterator<Token> iter = tokens.listIterator();
 		boolean defineSection = false;
+		final StringBuilder out = new StringBuilder();
 		while (iter.hasNext()) {
 			final Token token = iter.next();
 			final CommonToken commonToken = (CommonToken)token;
 			final int tokenType = token.getType();
+			final String tokenText = token.getText();
 			switch (tokenType) {
 			case RuntimeCfgLexer.DEFINE_SECTION:
 				iter.remove();
@@ -273,117 +278,117 @@ public class CfgPreProcessor {
 			case RuntimeCfgLexer.LOGGING_SECTION:
 			case RuntimeCfgLexer.PROFILER_SECTION:
 				defineSection = false;
+				out.append(tokenText);
 				break;
 			case RuntimeCfgLexer.INCLUDE_SECTION:
 			case RuntimeCfgLexer.ORDERED_INCLUDE_SECTION:
 				//should not happen in this stage of preparsing
 				//TODO: error
 				defineSection = false;
-				break;
-			case RuntimeCfgLexer.MACRO:
-				if (defineSection) {
-					iter.remove();
-				} else {
-					final String macroValue = defineSectionHandler.getMacroValue(token);
-					resolveMacro(commonToken, macroValue, iter);
-				}
-				modified.set(true);
-				break;
-			case RuntimeCfgLexer.MACRO_BINARY:
-			case RuntimeCfgLexer.MACRO_BOOL:
-			case RuntimeCfgLexer.MACRO_BSTR:
-			case RuntimeCfgLexer.MACRO_EXP_CSTR:
-			case RuntimeCfgLexer.MACRO_FLOAT:
-			case RuntimeCfgLexer.MACRO_HOSTNAME:
-			case RuntimeCfgLexer.MACRO_HSTR:
-			case RuntimeCfgLexer.MACRO_ID:
-			case RuntimeCfgLexer.MACRO_INT:
-			case RuntimeCfgLexer.MACRO_OSTR:
-				if (defineSection) {
-					iter.remove();
-				} else {
-					final String typedMacroValue = defineSectionHandler.getTypedMacroValue(token);
-					resolveMacro(commonToken, typedMacroValue, iter);
-				}
-				modified.set(true);
+				out.append(tokenText);
 				break;
 			default:
 				if (defineSection) {
 					iter.remove();
+				} else {
+					if ( resolveToken( out, commonToken ) ) {
+						modified.set(true);
+					}
 				}
-				break;
 			}
-		}
-
-		final StringBuilder out = new StringBuilder();
-		for ( final Token token : tokens ) {
-			out.append(token.getText());
 		}
 
 		return out;
 	}
 
 	/**
-	 * Change a macro to its value.
-	 * Also handle string concatenation with surrounding STRING tokens if needed.
-	 * @param commonToken modifiable lexer token object
-	 * @param macroValue new value
-	 * @param iter iterator for getting previous and next token
+	 * Resolves a token, which means, that in case of macro it's changed to its value, otherwise it's left untouched.
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
 	 */
-	private static void resolveMacro(CommonToken commonToken, String macroValue, ListIterator<Token> iter) {
-		final String stringWithoutQuotes = DefineSectionHandler.removeQuotes(macroValue);
-		if ( stringWithoutQuotes == null ) {
-			// not a string, we don't need to handle it as a special case
-			commonToken.setText(macroValue);
-			return;
+	private boolean resolveToken(final StringBuilder out, final Token token) {
+		boolean modified = false;
+		final String tokenText = token.getText();
+		final int tokenType = token.getType();
+		switch (tokenType) {
+		case RuntimeCfgLexer.MACRO:
+			final String macroName = DefineSectionHandler.getMacroName(tokenText);
+			final String macroValue = getDefinitionValue( macroName );
+			out.append(macroValue);
+			modified = true;
+			break;
+		case RuntimeCfgLexer.MACRO_BINARY:
+		case RuntimeCfgLexer.MACRO_BOOL:
+		case RuntimeCfgLexer.MACRO_BSTR:
+		case RuntimeCfgLexer.MACRO_EXP_CSTR:
+		case RuntimeCfgLexer.MACRO_FLOAT:
+		case RuntimeCfgLexer.MACRO_HOSTNAME:
+		case RuntimeCfgLexer.MACRO_HSTR:
+		case RuntimeCfgLexer.MACRO_ID:
+		case RuntimeCfgLexer.MACRO_INT:
+		case RuntimeCfgLexer.MACRO_OSTR:
+			final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+			final String typedMacroValue = getDefinitionValue( typedMacroName );
+			out.append(typedMacroValue);
+			modified = true;
+			break;
+		default:
+			out.append(tokenText);
+			break;
 		}
+		return modified;
+	}
 
-		// macro reference in quotes, remove the quotes
-		final String macroWithoutQuotes = DefineSectionHandler.removeMacroQuotes(macroValue);
-		if ( macroWithoutQuotes != null ) {
-			commonToken.setText(macroWithoutQuotes);
-			return;
+	/**
+	 * Gets the value of a macro or an environment variable
+	 * @param definition macro or environment variable
+	 * @return macro or environment variable value, or null if there is no such definition
+	 */
+	public String getDefinitionValue(final String definition) {
+		if ( resolvedDefinitions.containsKey(definition) ) {
+			// definition value is already calculated
+			return resolvedDefinitions.get(definition);
 		}
-
-		String prevText = "";
-		if ( iter.hasPrevious() ) {
-			Token prevToken = iter.previous();
-			if ( iter.hasPrevious() ) {
-				prevToken = iter.previous();
-				final String prevWithoutQuotes = DefineSectionHandler.removeQuotes(prevToken.getText());
-				if ( prevToken.getType() == RuntimeCfgLexer.STRING && prevWithoutQuotes != null) {
-					prevText = prevWithoutQuotes;
-					iter.remove();
+		if ( definitions == null || !definitions.containsKey( definition ) ) {
+			config_preproc_error( "Macro definition not found: " + definition, null, null );
+			return null;
+		}
+		final List<Token> tokenList = definitions.get( definition );
+		// true if macro is structured (starts with "{"). In this case the STRING keeps its beginning and ending quotes,
+		// in simple case beginning and ending quotes are removed
+		final boolean structured = tokenList.size() > 0 && tokenList.get(0).getType() == RuntimeCfgLexer.BEGINCHAR;
+		final StringBuilder out = new StringBuilder();
+		for (final Token token : tokenList) {
+			final int tokenType = token.getType();
+			switch (tokenType) {
+			case RuntimeCfgLexer.STRING: {
+				final CharstringExtractor cse = new CharstringExtractor( token.getText(), !structured );
+				final String text = cse.getExtractedString();
+				if ( cse.isErroneous() ) {
+					config_preproc_error( cse.getErrorMessage(), null, token );
 				}
-				iter.next();
+				out.append(text);
+				break;
 			}
-			// go back to the macro token
-			iter.next();
-		}
-
-		String nextText = "";
-		if ( iter.hasNext() ) {
-			final Token nextToken = iter.next();
-			final String nextWithoutQuotes = DefineSectionHandler.removeQuotes(nextToken.getText());
-			if ( nextToken.getType() == RuntimeCfgLexer.STRING && nextWithoutQuotes != null) {
-				nextText = nextWithoutQuotes;
-				iter.remove();
+			case RuntimeCfgLexer.FSTRING: {
+				final CharstringExtractor cse = new CharstringExtractor( token.getText(), false );
+				final String text = cse.getExtractedString();
+				if ( cse.isErroneous() ) {
+					config_preproc_error( cse.getErrorMessage(), null, token );
+				}
+				out.append(text);
+				break;
 			}
-			// go back to the macro token
-			iter.previous();
+			default:
+				resolveToken( out, token );
+				break;
+			}
 		}
-
-		commonToken.setType(RuntimeCfgLexer.STRING);
-
-		final String newValue = "\"" + prevText + stringWithoutQuotes + nextText + "\"";
-		final String macroWithoutQuotes2 = DefineSectionHandler.removeMacroQuotes(newValue);
-		if ( macroWithoutQuotes2 != null ) {
-			// The result is a macro reference in quotes, remove the quotes
-			commonToken.setText(macroWithoutQuotes2);
-			return;
-		}
-
-		commonToken.setText(newValue);
+		final String definitionValue = out.toString();
+		resolvedDefinitions.put( definition, definitionValue );
+		return definitionValue;
 	}
 
 	/**
@@ -400,7 +405,7 @@ public class CfgPreProcessor {
 	 *     <br><code>false</code> otherwise, so when the CFG file did not contain
 	 *         any [INCLUDE], [ORDERED_INCLUDE] or [DEFINE] sections
 	 */
-	boolean preparse(final File file, final File resultFile, final CFGListener listener) {
+	public boolean preparse(final File file, final File resultFile, final CFGListener listener) {
 		final StringBuilder outInclude = new StringBuilder();
 		final AtomicBoolean modified = new AtomicBoolean(false);
 		preparseInclude(file, outInclude, modified, listener, null, 0);
@@ -409,7 +414,9 @@ public class CfgPreProcessor {
 			listener.setFilename(null);
 		}
 		final StringBuilder outDefine = preparseDefine(outInclude, modified, listener);
-		writeToFile(resultFile, outDefine);
+		if ( outDefine != null ) {
+			writeToFile(resultFile, outDefine);
+		}
 		return modified.get();
 	}
 

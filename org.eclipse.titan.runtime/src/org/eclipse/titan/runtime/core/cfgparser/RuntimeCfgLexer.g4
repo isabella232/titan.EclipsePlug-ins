@@ -146,6 +146,17 @@ fragment FR_MACRO_BSTR:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'b
 fragment FR_MACRO_HSTR:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'hexstring' FR_WS? '}';
 fragment FR_MACRO_OSTR:			'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'octetstring' FR_WS? '}';
 fragment FR_MACRO_BINARY:		'$' '{' FR_WS? FR_TTCN3IDENTIFIER FR_WS? ',' FR_WS? 'binaryoctet' FR_WS? '}';
+fragment FR_IPV6:
+	( 'A'..'F' | 'a'..'f' | '0'..'9' )*
+	':'
+	( 'A'..'F' | 'a'..'f' | '0'..'9' | ':' )+
+	(
+		( '0'..'9' )
+		( '0'..'9' | '.' )*
+	)?
+	( '%' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )+ )?
+	( '/' ( '0'..'9' )+ )?
+;
 
 // DEFAULT MODE
 // These lexer rules are used only before the first section
@@ -376,18 +387,7 @@ PROFILER_SECTION5:				'[PROFILER]'
 WS5:	FR_WS -> type(WS), channel(HIDDEN);
 LINE_COMMENT5:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT5:	FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
-IPV6_5:
-	( 'A'..'F' | 'a'..'f' | '0'..'9' )*
-	':'
-	( 'A'..'F' | 'a'..'f' | '0'..'9' | ':' )+
-	(
-		( '0'..'9' )
-		( '0'..'9' | '.' )*
-	)?
-	( '%' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )+ )?
-	( '/' ( '0'..'9' )+ )?
- -> type(IPV6);
-
+IPV6_5:				FR_IPV6 -> type(IPV6);
 TTCN3IDENTIFIER5:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 BEGINCHAR5:			'{'
  -> type(BEGINCHAR);
@@ -395,15 +395,7 @@ ENDCHAR5:			'}'
  -> type(ENDCHAR);
 MACRORVALUE5:		[0-9|A-Z|a-z|.|_|-]+ -> type(MACRORVALUE);
 ASSIGNMENTCHAR5:	':'? '=' -> type(ASSIGNMENTCHAR);
-fragment FR_ESCAPE_WO_QUOTE5:	'\\' ( '\\' | '\'' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
-STRING5:
-(	FR_STRING
-|	'\\"'
-	(	FR_ESCAPE_WO_QUOTE5
-	|	~( '\\' | '"' )
-	)*
-	'\\"'
-) -> type(STRING);
+STRING5:			FR_STRING -> type(STRING);
 
 MACRO_ID5:			FR_MACRO_ID -> type(MACRO_ID);
 MACRO_INT5:			FR_MACRO_INT -> type(MACRO_INT);
@@ -426,7 +418,8 @@ COMMA5:				',' -> type(COMMA);
 FSTRING:
 (	'\\"' // \" is handled separately in the structured definitions
 |	'\\' .   // Handle escaped characters
-|	~[{}"\\$,:=\n\r\t #/]+  // Anything except {,},'"',\,$,',',:,=,#,/ and whitespace
+|	~[{}"\\$\n\r\t #/,]+  // Anything except {,},'"',\,$,#,/,',' and whitespace
+                          // comapring to titan.core COMMA is excluded, but pr_SimpleValue accepts ASSIGNMENTCHAR and COMMA
 |	'/'
 );
 
@@ -711,19 +704,7 @@ BLOCK_COMMENT10:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON10:			';' -> type(SEMICOLON);
 STAR10:					'*' -> type(STAR);
 ASSIGNMENTCHAR10:		':'? '=' -> type(ASSIGNMENTCHAR);
-
-IPV6_10:
-	( 'A'..'F' | 'a'..'f' | '0'..'9' )*
-	':'
-	( 'A'..'F' | 'a'..'f' | '0'..'9' | ':' )+
-	(
-		( '0'..'9' )
-		( '0'..'9' | '.' )*
-	)?
-	( '%' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )+ )?
-	( '/' ( '0'..'9' )+ )?
- -> type(IPV6);
-
+IPV6_10:			FR_IPV6 -> type(IPV6);
 NATURAL_NUMBER10:	FR_INT -> type(NATURAL_NUMBER);
 FLOAT10:			FR_FLOAT -> type(FLOAT);
 

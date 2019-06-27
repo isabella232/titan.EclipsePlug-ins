@@ -129,6 +129,10 @@ public final class CfgAnalyzer {
 			throw new TtcnError("CfgAnalyzer.directParse(): nothing to parse");
 		}
 
+		if ( preparseListener.encounteredError() || config_preproc_error ) {
+			return true;
+		}
+
 		final CFGListener lexerListener = new CFGListener(fileName);
 		final CommonTokenStream tokenStream = createTokenStream(reader, lexerListener);
 		final RuntimeCfgParser parser = new RuntimeCfgParser( tokenStream );
@@ -147,7 +151,6 @@ public final class CfgAnalyzer {
 		executeSectionHandler = parser.getExecuteSectionHandler();
 		IOUtils.closeQuietly(reader);
 		final boolean config_process_error = parser.get_error_flag();
-		return preparseListener.encounteredError() || lexerListener.encounteredError() || parserListener.encounteredError() || 
-				config_preproc_error || config_process_error;
+		return lexerListener.encounteredError() || parserListener.encounteredError() || config_process_error;
 	}
 }

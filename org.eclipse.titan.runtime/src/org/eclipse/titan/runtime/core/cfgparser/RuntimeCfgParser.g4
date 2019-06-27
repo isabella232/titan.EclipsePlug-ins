@@ -1193,45 +1193,39 @@ pr_HostNameIpV6:
 pr_MacroAssignment:
 (	TTCN3IDENTIFIER
 	ASSIGNMENTCHAR
-	pr_DefinitionRValue
+	pr_MacroRhs
 )
 ;
 
-pr_DefinitionRValue:
-(	pr_SimpleValue+
+pr_MacroRhs:
+	pr_MacroAssignmentValue+
 |	BEGINCHAR
-	pr_StructuredValueList?
+	pr_StructuredValue*
+	ENDCHAR
+;
+
+pr_StructuredValue:
+(	pr_SimpleValue
+|	BEGINCHAR
+	pr_StructuredValue*
 	ENDCHAR
 )
-;
-
-pr_StructuredValueList:
-	(	pr_DefinitionRValue
-	|	pr_MacroAssignment	)
-	(	COMMA
-		(	pr_DefinitionRValue
-		|	pr_MacroAssignment	)
-	)*
 ;
 
 pr_SimpleValue:
 (	TTCN3IDENTIFIER
 |	MACRORVALUE
-|	(	MACRO_ID
-	|	MACRO_INT
-	|	MACRO_BOOL
-	|	MACRO_FLOAT
-	|	MACRO_EXP_CSTR
-	|	MACRO_BSTR
-	|	MACRO_HSTR
-	|	MACRO_OSTR
-	|	MACRO_BINARY
-	|	MACRO_HOSTNAME
-	|	MACRO
-	)
-	{	// runtime cfg preparser have resolved the macros already, so raise error
-		config_process_error("Macro is not resolved");
-	}
+|	MACRO_ID
+|	MACRO_INT
+|	MACRO_BOOL
+|	MACRO_FLOAT
+|	MACRO_EXP_CSTR
+|	MACRO_BSTR
+|	MACRO_HSTR
+|	MACRO_OSTR
+|	MACRO_BINARY
+|	MACRO_HOSTNAME
+|	MACRO
 |	IPV6
 |	STRING
 |	BITSTRING
@@ -1240,7 +1234,28 @@ pr_SimpleValue:
 |	BITSTRINGMATCH
 |	HEXSTRINGMATCH
 |	OCTETSTRINGMATCH
-|	FSTRING
+|	FSTRING				// the last 3 tokens are together equivalent to FString in titan.core
+|	ASSIGNMENTCHAR
+|	COMMA
+)
+;
+
+pr_MacroAssignmentValue:
+(	TTCN3IDENTIFIER
+|	MACRORVALUE
+|	MACRO_ID
+|	MACRO_INT
+|	MACRO_BOOL
+|	MACRO_FLOAT
+|	MACRO_EXP_CSTR
+|	MACRO_BSTR
+|	MACRO_HSTR
+|	MACRO_OSTR
+|	MACRO_BINARY
+|	MACRO_HOSTNAME
+|	MACRO
+|	IPV6
+|	STRING
 )
 ;
 

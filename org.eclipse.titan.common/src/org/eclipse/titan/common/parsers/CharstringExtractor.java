@@ -31,15 +31,25 @@ public class CharstringExtractor {
 	 * 
 	 * @param aTtcnCharstring
 	 *                the TTCN-3 string with escapes to extract
+	 * @param removeQuotes true to remove the beginning and ending '"' characters
 	 */
-	public CharstringExtractor(final String aTtcnCharstring) {
+	public CharstringExtractor(final String aTtcnCharstring, final boolean removeQuotes) {
 		if (aTtcnCharstring != null) {
-			//remove the beginning and ending '"' characters
-			final String escaped = aTtcnCharstring.replaceAll("^\"|\"$", "");
-			mExtractedString = extractString(escaped);
+			final String withoutQuotes = removeQuotes ? aTtcnCharstring.replaceAll("^\"|\"$", "") : aTtcnCharstring;
+			mExtractedString = extractString(withoutQuotes);
 		} else {
 			mExtractedString = null;
 		}
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param aTtcnCharstring
+	 *                the TTCN-3 string with escapes to extract
+	 */
+	public CharstringExtractor(final String aTtcnCharstring) {
+		this(aTtcnCharstring, true);
 	}
 
 	/** @return the value string of the TTCN-3 string */
