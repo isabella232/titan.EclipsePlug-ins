@@ -423,9 +423,7 @@ public final class TTCN_Buffer {
 		p_os.clean_up();
 		if (buf_len > 0) {
 			final byte[] data = new byte[buf_len];
-			for (int i = 0; i < buf_len; i++) {//FIXME optimize away
-				data[i] = (byte)(data_ptr[i] & 0xFF);
-			}
+			System.arraycopy(data_ptr, 0, data, 0, buf_len);
 			p_os.set_value(data);
 		} else {
 			p_os.set_value(new byte[]{});
