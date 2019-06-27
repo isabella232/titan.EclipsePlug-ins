@@ -214,11 +214,11 @@ public final class TTCN_Buffer {
 		return buf_len;
 	}
 
-	public char[] get_data() {
+	public byte[] get_data() {
 		if (data_ptr == null) {
 			return null;
 		}
-		final char[] result = new char[buf_len];
+		final byte[] result = new byte[buf_len];
 		System.arraycopy(data_ptr, buf_pos, result, 0, buf_len);
 		return result;
 	}
@@ -1101,7 +1101,7 @@ public final class TTCN_Buffer {
 	 * @param bitpos
 	 * @return a char array of the bitstring within first the octet.
 	 * */
-	public char[] get_read_data(final AtomicInteger bitpos) {
+	public byte[] get_read_data(final AtomicInteger bitpos) {
 		bitpos.set(bit_pos);
 		if (data_ptr != null) {
 			return get_data();

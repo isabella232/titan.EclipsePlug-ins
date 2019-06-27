@@ -2298,10 +2298,10 @@ public final class AdditionalFunctions {
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
-		final char[] source = buf.get_data();
+		final byte[] source = buf.get_data();
 		byte[] temp = new byte[source.length]; //FIXME optimize away
 		for (int i = 0; i < source.length; i++) {
-			temp[i] = (byte)source.length;
+			temp[i] = (byte)source[i];
 		}
 		return new TitanOctetString(temp);
 	}
@@ -2350,10 +2350,10 @@ public final class AdditionalFunctions {
 
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
-		final char[] source = buf.get_data();
+		final byte[] source = buf.get_data();
 		byte[] temp = new byte[source.length]; //FIXME optimize away
 		for (int i = 0; i < source.length; i++) {
-			temp[i] = (byte)source.length;
+			temp[i] = (byte)source[i];
 		}
 		return new TitanOctetString(temp);
 	}
