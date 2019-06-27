@@ -988,7 +988,6 @@ public class TitanFloat extends Base_Type {
 	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		byte[] bc;
-		byte[] dv;
 		final int length = p_td.raw.fieldlength / 8;
 		double tmp = float_value.getValue();
 		if (!is_bound()) {
@@ -1004,12 +1003,8 @@ public class TitanFloat extends Base_Type {
 			bc = myleaf.data_array;
 		}
 		if (length == 8) {
-			final byte[] tmp_dv = new byte[8];
-			ByteBuffer.wrap(tmp_dv).putDouble(tmp);
-			dv = new byte[8];
-			for (int i = 0; i < tmp_dv.length; i++) {//FIXME optimize away
-				dv[i] = tmp_dv[i];
-			}
+			final byte[] dv = new byte[8];
+			ByteBuffer.wrap(dv).putDouble(tmp);
 			for (int i = 0, k = 7; i < 8; i++, k--) {
 				bc[i] = dv[k];
 			}
@@ -1027,17 +1022,13 @@ public class TitanFloat extends Base_Type {
 				int index = 0;
 				final int adj = 1;
 
-				final byte[] tmp_dv = new byte[8];
-				ByteBuffer.wrap(tmp_dv).putDouble(tmp);
-				dv = new byte[8];
-				for (int i = 0; i < tmp_dv.length; i++) {//FIXME optimize away
-					dv[i] = tmp_dv[i];
-				}
-				bc[0] = (byte) (tmp_dv[index] & 0x80);
-				int exponent = tmp_dv[index] & 0x7F;
+				final byte[] dv = new byte[8];
+				ByteBuffer.wrap(dv).putDouble(tmp);
+				bc[0] = (byte) (dv[index] & 0x80);
+				int exponent = dv[index] & 0x7F;
 				exponent <<= 4;
 				index += adj;
-				exponent += (tmp_dv[index] & 0xF0) >> 4;
+				exponent += (dv[index] & 0xF0) >> 4;
 				exponent -= 1023;
 
 				if (exponent > 127) {
@@ -1106,15 +1097,11 @@ public class TitanFloat extends Base_Type {
 			cp.hexorder = raw_order_t.ORDER_LSB;
 			buff.get_b(decode_length, data, cp, top_bit_ord);
 			if (decode_length == 64) {
-				final byte[] tmp_dv = new byte[8];
-				byte[] dv = new byte[8];
+				final byte[] dv = new byte[8];
 				for (int i = 0, k = 7; i < 8; i++, k--) {
 					dv[i] = data[k];
 				}
-				for (int i = 0; i < tmp_dv.length; i++) {//FIXME optimize away
-					tmp_dv[i] = dv[i];
-				}
-				tmp = ByteBuffer.wrap(tmp_dv).getDouble();
+				tmp = ByteBuffer.wrap(dv).getDouble();
 				if (Double.isNaN(tmp)) {
 					if (no_err) {
 						return -1;
