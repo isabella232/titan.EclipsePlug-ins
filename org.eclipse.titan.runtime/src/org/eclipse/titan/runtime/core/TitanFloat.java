@@ -987,8 +987,8 @@ public class TitanFloat extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		char[] bc;
-		char[] dv;
+		byte[] bc;
+		byte[] dv;
 		final int length = p_td.raw.fieldlength / 8;
 		double tmp = float_value.getValue();
 		if (!is_bound()) {
@@ -999,16 +999,16 @@ public class TitanFloat extends Base_Type {
 			TTCN_EncDec_ErrorContext.error_internal("Value is NaN.");
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_array = bc = new char[length];
+			myleaf.data_array = bc = new byte[length];
 		} else {
 			bc = myleaf.data_array;
 		}
 		if (length == 8) {
 			final byte[] tmp_dv = new byte[8];
 			ByteBuffer.wrap(tmp_dv).putDouble(tmp);
-			dv = new char[8];
-			for (int i = 0; i < tmp_dv.length; i++) {
-				dv[i] = (char) tmp_dv[i];
+			dv = new byte[8];
+			for (int i = 0; i < tmp_dv.length; i++) {//FIXME optimize away
+				dv[i] = tmp_dv[i];
 			}
 			for (int i = 0, k = 7; i < 8; i++, k--) {
 				bc[i] = dv[k];
@@ -1029,11 +1029,11 @@ public class TitanFloat extends Base_Type {
 
 				final byte[] tmp_dv = new byte[8];
 				ByteBuffer.wrap(tmp_dv).putDouble(tmp);
-				dv = new char[8];
-				for (int i = 0; i < tmp_dv.length; i++) {
-					dv[i] = (char) tmp_dv[i];
+				dv = new byte[8];
+				for (int i = 0; i < tmp_dv.length; i++) {//FIXME optimize away
+					dv[i] = tmp_dv[i];
 				}
-				bc[0] = (char) (tmp_dv[index] & 0x80);
+				bc[0] = (byte) (tmp_dv[index] & 0x80);
 				int exponent = tmp_dv[index] & 0x7F;
 				exponent <<= 4;
 				index += adj;
@@ -1052,11 +1052,11 @@ public class TitanFloat extends Base_Type {
 					exponent += 127;
 				}
 				bc[0] |= (exponent >> 1) & 0x7F;
-				bc[1] = (char) (((exponent << 7) & 0x80) | ((dv[index] & 0x0F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+				bc[1] = (byte) (((exponent << 7) & 0x80) | ((dv[index] & 0x0F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
 				index += adj;
-				bc[2] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+				bc[2] = (byte) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
 				index += adj;
-				bc[3] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+				bc[3] = (byte) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
 			}
 		} else {
 			TTCN_EncDec_ErrorContext.error_internal("Invalid FLOAT length {0}", length);
@@ -1084,7 +1084,7 @@ public class TitanFloat extends Base_Type {
 			}
 
 			double tmp = 0.0;
-			final char[] data = new char[16];
+			final byte[] data = new byte[16];
 			final RAW_coding_par cp = new RAW_coding_par();
 			boolean orders = false;
 			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
@@ -1107,12 +1107,12 @@ public class TitanFloat extends Base_Type {
 			buff.get_b(decode_length, data, cp, top_bit_ord);
 			if (decode_length == 64) {
 				final byte[] tmp_dv = new byte[8];
-				char[] dv = new char[8];
+				byte[] dv = new byte[8];
 				for (int i = 0, k = 7; i < 8; i++, k--) {
 					dv[i] = data[k];
 				}
-				for (int i = 0; i < tmp_dv.length; i++) {
-					tmp_dv[i] = (byte) dv[i];
+				for (int i = 0; i < tmp_dv.length; i++) {//FIXME optimize away
+					tmp_dv[i] = dv[i];
 				}
 				tmp = ByteBuffer.wrap(tmp_dv).getDouble();
 				if (Double.isNaN(tmp)) {

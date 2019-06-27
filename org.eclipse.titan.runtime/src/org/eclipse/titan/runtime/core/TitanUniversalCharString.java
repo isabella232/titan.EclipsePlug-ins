@@ -2055,9 +2055,9 @@ public class TitanUniversalCharString extends Base_Type {
 	public void encode_utf8(final TTCN_Buffer buf, final boolean addBOM) {
 		// Add BOM
 		if (addBOM) {
-			buf.put_c((char)0xEF);
-			buf.put_c((char)0xBB);
-			buf.put_c((char)0xBF);
+			buf.put_c((byte)0xEF);
+			buf.put_c((byte)0xBB);
+			buf.put_c((byte)0xBF);
 		}
 
 		if (charstring) {
@@ -2073,7 +2073,7 @@ public class TitanUniversalCharString extends Base_Type {
 				final char g = temp.getUc_group();
 				final char p = temp.getUc_plane();
 				final char r = temp.getUc_row();
-				final char c = temp.getUc_cell();
+				final byte c = (byte)temp.getUc_cell();
 				if (g == 0x00 && p <= 0x1F) {
 					if (p == 0x00) {
 						if (r == 0x00 && c <= 0x7F) {
@@ -2082,40 +2082,40 @@ public class TitanUniversalCharString extends Base_Type {
 						} // r
 						// 2 octets
 						else if (r <= 0x07) {
-							buf.put_c((char) (0xC0 | r << 2 | c >> 6));
-							buf.put_c((char) (0x80 | (c & 0x3F)));
+							buf.put_c((byte) (0xC0 | r << 2 | c >> 6));
+							buf.put_c((byte) (0x80 | (c & 0x3F)));
 						} // r
 						// 3 octets
 						else {
-							buf.put_c((char) (0xE0 | r >> 4));
-							buf.put_c((char) (0x80 | (r << 2 & 0x3C) | c >> 6));
-							buf.put_c((char) (0x80 | (c & 0x3F)));
+							buf.put_c((byte) (0xE0 | r >> 4));
+							buf.put_c((byte) (0x80 | (r << 2 & 0x3C) | c >> 6));
+							buf.put_c((byte) (0x80 | (c & 0x3F)));
 						} // r
 					} // p
 					// 4 octets
 					else {
-						buf.put_c((char) (0xF0 | p >> 2));
-						buf.put_c((char) (0x80 | (p << 4 & 0x30) | r >> 4));
-						buf.put_c((char) (0x80 | (r << 2 & 0x3C) | c >> 6));
-						buf.put_c((char) (0x80 | (c & 0x3F)));
+						buf.put_c((byte) (0xF0 | p >> 2));
+						buf.put_c((byte) (0x80 | (p << 4 & 0x30) | r >> 4));
+						buf.put_c((byte) (0x80 | (r << 2 & 0x3C) | c >> 6));
+						buf.put_c((byte) (0x80 | (c & 0x3F)));
 					} // p
 				} //g
 				// 5 octets
 				else if (g <= 0x03) {
-					buf.put_c((char) (0xF8 | g));
-					buf.put_c((char) (0x80 | p >> 2));
-					buf.put_c((char) (0x80 | (p << 4 & 0x30) | r >> 4));
-					buf.put_c((char) (0x80 | (r << 2 & 0x3C) | c >> 6));
-					buf.put_c((char) (0x80 | (c & 0x3F)));
+					buf.put_c((byte) (0xF8 | g));
+					buf.put_c((byte) (0x80 | p >> 2));
+					buf.put_c((byte) (0x80 | (p << 4 & 0x30) | r >> 4));
+					buf.put_c((byte) (0x80 | (r << 2 & 0x3C) | c >> 6));
+					buf.put_c((byte) (0x80 | (c & 0x3F)));
 				} // g
 				// 6 octets
 				else {
-					buf.put_c((char) (0xFC | g >> 6));
-					buf.put_c((char) (0x80 | (g & 0x3F)));
-					buf.put_c((char) (0x80 | p >> 2));
-					buf.put_c((char) (0x80 | (p << 4 & 0x30) | r >> 4));
-					buf.put_c((char) (0x80 | (r << 2 & 0x3C) | c >> 6));
-					buf.put_c((char) (0x80 | (c & 0x3F)));
+					buf.put_c((byte) (0xFC | g >> 6));
+					buf.put_c((byte) (0x80 | (g & 0x3F)));
+					buf.put_c((byte) (0x80 | p >> 2));
+					buf.put_c((byte) (0x80 | (p << 4 & 0x30) | r >> 4));
+					buf.put_c((byte) (0x80 | (r << 2 & 0x3C) | c >> 6));
+					buf.put_c((byte) (0x80 | (c & 0x3F)));
 				}
 			} // for i
 		}
@@ -2138,13 +2138,13 @@ public class TitanUniversalCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-16 encoding");
 				break;
 			}
-			buf.put_c((char) (isBig ? 0xFE : 0xFF));
-			buf.put_c((char) (isBig ? 0xFF : 0xFE));
+			buf.put_c((byte) (isBig ? 0xFE : 0xFF));
+			buf.put_c((byte) (isBig ? 0xFF : 0xFE));
 
 			if(charstring) {
 				for (int i = 0; i < cstr.length(); ++i) {
-					buf.put_c(isBig ? 0 : cstr.charAt(i));
-					buf.put_c(isBig ? cstr.charAt(i) : 0);
+					buf.put_c((byte) (isBig ? 0 : cstr.charAt(i)));
+					buf.put_c((byte) (isBig ? cstr.charAt(i) : 0));
 				}
 			} else {
 				for (int i = 0; i < val_ptr.size(); i++) {
@@ -2160,8 +2160,8 @@ public class TitanUniversalCharString extends Base_Type {
 						// and don't have any characters assigned to them.
 						TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X) between 0xD800 and 0xDFFF is ill-formed", r, c);
 					} else if (0x00 == g && 0x00 == p) {
-						buf.put_c((char) ((isBig ? r : c) & 0xFF) );
-						buf.put_c((char) ((isBig ? c : r) & 0xFF) );
+						buf.put_c((byte) ((isBig ? r : c) & 0xFF) );
+						buf.put_c((byte) ((isBig ? c : r) & 0xFF) );
 					} else if (g != 0 || p != 0) {
 						int univc = g;
 						univc <<= 24;
@@ -2181,13 +2181,13 @@ public class TitanUniversalCharString extends Base_Type {
 						W2 |= WL;
 						char uc;
 						uc = (char) (isBig ? W1 >> 8 : W1);
-						buf.put_c((char) (uc & 0xFF));
+						buf.put_c((byte) (uc & 0xFF));
 						uc = (char) (isBig ? W1 : W1 >> 8);
-						buf.put_c((char) (uc & 0xFF));
+						buf.put_c((byte) (uc & 0xFF));
 						uc = (char) (isBig ? W2 >> 8 : W2);
-						buf.put_c((char) (uc & 0xFF));
+						buf.put_c((byte) (uc & 0xFF));
 						uc = (char) (isBig ? W2 : W2 >> 8);
-						buf.put_c((char) (uc & 0xFF));
+						buf.put_c((byte) (uc & 0xFF));
 					}
 				}
 			}
@@ -2213,16 +2213,16 @@ public class TitanUniversalCharString extends Base_Type {
 				break;
 			}
 			//add BOM
-			buf.put_c((char) (isBig ? 0x00 : 0xFF));
-			buf.put_c((char) (isBig ? 0x00 : 0xFE));
-			buf.put_c((char) (isBig ? 0xFE : 0x00));
-			buf.put_c((char) (isBig ? 0xFF : 0x00));
+			buf.put_c((byte) (isBig ? 0x00 : 0xFF));
+			buf.put_c((byte) (isBig ? 0x00 : 0xFE));
+			buf.put_c((byte) (isBig ? 0xFE : 0x00));
+			buf.put_c((byte) (isBig ? 0xFF : 0x00));
 			if (charstring) {
 				for (int i = 0; i < cstr.length(); i++) {
-					buf.put_c(isBig ? 0 : cstr.charAt(i));
-					buf.put_c((char) 0);
-					buf.put_c((char) 0);
-					buf.put_c(isBig ? cstr.charAt(i) : 0);
+					buf.put_c((byte) (isBig ? 0 : cstr.charAt(i)));
+					buf.put_c((byte) 0);
+					buf.put_c((byte) 0);
+					buf.put_c((byte) (isBig ? cstr.charAt(i) : 0));
 				}
 			} else {
 				for (int i = 0; i < val_ptr.size(); i++) {
@@ -2241,10 +2241,10 @@ public class TitanUniversalCharString extends Base_Type {
 					} else if (0x0010FFFF < DW) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%08X) greater than 0x0010FFFF is ill-formed", DW);
 					} else {
-						buf.put_c(isBig ? g : c);
-						buf.put_c(isBig ? p : r);
-						buf.put_c(isBig ? r : p);
-						buf.put_c(isBig ? c : g);
+						buf.put_c((byte) (isBig ? g : c));
+						buf.put_c((byte) (isBig ? p : r));
+						buf.put_c((byte) (isBig ? r : p));
+						buf.put_c((byte) (isBig ? c : g));
 					}
 				}
 			}
@@ -2336,7 +2336,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 		if (p_td.raw.fieldlength < 0 ) {
 			// NULL terminated string
-			buf.put_c((char) 0);
+			buf.put_c((byte) 0);
 		}
 
 		final int buff_len = buf.get_len();
@@ -2347,8 +2347,11 @@ public class TitanUniversalCharString extends Base_Type {
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		myleaf.data_array = new char[buff_len];
-		System.arraycopy(buf.get_data(), 0, myleaf.data_array, 0, buff_len);
+		myleaf.data_array = new byte[buff_len];
+		final char[] source = buf.get_data();
+		for (int i = 0; i < buff_len; i++) {
+			myleaf.data_array[i] = (byte)source[1];
+		}
 		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
 		} else {

@@ -1194,9 +1194,9 @@ public class TitanBitString extends Base_Type {
 				bl = p_td.raw.fieldlength;
 				align_length = 0;
 			}
-			myleaf.data_array = new char[bits_ptr.length];
+			myleaf.data_array = new byte[bits_ptr.length];
 			for (int i = 0; i < bits_ptr.length; i++) {
-				myleaf.data_array[i] = (char)bits_ptr[i];
+				myleaf.data_array[i] = (byte)bits_ptr[i];
 			}
 			boolean orders = false;
 			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
@@ -1271,10 +1271,10 @@ public class TitanBitString extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
-			final char[] tmp_bits = new char[bits_ptr.length];
+			final byte[] tmp_bits = new byte[bits_ptr.length];
 			buff.get_b(decode_length, tmp_bits, cp, top_bit_ord);
 			for (int i = 0; i < tmp_bits.length; i++) {
-				bits_ptr[i] = (int) tmp_bits[i];
+				bits_ptr[i] = (int) (tmp_bits[i] & 0xFF);
 			}
 			if (p_td.raw.length_restrition != -1
 					&& decode_length > p_td.raw.length_restrition) {

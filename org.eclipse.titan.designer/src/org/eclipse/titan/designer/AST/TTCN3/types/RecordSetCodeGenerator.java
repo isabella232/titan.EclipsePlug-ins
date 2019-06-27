@@ -1659,7 +1659,7 @@ public final class RecordSetCodeGenerator {
 
 				if (has_ext_bit.get()) {
 					source.append("{\n");
-					source.append("char data[] = buff.get_read_data();\n");
+					source.append("byte data[] = buff.get_read_data();\n");
 					source.append("int count = 1;\n");
 					source.append("int mask = 1 << (local_top_order == raw_order_t.ORDER_LSB ? 0 : 7);\n");
 					source.append("if (p_td.raw.extension_bit == ext_bit_t.EXT_BIT_YES) {\n");
@@ -4231,7 +4231,7 @@ public final class RecordSetCodeGenerator {
 				}
 
 				source.append("{\n");
-				source.append("char[] data = buff.get_read_data();\n");
+				source.append("byte[] data = buff.get_read_data();\n");
 				source.append("int count = 1;\n");
 				source.append("int rot = local_top_order == raw_order_t.ORDER_LSB ? 0: 7;\n");
 				source.append(MessageFormat.format("while (((data[count - 1] >> rot) & 0x01) == {0} && count * 8 < limit) '{'\n", raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit == RawAST.XDEFYES ? 0: 1));

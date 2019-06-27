@@ -1092,14 +1092,14 @@ public class TitanHexString extends Base_Type {
 			align_length = 0;
 		}
 		//myleaf.data_ptr_used = true;
-		myleaf.data_array = new char[(nibbles_ptr.length + 1) / 2];
+		myleaf.data_array = new byte[(nibbles_ptr.length + 1) / 2];
 
 		for (int i = 1; i < nibbles_ptr.length; i += 2) {
-			myleaf.data_array[i / 2] = (char) (nibbles_ptr[i] << 4 | nibbles_ptr[i - 1] & 0x0F);
+			myleaf.data_array[i / 2] = (byte) (nibbles_ptr[i] << 4 | nibbles_ptr[i - 1] & 0x0F);
 		}
 
 		if((nibbles_ptr.length & 1) == 1) {
-			myleaf.data_array[nibbles_ptr.length / 2] = (char) (nibbles_ptr[nibbles_ptr.length - 1] & 0x0F);
+			myleaf.data_array[nibbles_ptr.length / 2] = (byte) (nibbles_ptr[nibbles_ptr.length - 1] & 0x0F);
 		}
 
 		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
@@ -1152,12 +1152,11 @@ public class TitanHexString extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = p_td.raw.hexorder;
-			nibbles_ptr = null;
 			nibbles_ptr = new byte[decode_length / 4];
-			final char[] tmp_nibbles = new char[decode_length / 4];
+			final byte[] tmp_nibbles = new byte[decode_length / 4];
 			buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
 			if(tmp_nibbles.length == 1) {
-				nibbles_ptr[0] = (byte) tmp_nibbles[0];
+				nibbles_ptr[0] = tmp_nibbles[0];
 			} else {
 				for (int i = 0, j = 0; i < nibbles_ptr.length; i += 2, j++) {
 					nibbles_ptr[i] = (byte) (tmp_nibbles[j] & 0x0F);
@@ -1165,7 +1164,7 @@ public class TitanHexString extends Base_Type {
 					if(i + 1 == nibbles_ptr.length){ //if decode_length % 2 == 1
 						continue;
 					}
-					nibbles_ptr[i + 1] = (byte) ((tmp_nibbles[j] >> 4) & 0x0F);
+					nibbles_ptr[i + 1] = (byte) (((tmp_nibbles[j] & 0xFF) >> 4) & 0x0F);
 				}
 			}
 

@@ -1610,7 +1610,7 @@ public class TitanInteger extends Base_Type {
 
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		try {
-			char bc[];
+			byte bc[];
 			int length; // total length, in bytes
 			int val_bits = 0; // only for IntX
 			int len_bits = 0; // only for IntX
@@ -1675,7 +1675,7 @@ public class TitanInteger extends Base_Type {
 				}
 			}
 
-			myleaf.data_array = bc = new char[length];
+			myleaf.data_array = bc = new byte[length];
 			if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 				int i = 0;
 				// treat the empty space between the value and the length as if it was part
@@ -1683,7 +1683,7 @@ public class TitanInteger extends Base_Type {
 				val_bits = length * 8 - len_bits;
 				// first, encode the value
 				do {
-					bc[i] = (char) (value & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
+					bc[i] = (byte) (value & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
 					++i;
 					value >>= 8;
 					val_bits -= 8;
@@ -1716,14 +1716,14 @@ public class TitanInteger extends Base_Type {
 				// insert the length's full octets
 				while (len_bits >= 8) {
 					// octets containing only ones in the length
-					bc[i] = 0xFF;
+					bc[i] = (byte)0xFF;
 					++i;
 					len_bits -= 8;
 				}
 				myleaf.length = length * 8;
 			} else {
 				for (int a = 0; a < length; a++) {
-					bc[a] = (char)(value & 0xFF);
+					bc[a] = (byte)(value & 0xFF);
 					value >>= 8;
 				}
 				if (neg_sgbit) {
@@ -1741,7 +1741,7 @@ public class TitanInteger extends Base_Type {
 
 	//TODO actually big integer
 	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		char[] bc = null;
+		byte[] bc = null;
 		int length = 0; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
@@ -1791,7 +1791,7 @@ public class TitanInteger extends Base_Type {
 				}
 			}
 			if (length > RAW.RAW_INT_ENC_LENGTH) {
-				myleaf.data_array = bc = new char[length];
+				myleaf.data_array = bc = new byte[length];
 			} else {
 				bc = myleaf.data_array;
 			}
@@ -1807,7 +1807,7 @@ public class TitanInteger extends Base_Type {
 				final byte[] tmp = neg_sgbit ? D.abs().toByteArray() : D.toByteArray();
 				final int num_bytes = tmp.length;
 				do {
-					bc[i] = (char) (((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]) & 0xFF);
+					bc[i] = (byte) (((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]) & 0xFF);
 					++i;
 					val_bits -= 8;
 				} while (val_bits > 0);
@@ -1839,7 +1839,7 @@ public class TitanInteger extends Base_Type {
 				// insert the length's full octets
 				while (len_bits >= 8) {
 					// octets containing only ones in the length
-					bc[i] = 0xFF;
+					bc[i] = (byte)0xFF;
 					++i;
 					len_bits -= 8;
 				}
@@ -1854,9 +1854,9 @@ public class TitanInteger extends Base_Type {
 				final int num_bytes = tmp.length;
 				for (int a = 0; a < length; a++) {
 					if (twos_compl && num_bytes - 1 < a) {
-						bc[a] = 0xff;
+						bc[a] = (byte)0xff;
 					} else {
-						bc[a] = (char) ((num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff);
+						bc[a] = (byte) ((num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff);
 					}
 				}
 				if (neg_sgbit) {
@@ -1907,9 +1907,9 @@ public class TitanInteger extends Base_Type {
 			cp.hexorder = raw_order_t.ORDER_LSB;
 			int decode_length = 0;
 			int len_bits = 0; // only for IntX (amount of bits used to store the length)
-			char len_data = 0; // only for IntX (an octet used to store the length)
+			byte len_data = 0; // only for IntX (an octet used to store the length)
 			int partial_octet_bits = 0; // only for IntX (amount of value bits in the partial octet)
-			final char[] tmp_len_data = new char[1];
+			final byte[] tmp_len_data = new byte[1];
 			if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 				// extract the length
 				do {
@@ -1988,7 +1988,7 @@ public class TitanInteger extends Base_Type {
 			} else {
 				int tmp = 0;
 				int twos_compl = 0;
-				char[] data = new char[ (decode_length + partial_octet_bits + 7) / 8];
+				byte[] data = new byte[ (decode_length + partial_octet_bits + 7) / 8];
 				buff.get_b(decode_length, data, cp, top_bit_ord);
 				if (partial_octet_bits != 0) {
 					// in case there are value bits in the last length octet (only for IntX),

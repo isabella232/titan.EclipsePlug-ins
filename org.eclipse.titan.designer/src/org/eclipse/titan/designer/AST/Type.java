@@ -2593,7 +2593,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		RAW_value.append(rawAttribute.unit).append(',');
 		RAW_value.append(rawAttribute.padding_pattern_length).append(',');
 		if (rawAttribute.padding_pattern_length > 0 && rawAttribute.padding_pattern != null) {
-			RAW_value.append("new char[] {");
+			RAW_value.append("new byte[] {");
 			final String temp = Bit2OctExpression.bit2oct(rawAttribute.padding_pattern);
 			boolean first = true;
 			for (int i = temp.length() - 1; i > 0; i-=2) {
@@ -2602,7 +2602,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				} else {
 					RAW_value.append(", ");
 				}
-				RAW_value.append("0x").append(temp.charAt(i - 1)).append(temp.charAt(i));
+				RAW_value.append("(byte)0x").append(temp.charAt(i - 1)).append(temp.charAt(i));
 			}
 			RAW_value.append("},");
 		} else {

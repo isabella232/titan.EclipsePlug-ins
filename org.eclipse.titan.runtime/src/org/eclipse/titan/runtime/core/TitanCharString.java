@@ -1090,12 +1090,16 @@ public class TitanCharString extends Base_Type {
 				align_length = 0;
 			}
 			if (p_td.raw.fieldlength >= 0) {
-				myleaf.data_array = val_ptr.toString().toCharArray();
+				final char[] temp = val_ptr.toString().toCharArray();
+				myleaf.data_array = new byte[temp.length];
+				for (int i = 0; i < temp.length; i++) {
+					myleaf.data_array[i] = (byte)temp[i];
+				}
 			} else {
 				// NULL terminated
-				myleaf.data_array = new char[val_ptr.length() + 1];
+				myleaf.data_array = new byte[val_ptr.length() + 1];
 				for (int i = 0; i < val_ptr.length(); i++) {
-					myleaf.data_array[i] = val_ptr.charAt(i);
+					myleaf.data_array[i] = (byte)val_ptr.charAt(i);
 				}
 				myleaf.data_array[val_ptr.length()] = '0';
 				bl += 8;
@@ -1156,14 +1160,14 @@ public class TitanCharString extends Base_Type {
 			if (p_td.raw.fieldlength >= 0) {
 				clean_up();
 				val_ptr = new StringBuilder(decode_length / 8);
-				final char[] val_tmp = new char[decode_length / 8];
+				final byte[] val_tmp = new byte[decode_length / 8];
 				buff.get_b(decode_length, val_tmp, cp, top_bit_ord);
-				val_ptr.append(val_tmp);
+				val_ptr.append(val_tmp);//FIXME problematic
 			} else {
 				// NULL terminated
 				final TTCN_Buffer temp_buff = new TTCN_Buffer();
 				//TODO: can be more simple
-				char[] ch = new char[1];
+				byte[] ch = new byte[1];
 				ch[0] = 0;
 				int str_len = 0;
 				int null_found = 0;

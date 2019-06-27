@@ -1084,7 +1084,7 @@ public class TitanOctetString extends Base_Type {
 
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		try {
-			char[] bc = new char[val_ptr.length];
+			byte[] bc = new byte[val_ptr.length];
 			int bl = val_ptr.length * 8;
 			int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
 			int blength = val_ptr.length;
@@ -1096,19 +1096,16 @@ public class TitanOctetString extends Base_Type {
 			}
 			if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && myleaf.coding_par.bitorder == raw_order_t.ORDER_MSB) {
 				if (blength > RAW.RAW_INT_ENC_LENGTH) {
-					myleaf.data_array = new char[blength];
+					myleaf.data_array = new byte[blength];
 				} else {
 					bc = myleaf.data_array;
 				}
 				for (int a = 0; a < blength; a++){
-					bc[a] = (char) (val_ptr[a] << 1);
+					bc[a] = (byte) (val_ptr[a] << 1);
 				}
 			} else {
-				final char[] tmp_nibbles = new char[val_ptr.length];//FIXME optimize away if possible
-				for (int i = 0; i < val_ptr.length; i++) {
-					tmp_nibbles[i] = (char)val_ptr[i];
-				}
-				myleaf.data_array = tmp_nibbles;
+				myleaf.data_array = new byte[val_ptr.length];
+				System.arraycopy(val_ptr, 0, myleaf.data_array, 0, val_ptr.length);
 			}
 			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 				myleaf.align = align_length;
@@ -1165,7 +1162,7 @@ public class TitanOctetString extends Base_Type {
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
 			if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO) {
-				final char[] data = buff.get_read_data();
+				final byte[] data = buff.get_read_data();
 				int count = 1;
 				final int rot = top_bit_ord == raw_order_t.ORDER_LSB ? 0 : 7;
 				if (p_td.raw.extension_bit == ext_bit_t.EXT_BIT_YES) {
@@ -1179,13 +1176,9 @@ public class TitanOctetString extends Base_Type {
 				}
 				decode_length = count * 8;
 			}
-			val_ptr = null;
+
 			val_ptr = new byte[decode_length / 8];
-			final char[] tmp_nibbles = new char[decode_length / 8];//FIXME optimize away if possible
-			buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
-			for (int i = 0; i < decode_length / 8; i++) {
-				val_ptr[i] = (byte)tmp_nibbles[i];
-			}
+			buff.get_b(decode_length, val_ptr, cp, top_bit_ord);
 			if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
 				if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 					System.arraycopy(val_ptr, decode_length / 8 - val_ptr.length, val_ptr, 0, val_ptr.length);

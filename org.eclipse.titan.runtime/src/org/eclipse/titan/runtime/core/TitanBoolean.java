@@ -568,23 +568,23 @@ public class TitanBoolean extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		char bc[];
+		byte bc[];
 		final int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
 		final int length = (loc_length + 7) / 8;
-		int tmp;
+		byte tmp;
 		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			tmp = 0;
 		} else {
-			tmp = boolean_value ? 0xFF : 0x00;
+			tmp = boolean_value ? (byte)0xFF : (byte)0x00;
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_array = bc = new char[length];
+			myleaf.data_array = bc = new byte[length];
 		} else {
 			bc = myleaf.data_array;
 		}
 		for (int i = 0; i < bc.length; i++) {
-			bc[i] = (char)tmp;
+			bc[i] = tmp;
 		}
 		if (boolean_value && loc_length % 8 != 0) {
 			// remove the extra ones from the last octet
@@ -641,7 +641,7 @@ public class TitanBoolean extends Base_Type {
 				cp.fieldorder = p_td.raw.fieldorder;
 				cp.hexorder = raw_order_t.ORDER_LSB;
 				final int length = (decode_length + 7) / 8;
-				char[] data = new char[length];
+				byte[] data = new byte[length];
 				buff.get_b(decode_length, data, cp, top_bit_ord);
 				if (decode_length % 8 != 0) {
 					data[length - 1] &= RAW.BitMaskTable[decode_length % 8];
