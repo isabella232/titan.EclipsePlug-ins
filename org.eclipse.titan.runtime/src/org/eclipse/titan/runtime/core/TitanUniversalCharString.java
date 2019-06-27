@@ -1120,12 +1120,7 @@ public class TitanUniversalCharString extends Base_Type {
 		p_buff.get_string(os);
 		if (new TitanCharString("UTF-8").operator_equals(AdditionalFunctions.get_stringencoding(os))) {
 			final TitanUniversalCharString ret = new TitanUniversalCharString();
-			final byte[] source = p_buff.get_data();
-			final byte[] temp = new byte[source.length];
-			for (int i = 0; i < source.length; i++) {//FIXME optimize away if possible
-				temp[i] = (byte)source[i];
-			}
-			ret.decode_utf8(temp, CharCoding.UTF_8, false);
+			ret.decode_utf8(p_buff.get_data(), CharCoding.UTF_8, false);
 			return ret;
 		} else {
 			if (p_buff.get_data() != null) {
@@ -2348,10 +2343,7 @@ public class TitanUniversalCharString extends Base_Type {
 			align_length = 0;
 		}
 		myleaf.data_array = new byte[buff_len];
-		final byte[] source = buf.get_data();//FIXME optimize away
-		for (int i = 0; i < buff_len; i++) {
-			myleaf.data_array[i] = (byte)source[1];
-		}
+		System.arraycopy(buf.get_data(), 0, myleaf.data_array, 0, buff_len);
 		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
 		} else {
