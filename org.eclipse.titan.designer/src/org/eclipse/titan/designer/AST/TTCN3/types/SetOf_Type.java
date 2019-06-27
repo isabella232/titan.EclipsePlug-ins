@@ -767,10 +767,6 @@ public final class SetOf_Type extends AbstractOfType {
 		}
 
 		switch(refdType.getTypetype()) {
-		case TYPE_SEQUENCE_OF: {
-			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
-			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
-		}
 		case TYPE_SET_OF: {
 			if (!aData.getForceGenSeof() && simpleOfType) {
 				// happens to map to the same type

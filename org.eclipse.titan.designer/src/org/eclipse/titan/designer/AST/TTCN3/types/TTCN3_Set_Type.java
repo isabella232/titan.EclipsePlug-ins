@@ -915,13 +915,11 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		switch (refdType.getTypetype()) {
-		case TYPE_TTCN3_SEQUENCE:
 		case TYPE_TTCN3_SET: {
 			//heavy conversion is needed
 			final TTCN3_Set_Seq_Choice_BaseType realFromType = (TTCN3_Set_Seq_Choice_BaseType) refdType;
 			return generateConversionTTCNSetSeqToTTCNSetSeq(aData, realFromType, fromName, expression);
 		}
-		case TYPE_ASN1_SEQUENCE:
 		case TYPE_ASN1_SET: {
 			//heavy conversion is needed
 			final ASN1_Set_Seq_Choice_BaseType realFromType = (ASN1_Set_Seq_Choice_BaseType) refdType;

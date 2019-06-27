@@ -1095,10 +1095,6 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
 			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
 		}
-		case TYPE_SET_OF: {
-			final IType fromOfType = ((SetOf_Type)refdType).getOfType();
-			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
-		}
 		default:
 			return "FATAL ERROR during converting to type " + getTypename();
 		}
