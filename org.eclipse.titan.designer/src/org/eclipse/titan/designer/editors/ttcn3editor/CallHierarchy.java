@@ -277,7 +277,7 @@ public class CallHierarchy {
 	 * The <code>FunctionCallVisitor</code> is a reference searcher visitor.
 	 * The visitor collect the target Assigment's references to the setOfReferences.
 	 * </p>
-	 * @author Sándor Balázs
+	 * @author Sandor Balazs
 	 * @see ASTVisitor
 	 */
 	private class FunctionCallVisitor extends ASTVisitor {
