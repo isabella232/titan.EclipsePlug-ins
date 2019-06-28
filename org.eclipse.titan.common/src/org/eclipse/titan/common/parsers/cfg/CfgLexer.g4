@@ -133,6 +133,7 @@ tokens {
 	BITSTRING,
 	BITSTRINGMATCH,
 	CHARKEYWORD,
+	COLON,
 	COMMA,
 	COMPLEMENTKEYWORD,
 	CONCATCHAR,
@@ -678,6 +679,7 @@ ENDCHAR5:			'}'
 } -> type(ENDCHAR);
 MACRORVALUE5:		[0-9|A-Z|a-z|.|_|-]+ -> type(MACRORVALUE);
 ASSIGNMENTCHAR5:	':'? '=' -> type(ASSIGNMENTCHAR);
+COLON5:				':' -> type(COLON);
 STRING5:			FR_STRING -> type(STRING);
 
 MACRO_ID5:			FR_MACRO_ID -> type(MACRO_ID);
@@ -701,8 +703,8 @@ COMMA5:				',' -> type(COMMA);
 FSTRING:
 (	'\\"' // \" is handled separately in the structured definitions
 |	'\\' .   // Handle escaped characters
-|	~[{}"\\$\n\r\t #/,]+  // Anything except {,},'"',\,$,#,/,',' and whitespace
-                          // comapring to titan.core COMMA is excluded, but pr_SimpleValue accepts ASSIGNMENTCHAR and COMMA
+|	~[{}"\\$\n\r\t #/,:=]+  // Anything except {,},'"',\,$,#,/,',',:,= and whitespace
+                            // comparing to titan.core [,:=] is excluded, but pr_SimpleValue accepts ASSIGNMENTCHAR, COLON and COMMA
 |	'/'
 );
 

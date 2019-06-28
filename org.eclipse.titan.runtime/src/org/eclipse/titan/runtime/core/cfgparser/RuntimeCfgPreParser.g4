@@ -695,8 +695,9 @@ pr_SimpleValue:
 |	BITSTRINGMATCH
 |	HEXSTRINGMATCH
 |	OCTETSTRINGMATCH
-|	FSTRING				// the last 3 tokens are together equivalent to FString in titan.core
+|	FSTRING				// the last 4 tokens are together equivalent to FString in titan.core
 |	ASSIGNMENTCHAR
+|	COLON
 |	COMMA
 )
 ;
