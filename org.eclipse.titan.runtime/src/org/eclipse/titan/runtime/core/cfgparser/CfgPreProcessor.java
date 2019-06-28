@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,8 +25,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.eclipse.titan.parserutils.log.ConsolePrinter;
+import org.eclipse.titan.parserutils.log.ParserLogger;
+import org.eclipse.titan.parserutils.log.TokenNameResolver;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
+import org.eclipse.titan.runtime.core.TitanOctetString;
 import org.eclipse.titan.runtime.core.TtcnError;
 
 /**
@@ -181,10 +188,22 @@ public class CfgPreProcessor {
 		}
 
 		// parse tree is built by default
+		//TODO
+		/*
 		parser.setBuildParseTree(false);
 		parser.pr_ConfigFile();
+		/*/
+		final ParseTree root = parser.pr_ConfigFile();
+		log(root, parser);
+		//*/
 		final DefineSectionHandler defineSectionHandler = parser.getDefineSectionHandler();
 		definitions = defineSectionHandler.getDefinitions();
+
+		//TODO: remove
+		log("DEFINITIONS");
+		for (final Map.Entry<String, List<Token>> entry : definitions.entrySet()) {
+			log(entry.getKey() + ": " + getDefinitionValue(entry.getKey()));
+		}
 		parser = null;
 
 		checkCircularReferences();
@@ -302,7 +321,8 @@ public class CfgPreProcessor {
 	}
 
 	/**
-	 * Resolves a token, which means, that in case of macro it's changed to its value, otherwise it's left untouched.
+	 * Token value is resolved:
+	 *   
 	 * @param out output string buffer, where the resolved content is written
 	 * @param token lexer token object
 	 * @return true, if the cfg file content is modified during preparsing,
@@ -313,32 +333,315 @@ public class CfgPreProcessor {
 		final String tokenText = token.getText();
 		final int tokenType = token.getType();
 		switch (tokenType) {
-		case RuntimeCfgLexer.MACRO:
+		case RuntimeCfgLexer.MACRO: {
 			final String macroName = DefineSectionHandler.getMacroName(tokenText);
 			final String macroValue = getDefinitionValue( macroName );
-			out.append(macroValue);
-			modified = true;
+			if ( macroValue == null ) {
+				config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", macroName), null, token);
+				out.append(tokenText);
+			} else {
+				out.append(macroValue);
+				modified = true;
+			}
 			break;
-		case RuntimeCfgLexer.MACRO_BINARY:
+		}
 		case RuntimeCfgLexer.MACRO_BOOL:
-		case RuntimeCfgLexer.MACRO_BSTR:
-		case RuntimeCfgLexer.MACRO_EXP_CSTR:
-		case RuntimeCfgLexer.MACRO_FLOAT:
-		case RuntimeCfgLexer.MACRO_HOSTNAME:
-		case RuntimeCfgLexer.MACRO_HSTR:
-		case RuntimeCfgLexer.MACRO_ID:
+			return resolveMacroBool(out, token);
 		case RuntimeCfgLexer.MACRO_INT:
+			return resolveMacroInt(out, token);
+		case RuntimeCfgLexer.MACRO_FLOAT:
+			return resolveMacroFloat(out, token);
+		case RuntimeCfgLexer.MACRO_ID:
+			return resolveMacroId(out, token);
+		case RuntimeCfgLexer.MACRO_EXP_CSTR:
+			return resolveMacroCstr(out, token);
+		case RuntimeCfgLexer.MACRO_BSTR:
+			return resolveMacroBstr(out, token);
+		case RuntimeCfgLexer.MACRO_HSTR: 
+			return resolveMacroHstr(out, token);
 		case RuntimeCfgLexer.MACRO_OSTR:
-			final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
-			final String typedMacroValue = getDefinitionValue( typedMacroName );
-			out.append(typedMacroValue);
-			modified = true;
-			break;
+			return resolveMacroOstr(out, token);
+		case RuntimeCfgLexer.MACRO_HOSTNAME:
+			return resolveMacroHostname(out, token);
+		case RuntimeCfgLexer.MACRO_BINARY:
+			return resolveMacroBinary(out, token);
 		default:
 			out.append(tokenText);
 			break;
 		}
 		return modified;
+	}
+
+	/**
+	 * Resolves bool macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroBool(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_bool(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as boolean value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			out.append("false");
+			return false;
+		}
+			
+		out.append(typedMacroValue);
+		return true;
+	}
+
+	/**
+	 * Resolves int macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroInt(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_int(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as integer value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			out.append('0');
+			return false;
+		}
+			
+		out.append(typedMacroValue);
+		return true;
+	}
+
+	/**
+	 * Resolves float macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroFloat(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_float(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as float value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			out.append("0.0");
+			return false;
+		}
+			
+		out.append(typedMacroValue);
+		return true;
+	}
+
+	/**
+	 * Resolves id macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroId(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_id(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as identifier value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			return false;
+		}
+
+		out.append(typedMacroValue);
+		return true;
+	}
+
+	/**
+	 * Resolves cstr macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroCstr(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+			
+		out.append(typedMacroValue);
+		return true;
+	}
+
+	/**
+	 * Resolves bstr macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroBstr(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_bstr(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as bitstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			out.append("''B");
+			return false;
+		}
+			
+		out.append('\'');
+		out.append(typedMacroValue);
+		out.append("'B");
+		return true;
+	}
+
+	/**
+	 * Resolves hstr macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroHstr(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_hstr(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as hexstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			out.append("''H");
+			return false;
+		}
+			
+		out.append('\'');
+		out.append(typedMacroValue);
+		out.append("'H");
+		return true;
+	}
+
+	/**
+	 * Resolves ostr macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroOstr(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_ostr(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as octetstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			out.append("''O");
+			return false;
+		}
+			
+		out.append('\'');
+		out.append(typedMacroValue);
+		out.append("'O");
+		return true;
+	}
+
+	/**
+	 * Resolves hostname macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroHostname(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		if ( !CfgPreprocessorUtils.string_is_hostname(typedMacroValue) ) {
+			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as hostname value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			out.append(typedMacroValue);
+			return false;
+		}
+			
+		out.append(typedMacroValue);
+		return true;
+	}
+
+	/**
+	 * Resolves binary macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacroBinary(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String typedMacroName = DefineSectionHandler.getTypedMacroName(tokenText);
+		final String typedMacroValue = getDefinitionValue( typedMacroName );
+		if ( typedMacroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
+			out.append(tokenText);
+			return false;
+		}
+		final TitanOctetString oct = new TitanOctetString(typedMacroValue.getBytes());
+		writeOct(out, oct);
+		return true;
+	}
+
+	/**
+	 * Converts octetstring to string representation
+	 * @param out output string buffer, where the resolved content is written
+	 * @param oct octetstring to convert
+	 */
+	private static void writeOct(final StringBuilder out, final TitanOctetString oct) {
+		out.append('\'');
+		byte[] val_ptr = oct.get_value();
+		final int size = val_ptr.length;
+		for (int i = 0; i < size; i++) {
+			final int digit = val_ptr[i];
+			out.append(TitanOctetString.HEX_DIGITS.charAt((digit & 0xF0) >> 4));
+			out.append(TitanOctetString.HEX_DIGITS.charAt(digit & 0x0F));
+		}
+		out.append("'O");
 	}
 
 	/**
@@ -351,8 +654,17 @@ public class CfgPreProcessor {
 			// definition value is already calculated
 			return resolvedDefinitions.get(definition);
 		}
+
+		// environment variable
+		final Map<String, String> env = System.getenv();
+		if ( env.containsKey(definition) ) {
+			final String definitionValue = env.get(definition);
+			resolvedDefinitions.put( definition, definitionValue );
+			return definitionValue;
+		}
+
+		// macro definition
 		if ( definitions == null || !definitions.containsKey( definition ) ) {
-			config_preproc_error( "Macro definition not found: " + definition, null, null );
 			return null;
 		}
 		final List<Token> tokenList = definitions.get( definition );
@@ -442,5 +754,22 @@ public class CfgPreProcessor {
 
 	public boolean get_error_flag() {
 		return error_flag;
+	}
+
+	//TODO: remove
+	/**
+	 * debug log
+	 * @param s string to log
+	 */
+	private static void log(final String s) {
+		System.out.println(s);
+	}
+
+	private static void log(final ParseTree root, final Parser parser) {
+		try {
+			ParserLogger.log(root, parser, new TokenNameResolver(new RuntimeCfgLexerLogUtil()), new ConsolePrinter(), "Runtime Cfg preparser");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 }

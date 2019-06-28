@@ -9,7 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
@@ -32,10 +31,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  */
 public class TitanOctetString extends Base_Type {
 
-	// originally octetstring_value_match
-	private static final Pattern OCTETSTRING_VALUE_PATTERN = Pattern.compile("^([0-9A-Fa-f]{2})+$");
-
-	private static final String HEX_DIGITS = "0123456789ABCDEF";
+	public static final String HEX_DIGITS = "0123456789ABCDEF";
 
 	/**
 	 * octetstring value.
