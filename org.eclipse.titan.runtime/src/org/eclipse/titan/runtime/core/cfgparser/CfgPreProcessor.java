@@ -25,12 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.eclipse.titan.parserutils.log.ConsolePrinter;
-import org.eclipse.titan.parserutils.log.ParserLogger;
-import org.eclipse.titan.parserutils.log.TokenNameResolver;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
 import org.eclipse.titan.runtime.core.TitanOctetString;
 import org.eclipse.titan.runtime.core.TtcnError;
@@ -188,22 +183,10 @@ public class CfgPreProcessor {
 		}
 
 		// parse tree is built by default
-		//TODO
-		/*
 		parser.setBuildParseTree(false);
 		parser.pr_ConfigFile();
-		/*/
-		final ParseTree root = parser.pr_ConfigFile();
-		log(root, parser);
-		//*/
 		final DefineSectionHandler defineSectionHandler = parser.getDefineSectionHandler();
 		definitions = defineSectionHandler.getDefinitions();
-
-		//TODO: remove
-		log("DEFINITIONS");
-		for (final Map.Entry<String, List<Token>> entry : definitions.entrySet()) {
-			log(entry.getKey() + ": " + getDefinitionValue(entry.getKey()));
-		}
 		parser = null;
 
 		checkCircularReferences();
@@ -754,22 +737,5 @@ public class CfgPreProcessor {
 
 	public boolean get_error_flag() {
 		return error_flag;
-	}
-
-	//TODO: remove
-	/**
-	 * debug log
-	 * @param s string to log
-	 */
-	private static void log(final String s) {
-		System.out.println(s);
-	}
-
-	private static void log(final ParseTree root, final Parser parser) {
-		try {
-			ParserLogger.log(root, parser, new TokenNameResolver(new RuntimeCfgLexerLogUtil()), new ConsolePrinter(), "Runtime Cfg preparser");
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 	}
 }
