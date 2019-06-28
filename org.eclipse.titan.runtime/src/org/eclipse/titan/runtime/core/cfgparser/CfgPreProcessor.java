@@ -49,7 +49,7 @@ public class CfgPreProcessor {
 	 * Pairs of definition name and their value (represented by a token list) collected from the [DEFINE] sections
 	 */
 	Map<String, List<Token>> definitions = null;
-	
+
 	/**
 	 * Pairs of definition name and their resolved value.
 	 * The definitions are filled by getDefinitionValue() when a new definition value is calculated
@@ -305,7 +305,7 @@ public class CfgPreProcessor {
 
 	/**
 	 * Token value is resolved:
-	 *   
+	 *
 	 * @param out output string buffer, where the resolved content is written
 	 * @param token lexer token object
 	 * @return true, if the cfg file content is modified during preparsing,
@@ -340,7 +340,7 @@ public class CfgPreProcessor {
 			return resolveMacroCstr(out, token);
 		case RuntimeCfgLexer.MACRO_BSTR:
 			return resolveMacroBstr(out, token);
-		case RuntimeCfgLexer.MACRO_HSTR: 
+		case RuntimeCfgLexer.MACRO_HSTR:
 			return resolveMacroHstr(out, token);
 		case RuntimeCfgLexer.MACRO_OSTR:
 			return resolveMacroOstr(out, token);
@@ -376,7 +376,7 @@ public class CfgPreProcessor {
 			out.append("false");
 			return false;
 		}
-			
+
 		out.append(typedMacroValue);
 		return true;
 	}
@@ -402,7 +402,7 @@ public class CfgPreProcessor {
 			out.append('0');
 			return false;
 		}
-			
+
 		out.append(typedMacroValue);
 		return true;
 	}
@@ -428,7 +428,7 @@ public class CfgPreProcessor {
 			out.append("0.0");
 			return false;
 		}
-			
+
 		out.append(typedMacroValue);
 		return true;
 	}
@@ -474,7 +474,7 @@ public class CfgPreProcessor {
 			out.append(tokenText);
 			return false;
 		}
-			
+
 		out.append(typedMacroValue);
 		return true;
 	}
@@ -500,7 +500,7 @@ public class CfgPreProcessor {
 			out.append("''B");
 			return false;
 		}
-			
+
 		out.append('\'');
 		out.append(typedMacroValue);
 		out.append("'B");
@@ -528,7 +528,7 @@ public class CfgPreProcessor {
 			out.append("''H");
 			return false;
 		}
-			
+
 		out.append('\'');
 		out.append(typedMacroValue);
 		out.append("'H");
@@ -556,7 +556,7 @@ public class CfgPreProcessor {
 			out.append("''O");
 			return false;
 		}
-			
+
 		out.append('\'');
 		out.append(typedMacroValue);
 		out.append("'O");
@@ -584,7 +584,7 @@ public class CfgPreProcessor {
 			out.append(typedMacroValue);
 			return false;
 		}
-			
+
 		out.append(typedMacroValue);
 		return true;
 	}
