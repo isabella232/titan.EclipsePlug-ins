@@ -69,7 +69,7 @@ public final class Text_Buf {
 
 	public void reset() {
 		buf_begin = BUF_HEAD;
-		Reallocate(buf_size);
+		Reallocate(BUF_SIZE);
 		buf_pos = BUF_HEAD;
 		buf_len = 0;
 	}
