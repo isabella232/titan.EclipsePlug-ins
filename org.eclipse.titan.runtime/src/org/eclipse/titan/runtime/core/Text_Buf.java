@@ -111,19 +111,21 @@ public final class Text_Buf {
 			bytesNeeded++;
 		}
 		Reallocate(buf_len + bytesNeeded);
+		int data_index;
 		for (int i = bytesNeeded - 1; ; i--) {
+			data_index = i + buf_begin + buf_len;
 			// The top bit is always 1 for a "middle" byte, 0 for the last byte.
 			// That leaves 7 bits, except for the first byte where the 2nd highest
 			// bit is the sign bit, so only 6 payload bits are available.
 			if (i > 0) {
-				data_ptr[i + buf_begin + buf_len] = (byte) (unsignedValue & 0x7F);
+				data_ptr[data_index] = (byte) (unsignedValue & 0x7F);
 				unsignedValue >>= 7;
 			} else {
-				data_ptr[i + buf_begin + buf_len] = (byte) (unsignedValue & 0x3F);
+				data_ptr[data_index] = (byte) (unsignedValue & 0x3F);
 			}
 			if (i < bytesNeeded - 1) {
 				// Set the top bit for all but the last byte
-				data_ptr[i + buf_begin + buf_len] |= 0x80;
+				data_ptr[data_index] |= 0x80;
 			}
 			if (i == 0) {
 				break;
@@ -160,16 +162,18 @@ public final class Text_Buf {
 
 			final int bytesNeeded = (numBits / 7) + 1;
 			Reallocate(buf_len + bytesNeeded);
-			for (int i = bytesNeeded - 1;; i--) {
+			int data_index;
+			for (int i = bytesNeeded - 1; ; i--) {
+				data_index = i + buf_begin + buf_len;
 				if (i > 0) {
-					data_ptr[i + buf_begin + buf_len] = (byte) (unsignedValue.intValue() & 0x7F);
+					data_ptr[data_index] = (byte) (unsignedValue.intValue() & 0x7F);
 					unsignedValue = unsignedValue.shiftRight(7);
 				} else {
-					data_ptr[i + buf_begin + buf_len] = (byte) (unsignedValue.intValue() & 0x3F);
+					data_ptr[data_index] = (byte) (unsignedValue.intValue() & 0x3F);
 				}
 				if (i < bytesNeeded - 1) {
 					// Set the top bit for all but the last byte
-					data_ptr[i + buf_begin + buf_len] |= 0x80;
+					data_ptr[data_index] |= 0x80;
 				}
 				if (i == 0) {
 					break;
