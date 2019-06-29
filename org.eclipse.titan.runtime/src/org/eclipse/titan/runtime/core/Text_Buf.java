@@ -62,9 +62,9 @@ public final class Text_Buf {
 			final byte temp_data_ptr[] = new byte[new_buf_size];
 			System.arraycopy(data_ptr, 0, temp_data_ptr, 0, new_buf_size < buf_size ? new_buf_size : buf_size);
 			data_ptr = temp_data_ptr;
-		}
 
-		buf_size = new_buf_size;
+			buf_size = new_buf_size;
+		}
 	}
 
 	public void reset() {
