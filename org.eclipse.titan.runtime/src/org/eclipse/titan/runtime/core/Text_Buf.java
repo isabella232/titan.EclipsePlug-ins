@@ -254,11 +254,11 @@ public final class Text_Buf {
 				if (i < bytesNeeded - 1) {
 					locValue <<= 7;
 				}
-				if ((data_ptr[0 + buf_pos] & 0x40) != 0) {
-					value.operator_assign(-locValue);
-				} else {
-					value.operator_assign(locValue);
-				}
+			}
+			if ((data_ptr[0 + buf_pos] & 0x40) != 0) {
+				value.operator_assign(-locValue);
+			} else {
+				value.operator_assign(locValue);
 			}
 		}
 
