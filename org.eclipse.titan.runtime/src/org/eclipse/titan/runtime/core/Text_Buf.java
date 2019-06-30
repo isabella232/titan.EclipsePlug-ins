@@ -222,9 +222,21 @@ public final class Text_Buf {
 		}
 		final int bytesNeeded = pos - buf_pos + 1;
 		if (bytesNeeded > 4) {
-			//will be a biginteger
-			BigInteger bigValue = BigInteger.ZERO;// originally D
-			for (int i = 0; i < bytesNeeded; i++) {
+			//will be a biginteger, but start calculating as native
+			int locValue = 0;
+			for (int i = 0; i < 4; i++) {
+				if (i > 0) {
+					locValue |= data_ptr[i + buf_pos] & 0x7f;
+				} else {
+					locValue |= data_ptr[i + buf_pos] & 0x3f;
+				}
+				if (i < 3) {
+					locValue <<= 7;
+				}
+			}
+			BigInteger bigValue = BigInteger.valueOf(locValue);// originally D
+			bigValue = bigValue.shiftLeft(7);
+			for (int i = 4; i < bytesNeeded; i++) {
 				if (i > 0) {
 					bigValue = bigValue.add(BigInteger.valueOf(data_ptr[i + buf_pos] & 0x7f));
 				} else {
