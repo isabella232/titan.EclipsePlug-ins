@@ -1122,11 +1122,10 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			if (!max_is_set) {
 				throw new TtcnError("Text encoder: The upper bound is not set in a charstring value range template.");
 			}
-			final byte[] temp = new byte[1];
+			final byte[] temp = new byte[2];
 			temp[0] = (byte)min_value.get_value().charAt(0);
-			text_buf.push_raw(1, temp);
-			temp[0] = (byte)max_value.get_value().charAt(0);
-			text_buf.push_raw(1, temp);
+			temp[1] = (byte)max_value.get_value().charAt(0);
+			text_buf.push_raw(temp);
 			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported charstring template.");
