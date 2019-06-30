@@ -313,16 +313,30 @@ public final class Text_Buf {
 		buf_len += len;
 	}
 
-	public void push_raw(final int end, final int len, final byte[] data) {
+	/**
+	 * Write a fixed number of bytes in the buffer.
+	 *
+	 * @param start the index from which the write should start in the target.
+	 * @param len the number for bytes to write
+	 * @param data the bytes to write.
+	 * */
+	public void push_raw(final int start, final int len, final byte[] data) {
 		if (len < 0) {
 			throw new TtcnError(MessageFormat.format("Text encoder: Encoding raw data with negative length ({0}).", len));
 		}
 
 		Reallocate(buf_len + len);
-		System.arraycopy(data, 0, data_ptr, end, len);
+		System.arraycopy(data, 0, data_ptr, start, len);
 		buf_len += len;
 	}
 
+	/**
+	 * Write a fixed number of bytes in the beginning of the buffer.
+	 * All present bytes are shifted back.
+	 *
+	 * @param len the number for bytes to write
+	 * @param data the bytes to write.
+	 * */
 	public void push_raw_front(final int len, final byte[] data) {
 		if (len < 0) {
 			throw new TtcnError(MessageFormat.format("Text encoder: Encoding raw data with negative length ({0}).", len));
