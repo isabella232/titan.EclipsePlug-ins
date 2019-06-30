@@ -237,11 +237,7 @@ public final class Text_Buf {
 			BigInteger bigValue = BigInteger.valueOf(locValue);// originally D
 			bigValue = bigValue.shiftLeft(7);
 			for (int i = 4; i < bytesNeeded; i++) {
-				if (i > 0) {
-					bigValue = bigValue.add(BigInteger.valueOf(data_ptr[i + buf_pos] & 0x7f));
-				} else {
-					bigValue = bigValue.add(BigInteger.valueOf(data_ptr[i + buf_pos] & 0x3f));
-				}
+				bigValue = bigValue.add(BigInteger.valueOf(data_ptr[i + buf_pos] & 0x7f));
 				if (i < bytesNeeded - 1) {
 					bigValue = bigValue.shiftLeft(7);
 				}
