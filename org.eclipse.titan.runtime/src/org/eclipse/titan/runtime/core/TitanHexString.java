@@ -499,7 +499,7 @@ public class TitanHexString extends Base_Type {
 		final int nibbles = nibbles_ptr.length;
 		text_buf.push_int(nibbles);
 		if (nibbles > 0) {
-			text_buf.push_raw(nibbles, nibbles_ptr);
+			text_buf.push_raw(nibbles_ptr);
 		}
 	}
 

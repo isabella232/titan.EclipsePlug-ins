@@ -994,9 +994,9 @@ public final class TTCN_Communication {
 			text_buf.push_int(seconds);
 			text_buf.push_int(microseconds);
 			text_buf.push_int(event_severity);
-			text_buf.push_int(message_text.length());
 			final byte messageBytes[] = message_text.getBytes();
-			text_buf.push_raw(messageBytes.length, messageBytes);
+			text_buf.push_int(messageBytes.length);
+			text_buf.push_raw(messageBytes);
 			send_message(text_buf);
 
 			/* If an ERROR message (indicating a version mismatch) arrives from MC

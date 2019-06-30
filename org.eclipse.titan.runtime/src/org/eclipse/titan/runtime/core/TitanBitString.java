@@ -1092,7 +1092,7 @@ public class TitanBitString extends Base_Type {
 			for (int i = 0; i < bits_ptr.length; i++) {
 				temp[i] = (byte) bits_ptr[i];
 			}
-			text_buf.push_raw(temp.length, temp);
+			text_buf.push_raw(temp);
 		}
 	}
 

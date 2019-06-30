@@ -538,7 +538,7 @@ public class TitanOctetString extends Base_Type {
 		final int octets = val_ptr.length;
 		text_buf.push_int(octets);
 		if (octets > 0) {
-			text_buf.push_raw(val_ptr.length, val_ptr);
+			text_buf.push_raw(val_ptr);
 		}
 	}
 

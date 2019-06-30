@@ -1202,7 +1202,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			buf[5] = (byte)max_value.getUc_plane();
 			buf[6] = (byte)max_value.getUc_row();
 			buf[7] = (byte)max_value.getUc_cell();
-			text_buf.push_raw(8, buf);
+			text_buf.push_raw(buf);
 			break;
 		case STRING_PATTERN:
 			text_buf.push_int(pattern_value_nocase ? 1 : 0);

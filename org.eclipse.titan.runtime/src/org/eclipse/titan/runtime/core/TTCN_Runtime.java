@@ -2692,7 +2692,7 @@ public final class TTCN_Runtime {
 				//TODO can this be done faster?
 				final byte[] temp = new byte[return_value_len];
 				System.arraycopy(data, buffer_begin + return_value_begin, temp, 0, return_value_len);
-				temp_struct.return_value.push_raw(return_value_len, temp);
+				temp_struct.return_value.push_raw(temp);
 			} else {
 				temp_struct.return_type = null;
 				temp_struct.return_value = null;

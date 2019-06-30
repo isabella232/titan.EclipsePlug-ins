@@ -300,6 +300,19 @@ public final class Text_Buf {
 	/**
 	 * Write a fixed number of bytes in the buffer.
 	 *
+	 * @param data the bytes to write.
+	 * */
+	public void push_raw(final byte[] data) {
+		final int len = data.length;
+
+		Reallocate(buf_len + len);
+		System.arraycopy(data, 0, data_ptr, buf_begin + buf_len, len);
+		buf_len += len;
+	}
+
+	/**
+	 * Write a fixed number of bytes in the buffer.
+	 *
 	 * @param len the number for bytes to write
 	 * @param data the bytes to write.
 	 * */
@@ -377,9 +390,10 @@ public final class Text_Buf {
 	 * */
 	public void push_string(final String string) {
 		if (string != null) {
-			final int len = string.length();
+			final byte[] bytes = string.getBytes();
+			final int len = bytes.length;
 			push_int(len);
-			push_raw(len, string.getBytes());
+			push_raw(bytes);
 		} else {
 			push_int(0);
 		}
