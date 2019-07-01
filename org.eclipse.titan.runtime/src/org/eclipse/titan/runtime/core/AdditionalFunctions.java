@@ -1469,7 +1469,7 @@ public final class AdditionalFunctions {
 	public static TitanInteger oct2int(final TitanOctetString_Element value) {
 		value.must_bound("The argument of function oct2int() is an unbound octetstring element.");
 
-		return new TitanInteger((int) value.get_nibble());
+		return new TitanInteger((int) value.get_nibble() & 0xFF);
 	}
 
 	// C.21 - oct2bit
@@ -1511,7 +1511,7 @@ public final class AdditionalFunctions {
 	public static TitanBitString oct2bit(final TitanOctetString_Element value) {
 		value.must_bound("The argument of function oct2bit() is an unbound octetstring value.");
 
-		final int bits = bit_reverse_table[value.get_nibble()];
+		final int bits = bit_reverse_table[value.get_nibble() & 0xFF];
 		return new TitanBitString((byte) bits);
 	}
 
@@ -1580,10 +1580,11 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2str(final TitanOctetString value) {
 		value.must_bound("The argument of function oct2str() is an unbound octetstring value.");
 
-		final int n_octets = value.lengthof().get_int();
 		final StringBuilder ret_val = new StringBuilder();
+		final byte octets_ptr[] = value.get_value();
+		final int n_octets = octets_ptr.length;
 		for (int i = 0; i < n_octets; i++) {
-			final int digit = value.constGet_at(i).get_nibble();
+			final int digit = octets_ptr[i] & 0xFF;
 			ret_val.append(hexdigit_to_char(digit / 16));
 			ret_val.append(hexdigit_to_char(digit % 16));
 		}
@@ -1606,7 +1607,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2str(final TitanOctetString_Element value) {
 		value.must_bound("The argument of function oct2str() is an unbound octetstring element.");
 
-		return new TitanCharString(String.valueOf(value.get_nibble()));
+		return new TitanCharString(String.valueOf(value.get_nibble() & 0xFF));
 	}
 
 	// C.24 - oct2char
@@ -1625,13 +1626,14 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2char(final TitanOctetString value) {
 		value.must_bound("The argument of function oct2char() is an unbound octetstring value.");
 
-		final int value_length = value.lengthof().get_int();
+		final byte octets_ptr[] = value.get_value();
+		final int value_length = octets_ptr.length;
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value_length; i++) {
-			if ((int) value.get_nibble(i) > 127) {
+			if ( (octets_ptr[i] & 0xFF) > 127) {
 				throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains octet {0} at index {1}, which is outside the allowed range 00 .. 7F.", (int) value.get_nibble(i), i));
 			}
-			sb.append(value.get_nibble(i));
+			sb.append(octets_ptr[i] & 0xFF);
 		}
 		return new TitanCharString(sb);
 	}
@@ -1650,7 +1652,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2char(final TitanOctetString_Element value) {
 		value.must_bound("The argument of function oct2char() is an unbound octetstring element.");
 
-		final byte octet = value.get_nibble();
+		final int octet = value.get_nibble() & 0xFF;
 		if (octet > 127) {
 			throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains the octet {0}, which is outside the allowed range 00 .. 7F.", octet));
 		}
@@ -4840,8 +4842,8 @@ public final class AdditionalFunctions {
 		}
 
 		int i = 0;
-		final int length = encoded_value.lengthof().get_int();
 		final byte[] strptr = encoded_value.get_value();
+		final int length = strptr.length;
 
 		if(length >= 2) {
 			switch (strptr[0] & 0xFF) {
@@ -5342,16 +5344,16 @@ public final class AdditionalFunctions {
 		final char pad = '=';
 		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
-		int octets_left = msg.lengthof().get_int();
+		int octets_left = p_msg.length;
 		char[] output = new char[((octets_left*22) >> 4) + 7];
 		int outpotPos = 0;
 		int n_4chars = 0;
 		final boolean linebreaks = use_linebreaks.get_value();
 		while (octets_left >= 3) {
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
+			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 0] & 0xFF) << 4) | ((p_msg[msgPos + 1] & 0xFF) >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 1] & 0xFF) << 2) | ((p_msg[msgPos + 2] & 0xFF) >> 6)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 2] & 0xFF) & 0x3f);
 			n_4chars++;
 			if (linebreaks && n_4chars >= 19 && octets_left != 3) {
 				output[outpotPos++] = '\r';
@@ -5363,15 +5365,15 @@ public final class AdditionalFunctions {
 		}
 		switch (octets_left) {
 		case 1:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] & 0xFF) << 4) & 0x3f);
 			output[outpotPos++] = pad;
 			output[outpotPos++] = pad;
 			break;
 		case 2:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
+			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 0] & 0xFF) << 4) | ((p_msg[msgPos + 1] & 0xFF) >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] & 0xFF) << 2) & 0x3f);
 			output[outpotPos++] = pad;
 			break;
 		default:
@@ -5385,28 +5387,28 @@ public final class AdditionalFunctions {
 		final char pad = '=';
 		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
-		int octets_left = msg.lengthof().get_int();
+		int octets_left = p_msg.length;
 		char[] output = new char[((octets_left*22) >> 4) + 7];
 		int outpotPos = 0;
 		while (octets_left >= 3) {
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
+			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 0] & 0xFF) << 4) | ((p_msg[msgPos + 1] & 0xFF) >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 1] & 0xFF) << 2) | ((p_msg[msgPos + 2] & 0xFF) >> 6)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 2] & 0xFF) & 0x3f);
 			msgPos += 3;
 			octets_left -= 3;
 		}
 		switch (octets_left) {
 		case 1:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] & 0xFF) << 4) & 0x3f);
 			output[outpotPos++] = pad;
 			output[outpotPos++] = pad;
 			break;
 		case 2:
-			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
-			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
-			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
+			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 0] & 0xFF) << 4) | ((p_msg[msgPos + 1] & 0xFF) >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] & 0xFF) << 2) & 0x3f);
 			output[outpotPos++] = pad;
 			break;
 		default:
