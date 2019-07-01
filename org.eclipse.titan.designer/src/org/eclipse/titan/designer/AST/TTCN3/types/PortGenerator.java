@@ -1310,7 +1310,7 @@ public final class PortGenerator {
 		boolean hasDiscard = false;
 		boolean reportError = false;
 		if (portDefinition.testportType == TestportType.INTERNAL && portDefinition.legacy) {
-			source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("\t\t\tif (destination_component.get_component() == TitanComponent.SYSTEM_COMPREF) {\n");
 			source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
 			source.append("\t\t\t}\n");
 		}
@@ -1433,7 +1433,7 @@ public final class PortGenerator {
 				source.append("\t\t\toutgoing_send(mapped_par, destination_address);\n");
 			} else {
 				if (portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) {
-					source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+					source.append("\t\t\tif (destination_component.get_component() == TitanComponent.SYSTEM_COMPREF) {\n");
 					source.append(MessageFormat.format("\t\t\t\toutgoing_{0}send(mapped_par", portDefinition.portType == PortType.USER && !portDefinition.legacy ? "mapped_": ""));
 					if (portDefinition.testportType == TestportType.ADDRESS) {
 						source.append(", null");
@@ -1542,7 +1542,7 @@ public final class PortGenerator {
 				source.append("if (!in_translation_mode()) {\n");
 			}
 			/* the same message type goes through the external interface */
-			source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("\t\t\tif (destination_component.get_component() == TitanComponent.SYSTEM_COMPREF) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
 			} else {
@@ -2627,13 +2627,13 @@ public final class PortGenerator {
 		source.append("\t\t\t}\n\n");
 
 		source.append(MessageFormat.format("\t\t\tfinal {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
-		source.append("\t\t\tfinal TTCN_Logger.Severity log_sev = destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
+		source.append("\t\t\tfinal TTCN_Logger.Severity log_sev = destination_component.get_component() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
 		source.append("\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 		source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 		source.append("\t\t\t\tcall_temp.log();\n");
 		source.append("\t\t\t\tTTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+		source.append("\t\t\tif (destination_component.get_component() == TitanComponent.SYSTEM_COMPREF) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal port {0} cannot send call to system.\", get_name()));\n");
 		} else {
@@ -2727,13 +2727,13 @@ public final class PortGenerator {
 			source.append("\t\t\t}\n\n");
 
 			source.append(MessageFormat.format("\t\t\tfinal {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
-			source.append("\t\t\tfinal TTCN_Logger.Severity log_sev = destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
+			source.append("\t\t\tfinal TTCN_Logger.Severity log_sev = destination_component.get_component() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
 			source.append("\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("\t\t\t\treply_temp.log();\n");
 			source.append("\t\t\t\tTTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t}\n");
-			source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("\t\t\tif (destination_component.get_component() == TitanComponent.SYSTEM_COMPREF) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal port {0} cannot reply to system.\", get_name()));\n");
 			} else {
@@ -2826,13 +2826,13 @@ public final class PortGenerator {
 			source.append("\t\t\t\tthrow new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
 			source.append("\t\t\t}\n\n");
 
-			source.append("\t\t\tfinal TTCN_Logger.Severity log_sev = destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF) ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
+			source.append("\t\t\tfinal TTCN_Logger.Severity log_sev = destination_component.get_component() == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_PMOUT : TTCN_Logger.Severity.PORTEVENT_PCOUT;\n");
 			source.append("\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("\t\t\t\traise_exception.log();\n");
 			source.append("\t\t\t\tTTCN_Logger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, destination_component.get_component(), new TitanCharString(\"\"), TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t}\n");
-			source.append("\t\t\tif (destination_component.operator_equals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("\t\t\tif (destination_component.get_component() == TitanComponent.SYSTEM_COMPREF) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal port {0} cannot raise an exception to system.\", get_name()));\n");
 			} else {
