@@ -1254,6 +1254,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	//originally get_default_destination
 	protected int get_default_destination() {
+		//TODO check speed with size extracted into local variables
 		if (connection_list.isEmpty()) {
 			if (system_mappings.size() > 1) {
 				throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", port_name));
@@ -1273,6 +1274,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return TitanComponent.SYSTEM_COMPREF;
 	}
 
+	//TODO check if final byte[] message_type is better
 	protected void prepare_message(final Text_Buf outgoing_buf, final String message_type) {
 		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_MESSAGE.ordinal());
 		outgoing_buf.push_string(message_type);
