@@ -1763,20 +1763,31 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	private ByteBuffer outgoing_buffer;
+
 	private boolean send_data_stream(final port_connection connection, final Text_Buf outgoing_data, final boolean ignore_peer_disconnect) {
 		boolean would_block_warning = false;
 		outgoing_data.calculate_length();
 		final byte[] msg_ptr = outgoing_data.get_data();
 		final int msg_len = outgoing_data.get_len();
-		final ByteBuffer buffer = ByteBuffer.wrap(msg_ptr, outgoing_data.get_begin(), msg_len);
-		while (buffer.hasRemaining()) {
+
+		if (outgoing_buffer == null || outgoing_buffer.capacity() < msg_len) {
+			outgoing_buffer = ByteBuffer.allocateDirect(msg_len);
+		}
+		outgoing_buffer.clear();
+		outgoing_buffer.put(msg_ptr, outgoing_data.get_begin(), msg_len);
+		outgoing_buffer.limit(msg_len);
+		outgoing_buffer.rewind();
+		while (outgoing_buffer.hasRemaining()) {
 			try {
-				((SocketChannel)connection.stream_socket).write(buffer);
+				((SocketChannel)connection.stream_socket).write(outgoing_buffer);
+				
 			} catch (final IOException e) {
 				//TODO how to detect full output buffer?
 				throw new TtcnError(e);
 			}
 		}
+		outgoing_buffer.clear();
 
 		if (would_block_warning) {
 			TtcnError.TtcnWarningBegin(MessageFormat.format("The message finally was sent on port {0} to ", port_name));
