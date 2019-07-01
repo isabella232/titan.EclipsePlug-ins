@@ -200,7 +200,9 @@ public class TitanComponent extends Base_Type {
 
 	// originally component cast operator
 	public int get_component() {
-		must_bound("Using the value of an unbound component reference.");
+		if ( componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError( "Using the value of an unbound component reference." );
+		}
 
 		return componentValue;
 	}
