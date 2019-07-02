@@ -1140,7 +1140,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			for (final SelectableChannel channel : read_channels) {
 				channel.configureBlocking(false);
 				TTCN_Snapshot.channelMap.get().put(channel, this);
-				channel.register(TTCN_Snapshot.selector.get(), channel.validOps());
+				channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 			}
 		}
 		//FIXME what about write channels?
@@ -1275,25 +1275,28 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	//TODO check if final byte[] message_type is better
-	protected void prepare_message(final Text_Buf outgoing_buf, final String message_type) {
+	protected void prepare_message(final Text_Buf outgoing_buf, final byte[] message_type) {
 		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_MESSAGE.ordinal());
-		outgoing_buf.push_string(message_type);
+		outgoing_buf.push_int(message_type.length);
+		outgoing_buf.push_raw(message_type);
 	}
 
-	protected void prepare_call(final Text_Buf outgoing_buf, final String signature_name) {
+	protected void prepare_call(final Text_Buf outgoing_buf, final byte[] signature_name) {
 		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_CALL.ordinal());
-		outgoing_buf.push_string(signature_name);
+		outgoing_buf.push_int(signature_name.length);
+		outgoing_buf.push_raw(signature_name);
 	}
 
-	protected void prepare_reply(final Text_Buf outgoing_buf, final String signature_name) {
+	protected void prepare_reply(final Text_Buf outgoing_buf, final byte[] signature_name) {
 		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_REPLY.ordinal());
-		outgoing_buf.push_string(signature_name);
+		outgoing_buf.push_int(signature_name.length);
+		outgoing_buf.push_raw(signature_name);
 	}
 
-	protected void prepare_exception(final Text_Buf outgoing_buf, final String signature_name) {
+	protected void prepare_exception(final Text_Buf outgoing_buf, final byte[] signature_name) {
 		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_EXCEPTION.ordinal());
-		outgoing_buf.push_string(signature_name);
+		outgoing_buf.push_int(signature_name.length);
+		outgoing_buf.push_raw(signature_name);
 	}
 
 	protected void send_data(final Text_Buf outgoing_buf, final TitanComponent destination_component) {
@@ -1341,7 +1344,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(MessageFormat.format("Internal error: Connection of port {0} with {1}:{2} has invalid state ({3}).", port_name, connection.remote_component, connection.remote_port, connection.connection_state.ordinal()));
 			}
 
-			final String message_type = incoming_buf.pull_string();
+			final int len = incoming_buf.pull_int().get_int();
+			final byte[] message_type = new byte[len];
+			incoming_buf.pull_raw(len, message_type);
 			switch (conn_data_type) {
 			case CONN_DATA_MESSAGE:
 				if (!process_message(message_type, incoming_buf, connection.remote_component, connection.sliding_buffer)) {
@@ -1376,7 +1381,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * TITAN's internal format.
 	 *
 	 * @param message_type
-	 *                the type of the message as a String.
+	 *                the type of the message as a byte[] encoded String.
 	 * @param incoming_buf
 	 *                the buffer holding the data of the message in TITAN's
 	 *                internal format.
@@ -1388,7 +1393,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * @return {@code true} if the message could be processed, {@code false}
 	 *         otherwise.
 	 * */
-	protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {
+	protected boolean process_message(final byte[] message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {
 		return false;
 	}
 
@@ -1397,7 +1402,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * TITAN's internal format.
 	 *
 	 * @param signature_name
-	 *                the name of the signature as a String.
+	 *                the name of the signature as a byte[] encoded String.
 	 * @param incoming_buf
 	 *                the buffer holding the data of the call in TITAN's
 	 *                internal format.
@@ -1406,7 +1411,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * @return {@code true} if the call could be processed, {@code false}
 	 *         otherwise.
 	 * */
-	protected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
+	protected boolean process_call(final byte[] signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
 
@@ -1415,7 +1420,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * TITAN's internal format.
 	 *
 	 * @param signature_name
-	 *                the name of the signature as a String.
+	 *                the name of the signature as a byte[] encoded String.
 	 * @param incoming_buf
 	 *                the buffer holding the data of the reply in TITAN's
 	 *                internal format.
@@ -1424,7 +1429,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * @return {@code true} if the reply could be processed, {@code false}
 	 *         otherwise.
 	 * */
-	protected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
+	protected boolean process_reply(final byte[] signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
 
@@ -1433,7 +1438,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * TITAN's internal format.
 	 *
 	 * @param signature_name
-	 *                the name of the signature as a String.
+	 *                the name of the signature as a byte[] encoded String.
 	 * @param incoming_buf
 	 *                the buffer holding the data of the exception in TITAN's
 	 *                internal format.
@@ -1442,7 +1447,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * @return {@code true} if the exception could be processed, {@code false}
 	 *         otherwise.
 	 * */
-	protected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
+	protected boolean process_exception(final byte[] signature_name, final Text_Buf incoming_buf, final int sender_component) {
 		return false;
 	}
 
@@ -1784,7 +1789,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		while (outgoing_buffer.hasRemaining()) {
 			try {
 				((SocketChannel)connection.stream_socket).write(outgoing_buffer);
-				
 			} catch (final IOException e) {
 				//TODO how to detect full output buffer?
 				throw new TtcnError(e);

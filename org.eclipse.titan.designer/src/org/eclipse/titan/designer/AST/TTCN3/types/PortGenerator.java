@@ -326,6 +326,7 @@ public final class PortGenerator {
 	 *                the definition of the port.
 	 * */
 	public static void generateClass(final JavaGenData aData, final StringBuilder source, final IProject project, final PortDefinition portDefinition) {
+		aData.addImport("java.util.Arrays");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport( "TitanComponent");
 		aData.addBuiltinTypeImport( "TitanFloat");
@@ -365,7 +366,7 @@ public final class PortGenerator {
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 			final MessageMappedTypeInfo outType = portDefinition.outMessages.get(i);
 
-			generateSend(aData, source, outType, portDefinition);
+			generateSend(aData, source, i, outType, portDefinition);
 		}
 
 		if (!portDefinition.inMessages.isEmpty()) {
@@ -400,17 +401,17 @@ public final class PortGenerator {
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
-			generateCallFunction(source, info, portDefinition);
+			generateCallFunction(source, i, info, portDefinition);
 		}
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-			generateReplyFunction(source, info, portDefinition);
+			generateReplyFunction(source, i, info, portDefinition);
 		}
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-			generateRaiseFunction(source, info, portDefinition);
+			generateRaiseFunction(source, i, info, portDefinition);
 		}
 
 		if (portDefinition.portType == PortType.USER) {
@@ -1084,6 +1085,20 @@ public final class PortGenerator {
 
 		source.append(MessageFormat.format("\tpublic static{0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
+		if (!portDefinition.outMessages.isEmpty()) {
+			//byte[][] temp = new byte[][]{new byte[]{}};
+			source.append("\t\tprivate static final byte[][] out_message_names = new byte[][]{");
+			for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
+				if (i > 0) {
+					source.append("\t\t, ");
+				}
+
+				final String name = portDefinition.outMessages.get(i).mDisplayName;
+				source.append(MessageFormat.format("{0}//{1}\n", nameToByteArray(name), name ));
+			}
+			source.append("\t\t};\n");
+		}
+
 		if(!portDefinition.inMessages.isEmpty()) {
 			source.append("\t\tenum message_selection { ");
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
@@ -1093,6 +1108,16 @@ public final class PortGenerator {
 				source.append(MessageFormat.format("MESSAGE_{0}", i));
 			}
 			source.append("};\n");
+			source.append("\t\tprivate static final byte[][] in_message_names = new byte[][]{");
+			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+				if (i > 0) {
+					source.append("\t\t, ");
+				}
+
+				final String name = portDefinition.inMessages.get(i).mDisplayName;
+				source.append(MessageFormat.format("{0}//{1}\n", nameToByteArray(name), name ));
+			}
+			source.append("\t\t};\n");
 
 			source.append("\t\tprivate class Message_queue_item {\n");
 			source.append("\t\t\tmessage_selection item_selection;\n");
@@ -1173,6 +1198,27 @@ public final class PortGenerator {
 				}
 			}
 			source.append("};\n");
+			//byte[][] temp = new byte[][]{new byte[]{}};
+			source.append("\t\tprivate static final byte[][] in_procedure_names = new byte[][]{");
+			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+				if (i > 0) {
+					source.append("\t\t, ");
+				}
+
+				final String name = portDefinition.inProcedures.get(i).mDisplayName;
+				source.append(MessageFormat.format("{0}//{1}\n", nameToByteArray(name), name ));
+			}
+			source.append("\t\t};\n");
+			source.append("\t\tprivate static final byte[][] out_procedure_names = new byte[][]{");
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				if (i > 0) {
+					source.append("\t\t, ");
+				}
+
+				final String name = portDefinition.outProcedures.get(i).mDisplayName;
+				source.append(MessageFormat.format("{0}//{1}\n", nameToByteArray(name), name ));
+			}
+			source.append("\t\t};\n");
 
 			source.append("\t\tprivate class Procedure_queue_item {\n");
 			source.append("\t\t\tproc_selection item_selection;\n");
@@ -1443,7 +1489,7 @@ public final class PortGenerator {
 				}
 
 				source.append("\t\t\t\tfinal Text_Buf text_buf = new Text_Buf();\n");
-				source.append(MessageFormat.format("\t\t\t\tprepare_message(text_buf, \"{0}\");\n", target.targetDisplayName));
+				source.append(MessageFormat.format("\t\t\t\tprepare_message(text_buf, \"{0}\".getBytes());\n", target.targetDisplayName));
 				source.append("\t\t\t\tsend_par.encode_text(text_buf);\n");
 				source.append("\t\t\t\tsend_data(text_buf, destination_component);\n");
 				if (portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) {
@@ -1501,12 +1547,14 @@ public final class PortGenerator {
 	 *                used to access build settings.
 	 * @param source
 	 *                where the source code is to be generated.
+	 * @param index
+	 *                the index of the out type in the list of out types.
 	 * @param outType
 	 *                the information about the outgoing message.
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	private static void generateSend(final JavaGenData aData, final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
+	private static void generateSend(final JavaGenData aData, final StringBuilder source, final int index, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
 		source.append("\t\t/**\n");
 		source.append(MessageFormat.format("\t\t * Sends a(n) {0} message to the provided component.\n", outType.mDisplayName));
 		source.append("\t\t * <p>\n");
@@ -1558,7 +1606,8 @@ public final class PortGenerator {
 			}
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tfinal Text_Buf text_buf = new Text_Buf();\n");
-			source.append(MessageFormat.format("\t\t\t\tprepare_message(text_buf, \"{0}\");\n",outType.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\t//\"{0}\"\n",outType.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\tprepare_message(text_buf, out_message_names[{0}]);\n", index));
 			source.append("\t\t\t\tsend_par.encode_text(text_buf);\n");
 			source.append("\t\t\t\tsend_data(text_buf, destination_component);\n");
 			source.append("\t\t\t}\n");
@@ -2546,7 +2595,7 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessMessage(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\t@Override\n");
-		source.append("\t\tprotected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
+		source.append("\t\tprotected boolean process_message(final byte[] message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
 		//indent first if
 		source.append("\t\t\t");
 
@@ -2554,7 +2603,7 @@ public final class PortGenerator {
 			for (int i = 0 ; i < portDefinition.providerInMessages.size(); i++) {
 				final MessageMappedTypeInfo inType = portDefinition.providerInMessages.get(i);
 
-				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+				source.append(MessageFormat.format("if (Arrays.equals(\"{0}\".getBytes(), message_type)) '{'\n", inType.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 				source.append(MessageFormat.format("\t\t\t\tincoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
@@ -2572,7 +2621,8 @@ public final class PortGenerator {
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 				final messageTypeInfo inType = portDefinition.inMessages.get(i);
 	
-				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+				source.append(MessageFormat.format("if (Arrays.equals(in_message_names[{0}], message_type)) '{'\n", i));
+				source.append(MessageFormat.format("\t\t\t\t//\"{0}\"\n", inType.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 				source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 				source.append(MessageFormat.format("\t\t\t\tincoming_message(incoming_par, sender_component{0}", portDefinition.realtime ? ", new TitanFloat()":""));
@@ -2604,7 +2654,7 @@ public final class PortGenerator {
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
+	private static void generateCallFunction(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append("\t\t/**\n");
 		source.append(MessageFormat.format("\t\t * Calls a(n) {0} signature on the provided component.\n", info.mDisplayName));
 		source.append("\t\t * <p>\n");
@@ -2649,7 +2699,8 @@ public final class PortGenerator {
 
 		source.append("\t\t\t} else {\n");
 		source.append("\t\t\t\tfinal Text_Buf text_buf = new Text_Buf();\n");
-		source.append(MessageFormat.format("\t\t\t\tprepare_call(text_buf, \"{0}\");\n", info.mDisplayName));
+		source.append(MessageFormat.format("\t\t\t\tprepare_call(text_buf, out_procedure_names[{0}]);\n", index));
+		source.append(MessageFormat.format("\t\t\t\t//\"{0}\"\n", info.mDisplayName));
 		source.append("\t\t\t\tcall_temp.encode_text(text_buf);\n");
 		source.append("\t\t\t\tsend_data(text_buf, destination_component);\n");
 		source.append("\t\t\t}\n");
@@ -2703,7 +2754,7 @@ public final class PortGenerator {
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
+	private static void generateReplyFunction(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (!info.isNoBlock) {
 			source.append("\t\t/**\n");
 			source.append(MessageFormat.format("\t\t * Replies to a(n) {0} signature on the provided component.\n", info.mDisplayName));
@@ -2748,7 +2799,8 @@ public final class PortGenerator {
 			}
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tfinal Text_Buf text_buf = new Text_Buf();\n");
-			source.append(MessageFormat.format("\t\t\t\tprepare_reply(text_buf, \"{0}\");\n", info.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\tprepare_reply(text_buf, in_procedure_names[{0}]);\n", index));
+			source.append(MessageFormat.format("\t\t\t\t//\"{0}\"\n", info.mDisplayName));
 			source.append("\t\t\t\treply_temp.encode_text(text_buf);\n");
 			source.append("\t\t\t\tsend_data(text_buf, destination_component);\n");
 			source.append("\t\t\t}\n");
@@ -2803,7 +2855,7 @@ public final class PortGenerator {
 	 * @param portDefinition
 	 *                the definition of the port.
 	 * */
-	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
+	private static void generateRaiseFunction(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (info.hasExceptions) {
 			source.append("\t\t/**\n");
 			source.append(MessageFormat.format("\t\t * Raise the exception of {0} signature on the provided component.\n", info.mDisplayName));
@@ -2847,7 +2899,8 @@ public final class PortGenerator {
 			}
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tfinal Text_Buf text_buf = new Text_Buf();\n");
-			source.append(MessageFormat.format("\t\t\t\tprepare_exception(text_buf, \"{0}\");\n", info.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\tprepare_exception(text_buf, in_procedure_names[{0}]);\n", index));
+			source.append(MessageFormat.format("\t\t\t\t//\"{0}\"\n", info.mDisplayName));
 			source.append("\t\t\t\traise_exception.encode_text(text_buf);\n");
 			source.append("\t\t\t\tsend_data(text_buf, destination_component);\n");
 			source.append("\t\t\t}\n");
@@ -3802,7 +3855,7 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\t@Override\n");
-		source.append("\t\tprotected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
+		source.append("\t\tprotected boolean process_call(final byte[] signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		//indent first if
 		source.append("\t\t\t");
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
@@ -3811,7 +3864,9 @@ public final class PortGenerator {
 			if (i != 0) {
 				source.append("\t\t\t} else ");
 			}
-			source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
+
+			source.append(MessageFormat.format("if (Arrays.equals(in_procedure_names[{0}], signature_name)) '{'\n", i));
+			source.append(MessageFormat.format("\t\t\t\t//{0}\n", info.mDisplayName));
 			source.append(MessageFormat.format("\t\t\t\tfinal {0}_call incoming_par = new {0}_call();\n", info.mJavaTypeName));
 			source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 			source.append(MessageFormat.format("\t\t\t\tincoming_call(incoming_par, sender_component{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
@@ -3835,7 +3890,7 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessReply(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\t@Override\n");
-		source.append("\t\tprotected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
+		source.append("\t\tprotected boolean process_reply(final byte[] signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		//indent first if
 		source.append("\t\t\t");
 		boolean isFirst = true;
@@ -3847,7 +3902,8 @@ public final class PortGenerator {
 					source.append("\t\t\t} else ");
 				}
 				isFirst = false;
-				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
+				source.append(MessageFormat.format("if (Arrays.equals(out_procedure_names[{0}], signature_name)) '{'\n", i));
+				source.append(MessageFormat.format("\t\t\t\t//{0}\n", info.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
 				source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 				source.append(MessageFormat.format("\t\t\t\tincoming_reply(incoming_par, sender_component{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
@@ -3871,7 +3927,7 @@ public final class PortGenerator {
 	 * */
 	private static void generateProcessException(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("\t\t@Override\n");
-		source.append("\t\tprotected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
+		source.append("\t\tprotected boolean process_exception(final byte[] signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		//indent first if
 		source.append("\t\t\t");
 		boolean isFirst = true;
@@ -3883,7 +3939,8 @@ public final class PortGenerator {
 					source.append("\t\t\t} else ");
 				}
 				isFirst = false;
-				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
+				source.append(MessageFormat.format("if (Arrays.equals(out_procedure_names[{0}], signature_name)) '{'\n", i));
+				source.append(MessageFormat.format("\t\t\t\t//{0}\n", info.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0}_exception incoming_par = new {0}_exception();\n", info.mJavaTypeName));
 				source.append("\t\t\t\tincoming_par.decode_text(incoming_buf);\n");
 				source.append(MessageFormat.format("\t\t\t\tincoming_exception(incoming_par, sender_component{0});\n", portDefinition.realtime ? ", new TitanFloat()":""));
@@ -4354,5 +4411,19 @@ public final class PortGenerator {
 
 		source.append("\t\t\treturn result;\n");
 		source.append("\t\t}\n");
+	}
+
+	private static final String nameToByteArray(final String name) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("new byte[]{ ");
+		for( int i = 0; i < name.length(); i++) {
+			if (i != 0) {
+				builder.append(", ");
+			}
+
+			builder.append((int)name.charAt(i));
+		}
+		builder.append("}");
+		return builder.toString();
 	}
 }
