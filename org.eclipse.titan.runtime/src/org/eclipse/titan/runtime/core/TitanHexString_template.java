@@ -877,7 +877,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN:
 			text_buf.push_int(pattern_value.length);
-			text_buf.push_raw((pattern_value.length + 7) / 8, pattern_value);//TODO check correctness
+			text_buf.push_raw(pattern_value);
 			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported hexstring template.");

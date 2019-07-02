@@ -919,7 +919,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			for (int i = 0; i < pattern_value.length; i++) {
 				temp[i] = (byte) pattern_value[i];
 			}
-			text_buf.push_raw((pattern_value.length + 7) / 8, temp);//TODO check correctness
+			text_buf.push_raw(temp);
 			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported bitstring template.");
