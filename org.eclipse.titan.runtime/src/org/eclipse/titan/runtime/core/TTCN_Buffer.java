@@ -280,12 +280,12 @@ public final class TTCN_Buffer {
 	 * @see increase_length().
 	 * @return the empty part of buffer (after buf_len piece). */
 	//TODO check if this really became pointless.
-	public char[] get_end() {
-		final char[] end_ptr;
+	public byte[] get_end() {
+		final byte[] end_ptr;
 
 		if (data_ptr != null) {
 			final int end_len = data_ptr.length - buf_len;
-			end_ptr = new char[end_len];
+			end_ptr = new byte[end_len];
 			System.arraycopy(data_ptr, buf_len, end_ptr, 0, end_len);
 		} else {
 			end_ptr = null;
@@ -322,7 +322,9 @@ public final class TTCN_Buffer {
 
 		if (length > 0) {
 			increase_size(length);
-			System.arraycopy(cstr, 0, data_ptr, buf_len, length);
+			for (int i = 0; i < length; i++) {
+				data_ptr[i] =  (byte)cstr[i + buf_len];
+			}
 			buf_len += length;
 		}
 	}
@@ -444,7 +446,7 @@ public final class TTCN_Buffer {
 		if (buf_len > 0) {
 			final StringBuilder str = new StringBuilder();
 			for (int i = 0; i < buf_len; i++) {
-				str.append(data_ptr[i]);
+				str.append(data_ptr[i] & 0xFF);
 			}
 			p_cs.operator_assign(str.toString());
 		} else {
@@ -462,7 +464,7 @@ public final class TTCN_Buffer {
 		if (buf_len > 0) {
 			final List<TitanUniversalChar> data = new ArrayList<TitanUniversalChar>(data_ptr.length / 4);
 			for (int i = 0; i < buf_len / 4; i++) {
-				data.add(new TitanUniversalChar((char)data_ptr[4 * i], (char)data_ptr[4 * i + 1], (char)data_ptr[4 * i + 2], (char)data_ptr[4 * i + 3]));
+				data.add(new TitanUniversalChar((char)(data_ptr[4 * i] & 0xFF), (char)(data_ptr[4 * i + 1] & 0xFF), (char)(data_ptr[4 * i + 2] & 0xFF), (char)(data_ptr[4 * i + 3] & 0xFF)));
 			}
 			p_cs.set_value(data);
 		} else {
@@ -596,11 +598,11 @@ public final class TTCN_Buffer {
 					if (loc_align % 8 != 0) {
 						final int bit_bound = loc_align % 8;
 						final int max_index = st.length - loc_align / 8 - 1;
-						final char[] ptr = new char[max_index + 1];
+						final byte[] ptr = new byte[max_index + 1];
 						for (int a = 0; a < (len + 7) / 8; a++) {
-							ptr[a] |= (s[a] << bit_bound) & 0xff;
+							ptr[a] |= (s[a] << bit_bound) & 0xFF;
 							if (a < max_index) {
-								ptr[a + 1] = (char) (s[a] >> bit_bound);
+								ptr[a + 1] = (byte)((s[a] & 0xFF) >> bit_bound);
 							}
 						}
 						System.arraycopy(ptr, 0 , st, loc_align / 8, ptr.length);
@@ -646,7 +648,7 @@ public final class TTCN_Buffer {
 				st2[0] = s[0];
 				for (int a = 1; a < (len + 7) / 8; a++) {
 					char ch = '\0';
-					ch |= s[a - 1] >> 4;
+					ch |= (s[a - 1] & 0xFF) >> 4;
 					st2[a - 1] = (byte) ((st2[a - 1] & 0x0f) | ((s[a] << 4) & 0xf0));
 					st2[a] = (byte) ((s[a] & 0xf0) | ch);
 				}
