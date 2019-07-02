@@ -40,9 +40,6 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 */
 	private byte pattern_value[];
 
-	/** reference counter for pattern_value */
-	private int pattern_value_ref_count;
-
 	private IDecode_Match dec_match;
 
 	/**
@@ -186,13 +183,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			value_list = null;
 			break;
 		case STRING_PATTERN:
-			if (pattern_value_ref_count > 1) {
-				pattern_value_ref_count--;
-			} else if (pattern_value_ref_count == 1) {
-				pattern_value = null;
-			} else {
-				throw new TtcnError("Internal error: Invalid reference counter in a hexstring pattern.");
-			}
+			pattern_value = null;
 			break;
 		case DECODE_MATCH:
 			dec_match = null;
@@ -316,8 +307,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			}
 			break;
 		case STRING_PATTERN:
-			pattern_value = otherValue.pattern_value;
-			pattern_value_ref_count++;
+			pattern_value = new byte[otherValue.pattern_value.length];
+			System.arraycopy(otherValue.pattern_value, 0, pattern_value, 0, otherValue.pattern_value.length);
 			break;
 		case DECODE_MATCH:
 			dec_match = otherValue.dec_match;
