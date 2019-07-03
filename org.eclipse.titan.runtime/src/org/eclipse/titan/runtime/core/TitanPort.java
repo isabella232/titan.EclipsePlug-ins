@@ -1852,6 +1852,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	private ByteBuffer incoming_ByteBuffer;
+
 	private void handle_incoming_data(final port_connection connection) {
 		if (connection.stream_incoming_buf == null) {
 			connection.stream_incoming_buf = new Text_Buf();
@@ -1861,9 +1863,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		final AtomicInteger end_index = new AtomicInteger();
 		final AtomicInteger end_len = new AtomicInteger();
 		incoming_buffer.get_end(end_index, end_len);
-		final ByteBuffer buffer = ByteBuffer.wrap(incoming_buffer.get_data(), end_index.get(), end_len.get());
+		if (incoming_ByteBuffer == null) {
+			incoming_ByteBuffer = ByteBuffer.allocateDirect(1024);
+		}
+		incoming_ByteBuffer.clear();
 		try {
-			final int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
+			final int recv_len = ((SocketChannel)connection.stream_socket).read(incoming_ByteBuffer);
 			if (recv_len < 0) {
 				//the connection is closed
 				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
@@ -1871,6 +1876,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			} else if (recv_len > 0) {
+				incoming_ByteBuffer.flip();
+				incoming_ByteBuffer.get(incoming_buffer.get_data(), end_index.get(), recv_len);
 				incoming_buffer.increase_length(recv_len);
 
 				while (incoming_buffer.is_message()) {
