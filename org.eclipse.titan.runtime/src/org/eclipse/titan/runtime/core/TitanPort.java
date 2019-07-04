@@ -114,7 +114,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				if (is_readable) {
 					if (connection_state == connection_state_enum.CONN_LISTENING) {
 						owner_port.handle_incoming_connection(this);
-					} else if (is_readable) {
+					} else {
 						owner_port.handle_incoming_data(this);
 					}
 				}
