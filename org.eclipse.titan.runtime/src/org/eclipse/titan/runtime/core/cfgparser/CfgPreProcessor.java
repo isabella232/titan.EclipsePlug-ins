@@ -19,7 +19,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -48,14 +47,20 @@ public class CfgPreProcessor {
 	/**
 	 * Pairs of definition name and their value (represented by a token list) collected from the [DEFINE] sections
 	 */
-	Map<String, List<Token>> definitions = null;
+	private Map<String, List<Token>> definitions = null;
 
 	/**
 	 * Pairs of definition name and their resolved value.
 	 * The definitions are filled by getDefinitionValue() when a new definition value is calculated
 	 */
-	final Map<String, String> resolvedDefinitions = new LinkedHashMap<String, String>();
+	private final Map<String, String> resolvedDefinitions = new LinkedHashMap<String, String>();
 
+	/**
+	 * Logs an error during the CFG preparsing process.
+	 * @param error_str error message
+	 * @param actualFile parsed cfg file to log the file name
+	 * @param token parsed token to log the line number 
+	 */
 	private void config_preproc_error(String error_str, final File actualFile, final Token token) {
 		TTCN_Logger.begin_event(TTCN_Logger.Severity.ERROR_UNQUALIFIED);
 		TTCN_Logger.log_event("Parse error while pre-processing");
@@ -109,11 +114,9 @@ public class CfgPreProcessor {
 		final CommonTokenStream tokenStream = CfgAnalyzer.createTokenStream(reader, listener);
 		tokenStream.fill();
 		final List<Token> tokens = tokenStream.getTokens();
-		final ListIterator<Token> iter = tokens.listIterator();
 		// file names collected from [INCLUDE] sections
 		final List<File> includeFiles = new ArrayList<File>();
-		while (iter.hasNext()) {
-			final Token token = iter.next();
+		for ( final Token token : tokens ) {
 			final int tokenType = token.getType();
 			final String tokenText = token.getText();
 			switch (tokenType) {
@@ -200,15 +203,25 @@ public class CfgPreProcessor {
 		return out;
 	}
 
+	/**
+	 * Checks circular references in the macro definitions.
+	 * Sets error_flag to true or error.
+	 */
 	private void checkCircularReferences() {
 		for (final Map.Entry<String, List<Token>> entry : definitions.entrySet()) {
 			final String defName = entry.getKey();
-			checkCircularReferences(defName, defName, definitions);
+			checkCircularReferences(defName, defName);
 		}
 	}
 
-	private void checkCircularReferences(final String first, final String defName, final Map<String, List<Token>> defs) {
-		final List<Token> defValue = defs.get(defName);
+	/**
+	 * Checks circular reference in a macro definition.
+	 * Sets error_flag to true or error.
+	 * @param first the first definition name in the reference chain to compare with
+	 * @param defName the actual (last) definition name in the reference chain
+	 */
+	private void checkCircularReferences(final String first, final String defName) {
+		final List<Token> defValue = definitions.get(defName);
 		if (defValue == null) {
 			config_preproc_error("Unknown define "+defName, null, null);
 			return;
@@ -239,7 +252,7 @@ public class CfgPreProcessor {
 				if (first.equals(macroName)) {
 					config_preproc_error("Circular reference in define "+first, null, token);
 				}
-				checkCircularReferences(first, macroName, defs);
+				checkCircularReferences(first, macroName);
 				break;
 			default:
 				break;
@@ -255,18 +268,15 @@ public class CfgPreProcessor {
 	 * @return output string buffer, where the resolved content is written
 	 */
 	private StringBuilder resolveMacros(final CommonTokenStream tokenStream, final AtomicBoolean modified) {
-		final List<Token> tokens = tokenStream.getTokens();
-		final ListIterator<Token> iter = tokens.listIterator();
 		boolean defineSection = false;
 		final StringBuilder out = new StringBuilder();
-		while (iter.hasNext()) {
-			final Token token = iter.next();
+		final List<Token> tokens = tokenStream.getTokens();
+		for ( final Token token : tokens ) {
 			final CommonToken commonToken = (CommonToken)token;
 			final int tokenType = token.getType();
 			final String tokenText = token.getText();
 			switch (tokenType) {
 			case RuntimeCfgLexer.DEFINE_SECTION:
-				iter.remove();
 				modified.set(true);
 				defineSection = true;
 				break;
@@ -290,9 +300,7 @@ public class CfgPreProcessor {
 				out.append(tokenText);
 				break;
 			default:
-				if (defineSection) {
-					iter.remove();
-				} else {
+				if (!defineSection) {
 					if ( resolveToken( out, commonToken ) ) {
 						modified.set(true);
 					}
@@ -305,29 +313,18 @@ public class CfgPreProcessor {
 
 	/**
 	 * Token value is resolved:
-	 *
+	 *   - macro reference token value is calculated (recursively if needed), and written to the output buffer
+	 *   - otherwise token text is written to the output buffer
 	 * @param out output string buffer, where the resolved content is written
 	 * @param token lexer token object
 	 * @return true, if the cfg file content is modified during preparsing,
 	 *         false otherwise
 	 */
 	private boolean resolveToken(final StringBuilder out, final Token token) {
-		boolean modified = false;
-		final String tokenText = token.getText();
 		final int tokenType = token.getType();
 		switch (tokenType) {
-		case RuntimeCfgLexer.MACRO: {
-			final String macroName = DefineSectionHandler.getMacroName(tokenText);
-			final String macroValue = getDefinitionValue( macroName );
-			if ( macroValue == null ) {
-				config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", macroName), null, token);
-				out.append(tokenText);
-			} else {
-				out.append(macroValue);
-				modified = true;
-			}
-			break;
-		}
+		case RuntimeCfgLexer.MACRO:
+			return resolveMacro(out, token);
 		case RuntimeCfgLexer.MACRO_BOOL:
 			return resolveMacroBool(out, token);
 		case RuntimeCfgLexer.MACRO_INT:
@@ -349,10 +346,30 @@ public class CfgPreProcessor {
 		case RuntimeCfgLexer.MACRO_BINARY:
 			return resolveMacroBinary(out, token);
 		default:
+			final String tokenText = token.getText();
 			out.append(tokenText);
-			break;
+			return false;
 		}
-		return modified;
+	}
+
+	/**
+	 * Resolves a non-typed macro
+	 * @param out output string buffer, where the resolved content is written
+	 * @param token lexer token object
+	 * @return true, if the cfg file content is modified during preparsing,
+	 *         false otherwise
+	 */
+	private boolean resolveMacro(final StringBuilder out, final Token token) {
+		final String tokenText = token.getText();
+		final String macroName = DefineSectionHandler.getMacroName(tokenText);
+		final String macroValue = getDefinitionValue( macroName );
+		if ( macroValue == null ) {
+			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", macroName), null, token);
+			out.append(tokenText);
+		}
+
+		out.append(macroValue);
+		return true;
 	}
 
 	/**
@@ -374,7 +391,7 @@ public class CfgPreProcessor {
 		if ( !CfgPreprocessorUtils.string_is_bool(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as boolean value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("false");
-			return false;
+			return true;
 		}
 
 		out.append(typedMacroValue);
@@ -400,7 +417,7 @@ public class CfgPreProcessor {
 		if ( !CfgPreprocessorUtils.string_is_int(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as integer value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append('0');
-			return false;
+			return true;
 		}
 
 		out.append(typedMacroValue);
@@ -426,7 +443,7 @@ public class CfgPreProcessor {
 		if ( !CfgPreprocessorUtils.string_is_float(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as float value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("0.0");
-			return false;
+			return true;
 		}
 
 		out.append(typedMacroValue);
@@ -451,7 +468,7 @@ public class CfgPreProcessor {
 		}
 		if ( !CfgPreprocessorUtils.string_is_id(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as identifier value: `{1}''", typedMacroName, typedMacroValue), null, token);
-			return false;
+			return true;
 		}
 
 		out.append(typedMacroValue);
@@ -472,7 +489,7 @@ public class CfgPreProcessor {
 		if ( typedMacroValue == null ) {
 			config_preproc_error(MessageFormat.format("No macro or environmental variable defined with name `{0}''", typedMacroName), null, token);
 			out.append(tokenText);
-			return false;
+			return true;
 		}
 
 		out.append(typedMacroValue);
@@ -498,7 +515,7 @@ public class CfgPreProcessor {
 		if ( !CfgPreprocessorUtils.string_is_bstr(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as bitstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("''B");
-			return false;
+			return true;
 		}
 
 		out.append('\'');
@@ -526,7 +543,7 @@ public class CfgPreProcessor {
 		if ( !CfgPreprocessorUtils.string_is_hstr(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as hexstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("''H");
-			return false;
+			return true;
 		}
 
 		out.append('\'');
@@ -554,7 +571,7 @@ public class CfgPreProcessor {
 		if ( !CfgPreprocessorUtils.string_is_ostr(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as octetstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("''O");
-			return false;
+			return true;
 		}
 
 		out.append('\'');
@@ -582,7 +599,7 @@ public class CfgPreProcessor {
 		if ( !CfgPreprocessorUtils.string_is_hostname(typedMacroValue) ) {
 			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as hostname value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append(typedMacroValue);
-			return false;
+			return true;
 		}
 
 		out.append(typedMacroValue);
@@ -632,7 +649,7 @@ public class CfgPreProcessor {
 	 * @param definition macro or environment variable
 	 * @return macro or environment variable value, or null if there is no such definition
 	 */
-	public String getDefinitionValue(final String definition) {
+	private String getDefinitionValue(final String definition) {
 		if ( resolvedDefinitions.containsKey(definition) ) {
 			// definition value is already calculated
 			return resolvedDefinitions.get(definition);
@@ -651,7 +668,7 @@ public class CfgPreProcessor {
 			return null;
 		}
 		final List<Token> tokenList = definitions.get( definition );
-		// true if macro is structured (starts with "{"). In this case the STRING keeps its beginning and ending quotes,
+		// true if macro definition is structured (starts with "{"). In this case the STRING keeps its beginning and ending quotes,
 		// in simple case beginning and ending quotes are removed
 		final boolean structured = tokenList.size() > 0 && tokenList.get(0).getType() == RuntimeCfgLexer.BEGINCHAR;
 		final StringBuilder out = new StringBuilder();
@@ -721,7 +738,7 @@ public class CfgPreProcessor {
 	 * @param resultFile result file
 	 * @param sb string buffer to write
 	 */
-	static void writeToFile( final File resultFile, final StringBuilder sb ) {
+	private static void writeToFile( final File resultFile, final StringBuilder sb ) {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(resultFile);
@@ -735,7 +752,7 @@ public class CfgPreProcessor {
 		}
 	}
 
-	public boolean get_error_flag() {
+	boolean get_error_flag() {
 		return error_flag;
 	}
 }
