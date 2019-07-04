@@ -1288,15 +1288,12 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "universal charstring" : name));
 	}
-
-	public TitanCharString castForPatterns() {
-		if (template_selection == template_sel.STRING_PATTERN) {
-			return new TitanCharString(pattern_string);
-		} else if (template_selection == template_sel.SPECIFIC_VALUE) {
-			return new TitanCharString(single_value);
-		} else {
-			//TODO: better error message
-			throw new TtcnError("Internal error: using a non-acceptable template for pattern cast.");
+	
+	public TitanCharString get_single_value() {
+		if (pattern_string == null) {
+			throw new TtcnError("Pattern string does not exist in universal charstring template");
 		}
+		return pattern_string;
 	}
+	
 }
