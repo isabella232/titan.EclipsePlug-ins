@@ -1895,7 +1895,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			}
 		} catch (final IOException e) {
-			throw new TtcnError(e);
+			if ("Connection reset by peer".equals(e.getMessage())) {
+				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
+				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__reset__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
+				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
+			} else {
+				throw new TtcnError(e);
+			}
 		}
 
 		if (connection.connection_state == port_connection.connection_state_enum.CONN_IDLE) {
