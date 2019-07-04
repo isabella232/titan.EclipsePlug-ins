@@ -411,7 +411,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		s.append(") ,");
 		s.append(nocase ? "true" : "false");
 		s.append(")");
-		return content;
+		return s.toString();
 	}
 
 	/** Called by Value::get_value_refd_last() */

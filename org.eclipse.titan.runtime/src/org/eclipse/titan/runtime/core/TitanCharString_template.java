@@ -908,16 +908,15 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 	
-	//We cannot cast TitanCharStringTemplates to TitanCharString like C++
-	public TitanCharString castForPatterns() {
-		if (template_selection == template_sel.STRING_PATTERN) {
-			return new TitanCharString(single_value);
-		} else if (template_selection == template_sel.SPECIFIC_VALUE) {
-			return new TitanCharString(single_value);
-		} else {
-			//TODO: better error message
-			throw new TtcnError("Internal error: using a non-acceptable template for pattern cast.");
+	public TitanCharString get_single_value() {
+		switch (template_selection) {
+		case STRING_PATTERN:
+		case SPECIFIC_VALUE:
+			break;
+		default:
+			throw new TtcnError("This template does not have single value.");
 		}
+		return single_value;
 	}
 
 	private enum LogPatternState {
