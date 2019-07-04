@@ -449,7 +449,7 @@ CLOSING_SQUARE_BRACKET : ']' {
 };
 SQUARE_BRACES : '{'|'}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex() + 1);
-  location.reportSyntacticWarning(String.format("Unmatched %c was treated literally", tokenStr.charAt(0)));
+  location.reportSyntacticWarning(String.format("Unmatched `%c' was treated literally", tokenStr.charAt(0)));
   ps.addString("\\");
   ps.addChar(tokenStr.charAt(0));
   actualColumn++;
