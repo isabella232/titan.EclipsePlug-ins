@@ -663,11 +663,16 @@ COMPLEMENT_SIGN: '^' {
 		actualColumn++;
 	}
 };
+ANY_SIGN: '*' {
+	ps.addChar('*');
+	actualColumn++;
+};
+
 ANY_OR_NEWLINE : (. | NEWLINE | IDENTIFIER | NUMBER) { 
 //a possible end
 int begin = actualColumn;
 int end = actualColumn;
-while(tokenStr.charAt(end) != '{' && tokenStr.charAt(end) != '\\' && tokenStr.charAt(end) != '\"' && tokenStr.charAt(end) != '[' && tokenStr.charAt(end) != ']' && tokenStr.charAt(end) != '#' && tokenStr.charAt(end) != '+' && tokenStr.charAt(end) != '^' && end < tokenStr.length() - 1) {
+while(tokenStr.charAt(end) != '{' && tokenStr.charAt(end) != '\\' && tokenStr.charAt(end) != '\"' && tokenStr.charAt(end) != '[' && tokenStr.charAt(end) != ']' && tokenStr.charAt(end) != '#' && tokenStr.charAt(end) != '+' && tokenStr.charAt(end) != '^' && tokenStr.charAt(end) != '*' && end < tokenStr.length() - 1) {
 	end++;	
 }
 ps.addString(tokenStr.substring(begin,end));

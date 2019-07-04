@@ -193,10 +193,10 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 				final char tmp_c = (char)uchar.cell();
 				if (Character.isWhitespace(tmp_c) || (uchar.cell() >= 32 && uchar.cell() < 127)) {
 					builder.append(tmp_c);
-				} else {
-					builder.append("\\q{").append(uchar.group()).append(',').append(uchar.plane()).append(',')
-					.append(uchar.row()).append(',').append(uchar.cell()).append('}');
 				}
+			} else {
+				builder.append("\\\\q{").append(uchar.group()).append(',').append(uchar.plane()).append(',')
+				.append(uchar.row()).append(',').append(uchar.cell()).append('}');
 			}
 		}
 		
