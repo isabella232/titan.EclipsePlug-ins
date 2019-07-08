@@ -221,8 +221,9 @@ public final class TTCN_Snapshot {
 						for (final SelectionKey key : selectedKeys) {
 							final SelectableChannel keyChannel = key.channel();
 							final Channel_Event_Handler handler = localChannelMap.get(keyChannel);
-							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
-							final boolean isWritable = key.isValid() && key.isWritable();
+							final int readyOps = key.readyOps();
+							final boolean isReadable = key.isValid() && ((readyOps & (SelectionKey.OP_READ | SelectionKey.OP_ACCEPT)) != 0);
+							final boolean isWritable = key.isValid() && ((readyOps & SelectionKey.OP_WRITE) != 0);
 							if (handler != null) {
 								handler.Handle_Event(keyChannel, isReadable, isWritable);
 							}
@@ -249,8 +250,9 @@ public final class TTCN_Snapshot {
 						for (final SelectionKey key : selectedKeys) {
 							final SelectableChannel keyChannel = key.channel();
 							final Channel_Event_Handler handler = localChannelMap.get(keyChannel);
-							final boolean isReadable = key.isValid() && (key.isReadable() | key.isAcceptable());
-							final boolean isWritable = key.isValid() && key.isWritable();
+							final int readyOps = key.readyOps();
+							final boolean isReadable = key.isValid() && ((readyOps & (SelectionKey.OP_READ | SelectionKey.OP_ACCEPT)) != 0);
+							final boolean isWritable = key.isValid() && ((readyOps & SelectionKey.OP_WRITE) != 0);
 							if (handler != null) {
 								handler.Handle_Event(keyChannel, isReadable, isWritable);
 							}
