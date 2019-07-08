@@ -402,6 +402,10 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_INOUT)
 						&& assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
 					s.append(".get_stringRepr_for_pattern()");
+				} else if (assign.getAssignmentType() == Assignment_type.A_CONST
+						|| assign.getAssignmentType() == Assignment_type.A_EXT_CONST
+						&& assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
+					s.append(".get_stringRepr_for_pattern()");
 				}
 
 				expr = null;
