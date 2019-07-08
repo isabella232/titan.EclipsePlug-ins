@@ -5315,10 +5315,10 @@ public final class AdditionalFunctions {
 
 		return regexp(instr, expression, groupno.get_int(), nocase);
 	}
-	
+
 	public static TitanCharString regexp(final TitanUniversalCharString instr, final TitanCharString expression, final TitanInteger groupno, final boolean nocase) {
 		instr.must_bound("The first argument (instr) of function regexp() is an unbound universal charstring value.");
-		
+
 		if (instr.charstring) {
 			return regexp(new TitanCharString(instr.cstr), expression, groupno, nocase);
 		} else {
