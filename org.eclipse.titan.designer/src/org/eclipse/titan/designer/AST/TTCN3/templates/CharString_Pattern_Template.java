@@ -235,7 +235,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		source.append(preamble);
-		source.append(MessageFormat.format("{0}.operator_assign(new {2});\n", name, myGovernor.getGenNameTemplate(aData, source), patternstring.create_charstring_literals(aData,myScope.getModuleScopeGen(),preamble)));
+		source.append(MessageFormat.format("{0}.operator_assign(new {1});\n", name, patternstring.create_charstring_literals(aData,myScope.getModuleScopeGen(),preamble)));
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
 				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
