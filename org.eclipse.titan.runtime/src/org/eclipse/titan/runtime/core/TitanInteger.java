@@ -1610,10 +1610,6 @@ public class TitanInteger extends Base_Type {
 
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		try {
-			byte bc[];
-			int length; // total length, in bytes
-			int val_bits = 0; // only for IntX
-			int len_bits = 0; // only for IntX
 			int value = get_int();
 			boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
 			if (!is_bound()) {
@@ -1635,6 +1631,10 @@ public class TitanInteger extends Base_Type {
 			if (neg_sgbit) {
 				value = -value;
 			}
+
+			int length; // total length, in bytes
+			int val_bits = 0; // only for IntX
+			int len_bits = 0; // only for IntX
 			if (p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
 				val_bits = (p_td.raw.comp != raw_sign_t.SG_NO) ? 1 : 0; // bits needed to store the value
 				int v2 = value;
@@ -1675,7 +1675,8 @@ public class TitanInteger extends Base_Type {
 				}
 			}
 
-			myleaf.data_array = bc = new byte[length];
+			final byte bc[] = new byte[length];
+			myleaf.data_array = bc;
 			if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 				int i = 0;
 				// treat the empty space between the value and the length as if it was part
