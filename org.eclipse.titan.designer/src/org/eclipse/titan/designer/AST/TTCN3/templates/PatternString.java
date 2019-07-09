@@ -375,6 +375,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 								+ "}\n", expr.expression.toString(), value_literal));
 					}
 
+					//FIXME: initial implementation
 					expr.preamble.append((String.format("if (%s.lengthof() != 1)\n"
 							+ "{\n"
 							+ "throw new TtcnError(\"The length of the %scharstring must be of length one, when it is being referenced in a pattern with \\\\N{ref}\");\n"
@@ -402,8 +403,8 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_INOUT)
 						&& assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
 					s.append(".get_stringRepr_for_pattern()");
-				} else if (assign.getAssignmentType() == Assignment_type.A_CONST
-						|| assign.getAssignmentType() == Assignment_type.A_EXT_CONST
+				} else if (assign != null && (assign.getAssignmentType() == Assignment_type.A_CONST
+						|| assign.getAssignmentType() == Assignment_type.A_EXT_CONST)
 						&& assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
 					s.append(".get_stringRepr_for_pattern()");
 				}
