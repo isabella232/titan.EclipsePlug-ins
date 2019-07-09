@@ -1124,7 +1124,7 @@ public class TitanUniversalCharString extends Base_Type {
 			return ret;
 		} else {
 			if (p_buff.get_data() != null) {
-				return new TitanUniversalCharString(String.valueOf(p_buff.get_data()));
+				return new TitanUniversalCharString(new String(p_buff.get_data()));
 			} else {
 				return new TitanUniversalCharString("");
 			}
