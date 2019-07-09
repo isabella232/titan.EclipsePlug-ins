@@ -1096,6 +1096,10 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final ASN1_Set_Seq_Choice_BaseType realFromType = (ASN1_Set_Seq_Choice_BaseType) refdType;
 			return generateConversionASNSetSeqToTTCNSetSeq(aData, realFromType, fromName, expression);
 		}
+		case TYPE_SEQUENCE_OF: {
+			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
+			return generateConversionSeqOfToSeq(aData, fromType, fromName, fromOfType, expression);
+		}
 		default:
 			expression.expression.append(MessageFormat.format("//FIXME conversion from {0} to {1} is not needed or nor supported yet\n", fromType.getTypename(), getTypename()));
 			break;
@@ -1103,5 +1107,56 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		// the default implementation does nothing
 		return fromName;
+	}
+
+	private String generateConversionSeqOfToSeq(final JavaGenData aData, final IType fromType, final String fromName, final IType fromOfType, final ExpressionStruct expression) {
+		//heavy conversion is needed
+		final String tempId = aData.getTemporaryVariableName();
+
+		final String name = getGenNameValue(aData, expression.preamble);
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
+		expression.preamble.append("}\n");
+
+		if (!aData.hasTypeConversion(ConversionFunctionName)) {
+			final StringBuilder conversionFunctionBody = new StringBuilder();
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			conversionFunctionBody.append(MessageFormat.format("\t\tif(!from.is_bound() || from.size_of().get_int() != {0}) '{'\n", getNofComponents()));
+			conversionFunctionBody.append("\t\t\treturn false;\n");
+			conversionFunctionBody.append("\t\t}\n\n");
+
+			for (int i = 0; i < getNofComponents(); i++) {
+				final CompField toComp = getComponentByIndex(i);
+				final Identifier toFieldName = toComp.getIdentifier();
+				final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final String tempId2 = aData.getTemporaryVariableName();
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_at({2});\n", fromOfType.getGenNameValue(aData, conversionFunctionBody), tempId2, i));
+				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
+
+				final ExpressionStruct tempExpression = new ExpressionStruct();
+				final String tempId3 = toFieldType.generateConversion(aData, fromOfType, tempId2, tempExpression);
+				tempExpression.openMergeExpression(conversionFunctionBody);
+
+				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_field_{0}().operator_assign({1});\n", FieldSubReference.getJavaGetterName( toFieldName.getName() ), tempId3));
+				conversionFunctionBody.append("\t\t}");
+				// Unbound elements needs to be assigned as OMIT_VALUE.
+				if (toComp.isOptional()) {
+					conversionFunctionBody.append(" else {\n");
+					conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_field_{0}().operator_assign(template_sel.OMIT_VALUE);\n", FieldSubReference.getJavaGetterName( toFieldName.getName() )));
+					conversionFunctionBody.append("\t\t}\n");
+				} else {
+					conversionFunctionBody.append('\n');
+				}
+			}
+
+			conversionFunctionBody.append("\t\treturn true;\n");
+			conversionFunctionBody.append("\t}\n\n");
+			aData.addTypeConversion(ConversionFunctionName, conversionFunctionBody.toString());
+		}
+
+		return tempId;
 	}
 }
