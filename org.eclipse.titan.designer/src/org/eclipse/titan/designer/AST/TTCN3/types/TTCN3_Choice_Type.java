@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.CachedReferenceChain;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -472,6 +473,25 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 							}
 						}
 					}
+				}
+			}
+			if (rawAttribute.csn1lh) {
+				for (int i = 0; i < getNofComponents(); i++) {
+					final CompField cField = getComponentByIndex(i);
+					final Type fieldType = cField.getType();
+					RawAST fieldRawAttribute = fieldType.rawAttribute;
+					if (fieldRawAttribute == null) {
+						Type t = fieldType;
+						while ( t.rawAttribute == null && t instanceof IReferencingType) {
+							final IReferenceChain tempRefChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+							t = (Type)((IReferencingType)t).getTypeRefd(timestamp, tempRefChain);
+							tempRefChain.release();
+						}
+						fieldRawAttribute = new RawAST(t.rawAttribute, fieldType.getDefaultRawFieldLength());
+						fieldType.setRawAttributes(fieldRawAttribute);
+					}
+
+					fieldRawAttribute.csn1lh = true;
 				}
 			}
 		}

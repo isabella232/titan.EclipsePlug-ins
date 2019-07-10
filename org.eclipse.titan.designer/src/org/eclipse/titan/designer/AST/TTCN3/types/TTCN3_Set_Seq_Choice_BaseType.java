@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
+import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
@@ -729,17 +730,27 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					}
 				}
 			}
-			if (rawAttribute.fieldorder != RawAST.XDEFDEFAULT) {
+			if (rawAttribute.fieldorder != RawAST.XDEFDEFAULT || rawAttribute.csn1lh) { // FIELDORDER or CSN.1 L/H
 				for (int i = 0; i < getNofComponents(); i++) {
 					final CompField cField = getComponentByIndex(i);
 					final Type fieldType = cField.getType();
 					RawAST fieldRawAttribute = fieldType.rawAttribute;
 					if (fieldRawAttribute == null) {
-						fieldRawAttribute = new RawAST(fieldType.getDefaultRawFieldLength());
+						Type t = fieldType;
+						while ( t.rawAttribute == null && t instanceof IReferencingType) {
+							final IReferenceChain tempRefChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+							t = (Type)((IReferencingType)t).getTypeRefd(timestamp, tempRefChain);
+							tempRefChain.release();
+						}
+						fieldRawAttribute = new RawAST(t.rawAttribute, fieldType.getDefaultRawFieldLength());
 						fieldType.setRawAttributes(fieldRawAttribute);
 					}
-					if (fieldRawAttribute.fieldorder == RawAST.XDEFDEFAULT) {
+					if (rawAttribute.fieldorder != RawAST.XDEFDEFAULT &&
+						fieldRawAttribute.fieldorder == RawAST.XDEFDEFAULT) {
 						fieldRawAttribute.fieldorder = rawAttribute.fieldorder;
+					}
+					if (rawAttribute.csn1lh) {
+						fieldRawAttribute.csn1lh = true;
 					}
 				}
 			}
