@@ -590,6 +590,8 @@ public class TitanBoolean extends Base_Type {
 			// remove the extra ones from the last octet
 			bc[length - 1] &= RAW.BitMaskTable[loc_length % 8];
 		}
+		myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
+
 		return myleaf.length = loc_length;
 	}
 
@@ -640,6 +642,7 @@ public class TitanBoolean extends Base_Type {
 				cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 				cp.fieldorder = p_td.raw.fieldorder;
 				cp.hexorder = raw_order_t.ORDER_LSB;
+				cp.csn1lh = p_td.raw.csn1lh;
 				final int length = (decode_length + 7) / 8;
 				byte[] data = new byte[length];
 				buff.get_b(decode_length, data, cp, top_bit_ord);

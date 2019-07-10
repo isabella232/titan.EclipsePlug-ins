@@ -677,6 +677,13 @@ public final class TTCN_Buffer {
 					data_ptr[new_size - 1] = (byte) ((data_ptr[new_size - 1] & ~RAW.BitMaskTable[8 - bit_pos]) | (RAW.REVERSE_BITS(s[0] & RAW.BitMaskTable[len]) >> bit_pos));
 				}
 			}
+			if (coding_par.csn1lh) {
+				if (local_fieldorder == raw_order_t.ORDER_LSB) {
+					data_ptr[new_size - 1] = (byte) (data_ptr[new_size - 1] ^ (TTCN_EncDec.CSN1_L_H_Mask & (RAW.BitMaskTable[bit_pos + len] & ~RAW.BitMaskTable[bit_pos])));
+				} else {
+					data_ptr[new_size - 1] = (byte) (data_ptr[new_size - 1] ^ (TTCN_EncDec.CSN1_L_H_Mask & (~RAW.BitMaskTable[8 - bit_pos - len] & RAW.BitMaskTable[8 - bit_pos])));
+				}
+			}
 		} else if (bit_pos == 0 && (len % 8) == 0) { // octet aligned data
 			if (coding_par.byteorder == raw_order_t.ORDER_LSB) {
 				if (local_bitorder == raw_order_t.ORDER_LSB) {
@@ -695,6 +702,11 @@ public final class TTCN_Buffer {
 					for (int a = 0, b = len / 8 - 1; a < len / 8; a++, b--) {
 						data_ptr[a + buf_len] = (byte) RAW.REVERSE_BITS(s[b]);
 					}
+				}
+			}
+			if (coding_par.csn1lh) {
+				for (int a = 0; a < len / 8; ++a) {
+					data_ptr[a + buf_len] ^= TTCN_EncDec.CSN1_L_H_Mask;
 				}
 			}
 		} else {
@@ -835,6 +847,26 @@ public final class TTCN_Buffer {
 					}
 				}
 			}
+
+			if (coding_par.csn1lh) {
+				int offset = buf_len == 0 ? 0 : buf_len - 1;
+				if (local_fieldorder == raw_order_t.ORDER_LSB) {
+					data_ptr[offset] ^= TTCN_EncDec.CSN1_L_H_Mask & ~RAW.BitMaskTable[bit_pos];
+				} else {
+					data_ptr[offset] ^= TTCN_EncDec.CSN1_L_H_Mask & RAW.BitMaskTable[8 - bit_pos];
+				}
+
+				for (int a = 1; a < (len + bit_pos)/8; ++a) {
+					data_ptr[a + offset] ^= TTCN_EncDec.CSN1_L_H_Mask;
+				}
+				if (new_bit_pos != 0) {
+					if (local_fieldorder == raw_order_t.ORDER_LSB) {
+						data_ptr[new_size - 1] ^= TTCN_EncDec.CSN1_L_H_Mask & RAW.BitMaskTable[new_bit_pos];
+					} else {
+						data_ptr[new_size - 1] ^= TTCN_EncDec.CSN1_L_H_Mask & ~RAW.BitMaskTable[8 - new_bit_pos];
+					}
+				}
+			}
 		}
 
 		buf_len = new_size;
@@ -890,6 +922,13 @@ public final class TTCN_Buffer {
 		}
 
 		if (bit_pos + len <= 8) { // the data is within 1 octet
+			if (coding_par.csn1lh) {
+				if (local_fieldorder == raw_order_t.ORDER_LSB) {
+					data_ptr[buf_pos] ^= TTCN_EncDec.CSN1_L_H_Mask & (RAW.BitMaskTable[bit_pos + len] & ~RAW.BitMaskTable[bit_pos]);
+				} else {
+					data_ptr[buf_pos] ^= TTCN_EncDec.CSN1_L_H_Mask & (~RAW.BitMaskTable[8 - bit_pos - len] & RAW.BitMaskTable[8 - bit_pos]);
+				}
+			}
 			if (local_bitorder == raw_order_t.ORDER_LSB) {
 				if (local_fieldorder == raw_order_t.ORDER_LSB) {
 					s[0] = (byte) (data_ptr[buf_pos] >> bit_pos);
@@ -904,6 +943,11 @@ public final class TTCN_Buffer {
 				}
 			}
 		} else if (bit_pos == 0 && (len % 8) == 0) { // octet aligned data
+			if (coding_par.csn1lh) {
+				for (int a = 0; a < len / 8; ++a) {
+					data_ptr[a + buf_pos] ^= TTCN_EncDec.CSN1_L_H_Mask;
+				}
+			}
 			if (coding_par.byteorder == raw_order_t.ORDER_LSB) {
 				if (local_bitorder == raw_order_t.ORDER_LSB) {
 					System.arraycopy(data_ptr, buf_pos, s, 0, len / 8);
@@ -924,6 +968,23 @@ public final class TTCN_Buffer {
 				}
 			}
 		} else { // unaligned
+			if (coding_par.csn1lh) {
+				if (local_fieldorder == raw_order_t.ORDER_LSB) {
+					data_ptr[buf_pos] ^= TTCN_EncDec.CSN1_L_H_Mask & ~RAW.BitMaskTable[bit_pos];
+				} else {
+					data_ptr[buf_pos] ^= TTCN_EncDec.CSN1_L_H_Mask & RAW.BitMaskTable[8 - bit_pos];
+				}
+				for (int a = 1; a < (len + bit_pos)/8; ++a) {
+					data_ptr[a + buf_pos] ^= TTCN_EncDec.CSN1_L_H_Mask;
+				}
+				if (new_bit_pos != 0) {
+					if (local_fieldorder == raw_order_t.ORDER_LSB) {
+						data_ptr[buf_len - 1] ^= TTCN_EncDec.CSN1_L_H_Mask & RAW.BitMaskTable[new_bit_pos];
+					} else {
+						data_ptr[buf_len - 1] ^= TTCN_EncDec.CSN1_L_H_Mask & ~RAW.BitMaskTable[8 - new_bit_pos];
+					}
+				}
+			}
 			final int num_bytes = (len + 7) / 8;
 			if (coding_par.byteorder == raw_order_t.ORDER_LSB) {
 				if (local_bitorder == raw_order_t.ORDER_LSB) {

@@ -1109,6 +1109,8 @@ public class TitanOctetString extends Base_Type {
 				myleaf.align = -align_length;
 			}
 
+			myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
+
 			return myleaf.length = bl + align_length;
 		} finally {
 			errorcontext.leave_context();
@@ -1157,6 +1159,7 @@ public class TitanOctetString extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
+			cp.csn1lh = p_td.raw.csn1lh;
 			if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO) {
 				final byte[] data = buff.get_read_data();
 				int count = 1;

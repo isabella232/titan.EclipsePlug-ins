@@ -1108,6 +1108,8 @@ public class TitanHexString extends Base_Type {
 			myleaf.align = align_length;
 		}
 
+		myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
+
 		return myleaf.length = nbits + align_length;
 	}
 
@@ -1152,6 +1154,7 @@ public class TitanHexString extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = p_td.raw.hexorder;
+			cp.csn1lh = p_td.raw.csn1lh;
 			nibbles_ptr = new byte[decode_length / 4];
 			final byte[] tmp_nibbles = new byte[decode_length / 4];
 			buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);

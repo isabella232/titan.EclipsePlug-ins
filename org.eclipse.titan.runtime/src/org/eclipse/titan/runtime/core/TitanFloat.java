@@ -1052,6 +1052,9 @@ public class TitanFloat extends Base_Type {
 		} else {
 			TTCN_EncDec_ErrorContext.error_internal("Invalid FLOAT length {0}", length);
 		}
+
+		myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
+
 		return myleaf.length = p_td.raw.fieldlength;
 	}
 
@@ -1095,6 +1098,7 @@ public class TitanFloat extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
+			cp.csn1lh = p_td.raw.csn1lh;
 			buff.get_b(decode_length, data, cp, top_bit_ord);
 			if (decode_length == 64) {
 				final byte[] dv = new byte[8];

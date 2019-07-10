@@ -36,6 +36,8 @@ public final class TTCN_EncDec {
 	/** Error string for the last error */
 	private static String error_str;
 
+	public static final byte CSN1_L_H_Mask = 0x2B; // 00101011
+
 	/** Default error behaviours for all error types */
 	private static final error_behavior_type[] default_error_behavior = {
 		error_behavior_type.EB_ERROR,

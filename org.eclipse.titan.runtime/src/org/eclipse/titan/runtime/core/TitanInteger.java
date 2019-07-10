@@ -1733,6 +1733,8 @@ public class TitanInteger extends Base_Type {
 				}
 				myleaf.length = p_td.raw.fieldlength;
 			}
+
+			myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
 		} finally {
 			errorContext.leave_context();
 		}
@@ -1866,6 +1868,8 @@ public class TitanInteger extends Base_Type {
 				}
 				myleaf.length = p_td.raw.fieldlength;
 			}
+
+			myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
 		} finally {
 			errorContext.leave_context();
 		}
@@ -1906,6 +1910,7 @@ public class TitanInteger extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
+			cp.csn1lh = p_td.raw.csn1lh;
 			int decode_length = 0;
 			int len_bits = 0; // only for IntX (amount of bits used to store the length)
 			byte len_data = 0; // only for IntX (an octet used to store the length)

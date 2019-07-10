@@ -1214,6 +1214,7 @@ public class TitanBitString extends Base_Type {
 				orders = !orders;
 			}
 			myleaf.coding_par.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
 			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 				myleaf.align = align_length;
 			} else {
@@ -1271,6 +1272,7 @@ public class TitanBitString extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
+			cp.csn1lh = p_td.raw.csn1lh;
 			final byte[] tmp_bits = new byte[bits_ptr.length];
 			buff.get_b(decode_length, tmp_bits, cp, top_bit_ord);
 			for (int i = 0; i < tmp_bits.length; i++) {
