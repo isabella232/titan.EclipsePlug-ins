@@ -1240,7 +1240,7 @@ public final class TTCN_Buffer {
 			return;
 		}
 		final RAW_coding_par cp = new RAW_coding_par(raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,
-				raw_order_t.ORDER_LSB, fieldorder);
+				raw_order_t.ORDER_LSB, fieldorder, false);
 		int length = len;
 		while (length > 0) {
 			put_b(length > pat_len ? pat_len : length, s, cp, 0);
@@ -1264,7 +1264,7 @@ public final class TTCN_Buffer {
 			return;
 		}
 		final RAW_coding_par cp = new RAW_coding_par(raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,
-				raw_order_t.ORDER_LSB, fieldorder);
+				raw_order_t.ORDER_LSB, fieldorder, false);
 		final char[] str = s.toCharArray();
 		final byte[] temp = new byte[str.length];
 		for (int i = 0; i < str.length; i++) {

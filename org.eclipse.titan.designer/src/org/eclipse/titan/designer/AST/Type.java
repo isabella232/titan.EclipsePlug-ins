@@ -2670,7 +2670,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 			RAW_value.append(force_omit_name);
 		}
-		RAW_value.append(')');
+		RAW_value.append(", false)");
 
 		final StringBuilder globalVariable = new StringBuilder();
 		final String raw_value_string = RAW_value.toString();

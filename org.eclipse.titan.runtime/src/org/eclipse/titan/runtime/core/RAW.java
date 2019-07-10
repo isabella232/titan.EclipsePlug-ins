@@ -172,7 +172,7 @@ public class RAW {
 			final raw_order_t tempbitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			final raw_order_t temphexorder = raw_attr.hexorder;
 			final raw_order_t tempfieldorder = raw_attr.fieldorder;
-			coding_par = new RAW_coding_par(tempbitorder, tempbyteorder, temphexorder, tempfieldorder);
+			coding_par = new RAW_coding_par(tempbitorder, tempbyteorder, temphexorder, tempfieldorder, false);
 			if (!is_leaf) {
 				num_of_nodes = 0;
 				nodes = null;
@@ -450,6 +450,7 @@ public class RAW {
 		public int length_restrition;
 		public CharCoding stringformat;
 		public RAW_Force_Omit forceomit;
+		public boolean csn1lh;
 
 		public TTCN_RAWdescriptor(final int fieldlength, final raw_sign_t comp,
 				final raw_order_t byteorder, final raw_order_t endianness,
@@ -458,7 +459,7 @@ public class RAW {
 				final raw_order_t fieldorder, final top_bit_order_t top_bit_order,
 				final int padding, final int prepadding, final int ptroffset, final int unit,
 				final int padding_pattern_length, final byte[] padding_pattern,
-				final int length_restrition, final CharCoding stringformat, final RAW_Force_Omit forceomit) {
+				final int length_restrition, final CharCoding stringformat, final RAW_Force_Omit forceomit, final boolean csn1lh) {
 			this.fieldlength = fieldlength;
 			this.comp = comp;
 			this.byteorder = byteorder;
@@ -478,6 +479,7 @@ public class RAW {
 			this.length_restrition = length_restrition;
 			this.stringformat = stringformat;
 			this.forceomit = forceomit;
+			this.csn1lh = csn1lh;
 		}
 
 		public TTCN_RAWdescriptor() {
@@ -528,12 +530,14 @@ public class RAW {
 		public raw_order_t byteorder;
 		public raw_order_t hexorder;
 		public raw_order_t fieldorder;
+		public boolean csn1lh;
 
-		public RAW_coding_par(final raw_order_t bitorder, final raw_order_t byteorder, final raw_order_t hexorder, final raw_order_t fieldorder) {
+		public RAW_coding_par(final raw_order_t bitorder, final raw_order_t byteorder, final raw_order_t hexorder, final raw_order_t fieldorder, final boolean csn1lh) {
 			this.bitorder = bitorder;
 			this.byteorder = byteorder;
 			this.hexorder = hexorder;
 			this.fieldorder = fieldorder;
+			this.csn1lh = csn1lh;
 		}
 
 		public RAW_coding_par() {
@@ -617,6 +621,7 @@ public class RAW {
 		my_raw.prepadding = p_td.raw.prepadding;
 		my_raw.ptroffset = p_td.raw.ptroffset;
 		my_raw.unit = p_td.raw.unit;
+		my_raw.csn1lh = p_td.raw.csn1lh;
 		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
 		final TitanInteger i = new TitanInteger(integer_value);
 		i.RAW_encode(my_descr, myleaf);
@@ -641,6 +646,7 @@ public class RAW {
 		my_raw.prepadding = p_td.raw.prepadding;
 		my_raw.ptroffset = p_td.raw.ptroffset;
 		my_raw.unit = p_td.raw.unit;
+		my_raw.csn1lh = p_td.raw.csn1lh;
 		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
 		final TitanInteger i = new TitanInteger();
 		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord, no_err, -1, true, null);
@@ -661,12 +667,12 @@ public class RAW {
  	}
 
 	//Default descriptors of RAW encoding for primitive types.
-	public static final TTCN_RAWdescriptor TitanInteger_raw_ = new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
-	public static final TTCN_RAWdescriptor TitanBoolean_raw_ = new TTCN_RAWdescriptor(1, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
-	public static final TTCN_RAWdescriptor TitanBitString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
-	public static final TTCN_RAWdescriptor TitanOctetString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_MSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
-	public static final TTCN_RAWdescriptor TitanHexString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
-	public static final TTCN_RAWdescriptor TitanCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
-	public static final TTCN_RAWdescriptor TitanFloat_raw_ = new TTCN_RAWdescriptor(64, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
-	public static final TTCN_RAWdescriptor TitanUniversalCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
+	public static final TTCN_RAWdescriptor TitanInteger_raw_ = new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_RAWdescriptor TitanBoolean_raw_ = new TTCN_RAWdescriptor(1, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_RAWdescriptor TitanBitString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_RAWdescriptor TitanOctetString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_MSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_RAWdescriptor TitanHexString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_RAWdescriptor TitanCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_RAWdescriptor TitanFloat_raw_ = new TTCN_RAWdescriptor(64, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_RAWdescriptor TitanUniversalCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
 }
