@@ -1715,22 +1715,23 @@ public class TitanUniversalCharString extends Base_Type {
 
 		final int start = checkBOM ? check_BOM(CharCoding.UTF_8, valueStr) : 0;
 		for (int i = start; i < lenghtOctets; ) {
+			final int tempValue = valueStr[i] & 0xFF;
 			// perform the decoding character by character
-			if (valueStr[i] <= 0x7F)  {
+			if (tempValue <= 0x7F)  {
 				// character encoded on a single octet: 0xxxxxxx (7 useful bits)
 				val_ptr.add(lenghtUnichars, new TitanUniversalChar((char)0,(char) 0,(char) 0, (char)valueStr[i]));
 				i++;
 				lenghtUnichars++;
-			} else if (valueStr[i] <= 0xBF)  {
+			} else if (tempValue <= 0xBF)  {
 				// continuing octet (10xxxxxx) without leading octet ==> malformed
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR, MessageFormat.format(
 						"Malformed: At character position {0}, octet position {1}: continuing octet {0} without leading octet.",
-						lenghtUnichars, i, valueStr[i]));
+						lenghtUnichars, i, tempValue));
 				i++;
-			} else if (valueStr[i] <= 0xDF)  {
+			} else if (tempValue <= 0xDF)  {
 				// character encoded on 2 octets: 110xxxxx 10xxxxxx (11 useful bits)
 				char[] octets = new char[2];
-				octets[0] = (char) (valueStr[i] & 0x1F);
+				octets[0] = (char) (tempValue & 0x1F);
 
 				fill_continuing_octets(1, octets, lenghtOctets, valueStr, i + 1, lenghtUnichars);
 
@@ -1744,11 +1745,11 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				i += 2;
 				lenghtUnichars++;
-			} else if (valueStr[i] <= 0xEF) {
+			} else if (tempValue <= 0xEF) {
 				// character encoded on 3 octets: 1110xxxx 10xxxxxx 10xxxxxx
 				// (16 useful bits)
 				char[] octets = new char[3];
-				octets[0] = (char) (valueStr[i] & 0x0F);
+				octets[0] = (char) (tempValue & 0x0F);
 				fill_continuing_octets(2, octets /*+ 1*/, lenghtOctets, valueStr, i + 1, lenghtUnichars);
 
 				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) 0,(char) ((octets[0] << 4) & 0xFF | octets[1] >> 2), (char) ((octets[1] << 6) & 0xFF | octets[2])));
@@ -1760,11 +1761,11 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				i += 3;
 				lenghtUnichars++;
-			} else if (valueStr[i] <= 0xF7) {
+			} else if (tempValue <= 0xF7) {
 				// character encoded on 4 octets: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 				// (21 useful bits)
 				char[] octets = new char[4];
-				octets[0] = (char) (valueStr[i] & 0x07);
+				octets[0] = (char) (tempValue & 0x07);
 				fill_continuing_octets(3, octets /*+ 1*/, lenghtOctets, valueStr, i + 1, lenghtUnichars);
 
 				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) ((octets[0] << 2) & 0xFF | octets[1] >> 4),(char) ((octets[1] << 4) & 0xFF | octets[2] >> 2), (char) ((octets[2] << 6) & 0xFF | octets[3])));
@@ -1776,12 +1777,12 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				i += 4;
 				lenghtUnichars++;
-			} else if (valueStr[i] <= 0xFB) {
+			} else if (tempValue <= 0xFB) {
 				// character encoded on 5 octets: 111110xx 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx (26 useful bits)
 
 				char[] octets = new char[5];
-				octets[0] = (char) (valueStr[i] & 0x03);
+				octets[0] = (char) (tempValue & 0x03);
 				fill_continuing_octets(4, octets /*+ 1*/, lenghtOctets, valueStr, i + 1, lenghtUnichars);
 
 				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) octets[0], (char) ((octets[1] << 2) & 0xFF | octets[2] >> 4),(char) ((octets[2] << 4) & 0xFF | octets[3] >> 2), (char) ((octets[3] << 6) & 0xFF | octets[4])));
@@ -1793,12 +1794,12 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				i += 5;
 				lenghtUnichars++;
-			} else if (valueStr[i] <= 0xFD) {
+			} else if (tempValue <= 0xFD) {
 				// character encoded on 6 octets: 1111110x 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx 10xxxxxx (31 useful bits)
 
 				char[] octets = new char[6];
-				octets[0] = (char) (valueStr[i] & 0x01);
+				octets[0] = (char) (tempValue & 0x01);
 				fill_continuing_octets(5, octets, lenghtOctets, valueStr, i + 1, lenghtUnichars);
 
 				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) ((octets[0] << 6) & 0xFF | octets[1]), (char) ((octets[2] << 2) & 0xFF | octets[3] >> 4),(char) ((octets[3] << 4) & 0xFF | octets[4] >> 2), (char) ((octets[4] << 6) & 0xFF | octets[5])));
@@ -2068,12 +2069,12 @@ public class TitanUniversalCharString extends Base_Type {
 				final char g = temp.getUc_group();
 				final char p = temp.getUc_plane();
 				final char r = temp.getUc_row();
-				final byte c = (byte)temp.getUc_cell();
+				final int c = temp.getUc_cell() & 0xFF;
 				if (g == 0x00 && p <= 0x1F) {
 					if (p == 0x00) {
 						if (r == 0x00 && c <= 0x7F) {
 							// 1 octet
-							buf.put_c(c);
+							buf.put_c((byte)c);
 						} // r
 						// 2 octets
 						else if (r <= 0x07) {
@@ -2349,6 +2350,8 @@ public class TitanUniversalCharString extends Base_Type {
 		} else {
 			myleaf.align = align_length;
 		}
+		myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
+
 		return myleaf.length = bl + align_length;
 	}
 

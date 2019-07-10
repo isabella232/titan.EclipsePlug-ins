@@ -1109,6 +1109,7 @@ public class TitanCharString extends Base_Type {
 			} else {
 				myleaf.align = align_length;
 			}
+			myleaf.coding_par.csn1lh = p_td.raw.csn1lh;
 		} finally {
 			errorContext.leave_context();
 		}
@@ -1157,12 +1158,15 @@ public class TitanCharString extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
+			cp.csn1lh = p_td.raw.csn1lh;
 			if (p_td.raw.fieldlength >= 0) {
 				clean_up();
 				val_ptr = new StringBuilder(decode_length / 8);
 				final byte[] val_tmp = new byte[decode_length / 8];
 				buff.get_b(decode_length, val_tmp, cp, top_bit_ord);
-				val_ptr.append(val_tmp);//FIXME problematic
+				for (int i = 0; i < val_tmp.length; i++) {
+					val_ptr.append((char)(val_tmp[i] & 0xFF));
+				}
 			} else {
 				// NULL terminated
 				final TTCN_Buffer temp_buff = new TTCN_Buffer();
