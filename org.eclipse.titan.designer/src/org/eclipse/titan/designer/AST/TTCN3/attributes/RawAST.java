@@ -113,6 +113,7 @@ public class RawAST {
 	public int length_restriction;
 	public boolean intX; //IntX encoding for integers
 	public CharString_Type.CharCoding stringformat; //String serialization type for universal charstrings
+	public boolean csn1lh; // use CSN.1 L/H values
 
 	// disabled constructor
 	private RawAST() {
@@ -162,6 +163,7 @@ public class RawAST {
 			length_restriction = other.length_restriction;
 			intX = other.intX;
 			stringformat = other.stringformat;
+			csn1lh = other.csn1lh;
 		}
 	}
 
@@ -198,5 +200,6 @@ public class RawAST {
 		length_restriction = -1;
 		intX = false;
 		stringformat = CharCoding.UNKNOWN;
+		csn1lh = false;
 	}
 }

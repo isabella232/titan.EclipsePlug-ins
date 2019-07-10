@@ -146,6 +146,7 @@ pr_XSingleRAWEncodingDef:
 |	pr_BitDef				{raw_f = true;}
 |	pr_XUTFDef				{raw_f = true;}
 |	pr_XIEEE754Def				{raw_f = true;}
+|	pr_XCsn1LHDef				{raw_f = true;}
 );
 
 pr_XSingleTEXTEncodingDef:
@@ -719,6 +720,10 @@ pr_XUTFDef:
 pr_XIEEE754Def:
 (	IEEE754FLOATKeyword	{rawstruct.fieldlength = 32;}
 |	IEEE754DOUBLEKeyword	{rawstruct.fieldlength = 64;}
+);
+
+pr_XCsn1LHDef:
+(	CSN1LHKeyword		{rawstruct.csn1lh = true;}
 );
 
 // TEXT encoding rules

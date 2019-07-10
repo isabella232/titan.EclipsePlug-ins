@@ -116,6 +116,7 @@ UTF8Keyword: 'UTF-8';
 UTF16Keyword: 'UTF-16';
 IEEE754FLOATKeyword: 'IEEE754 float';
 IEEE754DOUBLEKeyword: 'IEEE754 double';
+CSN1LHKeyword: 'CSN.1 L/H';
 
 
 /* TEXT encoder entering keywords */
