@@ -1118,7 +1118,7 @@ pr_JSONAttribute:
 |	pr_JAsMap
 );
 
-pr_JOmitAsNull: OMITKeyword ASKeyword NullKeyword;
+pr_JOmitAsNull: OMIT ASKeyword Null;
 
 pr_JAsValue: ASKeyword VALUEKeyword;
 
