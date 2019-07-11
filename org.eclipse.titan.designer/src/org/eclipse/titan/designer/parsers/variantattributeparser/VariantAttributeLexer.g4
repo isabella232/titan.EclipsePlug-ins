@@ -73,7 +73,7 @@ PASS: 'pass';
 INCONC: 'inconc';
 FAIL: 'fail';
 ERROR: 'error';
-Null: 'Null';
+Null: 'null';
 NULL: 'NULL';
 OMIT: 'omit';
 
@@ -402,7 +402,7 @@ DEFAULTKeyword2: 'default' -> type(DEFAULTKeyword);
 EXTENDKeyword2: 'extend' -> type(EXTENDKeyword);
 METAINFOKeyword2: 'metainfo' -> type(METAINFOKeyword);
 FORKeyword2: 'for' -> type(FORKeyword);
-UNBOUNDKeyword2: 'unbouond' -> type(UNBOUNDKeyword);
+UNBOUNDKeyword2: 'unbound' -> type(UNBOUNDKeyword);
 NUMBERKeyword2: 'number' -> type(NUMBERKeyword);
 JSONValueStart: '(' -> mode(JsonValue_MODE);
 
@@ -416,6 +416,7 @@ JSONValueSegment:
 ( '\\\\)'
 | '\\' .
 | '""'
+| ~["\\)]+
 );
 
 JSONValueEnd: ')' -> mode(JsonCodec_MODE);
