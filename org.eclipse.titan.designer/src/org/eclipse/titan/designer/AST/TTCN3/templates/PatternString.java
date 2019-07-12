@@ -452,6 +452,19 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		}
 	}
 
+	public boolean has_refs() {
+		for (int i = 0; i < elems.size(); i++) {
+			switch (elems.get(i).kind) {
+			case PSE_REF:
+			case PSE_REFDSET:
+				return true;
+			default:
+				break;
+			}
+		}
+		return false;
+	}
+
 	// =================================
 	// ===== PatternString.ps_elem_t
 	// =================================
@@ -624,8 +637,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				case CSTR_PATTERN:
 					if (!with_N) {
 						PatternString ps = ((CharString_Pattern_Template)templ).getPatternstring();
-						//TODO: has_refs()
-						v_last = ps.get_value();
+						if (!ps.has_refs()) {
+							v_last = ps.get_value();
+						}
 						break;
 					}
 				default:
@@ -671,6 +685,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				break;
 			}
 		}
+
 		@Override
 		public String toString() {
 			switch (kind) {
