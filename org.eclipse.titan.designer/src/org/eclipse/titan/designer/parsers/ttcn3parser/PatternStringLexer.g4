@@ -83,37 +83,26 @@ public void setEndToken(final Token p_endToken) {
 /* ***************** definitions ***************** */
 WS
 :
-	[ \t\n\x0B\f\r]+ -> channel(HIDDEN)
+	[ \t\n\x0B\f\r]+ -> channel ( HIDDEN )
 ;
 
 NEWLINE
 :
 	[\r\n]
 ;
-
-IDENTIFIER
-:
-	[A-Za-z] [A-Za-z0-9_]*
-;
-
-UID
-:
-	[uU] [+]? [0-9a-fA-F]+
-;
+fragment
 DIGIT
 :
 	[0-9]
 ;
+
+fragment
 INT
 :
-	[1-9] DIGIT*
-	| '0'
+	[1-9] DIGIT* | '0'
 ;
 
-NUMBER
-:
-	INT
-;
+
 /* ***************** rules ************************* */
 REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? '[' (WS)? ( IDENTIFIER | NUMBER ) (WS)? ']'))* (WS)? '}' {
 	if (in_set) {
@@ -184,7 +173,6 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 	}
 }
 ;
-
 INVALID_REFERENCE_RULE : '{' [ ^} ]* '}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid reference expression: %s", tokenStr));	
@@ -202,7 +190,8 @@ REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
 	String id_str = tokenStr.substring(id_begin, id_end);
 	actualColumn = id_end + 1;
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin + 1, startToken.getStartIndex() + id_end + 1);
-	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
+	TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
+	Reference ref = analyzer.parse(actualFile, id_str, false, location.getLine(), location.getOffset());
 	ps.addRef(ref, true);
 	if (in_set) {
 			location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
@@ -655,26 +644,29 @@ PLUS : '+' {
   ps.addChar('+');
   actualColumn++;
 }; 
-  
-COMPLEMENT_SIGN: '^' {
-	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
-	if(in_set) {
-		ps.addChar('^');
-		actualColumn++;
-	}
+ 
+IDENTIFIER
+:
+	[A-Za-z] [A-Za-z0-9_]*
+{
+	ps.addString(getText());
+	actualColumn+=getText().length();
 };
-ANY_SIGN: '*' {
-	ps.addChar('*');
-	actualColumn++;
+NUMBER
+:
+	INT
+{
+	ps.addString(getText());
+	actualColumn+=getText().length();	
 };
+ 
+UID
+:
+	[uU] [+]? [0-9a-fA-F]+
+;
 
-ANY_OR_NEWLINE : (. | NEWLINE | IDENTIFIER | NUMBER) { 
-//a possible end
-int begin = actualColumn;
-int end = actualColumn;
-while(tokenStr.charAt(end) != '{' && tokenStr.charAt(end) != '\\' && tokenStr.charAt(end) != '\"' && tokenStr.charAt(end) != '[' && tokenStr.charAt(end) != ']' && tokenStr.charAt(end) != '#' && tokenStr.charAt(end) != '+' && tokenStr.charAt(end) != '^' && tokenStr.charAt(end) != '*' && end < tokenStr.length() - 1) {
-	end++;	
-}
-ps.addString(tokenStr.substring(begin,end));
-actualColumn = end;
+ANYCHAR:
+.+? {
+ps.addString(getText());
+actualColumn+=getText().length();
 };
