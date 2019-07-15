@@ -419,7 +419,7 @@ public final class EncodeExpression extends Expression_Value {
 		final Scope scope = templateInstance.getTemplateBody().getMyScope();
 		final IType governor = templateInstance.getTemplateBody().getMyGovernor();
 		if (expression2.preamble.length() > 0) {
-			expression.postamble.append(expression2.preamble);
+			expression.preamble.append(expression2.preamble);
 		}
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
