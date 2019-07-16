@@ -267,10 +267,10 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			}
 
 			switch (pse.kind) {
-			// Known in compile time: string literal, const etc.
+			// Known in compile time: string literal, const etc. , escaping here
 			case PSE_STR:
 				s.append("\"");
-				s.append(pse.str);
+				s.append(Charstring_Value.get_stringRepr(pse.str));
 				s.append("\"");
 				break;
 				// Known in compile time: string type with(out) range or list
