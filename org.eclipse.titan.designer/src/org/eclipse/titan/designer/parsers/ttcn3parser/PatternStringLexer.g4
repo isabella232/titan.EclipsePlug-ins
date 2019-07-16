@@ -81,11 +81,12 @@ public void setEndToken(final Token p_endToken) {
 }
 
 /* ***************** definitions ***************** */
+fragment
 WS
 :
-	[ \t\n\x0B\f\r]+ -> channel ( HIDDEN )
+	[ \t\n\x0B\f\r]+
 ;
-
+fragment
 NEWLINE
 :
 	[\r\n]
@@ -101,7 +102,11 @@ INT
 :
 	[1-9] DIGIT* | '0'
 ;
-
+fragment 
+IDENTIFIER
+:
+	[A-Za-z] [A-Za-z0-9_]*
+;
 
 /* ***************** rules ************************* */
 REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? '[' (WS)? ( IDENTIFIER | NUMBER ) (WS)? ']'))* (WS)? '}' {
@@ -138,7 +143,7 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 			current_begin = end;
 			current_end = current_begin;
 			begin = current_begin;
-			while(Character.isLetterOrDigit(tokenStr.charAt(current_end)) || tokenStr.charAt(current_end) == '_') {
+			while(Character.isLetterOrDigit(tokenStr.charAt(current_end)) || tokenStr.charAt(current_end) == '_' || tokenStr.charAt(current_end) == '.') {
 				current_end++;
 			}
 			String identifier = tokenStr.substring(current_begin, current_end);
@@ -449,7 +454,7 @@ QUOTE_MARKS : '\\\"' |'\"\"' {
 };
 //metachars and escaped metachars  
 METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+-] {
- ps.addString(tokenStr);
+ ps.addString(getText());
  actualColumn += 2;
 };
 UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
@@ -616,8 +621,6 @@ EMPTY_REPETITION : '#' (WS)? '(' (WS)? ',' (WS)? ')' {
   }
 }; 
 
- 
- 
 INVALID_NUMBER_REPETITION : '#' (WS)? '(' [^)]* ')' {
  Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
  location.reportSyntacticError(String.format("Invalid notation for the number of repetitions: %s", tokenStr));
@@ -643,15 +646,8 @@ PLUS : '+' {
   }
   ps.addChar('+');
   actualColumn++;
-}; 
- 
-IDENTIFIER
-:
-	[A-Za-z] [A-Za-z0-9_]*
-{
-	ps.addString(getText());
-	actualColumn+=getText().length();
-};
+};  
+
 NUMBER
 :
 	INT
