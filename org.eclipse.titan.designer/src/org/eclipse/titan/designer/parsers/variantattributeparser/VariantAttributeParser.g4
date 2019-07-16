@@ -299,8 +299,7 @@ pr_XLengthToDef:
 	LPAREN
 	pr_XRecordFieldRefList
 	RPAREN
-	(
-	|	PLUS n1 = NUMBER	{rawstruct.lengthto_offset = Integer.valueOf($n1.getText()).intValue();}
+	(	PLUS n1 = NUMBER	{rawstruct.lengthto_offset = Integer.valueOf($n1.getText()).intValue();}
 	|	MINUS n2 = NUMBER	{rawstruct.lengthto_offset = (-1) * Integer.valueOf($n2.getText()).intValue();}
 	)?
 );
