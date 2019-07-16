@@ -1100,6 +1100,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final TTCN3_Sequence_Type refdFromType = (TTCN3_Sequence_Type)refdType;
 			return generateConversionSeqToSeqOf(aData, refdFromType, fromName, ofType, expression);
 		}
+		case TYPE_ARRAY: {
+			final IType fromOfType = ((Array_Type)refdType).getElementType();
+			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
+		}
 		default:
 			return "FATAL ERROR during converting to type " + getTypename();
 		}

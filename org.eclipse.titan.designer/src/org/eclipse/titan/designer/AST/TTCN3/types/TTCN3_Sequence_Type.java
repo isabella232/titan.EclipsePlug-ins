@@ -1100,6 +1100,10 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
 			return generateConversionSeqOfToSeq(aData, fromType, fromName, fromOfType, expression);
 		}
+		case TYPE_ARRAY: {
+			final IType fromOfType = ((Array_Type)refdType).getElementType();
+			return generateConversionSeqOfToSeq(aData, fromType, fromName, fromOfType, expression);
+		}
 		default:
 			expression.expression.append(MessageFormat.format("//FIXME conversion from {0} to {1} is not needed or nor supported yet\n", fromType.getTypename(), getTypename()));
 			break;
