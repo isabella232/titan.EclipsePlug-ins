@@ -453,7 +453,8 @@ QUOTE_MARKS : '\\\"' |'\"\"' {
   actualColumn += 2;
 };
 //metachars and escaped metachars  
-METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+-] {
+METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+-] { 
+ ps.addChar('\\');
  ps.addString(getText());
  actualColumn += 2;
 };
