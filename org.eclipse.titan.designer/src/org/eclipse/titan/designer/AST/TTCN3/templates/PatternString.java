@@ -254,7 +254,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		}
 		for (int i = 0; i < elems.size(); i++) {
 			if(i > 0) {
-				s.append(" + ");
+				s.append(".operator_concatenate(");
 			}
 			ps_elem_t pse = elems.get(i);
 
@@ -269,9 +269,11 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			switch (pse.kind) {
 			// Known in compile time: string literal, const etc. , escaping here
 			case PSE_STR:
+				s.append("new TitanCharString(");
 				s.append("\"");
 				s.append(Charstring_Value.get_stringRepr(pse.str));
 				s.append("\"");
+				s.append(')');
 				break;
 				// Known in compile time: string type with(out) range or list
 			case PSE_REFDSET:
@@ -412,6 +414,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				expr = null;
 				break;
 			} //for
+			if(i > 0) {
+				s.append(")");
+			}
 		}
 		s.append(") ,");
 		s.append(nocase ? "true" : "false");
