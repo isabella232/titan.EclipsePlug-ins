@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -1469,6 +1470,17 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		switch(refdType.getTypetype()) {
+		//TODO TTCN and ASN sequence branches can be unified if getNofComponents can be the same in both.
+		case TYPE_TTCN3_SEQUENCE: {
+			//heavy conversion is needed
+			final TTCN3_Sequence_Type realFromType = (TTCN3_Sequence_Type) refdType;
+			return generateConversionTTCNSeqToArray(aData, realFromType, fromName, expression);
+		}
+		case TYPE_ASN1_SEQUENCE: {
+			//heavy conversion is needed
+			final ASN1_Sequence_Type realFromType = (ASN1_Sequence_Type) refdType;
+			return generateConversionASNSeqToArray(aData, realFromType, fromName, expression);
+		}
 		case TYPE_SEQUENCE_OF: {
 			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
 			return generateConversionSeqOfToArray(aData, (SequenceOf_Type)refdType, fromName, fromOfType, expression);
@@ -1550,6 +1562,94 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_at({0}).operator_assign({1});\n", to_offset + i, tempId3));
 				conversionFunctionBody.append("\t\t}\n");
+			}
+
+			conversionFunctionBody.append("\t\treturn true;\n");
+			conversionFunctionBody.append("\t}\n\n");
+			aData.addTypeConversion(ConversionFunctionName, conversionFunctionBody.toString());
+		}
+
+		return tempId;
+	}
+
+	private String generateConversionTTCNSeqToArray(final JavaGenData aData, final TTCN3_Sequence_Type fromType, final String fromName, final ExpressionStruct expression) {
+		//heavy conversion is needed
+		final String tempId = aData.getTemporaryVariableName();
+
+		final String name = getGenNameValue(aData, expression.preamble);
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
+		expression.preamble.append("}\n");
+
+		if (!aData.hasTypeConversion(ConversionFunctionName)) {
+			final int fromComponentCount = fromType.getNofComponents();
+			long to_offset = getDimension().getOffset();
+			final StringBuilder conversionFunctionBody = new StringBuilder();
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			conversionFunctionBody.append(MessageFormat.format("\t\tint index = {0};\n", to_offset));
+
+			for (int i = 0; i < fromComponentCount; i++) {
+				final CompField fromComp = fromType.getComponentByIndex(i);
+				final Identifier fromFieldName = fromComp.getIdentifier();
+				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final String tempId2 = aData.getTemporaryVariableName();
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() )));
+				conversionFunctionBody.append(MessageFormat.format("\t\t\tif({0}.is_bound()) '{'\n", tempId2));
+
+				final ExpressionStruct tempExpression = new ExpressionStruct();
+				final String tempId3 = elementType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				tempExpression.openMergeExpression(conversionFunctionBody);
+
+				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_at(index).operator_assign({0});\n", tempId3));
+				conversionFunctionBody.append("\t\t}\n");
+				conversionFunctionBody.append("\t\tindex++;\n");
+			}
+
+			conversionFunctionBody.append("\t\treturn true;\n");
+			conversionFunctionBody.append("\t}\n\n");
+			aData.addTypeConversion(ConversionFunctionName, conversionFunctionBody.toString());
+		}
+
+		return tempId;
+	}
+
+	private String generateConversionASNSeqToArray(final JavaGenData aData, final ASN1_Sequence_Type fromType, final String fromName, final ExpressionStruct expression) {
+		//heavy conversion is needed
+		final String tempId = aData.getTemporaryVariableName();
+
+		final String name = getGenNameValue(aData, expression.preamble);
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
+		expression.preamble.append("}\n");
+
+		if (!aData.hasTypeConversion(ConversionFunctionName)) {
+			final int fromComponentCount = fromType.getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			long to_offset = getDimension().getOffset();
+			final StringBuilder conversionFunctionBody = new StringBuilder();
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			conversionFunctionBody.append(MessageFormat.format("\t\tint index = {0};\n", to_offset));
+
+			for (int i = 0; i < fromComponentCount; i++) {
+				final CompField fromComp = fromType.getComponentByIndex(i);
+				final Identifier fromFieldName = fromComp.getIdentifier();
+				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final String tempId2 = aData.getTemporaryVariableName();
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() )));
+				conversionFunctionBody.append(MessageFormat.format("\t\t\tif({0}.is_bound()) '{'\n", tempId2));
+
+				final ExpressionStruct tempExpression = new ExpressionStruct();
+				final String tempId3 = elementType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				tempExpression.openMergeExpression(conversionFunctionBody);
+
+				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_at(index).operator_assign({0});\n", tempId3));
+				conversionFunctionBody.append("\t\t}\n");
+				conversionFunctionBody.append("\t\tindex++;\n");
 			}
 
 			conversionFunctionBody.append("\t\treturn true;\n");
