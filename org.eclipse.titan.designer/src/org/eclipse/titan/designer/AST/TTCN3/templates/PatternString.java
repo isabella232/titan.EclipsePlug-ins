@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.ps_elem_t.kind_t;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.UniversalCharstring_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.Range_ParsedSubType;
@@ -271,7 +272,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			case PSE_STR:
 				s.append("new TitanCharString(");
 				s.append("\"");
-				s.append(Charstring_Value.get_stringRepr(pse.str));
+				s.append(pse.str);
 				s.append("\"");
 				s.append(')');
 				break;
@@ -283,10 +284,27 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				}
 				if (pse.t.getSubtype()== null) {
 					// just a string type without any restrictions (or alias)
-					s.append("\"?\"");
+					s.append("new TitanCharString(\"?\")");
 					continue;
 				}
 				List<ParsedSubType> vec = pse.t.getSubtype().getSubtypeParsed();
+				// go through aliases to find where the restrictions are
+				while (vec == null) {
+					Reference tmp_ref = null;
+					if (pse.t instanceof Referenced_Type) {
+						tmp_ref = ((Referenced_Type)pse.t).getReference();
+					}
+					if (tmp_ref != null) {
+						pse.t = (Type)(tmp_ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp())); 
+					} else {
+						break;
+					}
+					if (pse.t.getSubtype() != null) {
+						vec = pse.t.getSubtype().getSubtypeParsed();
+					} else {
+						break;
+					}
+				}
 				s.append("\"");
 				for (int j = 0; j < vec.size(); j++) {
 					ParsedSubType pst = vec.get(j);
