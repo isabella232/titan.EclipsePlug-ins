@@ -21,25 +21,11 @@ public class AST_syntax_warning_tests {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(A_asn_initializer(), "cfgFile/module_parameters/references/A.asn");
 	}
 
-	@org.junit.Test
-	public void references_ttcn() throws Exception {
-		Designer_plugin_tests.checkSyntaxMarkersOnFile(references_ttcn_initializer(), "cfgFile/module_parameters/references/references.ttcn");
-	}
-
 	private ArrayList<MarkerToCheck> A_asn_initializer() {
 		//A.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
 		int lineNum = 5;
 		markersToCheck.add(new MarkerToCheck("EXTENSIBILITY IMPLIED is not supported.",  lineNum, IMarker.SEVERITY_WARNING));
-
-		return markersToCheck;
-	}
-
-	private ArrayList<MarkerToCheck> references_ttcn_initializer() {
-		//references.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
-		int lineNum = 1;
-		markersToCheck.add(new MarkerToCheck("Unmatched `a' was treated literally",  lineNum, IMarker.SEVERITY_WARNING));
 
 		return markersToCheck;
 	}
