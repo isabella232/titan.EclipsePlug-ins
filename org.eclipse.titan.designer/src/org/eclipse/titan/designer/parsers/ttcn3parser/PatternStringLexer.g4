@@ -182,32 +182,12 @@ INVALID_REFERENCE_RULE : '{' [ ^} ]* '}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid reference expression: %s", tokenStr));	
 };
-
-REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
-	int id_begin = 3 + actualColumn;
-	while(!Character.isAlphabetic(tokenStr.charAt(id_begin))) {
-		id_begin++;
-		}
-	int id_end = id_begin;
-	while(Character.isLetterOrDigit(tokenStr.charAt(id_end)) || tokenStr.charAt(id_end) == '_') {
-		id_end++;
-		}
-	String id_str = tokenStr.substring(id_begin, id_end);
-	actualColumn = id_end + 1;
-	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin + 1, startToken.getStartIndex() + id_end + 1);
-	TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
-	Reference ref = analyzer.parse(actualFile, id_str, false, location.getLine(), location.getOffset());
-	ps.addRef(ref, true);
-	if (in_set) {
-			location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
-		}
-};
-
 UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charstring' (WS)? '}' (WS)? {
 	/* The third {(WS)?} is optional but if it's empty then the previous rule catches it*/
 	final String id_str = "universal charstring";
  
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
+	TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
 	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
 
 	ps.addRef(ref, true); 
@@ -238,7 +218,26 @@ CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'charstring' (WS)? '}' (WS)? {
 		end++;
 	}
 	actualColumn = end + 1;
-}; 
+};
+REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
+	int id_begin = 3 + actualColumn;
+	while(!Character.isAlphabetic(tokenStr.charAt(id_begin))) {
+		id_begin++;
+		}
+	int id_end = id_begin;
+	while(Character.isLetterOrDigit(tokenStr.charAt(id_end)) || tokenStr.charAt(id_end) == '_') {
+		id_end++;
+		}
+	String id_str = tokenStr.substring(id_begin, id_end);
+	actualColumn = id_end + 1;
+	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin + 1, startToken.getStartIndex() + id_end + 1);
+	TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
+	Reference ref = analyzer.parse(actualFile, id_str, false, location.getLine(), location.getOffset());
+	ps.addRef(ref, true);
+	if (in_set) {
+			location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
+		}
+};
 INVALID_SET_REFERENCE_RULE : '\\N' (WS)? '{' [^}]* '}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid character set reference: %s", tokenStr));
@@ -456,7 +455,7 @@ QUOTE_MARKS : '\\\"' |'\"\"' {
 METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+-] { 
  ps.addChar('\\');
  ps.addString(getText());
- actualColumn += 2;
+ actualColumn += 2; 
 };
 UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStartIndex() + 1);
@@ -465,7 +464,8 @@ UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
  } else {
  	location.reportSyntacticWarning("Use of unrecognized escape sequence is deprecated");
  }
- ps.addString(tokenStr.substring(actualColumn , actualColumn + 1));
+ ps.addChar('\\');
+ ps.addString(getText());
  actualColumn += 2;
 };
 REPETITION : '#' (WS)? [0-9] {
