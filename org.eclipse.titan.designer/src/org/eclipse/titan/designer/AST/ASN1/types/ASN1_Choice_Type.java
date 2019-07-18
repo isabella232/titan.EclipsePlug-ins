@@ -93,6 +93,16 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getNofComponents(final CompilationTimeStamp timestamp) {
+		if (null == components) {
+			parseBlockChoice();
+		}
+
+		return components.getNofComps();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);

@@ -323,7 +323,7 @@ public final class TTCN_Buffer {
 		if (length > 0) {
 			increase_size(length);
 			for (int i = 0; i < length; i++) {
-				data_ptr[i] =  (byte)cstr[i + buf_len];
+				data_ptr[i + buf_len] =  (byte)cstr[i];
 			}
 			buf_len += length;
 		}

@@ -73,13 +73,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	/** @return the number of components */
-	public int getNofComponents(final CompilationTimeStamp timestamp) {
-		if (null == components || lastTimeChecked == null) {
-			check(timestamp);
-		}
-
-		return components.getNofComps();
-	}
+	public abstract int getNofComponents(final CompilationTimeStamp timestamp);
 
 	/**
 	 * Returns whether an element is stored with the specified name.

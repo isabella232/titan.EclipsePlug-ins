@@ -138,6 +138,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 			// the reference shall be qualified with the namespace of my module
 			returnValue.append(myModule.getName()).append('.');
 
+			//TODO review usage locations of this function.
 			if (myModule.getProject() != generatedModule.getProject()) {
 				aData.addInterModuleImport(myModule.getName());
 			}
