@@ -151,6 +151,7 @@ public final class Referenced_Value extends Value {
 			return true;
 		}
 
+		//TODO check list of assignment (how could a modulepar be foldable ?)
 		switch (ass.getAssignmentType()) {
 		case A_OBJECT:
 		case A_OS:
