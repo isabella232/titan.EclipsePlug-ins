@@ -76,7 +76,7 @@ public class StringToTTCNAnalyzer {
 
 		parser.setBuildParseTree(true);
 		try {
-			parsed_module_param = parser.pr_String2TtcnStatement().parsed_module_param;
+			parsed_module_param = parser.pr_ParameterValue().moduleparameter;
 		} catch (Exception e) {
 			throw new TtcnError(e.getMessage());
 		}

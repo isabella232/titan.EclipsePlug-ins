@@ -385,12 +385,6 @@ pr_ConfigFile:
 	EOF
 ;
 
-pr_String2TtcnStatement returns[Module_Parameter parsed_module_param]:
-	v = pr_ParameterValue {
-		$parsed_module_param = $v.moduleparameter; 
-	}	
-;
-
 pr_Section:
 (	pr_MainControllerSection
 |	pr_IncludeSection
