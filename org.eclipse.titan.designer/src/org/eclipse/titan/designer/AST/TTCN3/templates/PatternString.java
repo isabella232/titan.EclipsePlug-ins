@@ -260,10 +260,22 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			ps_elem_t pse = elems.get(i);
 
 			if (pse.is_charstring) {
-				s.append("\"?\"");
+				if (i == 0) {
+					s.append("new TitanCharString(\"?\")");
+				} else if (i + 1 > elems.size()) {
+					s.append("\"?\"");
+				} else if (i + 1 < elems.size()) {
+					s.append("\"?\")");
+				}
 				continue;
 			} else if (pse.is_universal_charstring) {
-				s.append("\"?\"");
+				if (i == 0) {
+					s.append("new TitanCharString(\"?\")");
+				} else if (i + 1 > elems.size()) {
+					s.append("\"?\"");
+				} else if (i + 1 < elems.size()) {
+					s.append("\"?\")");
+				}
 				continue;
 			}
 
@@ -409,11 +421,10 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					}
 					preamble.append(str);
 
-					//FIXME: initial implementation
 					preamble.append((String.format("if (%s.lengthof().operator_not_equals(1))\n"
 							+ "{\n"
 							+ "throw new TtcnError(\"The length of the %scharstring must be of length one, when it is being referenced in a pattern with \\\\N{ref}\");\n"
-							+ "}\n", expr.expression.toString(), assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING ? "universal" : "")));
+							+ "}\n", expr.expression.toString(), assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING ? "universal " : "")));
 				}
 				if (assign != null && (assign.getAssignmentType() == Assignment_type.A_TEMPLATE
 						|| assign.getAssignmentType() == Assignment_type.A_MODULEPAR_TEMPLATE
@@ -705,7 +716,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					if (with_N && ((UniversalCharstring_Value)v_last).getValue().length() != 1) {
 						ref.getLocation().reportSemanticError("The length of the universal charstring must be of length one, when it is being referenced in a pattern with \\N{ref}");
 					}
-					str = ((UniversalCharstring_Value)v_last).getValue().getStringRepresentation();
+					str = ((UniversalCharstring_Value)v_last).getValue().getStringRepresentationForPattern();
 				}
 				kind = kind_t.PSE_STR;
 			}
