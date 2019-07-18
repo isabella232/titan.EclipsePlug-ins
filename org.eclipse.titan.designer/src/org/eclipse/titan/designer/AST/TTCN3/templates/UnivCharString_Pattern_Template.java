@@ -174,8 +174,9 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
+		String patternStr = patternstring.create_charstring_literals(aData, myScope.getModuleScopeGen(), preamble);
 		source.append(preamble);
-		source.append(MessageFormat.format("{0}.operator_assign(new {1});\n", name, patternstring.create_charstring_literals(aData, myScope.getModuleScopeGen(), preamble)));
+		source.append(MessageFormat.format("{0}.operator_assign(new {1});\n", name, patternStr));
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
@@ -207,7 +208,11 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		result.append( MessageFormat.format( "new {0}", patternstring.create_charstring_literals(aData, myScope.getModuleScopeGen(), null)));
+		
+		StringBuilder preamble = new StringBuilder();
+		String patternStr = patternstring.create_charstring_literals(aData, myScope.getModuleScopeGen(), preamble);
+		result.append(preamble);
+		result.append( MessageFormat.format( "new {0}", patternStr));
 
 		//TODO handle cast needed
 
