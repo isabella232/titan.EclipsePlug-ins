@@ -30,7 +30,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
  * This refactoring operation ungroup all grouped modulepar in the given
  *   files/folders/projects, which are contained in a {@link IStructuredSelection} object.
  *
- * @author Nagy Mátyás
+ * @author Nagy Matyas
  */
 public class UngroupModuleparRefactoring extends Refactoring {
 

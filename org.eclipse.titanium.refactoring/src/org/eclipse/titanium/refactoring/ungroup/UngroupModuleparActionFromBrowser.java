@@ -31,7 +31,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * <p>
  * {@link #execute(ExecutionEvent)} is called by the UI (see plugin.xml).
  *
- * @author Nagy Mátyás
+ * @author Nagy Matyas
  */
 public class UngroupModuleparActionFromBrowser extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;

@@ -27,7 +27,7 @@ import org.eclipse.titanium.refactoring.Utils;
  * <p>
  * {@link #execute(ExecutionEvent)} is called by the UI (see plugin.xml).
  *
- * @author Nagy Mátyás
+ * @author Nagy Matyas
  */
 public class UngroupModuleparActionFromEditor extends AbstractHandler {
 

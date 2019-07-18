@@ -51,7 +51,7 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
  *  creates a {@link Change} object, which can be returned by the standard
  *  {@link Refactoring#createChange(IProgressMonitor)} method in the refactoring class.
  *
- * @author Nagy Mátyás
+ * @author Nagy Matyas
  */
 public class ChangeCreator {
 

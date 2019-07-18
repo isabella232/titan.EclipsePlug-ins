@@ -73,7 +73,7 @@ public class LazyficationRefactoring extends Refactoring {
 
 	@Override
 	public String getName() {
-		return "Lazy–fication of formal parameters";
+		return "Lazyfication of formal parameters";
 	}
 
 	@Override

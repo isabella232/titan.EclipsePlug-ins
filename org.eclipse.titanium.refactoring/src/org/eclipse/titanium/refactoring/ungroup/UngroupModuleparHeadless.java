@@ -14,7 +14,7 @@ import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.titan.common.logging.ErrorReporter;
 
 /**
- * @author Nagy Mátyás
+ * @author Nagy Matyas
  * */
 public class UngroupModuleparHeadless {
 

@@ -16,7 +16,7 @@ import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 /**
  * Wizard for the 'Ungroup module parameters' refactoring operation.
  *
- * @author Nagy Mátyás
+ * @author Nagy Matyas
  */
 public class UngroupModuleparWizard extends RefactoringWizard implements IExecutableExtension  {
 
