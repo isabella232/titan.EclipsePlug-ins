@@ -1860,7 +1860,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		final Text_Buf incoming_buffer = connection.stream_incoming_buf;
-		
 		if (incoming_ByteBuffer == null) {
 			incoming_ByteBuffer = ByteBuffer.allocateDirect(1024);
 		}
