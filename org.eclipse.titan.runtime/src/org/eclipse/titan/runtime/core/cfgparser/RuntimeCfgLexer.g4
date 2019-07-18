@@ -6,92 +6,6 @@ lexer grammar RuntimeCfgLexer;
 @members{
 }
 
-tokens {
-	AND,
-	ANYVALUE,
-	ASSIGNMENTCHAR,
-	BEGINCHAR,
-	BEGINCONTROLPART,
-	BEGINTESTCASE,
-	BITSTRING,
-	BITSTRINGMATCH,
-	CHARKEYWORD,
-	COLON,
-	COMMA,
-	COMPLEMENTKEYWORD,
-	CONCATCHAR,
-	DNSNAME,
-	DOT,
-	DOTDOT,
-	ENDCHAR,
-	ENDCONTROLPART,
-	ENDTESTCASE,
-	ERROR_VERDICT,
-	EXCLUSIVE,
-	FAIL_VERDICT,
-	FALSE,
-	FLOAT,
-	HEXFILTER,
-	HEXSTRING,
-	HEXSTRINGMATCH,
-	IFPRESENTKEYWORD,
-	INCONC_VERDICT,
-	INFINITYKEYWORD,
-	IPV6,
-	KILLTIMER,
-	LENGTHKEYWORD,
-	LOCALADDRESS,
-	LOGICALOR,
-	LOGICALOR,
-	LPAREN,
-	MACRO,
-	MACRORVALUE,
-	MACRO_BINARY,
-	MACRO_BOOL,
-	MACRO_BSTR,
-	MACRO_EXP_CSTR,
-	MACRO_FLOAT,
-	MACRO_HOSTNAME,
-	MACRO_HSTR,
-	MACRO_ID,
-	MACRO_INT,
-	MACRO_OSTR,
-	MINUS,
-	MTCKEYWORD,
-	NANKEYWORD,
-	NATURAL_NUMBER,
-	NO,
-	NOCASEKEYWORD,
-	NONE_VERDICT,
-	NULLKEYWORD,
-	NUMHCS,
-	OBJIDKEYWORD,
-	OCTETSTRING,
-	OCTETSTRINGMATCH,
-	OMITKEYWORD,
-	PASS_VERDICT,
-	PATTERNKEYWORD,
-	PERMUTATIONKEYWORD,
-	PLUS,
-	RPAREN,
-	SEMICOLON,
-	SLASH,
-	SQUARECLOSE,
-	SQUAREOPEN,
-	STAR,
-	STRING,
-	STRINGOP,
-	SUBSETKEYWORD,
-	SUPERSETKEYWORD,
-	SYSTEMKEYWORD,
-	TCPPORT,
-	TRUE,
-	TTCN3IDENTIFIER,
-	UID,
-	UNIXSOCKETS,
-	YES
-}
-
 // Common fragments
 
 fragment FR_WS:		[ \t\r\n\f]+;
@@ -221,39 +135,37 @@ PROFILER_SECTION1:				'[PROFILER]'
 WS1:	FR_WS -> type(WS), channel(HIDDEN);
 LINE_COMMENT1:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT1:	FR_BLOCK_COMMENT -> type(BLOCK_COMMENT), channel(HIDDEN);
-SEMICOLON1:		';' -> type(SEMICOLON);
-PLUS1:			'+' -> type(PLUS);
-MINUS1:			'-' -> type(MINUS);
-STAR1:			'*' -> type(STAR);
-SLASH1:			'/' -> type(SLASH);
-LPAREN1:		'('
- -> type(LPAREN);
-RPAREN1:		')'
- -> type(RPAREN);
+SEMICOLON:		';';
+PLUS:			'+';
+MINUS:			'-';
+STAR:			'*';
+SLASH:			'/';
+LPAREN:			'(';
+RPAREN:			')';
 
-KILLTIMER1: ( 'killtimer' | 'Killtimer' | 'killTimer' | 'KillTimer' ) -> type(KILLTIMER);
-LOCALADDRESS1: ( 'localaddress' | 'Localaddress' | 'localAddress' | 'LocalAddress') -> type(LOCALADDRESS);
-NUMHCS1: ( 'numhcs' | 'Numhcs' | 'numHCs' | 'NumHCs' ) -> type(NUMHCS);
-TCPPORT1: ( 'tcpport' | 'TCPport' | 'tcpPort' | 'TCPPort' ) -> type(TCPPORT);
-UNIXSOCKETS1: ( 'UnixSocketsEnabled' | 'UnixSocketsenabled' | 'UnixsocketsEnabled' | 'Unixsocketsenabled' | 'unixSocketsEnabled' | 'unixSocketsenabled' | 'unixsocketsEnabled' | 'unixsocketsenabled' ) -> type(UNIXSOCKETS);
-ASSIGNMENTCHAR1:	':'? '=' -> type(ASSIGNMENTCHAR);
-YES1: 				( 'yes' | 'Yes' | 'YES' ) -> type(YES);
-NO1: 				( 'no' | 'No' | 'NO' ) -> type(NO);
-NATURAL_NUMBER1:	FR_INT -> type(NATURAL_NUMBER);
-STRINGOP1:			'&'	'='? -> type(STRINGOP);
-FLOAT1:				FR_FLOAT -> type(FLOAT);
+KILLTIMER:			( 'killtimer' | 'Killtimer' | 'killTimer' | 'KillTimer' );
+LOCALADDRESS:		( 'localaddress' | 'Localaddress' | 'localAddress' | 'LocalAddress');
+NUMHCS:				( 'numhcs' | 'Numhcs' | 'numHCs' | 'NumHCs' );
+TCPPORT:			( 'tcpport' | 'TCPport' | 'tcpPort' | 'TCPPort' );
+UNIXSOCKETS:		( 'UnixSocketsEnabled' | 'UnixSocketsenabled' | 'UnixsocketsEnabled' | 'Unixsocketsenabled' | 'unixSocketsEnabled' | 'unixSocketsenabled' | 'unixsocketsEnabled' | 'unixsocketsenabled' );
+ASSIGNMENTCHAR:		':'? '=';
+YES: 				( 'yes' | 'Yes' | 'YES' );
+NO: 				( 'no' | 'No' | 'NO' );
+NATURAL_NUMBER:		FR_INT;
+STRINGOP:			'&'	'='?;
+FLOAT:				FR_FLOAT;
 
-DNSNAME1:
+DNSNAME:
 (	FR_HOSTNAME
 	('/' FR_DIGIT+)?
-) -> type(DNSNAME);
-TTCN3IDENTIFIER1:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
-STRING1:			FR_STRING -> type(STRING);
-MACRO1:				FR_MACRO -> type(MACRO);
-MACRO_HOSTNAME1: 	FR_MACRO_HOSTNAME -> type(MACRO_HOSTNAME);
-MACRO_INT1:			FR_MACRO_INT -> type(MACRO_INT);
-MACRO_EXP_CSTR1:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
-MACRO_FLOAT1:		FR_MACRO_FLOAT -> type(MACRO_FLOAT);
+);
+TTCN3IDENTIFIER:	FR_TTCN3IDENTIFIER;
+STRING:				FR_STRING;
+MACRO:				FR_MACRO;
+MACRO_HOSTNAME: 	FR_MACRO_HOSTNAME;
+MACRO_INT:			FR_MACRO_INT;
+MACRO_EXP_CSTR:		FR_MACRO_EXP_CSTR;
+MACRO_FLOAT:		FR_MACRO_FLOAT;
 
 //include section
 mode INCLUDE_SECTION_MODE;
@@ -320,7 +232,7 @@ WS3:	FR_WS -> type(WS), channel(HIDDEN);
 LINE_COMMENT3:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT3:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON3:			';' -> type(SEMICOLON);
-DOT3:				'.' -> type(DOT);
+DOT:				'.';
 STAR3:				'*' -> type(STAR);
 TTCN3IDENTIFIER3:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 
@@ -388,35 +300,33 @@ PROFILER_SECTION5:				'[PROFILER]'
 WS5:	FR_WS -> type(WS), channel(HIDDEN);
 LINE_COMMENT5:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT5:	FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
-IPV6_5:				FR_IPV6 -> type(IPV6);
+IPV6:				FR_IPV6;
 TTCN3IDENTIFIER5:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
-BEGINCHAR5:			'{'
- -> type(BEGINCHAR);
-ENDCHAR5:			'}'
- -> type(ENDCHAR);
-MACRORVALUE5:		[0-9|A-Z|a-z|.|_|-]+ -> type(MACRORVALUE);
+BEGINCHAR:			'{';
+ENDCHAR:			'}';
+MACRORVALUE:		[0-9|A-Z|a-z|.|_|-]+;
 ASSIGNMENTCHAR5:	':'? '=' -> type(ASSIGNMENTCHAR);
-COLON5:				':' -> type(COLON);
+COLON:				':';
 STRING5:			FR_STRING -> type(STRING);
 
-MACRO_ID5:			FR_MACRO_ID -> type(MACRO_ID);
+MACRO_ID:			FR_MACRO_ID;
 MACRO_INT5:			FR_MACRO_INT -> type(MACRO_INT);
-MACRO_BOOL5:		FR_MACRO_BOOL -> type(MACRO_BOOL);
+MACRO_BOOL:			FR_MACRO_BOOL;
 MACRO_FLOAT5:		FR_MACRO_FLOAT -> type(MACRO_FLOAT);
 MACRO_EXP_CSTR5:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
-MACRO_BSTR5:		FR_MACRO_BSTR -> type(MACRO_BSTR);
-MACRO_HSTR5:		FR_MACRO_HSTR -> type(MACRO_HSTR);
-MACRO_OSTR5:		FR_MACRO_OSTR -> type(MACRO_OSTR);
-MACRO_BINARY5:		FR_MACRO_BINARY -> type(MACRO_BINARY);
+MACRO_BSTR:			FR_MACRO_BSTR;
+MACRO_HSTR:			FR_MACRO_HSTR;
+MACRO_OSTR:			FR_MACRO_OSTR;
+MACRO_BINARY:		FR_MACRO_BINARY;
 MACRO_HOSTNAME5: 	FR_MACRO_HOSTNAME -> type(MACRO_HOSTNAME);
 MACRO5:				FR_MACRO -> type(MACRO);
-BITSTRING5:			'\'' FR_BINDIGIT* '\'' 'B' -> type(BITSTRING);
-HEXSTRING5:			'\'' FR_HEXDIGIT* '\'' 'H' -> type(HEXSTRING);
-OCTETSTRING5:		'\'' FR_OCTDIGIT* '\'' 'O' -> type(OCTETSTRING);
-BITSTRINGMATCH5:	'\'' FR_BINDIGITMATCH* '\'' 'B' -> type(BITSTRINGMATCH);
-HEXSTRINGMATCH5:	'\'' FR_HEXDIGITMATCH* '\'' 'H' -> type(HEXSTRINGMATCH);
-OCTETSTRINGMATCH5:	'\'' FR_OCTDIGITMATCH* '\'' 'O' -> type(OCTETSTRINGMATCH);
-COMMA5:				',' -> type(COMMA);
+BITSTRING:			'\'' FR_BINDIGIT* '\'' 'B';
+HEXSTRING:			'\'' FR_HEXDIGIT* '\'' 'H';
+OCTETSTRING:		'\'' FR_OCTDIGIT* '\'' 'O';
+BITSTRINGMATCH:		'\'' FR_BINDIGITMATCH* '\'' 'B';
+HEXSTRINGMATCH:		'\'' FR_HEXDIGITMATCH* '\'' 'H';
+OCTETSTRINGMATCH:	'\'' FR_OCTDIGITMATCH* '\'' 'O';
+COMMA:				',';
 FSTRING:
 (	'\\"' // \" is handled separately in the structured definitions
 |	'\\' .   // Handle escaped characters
@@ -459,14 +369,14 @@ SEMICOLON6: 		';' -> type(SEMICOLON);
 ASSIGNMENTCHAR6:	':'? '=' -> type(ASSIGNMENTCHAR);
 STRING6:			FR_STRING -> type(STRING);
 STRINGOP6:			'&' -> type(STRINGOP);
-BEGINCONTROLPART6:	( 'begincontrolpart' | 'Begincontrolpart' | 'beginControlpart' | 'BeginControlpart'
-| 'begincontrolPart' | 'BeginControlPart' | 'beginControlPart' | 'BegincontrolPart' ) -> type(BEGINCONTROLPART);
-ENDCONTROLPART6:	( 'endcontrolpart' | 'Endcontrolpart' | 'endControlpart' | 'EndControlpart'
-| 'endcontrolPart' | 'EndControlPart' | 'endControlPart' | 'EndcontrolPart' ) -> type(ENDCONTROLPART);
-BEGINTESTCASE6:		( 'begintestcase' | 'Begintestcase' | 'beginTestcase' | 'BeginTestcase' | 'begintestCase'
-| 'BeginTestCase' | 'beginTestCase' | 'BegintestCase' ) -> type(BEGINTESTCASE);
-ENDTESTCASE6:		( 'endtestcase' | 'Endtestcase' | 'endTestcase' | 'EndTestcase' | 'endtestCase'
-| 'EndTestCase' | 'endTestCase' | 'EndtestCase' ) -> type(ENDTESTCASE);
+BEGINCONTROLPART:	( 'begincontrolpart' | 'Begincontrolpart' | 'beginControlpart' | 'BeginControlpart'
+| 'begincontrolPart' | 'BeginControlPart' | 'beginControlPart' | 'BegincontrolPart' );
+ENDCONTROLPART:	( 'endcontrolpart' | 'Endcontrolpart' | 'endControlpart' | 'EndControlpart'
+| 'endcontrolPart' | 'EndControlPart' | 'endControlPart' | 'EndcontrolPart' );
+BEGINTESTCASE:		( 'begintestcase' | 'Begintestcase' | 'beginTestcase' | 'BeginTestcase' | 'begintestCase'
+| 'BeginTestCase' | 'beginTestCase' | 'BegintestCase' );
+ENDTESTCASE:		( 'endtestcase' | 'Endtestcase' | 'endTestcase' | 'EndTestcase' | 'endtestCase'
+| 'EndTestCase' | 'endTestCase' | 'EndtestCase' );
 
 MACRO_EXP_CSTR6:	FR_MACRO_EXP_CSTR -> type(MACRO_EXP_CSTR);
 MACRO6:				FR_MACRO -> type(MACRO);
@@ -506,10 +416,8 @@ STAR7:				'*' -> type(STAR);
 PLUS7:				'+' -> type(PLUS);
 MINUS7:				'-' -> type(MINUS);
 SLASH7:				'/' -> type(SLASH);
-SQUAREOPEN7:		'['
- -> type(SQUAREOPEN);
-SQUARECLOSE7:		']'
- -> type(SQUARECLOSE);
+SQUAREOPEN:			'[';
+SQUARECLOSE:		']';
 NATURAL_NUMBER7:	[0-9]+ -> type(NATURAL_NUMBER);
 SEMICOLON7:			';' -> type(SEMICOLON);
 DOT7:				'.' -> type(DOT);
@@ -518,8 +426,8 @@ LPAREN7:			'('
  -> type(LPAREN);
 RPAREN7:			')'
  -> type(RPAREN);
-MTC7KEYWORD:		'mtc' -> type(MTCKEYWORD);
-SYSTEM7KEYWORD:		'system' -> type(SYSTEMKEYWORD);
+MTCKEYWORD:			'mtc';
+SYSTEMKEYWORD:		'system';
 STRING7:			FR_STRING -> type(STRING);
 STRINGOP7:			'&'	'='? -> type(STRINGOP);
 MACRO7:				FR_MACRO -> type(MACRO);
@@ -603,14 +511,14 @@ LINE_COMMENT9:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT9:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON9:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR9:	':'? '=' -> type(ASSIGNMENTCHAR);
-CONCATCHAR9:		'&=' -> type(CONCATCHAR);
+CONCATCHAR:			'&=';
 DOT9:				'.' -> type(DOT);
 STAR9:				'*' -> type(STAR);
 LPAREN9:			'('
 	-> type(LPAREN);
 RPAREN9:			')'
 	-> type(RPAREN);
-DOTDOT9:			'..' -> type(DOTDOT);
+DOTDOT:				'..';
 PLUS9:				'+' -> type(PLUS);
 MINUS9:				'-' -> type(MINUS);
 SLASH9:				'/' -> type(SLASH);
@@ -624,33 +532,33 @@ SQUAREOPEN9:		'['
 	-> type(SQUAREOPEN);
 SQUARECLOSE9:		']'
 	-> type(SQUARECLOSE);
-AND9:				'&' -> type(AND);
-EXCLUSIVE9:			'!' -> type(EXCLUSIVE);
+AND:				'&';
+EXCLUSIVE:			'!';
 
-NONE_VERDICT9:		'none' -> type(NONE_VERDICT);
-PASS_VERDICT9:		'pass' -> type(PASS_VERDICT);
-INCONC_VERDICT9:	'inconc' -> type(INCONC_VERDICT);
-FAIL_VERDICT9:		'fail' -> type(FAIL_VERDICT);
-ERROR_VERDICT9:		'error' -> type(ERROR_VERDICT);
-CHARKEYWORD9:		'char' -> type(CHARKEYWORD);
-OBJIDKEYWORD9:		'objid' -> type(OBJIDKEYWORD);
-OMITKEYWORD9:		'omit' -> type(OMITKEYWORD);
-NULLKEYWORD9:		( 'null' | 'NULL' ) -> type(NULLKEYWORD);
+NONE_VERDICT:		'none';
+PASS_VERDICT:		'pass';
+INCONC_VERDICT:		'inconc';
+FAIL_VERDICT:		'fail';
+ERROR_VERDICT:		'error';
+CHARKEYWORD:		'char';
+OBJIDKEYWORD:		'objid';
+OMITKEYWORD:		'omit';
+NULLKEYWORD:		( 'null' | 'NULL' );
 MTCKEYWORD9:		'mtc' -> type(MTCKEYWORD);
 SYSTEMKEYWORD9:		'system' -> type(SYSTEMKEYWORD);
-INFINITYKEYWORD9:	'infinity' -> type(INFINITYKEYWORD);
-NANKEYWORD9:		'not_a_number' -> type(NANKEYWORD);
-IFPRESENTKEYWORD9:	'ifpresent' -> type(IFPRESENTKEYWORD);
-LENGTHKEYWORD9:		'length' -> type(LENGTHKEYWORD);
-COMPLEMENTKEYWORD9:	'complement' -> type(COMPLEMENTKEYWORD);
-PATTERNKEYWORD9:	'pattern' -> type(PATTERNKEYWORD);
-PERMUTATIONKEYWORD9:'permutation' -> type(PERMUTATIONKEYWORD);
-SUPERSETKEYWORD9:	'superset' -> type(SUPERSETKEYWORD);
-SUBSETKEYWORD9:		'subset' -> type(SUBSETKEYWORD);
-NOCASEKEYWORD9:		'@nocase' -> type(NOCASEKEYWORD);
-TRUE9:				'true' -> type(TRUE);
-FALSE9:				'false' -> type(FALSE);
-ANYVALUE9:			'?' -> type(ANYVALUE);
+INFINITYKEYWORD:	'infinity';
+NANKEYWORD:			'not_a_number';
+IFPRESENTKEYWORD:	'ifpresent';
+LENGTHKEYWORD:		'length';
+COMPLEMENTKEYWORD:	'complement';
+PATTERNKEYWORD:		'pattern';
+PERMUTATIONKEYWORD:	'permutation';
+SUPERSETKEYWORD:	'superset';
+SUBSETKEYWORD:		'subset';
+NOCASEKEYWORD:		'@nocase';
+TRUE:				'true';
+FALSE:				'false';
+ANYVALUE:			'?';
 TTCN3IDENTIFIER9:	FR_TTCN3IDENTIFIER -> type(TTCN3IDENTIFIER);
 NATURAL_NUMBER9:	FR_INT -> type(NATURAL_NUMBER);
 FLOAT9:				FR_FLOAT -> type(FLOAT);
@@ -671,7 +579,7 @@ MACRO_OSTR9:		FR_MACRO_OSTR -> type(MACRO_OSTR);
 MACRO_BINARY9:		FR_MACRO_BINARY -> type(MACRO_BINARY);
 MACRO9:				FR_MACRO -> type(MACRO);
 STRING9:			FR_STRING -> type(STRING);
-UID9:				[uU][+]?[0-9A-Fa-f]+ -> type(UID);
+UID:				[uU][+]?[0-9A-Fa-f]+;
 
 //components section
 mode COMPONENTS_SECTION_MODE;
@@ -848,7 +756,7 @@ ENDCHAR11:				'}'
 	-> type(ENDCHAR);
 COMMA11:				',' -> type(COMMA);
 STRINGOP11:				'&'	'='? -> type(STRINGOP);
-LOGICALOR11:			'|' -> type(LOGICALOR);
+LOGICALOR:				'|';
 TRUE11:					'true' -> type(TRUE);
 FALSE11:				'false' -> type(FALSE);
 LPAREN11:				'('
@@ -900,7 +808,7 @@ LINE_COMMENT12:	FR_LINE_COMMENT -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT12:		FR_BLOCK_COMMENT-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 CONCATCHAR12:			'&=' -> type(CONCATCHAR);
-HEXFILTER12:			FR_HEXDIGIT+ -> type(HEXFILTER);
+HEXFILTER:				FR_HEXDIGIT+;
 SEMICOLON12:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR12:		':'? '=' -> type(ASSIGNMENTCHAR);
 LOGICALOR12:			'|' -> type(LOGICALOR);
