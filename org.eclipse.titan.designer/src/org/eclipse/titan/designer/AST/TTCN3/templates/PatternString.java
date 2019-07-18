@@ -284,7 +284,13 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				}
 				if (pse.t.getSubtype()== null) {
 					// just a string type without any restrictions (or alias)
-					s.append("new TitanCharString(\"?\")");
+					if (i == 0) {
+						s.append("new TitanCharString(\"?\")");
+					} else if (i + 1 > elems.size()) {
+						s.append("\"?\"");
+					} else if (i + 1 < elems.size()) {
+						s.append("\"?\")");
+					}
 					continue;
 				}
 				List<ParsedSubType> vec = pse.t.getSubtype().getSubtypeParsed();
@@ -306,6 +312,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					}
 				}
 				s.append("\"");
+				if (vec.size() > 1) {
+					s.append('(');
+				}
 				for (int j = 0; j < vec.size(); j++) {
 					ParsedSubType pst = vec.get(j);
 					if (j > 0) {
@@ -372,6 +381,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					}
 					s.append("+\"");
 				}
+				if (vec.size() > 1) {
+					s.append(')');
+				}
 				s.append("\"");
 				break;
 				// Not known in compile time
@@ -382,6 +394,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				Value.generateCodeExpressionOptionalFieldReference(aData, expr, pse.ref);
 				//TODO: preamble, postamble check
 				s.append(expr.expression);
+				String str = "";
 				if (pse.with_N && assign != null) {
 					if ((assign.getAssignmentType() == Assignment_type.A_TEMPLATE
 							|| assign.getAssignmentType() == Assignment_type.A_MODULEPAR_TEMPLATE
@@ -390,13 +403,14 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT)) {
 						String value_literal = "value";
-						s.append(String.format("if (%s.get_istemplate_kind(%s) == false) {\\n" 
+						str = (String.format("if (%s.get_istemplate_kind(\"%s\") == false) {\n" 
 								+ "throw new TtcnError(\"Only specific value template allowed in pattern reference with \\\\N{ref}\");\n"
 								+ "}\n", expr.expression.toString(), value_literal));
 					}
+					preamble.append(str);
 
 					//FIXME: initial implementation
-					expr.preamble.append((String.format("if (%s.lengthof() != 1)\n"
+					preamble.append((String.format("if (%s.lengthof().operator_not_equals(1))\n"
 							+ "{\n"
 							+ "throw new TtcnError(\"The length of the %scharstring must be of length one, when it is being referenced in a pattern with \\\\N{ref}\");\n"
 							+ "}\n", expr.expression.toString(), assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING ? "universal" : "")));
