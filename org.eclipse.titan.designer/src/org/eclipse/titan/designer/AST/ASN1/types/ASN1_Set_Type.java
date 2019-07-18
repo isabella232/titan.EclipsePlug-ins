@@ -185,7 +185,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public int getNofComponents(final CompilationTimeStamp timestamp) {
+	public int getNofComponents() {
 		if (null == components) {
 			parseBlockSet();
 		}
@@ -215,7 +215,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			if (this == tempType) {
 				return true;
 			}
-			if (getNofComponents(timestamp) != tempType.getNofComponents(timestamp)) {
+			if (getNofComponents() != tempType.getNofComponents()) {
 				info.setErrorStr(NOFFIELDSDONTMATCH);
 				return false;
 			}
@@ -229,7 +229,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain = info.getChain();
 				rChain.add(tempType);
 			}
-			for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
+			for (int i = 0, size = getNofComponents(); i < size; i++) {
 				final CompField cf = getComponentByIndex(i);
 				final CompField tempTypeCompField = tempType.getComponentByIndex(i);
 				final IType compFieldType = cf.getType().getTypeRefdLast(timestamp);
@@ -270,7 +270,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 		case TYPE_TTCN3_SET: {
 			final TTCN3_Set_Type tempType = (TTCN3_Set_Type) temp;
-			if (getNofComponents(timestamp) != tempType.getNofComponents()) {
+			if (getNofComponents() != tempType.getNofComponents()) {
 				info.setErrorStr(NOFFIELDSDONTMATCH);
 				return false;
 			}
@@ -284,7 +284,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain = info.getChain();
 				rChain.add(tempType);
 			}
-			for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
+			for (int i = 0, size = getNofComponents(); i < size; i++) {
 				final CompField compField = getComponentByIndex(i);
 				final CompField tempTypeCompField = tempType.getComponentByIndex(i);
 				final IType compFieldType = compField.getType().getTypeRefdLast(timestamp);
@@ -330,7 +330,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				return false;
 			}
 
-			final int nofComps = getNofComponents(timestamp);
+			final int nofComps = getNofComponents();
 			if (nofComps == 0) {
 				return false;
 			}
@@ -514,7 +514,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			} else {
 				final SequenceOf_Value temporalValue = (SequenceOf_Value) last;
 				if (temporalValue.getNofComponents() == 0) {
-					if (getNofComponents(timestamp) == 0) {
+					if (getNofComponents() == 0) {
 						last = last.setValuetype(timestamp, Value_type.SET_VALUE);
 					} else {
 						value.getLocation().reportSemanticError(MessageFormat.format(NONEMPTYEXPECTED, getFullName()));
@@ -618,7 +618,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 
 		if (!incompleteAllowed || implicitOmit || strictConstantCheckingSeverity) {
-			final int nofTypeComponents = getNofComponents(timestamp);
+			final int nofTypeComponents = getNofComponents();
 			for (int i = 0; i < nofTypeComponents; i++) {
 				final CompField field = getComponentByIndex(i);
 				final Identifier id = field.getIdentifier();
@@ -693,7 +693,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			}
 		}
 
-		final int nofTypeComponents = getNofComponents(timestamp);
+		final int nofTypeComponents = getNofComponents();
 		for (int i = 0; i < nofTypeComponents; i++) {
 			final CompField field = getComponentByIndex(i);
 			final Identifier id = field.getIdentifier();
@@ -725,7 +725,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			if (((Template_List) template).getNofTemplates() > 0) {
 				template.getLocation().reportSemanticError(MessageFormat.format(VALUELISTNOTATIONNOTALLOWED, getFullName()));
 				break;
-			} else if (getNofComponents(timestamp) > 0) {
+			} else if (getNofComponents() > 0) {
 				template.getLocation().reportSemanticError(MessageFormat.format(NONEMPTYSETTEMPLATEEXPECTED, getFullName()));
 			} else {
 				final ITTCN3Template transformed = template.setTemplatetype(timestamp, Template_type.NAMED_TEMPLATE_LIST);
@@ -770,7 +770,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		boolean selfReference = false;
 		final Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
-		final int nofTypeComponents = getNofComponents(timestamp);
+		final int nofTypeComponents = getNofComponents();
 		final int nofTemplateComponents = templateList.getNofTemplates();
 
 		for (int i = 0; i < nofTemplateComponents; i++) {
@@ -899,7 +899,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		refChain.add(this);
 		refChain.markState();
-		for (int i = 0; i < getNofComponents(timestamp); i++) {
+		for (int i = 0; i < getNofComponents(); i++) {
 			final CompField cf = getComponentByIndex(i);
 
 			cf.getType().checkCodingAttributes(timestamp, refChain);

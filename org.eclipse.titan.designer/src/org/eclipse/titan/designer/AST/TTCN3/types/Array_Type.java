@@ -169,7 +169,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		switch (temp.getTypetype()) {
 		case TYPE_ASN1_SEQUENCE: {
 			final ASN1_Sequence_Type tempType = (ASN1_Sequence_Type) temp;
-			final int tempTypeNofComps = tempType.getNofComponents(timestamp);
+			final int tempTypeNofComps = tempType.getNofComponents();
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
@@ -1628,7 +1628,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		expression.preamble.append("}\n");
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
-			final int fromComponentCount = fromType.getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			final int fromComponentCount = fromType.getNofComponents();
 			long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));

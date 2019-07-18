@@ -86,7 +86,7 @@ public final class Sequence_Value extends Value {
 			nofComponents = ((TTCN3_Sequence_Type) t).getNofComponents();
 			break;
 		case TYPE_ASN1_SEQUENCE:
-			nofComponents = ((ASN1_Sequence_Type) t).getNofComponents(timestamp);
+			nofComponents = ((ASN1_Sequence_Type) t).getNofComponents();
 			break;
 		case TYPE_SIGNATURE:
 			nofComponents = ((Signature_Type) t).getNofParameters();
@@ -507,7 +507,7 @@ public final class Sequence_Value extends Value {
 			nofComps = ((TTCN3_Sequence_Type) leftGovernor).getNofComponents();
 			break;
 		case TYPE_ASN1_SEQUENCE:
-			nofComps = ((ASN1_Sequence_Type) leftGovernor).getNofComponents(timestamp);
+			nofComps = ((ASN1_Sequence_Type) leftGovernor).getNofComponents();
 			break;
 		default:
 			return false;
@@ -833,7 +833,7 @@ public final class Sequence_Value extends Value {
 			// may not be present
 			final IType lastType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-			return ((ASN1_Sequence_Type)lastType).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) > 1;
+			return ((ASN1_Sequence_Type)lastType).getNofComponents() > 1;
 		} else {
 			// incomplete values are allowed in TTCN-3
 			// we should check the number of value components that would be generated
@@ -930,19 +930,19 @@ public final class Sequence_Value extends Value {
 			nofComps = ((TTCN3_Sequence_Type) type).getNofComponents();
 			break;
 		case TYPE_ASN1_SEQUENCE:
-			nofComps = ((ASN1_Sequence_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			nofComps = ((ASN1_Sequence_Type) type).getNofComponents();
 			break;
 		case TYPE_TTCN3_SET:
 			nofComps = ((TTCN3_Set_Type) type).getNofComponents();
 			break;
 		case TYPE_ASN1_SET:
-			nofComps = ((ASN1_Set_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			nofComps = ((ASN1_Set_Type) type).getNofComponents();
 			break;
 		case TYPE_TTCN3_CHOICE:
 			nofComps = ((TTCN3_Choice_Type) type).getNofComponents();
 			break;
 		case TYPE_ASN1_CHOICE:
-			nofComps = ((ASN1_Choice_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			nofComps = ((ASN1_Choice_Type) type).getNofComponents();
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");

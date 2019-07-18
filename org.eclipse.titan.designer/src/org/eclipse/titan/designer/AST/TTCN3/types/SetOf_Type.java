@@ -105,7 +105,7 @@ public final class SetOf_Type extends AbstractOfType {
 			}
 
 			final ASN1_Set_Type tempType = (ASN1_Set_Type) lastOtherType;
-			final int tempTypeNofComps = tempType.getNofComponents(timestamp);
+			final int tempTypeNofComps = tempType.getNofComponents();
 			if (tempTypeNofComps == 0) {
 				return false;
 			}

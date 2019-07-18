@@ -864,7 +864,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			case TYPE_ASN1_CHOICE:
 			case TYPE_ASN1_SEQUENCE:
 			case TYPE_ASN1_SET:
-				for (int i = 0; i < ((ASN1_Set_Seq_Choice_BaseType) this).getNofComponents(timestamp); i++) {
+				for (int i = 0; i < ((ASN1_Set_Seq_Choice_BaseType) this).getNofComponents(); i++) {
 					((ASN1_Set_Seq_Choice_BaseType) this).getComponentByIndex(i).getType().checkThisVariant(timestamp, singleWithAttribute, global);
 				}
 				break;

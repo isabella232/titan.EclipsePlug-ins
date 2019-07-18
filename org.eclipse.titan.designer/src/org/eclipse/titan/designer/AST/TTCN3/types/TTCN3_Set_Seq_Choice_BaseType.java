@@ -822,7 +822,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						}
 						break;
 					case TYPE_ASN1_CHOICE:
-						for (int fi = 0; fi < ((ASN1_Choice_Type)fieldTypeLast).getNofComponents(timestamp); fi++) {
+						for (int fi = 0; fi < ((ASN1_Choice_Type)fieldTypeLast).getNofComponents(); fi++) {
 							final Type_type tt = ((ASN1_Choice_Type)fieldTypeLast).getComponentByIndex(fi).getType().getTypetype();
 							if (tt != Type_type.TYPE_INTEGER && tt != Type_type.TYPE_INTEGER_A) {
 								getLocation().reportSemanticError("The union type LENGTHTO field must contain only integer fields");

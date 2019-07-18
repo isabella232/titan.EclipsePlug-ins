@@ -93,7 +93,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public int getNofComponents(final CompilationTimeStamp timestamp) {
+	public int getNofComponents() {
 		if (null == components) {
 			parseBlockChoice();
 		}
@@ -134,10 +134,10 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain = info.getChain();
 				rChain.add(temporalType);
 			}
-			for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
+			for (int i = 0, size = getNofComponents(); i < size; i++) {
 				final CompField cf = getComponentByIndex(i);
 				final IType cfType = cf.getType().getTypeRefdLast(timestamp);
-				for (int j = 0, size2 = temporalType.getNofComponents(timestamp); j < size2; j++) {
+				for (int j = 0, size2 = temporalType.getNofComponents(); j < size2; j++) {
 					final CompField temporalCompField = temporalType.getComponentByIndex(j);
 					final IType tempTypeCompFieldType = temporalCompField.getType().getTypeRefdLast(timestamp);
 					if (!cf.getIdentifier().getDisplayName().equals(temporalCompField.getIdentifier().getDisplayName())) {
@@ -173,7 +173,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain = info.getChain();
 				rChain.add(temporalType);
 			}
-			for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
+			for (int i = 0, size = getNofComponents(); i < size; i++) {
 				final CompField cf = getComponentByIndex(i);
 				final IType compFieldType = cf.getType().getTypeRefdLast(timestamp);
 				for (int j = 0, size2 = temporalType.getNofComponents(); j < size2; j++) {
@@ -485,7 +485,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		refChain.add(this);
 		refChain.markState();
-		for (int i = 0; i < getNofComponents(timestamp); i++) {
+		for (int i = 0; i < getNofComponents(); i++) {
 			final CompField cf = getComponentByIndex(i);
 
 			cf.getType().checkCodingAttributes(timestamp, refChain);
@@ -736,7 +736,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 				final CompField fromComp = fromType.getComponentByIndex(i);
 				final Identifier fromFieldName = fromComp.getIdentifier();
 				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				for (int j = 0; j < getNofComponents(CompilationTimeStamp.getBaseTimestamp()); j++) {
+				for (int j = 0; j < getNofComponents(); j++) {
 					final CompField toComp = getComponentByIndex(j);
 					final Identifier toFieldName = toComp.getIdentifier();
 					final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
@@ -788,11 +788,11 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			conversionFunctionBody.append("\t\t}\n");
 			conversionFunctionBody.append("\t\tswitch (from.get_selection()) {\n");
 
-			for (int i = 0; i < fromType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); i++) {
+			for (int i = 0; i < fromType.getNofComponents(); i++) {
 				final CompField fromComp = fromType.getComponentByIndex(i);
 				final Identifier fromFieldName = fromComp.getIdentifier();
 				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				for (int j = 0; j < getNofComponents(CompilationTimeStamp.getBaseTimestamp()); j++) {
+				for (int j = 0; j < getNofComponents(); j++) {
 					final CompField toComp = getComponentByIndex(j);
 					final Identifier toFieldName = toComp.getIdentifier();
 					final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());

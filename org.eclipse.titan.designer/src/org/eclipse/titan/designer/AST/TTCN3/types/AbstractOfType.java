@@ -144,13 +144,13 @@ public abstract class AbstractOfType extends ASN1Type {
 		long nofComponents;
 		switch (other.getTypetype()) {
 		case TYPE_ASN1_SEQUENCE:
-			nofComponents = ((ASN1_Sequence_Type) other).getNofComponents(timestamp);
+			nofComponents = ((ASN1_Sequence_Type) other).getNofComponents();
 			break;
 		case TYPE_TTCN3_SEQUENCE:
 			nofComponents = ((TTCN3_Sequence_Type) other).getNofComponents();
 			break;
 		case TYPE_ASN1_SET:
-			nofComponents = ((ASN1_Set_Type) other).getNofComponents(timestamp);
+			nofComponents = ((ASN1_Set_Type) other).getNofComponents();
 			break;
 		case TYPE_TTCN3_SET:
 			nofComponents = ((TTCN3_Set_Type) other).getNofComponents();

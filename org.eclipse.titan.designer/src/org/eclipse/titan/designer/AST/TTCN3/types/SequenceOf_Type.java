@@ -126,7 +126,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			}
 
 			final ASN1_Sequence_Type tempType = (ASN1_Sequence_Type) lastOtherType;
-			final int tempTypeNofComps = tempType.getNofComponents(timestamp);
+			final int tempTypeNofComps = tempType.getNofComponents();
 			if (tempTypeNofComps == 0) {
 				return false;
 			}

@@ -153,7 +153,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		switch (temp.getTypetype()) {
 		case TYPE_ASN1_SET: {
 			final ASN1_Set_Type tempType = (ASN1_Set_Type) temp;
-			if (getNofComponents() != tempType.getNofComponents(timestamp)) {
+			if (getNofComponents() != tempType.getNofComponents()) {
 				info.setErrorStr(NOFFIELDSDONTMATCH);
 				return false;
 			}

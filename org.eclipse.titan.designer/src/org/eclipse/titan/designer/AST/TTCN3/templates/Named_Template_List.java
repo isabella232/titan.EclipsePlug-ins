@@ -87,7 +87,7 @@ public final class Named_Template_List extends TTCN3Template {
 			nofTypeComponents = ((TTCN3_Sequence_Type) lastType).getNofComponents();
 			break;
 		case TYPE_ASN1_SEQUENCE:
-			nofTypeComponents = ((ASN1_Sequence_Type) lastType).getNofComponents(timestamp);
+			nofTypeComponents = ((ASN1_Sequence_Type) lastType).getNofComponents();
 			break;
 		case TYPE_SIGNATURE:
 			nofTypeComponents = ((Signature_Type) lastType).getNofParameters();
@@ -96,7 +96,7 @@ public final class Named_Template_List extends TTCN3Template {
 			nofTypeComponents = ((TTCN3_Set_Type) lastType).getNofComponents();
 			break;
 		case TYPE_ASN1_SET:
-			nofTypeComponents = ((ASN1_Set_Type) lastType).getNofComponents(timestamp);
+			nofTypeComponents = ((ASN1_Set_Type) lastType).getNofComponents();
 			break;
 		default:
 		}
@@ -419,13 +419,13 @@ public final class Named_Template_List extends TTCN3Template {
 				neededCheckedCnt = ((TTCN3_Sequence_Type) myGovernor).getNofComponents();
 				break;
 			case TYPE_ASN1_SEQUENCE:
-				neededCheckedCnt = ((ASN1_Sequence_Type) myGovernor).getNofComponents(timestamp);
+				neededCheckedCnt = ((ASN1_Sequence_Type) myGovernor).getNofComponents();
 				break;
 			case TYPE_TTCN3_SET:
 				neededCheckedCnt = ((TTCN3_Set_Type) myGovernor).getNofComponents();
 				break;
 			case TYPE_ASN1_SET:
-				neededCheckedCnt = ((ASN1_Set_Type) myGovernor).getNofComponents(timestamp);
+				neededCheckedCnt = ((ASN1_Set_Type) myGovernor).getNofComponents();
 				break;
 			case TYPE_SIGNATURE:
 				neededCheckedCnt = ((Signature_Type) myGovernor).getNofParameters();
@@ -597,13 +597,13 @@ public final class Named_Template_List extends TTCN3Template {
 		case TYPE_TTCN3_SEQUENCE:
 			return ((TTCN3_Sequence_Type) myGovernor).getNofComponents() == 0;
 		case TYPE_ASN1_SEQUENCE:
-			return ((ASN1_Sequence_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) == 0;
+			return ((ASN1_Sequence_Type) myGovernor).getNofComponents() == 0;
 		case TYPE_SIGNATURE:
 			return ((Signature_Type) myGovernor).getNofParameters() == 0;
 		case TYPE_TTCN3_SET:
 			return ((TTCN3_Set_Type) myGovernor).getNofComponents() == 0;
 		case TYPE_ASN1_SET:
-			return ((ASN1_Set_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp()) == 0;
+			return ((ASN1_Set_Type) myGovernor).getNofComponents() == 0;
 		default:
 			return false;
 		}
@@ -710,7 +710,7 @@ public final class Named_Template_List extends TTCN3Template {
 			nofTypeMembers = ((TTCN3_Sequence_Type) myGovernor).getNofComponents();
 			break;
 		case TYPE_ASN1_SEQUENCE:
-			nofTypeMembers = ((ASN1_Sequence_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			nofTypeMembers = ((ASN1_Sequence_Type) myGovernor).getNofComponents();
 			break;
 		case TYPE_SIGNATURE:
 			nofTypeMembers = ((Signature_Type) myGovernor).getNofParameters();
@@ -719,7 +719,7 @@ public final class Named_Template_List extends TTCN3Template {
 			nofTypeMembers = ((TTCN3_Set_Type) myGovernor).getNofComponents();
 			break;
 		case TYPE_ASN1_SET:
-			nofTypeMembers = ((ASN1_Set_Type) myGovernor).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			nofTypeMembers = ((ASN1_Set_Type) myGovernor).getNofComponents();
 			break;
 		default:
 			//some value not 0

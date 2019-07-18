@@ -73,7 +73,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	/** @return the number of components */
-	public abstract int getNofComponents(final CompilationTimeStamp timestamp);
+	public abstract int getNofComponents();
 
 	/**
 	 * Returns whether an element is stored with the specified name.
@@ -272,7 +272,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		}
 
 		refChain.add(this);
-		for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
+		for (int i = 0, size = getNofComponents(); i < size; i++) {
 			final IType type = getComponentByIndex(i).getType();
 			type.checkMapParameter(timestamp, refChain, errorLocation);
 		}
@@ -580,7 +580,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
-			for (int i = 0; i < getNofComponents(CompilationTimeStamp.getBaseTimestamp()); i++) {
+			for (int i = 0; i < getNofComponents(); i++) {
 				final CompField toComp = getComponentByIndex(i);
 				final CompField fromComp = fromType.getComponentByIndex(i);
 				final Identifier toFieldName = toComp.getIdentifier();
@@ -619,7 +619,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
-			for (int i = 0; i < getNofComponents(CompilationTimeStamp.getBaseTimestamp()); i++) {
+			for (int i = 0; i < getNofComponents(); i++) {
 				final CompField toComp = getComponentByIndex(i);
 				final CompField fromComp = fromType.getComponentByIndex(i);
 				final Identifier toFieldName = toComp.getIdentifier();

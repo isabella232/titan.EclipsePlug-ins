@@ -118,7 +118,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			for (int i = 0, size = getNofComponents(); i < size; i++) {
 				final CompField cf = getComponentByIndex(i);
 				final IType cfType = cf.getType().getTypeRefdLast(timestamp);
-				for (int j = 0, size2 = tempType.getNofComponents(timestamp); j < size2; j++) {
+				for (int j = 0, size2 = tempType.getNofComponents(); j < size2; j++) {
 					final CompField tempComponentField = tempType.getComponentByIndex(j);
 					final IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
 					if (!cf.getIdentifier().getDisplayName().equals(tempComponentField.getIdentifier().getDisplayName())) {
@@ -928,7 +928,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			conversionFunctionBody.append("\t\t}\n");
 			conversionFunctionBody.append("\t\tswitch (from.get_selection()) {\n");
 
-			for (int i = 0; i < fromType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); i++) {
+			for (int i = 0; i < fromType.getNofComponents(); i++) {
 				final CompField fromComp = fromType.getComponentByIndex(i);
 				final Identifier fromFieldName = fromComp.getIdentifier();
 				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());

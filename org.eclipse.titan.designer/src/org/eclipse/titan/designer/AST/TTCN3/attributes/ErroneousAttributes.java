@@ -177,10 +177,10 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 						int lastFieldIndex;
 						switch (fieldType.getTypetype()) {
 						case TYPE_ASN1_SEQUENCE:
-							lastFieldIndex = ((ASN1_Sequence_Type) fieldType).getNofComponents(timestamp) - 1;
+							lastFieldIndex = ((ASN1_Sequence_Type) fieldType).getNofComponents() - 1;
 							break;
 						case TYPE_ASN1_SET:
-							lastFieldIndex = ((ASN1_Set_Type) fieldType).getNofComponents(timestamp) - 1;
+							lastFieldIndex = ((ASN1_Set_Type) fieldType).getNofComponents() - 1;
 							break;
 						default:
 							lastFieldIndex = ((TTCN3_Set_Seq_Choice_BaseType) fieldType).getNofComponents() - 1;
