@@ -62,11 +62,16 @@ public class CfgPreprocessorUtils {
 	 */
 	private enum int_state { INITIAL, FIRST, ZERO, MORE, ERR }
 
-	static boolean string_is_int(final String str)	{
-		final int len = str.length();
-		if ( str == null || len == 0 ) {
+	static boolean string_is_int(final String str) {
+		if ( str == null) {
 			return false;
 		}
+
+		final int len = str.length();
+		if (len == 0 ) {
+			return false;
+		}
+
 		int_state state = int_state.INITIAL;
 		for (int i = 0; i < len; i++) {
 			final char c = str.charAt(i);
@@ -129,10 +134,15 @@ public class CfgPreprocessorUtils {
 		FIRST_E, ZERO_E, MORE_E, ERR }
 
 	static boolean string_is_float(final String str) {
-		final int len = str.length();
-		if ( str == null || len == 0 ) {
+		if ( str == null) {
 			return false;
 		}
+
+		final int len = str.length();
+		if (len == 0 ) {
+			return false;
+		}
+
 		float_state state = float_state.INITIAL;
 		for (int i = 0; i < len; i++) {
 			final char c = str.charAt(i);
@@ -240,11 +250,16 @@ public class CfgPreprocessorUtils {
 				state == float_state.MORE_M);
 	}
 
-	static boolean string_is_id(final String str)	{
-		final int len = str.length();
-		if ( str == null || len == 0 ) {
+	static boolean string_is_id(final String str) {
+		if ( str == null) {
 			return false;
 		}
+
+		final int len = str.length();
+		if (len == 0 ) {
+			return false;
+		}
+
 		final char first_char = str.charAt(0);
 		if ((first_char < 'a' || first_char > 'z') && (first_char < 'A' || first_char > 'Z')) {
 			return false;
@@ -276,10 +291,15 @@ public class CfgPreprocessorUtils {
 	}
 
 	static boolean string_is_bstr(final String str) {
-		final int len = str.length();
-		if ( str == null || len == 0 ) {
+		if (str == null) {
 			return false;
 		}
+
+		final int len = str.length();
+		if (len == 0) {
+			return false;
+		}
+
 		for (int i = 0; i < len; i++) {
 			final char c = str.charAt(i);
 			if (c != '0' && c != '1') {
@@ -290,8 +310,12 @@ public class CfgPreprocessorUtils {
 	}
 
 	static boolean string_is_hstr(final String str) {
+		if ( str == null) {
+			return false;
+		}
+
 		final int len = str.length();
-		if ( str == null || len == 0 ) {
+		if (len == 0 ) {
 			return false;
 		}
 		for (int i = 0; i < len; i++) {
@@ -304,10 +328,15 @@ public class CfgPreprocessorUtils {
 	}
 
 	static boolean string_is_ostr(final String str) {
-		final int len = str.length();
-		if ( str == null || len == 0 ) {
+		if ( str == null) {
 			return false;
 		}
+
+		final int len = str.length();
+		if (len == 0 ) {
+			return false;
+		}
+
 		if (len % 2 != 0) {
 			return false;
 		} else {
@@ -318,10 +347,15 @@ public class CfgPreprocessorUtils {
 	private enum string_state { INITIAL, ALPHANUM, DOT, DASH, COLON, PERCENT }
 
 	static boolean string_is_hostname(final String str) {
-		final int len = str.length();
-		if ( str == null || len == 0 ) {
+		if ( str == null) {
 			return false;
 		}
+
+		final int len = str.length();
+		if (len == 0 ) {
+			return false;
+		}
+
 		string_state state = string_state.INITIAL;
 		for (int i = 0; i < len; i++) {
 			final char c = str.charAt(i);
