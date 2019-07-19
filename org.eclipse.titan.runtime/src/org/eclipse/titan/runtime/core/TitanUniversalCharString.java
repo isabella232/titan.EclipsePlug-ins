@@ -1814,7 +1814,7 @@ public class TitanUniversalCharString extends Base_Type {
 			} else {
 				// not used code points: FE and FF => malformed
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
-						String.format("Malformed: At character position %d, octet position %d: unused/reserved octet %02X.", lenghtUnichars, i, (int)valueStr[i]));
+						String.format("Malformed: At character position %d, octet position %d: unused/reserved octet %02X.", lenghtUnichars, i, (valueStr[i] & 0xFF)));
 				i++;
 			}
 		}
@@ -1864,8 +1864,8 @@ public class TitanUniversalCharString extends Base_Type {
 			final int third  = isBig ? i + 2 : i + 3;
 			final int fourth = isBig ? i + 3 : i + 2;
 
-			final int W1 = octets_ptr[first] << 8 | octets_ptr[second];
-			final int W2 = (i + 3 < n_octets) ? octets_ptr[third] << 8 | octets_ptr[fourth] : 0;
+			final int W1 = (octets_ptr[first] & 0xFF) << 8 | (octets_ptr[second] & 0xFF);
+			final int W2 = (i + 3 < n_octets) ? (octets_ptr[third] & 0xFF) << 8 | (octets_ptr[fourth] & 0xFF) : 0;
 
 			if (0xD800 > W1 || 0xDFFF < W1) {
 				//if W1 < 0xD800 or W1 > 0xDFFF, the character value is the value of W1
@@ -1934,11 +1934,11 @@ public class TitanUniversalCharString extends Base_Type {
 			final int second = isBig ? i + 1 : i + 2;
 			final int third  = isBig ? i + 2 : i + 1;
 			final int fourth = isBig ? i + 3 : i;
-			long DW = octets_ptr[first] << 8 | octets_ptr[second];
+			long DW = (octets_ptr[first] & 0xFF) << 8 | (octets_ptr[second] & 0xFF);
 			DW <<= 8;
-			DW |= octets_ptr[third];
+			DW |= (octets_ptr[third] & 0xFF);
 			DW <<= 8;
-			DW |= octets_ptr[fourth];
+			DW |= (octets_ptr[fourth] & 0xFF);
 			if (0x0000D800 <= DW && 0x0000DFFF >= DW) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UTF-32 code (0x%08X) between 0x0000D800 and 0x0000DFFF is ill-formed", DW);
 			} else if (0x0010FFFF < DW) {
@@ -1968,13 +1968,13 @@ public class TitanUniversalCharString extends Base_Type {
 		case UTF32BE:
 		case UTF32:
 			if (4 <= length && 0x00 == ostr[0] && 0x00 == ostr[1] &&
-			0xFE == ostr[2] && 0xFF == ostr[3]) {
+			(byte)0xFE == ostr[2] && (byte)0xFF == ostr[3]) {
 				return 4;
 			}
 			coding_str = "UTF-32BE";
 			break;
 		case UTF32LE:
-			if (4 <= length && 0xFF == ostr[0] && 0xFE == ostr[1] &&
+			if (4 <= length && (byte)0xFF == ostr[0] && (byte)0xFE == ostr[1] &&
 			0x00 == ostr[2] && 0x00 == ostr[3]) {
 				return 4;
 			}
@@ -1982,19 +1982,19 @@ public class TitanUniversalCharString extends Base_Type {
 			break;
 		case UTF16BE:
 		case UTF16:
-			if (2 <= length && 0xFE == ostr[0] && 0xFF == ostr[1]) {
+			if (2 <= length && (byte)0xFE == ostr[0] && (byte)0xFF == ostr[1]) {
 				return 2;
 			}
 			coding_str = "UTF-16BE";
 			break;
 		case UTF16LE:
-			if (2 <= length && 0xFF == ostr[0] && 0xFE == ostr[1]) {
+			if (2 <= length && (byte)0xFF == ostr[0] && (byte)0xFE == ostr[1]) {
 				return 2;
 			}
 			coding_str = "UTF-16LE";
 			break;
 		case UTF_8:
-			if (3 <= ostr.length && 0xEF == ostr[0] && 0xBB == ostr[1] && 0xBF == ostr[2]) {
+			if (3 <= ostr.length && (byte)0xEF == ostr[0] && (byte)0xBB == ostr[1] && (byte)0xBF == ostr[2]) {
 				return 3;
 			}
 			coding_str = "UTF-8";
