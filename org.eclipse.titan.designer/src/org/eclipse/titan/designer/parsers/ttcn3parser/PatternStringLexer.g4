@@ -182,7 +182,7 @@ INVALID_REFERENCE_RULE : '{' [ ^} ]* '}' {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
   location.reportSyntacticError(String.format("Invalid reference expression: %s", tokenStr));	
 };
-UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charstring' (WS)? '}' (WS)? {
+UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charstring' (WS)? '}' {
 	/* The third {(WS)?} is optional but if it's empty then the previous rule catches it*/
 	final String id_str = "universal charstring";
  
@@ -201,7 +201,7 @@ UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charst
 	}
 	actualColumn = end + 1; 
 };
-CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'charstring' (WS)? '}' (WS)? {
+CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'charstring' (WS)? '}' {
 	/* The third {(WS)?} is optional but if it's empty then the previous rule catches it*/
 	final String id_str = "charstring";
  
