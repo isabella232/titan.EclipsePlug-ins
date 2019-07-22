@@ -26,7 +26,7 @@ Some of the default settings of antlr4ide need to be changed.
   - turn off the generation of parse tree listener and parse tree visitors
 
 BASIC compilation of the plug-in
-===================
+================================
 
 After antlr4ide is set up properly the automatic build should be able to compile the project without user intervention.
 
