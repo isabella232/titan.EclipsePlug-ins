@@ -208,7 +208,7 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		
+
 		StringBuilder preamble = new StringBuilder();
 		String patternStr = patternstring.create_charstring_literals(aData, myScope.getModuleScopeGen(), preamble);
 		result.append(preamble);
