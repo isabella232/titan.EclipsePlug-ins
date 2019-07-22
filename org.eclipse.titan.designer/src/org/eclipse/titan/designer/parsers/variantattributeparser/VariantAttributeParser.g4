@@ -31,8 +31,10 @@ private int line = 0;
 private int offset = 0;
 
 private RawAST rawstruct;
+private JsonAST jsonstruct;
 private int lengthMultiplier;
 private boolean raw_f = false;
+private boolean json_f = false;
 
 public void setActualFile(final IFile file) {
 	actualFile = file;
@@ -63,12 +65,21 @@ public void setRawAST(final RawAST par) {
 	raw_f = true;
 }
 
+public void setJsonAST(final JsonAST par) {
+	jsonstruct = par;
+	json_f = true;
+}
+
 public void setLengthMultiplier(final int lengthMultiplier) {
 	this.lengthMultiplier = lengthMultiplier;
 }
 
 public boolean getRawFound() {
 	return raw_f;
+}
+
+public boolean getJsonFound() {
+	return json_f;
 }
 }
 
@@ -1062,49 +1073,67 @@ pr_XJsonAttribute:
 |	pr_XAsNumber
 );
 
-pr_XOmitAsNull: OMITKeyword ASKeyword NullKeyword;
+pr_XOmitAsNull: 
+	OMITKeyword ASKeyword NullKeyword { jsonstruct.omit_as_null = true; };
 
-pr_XNameAs: NAMEKeyword ASKeyword pr_JsonAlias;
+pr_XNameAs: NAMEKeyword ASKeyword v = pr_JsonAlias {jsonstruct.alias = $v.value;};
 
-pr_JsonAlias:
-(	AliasToken
-|	OMITKeyword
-|	ASKeyword
-|	NullKeyword
-|	NAMEKeyword
-|	VALUEKeyword
-|	DEFAULTKeyword
-|	EXTENDKeyword
-|	METAINFOKeyword
-|	FORKeyword
-|	UNBOUNDKeyword
-|	NUMBERKeyword
+pr_JsonAlias returns [String value]:
+(	t = AliasToken 	{$value = $t.getText();}
+|	OMITKeyword 	{$value = "omit";}
+|	ASKeyword 		{$value = "as";}
+|	NullKeyword 	{$value = "null";}
+|	NAMEKeyword 	{$value = "name";}
+|	VALUEKeyword 	{$value = "value";}
+|	DEFAULTKeyword 	{$value = "default";}
+|	EXTENDKeyword 	{$value = "extend";}
+|	METAINFOKeyword {$value = "metainfo";}
+|	FORKeyword 		{$value = "for";}
+|	UNBOUNDKeyword 	{$value = "unbound";}
+|	NUMBERKeyword 	{$value = "number";}
 );
 
-pr_XAsValue: ASKeyword VALUEKeyword;
+pr_XAsValue: ASKeyword VALUEKeyword { jsonstruct.as_value = true; };
 
-pr_XDefault: DEFAULTKeyword pr_JsonValue;
+pr_XDefault: DEFAULTKeyword value = pr_JsonValue 
+{ jsonstruct.default_value = $value.v; };
 
-pr_XExtend: EXTENDKeyword pr_JsonValue COLON pr_JsonValue;
+pr_XExtend: EXTENDKeyword v1 = pr_JsonValue COLON v2 = pr_JsonValue
+	{ jsonstruct.schema_extensions.add(jsonstruct.new JsonSchemaExtension($v1.v, $v2.v)); };
 
-pr_JsonValue:
-(	JSONValueStart
-	(	pr_JsonValueCore
+pr_JsonValue returns [String v]:
+(	
+	JSONValueStart
+	(	
+		value = pr_JsonValueCore
 	)?
 	JSONValueEnd
-);
+) {if ($value.valueCore != null) { $v = $value.valueCore;}
+	else {$v = "";}
+};
 
-pr_JsonValueCore:
-(	JSONValueSegment
-	(	JSONValueSegment
+pr_JsonValueCore returns [String valueCore]
+@init{
+	String valueCore = "";
+}:
+(	v = JSONValueSegment {valueCore += $v.getText(); }
+	(	
+		v = JSONValueSegment {valueCore += $v.getText();}
 	)*
-);
+){
+if ($valueCore == null) {
+	$valueCore = valueCore;
+} else {
+	$valueCore += valueCore;
+}
+};
 
-pr_XMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword;
+pr_XMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword
+{ jsonstruct.metainfo_unbound = true; };
 
-pr_XAsNumber: ASKeyword NUMBERKeyword;
+pr_XAsNumber: ASKeyword NUMBERKeyword  {jsonstruct.as_number = true;};
 
-pr_JSONAttributes: pr_JSONAttribute;
+pr_JSONAttributes: pr_JSONAttribute { json_f = true; };
 
 pr_JSONAttribute:
 (	pr_JOmitAsNull
@@ -1117,18 +1146,21 @@ pr_JSONAttribute:
 |	pr_JAsMap
 );
 
-pr_JOmitAsNull: OMIT ASKeyword Null;
+pr_JOmitAsNull: OMIT ASKeyword Null {jsonstruct.omit_as_null = true;  };
 
-pr_JAsValue: ASKeyword VALUEKeyword;
+pr_JAsValue: ASKeyword VALUEKeyword {jsonstruct.as_value = true; };
 
-pr_JDefault: DEFAULTKeyword pr_JsonValue;
+pr_JDefault: DEFAULTKeyword value = pr_JsonValue { jsonstruct.default_value = $value.v; };
 
-pr_JExtend: EXTENDKeyword pr_JsonValue COLON pr_JsonValue;
+pr_JExtend: EXTENDKeyword v1 = pr_JsonValue COLON v2 = pr_JsonValue
+	{ jsonstruct.schema_extensions.add(jsonstruct.new JsonSchemaExtension($v1.v, $v2.v)); };
 
-pr_JMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword;
+pr_JMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword 
+{ jsonstruct.metainfo_unbound = true; };
 
-pr_JAsNumber: ASKeyword NUMBERKeyword;
+pr_JAsNumber: ASKeyword NUMBERKeyword {jsonstruct.as_number = true;};
 
+// FIXME: missing rawAST_tag_list
 pr_JChosen: CHOSENKeyword LPAREN pr_XAssocList SEMICOLON? RPAREN;
 
-pr_JAsMap: ASKeyword JSONMAPKeyword;
+pr_JAsMap: ASKeyword JSONMAPKeyword { jsonstruct.as_map = true; };
