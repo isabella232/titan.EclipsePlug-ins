@@ -246,8 +246,12 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		StringBuilder s = new StringBuilder();
 		check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
 		if (patterntype == PatternType.CHARSTRING_PATTERN) {
+			aData.addBuiltinTypeImport("TitanCharString_template");
+
 			s.append("TitanCharString_template(template_sel.STRING_PATTERN, new TitanCharString(");
 		} else {
+			aData.addBuiltinTypeImport("TitanUniversalCharString_template");
+
 			s.append("TitanUniversalCharString_template(template_sel.STRING_PATTERN, new TitanCharString(");
 		}
 		if (elems.isEmpty() && content != null && !content.isEmpty()) {
