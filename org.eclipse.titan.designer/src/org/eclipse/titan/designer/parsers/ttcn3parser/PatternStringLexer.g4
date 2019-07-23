@@ -107,19 +107,28 @@ IDENTIFIER
 :
 	[A-Za-z] [A-Za-z0-9_]*
 ;
-
+fragment
+NUMBER
+:
+	INT
+;
+fragment 
+UID
+:
+	[uU] [+]? [0-9a-fA-F]+
+;
 /* ***************** rules ************************* */
 REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? '[' (WS)? ( IDENTIFIER | NUMBER ) (WS)? ']'))* (WS)? '}' {
 	if (in_set) {
 		// in a set a reference (without the \N at start) is just simple text,
   		// the matched token does not contain characters that are special in a set
-  		int begin = actualColumn; 
-  		int end = actualColumn; 
-  		while(tokenStr.charAt(end) != '}') {
+  		int begin = 0; 
+  		int end = 0; 
+  		while(getText().charAt(end) != '}') {
   			end++;
   		}
-  		ps.addString(tokenStr.substring(begin,end));
-  		actualColumn = end;
+  		ps.addString(getText().substring(begin,end));
+  		actualColumn+=end;
 	} else {
 		/**
 		 * Find references in the actual token but in another way than C++.
@@ -128,28 +137,28 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 		 * 3. Break at '}'.
 		 */
 		//end of the reference
-		int end = actualColumn;
+		int end = 0;
 		//begin of the reference (reference location)
-		int begin = actualColumn;
+		int begin = 0;
 		List<String> identifiers = new ArrayList<String>();
-		while(tokenStr.charAt(end) != '}') {
+		while(getText().charAt(end) != '}') {
 			//current ID begin/end
 			int current_begin = 0;
 			int current_end = 0;
 			// skip whitespace and [	
-			while(Character.isWhitespace(tokenStr.charAt(end)) || tokenStr.charAt(end) == '[' || tokenStr.charAt(end) == '{') {
+			while(Character.isWhitespace(getText().charAt(end)) || getText().charAt(end) == '[' || getText().charAt(end) == '{') {
 				end++;
 			}
 			current_begin = end;
 			current_end = current_begin;
 			begin = current_begin;
-			while(Character.isLetterOrDigit(tokenStr.charAt(current_end)) || tokenStr.charAt(current_end) == '_' || tokenStr.charAt(current_end) == '.') {
+			while(Character.isLetterOrDigit(getText().charAt(current_end)) || getText().charAt(current_end) == '_' || getText().charAt(current_end) == '.') {
 				current_end++;
 			}
-			String identifier = tokenStr.substring(current_begin, current_end);
+			String identifier = getText().substring(current_begin, current_end);
 			identifiers.add(identifier);
 			end = current_end;
-			while(Character.isWhitespace(tokenStr.charAt(end)) || tokenStr.charAt(end) == ']') {
+			while(Character.isWhitespace(getText().charAt(end)) || getText().charAt(end) == ']') {
 				end++;
 			}	
 		}
@@ -648,20 +657,6 @@ PLUS : '+' {
   ps.addChar('+');
   actualColumn++;
 };  
-
-NUMBER
-:
-	INT
-{
-	ps.addString(getText());
-	actualColumn+=getText().length();	
-};
- 
-UID
-:
-	[uU] [+]? [0-9a-fA-F]+
-;
-
 ANYCHAR:
 .+? {
 ps.addString(getText());
