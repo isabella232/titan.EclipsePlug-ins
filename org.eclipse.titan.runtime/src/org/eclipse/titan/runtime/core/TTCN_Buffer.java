@@ -787,18 +787,18 @@ public final class TTCN_Buffer {
 						final int offset = buf_len == 0 ? 0 : buf_len - 1;
 						if (local_fieldorder == raw_order_t.ORDER_MSB) {
 							data_ptr[offset] &= RAW.REVERSE_BITS(mask1);
-							data_ptr[offset] |= ch >> bit_pos;
+							data_ptr[offset] |= (ch & 0xFF) >> bit_pos;
 							data_ptr[offset + 1] = (byte) (ch << (8 - bit_pos));
 						} else {
 							data_ptr[offset] &= mask1;
-							data_ptr[offset] |= ch & ~mask1;
+							data_ptr[offset] |= (ch & 0xFF) & ~mask1;
 							data_ptr[offset + 1] = (byte) (ch << (8 - bit_pos));
 						}
 
 						for (int a = 1; a < (len + 7) / 8; a++) {
 							ch = get_byte_rev(s, len, a);
 							data_ptr[a + offset] &= RAW.REVERSE_BITS(mask1);
-							data_ptr[a + offset] |= ch >> bit_pos;
+							data_ptr[a + offset] |= (ch & 0xFF) >> bit_pos;
 							if (a < maxindex) {
 								data_ptr[a + offset + 1] = (byte) (ch << (8 - bit_pos));
 							}
