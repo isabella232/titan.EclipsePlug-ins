@@ -362,6 +362,17 @@
 			</sync>
 			<timestamp.echo message="Copying the temporal updatesite to its final location finished" />
 
+			<!--
+			  Checks if the token type names and token type indexes correspond to each other
+			  in the generated CFG lexers.
+			-->
+			<exec executable="../Tools/antlr4_check_cfg_lexers.sh" failonerror="true"/>
+
+			<!--
+			  Checks if the parsers have the same rules in the generated CFG parsers.
+			-->
+			<exec executable="../Tools/antlr4_check_cfg_parsers.sh" failonerror="true"/>
+
 			<!-- Add the download stats collecting stuff-->
 			<!--
 			<exec executable="${compiler.location}/etc/download_stats/addDownloadStats.sh"
