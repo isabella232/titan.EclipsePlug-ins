@@ -1719,7 +1719,7 @@ public class TitanUniversalCharString extends Base_Type {
 			// perform the decoding character by character
 			if (tempValue <= 0x7F)  {
 				// character encoded on a single octet: 0xxxxxxx (7 useful bits)
-				val_ptr.add(lenghtUnichars, new TitanUniversalChar((char)0,(char) 0,(char) 0, (char)valueStr[i]));
+				val_ptr.add(lenghtUnichars, new TitanUniversalChar((char)0,(char) 0,(char) 0, (char)(valueStr[i] & 0xFF)));
 				i++;
 				lenghtUnichars++;
 			} else if (tempValue <= 0xBF)  {
@@ -1944,7 +1944,7 @@ public class TitanUniversalCharString extends Base_Type {
 			} else if (0x0010FFFF < DW) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UTF-32 code (0x%08X) greater than 0x0010FFFF is ill-formed", DW);
 			} else {
-				val_ptr.add(new TitanUniversalChar((char)octets_ptr[first], (char)octets_ptr[second], (char)octets_ptr[third], (char)octets_ptr[fourth]));
+				val_ptr.add(new TitanUniversalChar((char)(octets_ptr[first] & 0xFF), (char)(octets_ptr[second] & 0xFF), (char)(octets_ptr[third] & 0xFF), (char)(octets_ptr[fourth] & 0xFF)));
 				++n_uchars;
 			}
 		}
