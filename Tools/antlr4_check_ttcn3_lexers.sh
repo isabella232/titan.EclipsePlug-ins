@@ -39,8 +39,16 @@ WORKSPACE_PATH=$DIR/..
 cd $WORKSPACE_PATH/org.eclipse.titan.designer/src/org/eclipse/titan/designer/parsers/ttcn3parser/
 $ANTLR4 Ttcn3BaseLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 $ANTLR4 Ttcn3Lexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
+$ANTLR4 Ttcn3KeywordlessLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 
-# Check if Ttcn3BaseLexer and Ttcn3Lexer have the same tokens
+# Check if lexers have the same tokens
 cd $WORKSPACE_PATH
-$DIR/antlr4_check_ttcn3_lexers.pl
+
+$DIR/antlr4_check_lexers.pl \
+org.eclipse.titan.designer/src/org/eclipse/titan/designer/parsers/ttcn3parser/Ttcn3BaseLexer.java \
+org.eclipse.titan.designer/src/org/eclipse/titan/designer/parsers/ttcn3parser/Ttcn3Lexer.java
+
+$DIR/antlr4_check_lexers.pl \
+org.eclipse.titan.designer/src/org/eclipse/titan/designer/parsers/ttcn3parser/Ttcn3BaseLexer.java \
+org.eclipse.titan.designer/src/org/eclipse/titan/designer/parsers/ttcn3parser/Ttcn3KeywordlessLexer.java
 
