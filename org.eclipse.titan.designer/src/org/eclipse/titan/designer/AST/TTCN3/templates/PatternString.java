@@ -254,6 +254,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 			s.append("TitanUniversalCharString_template(template_sel.STRING_PATTERN, new TitanCharString(");
 		}
+		if (elems.isEmpty() && (content == null || content.isEmpty())) {
+			s.append("\"\"");
+		}
 		if (elems.isEmpty() && content != null && !content.isEmpty()) {
 			addString(content);
 		}
