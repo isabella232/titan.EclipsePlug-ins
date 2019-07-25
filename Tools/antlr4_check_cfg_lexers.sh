@@ -22,19 +22,11 @@
 set -e
 set -o pipefail
 
-ANTLR4="java -classpath $HOME/lib/antlr-4.3-complete.jar org.antlr.v4.Tool"
-
 # script directory
 # http://stackoverflow.com/questions/59895/can-a-bash-script-tell-which-directory-it-is-stored-in
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 WORKSPACE_PATH=$DIR/..
-
-# Generating java files from g4 files
-cd $WORKSPACE_PATH/org.eclipse.titan.runtime/src/org/eclipse/titan/runtime/core/cfgparser/
-$ANTLR4 RuntimeCfgLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.runtime.core.cfgparser
-cd $WORKSPACE_PATH/org.eclipse.titan.common/src/org/eclipse/titan/common/parsers/cfg/
-$ANTLR4 CfgLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.common.parsers.cfg
 
 # Check if the lexers have the same tokens
 cd $WORKSPACE_PATH
