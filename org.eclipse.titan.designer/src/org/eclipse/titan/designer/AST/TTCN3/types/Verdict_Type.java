@@ -180,6 +180,7 @@ public final class Verdict_Type extends Type {
 
 		switch (coding) {
 		case XER:
+		case JSON:
 			return true;
 		default:
 			return false;
