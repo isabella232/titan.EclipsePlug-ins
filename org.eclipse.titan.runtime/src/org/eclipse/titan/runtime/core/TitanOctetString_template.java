@@ -683,8 +683,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			throw new TtcnError("Performing lengthof() operation on a octetstring template which has an ifpresent attribute.");
 		}
 
-		switch (template_selection)
-		{
+		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			min_length = single_value.lengthof().get_int();
 			has_any_or_none = false;
@@ -696,8 +695,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			min_length = 0;
 			has_any_or_none = true; // max. length is infinity
 			break;
-		case VALUE_LIST:
-		{
+		case VALUE_LIST: {
 			// error if any element does not have length or the lengths differ
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on an octetstring template "
