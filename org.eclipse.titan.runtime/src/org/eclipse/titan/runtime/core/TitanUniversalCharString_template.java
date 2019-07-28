@@ -542,7 +542,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		final List<TitanUniversalChar> otherStr = otherValue.get_value();
 		final int otherLen = otherStr.size();
-		if (!match_length(otherValue.lengthof().get_int())) {
+		if (!match_length(otherLen)) {
 			return false;
 		}
 
