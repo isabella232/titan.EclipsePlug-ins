@@ -677,12 +677,12 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * @return the number of elements.
 	 * */
 	public TitanInteger lengthof() {
-		int min_length;
-		boolean has_any_or_none;
 		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a octetstring template which has an ifpresent attribute.");
 		}
 
+		int min_length;
+		boolean has_any_or_none;
 		switch (template_selection) {
 		case SPECIFIC_VALUE:
 			min_length = single_value.lengthof().get_int();
