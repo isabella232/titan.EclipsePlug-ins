@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
@@ -34,6 +35,7 @@ public abstract class Base_Type {
 		public final String name;
 		// information for RAW coding
 		public final TTCN_RAWdescriptor raw;
+		public final TTCN_JSONdescriptor json;
 		//FIXME the other encoding specific descriptors
 		/**
 		 * In case of record of/ set of type the descriptor of the "of type".
@@ -56,47 +58,56 @@ public abstract class Base_Type {
 		 *                type descriptor of the of type, {@code false}
 		 *                otherwise.
 		 * */
-		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_Typedescriptor oftype_descr) {
+		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json, final TTCN_Typedescriptor oftype_descr) {
 			this.name = name;
 			this.raw = raw;
+			this.json = json;
+			this.oftype_descr = oftype_descr;
+		}
+		
+//		//FIXME: this is the old version, possibly remove 
+		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_Typedescriptor oftype_descr) {
+			this.name = name;
+			this.raw = raw;
+			this.json = null;
 			this.oftype_descr = oftype_descr;
 		}
 	}
 
-	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", RAW.TitanBoolean_raw_, null);
-	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", RAW.TitanInteger_raw_, null);
-	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", RAW.TitanFloat_raw_, null);
-	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null, null);
-	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", null, null);
-	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", RAW.TitanBitString_raw_, null);
-	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", RAW.TitanHexString_raw_, null);
-	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", RAW.TitanOctetString_raw_, null);
-	public static final TTCN_Typedescriptor TitanCharString_descr_ = new TTCN_Typedescriptor("charstring", RAW.TitanCharString_raw_, null);
-	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", RAW.TitanUniversalCharString_raw_, null);
-	public static final TTCN_Typedescriptor TitanComponent_descr_ = new TTCN_Typedescriptor("component", null, null);
-	public static final TTCN_Typedescriptor TitanDefault_descr_ = new TTCN_Typedescriptor("default", null, null);
-	public static final TTCN_Typedescriptor TitanAsn_Null_descr_ = new TTCN_Typedescriptor("NULL", null, null);
-	public static final TTCN_Typedescriptor TitanAsn_Any_descr_ = new TTCN_Typedescriptor("ANY", null, null);
-	public static final TTCN_Typedescriptor TitanExternal_descr_ = new TTCN_Typedescriptor("EXTERNAL", null, null);
-	public static final TTCN_Typedescriptor TitanEmbedded_PDV_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV", null, null);
-	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING", null, null);
-	public static final TTCN_Typedescriptor TitanObjectDescriptor_descr_ = new TTCN_Typedescriptor("ObjectDescriptor", null, null);
-	public static final TTCN_Typedescriptor TitanUTF8String_descr_ = new TTCN_Typedescriptor("UTF8String", null, null);
-	public static final TTCN_Typedescriptor TitanAsn_Roid_descr_ = new TTCN_Typedescriptor("RELATIVE-OID", null, null);
-	public static final TTCN_Typedescriptor TitanNumericString_descr_ = new TTCN_Typedescriptor("NumericString", null, null);
-	public static final TTCN_Typedescriptor TitanPrintableString_descr_ = new TTCN_Typedescriptor("PrintableString", null, null);
-	public static final TTCN_Typedescriptor TitanTeletexString_descr_ = new TTCN_Typedescriptor("TeletexString", null, null);
+	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
+	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
+	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
+	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null, null, null);
+	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", null, null, null);
+	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
+	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
+	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
+	public static final TTCN_Typedescriptor TitanCharString_descr_ = new TTCN_Typedescriptor("charstring", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
+	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
+	public static final TTCN_Typedescriptor TitanComponent_descr_ = new TTCN_Typedescriptor("component", null, null, null);
+	public static final TTCN_Typedescriptor TitanDefault_descr_ = new TTCN_Typedescriptor("default", null, null, null);
+	public static final TTCN_Typedescriptor TitanAsn_Null_descr_ = new TTCN_Typedescriptor("NULL", null, null, null);
+	public static final TTCN_Typedescriptor TitanAsn_Any_descr_ = new TTCN_Typedescriptor("ANY", null, null, null);
+	public static final TTCN_Typedescriptor TitanExternal_descr_ = new TTCN_Typedescriptor("EXTERNAL", null, null, null);
+	public static final TTCN_Typedescriptor TitanEmbedded_PDV_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV", null, null, null);
+	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING", null, null, null);
+	public static final TTCN_Typedescriptor TitanObjectDescriptor_descr_ = new TTCN_Typedescriptor("ObjectDescriptor", null, null, null);
+	public static final TTCN_Typedescriptor TitanUTF8String_descr_ = new TTCN_Typedescriptor("UTF8String", null, null, null);
+	public static final TTCN_Typedescriptor TitanAsn_Roid_descr_ = new TTCN_Typedescriptor("RELATIVE-OID", null, null, null);
+	public static final TTCN_Typedescriptor TitanNumericString_descr_ = new TTCN_Typedescriptor("NumericString", null, null, null);
+	public static final TTCN_Typedescriptor TitanPrintableString_descr_ = new TTCN_Typedescriptor("PrintableString", null, null, null);
+	public static final TTCN_Typedescriptor TitanTeletexString_descr_ = new TTCN_Typedescriptor("TeletexString", null, null, null);
 	public static final TTCN_Typedescriptor TitanT61String_descr_ = TitanTeletexString_descr_;
-	public static final TTCN_Typedescriptor TitanVideotexString_descr_ = new TTCN_Typedescriptor("VideotexString", null, null);
-	public static final TTCN_Typedescriptor TitanIA5String_descr_ = new TTCN_Typedescriptor("IA5String", null, null);
-	public static final TTCN_Typedescriptor TitanASN_GeneralizedTime_descr_ = new TTCN_Typedescriptor("GeneralizedTime", null, null);
-	public static final TTCN_Typedescriptor TitanASN_UTCTime_descr_ = new TTCN_Typedescriptor("UTCTime", null, null);
-	public static final TTCN_Typedescriptor TitanGraphicString_descr_ = new TTCN_Typedescriptor("GraphicString", null, null);
-	public static final TTCN_Typedescriptor TitanVisibleString_descr_ = new TTCN_Typedescriptor("VisibleString", null, null);
+	public static final TTCN_Typedescriptor TitanVideotexString_descr_ = new TTCN_Typedescriptor("VideotexString", null, null, null);
+	public static final TTCN_Typedescriptor TitanIA5String_descr_ = new TTCN_Typedescriptor("IA5String", null, null, null);
+	public static final TTCN_Typedescriptor TitanASN_GeneralizedTime_descr_ = new TTCN_Typedescriptor("GeneralizedTime", null, null, null);
+	public static final TTCN_Typedescriptor TitanASN_UTCTime_descr_ = new TTCN_Typedescriptor("UTCTime", null, null, null);
+	public static final TTCN_Typedescriptor TitanGraphicString_descr_ = new TTCN_Typedescriptor("GraphicString", null, null, null);
+	public static final TTCN_Typedescriptor TitanVisibleString_descr_ = new TTCN_Typedescriptor("VisibleString", null, null, null);
 	public static final TTCN_Typedescriptor TitanISO646String_descr_ = TitanVisibleString_descr_;
-	public static final TTCN_Typedescriptor TitanGeneralString_descr_ = new TTCN_Typedescriptor("GeneralString", null, null);
-	public static final TTCN_Typedescriptor TitanUniversalString_descr_ = new TTCN_Typedescriptor("UniversalString", null, null);
-	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, null);
+	public static final TTCN_Typedescriptor TitanGeneralString_descr_ = new TTCN_Typedescriptor("GeneralString", null, null, null);
+	public static final TTCN_Typedescriptor TitanUniversalString_descr_ = new TTCN_Typedescriptor("UniversalString", null, null, null);
+	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, null, null);
 
 	/**
 	 * Deletes the value, setting it to unbound.

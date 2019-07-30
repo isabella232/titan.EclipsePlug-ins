@@ -32,6 +32,8 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST.JsonEnumText;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
@@ -105,6 +107,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	protected WithAttributesPath withAttributesPath = null;
 	public ArrayList<MessageEncoding_type> codersToGenerate = new ArrayList<IType.MessageEncoding_type>();
 	public RawAST rawAttribute = null;
+	public JsonAST jsonAttribute = null;
 
 	private boolean hasDone = false;
 	/** Indicates that the component array version (used with the help of the
@@ -378,6 +381,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		return false;
 	}
 
+	public boolean isOptionalField() {
+		if (getOwnertype() == TypeOwner_type.OT_COMP_FIELD) {
+			CompField myOwner = (CompField) getOwner();
+			return myOwner != null && myOwner.isOptional();
+		}
+		
+		return false;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean fieldIsOptional(final List<ISubReference> subReferences) {
@@ -467,6 +479,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** {@inheritDoc} */
 	public int getRawLength(final BuildTimestamp timestamp) {
 		return -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public JsonAST getJsonAttribute() {
+		return jsonAttribute;
 	}
 
 	@Override
@@ -575,6 +593,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * */
 	public final void checkEncode(final CompilationTimeStamp timestamp) {
 		rawAttribute = null;
+		jsonAttribute = null; //FIXME: check this value
 
 		switch (getTypeRefdLast(timestamp).getTypetypeTtcn3()) {
 		case TYPE_NULL:
@@ -698,7 +717,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				case OT_COMP_FIELD:
 				case OT_SELTYPE:
 				case OT_FIELDSETTING:
-					//FIXME implement once PER, JSON, OER or XER gets supported
+					//FIXME implement once PER, OER or XER gets supported
+					addCoding(timestamp, "JSON", Attribute_Modifier_type.MOD_NONE, true);
 					break;
 				default:
 					break;
@@ -814,8 +834,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					final MessageEncoding_type coding = getEncodingType(encodingString);
 					if (!hasEncoding(timestamp, coding, encodingString)) {
 						erroneous = true;
-						//FIXME RAW restriction only exists because that is the only supported encoding right now
-						if (!global && coding == MessageEncoding_type.RAW) {
+						//FIXME RAW, JSON restriction only exists because that is the only supported encoding right now
+						if (!global && (coding == MessageEncoding_type.RAW || coding == MessageEncoding_type.JSON)) {
 							if (coding == MessageEncoding_type.CUSTOM) {
 								singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support {1} encoding", getTypename(), coding.getEncodingName()));
 							} else {
@@ -830,10 +850,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				}
 			}
 			//FIXME implement checks
-			//TODO only raw data is extracted
+			//TODO raw, json data is extracted
 			final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
 			boolean newRaw = false;
+			boolean newJson = false;
 			final AtomicBoolean rawFound = new AtomicBoolean(false);
+			final AtomicBoolean jsonFound = new AtomicBoolean(false);
 			if (rawAttribute == null) {
 				IType t_refd = this;
 				while (t_refd.getRawAttribute() == null && t_refd instanceof Referenced_Type) {
@@ -845,10 +867,26 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				newRaw = true;
 			}
 
-			analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFound);
+			if (jsonAttribute == null) {
+				IType t_refd = this;
+				while (t_refd.getJsonAttribute() == null && t_refd instanceof Referenced_Type) {
+					final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+					t_refd = ((Referenced_Type)t_refd).getTypeRefd(timestamp, referenceChain);
+					referenceChain.release();
+				}
+				jsonAttribute = new JsonAST(t_refd.getJsonAttribute());
+				newJson = true;
+			}
+
+			analyzer.parse(rawAttribute, jsonAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(),
+					rawFound, jsonFound);
 
 			if (!rawFound.get() && newRaw) {
 				rawAttribute = null;
+			}
+
+			if (!jsonFound.get() && newJson) {
+				jsonAttribute = null;
 			}
 		}
 		if (global) {
@@ -984,7 +1022,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				newCoding.modifier = modifier;
 				newCoding.builtInCoding = builtInCoding;
 				codingTable.add(newCoding);
-				setGenerateCoderFunctions(timestamp, builtInCoding);
+				refdLast.setGenerateCoderFunctions(timestamp, builtInCoding);
 			} else if (!silent){
 				getLocation().reportSemanticWarning(MessageFormat.format("Type `{0}'' cannot have {1} encoding. Encode attribute ignored.", getTypename(), name));
 			}
@@ -1182,7 +1220,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public List<Coding_Type> getCodingTable() {
@@ -2405,8 +2443,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
+		//FIXME not supported other encoding
 		switch(encodingType) {
 		case RAW:
+		case JSON:
+	 // case BER:
+	 // case XER:
+	 // case TEXT:
+	 // case OER:
 			break;
 		default:
 			return;
@@ -2455,6 +2499,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			gennameRawDescriptor = "null";
 		}
 
+		final boolean generate_json = aData.getEnableJson() && last.getGenerateCoderFunctions(MessageEncoding_type.JSON);
+		String gennameJsonDescriptor;
+		if (generate_json) {
+			gennameJsonDescriptor = getGenNameJsonDescriptor(aData, source);
+		} else {
+			gennameJsonDescriptor = "null";
+		}
+
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 
 		final String descriptorName = MessageFormat.format("{0}_descr_", genname);
@@ -2466,6 +2518,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
 		if (generate_raw) {
 			globalVariable.append(MessageFormat.format(", {0}", gennameRawDescriptor));
+		} else {
+			globalVariable.append(", null");
+		}
+
+		if (generate_json) {
+			globalVariable.append(MessageFormat.format(", {0}", gennameJsonDescriptor));
 		} else {
 			globalVariable.append(", null");
 		}
@@ -2688,6 +2746,75 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (dummyRaw) {
 			rawAttribute = null;
 		}
+	}
+
+	/**
+	 * Generates the json descriptor for this type if it exists.
+	 *
+	 * generate_code_jsondescriptor in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * */
+	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
+		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
+
+		final String genname = getGenNameOwn();
+		final String descriptorName = MessageFormat.format("{0}_json_", genname);
+		if (aData.hasGlobalVariable(descriptorName)) {
+			return;
+		}
+
+		final StringBuilder JSON_value = new StringBuilder();
+
+		JSON_value.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0} =", descriptorName));
+		JSON_value.append(MessageFormat.format("new TTCN_JSONdescriptor(", genname));
+
+		final boolean as_map = (jsonAttribute != null && jsonAttribute.as_map); //FIXME: || 
+		//(ownertype == OT_RECORD_OF && parent_type.jsonAttribute != null && parent_type.jsonAttribute.as_map);
+		if (jsonAttribute == null) { 
+			JSON_value.append(MessageFormat.format("false, null, false, null, false, false, {0}, 0, null);\n", as_map ? "true": "false"));
+		} else {
+
+			String enum_texts_name = null;
+			JSON_value.append(jsonAttribute.omit_as_null).append(',');
+			if (jsonAttribute.alias != null) {
+				JSON_value.append("\"").append(jsonAttribute.alias).append("\"").append(',');
+			} else {
+				JSON_value.append("null").append(',');
+			}
+			// FIXME: || jsonattrib->tag_list != NULL
+			JSON_value.append(jsonAttribute.as_value).append(',');
+			if (jsonAttribute.default_value == null) {
+				JSON_value.append("null").append(',');
+			} else {
+				JSON_value.append("\"").append(jsonAttribute.default_value).append("\"").append(',');
+			}
+
+			JSON_value.append(jsonAttribute.metainfo_unbound).append(',');
+			JSON_value.append(jsonAttribute.as_number).append(',');
+			JSON_value.append(as_map).append(',');
+			JSON_value.append(jsonAttribute.enum_texts.size()).append(',');
+
+			if (jsonAttribute.enum_texts.size() != 0) {
+				enum_texts_name = MessageFormat.format("{0}_json_enum_texts", genname);
+				final StringBuilder enum_texts_value = new StringBuilder();
+				enum_texts_value.append(MessageFormat.format("final JsonEnumText[] {0} = '{", enum_texts_name));
+				for (int i = 0; i < jsonAttribute.enum_texts.size(); i++) {
+					JsonEnumText element = jsonAttribute.enum_texts.get(i);
+					if (i == 0) {
+						enum_texts_value.append(MessageFormat.format(("'{{0}, \"{1}\"'}"),element.index, element.to));
+					}
+					enum_texts_value.append(MessageFormat.format((", '{{0}, \"{1}\"'}"),element.index, element.to));
+
+				}
+				enum_texts_value.append("};\n");
+				aData.addGlobalVariable(enum_texts_name, enum_texts_value.toString());
+			}
+			JSON_value.append(enum_texts_name).append(");\n");
+		}
+		aData.addGlobalVariable(descriptorName, JSON_value.toString());
 	}
 
 	/**
@@ -2948,6 +3075,90 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public abstract String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
 
+	/** Returns whether the type has the encoding attribute specified by
+     * the parameter. The function also checks the qualified attributes of
+     * parent types. Always returns true for ASN.1 types, when checking for a
+     * JSON encoding attribute. 
+     * 
+     */
+	public boolean hasEncodeAttribute(final String encoding_name) {
+		if (encoding_name == "JSON" &&  isAsn()) {
+			// ASN.1 types automatically support JSON encoding
+			return true;
+		}
+		WithAttributesPath attributePath = getAttributePath();
+		if (attributePath != null) {
+			CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp() ;
+			final List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
+			for (int i = 0; i < realAttributes.size(); i++) {
+				final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
+				if (SingleWithAttribute.Attribute_Type.Encode_Attribute.equals(singleWithAttribute.getAttributeType())) {
+					if (singleWithAttribute.getAttributeSpecification().getSpecification() == encoding_name) {
+						return true;
+					}
+				}
+			}
+		}
+
+		if ( (ownerType == TypeOwner_type.OT_COMP_FIELD || ownerType == TypeOwner_type.OT_RECORD_OF ||ownerType == TypeOwner_type.OT_ARRAY) &&
+				parentType != null && parentType.getAttributePath() != null &&
+				parentType.hasEncodeAttributeForType(this, encoding_name)) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	/** Helper function for hasEncodeAttribute. Checks this type's qualified encoding
+     * attributes that refer to the specified type (target_type) and returns
+     * true if any of them match the specified encoding (encoding_name).
+     * Recursive function (calls the parent type's hasEncodeAttrForType function
+     * if no matching attributes are found). 
+     */
+	@Override
+	public boolean hasEncodeAttributeForType(final Type type, final String encoding_name) {
+		// if this type has an encode attribute, that also extends to its
+		// fields/elements
+		if (hasEncodeAttribute(encoding_name)) {
+			return true;
+		}
+		// otherwise search this type's qualified attributes
+		final MultipleWithAttributes multiWithAttributes = getAttributePath().getAttributes();
+		if (multiWithAttributes != null) {
+			for (int i = 0; i < multiWithAttributes.getNofElements(); i++) {
+				final SingleWithAttribute singleWithAttribute = multiWithAttributes.getAttribute(i);
+				if (SingleWithAttribute.Attribute_Type.Encode_Attribute.equals(singleWithAttribute.getAttributeType()) 
+						&& singleWithAttribute.getAttributeSpecification().getSpecification() == encoding_name) {
+					// search the attribute's qualifiers for one that refers to the
+					// target type
+					final Qualifiers qualifiers = singleWithAttribute.getQualifiers();
+					if (qualifiers != null) {
+						for (int j = 0; j < qualifiers.getNofQualifiers(); j++) {
+							Qualifier qualifier = qualifiers.getQualifierByIndex(j);
+							final List<ISubReference> fieldsOrArrays = new ArrayList<ISubReference>();
+							for (int k = 0; k < qualifier.getNofSubReferences(); k++) {
+								fieldsOrArrays.add(qualifier.getSubReferenceByIndex(k));
+							}
+							final Reference reference = new Reference(null, fieldsOrArrays);
+							final IType typeQualifier = getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
+							if (typeQualifier == type) {
+								return true;	
+							}
+						}
+					}
+
+				}
+			}
+		}
+		
+		if ( (ownerType == TypeOwner_type.OT_COMP_FIELD || ownerType == TypeOwner_type.OT_RECORD_OF ||ownerType == TypeOwner_type.OT_ARRAY) &&
+				parentType != null && parentType.getAttributePath() != null) {
+			return parentType.hasEncodeAttributeForType(type, encoding_name);
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Returns the name of the type descriptor (- the _descr_ postfix).
 	 *
@@ -2959,7 +3170,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement the handling of attribute checks
-		if (rawAttribute != null || hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+		if (rawAttribute != null || jsonAttribute != null || 
+				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
+				|| (!isAsn() && hasEncodeAttribute("JSON"))) {
 			return getGenNameOwn(aData);
 		}
 		if (this instanceof IReferencingType) {
@@ -2991,7 +3204,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		// if the type has an 'encode' or 'variant' attribute, then it needs its own coder functions
 		//TODO add support for more coders
-		if (codingTable.size() > 0 || rawAttribute != null) {
+		if (codingTable.size() > 0 || rawAttribute != null || jsonAttribute != null) {
 			return getGenNameOwn(aData);
 		}
 
@@ -3059,6 +3272,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
 
 		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+	}
+
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		//FIXME: temporally version
+		//ErrorReporter.INTERNAL_ERROR("Trying to generate JSON for type `" + getFullName() + "'' that has no json attributes");
+
+		return null;//"FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 	}
 
 	/**
