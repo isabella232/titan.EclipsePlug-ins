@@ -381,6 +381,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		return false;
 	}
 
+	//FIXME comment
 	public boolean isOptionalField() {
 		if (getOwnertype() == TypeOwner_type.OT_COMP_FIELD) {
 			CompField myOwner = (CompField) getOwner();
