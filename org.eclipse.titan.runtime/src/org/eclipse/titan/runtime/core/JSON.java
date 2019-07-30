@@ -22,6 +22,7 @@ public class JSON {
 	}
 	
 	public static final class TTCN_JSONdescriptor {
+		//TODO could the members be private?
 		public boolean omit_as_null;
 		public String alias;
 		public boolean as_value;
@@ -52,7 +53,7 @@ public class JSON {
 			this.metainfo_unbound = metainfo_unbound;
 			this.as_number = as_number;
 			this.nof_enum_texts = nof_enum_texts;
-			this.enum_texts = new ArrayList<JsonEnumText>(enum_texts);
+			this.enum_texts = enum_texts;
 		}
 	}
 	
