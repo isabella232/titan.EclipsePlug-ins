@@ -810,21 +810,21 @@ public final class PortGenerator {
 			aData.addBuiltinTypeImport("Index_Redirect");
 			aData.addBuiltinTypeImport( "TitanAlt_Status" );
 
-			generateGenericGetcall(source, portDefinition, false, false);
-			generateGenericGetcall(source, portDefinition, true, false);
+			generateGenericGetcall(aData, source, portDefinition, false, false);
+			generateGenericGetcall(aData, source, portDefinition, true, false);
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				generateGenericGetcall(source, portDefinition, false, true);
-				generateGenericGetcall(source, portDefinition, true, true);
+				generateGenericGetcall(aData, source, portDefinition, false, true);
+				generateGenericGetcall(aData, source, portDefinition, true, true);
 			}
 
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-				generateTypedGetcall(source, portDefinition, i, info, false, false);
-				generateTypedGetcall(source, portDefinition, i, info, true, false);
+				generateTypedGetcall(aData, source, portDefinition, i, info, false, false);
+				generateTypedGetcall(aData, source, portDefinition, i, info, true, false);
 				if (portDefinition.testportType == TestportType.ADDRESS) {
-					generateTypedGetcall(source, portDefinition, i, info, false, true);
-					generateTypedGetcall(source, portDefinition, i, info, true, true);
+					generateTypedGetcall(aData, source, portDefinition, i, info, false, true);
+					generateTypedGetcall(aData, source, portDefinition, i, info, true, true);
 				}
 			}
 		}
@@ -833,22 +833,22 @@ public final class PortGenerator {
 			aData.addBuiltinTypeImport( "TitanAlt_Status" );
 			aData.addBuiltinTypeImport("Index_Redirect");
 
-			generateGenericGetreply(source, portDefinition, false, false);
-			generateGenericGetreply(source, portDefinition, true, false);
+			generateGenericGetreply(aData, source, portDefinition, false, false);
+			generateGenericGetreply(aData, source, portDefinition, true, false);
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				generateGenericGetreply(source, portDefinition, false, true);
-				generateGenericGetreply(source, portDefinition, true, true);
+				generateGenericGetreply(aData, source, portDefinition, false, true);
+				generateGenericGetreply(aData, source, portDefinition, true, true);
 			}
 
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (!portDefinition.outProcedures.get(i).isNoBlock) {
-					generateTypedGetreply(source, portDefinition, i, info, false, false);
-					generateTypedGetreply(source, portDefinition, i, info, true, false);
+					generateTypedGetreply(aData, source, portDefinition, i, info, false, false);
+					generateTypedGetreply(aData, source, portDefinition, i, info, true, false);
 					if (portDefinition.testportType == TestportType.ADDRESS) {
-						generateTypedGetreply(source, portDefinition, i, info, false, true);
-						generateTypedGetreply(source, portDefinition, i, info, true, true);
+						generateTypedGetreply(aData, source, portDefinition, i, info, false, true);
+						generateTypedGetreply(aData, source, portDefinition, i, info, true, true);
 					}
 				}
 			}
@@ -857,22 +857,22 @@ public final class PortGenerator {
 		if (hasIncomingException) {
 			aData.addBuiltinTypeImport( "TitanAlt_Status" );
 
-			generateGenericGetexception(source, portDefinition, false, false);
-			generateGenericGetexception(source, portDefinition, true, false);
+			generateGenericGetexception(aData, source, portDefinition, false, false);
+			generateGenericGetexception(aData, source, portDefinition, true, false);
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				generateGenericGetexception(source, portDefinition, false, true);
-				generateGenericGetexception(source, portDefinition, true, true);
+				generateGenericGetexception(aData, source, portDefinition, false, true);
+				generateGenericGetexception(aData, source, portDefinition, true, true);
 			}
 
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (portDefinition.outProcedures.get(i).hasExceptions) {
-					generateTypedGetexception(source, portDefinition, i, info, false, false);
-					generateTypedGetexception(source, portDefinition, i, info, true, false);
+					generateTypedGetexception(aData, source, portDefinition, i, info, false, false);
+					generateTypedGetexception(aData, source, portDefinition, i, info, true, false);
 					if (portDefinition.testportType == TestportType.ADDRESS) {
-						generateTypedGetexception(source, portDefinition, i, info, false, true);
-						generateTypedGetexception(source, portDefinition, i, info, true, true);
+						generateTypedGetexception(aData, source, portDefinition, i, info, false, true);
+						generateTypedGetexception(aData, source, portDefinition, i, info, true, true);
 					}
 				}
 			}
@@ -2945,9 +2945,11 @@ public final class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic getcall or check(getcall)
+	 * This function generates the generic getcall or check_getcall
 	 * function.
 	 *
+	 *@param aData
+	 *                Helper class for java code generation, allowOmitInValueList code info is read from it
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -2957,10 +2959,11 @@ public final class PortGenerator {
 	 * @param isAddress
 	 *                generate for address or not?
 	 * */
-	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
+	private static void generateGenericGetcall(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+		final String allowOmitInValueList = aData.getAllowOmitInValueList() ? "true" : "false";
 
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("\t\t\tif (procedure_queue.size() == 0) {\n");
@@ -2978,21 +2981,21 @@ public final class PortGenerator {
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("\t\t\t} else if (!sender_template.match(head.sender_address, false)) {\n");
+			source.append(MessageFormat.format("\t\t\t} else if (!sender_template.match(head.sender_address, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(head.sender_address, false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(head.sender_address, {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t}\n");
 		} else {
-			source.append("\t\t\tif (!sender_template.match(head.sender_component, false)) {\n");
+			source.append(MessageFormat.format("\t\t\tif (!sender_template.match(head.sender_component, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: \", get_name()));\n");
-			source.append("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3044,6 +3047,8 @@ public final class PortGenerator {
 	 * This function generates the getcall or check(getcall) function for a
 	 * signature type
 	 *
+	 * @param aData
+	 *                Helper class for java code generation, allowOmitInValueList code info is read from it
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -3059,10 +3064,11 @@ public final class PortGenerator {
 	 * @param isAddress
 	 *                generate for address or not?
 	 * */
-	private static void generateTypedGetcall(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
+	private static void generateTypedGetcall(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+		final String allowOmitInValueList = aData.getAllowOmitInValueList() ? "true" : "false";
 
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("\t\t\tif (procedure_queue.size() == 0) {\n");
@@ -3080,20 +3086,20 @@ public final class PortGenerator {
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("\t\t\t} else if (!sender_template.match(head.sender_address, false)) {\n");
+			source.append(MessageFormat.format("\t\t\t'}' else if (!sender_template.match(head.sender_address, {0} )) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(head.sender_address, false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(head.sender_address, {0} );\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t}");
 		} else {
-			source.append("\t\t\tif (!sender_template.match(head.sender_component, false)) {\n");
+			source.append(MessageFormat.format("\t\t\tif (!sender_template.match(head.sender_component, {0} )) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), {0} );\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3102,11 +3108,11 @@ public final class PortGenerator {
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
 		source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log({0}, MessageFormat.format(\"Matching on port '{'0'}' failed: The first entity in the queue is not a call for signature {1}.\", get_name()));\n", isAddress ? "TTCN_Logger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC", portDefinition.displayName));
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("\t\t\t'}' else if (!getcall_template.match_call(head.call_{0}, true)) '{'\n", index));
+		source.append(MessageFormat.format("\t\t\t'}' else if (!getcall_template.match_call(head.call_{0}, {1})) '{'\n", index, allowOmitInValueList));
 		source.append(MessageFormat.format("\t\t\t\tfinal TTCN_Logger.Severity log_sev = {0};\n", isAddress ? "TTCN_Logger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC"));
 		source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
-		source.append(MessageFormat.format("\t\t\t\t\tgetcall_template.log_match_call(head.call_{0}, false);\n", index));
+		source.append(MessageFormat.format("\t\t\t\t\tgetcall_template.log_match_call(head.call_{0}, {1});\n", index, allowOmitInValueList));
 		source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.parameters__of__call__do__not__match__template, TTCN_Logger.end_event_log2str());\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3137,6 +3143,8 @@ public final class PortGenerator {
 	 * This function generates the generic getreply or check(getreply)
 	 * function.
 	 *
+	 * @param aData
+	 *                Helper class for java code generation, allowOmitInValueList code info is read from it
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -3146,10 +3154,11 @@ public final class PortGenerator {
 	 * @param isAddress
 	 *                generate for address or not?
 	 * */
-	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
+	private static void generateGenericGetreply(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+		final String allowOmitInValueList = aData.getAllowOmitInValueList() ? "true" : "false";
 
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("\t\t\tif (procedure_queue.size() == 0) {\n");
@@ -3167,21 +3176,21 @@ public final class PortGenerator {
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("\t\t\t} else if (!sender_template.match(head.sender_address, false)) {\n");
+			source.append(MessageFormat.format("\t\t\t} else if (!sender_template.match(head.sender_address, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(head.sender_address, false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(head.sender_address, {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t}\n");
 		} else {
-			source.append("\t\t\tif (!sender_template.match(head.sender_component, false)) {\n");
+			source.append(MessageFormat.format("\t\t\tif (!sender_template.match(head.sender_component, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: \", get_name()));\n");
-			source.append("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3235,6 +3244,8 @@ public final class PortGenerator {
 	 * This function generates the getreply or check(getreply) function for
 	 * a signature type
 	 *
+	 * @param aData
+	 *                Helper class for java code generation, allowOmitInValueList code info is read from it
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -3250,10 +3261,11 @@ public final class PortGenerator {
 	 * @param isAddress
 	 *                generate for address or not?
 	 * */
-	private static void generateTypedGetreply(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
+	private static void generateTypedGetreply(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+		final String allowOmitInValueList = aData.getAllowOmitInValueList() ? "true" : "false";
 
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
@@ -3276,21 +3288,21 @@ public final class PortGenerator {
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("\t\t\t} else if (!sender_template.match(head.sender_address, false)) {\n");
+			source.append(MessageFormat.format("\t\t\t} else if (!sender_template.match(head.sender_address, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(head.sender_address, false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(head.sender_address, {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t}");
 		} else {
-			source.append("\t\t\tif (!sender_template.match(head.sender_component, false)) {\n");
+			source.append(MessageFormat.format("\t\t\tif (!sender_template.match(head.sender_component, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: \", get_name()));\n");
-			source.append("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3299,11 +3311,11 @@ public final class PortGenerator {
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.REPLY_{0}) '{'\n", index));
 		source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log({0}, MessageFormat.format(\"Matching on port '{'0'}' failed: The first entity in the queue is not a reply for signature {1}.\", get_name()));\n ",  isAddress ? "TTCN_Logger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC",portDefinition.displayName));
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("\t\t\t'}' else if (!getreply_template.match_reply(head.reply_{0}, true)) '{'\n", index));
+		source.append(MessageFormat.format("\t\t\t'}' else if (!getreply_template.match_reply(head.reply_{0}, {1})) '{'\n", index, allowOmitInValueList));
 		source.append(MessageFormat.format("\t\t\t\tfinal TTCN_Logger.Severity log_sev = {0};\n", isAddress ? "TTCN_Logger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC"));
 		source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 		source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
-		source.append(MessageFormat.format("\t\t\t\t\tgetreply_template.log_match_reply(head.reply_{0}, false);\n", index));
+		source.append(MessageFormat.format("\t\t\t\t\tgetreply_template.log_match_reply(head.reply_{0}, {1});\n", index, allowOmitInValueList));
 		source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.parameters__of__reply__do__not__match__template, TTCN_Logger.end_event_log2str());\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3334,6 +3346,8 @@ public final class PortGenerator {
 	 * This function generates the generic get_exception or check(catch)
 	 * function.
 	 *
+	 *@param aData
+	 *                Helper class for java code generation, allowOmitInValueList code info is read from it
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -3343,10 +3357,11 @@ public final class PortGenerator {
 	 * @param isAddress
 	 *                generate for address or not?
 	 * */
-	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
+	private static void generateGenericGetexception(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+		final String allowOmitInValueList = aData.getAllowOmitInValueList() ? "true" : "false";
 
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("\t\t\tif (procedure_queue.size() == 0) {\n");
@@ -3364,21 +3379,21 @@ public final class PortGenerator {
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("\t\t\t} else if (!sender_template.match(head.sender_address, false)) {\n");
+			source.append(MessageFormat.format("\t\t\t} else if (!sender_template.match(head.sender_address, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(head.sender_address, false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(head.sender_address, {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t}\n");
 		} else {
-			source.append("\t\t\tif (!sender_template.match(head.sender_component, false)) {\n");
+			source.append(MessageFormat.format("\t\t\tif (!sender_template.match(head.sender_component, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
 			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: \", get_name()));\n");
-			source.append("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3431,6 +3446,8 @@ public final class PortGenerator {
 	/**
 	 * This function generates the get_exception or check(catch) function.
 	 *
+	 *@param aData
+	 *                Helper class for java code generation, allowOmitInValueList code info is read from it
 	 * @param source
 	 *                where the source code is to be generated.
 	 * @param portDefinition
@@ -3444,11 +3461,12 @@ public final class PortGenerator {
 	 * @param isAddress
 	 *                generate for address or not?
 	 * */
-	private static void generateTypedGetexception(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
+	private static void generateTypedGetexception(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
-
+		final String allowOmitInValueList = aData.getAllowOmitInValueList() ? "true" : "false";
+		
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("\t\t\tif (catch_template.is_any_or_omit()) {\n");
@@ -3470,20 +3488,20 @@ public final class PortGenerator {
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("\t\t\t} else if (!sender_template.match(head.sender_address, false)) {\n");
+			source.append(MessageFormat.format("\t\t\t} else if (!sender_template.match(head.sender_address, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(head.sender_address, false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(head.sender_address, {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
 			source.append("\t\t\t}");
 		} else {
-			source.append("\t\t\tif (!sender_template.match(head.sender_component, false)) {\n");
+			source.append(MessageFormat.format("\t\t\tif (!sender_template.match(head.sender_component, {0})) '{'\n", allowOmitInValueList));
 			source.append("\t\t\t\tfinal TTCN_Logger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.MATCHING_PMUNSUCC : TTCN_Logger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
-			source.append("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append(MessageFormat.format("\t\t\t\t\tsender_template.log_match(new TitanComponent(head.sender_component), {0});\n", allowOmitInValueList));
 			source.append("\t\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -3492,7 +3510,7 @@ public final class PortGenerator {
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
 		source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), {0}, TitanLoggerApi.MatchingFailureType_reason.enum_type.not__an__exception__for__signature, new TitanCharString(\"{1} \"));\n", isAddress ? "TitanComponent.SYSTEM_COMPREF" : "head.sender_component", info.mDisplayName));
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("\t\t\t'}' else if (!catch_template.match(head.exception_{0}, true)) '{'\n", index));
+		source.append(MessageFormat.format("\t\t\t'}' else if (!catch_template.match(head.exception_{0}, {1})) '{'\n", index, allowOmitInValueList));
 		if(isAddress) {
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMUNSUCC)) {\n");
 		} else {
@@ -3500,7 +3518,7 @@ public final class PortGenerator {
 			source.append("\t\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 		}
 		source.append(MessageFormat.format("\t\t\t\t\tTTCN_Logger.begin_event({0});\n", isAddress ? "TTCN_Logger.Severity.MATCHING_PMUNSUCC" : "log_sev"));
-		source.append(MessageFormat.format("\t\t\t\t\tcatch_template.log_match(head.exception_{0}, false);\n", index));
+		source.append(MessageFormat.format("\t\t\t\t\tcatch_template.log_match(head.exception_{0}, {1});\n", index, allowOmitInValueList));
 		source.append("\t\t\t\t\tTTCN_Logger.end_event_log2str();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn TitanAlt_Status.ALT_NO;\n");
@@ -4051,7 +4069,7 @@ public final class PortGenerator {
 		if(isAddress) {
 			source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PMSUCCESS)) {\n");
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.MATCHING_PMSUCCESS);\n");
-			source.append(MessageFormat.format("\t\t\t\t{0}(head.{1}_{2},false);\n", matchStr, opStr, index));
+			source.append(MessageFormat.format("\t\t\t\t{0}(head.{1}_{2},false);\n", matchStr, opStr, index)); //TODO: allowOmitInValueList handling
 			source.append("\t\t\t\tTTCN_Logger.log_matching_success(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TTCN_Logger.end_event_log2str());\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_PMIN)) {\n");
@@ -4064,7 +4082,7 @@ public final class PortGenerator {
 			source.append("\t\t\tif (TTCN_Logger.log_this_event(log_sev)) {\n");
 			source.append("\t\t\t\tTTCN_Logger.begin_event(log_sev);\n");
 			source.append("\t\t\t\tTTCN_Logger.log_event_str(MessageFormat.format(\"Matching on port {0} succeeded: \", get_name()));\n");
-			source.append(MessageFormat.format("\t\t\t\t{0}(head.{1}_{2}, false);\n", matchStr, opStr, index));
+			source.append(MessageFormat.format("\t\t\t\t{0}(head.{1}_{2}, false);\n", matchStr, opStr, index)); //TODO: allowOmitInValueList handling
 			source.append("\t\t\t\tTTCN_Logger.end_event();\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t\tlog_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TTCN_Logger.Severity.PORTEVENT_PMIN : TTCN_Logger.Severity.PORTEVENT_PCIN;\n");
