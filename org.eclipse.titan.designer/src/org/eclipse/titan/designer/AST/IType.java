@@ -738,12 +738,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	boolean hasEncoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final String customEncoding);
 
-	/**
-	 * 
-	 * @param type
-	 * @param encodingName
-	 * @return
-	 */
+	//FIXME comment
 	boolean hasEncodeAttributeForType(final Type type, final String encodingName);
 	
 	/**
