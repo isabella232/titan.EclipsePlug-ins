@@ -437,7 +437,7 @@ public class JavaGenData {
 	public boolean getEnableRaw() {
 		return !rawDisabled;
 	}
-	
+
 	/**
 	 * @return true if raw encoding is enabled
 	 */
