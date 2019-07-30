@@ -91,6 +91,7 @@ public class JavaGenData {
 
 	/** was raw encoding disabled for the runtime */
 	private boolean rawDisabled = false;
+	private boolean jsonDisabled = false;
 
 	/** is generating source code line info needed */
 	private boolean addSourceInfo = false;
@@ -103,6 +104,10 @@ public class JavaGenData {
 	 * only once.
 	 * */
 	public HashMap<String, String> RAW_attibute_registry;
+	
+	//FIXME: dublecheck this usefull?
+	public HashMap<String, String> JSON_attibute_registry;
+
 
 	/**
 	 * encoding registry is used to generate a static default encoding value
@@ -178,6 +183,8 @@ public class JavaGenData {
 			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.DISABLE_RAW_PROPERTY));
 			rawDisabled = s == null || "true".equals(s);
 
+			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
+			jsonDisabled = s == null || "true".equals(s);
 			// Legacy codec handling is not supported in the Java code generator
 			//s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
 			//legacyCodecHandling = s == null || "true".equals(s);
@@ -429,6 +436,13 @@ public class JavaGenData {
 	 */
 	public boolean getEnableRaw() {
 		return !rawDisabled;
+	}
+	
+	/**
+	 * @return true if raw encoding is enabled
+	 */
+	public boolean getEnableJson() {
+		return !jsonDisabled;
 	}
 
 	/**

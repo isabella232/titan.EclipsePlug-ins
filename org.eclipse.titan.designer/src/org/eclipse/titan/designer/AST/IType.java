@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.eclipse.titan.designer.AST.Type.CompatibilityLevel;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
@@ -537,6 +538,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public int getRawLength(final BuildTimestamp timestamp);
 
 	/**
+	 * @return the json attribute of the type.
+	 * */
+	JsonAST getJsonAttribute();
+
+	/**
 	 * Returns the default field length of this type (in bits).
 	 * hexstring: 4
 	 * octetstring, charstring, universalcharstring: 8
@@ -732,6 +738,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	boolean hasEncoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final String customEncoding);
 
+	/**
+	 * 
+	 * @param type
+	 * @param encodingName
+	 * @return
+	 */
+	boolean hasEncodeAttributeForType(final Type type, final String encodingName);
+	
 	/**
 	 * @return the coding table of this type
 	 * */
@@ -1157,6 +1171,15 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source);
+
+	/**
+	 * get_genname_jsondescriptor in titan.core
+	 * 
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @return The name of the Java variable in the generated code.
+	 */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns the name prefix of type descriptors, etc. that belong to the

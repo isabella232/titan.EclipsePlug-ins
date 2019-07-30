@@ -35,7 +35,8 @@ import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
  */
 public class VariantAttributeAnalyzer {
 
-	public void parse(final RawAST rawAST/*, final JsonAST jsonAST*/, final AttributeSpecification specification, final int lengthMultiplier, final AtomicBoolean raw_found/*, final AtomicBoolean json_found*/) {
+	public void parse(final RawAST rawAST, final JsonAST jsonAST, final AttributeSpecification specification, 
+						final int lengthMultiplier, final AtomicBoolean raw_found, final AtomicBoolean json_found) {
 		final Location location = specification.getLocation();
 		final StringReader reader = new StringReader(specification.getSpecification());
 		final CharStream charStream = new UnbufferedCharStream(reader);
@@ -60,8 +61,6 @@ public class VariantAttributeAnalyzer {
 				location.getEndOffset());
 
 		parser.setRawAST(rawAST);
-		// TODO: remove when implement other
-		final JsonAST jsonAST = new JsonAST();
 		parser.setJsonAST(jsonAST);
 		parser.setLengthMultiplier(lengthMultiplier);
 		parser.pr_AttribSpec();
@@ -85,8 +84,8 @@ public class VariantAttributeAnalyzer {
 			raw_found.set(parser.getRawFound());
 		}
 
-//		if (!json_found.get()) {
-//			json_found.set(parser.getJsonFound());
-//		}
+		if (!json_found.get()) {
+			json_found.set(parser.getJsonFound());
+		}
 	}
 }
