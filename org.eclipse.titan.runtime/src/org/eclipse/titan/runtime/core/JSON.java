@@ -15,12 +15,12 @@ import java.util.ArrayList;
  * @author Gergo Ujhelyi
  **/
 public class JSON {
-	
+
 	public static final class JsonEnumText {
 		public int index;
 		public String text;
 	}
-	
+
 	public static final class TTCN_JSONdescriptor {
 		//TODO could the members be private?
 		public boolean omit_as_null;
@@ -32,11 +32,11 @@ public class JSON {
 		public boolean as_map;
 		public int nof_enum_texts;
 		public ArrayList<JsonEnumText> enum_texts;
-		
+
 		public TTCN_JSONdescriptor() {
 			// TODO Auto-generated constructor stub
 		}
-		
+
 		public TTCN_JSONdescriptor(final boolean omit_as_null, 
 				final String alias,
 				final boolean as_value,
@@ -56,7 +56,7 @@ public class JSON {
 			this.enum_texts = enum_texts;
 		}
 	}
-	
+
 	// JSON descriptors for base types
 	public static final TTCN_JSONdescriptor TitanInteger_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_JSONdescriptor TitanBoolean_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
@@ -83,36 +83,41 @@ public class JSON {
 	public static final TTCN_JSONdescriptor ASN_ROID_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_JSONdescriptor ASN_ANY_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_JSONdescriptor ENUMERATED_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	
-	
+
+
 	/** JSON decoder error codes */
 	enum json_decode_error {
-	  /** An unexpected JSON token was extracted. The token might still be valid and
-	    * useful for the caller structured type. */
-	  JSON_ERROR_INVALID_TOKEN /*= -1*/,
-	  /** The JSON tokeniser couldn't extract a valid token (JSON_TOKEN_ERROR) or the
-	    * format of the data extracted is invalid. In either case, this is a fatal 
-	    * error and the decoding cannot continue. 
-	    * @note This error code is always preceeded by a decoding error, if the
-	    * caller receives this code, it means that decoding error behavior is (at least 
-	    * partially) set to warnings. */
-	  JSON_ERROR_FATAL /*= -2*/
+		/** An unexpected JSON token was extracted. The token might still be valid and
+		 * useful for the caller structured type. */
+		JSON_ERROR_INVALID_TOKEN /*= -1*/,
+		/**
+		 * The JSON tokeniser couldn't extract a valid token
+		 * (JSON_TOKEN_ERROR) or the format of the data extracted is
+		 * invalid. In either case, this is a fatal error and the
+		 * decoding cannot continue.
+		 * 
+		 * @note This error code is always preceeded by a decoding
+		 *       error, if the caller receives this code, it means that
+		 *       decoding error behavior is (at least partially) set to
+		 *       warnings.
+		 */
+		JSON_ERROR_FATAL /*= -2*/
 	}
-	
+
 	/** JSON meta info states during decoding */
 	enum json_metainfo_t {
-	  /** The field does not have meta info enabled */
-	  JSON_METAINFO_NOT_APPLICABLE,
-	  /** Initial state if meta info is enabled for the field */
-	  JSON_METAINFO_NONE,
-	  /** The field's value is set to null, but no meta info was received for the field yet */
-	  JSON_METAINFO_NEEDED,
-	  /** Meta info received: the field is unbound */
-	  JSON_METAINFO_UNBOUND
+		/** The field does not have meta info enabled */
+		JSON_METAINFO_NOT_APPLICABLE,
+		/** Initial state if meta info is enabled for the field */
+		JSON_METAINFO_NONE,
+		/** The field's value is set to null, but no meta info was received for the field yet */
+		JSON_METAINFO_NEEDED,
+		/** Meta info received: the field is unbound */
+		JSON_METAINFO_UNBOUND
 	}
-	
+
 	enum json_chosen_field_t {
-		  CHOSEN_FIELD_UNSET /*= -1*/,
-		  CHOSEN_FIELD_OMITTED /*= -2*/
+		CHOSEN_FIELD_UNSET /*= -1*/,
+		CHOSEN_FIELD_OMITTED /*= -2*/
 	}
 }
