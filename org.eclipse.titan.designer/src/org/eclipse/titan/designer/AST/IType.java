@@ -740,7 +740,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	//FIXME comment
 	boolean hasEncodeAttributeForType(final Type type, final String encodingName);
-	
+
 	/**
 	 * @return the coding table of this type
 	 * */
