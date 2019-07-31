@@ -2869,6 +2869,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanOctetString");
 		aData.addCommonLibraryImport("TtcnError");
+		aData.addCommonLibraryImport("TTCN_Logger");
 
 
 		aData.addImport("java.text.MessageFormat");
