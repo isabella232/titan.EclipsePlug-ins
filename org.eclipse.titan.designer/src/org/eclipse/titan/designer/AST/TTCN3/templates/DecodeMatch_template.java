@@ -271,7 +271,7 @@ public class DecodeMatch_template extends TTCN3Template {
 		source.append("boolean ret_val;\n");
 		source.append("TitanOctetString os = new TitanOctetString();\n");
 		source.append("buffer.get_string(os);\n");
-		source.append(MessageFormat.format("if ({0}_decoder(os, dec_val, {0}_default_coding).operator_not_equals(0)) '{'\n", targetType.getGenNameCoder(aData, source, myScope)));
+		source.append(MessageFormat.format("if ({0}_decoder(os, dec_val, {1}_default_coding).operator_not_equals(0)) '{'\n", targetType.getGenNameCoder(aData, source, myScope), targetType.getGenNameDefaultCoding(aData, source, myScope)));
 		source.append("TtcnError.TtcnWarning(\"Decoded content matching failed, because the data could not be decoded.\");\n");
 		source.append("ret_val = false;\n");
 		source.append("} else if (os.lengthof().operator_not_equals(0)) {\n");
