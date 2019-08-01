@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
@@ -283,5 +284,18 @@ public final class VisibleString_Type extends ASN1Type {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 
 		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
+	}
+	
+	@Override
+	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+				|| !getParentType().getJsonAttribute().as_map)) {
+			aData.addBuiltinTypeImport( "JSON" );
+			return "JSON.TitanVisibleString_json_";
+		} else {
+			generateCodeJsonDescriptor(aData, source);
+
+			return getGenNameOwn(aData) + "_json_";
+		}
 	}
 }

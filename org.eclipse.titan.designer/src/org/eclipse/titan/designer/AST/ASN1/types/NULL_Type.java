@@ -242,4 +242,17 @@ public final class NULL_Type extends ASN1Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanAsn_Null";
 	}
+	
+	@Override
+	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+				|| !getParentType().getJsonAttribute().as_map)) {
+			aData.addBuiltinTypeImport( "JSON" );
+			return "JSON.TitanAsn_Null_json_";
+		} else {
+			generateCodeJsonDescriptor(aData, source);
+
+			return getGenNameOwn(aData) + "_json_";
+		}
+	}
 }
