@@ -9,6 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -21,6 +25,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification extends Base_Type {
 	/**
@@ -445,8 +450,15 @@ public class TitanCharacter_String_identification extends Base_Type {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
 			return;
 		}
@@ -498,6 +510,46 @@ public class TitanCharacter_String_identification extends Base_Type {
 			return;
 		}
 		mp_last.error(MessageFormat.format("Field {0} does not exist in type CHARACTER STRING.identification.", last_name));
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		Module_Parameter mp_field = null;
+		switch(get_selection()) {
+		case ALT_syntaxes:
+			mp_field = field.get_param(param_name);
+			mp_field.set_id(new Module_Param_FieldName("syntaxes"));
+			break;
+		case ALT_syntax:
+			mp_field = field.get_param(param_name);
+			mp_field.set_id(new Module_Param_FieldName("syntax"));
+			break;
+		case ALT_presentation__context__id:
+			mp_field = field.get_param(param_name);
+			mp_field.set_id(new Module_Param_FieldName("presentation_context_id"));
+			break;
+		case ALT_context__negotiation:
+			mp_field = field.get_param(param_name);
+			mp_field.set_id(new Module_Param_FieldName("context_negotiation"));
+			break;
+		case ALT_transfer__syntax:
+			mp_field = field.get_param(param_name);
+			mp_field.set_id(new Module_Param_FieldName("transfer_syntax"));
+			break;
+		case ALT_fixed:
+			mp_field = field.get_param(param_name);
+			mp_field.set_id(new Module_Param_FieldName("fixed"));
+			break;
+		default:
+			break;
+		}
+		Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
+		mp.add_elem(mp_field);
+		return mp;
 	}
 
 	@Override

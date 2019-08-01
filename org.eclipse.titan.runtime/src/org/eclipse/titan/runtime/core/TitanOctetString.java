@@ -461,8 +461,14 @@ public class TitanOctetString extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "octetstring value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Octetstring:
 			switch (param.get_operation_type()) {

@@ -9,6 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -17,7 +20,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * TTCN-3 default
  *
  * @author Kristof Szabados
- *
+ * @author Arpad Lovassy
  */
 public class TitanDefault extends Base_Type {
 	/** internal object to indicate unbound state. */
@@ -309,12 +312,28 @@ public class TitanDefault extends Base_Type {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "default reference (null) value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		if (param.get_type() != type_t.MP_Ttcn_Null) {
 			param.type_error("default reference (null) value");
 		}
 		default_ptr = null;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Ttcn_Null();
 	}
 
 	@Override

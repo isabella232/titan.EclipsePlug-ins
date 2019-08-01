@@ -11,6 +11,10 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.Optional.optional_sel;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -22,6 +26,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public class TitanCharacter_String extends Base_Type {
 	private final TitanCharacter_String_identification identification; //ASN1_Choice_Type
@@ -261,8 +266,15 @@ public class TitanCharacter_String extends Base_Type {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Value_List:
 			if (param.get_size() > 3) {
@@ -320,6 +332,25 @@ public class TitanCharacter_String extends Base_Type {
 			param.type_error("set value", "CHARACTER STRING");
 			break;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		Module_Parameter mp_field_identification = identification.get_param(param_name);
+		mp_field_identification.set_id(new Module_Param_FieldName("identification"));
+		Module_Parameter mp_field_data_value_descriptor = data__value__descriptor.get_param(param_name);
+		mp_field_data_value_descriptor.set_id(new Module_Param_FieldName("data_value_descriptor"));
+		Module_Parameter mp_field_string_value = string__value.get_param(param_name);
+		mp_field_string_value.set_id(new Module_Param_FieldName("string_value"));
+		Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
+		mp.add_elem(mp_field_identification);
+		mp.add_elem(mp_field_data_value_descriptor);
+		mp.add_elem(mp_field_string_value);
+		return mp;
 	}
 
 	@Override

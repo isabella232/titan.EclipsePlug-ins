@@ -9,6 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -20,6 +24,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	private final TitanObjectid abstract_; //ObjectID_Type
@@ -218,8 +223,15 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Value_List:
 			if (param.get_size() > 2) {
@@ -265,6 +277,22 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 			param.type_error("set value", "CHARACTER STRING.identification.syntaxes");
 			break;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		Module_Parameter mp_field_abstract = abstract_.get_param(param_name);
+		mp_field_abstract.set_id(new Module_Param_FieldName("abstract"));
+		Module_Parameter mp_field_transfer = transfer.get_param(param_name);
+		mp_field_transfer.set_id(new Module_Param_FieldName("transfer"));
+		Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
+		mp.add_elem(mp_field_abstract);
+		mp.add_elem(mp_field_transfer);
+		return mp;
 	}
 
 	@Override

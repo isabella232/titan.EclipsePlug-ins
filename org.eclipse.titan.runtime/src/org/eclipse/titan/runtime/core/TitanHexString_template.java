@@ -793,8 +793,14 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue() , "hexstring template");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Omit:
 			this.operator_assign(template_sel.OMIT_VALUE);

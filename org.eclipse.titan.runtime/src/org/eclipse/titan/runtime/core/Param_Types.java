@@ -333,7 +333,7 @@ public final class Param_Types {
 		}
 
 		// Originally RT2
-		Module_Param_Ptr get_referenced_param() {
+		public Module_Param_Ptr get_referenced_param() {
 			throw new TtcnError("Internal error: Module_Param::get_referenced_param()");
 		}
 

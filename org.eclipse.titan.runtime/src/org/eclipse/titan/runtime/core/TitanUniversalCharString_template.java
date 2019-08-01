@@ -13,6 +13,15 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Pattern;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_StringRange;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
@@ -1051,8 +1060,15 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "universal charstring template");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Omit:
 			this.operator_assign(template_sel.OMIT_VALUE);
@@ -1135,6 +1151,57 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		if (param.get_length_restriction() != null) {
 			set_length_range(param);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		Module_Parameter mp = null;
+		switch (template_selection) {
+		case UNINITIALIZED_TEMPLATE:
+			mp = new Module_Param_Unbound();
+			break;
+		case OMIT_VALUE:
+			mp = new Module_Param_Omit();
+			break;
+		case ANY_VALUE:
+			mp = new Module_Param_Any();
+			break;
+		case ANY_OR_OMIT:
+			mp = new Module_Param_AnyOrNone();
+			break;
+		case SPECIFIC_VALUE:
+			mp = single_value.get_param(param_name);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			if (template_selection == template_sel.VALUE_LIST) {
+				mp = new Module_Param_List_Template();
+			}
+			else {
+				mp = new Module_Param_ComplementList_Template();
+			}
+			for (int i = 0; i < value_list.size(); ++i) {
+				mp.add_elem(value_list.get(i).get_param(param_name));
+			}
+			break;
+		}
+		case VALUE_RANGE:
+			mp = new Module_Param_StringRange(min_value, max_value, min_is_exclusive, max_is_exclusive);
+			break;
+		case STRING_PATTERN:
+			mp = new Module_Param_Pattern(pattern_string.get_value().toString(), pattern_value_nocase);
+			break;
+		case DECODE_MATCH:
+			throw new TtcnError("Referencing a decoded content matching template is not supported.");
+		default:
+			throw new TtcnError("Referencing an uninitialized/unsupported universal charstring template.");
+		}
+		if (is_ifPresent) {
+			mp.set_ifpresent();
+		}
+		mp.set_length_restriction(get_length_range());
+		return mp;
 	}
 
 	@Override

@@ -9,6 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Asn_Null;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -17,6 +20,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * ASN.1 NULL type
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public class TitanAsn_Null extends Base_Type {
 	/**
@@ -198,12 +202,28 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "NULL value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		if (param.get_type() != type_t.MP_Asn_Null) {
 			param.type_error("NULL value");
 		}
 		boundFlag = true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Asn_Null();
 	}
 
 	@Override

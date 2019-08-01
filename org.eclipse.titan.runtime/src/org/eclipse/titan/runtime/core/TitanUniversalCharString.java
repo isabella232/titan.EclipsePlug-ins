@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Universal_Charstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
@@ -1132,6 +1135,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(final Module_Parameter param) {
 		set_param_internal(param, false);
 	}
@@ -1144,9 +1148,15 @@ public class TitanUniversalCharString extends Base_Type {
 		return set_param_internal(param, allow_pattern, false);
 	}
 
-	public boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern, final boolean is_nocase_pattern) {
+	public boolean set_param_internal(Module_Parameter param, final boolean allow_pattern, final boolean is_nocase_pattern) {
 		boolean is_pattern = false;
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "universal charstring value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Charstring:
 			switch (param.get_operation_type()) {
@@ -1212,6 +1222,15 @@ public class TitanUniversalCharString extends Base_Type {
 			param.type_error("universal charstring value");
 		}
 		return is_pattern;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Universal_Charstring(this);
 	}
 
 	/** 

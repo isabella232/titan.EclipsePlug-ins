@@ -10,13 +10,22 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 
 /**
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification_template extends Base_Template {
 	//if single value which value?
@@ -957,7 +966,15 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
+		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
 			final String param_field = param.get_id().get_current_name();
 			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
@@ -1045,6 +1062,78 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			param.type_error("union template", "CHARACTER STRING.identification");
 		}
 		is_ifPresent = param.get_ifpresent();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		Module_Parameter mp = null;
+		switch (template_selection) {
+		case UNINITIALIZED_TEMPLATE:
+			mp = new Module_Param_Unbound();
+			break;
+		case OMIT_VALUE:
+			mp = new Module_Param_Omit();
+			break;
+		case ANY_VALUE:
+			mp = new Module_Param_Any();
+			break;
+		case ANY_OR_OMIT:
+			mp = new Module_Param_AnyOrNone();
+			break;
+		case SPECIFIC_VALUE: {
+			Module_Parameter mp_field = null;
+			switch(single_value_union_selection) {
+			case ALT_syntaxes:
+				mp_field = single_value.get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("syntaxes"));
+				break;
+			case ALT_syntax:
+				mp_field = single_value.get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("syntax"));
+				break;
+			case ALT_presentation__context__id:
+				mp_field = single_value.get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("presentation_context_id"));
+				break;
+			case ALT_context__negotiation:
+				mp_field = single_value.get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("context_negotiation"));
+				break;
+			case ALT_transfer__syntax:
+				mp_field = single_value.get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("transfer_syntax"));
+				break;
+			case ALT_fixed:
+				mp_field = single_value.get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("fixed"));
+				break;
+			default:
+				break;
+			}
+			mp = new Module_Param_Assignment_List();
+			mp.add_elem(mp_field);
+			break;
+		}
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			if (template_selection == template_sel.VALUE_LIST) {
+				mp = new Module_Param_List_Template();
+			}
+			else {
+				mp = new Module_Param_ComplementList_Template();
+			}
+			for (int i = 0; i < value_list.size(); ++i) {
+				mp.add_elem(value_list.get(i).get_param(param_name));
+			}
+			break; }
+		default:
+			throw new TtcnError("Referencing an uninitialized/unsupported value of type CHARACTER STRING.identification.");
+		}
+		if (is_ifPresent) {
+			mp.set_ifpresent();
+		}
+		return mp;
 	}
 
 	@Override
