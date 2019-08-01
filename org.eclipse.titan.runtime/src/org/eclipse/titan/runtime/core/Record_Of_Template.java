@@ -91,8 +91,9 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		text_buf.push_int(number_of_permutations);
 
 		for (int i = 0; i < number_of_permutations; i++) {
-			text_buf.push_int(permutation_intervals.get(i).start_index);
-			text_buf.push_int(permutation_intervals.get(i).end_index);
+			final Pair_of_elements temp = permutation_intervals.get(i);
+			text_buf.push_int(temp.start_index);
+			text_buf.push_int(temp.end_index);
 		}
 	}
 
