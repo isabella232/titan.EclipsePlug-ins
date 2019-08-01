@@ -9,6 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+
 /**
  * Base_Template in core
  *
@@ -358,6 +361,13 @@ public abstract class Base_Template {
 	public abstract void log_match(final Base_Type match_value, final boolean legacy);
 
 	public abstract void set_param(final Param_Types.Module_Parameter param);
+
+	// Originally RT2
+	//TODO: make it abstract
+	//public abstract Module_Parameter get_param(Module_Param_Name param_name);
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		return null;
+	}
 
 	/**
 	 * Checks whether the template is present. A template is_present if it

@@ -11,6 +11,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -392,6 +399,45 @@ public class TitanObjectid_template extends Base_Template {
 			break;
 		}
 		is_ifPresent = param.get_ifpresent();
+	}
+
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		Module_Parameter mp = null;
+		switch (template_selection) {
+		case UNINITIALIZED_TEMPLATE:
+			mp = new Module_Param_Unbound();
+			break;
+		case OMIT_VALUE:
+			mp = new Module_Param_Omit();
+			break;
+		case ANY_VALUE:
+			mp = new Module_Param_Any();
+			break;
+		case ANY_OR_OMIT:
+			mp = new Module_Param_AnyOrNone();
+			break;
+		case SPECIFIC_VALUE:
+			mp = single_value.get_param(param_name);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			if (template_selection == template_sel.VALUE_LIST) {
+				mp = new Module_Param_List_Template();
+			} else {
+				mp = new Module_Param_ComplementList_Template();
+			}
+			for (int i = 0; i < value_list.size(); ++i) {
+				mp.add_elem(value_list.get(i).get_param(param_name));
+			}
+			break;
+		}
+		default:
+			throw new TtcnError("Referencing an uninitialized/unsupported objid template.");
+		}
+		if (is_ifPresent) {
+			mp.set_ifpresent();
+		}
+		return mp;
 	}
 
 	/**

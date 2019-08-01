@@ -8,6 +8,9 @@
 package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -364,6 +367,15 @@ public class TitanBoolean extends Base_Type {
 			param.type_error("boolean value");
 		}
 		boolean_value = param.get_boolean();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Boolean(boolean_value);
 	}
 
 	@Override

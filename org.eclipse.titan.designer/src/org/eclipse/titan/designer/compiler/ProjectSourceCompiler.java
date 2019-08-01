@@ -525,6 +525,23 @@ public class ProjectSourceCompiler {
 			aSb.append("\t}\n\n");
 		}
 
+		if (aData.getGetModuleParameters().length() > 0) {
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic Param_Types.Module_Parameter get_module_param(final Param_Types.Module_Param_Name param_name)\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\tfinal String par_name = param_name.get_current_name();\n");
+			aSb.append(aData.getGetModuleParameters());
+			aSb.append("\t\t{\n");
+			aSb.append("\t\t\treturn null;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t}\n\n");
+
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic boolean has_get_module_param() {\n");
+			aSb.append("\t\treturn true;\n");
+			aSb.append("\t}\n\n");
+		}
+
 		if (aData.getPreInit().length() > 0) {
 			aSb.append("\tpublic void pre_init_module()\n");
 			aSb.append("\t{\n");

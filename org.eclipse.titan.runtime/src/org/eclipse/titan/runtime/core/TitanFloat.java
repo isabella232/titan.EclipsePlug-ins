@@ -10,6 +10,9 @@ package org.eclipse.titan.runtime.core;
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Float;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
@@ -1207,4 +1210,12 @@ public class TitanFloat extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Float(float_value.getValue());
+	}
 }

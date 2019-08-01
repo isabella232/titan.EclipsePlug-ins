@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -330,6 +333,17 @@ public class TitanObjectid extends Base_Type {
 		n_components = param.get_string_size();
 		components_ptr = new ArrayList<TitanInteger>(Arrays.asList((TitanInteger[]) param.get_string_data()));
 		overflow_idx = -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+	  if (!is_bound()) {
+	    return new Module_Param_Unbound();
+	  }
+	  final TitanInteger[] intarray = new TitanInteger[components_ptr.size()];
+	  components_ptr.toArray(intarray);
+	  return new Module_Param_Objid(n_components, intarray);
 	}
 
 	@Override

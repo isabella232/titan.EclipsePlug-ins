@@ -48,6 +48,9 @@ public class JavaGenData {
 	/** the contents of set_module_param */
 	private final StringBuilder setModuleParameters;
 
+	/** the contents of get_module_param */
+	private final StringBuilder getModuleParameters;
+
 	/** the contents of start_function if needed */
 	private final StringBuilder startPTCFunction;
 
@@ -141,6 +144,7 @@ public class JavaGenData {
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
 		setModuleParameters = new StringBuilder();
+		getModuleParameters = new StringBuilder();
 		startPTCFunction = new StringBuilder();
 		executeTestcase = new StringBuilder();
 		executeAllTestcases = new StringBuilder();
@@ -274,6 +278,13 @@ public class JavaGenData {
 	 */
 	public StringBuilder getSetModuleParameters () {
 		return setModuleParameters;
+	}
+
+	/**
+	 * @return the string where the module parameter getting code is written
+	 */
+	public StringBuilder getGetModuleParameters () {
+		return getModuleParameters;
 	}
 
 	/**

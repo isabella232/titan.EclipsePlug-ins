@@ -10,6 +10,9 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 
@@ -220,6 +223,20 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 		optionalValue.set_param(param);
 		if (!optionalValue.is_bound()) {
 			clean_up();
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		switch (optionalSelection) {
+		case OPTIONAL_PRESENT:
+			return optionalValue.get_param(param_name);
+		case OPTIONAL_OMIT:
+			return new Module_Param_Omit();
+		case OPTIONAL_UNBOUND:
+		default:
+			return new Module_Param_Unbound();
 		}
 	}
 

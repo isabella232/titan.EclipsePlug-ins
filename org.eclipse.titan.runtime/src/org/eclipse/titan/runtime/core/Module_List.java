@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
@@ -65,7 +67,6 @@ public final class Module_List {
 		module.post_init_module();
 	}
 
-	
 	public static void start_function(final String module_name, final String function_name, final Text_Buf function_arguments) {
 		final TTCN_Module module = lookup_module(module_name);
 		if (module == null){
@@ -99,6 +100,12 @@ public final class Module_List {
 	}
 
 	public static void set_param(final Param_Types.Module_Parameter param) {
+		// Originally RT2
+		if (param.get_id().get_nof_names() > 2) {
+			param.error("Module parameter cannot be set. Field names and array " +
+					"indexes are not supported in the Load Test Runtime.");
+		}
+
 		// The first segment in the parameter name can either be the module name,
 		// or the module parameter name - both must be checked
 
@@ -136,6 +143,58 @@ public final class Module_List {
 				param.error(MessageFormat.format("Module parameter cannot be set, because no parameter with name `{0}'' exists in module `{1}'', and no parameter with name `{1}'' exists in any module.", second_name, first_name));
 			}
 		}
+	}
+
+	// Originally RT2
+	public static Module_Parameter get_param(Module_Param_Name param_name, final Module_Parameter caller) {
+		// The first segment in the parameter name can either be the module name,
+		// or the module parameter name - both must be checked
+		final String first_name = param_name.get_current_name();
+		String second_name = null;
+		Module_Parameter param = null;
+
+		// Check if the first name segment is an existing module name
+		final TTCN_Module module_ptr = lookup_module(first_name);
+		if (module_ptr != null && module_ptr.has_get_module_param() && param_name.next_name()) {
+			param = module_ptr.get_module_param(param_name);
+			if (param == null) {
+				second_name = param_name.get_current_name(); // for error messages
+			}
+		}
+
+		// If not found, check if the first name segment was the module parameter name
+		// (even if it matched a module name)
+		if (param == null) {
+			param_name.reset(); // set the position back to the first segment
+			for (final TTCN_Module module2 : modules) {
+				param = module2.get_module_param(param_name);
+				if (param != null) {
+					break;
+				}
+			}
+		}
+
+		// Still not found -> error
+		if (param == null) {
+			if (module_ptr == null) {
+				caller.error("Referenced module parameter cannot be found. Module `%s' does not exist, " +
+						"and no parameter with name `%s' exists in any module.",
+						first_name, first_name);
+			} else if (!module_ptr.has_get_module_param()) {
+				caller.error("Referenced module parameter cannot be found. Module `%s' does not have " +
+						"parameters, and no parameter with name `%s' exists in other modules.",
+						first_name, first_name);
+			} else {
+				caller.error("Referenced module parameter cannot be found. No parameter with name `%s' " +
+						"exists in module `%s', and no parameter with name `%s' exists in any module.",
+						second_name, first_name, first_name);
+			}
+		}
+		else if (param.get_type() == Module_Parameter.type_t.MP_Unbound) {
+			caller.error("Referenced module parameter '%s' is unbound.", param_name.get_str());
+		}
+
+		return param;
 	}
 
 	public static void execute_control(final String module_name) {
@@ -181,7 +240,7 @@ public final class Module_List {
 	}
 
 	public static void clean_up_usage_stats() {
-		
+
 	}
 
 	//FIXME still need to be called

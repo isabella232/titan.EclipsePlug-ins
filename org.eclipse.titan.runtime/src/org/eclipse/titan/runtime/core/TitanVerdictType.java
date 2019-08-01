@@ -9,6 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Verdict;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -238,6 +241,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "verdict value");
 		if (param.get_type() != type_t.MP_Verdict) {
@@ -248,6 +252,15 @@ public class TitanVerdictType extends Base_Type {
 			param.error("Internal error: invalid verdict value (%d).", verdict);
 		}
 		verdict_value = verdict.verdict_value;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param( final Module_Param_Name param_name ) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Verdict(this);
 	}
 
 	@Override

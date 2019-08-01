@@ -11,6 +11,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
@@ -26,6 +34,11 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
  * @author Andrea Palfi
  */
 public class TitanHexString_template extends Restricted_Length_Template {
+
+	/**
+	 * pattern table, converts value to printable character
+	 */
+	private static final char patterns[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', '?', '*' };
 
 	private TitanHexString single_value;
 
@@ -169,6 +182,17 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		}
 
 		throw new TtcnError("Internal error: invalid element in hexstring pattern.");
+	}
+
+	private static String pattern_list_2_string(final byte[] list) {
+		if (list == null) {
+			throw new TtcnError("Internal error: hexstring pattern list is null.");
+		}
+		final StringBuilder result = new StringBuilder(list.length);
+		for (int i = 0; i < list.length; i++) {
+			result.append(patterns[list[i]]);
+		}
+		return result.toString();
 	}
 
 	@Override
@@ -816,6 +840,55 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		if (param.get_length_restriction() != null) {
 			set_length_range(param);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		Module_Parameter mp = null;
+		switch (template_selection) {
+		case UNINITIALIZED_TEMPLATE:
+			mp = new Module_Param_Unbound();
+			break;
+		case OMIT_VALUE:
+			mp = new Module_Param_Omit();
+			break;
+		case ANY_VALUE:
+			mp = new Module_Param_Any();
+			break;
+		case ANY_OR_OMIT:
+			mp = new Module_Param_AnyOrNone();
+			break;
+		case SPECIFIC_VALUE:
+			mp = single_value.get_param(param_name);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			if (template_selection == template_sel.VALUE_LIST) {
+				mp = new Module_Param_List_Template();
+			}
+			else {
+				mp = new Module_Param_ComplementList_Template();
+			}
+			for (int i = 0; i < value_list.size(); ++i) {
+				mp.add_elem(value_list.get(i).get_param(param_name));
+			}
+			break;
+		}
+		case STRING_PATTERN: {
+			mp = new Module_Param_Hexstring_Template(pattern_list_2_string(pattern_value));
+			break;
+		}
+		case DECODE_MATCH:
+			throw new TtcnError("Referencing a decoded content matching template is not supported.");
+		default:
+			throw new TtcnError("Referencing an uninitialized/unsupported hexstring template.");
+		}
+		if (is_ifPresent) {
+			mp.set_ifpresent();
+		}
+		mp.set_length_restriction(get_length_range());
+		return mp;
 	}
 
 	@Override

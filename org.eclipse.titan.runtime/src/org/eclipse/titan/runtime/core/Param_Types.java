@@ -332,7 +332,12 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_enumerated()");
 		}
 
-		public expression_operand_t get_expr_type()  { 
+		// Originally RT2
+		Module_Param_Ptr get_referenced_param() {
+			throw new TtcnError("Internal error: Module_Param::get_referenced_param()");
+		}
+
+		public expression_operand_t get_expr_type() {
 			throw new TtcnError("Internal error: Module_Param.get_expr_type()");
 		}
 
@@ -405,6 +410,116 @@ public final class Param_Types {
 
 		public void expr_type_error(final String type_name) {
 			error(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
+		}
+	}
+
+	/** Smart pointer class for Module_Param instances
+	 * Uses a reference counter so the Module_Param object is never copied.
+	 * Deletes the object (if it's temporary), when the reference counter reaches zero. */
+	public static class Module_Param_Ptr {
+		private class module_param_ptr_struct {
+			Module_Parameter mp_ptr;
+			boolean temporary;
+		}
+
+		private module_param_ptr_struct ptr;
+
+		public Module_Param_Ptr(final Module_Parameter p) {
+			  ptr = new module_param_ptr_struct();
+			  ptr.mp_ptr = p;
+			  ptr.temporary = false;
+		}
+
+		public Module_Param_Ptr(final Module_Param_Ptr r) {
+			  ptr = new module_param_ptr_struct();
+			  ptr.mp_ptr = r.ptr.mp_ptr;
+			  ptr.temporary = r.ptr.temporary;
+		}
+
+		public Module_Param_Ptr operator_assign(final Module_Param_Ptr r) {
+			  ptr = r.ptr;
+			  return this;
+		}
+	
+		public Module_Parameter get() {
+			return ptr.mp_ptr;
+		}
+
+		public void set_temporary() {
+			ptr.temporary = true;
+		}
+	}
+
+	// Originally RT2
+	/** Module parameter reference (and enumerated value)
+	 * Stores a reference to another module parameter, that can be retrieved with the
+	 * method get_referenced_param().
+	 * @note Enumerated values are stored as references (with only 1 name segment),
+	 * since the parser cannot distinguish them. */
+	public static class Module_Param_Reference extends Module_Parameter {
+		private Module_Param_Name mp_ref;
+
+		public Module_Param_Reference(Module_Param_Name p) {
+			mp_ref = p;
+			if (mp_ref == null) {
+				throw new TtcnError("Internal error: Module_Param_Reference::Module_Param_Reference()");
+			}
+		}
+
+		@Override
+		public type_t get_type() {
+			return type_t.MP_Reference;
+		}
+
+		@Override
+		public Module_Param_Ptr get_referenced_param() {
+			//TODO
+			//if (Debugger_Value_Parsing.happening()) {
+			//	error("References to other variables are not allowed.");
+			//}
+			mp_ref.reset();
+			Module_Parameter mp = Module_List.get_param(mp_ref, this);
+			Module_Param_Ptr ptr = new Module_Param_Ptr(mp);
+			ptr.set_temporary();
+			return ptr;
+		}
+
+		@Override
+		public String get_enumerated() {
+			if (mp_ref.get_nof_names() == 1) {
+				return mp_ref.get_current_name();
+			}
+			return null;
+		}
+
+		public String get_type_str() {
+			return "module parameter reference";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str(mp_ref.get_str());
+		}
+	}
+
+	// Originally RT2
+	/** Unbound module parameter
+	 * This cannot be created by the parser, only by get_referenced_param(), when
+	 * the referenced module parameter is unbound. */
+	public static class Module_Param_Unbound extends Module_Parameter {
+
+		@Override
+		public type_t get_type() {
+			return type_t.MP_Unbound;
+		}
+
+		public final String get_type_str() {
+			return "<unbound>";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("<unbound>");
 		}
 	}
 
@@ -718,6 +833,10 @@ public final class Param_Types {
 			bstr = new TitanBitString(str);
 		}
 
+		public Module_Param_Bitstring(final TitanBitString bstr) {
+			this.bstr = new TitanBitString(bstr);
+		}
+
 		public String get_type_str() {
 			return "bitstring";
 		}
@@ -748,6 +867,10 @@ public final class Param_Types {
 			hstr = new TitanHexString(str);
 		}
 
+		public Module_Param_Hexstring(final TitanHexString hstr) {
+			this.hstr = new TitanHexString(hstr);
+		}
+
 		public String get_type_str() {
 			return "hexstring";
 		}
@@ -776,6 +899,10 @@ public final class Param_Types {
 
 		public Module_Param_Octetstring(final String str) {
 			ostr = new TitanOctetString(str);
+		}
+
+		public Module_Param_Octetstring(final TitanOctetString ostr) {
+			this.ostr = new TitanOctetString(ostr);
 		}
 
 		public String get_type_str() {

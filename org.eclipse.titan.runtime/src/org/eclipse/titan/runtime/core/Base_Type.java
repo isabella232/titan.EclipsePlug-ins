@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
@@ -196,6 +198,13 @@ public abstract class Base_Type {
 	 * by this method to calculated the final result.
 	 * @param param module parameter value (its ID specifies which object is to be set) */
 	public abstract void set_param (final Param_Types.Module_Parameter param);
+
+	// Originally RT2
+	//TODO: make it abstract
+	//public abstract Module_Parameter get_param(Module_Param_Name param_name);
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		return null;
+	}
 
 	/**
 	 * Recursively set the optional fields to omit.

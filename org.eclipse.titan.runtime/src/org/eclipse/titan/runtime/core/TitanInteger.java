@@ -10,6 +10,9 @@ package org.eclipse.titan.runtime.core;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Integer;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
@@ -2085,8 +2088,14 @@ public class TitanInteger extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "integer value");
+		
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Integer:
 			operator_assign(param.get_integer());
@@ -2143,4 +2152,12 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		if (!boundFlag) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Integer(this);
+	}
 }

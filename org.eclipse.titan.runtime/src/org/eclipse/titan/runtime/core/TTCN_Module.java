@@ -48,6 +48,19 @@ public class TTCN_Module {
 		return false;
 	}
 
+	public Param_Types.Module_Parameter get_module_param(final Param_Types.Module_Param_Name param_name) {
+		return null;
+	}
+
+	/**
+	 * Indicates if the module has a get_module_param overriding function.
+	 *
+	 * @return {@code false} by default.
+	 * */
+	public boolean has_get_module_param() {
+		return false;
+	}
+
 	public void pre_init_module() {
 		if (pre_init_called) {
 			return;

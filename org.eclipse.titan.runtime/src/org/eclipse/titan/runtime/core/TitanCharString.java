@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
@@ -1318,6 +1321,15 @@ public class TitanCharString extends Base_Type {
 	 * */
 	public static TitanCharString convert_to_CharString(final TitanCharString_Element otherValue) {
 		return new TitanCharString(otherValue);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Charstring(this);
 	}
 
 	/**

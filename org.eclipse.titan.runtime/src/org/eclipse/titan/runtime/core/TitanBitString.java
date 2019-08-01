@@ -10,6 +10,9 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
@@ -1052,6 +1055,15 @@ public class TitanBitString extends Base_Type {
 			param.expr_type_error("a bitstring value");
 			break;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Bitstring(this);
 	}
 
 	@Override
