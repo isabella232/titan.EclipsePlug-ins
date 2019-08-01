@@ -1207,7 +1207,13 @@ public class TitanCharString extends Base_Type {
 	protected boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern, final AtomicBoolean is_nocase_pattern) {
 		boolean is_pattern = false;
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "charstring value");
-		final Module_Parameter mp = param;
+		Module_Parameter mp = param;
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			mp = param.get_referenced_param().get();
+		}
+
 		switch (mp.get_type()) {
 		case MP_Universal_Charstring:
 		case MP_Charstring:

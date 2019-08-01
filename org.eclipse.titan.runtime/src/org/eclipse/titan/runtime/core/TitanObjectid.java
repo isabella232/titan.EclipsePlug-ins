@@ -23,6 +23,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * Runtime class for object identifiers (objid)
  *
  * @author Gergo Ujhelyi
+ * @author Arpad Lovassy
  * */
 public class TitanObjectid extends Base_Type {
 
@@ -324,8 +325,14 @@ public class TitanObjectid extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "objid value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		if (param.get_type() != type_t.MP_Objid) {
 			param.type_error("objid value");
 		}

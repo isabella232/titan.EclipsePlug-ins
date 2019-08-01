@@ -242,8 +242,14 @@ public class TitanVerdictType extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "verdict value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		if (param.get_type() != type_t.MP_Verdict) {
 			param.type_error("verdict value");
 		}

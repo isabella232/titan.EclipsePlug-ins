@@ -1152,8 +1152,14 @@ public class TitanFloat extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "float value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Float:
 			operator_assign(param.get_float());

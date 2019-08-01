@@ -11,12 +11,22 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 
 /**
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public class TitanCharacter_String_template extends Base_Template {
 	private TitanCharacter_String_identification_template identification; //ASN1_Choice_Type
@@ -769,8 +779,15 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Omit:
 			operator_assign(template_sel.OMIT_VALUE);
@@ -847,6 +864,57 @@ public class TitanCharacter_String_template extends Base_Template {
 			break;
 		}
 		is_ifPresent = param.get_ifpresent();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		Module_Parameter mp = null;
+		switch (template_selection) {
+		case UNINITIALIZED_TEMPLATE:
+			mp = new Module_Param_Unbound();
+			break;
+		case OMIT_VALUE:
+			mp = new Module_Param_Omit();
+			break;
+		case ANY_VALUE:
+			mp = new Module_Param_Any();
+			break;
+		case ANY_OR_OMIT:
+			mp = new Module_Param_AnyOrNone();
+			break;
+		case SPECIFIC_VALUE: {
+			Module_Parameter mp_field_identification = identification.get_param(param_name);
+			mp_field_identification.set_id(new Module_Param_FieldName("identification"));
+			Module_Parameter mp_field_data_value_descriptor = data__value__descriptor.get_param(param_name);
+			mp_field_data_value_descriptor.set_id(new Module_Param_FieldName("data_value_descriptor"));
+			Module_Parameter mp_field_string_value = string__value.get_param(param_name);
+			mp_field_string_value.set_id(new Module_Param_FieldName("string_value"));
+			mp = new Module_Param_Assignment_List();
+			mp.add_elem(mp_field_identification);
+			mp.add_elem(mp_field_data_value_descriptor);
+			mp.add_elem(mp_field_string_value);
+			break;
+		}
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			if (template_selection == template_sel.VALUE_LIST) {
+				mp = new Module_Param_List_Template();
+			} else {
+				mp = new Module_Param_ComplementList_Template();
+			}
+			for (int i = 0; i < list_value.size(); ++i) {
+				mp.add_elem(list_value.get(i).get_param(param_name));
+			}
+			break;
+		}
+		default:
+			throw new TtcnError("Referencing an uninitialized/unsupported template of type CHARACTER STRING.");
+		}
+		if (is_ifPresent) {
+			mp.set_ifpresent();
+		}
+		return mp;
 	}
 
 	@Override

@@ -27,7 +27,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  *
  * @author Gergo Ujhelyi
  * @author Andrea Palfi
- *
+ * @author Arpad Lovassy
  */
 public class TitanObjectid_template extends Base_Template {
 
@@ -368,8 +368,14 @@ public class TitanObjectid_template extends Base_Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "objid template");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Omit:
 			this.operator_assign(template_sel.OMIT_VALUE);

@@ -459,8 +459,13 @@ public class TitanVerdictType_template extends Base_Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "verdict template");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
 
 		switch (param.get_type()) {
 		case MP_Omit:

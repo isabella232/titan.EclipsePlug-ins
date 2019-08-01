@@ -8,13 +8,19 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Value_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 
 /**
  * @author Farkas Izabella Ingrid
+ * @author Arpad Lovassy
  */
 public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 
@@ -529,8 +535,31 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
+		// Originally RT2
+		if (param.get_id() != null && param.get_id().next_name()) {
+			// Haven't reached the end of the module parameter name
+			// => the name refers to one of the elements, not to the whole array
+			final String param_field = param.get_id().get_current_name();
+			if (param_field.charAt(0) < '0' || param_field.charAt(0) > '9') {
+				param.error("Unexpected record field name in module parameter, expected a valid array index");
+			}
+			final int param_index = Integer.parseInt(param_field);
+			if (param_index >= array_size) {
+				param.error("Invalid array index: %u. The array only has %u elements.", param_index, array_size);
+			}
+			array_elements[param_index].set_param(param);
+			return;
+		}
+
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "array value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Value_List:
 			if (param.get_size() != array_size) {
@@ -553,6 +582,37 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			param.type_error("array value");
 			break;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		if (param_name.next_name()) {
+			// Haven't reached the end of the module parameter name
+			// => the name refers to one of the elements, not to the whole array
+			final String param_field = param_name.get_current_name();
+			if (param_field.charAt(0) < '0' || param_field.charAt(0) > '9') {
+				throw new TtcnError("Unexpected record field name in module parameter reference, " +
+						"expected a valid array index");
+			}
+			final int param_index = Integer.parseInt(param_field);
+			if (param_index >= array_size) {
+				throw new TtcnError(MessageFormat.format("Invalid array index: {0}. The array only has {1} elements.",
+						param_index, array_size));
+			}
+			return array_elements[param_index].get_param(param_name);
+		}
+		List<Module_Parameter> values = new ArrayList<Module_Parameter>();
+		for (int i = 0; i < array_size; ++i) {
+			values.add(array_elements[i].get_param(param_name));
+		}
+		Module_Param_Value_List mp = new Module_Param_Value_List();
+		mp.add_list_with_implicit_ids(values);
+		values.clear();
+		return mp;
 	}
 
 	@Override

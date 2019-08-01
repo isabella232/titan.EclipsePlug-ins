@@ -11,6 +11,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
@@ -21,6 +24,7 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
  * The component type from the compiler is represented as int.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public class TitanComponent extends Base_Type {
 	// the predefined component reference values
@@ -283,8 +287,15 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "component reference (integer or null) value");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
+
 		switch (param.get_type()) {
 		case MP_Integer:
 			componentValue = param.get_integer().get_int();
@@ -302,6 +313,15 @@ public class TitanComponent extends Base_Type {
 			param.type_error("component reference (integer or null) value");
 			break;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name){
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+		return new Module_Param_Ttcn_Null();
 	}
 
 	public static void log_component_reference(final int component_reference) {

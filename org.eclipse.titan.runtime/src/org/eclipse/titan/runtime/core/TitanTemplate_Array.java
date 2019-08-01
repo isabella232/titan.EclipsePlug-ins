@@ -12,7 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Value_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -23,6 +30,7 @@ import org.eclipse.titan.runtime.core.RecordOf_Match.type_of_matching;
 /**
  * @author Farkas Izabella Ingrid
  * @author Andrea Palfi
+ * @author Arpad Lovassy
  *
  * TODO recursive_permutation_match might not need to be here
  *
@@ -792,7 +800,8 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	/** {@inheritDoc} */
+	public void set_param(Module_Parameter param) {
 		if (param.get_id() != null) {
 			if(param.get_id().getClass().equals(Module_Param_Name.class) && param.get_id().next_name()) {		
 				// Haven't reached the end of the module parameter name
@@ -811,6 +820,11 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 		}
 
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "array template");
+
+		// Originally RT2
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
 
 		switch (param.get_type()) {
 		case MP_Omit:
@@ -852,6 +866,68 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			break;
 		}
 		is_ifPresent = param.get_ifpresent();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (param_name.next_name()) {
+			// Haven't reached the end of the module parameter name
+			// => the name refers to one of the elements, not to the whole record of
+			final String param_field = param_name.get_current_name();
+			if (param_field.charAt(0) < '0' || param_field.charAt(0) > '9') {
+				throw new TtcnError("Unexpected record field name in module parameter reference, " +
+						"expected a valid array index");
+			}
+			final int param_index = Integer.parseInt(param_field);
+			if (param_index >= array_size) {
+				throw new TtcnError(MessageFormat.format("Invalid array index: {0}. The array only has {1} elements.", param_index, array_size));
+			}
+			return single_value[param_index].get_param(param_name);
+		}
+		Module_Parameter mp = null;
+		switch (template_selection) {
+		case UNINITIALIZED_TEMPLATE:
+			mp = new Module_Param_Unbound();
+			break;
+		case OMIT_VALUE:
+			mp = new Module_Param_Omit();
+			break;
+		case ANY_VALUE:
+			mp = new Module_Param_Any();
+			break;
+		case ANY_OR_OMIT:
+			mp = new Module_Param_AnyOrNone();
+			break;
+		case SPECIFIC_VALUE: {
+			List<Module_Parameter> values = new ArrayList<Module_Parameter>();
+			for (int i = 0; i < array_size; ++i) {
+				values.add(single_value[i].get_param(param_name));
+			}
+			mp = new Module_Param_Value_List();
+			mp.add_list_with_implicit_ids(values);
+			values.clear();
+			break;
+		}
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			if (template_selection == template_sel.VALUE_LIST) {
+				mp = new Module_Param_List_Template();
+			} else {
+				mp = new Module_Param_ComplementList_Template();
+			}
+			for (int i = 0; i < value_list.length; ++i) {
+				mp.add_elem(value_list[i].get_param(param_name));
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		if (is_ifPresent) {
+			mp.set_ifpresent();
+		}
+		return mp;
 	}
 
 	@Override
