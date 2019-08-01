@@ -3211,8 +3211,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// if it has its own custom encoder or decoder functions set, then it needs its own coder functions
-		for (int i = 0; i < codingTable.size(); i++) {
-			final Coding_Type tempCodingType = codingTable.get(i);
+		final ArrayList<Coding_Type> ct_codingTable = ((Type)t_ct).codingTable;;
+		for (int i = 0; i < ct_codingTable.size(); i++) {
+			final Coding_Type tempCodingType = ct_codingTable.get(i);
 			if (!tempCodingType.builtIn && (tempCodingType.customCoding.encoders.containsKey(this) ||
 					tempCodingType.customCoding.decoders.containsKey(this))) {
 				return getGenNameOwn(aData);
