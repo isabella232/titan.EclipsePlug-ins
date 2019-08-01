@@ -52,6 +52,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Pattern;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Permutation_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Reference;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_StringRange;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Subset_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Superset_Template;
@@ -1661,12 +1662,9 @@ pr_ParameterReference returns [Module_Parameter moduleparameter]:
 	// enumerated values are also treated as references by the parser,
 	// these will be sorted out later during set_param()
 	pns = pr_ParameterNameSegment
-	{	// no references allowed in RT1, so the name segment must be an enumerated value
-    	// (which means it can only contain 1 name)
-    	if ($pns.names == null || $pns.names.size() != 1) {
-			config_process_error("Module parameter references are not allowed in the Load Test Runtime.");
-		}
-		$moduleparameter = ($pns.names == null || $pns.names.size() == 0) ? null : new Module_Param_Enumerated($pns.names.get(0));
+	{	
+		$moduleparameter = ($pns.names == null || $pns.names.size() == 0) ? null :
+			new Module_Param_Reference(new Module_Param_Name($pns.names));
 	}
 ;
 
