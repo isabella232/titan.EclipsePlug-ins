@@ -294,4 +294,17 @@ public final class TeletexString_Type extends ASN1Type {
 
 		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
 	}
+	
+	@Override
+	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+				|| !getParentType().getJsonAttribute().as_map)) {
+			aData.addBuiltinTypeImport( "JSON" );
+			return "JSON.TitanTeletexString_json_";
+		} else {
+			generateCodeJsonDescriptor(aData, source);
+
+			return getGenNameOwn(aData) + "_json_";
+		}
+	}
 }

@@ -551,4 +551,19 @@ public final class ASN1_BitString_Type extends ASN1Type {
 
 		return MessageFormat.format("TitanBitString.convert_to_BitString({0})", fromName);
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+				|| !getParentType().getJsonAttribute().as_map)) {
+			aData.addBuiltinTypeImport( "JSON" );
+
+			return "JSON.TitanBitString_json_";
+		} else {
+			generateCodeJsonDescriptor(aData, source);
+
+			return getGenNameOwn(aData) + "_json_";
+		}
+	}
 }

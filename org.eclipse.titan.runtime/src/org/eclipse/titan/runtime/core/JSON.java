@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * FIXME comment
  *
- * @author Gergo Ujhelyi
+ * @author Farkas Izabella Ingrid
  **/
 public class JSON {
 
@@ -66,22 +66,22 @@ public class JSON {
 	public static final TTCN_JSONdescriptor TitanCharString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_JSONdescriptor TitanFloat_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_JSONdescriptor TitanUniversalCharString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor VERDICTTYPE_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor NumericString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor UTF8String_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor GeneralString_json_= new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor PrintableString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor UniversalString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor BMPString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor GraphicString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor IA5String_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor TeletexString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor VideotexString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor VisibleString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor ASN_NULL_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor OBJID_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor ASN_ROID_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_JSONdescriptor ASN_ANY_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanVerdictType_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanNumericString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanUTF8String_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanGeneralString_json_= new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanPrintableString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanUniversalString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanBMPString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanGraphicString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanIA5String_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanTeletexString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanVideotexString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanVisibleString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanAsn_Null_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanObjectid_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanAsn_Roid_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanAsn_Any_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_JSONdescriptor ENUMERATED_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 
 

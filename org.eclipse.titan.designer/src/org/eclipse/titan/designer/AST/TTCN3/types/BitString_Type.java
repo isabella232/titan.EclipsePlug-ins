@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -363,6 +364,21 @@ public final class BitString_Type extends Type {
 			generateCodeRawDescriptor(aData, source);
 
 			return getGenNameOwn(aData) + "_raw_";
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+				|| !getParentType().getJsonAttribute().as_map)) {
+			aData.addBuiltinTypeImport( "JSON" );
+
+			return "JSON.TitanBitString_json_";
+		} else {
+			generateCodeJsonDescriptor(aData, source);
+
+			return getGenNameOwn(aData) + "_json_";
 		}
 	}
 
