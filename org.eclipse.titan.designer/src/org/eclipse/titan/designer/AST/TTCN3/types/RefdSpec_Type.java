@@ -347,6 +347,25 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 		return refdType.getGenNameRawDescriptor(aData, source);
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (this == refdType || refdType == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+		}
+
+		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null 
+				&& getParentType().getJsonAttribute().as_map)) {
+			generateCodeJsonDescriptor(aData, source);
+
+			return getGenNameOwn(aData) + "_json_";
+		}
+
+		return refdType.getGenNameJsonDescriptor(aData, source);
+	}
 
 	@Override
 	/** {@inheritDoc} */
