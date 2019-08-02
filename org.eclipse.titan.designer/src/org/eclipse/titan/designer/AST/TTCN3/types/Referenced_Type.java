@@ -783,6 +783,25 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		return refd.getGenNameRawDescriptor(aData, source);
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (this == refd || refd == null || refdLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+		}
+
+		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null 
+				&& getParentType().getJsonAttribute().as_map)) {
+			generateCodeJsonDescriptor(aData, source);
+
+			return getGenNameOwn(aData) + "_json_";
+		}
+
+		return refd.getGenNameJsonDescriptor(aData, source);
+	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -838,7 +857,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	/** {@inheritDoc} */
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
 		// FIXME needs to care for other coding attributes too.
-		if (rawAttribute != null) {
+		if (rawAttribute != null || jsonAttribute != null) {
 			super.generateCodeTypedescriptor(aData, source);
 		}
 	}
