@@ -1500,6 +1500,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
+		case JSON:
+		//FIXME: missing other type
 			break;
 		default:
 			return;
@@ -1523,6 +1525,14 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		generateCodeRawDescriptor(aData, source);
 
 		return getGenNameOwn(aData) + "_raw_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		generateCodeJsonDescriptor(aData, source);
+
+		return getGenNameOwn(aData) + "_json_";
 	}
 
 	@Override

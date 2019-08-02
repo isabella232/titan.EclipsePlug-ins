@@ -763,6 +763,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
+		case JSON:
+		//FIXME: add other encoding type
 			break;
 		default:
 			return;
@@ -1144,6 +1146,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		return lastGenName + "_template";
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		generateCodeJsonDescriptor(aData, source);
+
+		return getGenNameOwn(aData) + "_json_";
 	}
 
 	@Override

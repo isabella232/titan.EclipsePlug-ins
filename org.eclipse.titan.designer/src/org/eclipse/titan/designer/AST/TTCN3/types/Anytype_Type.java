@@ -850,6 +850,14 @@ public final class Anytype_Type extends Type {
 
 		return getGenNameOwn(aData) + "_raw_";
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		generateCodeJsonDescriptor(aData, source);
+
+		return getGenNameOwn(aData) + "_json_";
+	}
 
 	@Override
 	/** {@inheritDoc} */
