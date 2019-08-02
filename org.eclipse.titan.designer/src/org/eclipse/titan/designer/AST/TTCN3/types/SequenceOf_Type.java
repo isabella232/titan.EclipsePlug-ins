@@ -1051,6 +1051,14 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		generateCodeJsonDescriptor(aData, source);
+
+		return getGenNameOwn(aData) + "_json_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {

@@ -404,6 +404,8 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
+		case JSON:
+		//FIXME: add other encodingType
 			break;
 		default:
 			return;
@@ -430,6 +432,14 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		return getGenNameOwn(aData) + "_raw_";
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		generateCodeJsonDescriptor(aData, source);
+
+		return getGenNameOwn(aData) + "_json_";
+	}
+	
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
