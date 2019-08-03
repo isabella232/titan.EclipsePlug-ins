@@ -217,7 +217,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		tableViewer.setInput(EMPTY);
 
 		treeViewerSelectedNode = node;
-		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getSelectedAssignment().getFullName(), callHierarchy.getCurrentProject().getName()));
+		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getSelectedAssignment().getFullName().substring(1), callHierarchy.getCurrentProject().getName()));
 		treeViewer.getControl().setFocus();
 	}
 
