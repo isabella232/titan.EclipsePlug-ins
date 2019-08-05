@@ -75,13 +75,18 @@ public abstract class TypeMappingTarget extends ASTNode implements ILocateableNo
 	public abstract void check(final CompilationTimeStamp timestamp, final Type sourceType, final Port_Type portType, final boolean legacy, final boolean incoming);
 
 	/**
-	 * Creates and populates the necessary object so that code can be generated to this type mapping target.
-	 * 
-	 * @param aData only used to update imports if needed
-	 * @param source the source to report errors to.
-	 * @param hasSliding this parameter is used to return if this type mapping target uses sliding decoding.
-	 * @param outType the messagetype the mapping belongs to.
-	 * 
+	 * Creates and populates the necessary object so that code can be
+	 * generated to this type mapping target.
+	 *
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source to report errors to.
+	 * @param hasSliding
+	 *                this parameter is used to return if this type mapping
+	 *                target uses sliding decoding.
+	 * @param outType
+	 *                the messagetype the mapping belongs to.
 	 * */
 	public abstract MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final AtomicBoolean hasSliding);
 }
