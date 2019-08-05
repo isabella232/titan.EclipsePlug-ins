@@ -246,10 +246,12 @@ public class CallHierarchyNode {
 	 */
 	private Definition getReferenceParent(final Reference reference) {
 		INamedNode referenceParentNode = reference.getNameParent().getNameParent().getNameParent().getNameParent();
+		while( !(referenceParentNode instanceof Definition) && (referenceParentNode != null) ) {
+			referenceParentNode = referenceParentNode.getNameParent();
+		}
 		if(!(referenceParentNode instanceof Definition)) {
 			return null;
 		}
-
 		final Definition parentDefinition = (Definition) referenceParentNode;
 		return parentDefinition;
 	}

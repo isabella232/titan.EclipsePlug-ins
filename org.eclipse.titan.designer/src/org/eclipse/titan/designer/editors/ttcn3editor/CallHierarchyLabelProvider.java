@@ -11,10 +11,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.viewers.LabelProvider;
 import java.text.MessageFormat;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.graphics.ImageCache;
-import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
 
 /**
@@ -59,6 +57,10 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 		if (node.getNodeDefinition().getAssignmentName().equals("testcase")) {
 			iconName = "testcase.gif";
 		}
+		
+		if (node.getNodeDefinition().getAssignmentName().equals("external function")) {
+			iconName = "function_external.gif";
+		}
 
 		return ImageCache.getImage(iconName);
 	}
@@ -85,10 +87,10 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 		final int matches = node.getReferencesNumber();
 		if (matches > 0) {
 			final String text = "{0}   -   ({1} matches)";
-			return MessageFormat.format(text, node.getName(), matches);
+			return MessageFormat.format(text, node.getName().substring(1), matches);
 		}
 
-		return node.getName();
+		return node.getName().substring(1);
 	}
 
 	@Override
@@ -124,12 +126,11 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 		Reference reference = (Reference) element;
 
 		switch (columnIndex) {
-		case COLUMN_LINE:
-			return String.valueOf(reference.getLocation().getLine());
-		case COLUMN_INFO: {
-			final Assignment referedAssignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-			return referedAssignment.getFullName();
-		}
+			case COLUMN_LINE:
+				return String.valueOf(reference.getLocation().getLine());
+			case COLUMN_INFO: {
+				return reference.getDisplayName();
+			}
 		}
 
 		return null;
