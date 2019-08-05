@@ -40,7 +40,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados
- * 
  * */
 public final class Send_Statement extends Statement {
 	private static final String SENDONPORT = "Message-based operation `send'' is not applicable to a procedure-based port of type `{0}''";

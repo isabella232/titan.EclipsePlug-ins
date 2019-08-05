@@ -116,7 +116,7 @@ public class RawASTStruct {
 	// field IDs in form of [unionField.sub]field_N, keyField.subfield_M = tagValue multiple tagValues may be specified
 	public rawAST_coding_taglist_list crosstaglist;
 	public rawAST_coding_taglist_list taglist;
-	
+
 	public rawAST_coding_taglist presence; // Presence indicator expressions for an optional field
 	public int toplevelind;
 	public rawAST_toplevel toplevel;

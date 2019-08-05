@@ -82,7 +82,7 @@ public final class Connect_Statement extends Statement {
 	public Value getComponentReference1() {
 		return componentReference1;
 	}
-	
+
 	public Value getComponentReference2() {
 		return componentReference2;
 	}

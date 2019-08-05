@@ -92,7 +92,6 @@ public final class Catch_Statement extends Statement {
 	private final Reference redirectTimestamp;
 	private boolean inCall = false;
 	private boolean callHasTimer = false;
-	
 
 	// calculated field
 	private Signature_Type signature;

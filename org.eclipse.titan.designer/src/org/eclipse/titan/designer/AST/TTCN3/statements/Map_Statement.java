@@ -66,7 +66,7 @@ public final class Map_Statement extends Statement {
 	private final ParsedActualParameters parsedParameterList;
 	private ActualParameterList actualParameterList; // generated
 	private FormalParameterList formalParList; // not owned
-	
+
 	public Map_Statement(final Value componentReference1, final PortReference portReference1, final Value componentReference2,
 			final PortReference portReference2, final ParsedActualParameters parameters) {
 		this.componentReference1 = componentReference1;
@@ -272,7 +272,7 @@ public final class Map_Statement extends Statement {
 				getLocation().reportSemanticWarning(MessageFormat.format("This mapping is not done in translation mode, because the {0} endpoint is unknown", body1 != null ? "second" : "first"));
 			}
 
-			if (parsedParameterList != null && 
+			if (parsedParameterList != null &&
 					((cref1IsSystem && body1 == null) ||
 					(cref2IsSystem && body2 == null))) {
 				getLocation().reportSemanticError("Cannot determine system component in `map' operation with `param' clause");
@@ -280,7 +280,7 @@ public final class Map_Statement extends Statement {
 
 			return;
 		}
-		
+
 		if (cref1IsTestcomponents || cref2IsSystem) {
 			translate = !body1.isLegacy() && body1.isTranslate(body2);
 			if (!translate && !body1.isMappable(timestamp, body2)) {

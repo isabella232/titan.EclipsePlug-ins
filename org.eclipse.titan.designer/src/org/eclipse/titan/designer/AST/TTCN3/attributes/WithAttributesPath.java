@@ -484,7 +484,6 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 							realAttributeCache.add(actualSingleAttribute);
 							localHasOverrideVariant = actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
 						}
-						
 					}
 					break;
 				}

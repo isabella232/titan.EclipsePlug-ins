@@ -31,9 +31,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The Setencode_Statement class represents a TTCN3 setencode statement.
- * 
+ *
  * @author Gergo Ujhelyi
- * 
  */
 public class Setencode_Statement extends Statement {
 
@@ -192,7 +191,7 @@ public class Setencode_Statement extends Statement {
 		if (expression.preamble != null) {
 			source.append(expression.preamble);
 		}
-		source.append(MessageFormat.format("{0}_default_coding.operator_assign( {1} );\n", type.getGenNameDefaultCoding(aData, source, getMyScope()), expression.expression)); 
+		source.append(MessageFormat.format("{0}_default_coding.operator_assign( {1} );\n", type.getGenNameDefaultCoding(aData, source, getMyScope()), expression.expression));
 		if (expression.postamble != null) {
 			source.append(expression.postamble);
 		}

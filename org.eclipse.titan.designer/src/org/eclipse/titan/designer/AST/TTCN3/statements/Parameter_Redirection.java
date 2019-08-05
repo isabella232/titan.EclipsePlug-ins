@@ -159,7 +159,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 
 	/**
 	 * Add generated java code for parameter redirection.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports if needed
 	 * @param expression
@@ -176,7 +176,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 	/**
 	 * Internal version of the java code generation for parameter
 	 * redirection.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports if needed
 	 * @param expression
@@ -225,7 +225,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 	/**
 	 * Generate a helper class that is needed for parameter redirections
 	 * that also have at least one parameter redirection with decoding.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports if needed
 	 * @param source
@@ -244,7 +244,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 	/**
 	 * Generate a helper class that is needed for parameter redirections
 	 * that also have at least one parameter redirection with decoding.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports if needed
 	 * @param source
@@ -325,7 +325,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 					if (temp != null) {
 						temp = temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 					}
-					if (temp == null || !temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) { 
+					if (temp == null || !temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 						final Charstring_Value stringEncoding = (Charstring_Value)temp;
 						String redirCodingString;
 						if (stringEncoding == null || "UTF-8".equals(stringEncoding.getValue())) {
@@ -347,7 +347,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 				}
 				if (useDecmatchResult) {
 					// if the redirected parameter was matched using a decmatch template,
-					// then the parameter redirect class should use the decoding result 
+					// then the parameter redirect class should use the decoding result
 					// from the template instead of decoding the parameter again
 					needsDecode = false;
 					final TemplateInstance decodeTarget = ((DecodeMatch_template)matchedTemplate).getDecodeTarget();

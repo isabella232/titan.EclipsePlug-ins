@@ -189,7 +189,7 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 		if (!legacy) {
 			// In the error message the source type is the target_type
 			// and the target type is the source_type for a reason.
-			// Reason: In the new standard like behavior the conversion functions 
+			// Reason: In the new standard like behavior the conversion functions
 			// has the correct param order for in and out parameters
 			// (which is more logical than the old behavior)
 			// For example:

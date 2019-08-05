@@ -56,7 +56,7 @@ public final class Parameter_Assignment extends ASTNode implements ILocateableNo
 			reference.setFullNameParent(this);
 		}
 	}
-	
+
 	public Parameter_Assignment(final Reference reference, final Identifier identifier, final Value string_encoding) {
 		this.reference = reference;
 		this.identifier = identifier;

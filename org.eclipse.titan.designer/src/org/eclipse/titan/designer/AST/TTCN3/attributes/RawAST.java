@@ -105,7 +105,7 @@ public class RawAST {
 	// field IDs in form of [unionField.sub]field_N, keyField.subfield_M = tagValue multiple tagValues may be specified
 	public ArrayList<rawAST_single_tag> crosstaglist;
 	public ArrayList<rawAST_single_tag> taglist;
-	
+
 	public rawAST_single_tag presence = new rawAST_single_tag(); // Presence indicator expressions for an optional field
 	public rawAST_force_omit forceOmit = new rawAST_force_omit(); //forces lower level optional fields to be omitted
 	public int toplevelind;
