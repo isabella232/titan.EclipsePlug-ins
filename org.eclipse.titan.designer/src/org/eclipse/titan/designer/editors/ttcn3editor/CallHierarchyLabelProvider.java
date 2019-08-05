@@ -126,11 +126,11 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 		Reference reference = (Reference) element;
 
 		switch (columnIndex) {
-			case COLUMN_LINE:
-				return String.valueOf(reference.getLocation().getLine());
-			case COLUMN_INFO: {
-				return reference.getDisplayName();
-			}
+		case COLUMN_LINE:
+			return String.valueOf(reference.getLocation().getLine());
+		case COLUMN_INFO: {
+			return reference.getDisplayName();
+		}
 		}
 
 		return null;
