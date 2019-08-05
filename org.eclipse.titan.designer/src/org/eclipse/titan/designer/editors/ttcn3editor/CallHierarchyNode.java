@@ -252,6 +252,7 @@ public class CallHierarchyNode {
 		if(!(referenceParentNode instanceof Definition)) {
 			return null;
 		}
+
 		final Definition parentDefinition = (Definition) referenceParentNode;
 		return parentDefinition;
 	}
