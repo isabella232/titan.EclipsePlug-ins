@@ -294,7 +294,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 				setAndCheckEnumIntegerValue(timestamp, item, valueMap, Hex2IntExpression.hex2int(hexValue.getValue()));
 				break;
 			case EXPRESSION_VALUE:
-				final Expression_Value expressionValue = (Expression_Value) value; 
+				final Expression_Value expressionValue = (Expression_Value) value;
 				final IValue evaluatedValue = expressionValue.evaluateValue(timestamp, Expected_Value_type.EXPECTED_CONSTANT, referenceChain);
 				final Type_type type = expressionValue.getExpressionReturntype( timestamp, Expected_Value_type.EXPECTED_CONSTANT);
 				switch (type) {
@@ -356,7 +356,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			}
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -771,7 +771,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
-		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.ENUMERATED_json_";

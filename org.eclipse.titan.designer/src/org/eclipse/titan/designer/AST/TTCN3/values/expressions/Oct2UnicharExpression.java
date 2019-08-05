@@ -41,7 +41,7 @@ public final class Oct2UnicharExpression extends Expression_Value {
 	public Oct2UnicharExpression(final Value value, final Value code_string) {
 		this.value = value;
 		this.code_string = code_string;
-		
+
 		if (value != null) {
 			value.setFullNameParent(this);
 		}
@@ -240,7 +240,7 @@ public final class Oct2UnicharExpression extends Expression_Value {
 			value.updateSyntax(reparser, false);
 			reparser.updateLocation(value.getLocation());
 		}
-		
+
 		if (code_string != null) {
 			code_string.updateSyntax(reparser, false);
 			reparser.updateLocation(code_string.getLocation());
@@ -255,7 +255,7 @@ public final class Oct2UnicharExpression extends Expression_Value {
 		}
 
 		value.findReferences(referenceFinder, foundIdentifiers);
-		
+
 		if (code_string != null) {
 			code_string.findReferences(referenceFinder, foundIdentifiers);
 		}
@@ -279,7 +279,7 @@ public final class Oct2UnicharExpression extends Expression_Value {
 		if (value != null) {
 			value.reArrangeInitCode(aData, source, usageModule);
 		}
-		
+
 		if (code_string != null) {
 			code_string.reArrangeInitCode(aData, source, usageModule);
 		}

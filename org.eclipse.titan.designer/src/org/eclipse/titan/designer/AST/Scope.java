@@ -413,7 +413,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	 *                the location to report the error to.
 	 * @param description
 	 *                the name of the operation and description of assignment.
-	 * @param inControlPart 
+	 * @param inControlPart
 	 *                is the function called from a control part?
 	 * */
 	public void checkMTCScope(final CompilationTimeStamp timestamp, final Component_Type mtcComponentType, final ILocateableNode errorLocation,
@@ -449,7 +449,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	 *                the location to report the error to.
 	 * @param description
 	 *                the name of the operation and description of assignment.
-	 * @param inControlPart 
+	 * @param inControlPart
 	 *                is the function called from a control part?
 	 * */
 	public void checkSystemScope(final CompilationTimeStamp timestamp, final Component_Type systemComponentType, final ILocateableNode errorLocation,

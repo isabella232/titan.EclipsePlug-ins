@@ -216,7 +216,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 
 		return runsOnType;
 	}
-	
+
 	public Reference getRunsOnReference(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 

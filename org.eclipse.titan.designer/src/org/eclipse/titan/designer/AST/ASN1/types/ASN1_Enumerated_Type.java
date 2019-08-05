@@ -732,10 +732,10 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return  getGenNameOwn(aData).concat("_template");
 	}
-	
+
 	@Override
 	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
-		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.ENUMERATED_json_";

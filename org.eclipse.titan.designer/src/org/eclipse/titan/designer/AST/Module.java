@@ -387,7 +387,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 
 	/**
 	 * Add generated java code for this module.
-	 * 
+	 *
 	 * @param aData the generated java code with other info.
 	 */
 	public abstract void generateCode( final JavaGenData aData );

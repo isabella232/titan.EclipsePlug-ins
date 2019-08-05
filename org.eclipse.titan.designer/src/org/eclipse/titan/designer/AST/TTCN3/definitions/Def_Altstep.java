@@ -48,7 +48,6 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * The Def_Altstep class represents TTCN3 altstep definitions.
  *
  * @author Kristof Szabados
- * 
  * */
 public final class Def_Altstep extends Definition implements IParameterisedAssignment {
 	private static final String FULLNAMEPART1 = ".<formal_parameter_list>";
@@ -221,7 +220,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		return runsOnType;
 	}
-	
+
 	public Reference getRunsOnReference(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 

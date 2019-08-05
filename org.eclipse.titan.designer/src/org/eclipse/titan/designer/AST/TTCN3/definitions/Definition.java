@@ -433,10 +433,10 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 			}
 		}
 	}
-	
+
 	/**
 	 * The static version of checkErroneousAttributes function.
-	 * 
+	 *
 	 * @param timestamp
 	 */
 	public static ErroneousAttributes checkErroneousAttributes(final MultipleWithAttributes p_attrib, final IType p_type, final Scope p_scope, final String p_fullname, final boolean in_update_stmt, final CompilationTimeStamp timestamp, final Reference ref) {

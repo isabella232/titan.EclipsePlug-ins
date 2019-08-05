@@ -1061,7 +1061,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		} else {
 			source.append( "\t\tTTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		}
-		
+
 		source.append( "\t\tTTCN_EncDec.clear_error();\n" );
 
 		// creating a buffer from the input stream

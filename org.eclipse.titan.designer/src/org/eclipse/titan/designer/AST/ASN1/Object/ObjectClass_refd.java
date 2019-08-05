@@ -207,6 +207,4 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 			last.generateCode(aData);
 		}
 	}
-
-	
 }

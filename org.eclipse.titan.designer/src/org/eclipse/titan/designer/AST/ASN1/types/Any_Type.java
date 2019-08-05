@@ -257,11 +257,11 @@ public final class Any_Type extends ASN1Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanAsn_Any";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );
 

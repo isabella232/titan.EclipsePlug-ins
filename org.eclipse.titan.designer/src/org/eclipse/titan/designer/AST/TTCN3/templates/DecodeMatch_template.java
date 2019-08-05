@@ -26,7 +26,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * Represents a decode match template.
  *
  * @author Kristof Szabados
- * 
  * */
 public class DecodeMatch_template extends TTCN3Template {
 	final Value stringEncoding;

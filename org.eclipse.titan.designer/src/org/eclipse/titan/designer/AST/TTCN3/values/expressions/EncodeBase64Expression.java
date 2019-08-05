@@ -165,8 +165,6 @@ public final class EncodeBase64Expression extends Expression_Value {
 			}
 		}
 
-		
-
 		if (useLineBreaks != null) {
 			useLineBreaks.setLoweridToReference(timestamp);
 			final Type_type tempType2 = useLineBreaks.getExpressionReturntype(timestamp, expectedValue);

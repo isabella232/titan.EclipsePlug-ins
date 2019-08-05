@@ -173,7 +173,7 @@ public final class MatchExpression extends Expression_Value {
 			value.setLoweridToReference(timestamp);
 			localGovernor = value.getExpressionGovernor(timestamp, expectedValue);
 		}
-		
+
 		if( localGovernor == null) {
 			if (!template.getIsErroneous(timestamp)) {
 				getLocation().reportSemanticError("Cannot determine the type of arguments in `match()' operation");

@@ -319,7 +319,7 @@ public final class Charstring_Value extends Value {
 	 * Converts charstring content to its equivalent escaped java string.
 	 * The result will be a valid java string literal, which can be inserted to the generated java code.
 	 * It is typically used for charstring patterns.
-	 * 
+	 *
 	 * @return escaped java string
 	 */
 	private String get_stringRepr() {

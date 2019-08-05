@@ -284,10 +284,10 @@ public final class IA5String_Type extends ASN1Type {
 
 		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
 	}
-	
+
 	@Override
 	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
-		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null 
+		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.TitanIA5String_json_";

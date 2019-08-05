@@ -378,7 +378,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Does the semantic checking of index redirections.
-	 * 
+	 *
 	 * TODO this might be a too general location for this function.
 	 *
 	 * @param timestamp

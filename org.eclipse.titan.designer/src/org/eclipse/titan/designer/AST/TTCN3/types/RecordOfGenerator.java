@@ -26,7 +26,7 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generate "record of/set of" class
-	 * 
+	 *
 	 * @param aData
 	 *                used to access build settings.
 	 * @param source
@@ -113,7 +113,7 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generate "record of/set of" template class
-	 * 
+	 *
 	 * @param aData
 	 *                used to access build settings.
 	 * @param source
@@ -1669,7 +1669,7 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tpublic {0}_template( final {1}_Of_Template otherValue ) '{'\n", genName, isSetOf ? "Set" : "Record" ) );
 		source.append("\t\t\tcopy_template( otherValue );\n");
 		source.append("\t\t}\n\n");
-		
+
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");
 			source.append("\t\t * Initializes to a given value.\n");
@@ -2865,7 +2865,7 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generating list_item() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param genName
@@ -2940,7 +2940,7 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generating valueof() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param genName
@@ -3291,7 +3291,7 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t}\n\n");
 	}
-	
+
 	/**
 	 * Generate set_param
 	 *
@@ -3551,7 +3551,7 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generate "record of/set of" class
-	 * 
+	 *
 	 * @param aData
 	 *                used to access build settings.
 	 * @param source
@@ -3622,7 +3622,7 @@ public final class RecordOfGenerator {
 
 	/**
 	 * Generate "record of/set of" template class
-	 * 
+	 *
 	 * @param aData
 	 *                used to access build settings.
 	 * @param source

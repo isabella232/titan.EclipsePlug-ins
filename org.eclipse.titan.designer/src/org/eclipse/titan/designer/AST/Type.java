@@ -387,7 +387,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			CompField myOwner = (CompField) getOwner();
 			return myOwner != null && myOwner.isOptional();
 		}
-		
+
 		return false;
 	}
 
@@ -693,7 +693,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						// overriding global attributes are inherited by types with no coding
 						// table (no 'encode' attributes) of their own
 						// non-overriding global attributes are inherited by types that have
-						// no coding table of their own and cannot use the coding table of any 
+						// no coding table of their own and cannot use the coding table of any
 						// other type
 						final ArrayList<IType> typeList = new ArrayList<IType>();
 						getTypesWithNoCodingTable(timestamp, typeList, hasGlobalOverride);
@@ -2718,7 +2718,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					default:
 						break;
 					}
-					
 				}
 				preInit.append("null");
 				for (int j = 0; j < fieldList.names.size(); j++) {
@@ -2772,9 +2771,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		JSON_value.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0} =", descriptorName));
 		JSON_value.append(MessageFormat.format("new TTCN_JSONdescriptor(", genname));
 
-		final boolean as_map = (jsonAttribute != null && jsonAttribute.as_map); //FIXME: || 
+		final boolean as_map = (jsonAttribute != null && jsonAttribute.as_map); //FIXME: ||
 		//(ownertype == OT_RECORD_OF && parent_type.jsonAttribute != null && parent_type.jsonAttribute.as_map);
-		if (jsonAttribute == null) { 
+		if (jsonAttribute == null) {
 			JSON_value.append(MessageFormat.format("false, null, false, null, false, false, {0}, 0, null);\n", as_map ? "true": "false"));
 		} else {
 
@@ -3012,7 +3011,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Returns true if the type supports at least one built-in encoding.
 	 * Only used with new codec handling.
-	 * 
+	 *
 	 * @return true if the type supports at least one built-in encoding.
 	 * */
 	public boolean hasBuiltInEncoding() {
@@ -3078,11 +3077,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public abstract String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
 
 	/** Returns whether the type has the encoding attribute specified by
-     * the parameter. The function also checks the qualified attributes of
-     * parent types. Always returns true for ASN.1 types, when checking for a
-     * JSON encoding attribute. 
-     * 
-     */
+	 * the parameter. The function also checks the qualified attributes of
+	 * parent types. Always returns true for ASN.1 types, when checking for a
+	 * JSON encoding attribute.
+	 */
 	public boolean hasEncodeAttribute(final String encoding_name) {
 		if (encoding_name == "JSON" &&  isAsn()) {
 			// ASN.1 types automatically support JSON encoding
@@ -3110,13 +3108,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		return false;
 	}
-	
+
 	/** Helper function for hasEncodeAttribute. Checks this type's qualified encoding
-     * attributes that refer to the specified type (target_type) and returns
-     * true if any of them match the specified encoding (encoding_name).
-     * Recursive function (calls the parent type's hasEncodeAttrForType function
-     * if no matching attributes are found). 
-     */
+	 * attributes that refer to the specified type (target_type) and returns
+	 * true if any of them match the specified encoding (encoding_name).
+	 * Recursive function (calls the parent type's hasEncodeAttrForType function
+	 * if no matching attributes are found).
+	 */
 	@Override
 	public boolean hasEncodeAttributeForType(final Type type, final String encoding_name) {
 		// if this type has an encode attribute, that also extends to its
@@ -3129,7 +3127,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (multiWithAttributes != null) {
 			for (int i = 0; i < multiWithAttributes.getNofElements(); i++) {
 				final SingleWithAttribute singleWithAttribute = multiWithAttributes.getAttribute(i);
-				if (SingleWithAttribute.Attribute_Type.Encode_Attribute.equals(singleWithAttribute.getAttributeType()) 
+				if (SingleWithAttribute.Attribute_Type.Encode_Attribute.equals(singleWithAttribute.getAttributeType())
 						&& singleWithAttribute.getAttributeSpecification().getSpecification() == encoding_name) {
 					// search the attribute's qualifiers for one that refers to the
 					// target type
@@ -3144,7 +3142,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 							final Reference reference = new Reference(null, fieldsOrArrays);
 							final IType typeQualifier = getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
 							if (typeQualifier == type) {
-								return true;	
+								return true;
 							}
 						}
 					}
@@ -3152,15 +3150,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				}
 			}
 		}
-		
+
 		if ( (ownerType == TypeOwner_type.OT_COMP_FIELD || ownerType == TypeOwner_type.OT_RECORD_OF ||ownerType == TypeOwner_type.OT_ARRAY) &&
 				parentType != null && parentType.getAttributePath() != null) {
 			return parentType.hasEncodeAttributeForType(type, encoding_name);
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Returns the name of the type descriptor (- the _descr_ postfix).
 	 *
@@ -3172,7 +3170,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement the handling of attribute checks
-		if (rawAttribute != null || jsonAttribute != null || 
+		if (rawAttribute != null || jsonAttribute != null ||
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
 				|| (!isAsn() && hasEncodeAttribute("JSON"))) {
 			return getGenNameOwn(aData);

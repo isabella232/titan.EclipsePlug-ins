@@ -62,7 +62,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 	public IASN1Type newInstance() {
 		return new RefdSpec_Type(refdType);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
@@ -347,7 +347,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 		return refdType.getGenNameRawDescriptor(aData, source);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
@@ -357,7 +357,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null 
+		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null
 				&& getParentType().getJsonAttribute().as_map)) {
 			generateCodeJsonDescriptor(aData, source);
 

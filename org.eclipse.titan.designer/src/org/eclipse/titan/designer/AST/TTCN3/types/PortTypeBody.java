@@ -607,7 +607,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 	/**
 	 * Check the translation mapping reated attributes.
-	 * 
+	 *
 	 * @param timestamp the timestamp of the actual semantic checking iteration.
 	 * */
 	private void checkMapTranslation(final CompilationTimeStamp timestamp) {
@@ -643,7 +643,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					final IType inMessageType = providerBody.inMessages.getTypeByIndex(j);
 					if (((inMessages != null && inMessages.hasType(timestamp, inMessageType)) // Provider in message is present in the port in message
 							|| mappingIns.hasType(timestamp, inMessageType) // Provider in message is present in one of the in mappings
-							|| found // Provider in message is present in the inout list of the port 
+							|| found // Provider in message is present in the inout list of the port
 							) == false) {
 						getLocation().reportSemanticError(MessageFormat.format("Incoming message type `{0}'' is not present in the in(out) message list or in the from mapping types, coming from port: `{1}''.", inMessageType.getTypename(), providerType.getGenNameOwn()));
 					}
@@ -695,7 +695,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						}
 					}
 
-					// Check if the port's out message list contains at least one of the 
+					// Check if the port's out message list contains at least one of the
 					// type's target mappings.
 					if (!found && outMappings != null) {
 						if (outMappings.hasMappingForType(timestamp, outMessages.getTypeByIndex(j))) {
@@ -1411,12 +1411,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	}
 
 	/**
-	 * Special case when mapping a port that has out procedure/message but 
-	 * the other does not have any, and other has in procedure/message but 'this'  
+	 * Special case when mapping a port that has out procedure/message but
+	 * the other does not have any, and other has in procedure/message but 'this'
 	 * does not have any. In that case it is not possible to send or receive anything.
 	 *
 	 * @param other the other porttypebody
-	 * 
+	 *
 	 * @return true if a map operation could use this porttypebody for sending/receiving.
 	 * */
 	public boolean mapCanReceiveOrSend(final PortTypeBody other) {

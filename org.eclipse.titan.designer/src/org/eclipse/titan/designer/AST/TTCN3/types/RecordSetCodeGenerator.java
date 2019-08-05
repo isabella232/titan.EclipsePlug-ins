@@ -56,7 +56,7 @@ public final class RecordSetCodeGenerator {
 
 		/** Java AST type name (for debug purposes) */
 		private final String mTTCN3TypeName;
-	
+
 		private final String mTypeDescriptorName;
 
 		public boolean hasRaw;
@@ -114,7 +114,7 @@ public final class RecordSetCodeGenerator {
 	 * Should the union have more than 200 crosstag attributes, we will generate helper functions.
 	 * Each of which will handle 200 crosstags on its own.
 	 * This happened in Diamater (1.667 crosstag attributes on one type)
-	 **/ 
+	 **/
 	private static final int maxCrosstagLength = 200;
 
 	private RecordSetCodeGenerator() {
@@ -270,7 +270,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating declaration of the member variables
-	 * 
+	 *
 	 * @param aData
 	 *                used to access build settings.
 	 * @param source
@@ -434,7 +434,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating operator_assign() function
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports if needed
 	 * @param source
@@ -488,7 +488,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating clean_up() function
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -507,7 +507,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating is_bound() function
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -535,7 +535,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating is_present() function
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -550,7 +550,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating is_value() function
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -584,7 +584,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating size_of() function
-	 * 
+	 *
 	 * @param aData
 	 *                used to access build settings.
 	 * @param aSb
@@ -631,7 +631,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating log() function
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -900,7 +900,6 @@ public final class RecordSetCodeGenerator {
 									if (cur_choice.fields.get(0).isOmitValue) {
 										source.append(MessageFormat.format("\t\t\t\t\tencoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
 										source.append(MessageFormat.format("\t\t\t\t\tmyleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
-										
 									} else {
 										source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
 										for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
@@ -968,7 +967,7 @@ public final class RecordSetCodeGenerator {
 										final rawAST_coding_fields field = fields.fields.get(fields.fields.size() -1);
 										firstCheckPrefix = firstCheck.toString();
 										firstCheck.append(MessageFormat.format(".get_selection() == {0}.union_selection_type.ALT_{1}",  field.unionType, field.nthfieldname));
-	
+
 										final String firstString = firstCheck.toString();
 										if (commonFirstCheck.containsKey(firstString)) {
 											commonFirstCheck.get(firstString).add(j);
@@ -1324,7 +1323,6 @@ public final class RecordSetCodeGenerator {
 								if (cur_choice.fields.get(0).isOmitValue) {
 									source.append(MessageFormat.format("\t\t\t\t\tencoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
 									source.append(MessageFormat.format("\t\t\t\t\tmyleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
-									
 								} else {
 									source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
 									for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
@@ -1717,7 +1715,7 @@ public final class RecordSetCodeGenerator {
 						}
 					} else {
 						genRawDecodeRecordField(aData, source, fieldInfos, i, raw, raw_options, false, prev_ext_group);
-						
+
 						if (tempRawOption.dependentFields != null && !tempRawOption.dependentFields.isEmpty()) {
 							for (int j = 0; j < tempRawOption.dependentFields.size(); j++) {
 								final int dependent_field_index = tempRawOption.dependentFields.get(j);
@@ -1731,8 +1729,7 @@ public final class RecordSetCodeGenerator {
 						}
 					}
 				}
-	
-				
+
 				if (raw != null && raw.presence != null && raw.presence.fields != null && raw.presence.fields.size() > 0) {
 					source.append("if (");
 					genRawFieldChecker(source, raw.presence, false);
@@ -1752,7 +1749,7 @@ public final class RecordSetCodeGenerator {
 	 * Calculates some RAW coding information, that influences the whole
 	 * encode/decode generation, but is only available locally in individual
 	 * attributes.
-	 * 
+	 *
 	 * @param isSet
 	 *                {@code true} for generating {@code set}, {@code false}
 	 *                for record.
@@ -1853,7 +1850,7 @@ public final class RecordSetCodeGenerator {
 				final int crosstagSize = tempFieldInfo.raw.crosstaglist == null || tempFieldInfo.raw.crosstaglist.list == null ? 0: tempFieldInfo.raw.crosstaglist.list.size();
 				for (int j = 0; j < crosstagSize; j++) {
 					final rawAST_coding_taglist crosstag = tempFieldInfo.raw.crosstaglist.list.get(j);
-					final int fieldsSize = crosstag == null || crosstag.fields == null ? 0 : crosstag.fields.size(); 
+					final int fieldsSize = crosstag == null || crosstag.fields == null ? 0 : crosstag.fields.size();
 					for (int k = 0; k < fieldsSize; k++) {
 						final rawAST_coding_field_list keyid = crosstag.fields.get(k);
 						if (keyid.fields.size() >= 1) {
@@ -1877,7 +1874,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating is_bound() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -1912,7 +1909,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating is_value() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -2150,7 +2147,6 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tfinal template_sel old_selection = template_selection;\n");
 		source.append("\t\t\t\tclean_up();\n");
 		source.append("\t\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
-		
 		source.append("\t\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
@@ -2450,7 +2446,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating is_present() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 */
@@ -2503,7 +2499,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating valueof() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param aNamesList
@@ -2540,7 +2536,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating list_item() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param genName
@@ -2574,7 +2570,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating set_type() function for template
-	 * 
+	 *
 	 * @param aSb
 	 *                the output, where the java code is written
 	 * @param genName
@@ -2688,7 +2684,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * Generating size_of() function
-	 * 
+	 *
 	 * @param aData
 	 *                used to access build settings.
 	 * @param aSb
@@ -4111,7 +4107,7 @@ public final class RecordSetCodeGenerator {
 
 	/**
 	 * This function can be used to generate a raw tag checker.
-	 * 
+	 *
 	 * used to generate encoding code for the tags.
 	 *
 	 * @param source

@@ -117,6 +117,5 @@ public final class FieldSetting_Value extends FieldSetting {
 		source.append(MessageFormat.format("\tpublic static final {0} {1}  = new {0}();\n", typeGeneratedName, genName));
 		setting.generateCodeInit( aData, aData.getPreInit(), genName );
 		sb.append(source);
-		
 	}
 }

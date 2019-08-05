@@ -85,7 +85,7 @@ public final class UnionGenerator {
 	 * Each of which will handle 200 fields on its own.
 	 * This is done as in the case of Diameter a union with 1666 fields
 	 *  would generate too much code into a single function.
-	 **/ 
+	 **/
 	private static final int maxFieldsLength = 200;
 
 	private UnionGenerator() {
@@ -2061,7 +2061,6 @@ public final class UnionGenerator {
 				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append("\t\t\t\t\tif (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
 				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
-	
 				source.append(MessageFormat.format("\t\t\t\t\t\tsingle_value.log_match(match_value.get_field_{0}(), legacy);\n", fieldInfo.mJavaVarName));
 				source.append("\t\t\t\t\t} else {\n");
 				source.append(MessageFormat.format("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
@@ -2244,7 +2243,7 @@ public final class UnionGenerator {
 		} else {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-	
+
 				if (i == 0) {
 					source.append("\t\t\t\t");
 				} else {
@@ -2305,7 +2304,7 @@ public final class UnionGenerator {
 		} else {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-	
+
 				source.append(MessageFormat.format("\t\t\t\tif(\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\t\tget_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
 				source.append("\t\t\t\t\tbreak;\n");

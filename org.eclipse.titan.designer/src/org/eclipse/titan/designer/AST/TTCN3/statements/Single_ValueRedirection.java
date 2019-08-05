@@ -24,7 +24,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
-/** 
+/**
  * Class for storing a single element of a value redirect
  * Each of these elements can be:
  * - a lone variable reference (in this case the whole value is redirected to

@@ -264,11 +264,11 @@ public final class Unichar2OctExpression extends Expression_Value {
 		if (value != null && !value.accept(v)) {
 			return false;
 		}
-		
+
 		if (code_string != null && !code_string.accept(v)) {
 			return false;
 		}
-		
+
 		return true;
 	}
 

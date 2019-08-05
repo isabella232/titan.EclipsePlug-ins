@@ -1284,6 +1284,5 @@ public final class FormalParameter extends Definition {
 		}
 
 		return builder.toString();
-		
 	}
 }

@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 
 /**
  * The code generator part for port types.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class PortGenerator {
@@ -433,7 +433,7 @@ public final class PortGenerator {
 
 				source.append("\t\t\treturn null;\n");
 			}
-			
+
 			source.append("\t\t}\n\n");
 		}
 
@@ -1246,7 +1246,7 @@ public final class PortGenerator {
 				source.append("\t\t\tTitanFloat timestamp;\n");
 			}
 			source.append("\t\t}\n");
-			
+
 			if (portDefinition.has_sliding) {
 				source.append("\t\tTitanOctetString sliding_buffer;\n");
 			}
@@ -2236,7 +2236,7 @@ public final class PortGenerator {
 			source.append(MessageFormat.format("\t\t\tnew_item.item_selection = message_selection.MESSAGE_{0};\n", target.targetIndex));
 			source.append(MessageFormat.format("\t\t\tnew_item.message = new {0}(mapped_par);\n", target.targetName));
 			source.append("\t\t\tnew_item.sender_component = sender_component;\n");
-			
+
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append("\t\t\tif (sender_address != null) {\n");
 				source.append(MessageFormat.format("\t\t\t\tnew_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
@@ -2620,7 +2620,7 @@ public final class PortGenerator {
 		} else {
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 				final messageTypeInfo inType = portDefinition.inMessages.get(i);
-	
+
 				source.append(MessageFormat.format("if (Arrays.equals(in_message_names[{0}], message_type)) '{'\n", i));
 				source.append(MessageFormat.format("\t\t\t\t//\"{0}\"\n", inType.mDisplayName));
 				source.append(MessageFormat.format("\t\t\t\tfinal {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
@@ -3466,7 +3466,7 @@ public final class PortGenerator {
 		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 		final String allowOmitInValueList = aData.getAllowOmitInValueList() ? "true" : "false";
-		
+
 		source.append(MessageFormat.format("\t\tpublic TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final TitanFloat timestamp_redirect, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("\t\t\tif (catch_template.is_any_or_omit()) {\n");

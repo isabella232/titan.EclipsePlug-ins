@@ -164,7 +164,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Encoding types.
-	 * 
+	 *
 	 * TODO only RAW is supported for now
 	 * */
 	public enum MessageEncoding_type {
@@ -524,7 +524,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * boolean: 0
 	 * float: 64
 	 * other: 0
-	 * 
+	 *
 	 * @return the default field length of the type.
 	 * */
 	public int getDefaultRawFieldLength();
@@ -546,9 +546,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Returns the default field length of this type (in bits).
 	 * hexstring: 4
 	 * octetstring, charstring, universalcharstring: 8
-	 * 
+	 *
 	 * other: 1
-	 * 
+	 *
 	 * @return the default field length of the type.
 	 * */
 	public int getLengthMultiplier();
@@ -1081,7 +1081,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Returns true if the type supports at least one built-in encoding.
 	 * Only used with new codec handling.
-	 * 
+	 *
 	 * @return true if the type supports at least one built-in encoding.
 	 * */
 	public boolean hasBuiltInEncoding();
@@ -1169,7 +1169,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * get_genname_jsondescriptor in titan.core
-	 * 
+	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 * @return The name of the Java variable in the generated code.
@@ -1261,7 +1261,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Generates a conversion function around to provided expression, that
 	 * converts it from the fromType into this type.
-	 * 
+	 *
 	 * @param aData
 	 *                build related information and structures.
 	 * @param fromType

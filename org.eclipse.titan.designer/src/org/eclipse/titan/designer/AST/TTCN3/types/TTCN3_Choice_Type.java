@@ -452,7 +452,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						fieldname.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter TAG for type `{1}''", fieldname.getDisplayName(), getTypename()));
 						continue;
 					}
-	
+
 					if (singleTag.keyList != null) {
 						for (int a = 0; a < singleTag.keyList.size(); a++) {
 							final Reference reference = new Reference(null);
@@ -885,7 +885,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						final String tempId2 = aData.getTemporaryVariableName();
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, fromFieldName.getName()));
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
-						
+
 						final ExpressionStruct tempExpression = new ExpressionStruct();
 						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
 						tempExpression.openMergeExpression(conversionFunctionBody);
@@ -941,7 +941,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						final String tempId2 = aData.getTemporaryVariableName();
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, fromFieldName.getName()));
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
-						
+
 						final ExpressionStruct tempExpression = new ExpressionStruct();
 						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
 						tempExpression.openMergeExpression(conversionFunctionBody);

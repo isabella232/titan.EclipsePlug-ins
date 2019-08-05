@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokensF
  * standard, as built of other more basic elements. As such it is better to
  * "generate" them from their representation as if they would be part of a
  * special ASN.1 module.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */

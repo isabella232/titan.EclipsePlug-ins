@@ -44,7 +44,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param aValue
 	 *                TTCN-3 charstring value
 	 */
@@ -199,7 +199,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 				.append(uchar.row()).append(',').append(uchar.cell()).append('}');
 			}
 		}
-		
+
 		return builder.toString();
 	}
 

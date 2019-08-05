@@ -323,7 +323,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 						tmp_ref = ((Referenced_Type)pse.t).getReference();
 					}
 					if (tmp_ref != null) {
-						pse.t = (Type)(tmp_ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp())); 
+						pse.t = (Type)(tmp_ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()));
 					} else {
 						break;
 					}
@@ -425,7 +425,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT)) {
 						String value_literal = "value";
-						str = (String.format("if (%s.get_istemplate_kind(\"%s\") == false) {\n" 
+						str = (String.format("if (%s.get_istemplate_kind(\"%s\") == false) {\n"
 								+ "throw new TtcnError(\"Only specific value template allowed in pattern reference with \\\\N{ref}\");\n"
 								+ "}\n", expr.expression.toString(), value_literal));
 					}
@@ -631,7 +631,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			IValue v_last = null;
 			/**
 			 * Use @code Reference.getDisplayName() instead of  @code Reference.getId().getName()
-			 * because it is a manipulated ID/Reference.  
+			 * because it is a manipulated ID/Reference.
 			 */
 			if (ref.getDisplayName().equals("charstring")) {
 				is_charstring = true;

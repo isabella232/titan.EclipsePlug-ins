@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public final class UnivCharString_Pattern_Template extends TTCN3Template {
 
 	private final PatternString patternstring;
-	
+
 	public UnivCharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.UNIVCHARSTRING_PATTERN);
 		patternstring.setFullNameParent(this);

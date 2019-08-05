@@ -378,7 +378,7 @@ public final class Def_Port extends Definition {
 				final StringBuilder tempSb = new StringBuilder();
 				final String typeGenName = portType.generateCodePort(aData, tempSb, dimensions);
 				aData.getCodeForType(typeGenName).append(tempSb);
-	
+
 				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", typeGenName, genName));
 				source.append("@Override\n" );
 				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", typeGenName));
@@ -388,7 +388,7 @@ public final class Def_Port extends Definition {
 				source.append("return temp;\n");
 				source.append("}\n");
 				source.append("};\n");
-	
+
 				final StringBuilder preInit = aData.getPreInit();
 				preInit.append("{\n");
 				preInit.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
@@ -407,18 +407,18 @@ public final class Def_Port extends Definition {
 				final StringBuilder tempSb = new StringBuilder();
 				final String typeGenName = portType.generateCodePort(aData, tempSb, dimensions);
 				aData.getCodeForType(typeGenName).append(tempSb);
-	
+
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGenName, genName));
-	
+
 				final StringBuilder preInit = aData.getPreInit();
 				preInit.append("{\n");
 				preInit.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
 				preInit.append(MessageFormat.format("{0}.set_name(port_name);\n", genName));
 				preInit.append("}\n");
 			}
-	
+
 			sb.append(source);
-	
+
 			aData.getInitComp().append(MessageFormat.format("{0}.activate_port(false);\n", genName));
 		}
 	}

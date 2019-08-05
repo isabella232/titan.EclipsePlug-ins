@@ -10,9 +10,9 @@ import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 /**
  * Utility functions for Unicode decoding.
  * Originally titan.core/compiler2/PredefFunc.cc
- * 
+ *
  * NOTE: Some converter functions are already implemented in other classes, so these are removed from here.
- * 
+ *
  * @author Arpad Lovassy
  */
 public class PredefFunc {
@@ -218,7 +218,7 @@ public class PredefFunc {
 
 	/**
 	 * Search the given BOM in a string
-	 * 
+	 *
 	 * @param s
 	 *                the string where we search
 	 * @param bom
@@ -380,7 +380,7 @@ public class PredefFunc {
 			break;
 		}
 
-		//BOM indicates that the byte order is determined by a byte order mark, 
+		//BOM indicates that the byte order is determined by a byte order mark,
 		//if present at the beginning the length of BOM is returned.
 		boolean badBOM = false;
 		String errmsg = "<UNKNOWN>";

@@ -77,7 +77,7 @@ public final class Def_ModulePar_Template extends Definition {
 	/**
 	 * Checks this template module parameter and returns it's template as
 	 * assigned to it..
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 *
@@ -94,7 +94,7 @@ public final class Def_ModulePar_Template extends Definition {
 	/**
 	 * Check this template module parameter, tries to calculate the real
 	 * template body and returns it.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 *

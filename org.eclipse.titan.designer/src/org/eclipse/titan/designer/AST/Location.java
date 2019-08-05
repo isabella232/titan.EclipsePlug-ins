@@ -406,7 +406,7 @@ public class Location {
 	 * object containing the file name and source line information carried
 	 * by this. The generation of location objects is optional, it is
 	 * controlled by a command line switch.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports.
 	 * @param source
@@ -433,7 +433,7 @@ public class Location {
 	/**
 	 * Generates a Java code fragment that leaves the innermost runtime
 	 * location object. The function is used at the end of statement blocks.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports.
 	 * @param source
@@ -452,7 +452,7 @@ public class Location {
 	 * Generates a Java code fragment that updates the line number
 	 * information of the innermost runtime location object. The function is
 	 * used by subsequent statements of statement blocks.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports.
 	 * @param source

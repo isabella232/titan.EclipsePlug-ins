@@ -183,7 +183,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "Referenced type";
 		}
 
-		return refdLast.getTypename();//TODO maybe this should be the name of the current type. 
+		return refdLast.getTypename();//TODO maybe this should be the name of the current type.
 	}
 
 	@Override
@@ -595,7 +595,6 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			}
 		}
 		//TODO add checks for other encodings.
-		
 
 		if (refChain.contains(this)) {
 			return;
@@ -783,7 +782,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		return refd.getGenNameRawDescriptor(aData, source);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
@@ -793,7 +792,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null 
+		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null
 				&& getParentType().getJsonAttribute().as_map)) {
 			generateCodeJsonDescriptor(aData, source);
 

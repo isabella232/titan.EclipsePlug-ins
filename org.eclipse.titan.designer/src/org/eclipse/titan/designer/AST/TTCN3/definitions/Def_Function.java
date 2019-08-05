@@ -65,7 +65,6 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * The Def_Function class represents TTCN3 function definitions.
  *
  * @author Kristof Szabados
- * 
  * */
 public final class Def_Function extends Definition implements IParameterisedAssignment {
 	/**
@@ -317,7 +316,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		return runsOnType;
 	}
-	
+
 	public Reference getRunsOnReference(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -1096,9 +1095,9 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	/**
 	 * Generate Java code for a function definition, to a given source code target.
-	 * 
+	 *
 	 * TODO the compiler could also benefit from such a separation
-	 * 
+	 *
 	 * @param aData  the structure to put imports into and get temporal variable names from.
 	 * @param source the source to extend with the generated code.
 	 * */

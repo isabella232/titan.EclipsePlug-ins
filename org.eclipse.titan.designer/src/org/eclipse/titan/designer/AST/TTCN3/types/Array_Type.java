@@ -1147,7 +1147,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		return lastGenName + "_template";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {

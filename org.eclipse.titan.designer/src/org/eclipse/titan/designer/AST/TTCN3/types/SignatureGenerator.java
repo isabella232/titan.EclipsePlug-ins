@@ -252,19 +252,17 @@ public final class SignatureGenerator {
 			source.append(MessageFormat.format("\t\tpublic {0}_call_redirect( ", def.genName));
 			for (int i = 0 ; i < def.formalParameters.size(); i++) {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
-	
 				if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
 					if (i != 0) {
 						source.append(", ");
 					}
-	
+
 					source.append(MessageFormat.format("final {0} par_{1}", formalPar.mJavaTypeName, formalPar.mJavaName));
 				}
 			}
 			source.append(" ) {\n");
 			for (int i = 0 ; i < def.formalParameters.size(); i++) {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
-	
 				if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
 					source.append(MessageFormat.format("\t\t\tptr_{0} = par_{0};\n", formalPar.mJavaName));
 				}
@@ -506,7 +504,6 @@ public final class SignatureGenerator {
 					source.append(MessageFormat.format("\t\t\t\tptr_{0}.operator_assign(reply_par.constGet_field_{0}());\n", formalPar.mJavaName));
 					source.append("\t\t\t}\n");
 				}
-				
 			}
 			if (def.returnType != null) {
 				source.append("\t\t\tif (ret_val_redir != null) {\n");

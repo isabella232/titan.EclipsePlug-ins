@@ -745,7 +745,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 						final String tempId2 = aData.getTemporaryVariableName();
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, fromFieldName.getName()));
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
-						
+
 						final ExpressionStruct tempExpression = new ExpressionStruct();
 						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
 						tempExpression.openMergeExpression(conversionFunctionBody);
@@ -801,7 +801,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 						final String tempId2 = aData.getTemporaryVariableName();
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, fromFieldName.getName()));
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
-						
+
 						final ExpressionStruct tempExpression = new ExpressionStruct();
 						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
 						tempExpression.openMergeExpression(conversionFunctionBody);

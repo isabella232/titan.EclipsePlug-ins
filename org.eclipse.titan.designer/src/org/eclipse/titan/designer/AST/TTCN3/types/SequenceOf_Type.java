@@ -754,7 +754,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				if (indexingType != null) {
 					indexingType = indexingType.getTypeRefdLast(timestamp);
 				}
-				
+
 				if (indexingType != null && (indexingType.getTypetype() == Type_type.TYPE_ARRAY || indexingType.getTypetype() == Type_type.TYPE_SEQUENCE_OF)) {
 					// The indexer type must be of type integer
 					long length = 0;

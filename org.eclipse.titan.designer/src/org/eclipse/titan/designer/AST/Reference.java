@@ -1379,7 +1379,6 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			default:
 				break;
 			}
-			
 		}
 
 		if (subReferences.size() > 1) {

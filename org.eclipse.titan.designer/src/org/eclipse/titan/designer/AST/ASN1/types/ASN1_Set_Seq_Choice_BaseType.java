@@ -439,7 +439,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 		return getGenNameOwn(aData) + "_json_";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,

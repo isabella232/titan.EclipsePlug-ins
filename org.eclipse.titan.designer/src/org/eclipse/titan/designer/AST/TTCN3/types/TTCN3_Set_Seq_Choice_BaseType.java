@@ -644,7 +644,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						fieldname.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter TAG for type `{1}''", fieldname.getDisplayName(), getTypename()));
 						continue;
 					}
-	
+
 					if (singleTag.keyList != null) {
 						for (int a = 0; a < singleTag.keyList.size(); a++) {
 							final Reference reference = new Reference(null);
@@ -1035,7 +1035,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 											idf2.getLocation().reportSemanticError(MessageFormat.format("RAW parameter CROSSTAG for field `{0}'' cannot refer to the field itself", idf2.getDisplayName()));
 											errorFound2 = true;
 										} else if (fieldIndex > i) {
-											if (cField.isOptional()) {//TODO || fieldType.getRawLength() < 0 
+											if (cField.isOptional()) {//TODO || fieldType.getRawLength() < 0
 												idf2.getLocation().reportSemanticError(MessageFormat.format("Field `{0}'' that CROSSTAG refers to must precede field `{1}'' or field `{1}'' must be mandatory with fixed length", idf2.getDisplayName(), fieldId.getDisplayName()));
 												errorFound2 = true;
 											}
@@ -1483,7 +1483,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							}
 						}
 					}
-					
+
 					element_i.raw.length = t_field.getRawLength(aData.getBuildTimstamp());
 					element_i.hasRaw = true;
 				} else {

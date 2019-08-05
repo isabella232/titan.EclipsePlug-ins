@@ -422,7 +422,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	 * Generate the code for the value redirection handling.
 	 * In case of a done statement this is only a verdict reference.
 	 * In other cases a temporary class to handle the complications.
-	 * 
+	 *
 	 * @param aData
 	 *                only used to update imports if needed
 	 * @param expression
@@ -536,7 +536,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 					if (matchedTemplate != null) {
 						matchedTemplate = matchedTemplate.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 					}
-	
+
 					boolean useDecmatchResult = matchedTemplate != null && matchedTemplate.getTemplatetype() == Template_type.DECODE_MATCH;
 					boolean needsDecode = true;
 					final ExpressionStruct redirCodingExpression = new ExpressionStruct();
@@ -547,7 +547,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 						if (temp != null) {
 							temp = temp.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 						}
-						if (temp == null || !temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) { 
+						if (temp == null || !temp.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 							final Charstring_Value stringEncoding = (Charstring_Value)temp;
 							String redirCodingString;
 							if (stringEncoding == null || "UTF-8".equals(stringEncoding.getValue())) {
@@ -570,7 +570,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 
 					if (useDecmatchResult) {
 						// if the redirected value was matched using a decmatch template,
-						// then the value redirect class should use the decoding result 
+						// then the value redirect class should use the decoding result
 						// from the template instead of decoding the value again
 						needsDecode = false;
 						final TemplateInstance decodeTarget = ((DecodeMatch_template)matchedTemplate).getDecodeTarget();

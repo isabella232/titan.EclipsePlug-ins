@@ -327,7 +327,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	/**
 	 * Returns true if the assignment should be marked according to the
 	 * preference options.
-	 * 
+	 *
 	 * @return true if the highlighting of this assignment is turned on
 	 */
 	public abstract boolean shouldMarkOccurrences();

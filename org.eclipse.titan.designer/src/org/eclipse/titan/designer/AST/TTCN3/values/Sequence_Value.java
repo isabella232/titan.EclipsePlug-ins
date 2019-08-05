@@ -1029,7 +1029,7 @@ public final class Sequence_Value extends Value {
 					if(compField.isOptional() /*&& fieldValue.isCompound() */) {
 						embeddedName.append(".get()");
 					}
-	
+
 					fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 				}
 			} else {
