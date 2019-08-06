@@ -323,8 +323,6 @@ public class TitanVerdictType extends Base_Type {
 		return !operator_equals(par_value, other_value);
 	}
 
-	//TODO: implement VERDICTTYPE::get_param()
-
 	@Override
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
