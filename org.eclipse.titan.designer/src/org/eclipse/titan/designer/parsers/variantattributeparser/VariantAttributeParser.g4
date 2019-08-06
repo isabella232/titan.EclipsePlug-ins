@@ -1101,31 +1101,30 @@ pr_XDefault: DEFAULTKeyword value = pr_JsonValue
 pr_XExtend: EXTENDKeyword v1 = pr_JsonValue COLON v2 = pr_JsonValue
 	{ jsonstruct.schema_extensions.add(jsonstruct.new JsonSchemaExtension($v1.v, $v2.v)); };
 
-pr_JsonValue returns [String v]:
+pr_JsonValue returns [String v]
+@init{
+	String value = null;	
+}:
 (	
 	JSONValueStart
 	(	
-		value = pr_JsonValueCore
+		value = pr_JsonValueCore {value = $value.valueCore;}
 	)?
 	JSONValueEnd
-) {if ($value.valueCore != null) { $v = $value.valueCore;}
-	else {$v = "";}
-};
+) {if (value != null) { $v = value;}
+	else {$v = "";} 
+}; 
 
 pr_JsonValueCore returns [String valueCore]
 @init{
-	String valueCore = "";
+	StringBuilder valueSTR = new StringBuilder();
 }:
-(	v = JSONValueSegment {valueCore += $v.getText(); }
+(	v = JSONValueSegment {valueSTR.append($v.getText()); }
 	(	
-		v = JSONValueSegment {valueCore += $v.getText();}
+		v = JSONValueSegment {valueSTR.append($v.getText());}
 	)*
 ){
-if ($valueCore == null) {
-	$valueCore = valueCore;
-} else {
-	$valueCore += valueCore;
-}
+	$valueCore = valueSTR.toString();
 };
 
 pr_XMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword
