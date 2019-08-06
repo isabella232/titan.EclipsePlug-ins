@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
  * @author Farkas Izabella Ingrid
+ * @author Arpad Lovassy
  * */
 public final class EnumeratedGenerator {
 
@@ -178,7 +179,8 @@ public final class EnumeratedGenerator {
 		generateValueFromInt(aData, source);
 		generateValueToString(source);
 		generateLog(source);
-		generateValueSetParam(source, e_defs.displayName);
+		generateValueSetParam(source, e_defs.name, e_defs.displayName);
+		generateValueGetParam(source);
 		generateValueEncodeDecodeText(source, e_defs.displayName);
 		generateValueEncodeDecode(aData, source, e_defs, rawNeeded);
 		source.append("\t}\n");
@@ -191,6 +193,14 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("Optional");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Any");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_AnyOrNone");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_ComplementList_Template");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Enumerated");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_List_Template");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Omit");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Unbound");
 		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addImport( "java.text.MessageFormat" );
 		aData.addImport("java.util.ArrayList");
@@ -213,6 +223,7 @@ public final class EnumeratedGenerator {
 		generateTemplateLog(source, e_defs.name);
 		generateTemplateLogMatch(aData, source, e_defs.name, e_defs.displayName);
 		generateTemplateSetParam(source, e_defs.name, e_defs.displayName);
+		generateTemplateGetParam(source, e_defs.name, e_defs.displayName);
 		generateTemplateEncodeDecodeText(source, e_defs.name, e_defs.displayName);
 		generateTemplateCheckRestriction(source, e_defs.displayName);
 
@@ -373,17 +384,43 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 	}
 
-	private static void generateValueSetParam(final StringBuilder source, final String name) {
+	private static void generateValueSetParam(final StringBuilder source, final String name, final String displayName) {
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
+		source.append("\t\tpublic void set_param(Module_Parameter param) {\n");
 		source.append("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"enumerated value\");\n");
+
+		// Originally RT2
+		source.append("\t\t\tif (param.get_type() == Module_Parameter.type_t.MP_Reference) {\n");
+		// enumerated values are also treated as references (containing only 1 name) by the parser;
+		// first check if the reference name is a valid enumerated value
+		source.append("\t\t\t\tfinal String enum_name = param.get_enumerated();\n");
+		// get_enumerated() returns null if the reference contained more than one name
+		source.append(MessageFormat.format("\t\t\t\t{0}.enum_type enum_val = (enum_name != null) ? {0}.str_to_enum(enum_name) : {0}.enum_type.UNKNOWN_VALUE;\n", name));
+		source.append(MessageFormat.format("\t\t\t\tif ({0}.is_valid_enum(enum_val)) '{'\n", name));
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		// it's not a valid enum value => dereference it!
+		source.append("\t\t\t\tparam = param.get_referenced_param().get();\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tif (param.get_type() != Module_Parameter.type_t.MP_Enumerated) {\n");
-		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"enumerated_value\", \"{0}\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tparam.type_error(\"enumerated_value\", \"{0}\");\n", displayName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tenum_value = str_to_enum(param.get_enumerated());\n");
 		source.append("\t\t\tif (!is_valid_enum(enum_value)) {\n");
-		source.append(MessageFormat.format("\t\t\t\tparam.error(\"Invalid enumerated value for type {0}.\");\n", name));
+		source.append(MessageFormat.format("\t\t\t\tparam.error(\"Invalid enumerated value for type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
+	}
+
+	// Originally RT2
+	private static void generateValueGetParam(final StringBuilder source) {
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic Module_Parameter get_param(final Module_Param_Name param_name) {\n");
+		source.append("\t\t\tif (!is_bound()) {\n");
+		source.append("\t\t\t\treturn new Module_Param_Unbound();\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn new Module_Param_Enumerated(enum_to_str(enum_value));\n");
 		source.append("\t\t}\n\n");
 	}
 
@@ -1552,8 +1589,25 @@ public final class EnumeratedGenerator {
 
 	private static void generateTemplateSetParam(final StringBuilder source, final String name, final String displayName) {
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic void set_param(final Module_Parameter param) {\n");
+		source.append("\t\tpublic void set_param(Module_Parameter param) {\n");
 		source.append("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"enumerated template\");\n");
+
+		// Originally RT2
+		source.append("\t\t\tif (param.get_type() == Module_Parameter.type_t.MP_Reference) {\n");
+		// enumerated values are also treated as references (containing only 1 name) by the parser;
+		// first check if the reference name is a valid enumerated value
+		source.append("\t\t\t\tfinal String enum_name = param.get_enumerated();\n");
+		// get_enumerated() returns null if the reference contained more than one name
+		source.append(MessageFormat.format("\t\t\t\t{0}.enum_type enum_val = (enum_name != null) ? {0}.str_to_enum(enum_name) : {0}.enum_type.UNKNOWN_VALUE;\n", name));
+		source.append(MessageFormat.format("\t\t\t\tif ({0}.is_valid_enum(enum_val)) '{'\n", name));
+		source.append("\t\t\t\t\tsingle_value = enum_val;\n");
+		source.append("\t\t\t\t\tis_ifPresent = param.get_ifpresent();\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t}\n");
+		// it's not a valid enum value => dereference it!
+		source.append("\t\t\t\tparam = param.get_referenced_param().get();\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tswitch (param.get_type()) {\n");
 		source.append("\t\t\tcase MP_Omit:\n");
 		source.append("\t\t\t\toperator_assign(template_sel.OMIT_VALUE);\n");
@@ -1586,6 +1640,50 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tis_ifPresent = param.get_ifpresent();\n");
+		source.append("\t\t}\n\n");
+	}
+
+	// Originally RT2
+	private static void generateTemplateGetParam(final StringBuilder source, final String name, final String displayName) {
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic Module_Parameter get_param(final Module_Param_Name param_name) {\n");
+		source.append("\t\t\tModule_Parameter mp = null;\n");
+		source.append("\t\t\tswitch (template_selection) {\n");
+		source.append("\t\t\tcase UNINITIALIZED_TEMPLATE:\n");
+		source.append("\t\t\t\tmp = new Module_Param_Unbound();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\t\tmp = new Module_Param_Omit();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\t\tmp = new Module_Param_Any();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tmp = new Module_Param_AnyOrNone();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append(MessageFormat.format("\t\t\t\tmp = new Module_Param_Enumerated({0}.enum_to_str(single_value));\n", name));
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		source.append("\t\t\t\tif (template_selection == template_sel.VALUE_LIST) {\n");
+		source.append("\t\t\t\t\tmp = new Module_Param_List_Template();\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\telse {\n");
+		source.append("\t\t\t\t\tmp = new Module_Param_ComplementList_Template();\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tfor (int i_i = 0; i_i < value_list.size(); ++i_i) {\n");
+		source.append("\t\t\t\t\tmp.add_elem(value_list.get(i_i).get_param(param_name));\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (is_ifPresent) {\n");
+		source.append("\t\t\t\tmp.set_ifpresent();\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn mp;\n");
 		source.append("\t\t}\n\n");
 	}
 
