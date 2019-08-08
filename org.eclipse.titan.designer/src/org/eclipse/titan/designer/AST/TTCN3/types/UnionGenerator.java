@@ -802,7 +802,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tModule_Param_Assignment_List mp = new Module_Param_Assignment_List();\n");
+		source.append("\t\t\tfinal Module_Param_Assignment_List mp = new Module_Param_Assignment_List();\n");
 		source.append("\t\t\tmp.add_elem(mp_field);\n");
 		source.append("\t\t\treturn mp;\n");
 		source.append("\t\t}\n\n");
