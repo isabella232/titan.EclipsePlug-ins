@@ -90,6 +90,9 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Enumerated");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Unbound");
 		aData.addBuiltinTypeImport("RAW");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
@@ -193,6 +196,7 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("Optional");
+		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Any");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_AnyOrNone");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_ComplementList_Template");
