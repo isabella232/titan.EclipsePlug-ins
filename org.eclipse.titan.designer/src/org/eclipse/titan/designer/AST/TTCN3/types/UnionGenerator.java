@@ -709,7 +709,7 @@ public final class UnionGenerator {
 		// => the name refers to one of the fields, not to the whole union
 		source.append("\t\t\t\tfinal String param_field = param.get_id().get_current_name();\n");
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
-		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}'\");\n", displayName ));
+		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}''\");\n", displayName ));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\t");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -720,7 +720,7 @@ public final class UnionGenerator {
 			source.append("\t\t\t\t} else ");
 		}
 		source.append("{\n");
-		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Field `%%s' not found in union type `{0}''\", param_field);\n", displayName));
+		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Field `%%s'' not found in union type `{0}''\", param_field);\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 			
@@ -777,7 +777,7 @@ public final class UnionGenerator {
 		// => the name refers to one of the fields, not to the whole union
 		source.append("\t\t\t\tfinal String param_field = param_name.get_current_name();\n");
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
-		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}'\");\n", displayName ));
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}''\");\n", displayName ));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\t");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -787,7 +787,7 @@ public final class UnionGenerator {
 			source.append("\t\t\t\t} else ");
 		}
 		source.append("{\n");
-		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Field `'{'0'}'' not found in union type `{0}''\", param_field));\n", displayName));
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Field `'{'0'}''' not found in union type `{0}''\", param_field));\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tModule_Parameter mp_field = null;\n");
@@ -2321,7 +2321,7 @@ public final class UnionGenerator {
 		source.append("\t\t\tif((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {\n");
 		source.append("\t\t\t\tfinal String param_field = param.get_id().get_current_name();\n");
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
-		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}'\");\n", displayName));
+		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}''\");\n", displayName));
 		source.append("\t\t\t\t}\n");
 		if (fieldInfos.size() > maxFieldsLength) {
 			final int fullSize = fieldInfos.size();
@@ -2335,7 +2335,7 @@ public final class UnionGenerator {
 				source.append("\t\t\t\t}\n");
 			}
 
-			source.append(MessageFormat.format("\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}'' not found in union template type `{0}'\", param_field));\n", displayName));
+			source.append(MessageFormat.format("\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}''' not found in union template type `{0}''\", param_field));\n", displayName));
 		} else {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -2352,7 +2352,7 @@ public final class UnionGenerator {
 			}
 
 			source.append(" else {\n");
-			source.append(MessageFormat.format("\t\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}'' not found in union template type `{0}'\", param_field));\n", displayName));
+			source.append(MessageFormat.format("\t\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}''' not found in union template type `{0}''\", param_field));\n", displayName));
 			source.append("\t\t\t\t}\n");
 		}
 
@@ -2444,7 +2444,7 @@ public final class UnionGenerator {
 		// => the name refers to one of the fields, not to the whole union
 		source.append("\t\t\t\tfinal String param_field = param_name.get_current_name();\n"); 
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n"); 
-		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Unexpected array index in module parameter reference, expected a valid field name for union template type `{0}'\");\n", displayName));
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Unexpected array index in module parameter reference, expected a valid field name for union template type `{0}''\");\n", displayName));
 		source.append("\t\t\t\t}\n"); 
 		source.append("\t\t\t\t");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -2454,7 +2454,7 @@ public final class UnionGenerator {
 			source.append("\t\t\t\t} else ");
 		}
 		source.append("{\n");
-		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Field `'{'0'}'' not found in union type `{0}''\", param_field));\n", displayName));
+		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Field `'{'0'}''' not found in union type `{0}''\", param_field));\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tModule_Parameter mp = null;\n");
