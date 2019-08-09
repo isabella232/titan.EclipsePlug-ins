@@ -12,7 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -35,69 +42,69 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location.entity_type_t;
 public final class PreGenRecordOf extends TTCN_Module {
 
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER_0", RAW.TitanInteger_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT_0", RAW.TitanFloat_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING_0", RAW.TitanBitString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING_0", RAW.TitanHexString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING_0", RAW.TitanCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER_0", RAW.TitanInteger_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT_0", RAW.TitanFloat_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING_0", RAW.TitanBitString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING_0", RAW.TitanHexString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING_0", RAW.TitanCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
 	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
 	public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("anytype", null, null, null);
 
 	public PreGenRecordOf() {
@@ -69825,8 +69832,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
-		public void set_param(final Module_Parameter param) {
+		public void set_param(Module_Parameter param) {
+			if (param.get_id() != null && param.get_id().next_name()) {
+				final String param_field = param.get_id().get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					param.error("Unexpected array index in module parameter, expected a valid field name for union type `@PreGenRecordOf.anytype'");
+				}
+				{
+					param.error("Field `%%s' not found in union type `@PreGenRecordOf.anytype'", param_field);
+				}
+			}
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
+			if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+				param = param.get_referenced_param().get();
+			}
 			if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {
 				return;
 			}
@@ -69836,6 +69855,30 @@ public final class PreGenRecordOf extends TTCN_Module {
 			final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);
 			final String last_name = mp_last.get_id().get_name();
 			mp_last.error(MessageFormat.format("Field {0} does not exist in type @PreGenRecordOf.anytype.", last_name));
+		}
+
+		@Override
+		public Module_Parameter get_param(final Module_Param_Name param_name) {
+			if (!is_bound()) {
+				return new Module_Param_Unbound();
+			}
+			if (param_name.next_name()) {
+				final String param_field = param_name.get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					throw new TtcnError("Unexpected array index in module parameter, expected a valid field name for union type `@PreGenRecordOf.anytype'");
+				}
+				{
+					throw new TtcnError(MessageFormat.format("Field `{0}' not found in union type `@PreGenRecordOf.anytype'", param_field));
+				}
+			}
+			Module_Parameter mp_field = null;
+			switch(union_selection) {
+			default:
+				break;
+			}
+			final Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
+			mp.add_elem(mp_field);
+			return mp;
 		}
 
 		@Override
@@ -70395,17 +70438,20 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		@Override
-		public void set_param(final Module_Parameter param) {
+		public void set_param(Module_Parameter param) {
 			if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
 				final String param_field = param.get_id().get_current_name();
 				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
-					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@PreGenRecordOf.anytype");
+					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@PreGenRecordOf.anytype'");
 				}
 				else {
-					param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `@PreGenRecordOf.anytype'", param_field));
 				}
 			}
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+			if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+				param = param.get_referenced_param().get();
+			}
 			switch (param.get_type()) {
 			case MP_Omit:
 				operator_assign(template_sel.OMIT_VALUE);
@@ -70441,6 +70487,62 @@ public final class PreGenRecordOf extends TTCN_Module {
 				param.type_error("union template", "@PreGenRecordOf.anytype");
 			}
 			is_ifPresent = param.get_ifpresent();
+		}
+
+		@Override
+		public Module_Parameter get_param(final Module_Param_Name param_name) {
+			if (param_name.next_name()) {
+				final String param_field = param_name.get_current_name();
+				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+					throw new TtcnError("Unexpected array index in module parameter reference, expected a valid field name for union template type `@PreGenRecordOf.anytype'");
+				}
+				{
+					throw new TtcnError(MessageFormat.format("Field `{0}' not found in union type `@PreGenRecordOf.anytype'", param_field));
+				}
+			}
+			Module_Parameter mp = null;
+			switch (template_selection) {
+			case UNINITIALIZED_TEMPLATE:
+				mp = new Module_Param_Unbound();
+				break;
+			case OMIT_VALUE:
+				mp = new Module_Param_Omit();
+				break;
+			case ANY_VALUE:
+				mp = new Module_Param_Any();
+				break;
+			case ANY_OR_OMIT:
+				mp = new Module_Param_AnyOrNone();
+				break;
+			case SPECIFIC_VALUE: {
+				Module_Parameter mp_field = null;
+				switch(single_value_union_selection) {
+				default:
+					break;
+				}
+				mp = new Module_Param_Assignment_List();
+				mp.add_elem(mp_field);
+				break;
+			}
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST: {
+				if (template_selection == template_sel.VALUE_LIST) {
+					mp = new Module_Param_List_Template();
+				} else {
+					mp = new Module_Param_ComplementList_Template();
+				}
+				for (int i_i = 0; i_i < value_list.size(); ++i_i) {
+					mp.add_elem(value_list.get(i_i).get_param(param_name));
+				}
+				break;
+			}
+			default:
+				break;
+			}
+			if (is_ifPresent) {
+				mp.set_ifpresent();
+			}
+			return mp;
 		}
 
 		@Override

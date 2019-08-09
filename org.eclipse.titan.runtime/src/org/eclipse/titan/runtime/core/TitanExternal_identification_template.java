@@ -10,7 +10,15 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 
 /**
@@ -957,11 +965,11 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	@Override
-	public void set_param(final Module_Parameter param) {
+	public void set_param(Module_Parameter param) {
 		if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
 			final String param_field = param.get_id().get_current_name();
 			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
-				param.error("Unexpected array index in module parameter, expected a valid field name for union template type `EXTERNAL.identification");
+				param.error("Unexpected array index in module parameter, expected a valid field name for union template type `EXTERNAL.identification'");
 			}
 			if("syntaxes".equals(param_field)) {
 				single_value.set_param(param);
@@ -982,10 +990,13 @@ public class TitanExternal_identification_template extends Base_Template {
 				single_value.set_param(param);
 				return;
 			} else {
-				param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				param.error(MessageFormat.format("Field `{0}' not found in union template type `EXTERNAL.identification'", param_field));
 			}
 		}
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
 		switch (param.get_type()) {
 		case MP_Omit:
 			operator_assign(template_sel.OMIT_VALUE);
@@ -1045,6 +1056,98 @@ public class TitanExternal_identification_template extends Base_Template {
 			param.type_error("union template", "EXTERNAL.identification");
 		}
 		is_ifPresent = param.get_ifpresent();
+	}
+
+	@Override
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (param_name.next_name()) {
+			final String param_field = param_name.get_current_name();
+			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+				throw new TtcnError("Unexpected array index in module parameter reference, expected a valid field name for union template type `EXTERNAL.identification'");
+			}
+			if ("syntaxes".equals(param_field)) {
+				return get_field_syntaxes().get_param(param_name);
+			} else if ("syntax".equals(param_field)) {
+				return get_field_syntax().get_param(param_name);
+			} else if ("presentation-context-id".equals(param_field)) {
+				return get_field_presentation__context__id().get_param(param_name);
+			} else if ("context-negotiation".equals(param_field)) {
+				return get_field_context__negotiation().get_param(param_name);
+			} else if ("transfer-syntax".equals(param_field)) {
+				return get_field_transfer__syntax().get_param(param_name);
+			} else if ("fixed".equals(param_field)) {
+				return get_field_fixed().get_param(param_name);
+			} else {
+				throw new TtcnError(MessageFormat.format("Field `{0}' not found in union type `EXTERNAL.identification'", param_field));
+			}
+		}
+		Module_Parameter mp = null;
+		switch (template_selection) {
+		case UNINITIALIZED_TEMPLATE:
+			mp = new Module_Param_Unbound();
+			break;
+		case OMIT_VALUE:
+			mp = new Module_Param_Omit();
+			break;
+		case ANY_VALUE:
+			mp = new Module_Param_Any();
+			break;
+		case ANY_OR_OMIT:
+			mp = new Module_Param_AnyOrNone();
+			break;
+		case SPECIFIC_VALUE: {
+			Module_Parameter mp_field = null;
+			switch(single_value_union_selection) {
+			case ALT_syntaxes:
+				mp_field = get_field_syntaxes().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("syntaxes"));
+				break;
+			case ALT_syntax:
+				mp_field = get_field_syntax().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("syntax"));
+				break;
+			case ALT_presentation__context__id:
+				mp_field = get_field_presentation__context__id().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("presentation-context-id"));
+				break;
+			case ALT_context__negotiation:
+				mp_field = get_field_context__negotiation().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("context-negotiation"));
+				break;
+			case ALT_transfer__syntax:
+				mp_field = get_field_transfer__syntax().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("transfer-syntax"));
+				break;
+			case ALT_fixed:
+				mp_field = get_field_fixed().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("fixed"));
+				break;
+			default:
+				break;
+			}
+			mp = new Module_Param_Assignment_List();
+			mp.add_elem(mp_field);
+			break;
+		}
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			if (template_selection == template_sel.VALUE_LIST) {
+				mp = new Module_Param_List_Template();
+			} else {
+				mp = new Module_Param_ComplementList_Template();
+			}
+			for (int i_i = 0; i_i < value_list.size(); ++i_i) {
+				mp.add_elem(value_list.get(i_i).get_param(param_name));
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		if (is_ifPresent) {
+			mp.set_ifpresent();
+		}
+		return mp;
 	}
 
 	@Override

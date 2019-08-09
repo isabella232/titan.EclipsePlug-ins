@@ -966,19 +966,11 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	}
 
 	@Override
-	/** {@inheritDoc} */
 	public void set_param(Module_Parameter param) {
-		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
-
-		// Originally RT2
-		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
-			param = param.get_referenced_param().get();
-		}
-
 		if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {
 			final String param_field = param.get_id().get_current_name();
 			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
-				param.error("Unexpected array index in module parameter, expected a valid field name for union template type `CHARACTER STRING.identification");
+				param.error("Unexpected array index in module parameter, expected a valid field name for union template type `CHARACTER STRING.identification'");
 			}
 			if("syntaxes".equals(param_field)) {
 				single_value.set_param(param);
@@ -999,10 +991,13 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value.set_param(param);
 				return;
 			} else {
-				param.error(MessageFormat.format("Field `{0}' not found in union template type `{0}", param_field));
+				param.error(MessageFormat.format("Field `{0}' not found in union template type `CHARACTER STRING.identification'", param_field));
 			}
 		}
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "union template");
+		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
+			param = param.get_referenced_param().get();
+		}
 		switch (param.get_type()) {
 		case MP_Omit:
 			operator_assign(template_sel.OMIT_VALUE);
@@ -1065,8 +1060,28 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	}
 
 	@Override
-	/** {@inheritDoc} */
 	public Module_Parameter get_param(final Module_Param_Name param_name) {
+		if (param_name.next_name()) {
+			final String param_field = param_name.get_current_name();
+			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
+				throw new TtcnError("Unexpected array index in module parameter reference, expected a valid field name for union template type `CHARACTER STRING.identification'");
+			}
+			if ("syntaxes".equals(param_field)) {
+				return get_field_syntaxes().get_param(param_name);
+			} else if ("syntax".equals(param_field)) {
+				return get_field_syntax().get_param(param_name);
+			} else if ("presentation-context-id".equals(param_field)) {
+				return get_field_presentation__context__id().get_param(param_name);
+			} else if ("context-negotiation".equals(param_field)) {
+				return get_field_context__negotiation().get_param(param_name);
+			} else if ("transfer-syntax".equals(param_field)) {
+				return get_field_transfer__syntax().get_param(param_name);
+			} else if ("fixed".equals(param_field)) {
+				return get_field_fixed().get_param(param_name);
+			} else {
+				throw new TtcnError(MessageFormat.format("Field `{0}' not found in union type `CHARACTER STRING.identification'", param_field));
+			}
+		}
 		Module_Parameter mp = null;
 		switch (template_selection) {
 		case UNINITIALIZED_TEMPLATE:
@@ -1085,27 +1100,27 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			Module_Parameter mp_field = null;
 			switch(single_value_union_selection) {
 			case ALT_syntaxes:
-				mp_field = single_value.get_param(param_name);
+				mp_field = get_field_syntaxes().get_param(param_name);
 				mp_field.set_id(new Module_Param_FieldName("syntaxes"));
 				break;
 			case ALT_syntax:
-				mp_field = single_value.get_param(param_name);
+				mp_field = get_field_syntax().get_param(param_name);
 				mp_field.set_id(new Module_Param_FieldName("syntax"));
 				break;
 			case ALT_presentation__context__id:
-				mp_field = single_value.get_param(param_name);
-				mp_field.set_id(new Module_Param_FieldName("presentation_context_id"));
+				mp_field = get_field_presentation__context__id().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("presentation-context-id"));
 				break;
 			case ALT_context__negotiation:
-				mp_field = single_value.get_param(param_name);
-				mp_field.set_id(new Module_Param_FieldName("context_negotiation"));
+				mp_field = get_field_context__negotiation().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("context-negotiation"));
 				break;
 			case ALT_transfer__syntax:
-				mp_field = single_value.get_param(param_name);
-				mp_field.set_id(new Module_Param_FieldName("transfer_syntax"));
+				mp_field = get_field_transfer__syntax().get_param(param_name);
+				mp_field.set_id(new Module_Param_FieldName("transfer-syntax"));
 				break;
 			case ALT_fixed:
-				mp_field = single_value.get_param(param_name);
+				mp_field = get_field_fixed().get_param(param_name);
 				mp_field.set_id(new Module_Param_FieldName("fixed"));
 				break;
 			default:
@@ -1119,16 +1134,16 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		case COMPLEMENTED_LIST: {
 			if (template_selection == template_sel.VALUE_LIST) {
 				mp = new Module_Param_List_Template();
-			}
-			else {
+			} else {
 				mp = new Module_Param_ComplementList_Template();
 			}
-			for (int i = 0; i < value_list.size(); ++i) {
-				mp.add_elem(value_list.get(i).get_param(param_name));
+			for (int i_i = 0; i_i < value_list.size(); ++i_i) {
+				mp.add_elem(value_list.get(i_i).get_param(param_name));
 			}
-			break; }
+			break;
+		}
 		default:
-			throw new TtcnError("Referencing an uninitialized/unsupported value of type CHARACTER STRING.identification.");
+			break;
 		}
 		if (is_ifPresent) {
 			mp.set_ifpresent();
