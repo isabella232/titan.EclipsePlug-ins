@@ -538,7 +538,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	/** {@inheritDoc} */
 	public void set_param(Module_Parameter param) {
 		// Originally RT2
-		if (param.get_id() != null && param.get_id().next_name()) {
+		if (param.get_id() != null && param.get_id() instanceof Module_Param_Name && ((Module_Param_Name)(param.get_id())).next_name()) {
 			// Haven't reached the end of the module parameter name
 			// => the name refers to one of the elements, not to the whole array
 			final String param_field = param.get_id().get_current_name();
