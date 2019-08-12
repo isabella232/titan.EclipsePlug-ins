@@ -837,6 +837,45 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 */
 	private static void generateValueGetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+		if (fieldInfos.size() > maxFieldsLength) {
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength ;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+				source.append("\t\t// Internal helper function.\n");
+				source.append(MessageFormat.format("\t\tprivate Module_Parameter value_get_param_single_helper_{0,number,#}_{1,number,#}(final String param_field, final Module_Param_Name param_name) '{'\n", start, end));
+				source.append("\t\t\t");
+				for (int i = start ; i <= end; i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					source.append(MessageFormat.format("if (\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
+					source.append(MessageFormat.format("\t\t\t\treturn get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+					source.append("\t\t\t} else ");
+				}
+				source.append("{\n");
+				source.append("\t\t\t\treturn null;\n");
+				source.append("\t\t\t}\n");
+				source.append("\t\t}\n\n");
+
+				source.append(MessageFormat.format("\t\tprivate Module_Parameter value_get_param_specific_helper_{0,number,#}_{1,number,#}(final Module_Param_Name param_name) '{'\n", start, end));
+				source.append("\t\t\tModule_Parameter mp_field = null;\n");
+				source.append("\t\t\tswitch (union_selection) {\n");
+				for (int i = start ; i <= end; i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
+					source.append("\t\t\t\treturn mp_field;\n");
+				}
+				source.append("\t\t\tdefault:\n");
+				source.append("\t\t\t\treturn null;\n");
+				source.append("\t\t\t}\n");
+				source.append("\t\t}\n\n");
+			}
+		}
+
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic Module_Parameter get_param(final Module_Param_Name param_name) {\n");
 		source.append("\t\t\tif (!is_bound()) {\n");
@@ -849,29 +888,62 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}''\");\n", displayName ));
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\t");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("if (\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("\t\t\t\t\treturn get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\t} else ");
+		
+		if (fieldInfos.size() > maxFieldsLength) {
+			source.append("\t\t\t\tModule_Parameter temp_parameter = null;\n");
+			
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+
+				source.append(MessageFormat.format("\t\t\t\ttemp_parameter = value_get_param_single_helper_{0,number,#}_{1,number,#}(param_field, param_name);\n", start, end));
+				source.append("\t\t\t\tif(temp_parameter != null) {\n");
+				source.append("\t\t\t\t\treturn temp_parameter;\n");
+				source.append("\t\t\t\t}\n");
+			}
+		} else {
+			source.append("\t\t\t\t");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("if (\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t\t\t\treturn get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+				source.append("\t\t\t\t} else ");
+			}
 		}
 		source.append("{\n");
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Field `'{'0'}''' not found in union type `{0}''\", param_field));\n", displayName));
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tModule_Parameter mp_field = null;\n");
-		source.append("\t\t\tswitch(union_selection) {\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
-			source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tModule_Parameter mp_field;\n");
+		if (fieldInfos.size() > maxFieldsLength) {
+			source.append("\t\t\tif (union_selection.ordinal() == 0 ) {\n");
+			source.append("\t\t\t\tmp_field = null;\n");
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+				source.append(MessageFormat.format("\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+				source.append(MessageFormat.format("\t\t\t\tmp_field = value_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+			}
+			source.append("\t\t\t} else {\n");
+			source.append("\t\t\t\tmp_field = null;\n");
+			source.append("\t\t\t}\n");
+		} else {
+			source.append("\t\t\tswitch(union_selection) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
+				source.append("\t\t\t\tbreak;\n");
+			}
+			source.append("\t\t\tdefault:\n");
+			source.append("\t\t\t\tmp_field = null;\n");
+			source.append("\t\t\t}\n");
 		}
-		source.append("\t\t\tdefault:\n");
-		source.append("\t\t\t\tbreak;\n");
-		source.append("\t\t\t}\n");
 		source.append("\t\t\tfinal Module_Param_Assignment_List mp = new Module_Param_Assignment_List();\n");
 		source.append("\t\t\tmp.add_elem(mp_field);\n");
 		source.append("\t\t\treturn mp;\n");
@@ -2507,6 +2579,45 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 */
 	private static void generateTemplateGetParam(final StringBuilder source, final String name, final String displayName, final List<FieldInfo> fieldInfos) {
+		if (fieldInfos.size() > maxFieldsLength) {
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength ;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+				source.append("\t\t// Internal helper function.\n");
+				source.append(MessageFormat.format("\t\tprivate Module_Parameter template_get_param_single_helper_{0,number,#}_{1,number,#}(final String param_field, final Module_Param_Name param_name) '{'\n", start, end));
+				source.append("\t\t\t");
+				for (int i = start ; i <= end; i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					source.append(MessageFormat.format("if (\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
+					source.append(MessageFormat.format("\t\t\t\treturn get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+					source.append("\t\t\t} else ");
+				}
+				source.append("{\n");
+				source.append("\t\t\t\treturn null;\n");
+				source.append("\t\t\t}\n");
+				source.append("\t\t}\n\n");
+
+				source.append(MessageFormat.format("\t\tprivate Module_Parameter template_get_param_specific_helper_{0,number,#}_{1,number,#}(final Module_Param_Name param_name) '{'\n", start, end));
+				source.append("\t\t\tModule_Parameter mp_field = null;\n");
+				source.append("\t\t\tswitch (single_value_union_selection) {\n");
+				for (int i = start ; i <= end; i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
+					source.append("\t\t\t\treturn mp_field;\n");
+				}
+				source.append("\t\t\tdefault:\n");
+				source.append("\t\t\t\treturn null;\n");
+				source.append("\t\t\t}\n");
+				source.append("\t\t}\n\n");
+			}
+		}
+
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic Module_Parameter get_param(final Module_Param_Name param_name) {\n");
 		source.append("\t\t\tif (param_name.next_name()) {\n");
@@ -2516,13 +2627,31 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n"); 
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Unexpected array index in module parameter reference, expected a valid field name for union template type `{0}''\");\n", displayName));
 		source.append("\t\t\t\t}\n"); 
-		source.append("\t\t\t\t");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("if (\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("\t\t\t\t\treturn get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\t} else ");
+
+		if (fieldInfos.size() > maxFieldsLength) {
+			source.append("\t\t\t\tModule_Parameter temp_parameter = null;\n");
+			
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+
+				source.append(MessageFormat.format("\t\t\t\ttemp_parameter = template_get_param_single_helper_{0,number,#}_{1,number,#}(param_field, param_name);\n", start, end));
+				source.append("\t\t\t\tif(temp_parameter != null) {\n");
+				source.append("\t\t\t\t\treturn temp_parameter;\n");
+				source.append("\t\t\t\t}\n");
+			}
+		} else {
+			source.append("\t\t\t\t");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("if (\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t\t\t\treturn get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+				source.append("\t\t\t\t} else ");
+			}
 		}
+
 		source.append("{\n");
 		source.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Field `'{'0'}''' not found in union type `{0}''\", param_field));\n", displayName));
 		source.append("\t\t\t\t}\n");
@@ -2543,17 +2672,34 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE: {\n");
 		source.append("\t\t\t\tModule_Parameter mp_field = null;\n");
-		source.append("\t\t\t\tswitch(single_value_union_selection) {\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
+
+		if (fieldInfos.size() > maxFieldsLength) {
+			source.append("\t\t\t\tif (single_value_union_selection.ordinal() == 0 ) {\n");
 			source.append("\t\t\t\t\tbreak;\n");
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+				source.append(MessageFormat.format("\t\t\t\t} else if (single_value_union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+				source.append(MessageFormat.format("\t\t\t\t\tmp_field = template_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+			}
+			source.append("\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t}\n");
+		} else {
+			source.append("\t\t\t\tswitch(single_value_union_selection) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
+				source.append("\t\t\t\t\tbreak;\n");
+			}
+			source.append("\t\t\t\tdefault:\n");
+			source.append("\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t}\n");
 		}
-		source.append("\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tmp = new Module_Param_Assignment_List();\n");
 		source.append("\t\t\t\tmp.add_elem(mp_field);\n");
 		source.append("\t\t\t\tbreak;\n");
