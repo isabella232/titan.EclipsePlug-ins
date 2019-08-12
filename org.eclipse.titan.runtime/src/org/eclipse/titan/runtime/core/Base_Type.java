@@ -56,7 +56,7 @@ public abstract class Base_Type {
 		 *                the RAW descriptor if the type has one,
 		 *                {@code null} otherwise.
 		 * @param oftype_descr
-		 *                in case of record of ans set of types, the
+		 *                in case of record of and set of types, the
 		 *                type descriptor of the of type, {@code false}
 		 *                otherwise.
 		 * */
