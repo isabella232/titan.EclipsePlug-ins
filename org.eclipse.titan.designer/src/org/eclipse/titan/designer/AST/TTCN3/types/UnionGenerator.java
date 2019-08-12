@@ -700,6 +700,41 @@ public final class UnionGenerator {
 	 *                the list of information about the fields.
 	 */
 	private static void generateValueSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+		if (fieldInfos.size() > maxFieldsLength) {
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength ;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+				source.append("\t\t// Internal helper function.\n");
+				source.append(MessageFormat.format("\t\tprivate boolean value_set_param_single_helper_{0,number,#}_{1,number,#}(final String name, final Module_Parameter param) '{'\n", start, end));
+				for (int i = start ; i <= end; i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					source.append(MessageFormat.format("\t\t\tif(\"{0}\".equals(name)) '{'\n", fieldInfo.mDisplayName));
+					source.append(MessageFormat.format("\t\t\t\tget_field_{0}().set_param(param);\n", fieldInfo.mJavaVarName));
+					//source.append("\t\t\t\tsingle_value.set_param(param);\n");
+					source.append("\t\t\t\treturn true;\n");
+					source.append("\t\t\t}\n");
+				}
+				source.append("\t\t\treturn false;\n");
+				source.append("\t\t}\n\n");
+
+				source.append("\t\t// Internal helper function.\n");
+				source.append(MessageFormat.format("\t\tprivate boolean value_set_param_list_helper_{0,number,#}_{1,number,#}(final String last_name, final Module_Parameter mp_last) '{'\n", start, end));
+				for (int i = start ; i <= end; i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					source.append(MessageFormat.format("\t\t\tif(\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
+					source.append(MessageFormat.format("\t\t\t\tget_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
+					source.append("\t\t\t\treturn true;\n");
+					source.append("\t\t\t}\n");
+				}
+				source.append("\t\t\treturn false;\n");
+				source.append("\t\t}\n\n");
+			}
+		}
+
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void set_param(Module_Parameter param) {\n");
 
@@ -711,19 +746,40 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}''\");\n", displayName ));
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\t");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			final FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("if (\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("\t\t\t\t\tget_field_{0}().set_param(param);\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\t\treturn;\n");
-			source.append("\t\t\t\t} else ");
+		if (fieldInfos.size() > maxFieldsLength) {
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+
+				source.append(MessageFormat.format("\t\t\t\tif(value_set_param_single_helper_{0,number,#}_{1,number,#}(param_field, param)) '{'\n", start, end));
+				source.append("\t\t\t\t\treturn;\n");
+				source.append("\t\t\t\t}\n");
+			}
+
+			source.append(MessageFormat.format("\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}''' not found in union template type `{0}''\", param_field));\n", displayName));
+		} else {
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+
+				if (i == 0) {
+					source.append("\t\t\t\t");
+				} else {
+					source.append(" else ");
+				}
+				source.append(MessageFormat.format("if(\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t\t\t\tget_field_{0}().set_param(param);\n", fieldInfo.mJavaVarName));
+				source.append("\t\t\t\t\treturn;\n");
+				source.append("\t\t\t\t}");
+			}
+
+			source.append(" else {\n");
+			source.append(MessageFormat.format("\t\t\t\t\tparam.error(MessageFormat.format(\"Field `'{'0'}''' not found in union template type `{0}''\", param_field));\n", displayName));
+			source.append("\t\t\t\t}\n");
 		}
-		source.append("{\n");
-		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Field `%%s'' not found in union type `{0}''\", param_field);\n", displayName));
-		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-			
+
 		source.append("\t\t\tparam.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"union value\");\n");
 
 		// Originally RT2
@@ -739,18 +795,32 @@ public final class UnionGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfinal Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
 		source.append("\t\t\tfinal String last_name = mp_last.get_id().get_name();\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			final FieldInfo fieldInfo = fieldInfos.get(i);
+		if (fieldInfos.size() > maxFieldsLength) {
+			final int fullSize = fieldInfos.size();
+			final int iterations = fullSize / maxFieldsLength;
+			for (int iteration = 0; iteration <= iterations; iteration++) {
+				final int start = iteration * maxFieldsLength;
+				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+				source.append(MessageFormat.format("\t\t\tif(value_set_param_list_helper_{0,number,#}_{1,number,#}(last_name, mp_last)) '{'\n", start, end));
+				source.append("\t\t\t\tif (!field.is_bound()) {\n");
+				source.append("\t\t\t\t\tclean_up();\n");
+				source.append("\t\t\t\t}\n");
+				source.append("\t\t\t\treturn;\n");
+				source.append("\t\t\t}\n");
+			}
+		} else {
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
 
-			source.append(MessageFormat.format("\t\t\tif (\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
-			source.append("\t\t\t\tif (!field.is_bound()) {\n");
-			source.append("\t\t\t\t\tclean_up();\n");
-			source.append("\t\t\t\t}\n");
-			source.append("\t\t\t\treturn;\n");
-			source.append("\t\t\t}\n");
+				source.append(MessageFormat.format("\t\t\tif (\"{0}\".equals(last_name)) '{'\n", fieldInfo.mDisplayName));
+				source.append(MessageFormat.format("\t\t\t\tget_field_{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
+				source.append("\t\t\t\tif (!field.is_bound()) {\n");
+				source.append("\t\t\t\t\tclean_up();\n");
+				source.append("\t\t\t\t}\n");
+				source.append("\t\t\t\treturn;\n");
+				source.append("\t\t\t}\n");
+			}
 		}
-
 		source.append(MessageFormat.format("\t\t\tmp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last_name));\n", displayName));
 		source.append("\t\t}\n\n");
 	}
@@ -2289,7 +2359,7 @@ public final class UnionGenerator {
 				final int start = iteration * maxFieldsLength ;
 				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 				source.append("\t\t// Internal helper function.\n");
-				source.append(MessageFormat.format("\t\tprivate boolean set_param_single_helper_{0,number,#}_{1,number,#}(final String name, final Module_Parameter param) '{'\n", start, end));
+				source.append(MessageFormat.format("\t\tprivate boolean template_set_param_single_helper_{0,number,#}_{1,number,#}(final String name, final Module_Parameter param) '{'\n", start, end));
 				for (int i = start ; i <= end; i++) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 
@@ -2302,7 +2372,7 @@ public final class UnionGenerator {
 				source.append("\t\t}\n\n");
 
 				source.append("\t\t// Internal helper function.\n");
-				source.append(MessageFormat.format("\t\tprivate boolean set_param_list_helper_{0,number,#}_{1,number,#}(final String last_name, final Module_Parameter mp_last) '{'\n", start, end));
+				source.append(MessageFormat.format("\t\tprivate boolean template_set_param_list_helper_{0,number,#}_{1,number,#}(final String last_name, final Module_Parameter mp_last) '{'\n", start, end));
 				for (int i = start ; i <= end; i++) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 
@@ -2330,7 +2400,7 @@ public final class UnionGenerator {
 				final int start = iteration * maxFieldsLength;
 				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
 
-				source.append(MessageFormat.format("\t\t\t\tif(set_param_single_helper_{0,number,#}_{1,number,#}(param_field, param)) '{'\n", start, end));
+				source.append(MessageFormat.format("\t\t\t\tif(template_set_param_single_helper_{0,number,#}_{1,number,#}(param_field, param)) '{'\n", start, end));
 				source.append("\t\t\t\t\treturn;\n");
 				source.append("\t\t\t\t}\n");
 			}
@@ -2399,7 +2469,7 @@ public final class UnionGenerator {
 			for (int iteration = 0; iteration <= iterations; iteration++) {
 				final int start = iteration * maxFieldsLength;
 				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-				source.append(MessageFormat.format("\t\t\t\tif(set_param_list_helper_{0,number,#}_{1,number,#}(last_name, mp_last)) '{'\n", start, end));
+				source.append(MessageFormat.format("\t\t\t\tif(template_set_param_list_helper_{0,number,#}_{1,number,#}(last_name, mp_last)) '{'\n", start, end));
 				source.append("\t\t\t\t\tbreak;\n");
 				source.append("\t\t\t\t}\n");
 			}
