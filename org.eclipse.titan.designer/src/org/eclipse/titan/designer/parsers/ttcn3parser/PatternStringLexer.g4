@@ -136,29 +136,30 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 		 * 2. Get the ID(s) string.
 		 * 3. Break at '}'.
 		 */
+		final String referenceString = getText(); 
 		//end of the reference
 		int end = 0;
 		//begin of the reference (reference location)
 		int begin = 0;
 		List<String> identifiers = new ArrayList<String>();
-		while(getText().charAt(end) != '}') {
+		while(referenceString.charAt(end) != '}') {
 			//current ID begin/end
 			int current_begin = 0;
 			int current_end = 0;
 			// skip whitespace and [	
-			while(Character.isWhitespace(getText().charAt(end)) || getText().charAt(end) == '[' || getText().charAt(end) == '{') {
+			while(Character.isWhitespace(referenceString.charAt(end)) || referenceString.charAt(end) == '[' || referenceString.charAt(end) == '{') {
 				end++;
 			}
 			current_begin = end;
 			current_end = current_begin;
 			begin = current_begin;
-			while(Character.isLetterOrDigit(getText().charAt(current_end)) || getText().charAt(current_end) == '_' || getText().charAt(current_end) == '.') {
+			while(Character.isLetterOrDigit(referenceString.charAt(current_end)) || referenceString.charAt(current_end) == '_' || referenceString.charAt(current_end) == '.') {
 				current_end++;
 			}
-			String identifier = getText().substring(current_begin, current_end);
+			String identifier = referenceString.substring(current_begin, current_end);
 			identifiers.add(identifier);
 			end = current_end;
-			while(Character.isWhitespace(getText().charAt(end)) || getText().charAt(end) == ']') {
+			while(Character.isWhitespace(referenceString.charAt(end)) || referenceString.charAt(end) == ']') {
 				end++;
 			}	
 		}
@@ -196,7 +197,6 @@ UNIVERSAL_CHARSTRING_REFERENCE : '\\N' (WS)? '{' (WS)? 'universal' (WS)? 'charst
 	final String id_str = "universal charstring";
  
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex());
-	TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
 	Reference ref = new Reference(new Identifier(Identifier_type.ID_TTCN, id_str, location));
 
 	ps.addRef(ref, true); 
@@ -408,6 +408,7 @@ INVALID_QUADRUPLE_UID_RULE : '\\q' ( (WS)? '{' (IDENTIFIER)? [ ^}]* '}')? {
 
 SQUARE_BRACKETS: '[]' {
   if(in_set) {
+  	ps.addChar('\\'); 
     ps.addString("\\[]");
     in_set = false;
   } else {
@@ -449,41 +450,41 @@ CLOSING_SQUARE_BRACKET : ']' {
   }
   actualColumn++;
 };
-SQUARE_BRACES : '{'|'}' {
+SQUARE_BRACES : ( '{'|'}' ) {
   Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStopIndex() + 1);
   location.reportSyntacticWarning(String.format("Unmatched `%c' was treated literally", tokenStr.charAt(0)));
-  ps.addString("\\");
-  ps.addChar(tokenStr.charAt(0));
+  ps.addChar('\\');
+  ps.addString(getText());
   actualColumn++;
 };
-QUOTE_MARKS : '\\\"' |'\"\"' {
+QUOTE_MARKS : ('\\\"' |'\"\"') {
+  ps.addChar('\\');
   ps.addChar('"');
   actualColumn += 2;
 };
 //metachars and escaped metachars  
-METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+-] { 
- ps.addChar('\\');
+METACHARS : '\\'[dwtnrsb?*\\\[\]\-\^|()#+-] {
+ ps.addChar('\\'); 
  ps.addString(getText());
  actualColumn += 2; 
 };
 UNRECOGNIZED_ESCAPE_SEQUENCE : '\\'(.| NEWLINE) {
  Location location = new Location(actualFile, actualLine, startToken.getStartIndex(), startToken.getStartIndex() + 1);
- if (!Character.isISOControl(tokenStr.charAt(1)) && !Character.isWhitespace((tokenStr.charAt(1)))) {
- 	location.reportSyntacticWarning(String.format("Use of unrecognized escape sequence `\\%c' is deprecated", tokenStr.charAt(1)));
+ if (!Character.isISOControl(getText().charAt(1)) && !Character.isWhitespace((getText().charAt(1)))) {
+ 	location.reportSyntacticWarning(String.format("Use of unrecognized escape sequence `\\%c' is deprecated", getText().charAt(1)));
  } else {
  	location.reportSyntacticWarning("Use of unrecognized escape sequence is deprecated");
  }
- ps.addChar('\\');
- ps.addString(getText());
+ ps.addChar(getText().charAt(1));
  actualColumn += 2;
 };
 REPETITION : '#' (WS)? [0-9] {
 	if (in_set) {
 		Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + 1, startToken.getStopIndex());
 		location.reportSemanticError("Number of repetitions `#n' cannot be given inside a set expression");
-	} else if (tokenStr.charAt(actualColumn - 1) != '1')  {
+	} else if (getText().charAt(getText().length() - 1) != '1')  {
 		ps.addChar('#'); 
-		ps.addChar(tokenStr.charAt(actualColumn - 1));
+		ps.addChar(getText().charAt(getText().length() - 1));
  	}
  	
 };

@@ -10,6 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
@@ -354,50 +355,66 @@ public final class Param_Types {
 		}
 
 		public void error(final String err, final Object... args) {
+			StringBuilder exception_str = new StringBuilder();
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 			TTCN_Logger.log_event_str("Error while ");
+			exception_str.append("Error while ");
 			switch (operation_type) {
 			case OT_ASSIGN:
 				TTCN_Logger.log_event_str("setting");
+				exception_str.append("setting");
 				break;
 			case OT_CONCAT:
 				TTCN_Logger.log_event_str("concatenating");
+				exception_str.append("concatenating");
 				break;
 			default:
 				TTCN_Logger.log_event_str("???");
+				exception_str.append("???");
 				break;
 			}
 
 			TTCN_Logger.log_event_str(" ");
+			exception_str.append(" ");
 			if (id != null && id.is_custom()) {
 				final String custom_ctx = id.get_str();
 				TTCN_Logger.log_event_str(custom_ctx);
+				exception_str.append(custom_ctx);
 				TTCN_Logger.log_event_str(" in module parameter");
+				exception_str.append(" in module parameter");
 			} else {
 				TTCN_Logger.log_event_str("parameter field '");
+				exception_str.append("parameter field '");
 				final String param_ctx = get_param_context();
 				TTCN_Logger.log_event_str(param_ctx);
+				exception_str.append(param_ctx);
 				TTCN_Logger.log_event_str("'");
+				exception_str.append("'");
 			}
 
 			switch (operation_type) {
 			case OT_ASSIGN:
 				TTCN_Logger.log_event_str(" to '");
+				exception_str.append(" to '");
 				break;
 			case OT_CONCAT:
 				TTCN_Logger.log_event_str(" and '");
+				exception_str.append(" and '");
 				break;
 			default:
 				TTCN_Logger.log_event_str("' ??? '");
+				exception_str.append("' ??? '");
 				break;
 			}
 
 			log(false);
 			TTCN_Logger.log_event_str("': ");
+			exception_str.append("': ");
 			TTCN_Logger.log_event_va_list(err, args);
+			exception_str.append(String.format(Locale.US, err, args));
 			TTCN_Logger.send_event_as_error();
 			TTCN_Logger.end_event();
-			throw new TtcnError("");
+			throw new TtcnError(exception_str.toString());
 		}
 
 		public void type_error(final String expected, final String type_name) {
