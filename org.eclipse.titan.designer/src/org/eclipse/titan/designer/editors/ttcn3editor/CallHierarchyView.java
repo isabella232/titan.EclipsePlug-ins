@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -24,6 +25,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -96,6 +98,16 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @see IStatusLineManager
 	 */
 	private IStatusLineManager statusLineManager;
+	
+	/**
+	 * The view's action bars.
+	 */
+	private IActionBars actionBars;
+	
+	/**
+	 * The boolean selector for the autoJump switch.
+	 */
+	private boolean autoJumpToDefinition = true;
 
 	/**
 	 * The <code>messageLabel</code> is a Label for show status informations.
@@ -153,6 +165,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			+ "and choose the 'Open Call Hierarchy' menu option or press Ctrl+Alt+H.";
 	private static final String CALLING_IN_PROJECT			= "\"{0}\" calls in project: \"{1}\"."; 
 	private static final String EDITOR_OPEN_ERROR			= "The new editor can not open!";
+	private static final String JUMP_TO_DEFINITION			= "Auto jump to definition.";
 	private static final int    TREE_VIEWER					= 0;
 	private static final int    TABLE_VIEWEVR				= 1;
 	private static final int    STATUS_LINE_LEVEL_MESSAGE 	= 0;
@@ -213,8 +226,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		treeViewer.setInput(node);
 		treeViewer.refresh();
 
-		final Object[] EMPTY = {};
-		tableViewer.setInput(EMPTY);
+		final Object[] emptyInput = {};
+		tableViewer.setInput(emptyInput);
 
 		treeViewerSelectedNode = node;
 		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getSelectedAssignment().getFullName().substring(1), callHierarchy.getCurrentProject().getName()));
@@ -229,6 +242,12 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 */
 	@Override
 	public void createPartControl(final Composite parent) {
+		statusLineManager = getViewSite().getActionBars().getStatusLineManager();
+		callHierarchy.setStatusLineManager(statusLineManager);
+		
+		actionBars = getViewSite().getActionBars();
+		setUpActionBars(actionBars);
+		
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		gridLayout.makeColumnsEqualWidth = true;
@@ -254,14 +273,28 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		splitter.setLayoutData(gridData);
 
 		setUpTreeViewer(splitter, gridData);
+		treeViewer.getControl().setFocus();
 
 		table = new Table(splitter, SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER);
 		setUpTableViewer(table);
-
-		statusLineManager = getViewSite().getActionBars().getStatusLineManager();
-		callHierarchy.setStatusLineManager(statusLineManager);
-
-		treeViewer.getControl().setFocus();
+	}
+	
+	/**
+	 * Set up the action bars, the buttons, switches and actions.
+	 * 
+	 * @param actionBars
+	 * 			The view's action bars.
+	 */
+	private void setUpActionBars(IActionBars actionBars) {
+		final Action categorise = new Action(JUMP_TO_DEFINITION) {
+			@Override
+			public void run() {
+				autoJumpToDefinition = isChecked();
+			}
+		};
+		categorise.setImageDescriptor(ImageCache.getImageDescriptor("auto_definition_selection.gif"));
+		categorise.setChecked(autoJumpToDefinition);
+		actionBars.getToolBarManager().add(categorise);
 	}
 
 	/**
@@ -300,16 +333,15 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		final ArrayList<TableColumn> tableColumns = new ArrayList<TableColumn>();
 		for (int i = 0; i < columnHeaders.length; i++) {
 			tableLayout.addColumnData(columnLayouts[i]);
-			final TableColumn tc = new TableColumn(table, SWT.NONE,i);
-			tc.setResizable(columnLayouts[i].resizable);
-			tc.setText(columnHeaders[i]);
-			tableColumns.add(tc);
+			final TableColumn tableColumn = new TableColumn(table, SWT.NONE,i);
+			tableColumn.setResizable(columnLayouts[i].resizable);
+			tableColumn.setText(columnHeaders[i]);
+			tableColumns.add(tableColumn);
 		}
 
 		final Listener sortListener = new Listener() {
 			public void handleEvent(final Event e) {
 				int sortDirection = table.getSortDirection();
-
 				Object[] references = treeViewerSelectedNode.getReferences();
 				if(references == null)  {
 					return;
@@ -327,7 +359,6 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 				tableViewer.setInput(references);
 			}
 		};
-
 		tableColumns.get(1).addListener(SWT.Selection, sortListener);
 		table.setSortColumn(tableColumns.get(1));
 		table.setSortDirection(SWT.UP);
@@ -377,6 +408,26 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	}; 
 
 	/**
+	 * Update the tree viewer and set the sort direction.
+	 * 
+	 * @param selectedElement
+	 * 			The new selected node
+	 */
+	private void tableViewerUpdate(final Object selectedElement) {
+		treeViewerSelectedNode = (CallHierarchyNode) selectedElement;
+		final Object[] references = treeViewerSelectedNode.getReferences();
+
+		final int sortDirection = table.getSortDirection();
+		if(sortDirection == SWT.UP) {
+			Arrays.sort(references, getReferenceComparator);
+		} else {
+			Arrays.sort(references, getReferenceComparator.reversed());
+		}
+
+		tableViewer.setInput(references);
+	}
+	
+	/**
 	 * The selectionChanged method for the {@link ISelectionChangedListener}.
 	 *
 	 * @param event
@@ -384,7 +435,41 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 */
 	@Override
 	public void selectionChanged(final SelectionChangedEvent event) {
-		final Location location = getEventLocation(event);
+		final ISelection selection = event.getSelection();
+		if (selection.isEmpty()) {
+			return;
+		}
+
+		final Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
+		
+		if (selectedElement instanceof CallHierarchyNode) {
+			tableViewerUpdate(selectedElement);
+			inFocus = TREE_VIEWER;
+		}
+
+		if (selectedElement instanceof Reference) {
+			inFocus = TABLE_VIEWEVR;
+		}
+		
+		if(!autoJumpToDefinition && !(selectedElement instanceof Reference)) {
+			return;
+		}
+
+		final Location location = getEventLocation(selectedElement);
+		if (location == null) {
+			return;
+		}
+
+		selectLocation(location);
+	}
+
+	/**
+	 * Select a {@link Location} in the current opened editor!<br>
+	 * <b>Important:</b> When the {@link Location} is not in the current opened editor open a new editor.
+	 * @param location
+	 * 			The selected {@link Location}.
+	 */
+	private void selectLocation(final Location location)  {
 		if (location == null) {
 			return;
 		}
@@ -414,17 +499,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			}
 			showView();
 		}
-
-		selectLocation(location);
-	}
-
-	/**
-	 * Select a {@link Location} in the current opened editor!<br>
-	 * <b>Important:</b> The {@link Location} must be in the current opened editor.
-	 * @param location
-	 * 			The selected {@link Location}.
-	 */
-	private void selectLocation(final Location location)  {
+		
 		final IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		final ITextEditor editor 			= (ITextEditor) targetEditor;
 		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
@@ -437,38 +512,16 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @return
 	 * 			A {@link Location}.
 	 */
-	private Location getEventLocation(final SelectionChangedEvent event) {
-		final ISelection selection = event.getSelection();
-		if (selection.isEmpty()) {
-			return null;
-		}
-
-		final Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
-
+	private Location getEventLocation(final Object selectedElement) {
 		Location location = null;
 		if (selectedElement instanceof CallHierarchyNode) {
 			treeViewerSelectedNode = (CallHierarchyNode) selectedElement;
-
 			location = treeViewerSelectedNode.getNodeDefinition().getLocation();
-
-			final Object[] references = treeViewerSelectedNode.getReferences();
-
-			final int sortDirection = table.getSortDirection();
-			if(sortDirection == SWT.UP) {
-				Arrays.sort(references, getReferenceComparator);
-			} else {
-				Arrays.sort(references, getReferenceComparator.reversed());
-			}
-
-			tableViewer.setInput(references);
-
-			inFocus = TREE_VIEWER;
 		}
 
 		if (selectedElement instanceof Reference) {
 			final Reference reference = (Reference) selectedElement;
 			location = reference.getLocation();
-			inFocus = TABLE_VIEWEVR;
 		}
 
 		return location;
