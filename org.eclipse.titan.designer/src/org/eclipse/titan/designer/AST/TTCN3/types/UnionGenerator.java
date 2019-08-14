@@ -194,7 +194,6 @@ public final class UnionGenerator {
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_AnyOrNone");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Assignment_List");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_ComplementList_Template");
-		aData.addBuiltinTypeImport("Param_Types.Module_Param_Enumerated");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_FieldName");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_List_Template");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
