@@ -141,45 +141,19 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 		int end = 0;
 		//begin of the reference (reference location)
 		int begin = 0;
-		List<String> identifiers = new ArrayList<String>();
+		// skip whitespace and [
+		while(Character.isWhitespace(referenceString.charAt(end)) || referenceString.charAt(end) == '[' || referenceString.charAt(end) == '{') {
+				end++;
+			}
+			begin = end;
 		while(referenceString.charAt(end) != '}') {
-			//current ID begin/end
-			int current_begin = 0;
-			int current_end = 0;
-			// skip whitespace and [	
-			while(Character.isWhitespace(referenceString.charAt(end)) || referenceString.charAt(end) == '[' || referenceString.charAt(end) == '{') {
-				end++;
-			}
-			current_begin = end;
-			current_end = current_begin;
-			begin = current_begin;
-			while(Character.isLetterOrDigit(referenceString.charAt(current_end)) || referenceString.charAt(current_end) == '_' || referenceString.charAt(current_end) == '.') {
-				current_end++;
-			}
-			String identifier = referenceString.substring(current_begin, current_end);
-			identifiers.add(identifier);
-			end = current_end;
-			while(Character.isWhitespace(referenceString.charAt(end)) || referenceString.charAt(end) == ']') {
-				end++;
-			}	
+			end++;
 		}
+		String identifier = referenceString.substring(begin, end);
 		actualColumn = end + 1;
 		TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
 		Location ref_location = new Location(actualFile, actualLine, startToken.getStartIndex() + begin + 1, startToken.getStopIndex() + end);
-		Reference ref = null;
-		if (identifiers.size() == 1) {
-			ref = analyzer.parse(actualFile, identifiers.get(0), false, ref_location.getLine(), ref_location.getOffset());
-		} else if (identifiers.size() > 1) {
-			String id_str = "";
-			for (int i = 0; i < identifiers.size(); i++) {
-				if (i == 0) {
-					id_str = identifiers.get(i);
-				} else {
-					id_str += "[" + identifiers.get(i) +"]";
-				}						
-			}
-			ref = analyzer.parse(actualFile, id_str, false, ref_location.getLine(), ref_location.getOffset());
-		}
+		Reference ref = analyzer.parse(actualFile, identifier, false, ref_location.getLine(), ref_location.getOffset());
 		if (ref != null) {
 			ps.addRef(ref, false);
 		} else {
