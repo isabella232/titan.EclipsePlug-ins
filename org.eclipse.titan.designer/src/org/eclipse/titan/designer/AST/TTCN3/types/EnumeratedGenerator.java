@@ -1606,6 +1606,7 @@ public final class EnumeratedGenerator {
 		source.append(MessageFormat.format("\t\t\t\tif ({0}.is_valid_enum(enum_val)) '{'\n", name));
 		source.append("\t\t\t\t\tsingle_value = enum_val;\n");
 		source.append("\t\t\t\t\tis_ifPresent = param.get_ifpresent();\n");
+		source.append("\t\t\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t\t\t\treturn;\n");
 		source.append("\t\t\t\t}\n");
 		// it's not a valid enum value => dereference it!
