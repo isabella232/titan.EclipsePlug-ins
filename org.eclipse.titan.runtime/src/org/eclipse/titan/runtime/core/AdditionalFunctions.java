@@ -5238,8 +5238,12 @@ public final class AdditionalFunctions {
 			new TitanCharString(posix_str.toString()).log();
 			TTCN_Logger.end_event();
 		}
-
-		return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.toString(), posix_str, groupno, nocase));
+		
+		if (instr.charstring) {
+			return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.cstr.toString(), posix_str, groupno, nocase));
+		} else {
+			return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.to_utf(), posix_str, groupno, nocase));
+		}
 	}
 
 	public static TitanUniversalCharString regexp(final TitanUniversalCharString instr, final TitanUniversalCharString expression, final int groupno, final boolean nocase) {
