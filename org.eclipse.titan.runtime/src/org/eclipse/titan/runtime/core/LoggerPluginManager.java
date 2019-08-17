@@ -117,7 +117,7 @@ public final class LoggerPluginManager {
 
 	private ArrayList<logging_setting_t> logparams = new ArrayList<LoggingParam.logging_setting_t>();
 	private ArrayList<ILoggerPlugin> plugins_ = new ArrayList<ILoggerPlugin>();
-	
+
 	private LinkedList<LogEntry> entry_list_ = new LinkedList<LogEntry>();
 
 	public LoggerPluginManager() {
@@ -316,7 +316,7 @@ public final class LoggerPluginManager {
 			break;
 		}
 	}
-	
+
 	public void clear_param_list() {
 		logparams = null;
 		logparams = new ArrayList<logging_setting_t>();
@@ -400,10 +400,10 @@ public final class LoggerPluginManager {
 			ring_buffer.offer(event);
 		}
 
-		if (severity == Severity.ERROR_UNQUALIFIED || 
+		if (severity == Severity.ERROR_UNQUALIFIED ||
 				(TTCN_Logger.get_emergency_logging_for_fail_verdict() &&
 						severity == Severity.VERDICTOP_SETVERDICT &&
-						event.get_field_logEvent().get_field_choice().get_field_verdictOp().get_field_choice().get_field_setVerdict().get_field_newVerdict().operator_equals(TitanLoggerApi.Verdict.enum_type.v3fail)) 
+						event.get_field_logEvent().get_field_choice().get_field_verdictOp().get_field_choice().get_field_setVerdict().get_field_newVerdict().operator_equals(TitanLoggerApi.Verdict.enum_type.v3fail))
 				) {
 			TitanLoggerApi.TitanLogEvent ring_event;
 			while (!ring_buffer.isEmpty()) {

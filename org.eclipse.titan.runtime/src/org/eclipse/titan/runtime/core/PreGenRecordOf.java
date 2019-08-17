@@ -654,11 +654,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -2760,11 +2760,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanUniversalCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -5001,11 +5001,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanOctetString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -7128,11 +7128,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanFloat();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -9255,11 +9255,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanUniversalCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -11382,11 +11382,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBitString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -13509,11 +13509,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBoolean();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -15636,11 +15636,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -17763,11 +17763,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBoolean();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -19890,11 +19890,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBitString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -22017,11 +22017,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -24123,11 +24123,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanUniversalCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -26343,11 +26343,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBoolean();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -28563,11 +28563,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanFloat();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -30783,11 +30783,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -33003,11 +33003,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -35244,11 +35244,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanUniversalCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -37350,11 +37350,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanHexString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -39570,11 +39570,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanHexString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -41790,11 +41790,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanOctetString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -44010,11 +44010,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanFloat();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -46230,11 +46230,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanInteger();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -48450,11 +48450,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanOctetString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -50691,11 +50691,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanOctetString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -52818,11 +52818,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanHexString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -54924,11 +54924,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -57144,11 +57144,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBitString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -59364,11 +59364,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBoolean();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -61605,11 +61605,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanCharString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -63732,11 +63732,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanFloat();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -65838,11 +65838,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanBitString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -68079,11 +68079,11 @@ public final class PreGenRecordOf extends TTCN_Module {
 			return new TitanHexString();
 		}
 
-		/** 
+		/**
 		 * Do not use this function!<br>
 		 * It is provided by Java and currently used for debugging.
 		 * But it is not part of the intentionally provided interface,
-		 *   and so can be changed without notice. 
+		 *   and so can be changed without notice.
 		 * <p>
 		 * JAVA DESCRIPTION:
 		 * <p>
@@ -69838,8 +69838,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
 					param.error("Unexpected array index in module parameter, expected a valid field name for union type `@PreGenRecordOf.anytype'");
 				}
-				{
-					param.error("Field `%%s' not found in union type `@PreGenRecordOf.anytype'", param_field);
+				else {
+					param.error(MessageFormat.format("Field `{0}' not found in union template type `@PreGenRecordOf.anytype'", param_field));
 				}
 			}
 			param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
@@ -69871,10 +69871,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 					throw new TtcnError(MessageFormat.format("Field `{0}' not found in union type `@PreGenRecordOf.anytype'", param_field));
 				}
 			}
-			Module_Parameter mp_field = null;
+			Module_Parameter mp_field;
 			switch(union_selection) {
 			default:
-				break;
+				mp_field = null;
 			}
 			final Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
 			mp.add_elem(mp_field);

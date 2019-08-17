@@ -166,7 +166,7 @@ public final class AdditionalFunctions {
 
 	private static CharCoding is_utf8(final TitanOctetString ostr) {
 		final int MSB = 1 << 7; // MSB is 1 in case of non ASCII character
-		final int MSBmin1 = 1 << 6; // 0100 0000 
+		final int MSBmin1 = 1 << 6; // 0100 0000
 		int i = 0;
 		final byte strptr[] = ostr.get_value();
 		while (ostr.lengthof().get_int() > i) {
@@ -180,7 +180,7 @@ public final class AdditionalFunctions {
 					++noofUTF8;
 					maskUTF8 >>= 1; // shift right the mask
 				}
-				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx 
+				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx
 				while (0 < noofUTF8) {
 					++i;
 					if (i >= ostr.lengthof().get_int() || ((strptr[i] & 0xFF) & MSB) == 0 || ((strptr[i] & 0xFF) & MSBmin1) != 0) { // if not like this: 10xx xxxx
@@ -715,7 +715,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts a float value to an integer value,
 	 *  by removing the fractional part.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.9
 	 *
@@ -733,7 +733,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts a float value to an integer value,
 	 *  by removing the fractional part.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.9
 	 *
@@ -748,7 +748,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts a float value to an integer value,
 	 *  by removing the fractional part.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.9
 	 *
@@ -766,7 +766,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts a single character into an integer
 	 *  value  in the 0.. 127 range.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.10
 	 *
@@ -784,7 +784,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts a single character long charstring into an integer
 	 *  value  in the 0.. 127 range.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.10
 	 *
@@ -806,7 +806,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts a single character long charstring into an integer
 	 *  value  in the 0.. 127 range.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.10
 	 *
@@ -826,7 +826,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts a single character long charstring into an integer
 	 *  value  in the 0.. 127 range.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.10
 	 *
@@ -843,7 +843,7 @@ public final class AdditionalFunctions {
 	// C.10 - char2oct
 	/**
 	 * Converts a charstring into an octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.11
 	 *
@@ -866,7 +866,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a charstring into an octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.11
 	 *
@@ -882,7 +882,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a charstring into an octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.11
 	 *
@@ -900,7 +900,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an universal charstring into an integer.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.12
 	 *
@@ -920,7 +920,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an universal charstring into an integer.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.12
 	 *
@@ -940,7 +940,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an universal charstring into an integer.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.12
 	 *
@@ -960,7 +960,7 @@ public final class AdditionalFunctions {
 	 * Converts a bitstring into an integer.
 	 * The rightmost bit is least significant,
 	 *  the leftmost bit is the most significant.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.13
 	 *
@@ -1019,7 +1019,7 @@ public final class AdditionalFunctions {
 	 * Converts a bitstring into an integer.
 	 * The rightmost bit is least significant,
 	 *  the leftmost bit is the most significant.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.13
 	 *
@@ -1037,7 +1037,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a bitstring into a hexstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.14
 	 *
@@ -1064,7 +1064,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a bitstring into a hexstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.14
 	 *
@@ -1082,7 +1082,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a bitstring into a octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.15
 	 *
@@ -1111,7 +1111,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a bitstring into a octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.15
 	 *
@@ -1129,7 +1129,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a bitstring into a charstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.16
 	 *
@@ -1156,7 +1156,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a bitstring into a charstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.16
 	 *
@@ -1180,7 +1180,7 @@ public final class AdditionalFunctions {
 	 * Converts a hexstring into an integer.
 	 * The rightmost hexadecimal digit is least significant,
 	 *  the leftmost hexadecimal digit is the most significant
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.17
 	 *
@@ -1232,7 +1232,7 @@ public final class AdditionalFunctions {
 	 * Converts a hexstring into an integer.
 	 * The rightmost hexadecimal digit is least significant,
 	 *  the leftmost hexadecimal digit is the most significant
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.17
 	 *
@@ -1250,7 +1250,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a hexstring into a bitstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.18
 	 *
@@ -1289,7 +1289,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a hexstring into a bitstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.18
 	 *
@@ -1309,7 +1309,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a hexstring into a octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.19
 	 *
@@ -1339,7 +1339,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts a hexstring into a octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.19
 	 *
@@ -1360,7 +1360,7 @@ public final class AdditionalFunctions {
 	 * Converts a hexstring into a charstring.
 	 * The resulting charstring has the same length as the hexstring
 	 *  and contains only the characters '0' to '9'and 'A' to 'F'
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.20
 	 *
@@ -1385,7 +1385,7 @@ public final class AdditionalFunctions {
 	 * Converts a hexstring into a charstring.
 	 * The resulting charstring has the same length as the hexstring
 	 *  and contains only the characters '0' to '9'and 'A' to 'F'
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.20
 	 *
@@ -1405,7 +1405,7 @@ public final class AdditionalFunctions {
 	 * Converts an octetstring (interpreted as a base 16 value) into an integer.
 	 * The rightmost hexadecimal digit is least significant,
 	 *  the leftmost hexadecimal digit is the most significant.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.21
 	 *
@@ -1458,7 +1458,7 @@ public final class AdditionalFunctions {
 	 * Converts an octetstring (interpreted as a base 16 value) into an integer.
 	 * The rightmost hexadecimal digit is least significant,
 	 *  the leftmost hexadecimal digit is the most significant.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.21
 	 *
@@ -1476,7 +1476,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an octetstring into a bitstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.22
 	 *
@@ -1500,7 +1500,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an octetstring into a bitstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.22
 	 *
@@ -1519,7 +1519,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an octetstring into a hexstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.23
 	 *
@@ -1544,7 +1544,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an octetstring into a hexstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.23
 	 *
@@ -1569,7 +1569,7 @@ public final class AdditionalFunctions {
 	 * Converts an octetstring into a charstring.
 	 * The consecutive order of characters in the resulting charstring
 	 *  is the same as the order of hex digits in the octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.24
 	 *
@@ -1596,7 +1596,7 @@ public final class AdditionalFunctions {
 	 * Converts an octetstring into a charstring.
 	 * The consecutive order of characters in the resulting charstring
 	 *  is the same as the order of hex digits in the octetstring.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.24
 	 *
@@ -1615,7 +1615,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts an octetstring into a charstring.
 	 * The octets are interpreted as Recommendation ITU-T T.50 code.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.25
 	 *
@@ -1641,7 +1641,7 @@ public final class AdditionalFunctions {
 	/**
 	 * Converts an octetstring into a charstring.
 	 * The octets are interpreted as Recommendation ITU-T T.50 code.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.25
 	 *
@@ -1664,7 +1664,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an charstring representing an integer into an integer.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.26
 	 *
@@ -1678,7 +1678,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an charstring representing an integer into an integer.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.26
 	 *
@@ -1794,7 +1794,7 @@ public final class AdditionalFunctions {
 
 	/**
 	 * Converts an charstring representing an integer into an integer.
-	 * 
+	 *
 	 * <p>
 	 * For more details see chapter C.1.26
 	 *
@@ -5238,7 +5238,7 @@ public final class AdditionalFunctions {
 			new TitanCharString(posix_str.toString()).log();
 			TTCN_Logger.end_event();
 		}
-		
+
 		if (instr.charstring) {
 			return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.cstr.toString(), posix_str, groupno, nocase));
 		} else {

@@ -32,7 +32,7 @@ public final class Event_Handler {
 
 	/**
 	 * generic event handler base class so that PORTs and internal connection could use the same mechanisms.
-	 * 
+	 *
 	 * Fd_And_Timeout_Event_Handler in the compiler.
 	 * */
 	static class Channel_And_Timeout_Event_Handler extends Channel_Event_Handler {

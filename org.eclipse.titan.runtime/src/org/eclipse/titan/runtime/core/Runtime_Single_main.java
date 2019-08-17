@@ -98,7 +98,7 @@ public final class Runtime_Single_main {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
 			final StringWriter error = new StringWriter();
 			e.printStackTrace(new PrintWriter(error));
-	
+
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 			TTCN_Logger.log_event_str("Dynamic test case error: ");
 			TTCN_Logger.log_event_str(error.toString());

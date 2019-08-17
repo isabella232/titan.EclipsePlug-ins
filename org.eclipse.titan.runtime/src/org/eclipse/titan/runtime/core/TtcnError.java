@@ -16,7 +16,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
 
 /**
  * This class is used to report a Dynamic Test Case error to upper parts of the system.
- * 
+ *
  * Please note that in the compiler the constructor creates a new exception,.
  * Here this class itself is used as the exception.
  *
@@ -50,7 +50,7 @@ public class TtcnError extends Error {
 			TTCN_Logger.log_event_str("Dynamic test case error: ");
 			TTCN_Logger.log_event_str(errorMessage);
 			TTCN_Logger.end_event();
-	
+
 			TTCN_Runtime.set_error_verdict();
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 		}
@@ -78,12 +78,12 @@ public class TtcnError extends Error {
 		} else {
 			final StringWriter error = new StringWriter();
 			exception.printStackTrace(new PrintWriter(error));
-	
+
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 			TTCN_Logger.log_event_str("Dynamic test case error: ");
 			TTCN_Logger.log_event_str(error.toString());
 			TTCN_Logger.end_event();
-	
+
 			TTCN_Runtime.set_error_verdict();
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 		}

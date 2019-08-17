@@ -662,7 +662,7 @@ public final class TTCN_Logger {
 				break;
 			default:
 				break;
-			} 
+			}
 		}
 
 		/**

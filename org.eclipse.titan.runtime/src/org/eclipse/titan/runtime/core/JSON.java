@@ -37,7 +37,7 @@ public class JSON {
 			// TODO Auto-generated constructor stub
 		}
 
-		public TTCN_JSONdescriptor(final boolean omit_as_null, 
+		public TTCN_JSONdescriptor(final boolean omit_as_null,
 				final String alias,
 				final boolean as_value,
 				final String default_value,
@@ -95,7 +95,7 @@ public class JSON {
 		 * (JSON_TOKEN_ERROR) or the format of the data extracted is
 		 * invalid. In either case, this is a fatal error and the
 		 * decoding cannot continue.
-		 * 
+		 *
 		 * @note This error code is always preceeded by a decoding
 		 *       error, if the caller receives this code, it means that
 		 *       decoding error behavior is (at least partially) set to

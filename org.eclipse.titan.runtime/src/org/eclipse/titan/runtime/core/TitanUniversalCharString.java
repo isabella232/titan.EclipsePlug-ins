@@ -777,7 +777,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	/**
-	 * Concatenates the current universal charstring with the string 
+	 * Concatenates the current universal charstring with the string
 	 * eceived as a parameter.
 	 *
 	 * operator+ in the core.
@@ -1142,7 +1142,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	/** An extended version of set_param(), which also accepts string patterns if
 	 * the second parameter is set (needed by TitanUniversalCharString_template to
-	 * concatenate string patterns). 
+	 * concatenate string patterns).
 	 * @return true, if the module parameter was a string pattern, otherwise false */
 	public boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern) {
 		return set_param_internal(param, allow_pattern, false);
@@ -1233,11 +1233,11 @@ public class TitanUniversalCharString extends Base_Type {
 		return new Module_Param_Universal_Charstring(this);
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -1500,7 +1500,7 @@ public class TitanUniversalCharString extends Base_Type {
 					ret_val.append((int)uchar.getUc_cell());
 					ret_val.append('}');
 				}
-			}	
+			}
 		}
 		return new TitanCharString(ret_val.toString());
 	}
@@ -1756,10 +1756,10 @@ public class TitanUniversalCharString extends Base_Type {
 
 				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) 0,(char) (octets[0] >> 2), (char) ((octets[0] << 6) & 0xFF | octets[1])));
 
-				if (val_ptr.get(lenghtUnichars).getUc_row() == 0x00 && 
+				if (val_ptr.get(lenghtUnichars).getUc_row() == 0x00 &&
 						val_ptr.get(lenghtUnichars).getUc_cell() < 0x80) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR, MessageFormat.format(
-							"Overlong: At character position {0}, octet position {1}: 2-octet encoding for quadruple (0, 0, 0, {2}).", 
+							"Overlong: At character position {0}, octet position {1}: 2-octet encoding for quadruple (0, 0, 0, {2}).",
 							lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_cell()));
 				}
 				i += 2;
@@ -1775,7 +1775,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 				if (val_ptr.get(lenghtUnichars).getUc_row() < 0x08) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
-							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 3-octet encoding for quadruple (0, 0, {2}, {3}).", 
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 3-octet encoding for quadruple (0, 0, {2}, {3}).",
 									lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_row(), val_ptr.get(lenghtUnichars).getUc_cell()));
 				}
 				i += 3;
@@ -1791,7 +1791,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 				if (val_ptr.get(lenghtUnichars).getUc_plane() == 0x00) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
-							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 4-octet encoding for quadruple (0, 0, {2}, {3}).", 
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 4-octet encoding for quadruple (0, 0, {2}, {3}).",
 									lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_row(), val_ptr.get(lenghtUnichars).getUc_cell()));
 				}
 				i += 4;
@@ -1808,7 +1808,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 				if (val_ptr.get(lenghtUnichars).getUc_group() == 0x00 && val_ptr.get(lenghtUnichars).getUc_plane() < 0x20) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
-							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 5-octet encoding for quadruple (0, {4}, {2}, {3}).", 
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 5-octet encoding for quadruple (0, {4}, {2}, {3}).",
 									lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_row(), val_ptr.get(lenghtUnichars).getUc_cell(),  val_ptr.get(lenghtUnichars).getUc_plane()));
 				}
 				i += 5;
@@ -1825,7 +1825,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 				if (val_ptr.get(lenghtUnichars).getUc_group() < 0x04) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
-							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 6-octet encoding for quadruple {2}.", 
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 6-octet encoding for quadruple {2}.",
 									lenghtUnichars, i, val_ptr.get(lenghtUnichars).toString()));
 				}
 				i += 6;
@@ -1980,7 +1980,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	public int check_BOM(final CharCoding code, final byte[] ostr) {
 		String coding_str;
-		//BOM indicates that the byte order is determined by a byte order mark, 
+		//BOM indicates that the byte order is determined by a byte order mark,
 		//if present at the beginning the length of BOM is returned.
 		final int length = ostr.length;
 		switch (code) {
@@ -2186,7 +2186,7 @@ public class TitanUniversalCharString extends Base_Type {
 						temp = r;
 						temp <<= 8;
 						univc |= temp;
-						univc |= c; // universal char filled in univc 
+						univc |= c; // universal char filled in univc
 						int W1 = 0xD800;
 						int W2 = 0xDC00;
 						final int univcmod = univc - 0x10000;

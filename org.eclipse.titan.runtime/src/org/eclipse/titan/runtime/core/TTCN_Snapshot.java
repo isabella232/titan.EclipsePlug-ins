@@ -65,7 +65,7 @@ public final class TTCN_Snapshot {
 		protected ArrayList<Channel_And_Timeout_Event_Handler> initialValue() {
 			return new ArrayList<Event_Handler.Channel_And_Timeout_Event_Handler>();
 		}
-		
+
 	};
 
 	private TTCN_Snapshot() {

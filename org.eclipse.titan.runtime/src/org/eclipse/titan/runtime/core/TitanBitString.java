@@ -82,7 +82,7 @@ public class TitanBitString extends Base_Type {
 
 	/**
 	 * Creates a TitanBitString with a single bit.
-	 * 
+	 *
 	 * @param otherValue
 	 *                must be bound
 	 */
@@ -216,7 +216,7 @@ public class TitanBitString extends Base_Type {
 	 * char*() in the core
 	 *
 	 * @param other_value the internal representation of the bitstring.
-	 * @param nof_bits the number of bits used. 
+	 * @param nof_bits the number of bits used.
 	 * */
 	public void setValue( final int[] other_value, final int nof_bits ) {
 		bits_ptr = other_value;
@@ -463,7 +463,7 @@ public class TitanBitString extends Base_Type {
 
 	/**
 	 * Creates a new bitstring with all bit inverted.
-	 * 
+	 *
 	 * operator~ in the core.
 	 *
 	 * @return the new bitstring with the inverted bits.
@@ -492,7 +492,7 @@ public class TitanBitString extends Base_Type {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -527,7 +527,7 @@ public class TitanBitString extends Base_Type {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -553,7 +553,7 @@ public class TitanBitString extends Base_Type {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -587,7 +587,7 @@ public class TitanBitString extends Base_Type {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -613,7 +613,7 @@ public class TitanBitString extends Base_Type {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -648,7 +648,7 @@ public class TitanBitString extends Base_Type {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -1077,11 +1077,11 @@ public class TitanBitString extends Base_Type {
 		return is_bound();
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>

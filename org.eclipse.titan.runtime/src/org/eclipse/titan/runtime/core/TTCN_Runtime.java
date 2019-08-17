@@ -28,7 +28,7 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
  *
  * TODO: lots to implement
  * TODO: reorganize according to .hh
- * 
+ *
  * INFO: the current threads + threadlocals are temporary structure to get enough functionality to work.
  * Once the business logic is running stable, we will experiment with this a bit more.
  *
@@ -77,7 +77,7 @@ public final class TTCN_Runtime {
 		protected Boolean initialValue() {
 			return Boolean.FALSE;
 		}
-	}; 
+	};
 
 	private static String control_module_name = null;
 
@@ -595,7 +595,7 @@ public final class TTCN_Runtime {
 		}
 
 		TTCN_Logger.close_file();
-		
+
 		return returnValue;
 	}
 

@@ -240,7 +240,7 @@ public class TitanBoolean_template extends Base_Template {
 
 	/**
 	 * Performs a bitwise and operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator&& in the core.
 	 *
 	 * @param other_value
@@ -257,7 +257,7 @@ public class TitanBoolean_template extends Base_Template {
 
 	/**
 	 * Performs a bitwise and operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator&& in the core.
 	 *
 	 * @param other_template

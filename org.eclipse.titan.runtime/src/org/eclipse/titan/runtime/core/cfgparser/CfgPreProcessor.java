@@ -59,7 +59,7 @@ public class CfgPreProcessor {
 	 * Logs an error during the CFG preparsing process.
 	 * @param error_str error message
 	 * @param actualFile parsed cfg file to log the file name
-	 * @param token parsed token to log the line number 
+	 * @param token parsed token to log the line number
 	 */
 	private void config_preproc_error(String error_str, final File actualFile, final Token token) {
 		TTCN_Logger.begin_event(TTCN_Logger.Severity.ERROR_UNQUALIFIED);

@@ -16,7 +16,7 @@ package org.eclipse.titan.runtime.core.cfgparser;
  * Originally config_preproc.cc
  * Utility functions:
  *   - get macro id from typed macro
- *   - type checking for typed macro 
+ *   - type checking for typed macro
  * @author Arpad Lovassy
  */
 public class CfgPreprocessorUtils {

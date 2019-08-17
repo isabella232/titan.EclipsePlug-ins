@@ -1102,11 +1102,11 @@ public class TitanInteger extends Base_Type {
 		return boundFlag;
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -1249,7 +1249,7 @@ public class TitanInteger extends Base_Type {
 					order = raw_order_t.ORDER_MSB;
 					break;
 				}
-	
+
 				if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -2090,7 +2090,7 @@ public class TitanInteger extends Base_Type {
 	/** {@inheritDoc} */
 	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "integer value");
-		
+
 		// Originally RT2
 		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
 			param = param.get_referenced_param().get();

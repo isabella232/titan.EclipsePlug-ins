@@ -174,8 +174,8 @@ public class TitanAsn_Null_template extends Base_Template {
 	public TitanAsn_Null_template operator_assign(final Asn_Null_Type otherValue) {
 		clean_up();
 		set_selection(template_sel.SPECIFIC_VALUE);
-		
-		return this; 
+
+		return this;
 	}
 
 	/**

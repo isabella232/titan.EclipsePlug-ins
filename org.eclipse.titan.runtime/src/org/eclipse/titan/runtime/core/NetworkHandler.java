@@ -21,7 +21,7 @@ import java.util.Arrays;
  * Originally common.NetworkHandler.hh/cc.
  * This class handle the local and the MC connection.
  * Use Inet4Address java class instead of IPv4Address and Inet6Address java class instead of IPV6Address.
- * 
+ *
  * @author Gergo Ujhelyi
  *
  */
@@ -91,7 +91,7 @@ public class NetworkHandler {
 	public boolean is_local() {
 		if (m_addr == null) {
 			return false;
-		} 
+		}
 		if (m_addr.getAddress() instanceof Inet4Address) {
 			final byte[] ipv4_localhost_bytes = {127, 0, 0, 1};
 			return Arrays.equals(m_addr.getAddress().getAddress(),ipv4_localhost_bytes);
@@ -160,36 +160,36 @@ public class NetworkHandler {
 			}
 		}
 
-		public String get_mc_host_str() { 
-			return m_mc_addr.getHostString(); 
+		public String get_mc_host_str() {
+			return m_mc_addr.getHostString();
 		}
 
-		public String get_mc_addr_str() { 
-			return m_mc_addr.getAddress().getHostAddress(); 
+		public String get_mc_addr_str() {
+			return m_mc_addr.getAddress().getHostAddress();
 		}
 
-		public String get_local_host_str() { 
-			return m_local_addr.getHostString(); 
+		public String get_local_host_str() {
+			return m_local_addr.getHostString();
 		}
 
 		public String get_local_addr_str() {
-			return m_local_addr.getAddress().getHostAddress(); 
+			return m_local_addr.getAddress().getHostAddress();
 		}
 
-		public InetSocketAddress get_mc_addr() { 
-			return m_mc_addr; 
+		public InetSocketAddress get_mc_addr() {
+			return m_mc_addr;
 		}
 
-		public InetSocketAddress get_local_addr() { 
-			return m_local_addr; 
+		public InetSocketAddress get_local_addr() {
+			return m_local_addr;
 		}
 
 		public int get_mc_port() {
-			return m_mc_addr.getPort(); 
+			return m_mc_addr.getPort();
 		}
 
-		public int get_local_port() { 
-			return m_local_addr.getPort(); 
+		public int get_local_port() {
+			return m_local_addr.getPort();
 		}
 
 		public void clean_up() {
@@ -201,7 +201,7 @@ public class NetworkHandler {
 		public boolean is_local(final InetSocketAddress p_addr) {
 			if (p_addr == null) {
 				return false;
-			} 
+			}
 			if (p_addr.getAddress() instanceof Inet4Address) {
 				final byte[] ipv4_localhost_bytes = {127, 0, 0, 1};
 				return Arrays.equals(p_addr.getAddress().getAddress(),ipv4_localhost_bytes);
@@ -216,7 +216,7 @@ public class NetworkHandler {
 
 		/**
 		 * originally push_raw()
-		 * Use it when you want to push the local address to @param p_buf Text Buffer. 
+		 * Use it when you want to push the local address to @param p_buf Text Buffer.
 		 */
 		public void push_raw_local_addr(final Text_Buf p_buf) {
 			if (m_local_addr.getAddress() instanceof Inet4Address) {
@@ -238,7 +238,7 @@ public class NetworkHandler {
 
 		/**
 		 * originally push_raw()
-		 * Use it when you want to push the main controller address to @param p_buf Text Buffer. 
+		 * Use it when you want to push the main controller address to @param p_buf Text Buffer.
 		 */
 		public void push_raw_mc_addr(final Text_Buf p_buf) {
 			if (m_mc_addr.getAddress() instanceof Inet4Address) {
@@ -263,7 +263,7 @@ public class NetworkHandler {
 		 * Use it when you want to pull the local address from @param p_buf Text Buffer.
 		 */
 		public void pull_raw_local_addr(final Text_Buf p_buf) {
-			final byte network_family[] = new byte[1]; 
+			final byte network_family[] = new byte[1];
 			p_buf.pull_raw(1, network_family);
 			//IPv4 address
 			if (network_family[0] == 2) {
@@ -299,13 +299,13 @@ public class NetworkHandler {
 				}
 			}
 		}
-		
+
 		/**
 		 * originally pull_raw()
 		 * Use it when you want to pull the main controller address from @param p_buf Text Buffer.
 		 */
 		public void pull_raw_mc_addr(final Text_Buf p_buf) {
-			final byte network_family[] = new byte[1]; 
+			final byte network_family[] = new byte[1];
 			p_buf.pull_raw(1, network_family);
 			//IPv4 address
 			if (network_family[0] == 2) {
@@ -333,7 +333,7 @@ public class NetworkHandler {
 				}
 			}
 		}
-	
+
 		//returns an IPv6 address.
 		private Inet6Address getIpv6Address(final InetAddress p_address) {
 			return (Inet6Address)p_address;

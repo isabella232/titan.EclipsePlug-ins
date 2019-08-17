@@ -9,7 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 /**
  * Collection of logging parameterization related types.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class LoggingParam {

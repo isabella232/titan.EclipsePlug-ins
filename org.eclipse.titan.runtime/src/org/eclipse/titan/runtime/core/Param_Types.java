@@ -16,10 +16,10 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * This class represents the Param_Types.hh/cc file containing module parameter related structures.
- * 
+ *
  * TODO: for now all class are in this class, to delay architectural decision until we know more detail.
  * (most probably will be turned into a package later.)
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Param_Types {
@@ -426,7 +426,7 @@ public final class Param_Types {
 		}
 
 		public void expr_type_error(final String type_name) {
-			error(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
+			error(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name));
 		}
 	}
 
@@ -457,7 +457,7 @@ public final class Param_Types {
 			  ptr = r.ptr;
 			  return this;
 		}
-	
+
 		public Module_Parameter get() {
 			return ptr.mp_ptr;
 		}
@@ -812,7 +812,7 @@ public final class Param_Types {
 		private final TitanInteger[] chars_ptr;
 
 		public type_t get_type() {
-			return type_t.MP_Objid; 
+			return type_t.MP_Objid;
 		}
 
 		public Module_Param_Objid(final int p_n, final TitanInteger[] p_c) {
@@ -1025,7 +1025,7 @@ public final class Param_Types {
 		@Override
 		public void log_value() {
 			TTCN_Logger.log_event_str("null");
-		}	
+		}
 	}
 
 	public static class Module_Param_Ttcn_mtc extends Module_Parameter {
@@ -1208,7 +1208,7 @@ public final class Param_Types {
 		}
 
 		public String get_type_str() {
-			return "float range"; 
+			return "float range";
 		}
 
 		public boolean get_is_min_exclusive() {
@@ -1268,12 +1268,12 @@ public final class Param_Types {
 			return "char range";
 		}
 
-		public boolean get_is_min_exclusive() { 
-			return min_exclusive; 
+		public boolean get_is_min_exclusive() {
+			return min_exclusive;
 		}
 
 		public boolean get_is_max_exclusive() {
-			return max_exclusive; 
+			return max_exclusive;
 		}
 
 		public void log_value() {
@@ -1291,7 +1291,7 @@ public final class Param_Types {
 		private final boolean nocase;
 
 		public type_t get_type() {
-			return type_t.MP_Pattern; 
+			return type_t.MP_Pattern;
 		}
 
 		public Module_Param_Pattern(final String p_p, final boolean p_nc) {
@@ -1299,16 +1299,16 @@ public final class Param_Types {
 			nocase = p_nc;
 		}
 
-		public String get_pattern() { 
-			return pattern; 
+		public String get_pattern() {
+			return pattern;
 		}
 
-		public boolean get_nocase() { 
-			return nocase; 
+		public boolean get_nocase() {
+			return nocase;
 		}
 
 		public String get_type_str() {
-			return "pattern"; 
+			return "pattern";
 		}
 
 		public void log_value() {
@@ -1327,14 +1327,14 @@ public final class Param_Types {
 		private final TitanBitString_template bstr_template;
 
 		public type_t get_type() {
-			return type_t.MP_Bitstring_Template; 
+			return type_t.MP_Bitstring_Template;
 		}
 
 		public Module_Param_Bitstring_Template(final String p_c) {
 			bstr_template = new TitanBitString_template(p_c);
 		}
-		public String get_type_str() { 
-			return "bitstring template"; 
+		public String get_type_str() {
+			return "bitstring template";
 		}
 		public void log_value() {
 			bstr_template.log();
@@ -1349,16 +1349,16 @@ public final class Param_Types {
 
 		private final TitanHexString_template hstr_template;
 
-		public type_t get_type() { 
-			return type_t.MP_Hexstring_Template; 
+		public type_t get_type() {
+			return type_t.MP_Hexstring_Template;
 		}
 
 		public Module_Param_Hexstring_Template(final String p_c) {
 			hstr_template = new TitanHexString_template(p_c);
 		}
 
-		public String get_type_str() { 
-			return "hexstring template"; 
+		public String get_type_str() {
+			return "hexstring template";
 		}
 
 		public void log_value() {
@@ -1375,14 +1375,14 @@ public final class Param_Types {
 		private final TitanOctetString_template ostr_template;
 
 		public type_t get_type() {
-			return type_t.MP_Octetstring_Template; 
+			return type_t.MP_Octetstring_Template;
 		}
 
 		public Module_Param_Octetstring_Template(final String p_c) {
 			ostr_template = new TitanOctetString_template(p_c);
 		}
 
-		public String get_type_str() { 
+		public String get_type_str() {
 			return "octetstring template";
 		}
 
@@ -1656,40 +1656,40 @@ public final class Param_Types {
 
 	public static class Module_Param_Assignment_List extends Module_Param_Compound {
 
-		public type_t get_type() { 
+		public type_t get_type() {
 			return type_t.MP_Assignment_List;
 		}
-		public String get_type_str() { 
-			return "list with assignment notation"; 
+		public String get_type_str() {
+			return "list with assignment notation";
 		}
-		public void log_value() { 
+		public void log_value() {
 			log_value_vec("{","}");
 		}
 	}
 
 	public static class Module_Param_Value_List extends Module_Param_Compound {
 
-		public type_t get_type() { 
-			return type_t.MP_Value_List; 
+		public type_t get_type() {
+			return type_t.MP_Value_List;
 		}
 
-		public String get_type_str() { 
+		public String get_type_str() {
 			return "value list";
 		}
 
-		public void log_value() { 
-			log_value_vec("{","}"); 
+		public void log_value() {
+			log_value_vec("{","}");
 		}
 	}
 
 	public static class Module_Param_Indexed_List extends Module_Param_Compound {
 
-		public type_t get_type() { 
-			return type_t.MP_Indexed_List; 
+		public type_t get_type() {
+			return type_t.MP_Indexed_List;
 		}
 
-		public String get_type_str() { 
-			return "indexed value list"; 
+		public String get_type_str() {
+			return "indexed value list";
 		}
 
 		public void log_value() {
@@ -1699,57 +1699,57 @@ public final class Param_Types {
 
 	public static class Module_Param_List_Template extends Module_Param_Compound {
 
-		public type_t get_type() { 
-			return type_t.MP_List_Template; 
+		public type_t get_type() {
+			return type_t.MP_List_Template;
 		}
 
-		public String get_type_str() { 
-			return "list template"; 
+		public String get_type_str() {
+			return "list template";
 		}
 
-		public void log_value() { 
+		public void log_value() {
 			log_value_vec("(",")");
 		}
 	}
 
 	public static class Module_Param_ComplementList_Template extends Module_Param_Compound {
 
-		public type_t get_type() { 
+		public type_t get_type() {
 			return type_t.MP_ComplementList_Template;
 		}
 
-		public String get_type_str() { 
-			return "complemented list template"; 
+		public String get_type_str() {
+			return "complemented list template";
 		}
 
-		public void log_value() { 
-			log_value_vec("complement(",")"); 
+		public void log_value() {
+			log_value_vec("complement(",")");
 		}
 	}
 
 	public static class Module_Param_Superset_Template extends Module_Param_Compound {
 
-		public type_t get_type() { 
-			return type_t.MP_Superset_Template; 
+		public type_t get_type() {
+			return type_t.MP_Superset_Template;
 		}
 
 		public String get_type_str() {
-			return "superset template"; 
+			return "superset template";
 		}
 
 		public void log_value() {
-			log_value_vec("superset(",")"); 
+			log_value_vec("superset(",")");
 		}
 	}
 
 	public static class Module_Param_Subset_Template extends Module_Param_Compound {
 
-		public type_t get_type() { 
-			return type_t.MP_Subset_Template; 
+		public type_t get_type() {
+			return type_t.MP_Subset_Template;
 		}
 
-		public String get_type_str() { 
-			return "subset template"; 
+		public String get_type_str() {
+			return "subset template";
 		}
 
 		public void log_value() {
@@ -1759,8 +1759,8 @@ public final class Param_Types {
 
 	public static class Module_Param_Permutation_Template extends Module_Param_Compound {
 
-		public type_t get_type() { 
-			return type_t.MP_Permutation_Template; 
+		public type_t get_type() {
+			return type_t.MP_Permutation_Template;
 		}
 
 		public String get_type_str() {

@@ -803,7 +803,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 	/** {@inheritDoc} */
 	public void set_param(Module_Parameter param) {
 		if (param.get_id() != null) {
-			if(param.get_id().getClass().equals(Module_Param_Name.class) && param.get_id().next_name()) {		
+			if(param.get_id().getClass().equals(Module_Param_Name.class) && param.get_id().next_name()) {
 				// Haven't reached the end of the module parameter name
 				// => the name refers to one of the elements, not to the whole array
 				final String param_field = param.get_id().get_current_name();

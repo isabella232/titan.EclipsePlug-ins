@@ -924,7 +924,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			set_length_range(param);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Module_Parameter get_param(final Module_Param_Name param_name) {

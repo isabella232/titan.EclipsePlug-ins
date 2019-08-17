@@ -158,15 +158,15 @@ public class LegacyLogger implements ILoggerPlugin {
 		append_file_ = false;
 		is_configured = false;
 	}
-	
+
 	public String plugin_name() {
 		return name_;
 	}
-	
+
 	public String plugin_help() {
 		return help_;
 	}
-	
+
 	public void set_parameter(final String parameter_name, final String parameter_value) {
 		//Just a place holder.
 	}
@@ -220,9 +220,9 @@ public class LegacyLogger implements ILoggerPlugin {
 		disk_full_action_ = p_disk_full_action;
 		return true;
 	}
-	
+
 	public void open_file(final boolean is_first) {
-		//TODO: different than C++ and initial implement 
+		//TODO: different than C++ and initial implement
 		if (is_first) {
 			chk_log_file();
 			if (!skeleton_given_) {
@@ -259,9 +259,9 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 
 		logfile_bytes_ = 0;
-		is_configured = true;	
+		is_configured = true;
 	}
-	
+
 	public void close_file() {
 		final BufferedWriter localFileWriter = log_file_writer.get();
 		if (localFileWriter == null || log_fp_ == null || log_fp_.get() == null) {
@@ -276,11 +276,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		log_fp_.set(null);
 	}
-	
+
 	public boolean is_configured() {
 		return is_configured;
 	}
-	
+
 	private void fatal_error(final String err_msg, final Object... args) {
 		System.err.println("Fatal error during logging: ");
 		if (args == null || err_msg == null) {
@@ -298,11 +298,13 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private enum whoami{SINGLE, HC, MTC, PTC};
-	
-	/** @brief Construct the log file name, performs substitutions.
-    @return NULL if filename_skeleton is NULL or if the result would have been
-    the empty string.
-    @return an String with the actual filename.**/
+
+	/**
+	 * @brief Construct the log file name, performs substitutions.
+	 * @return NULL if filename_skeleton is NULL or if the result would have
+	 *         been the empty string.
+	 * @return an String with the actual filename.
+	 **/
 	private String get_file_name(final int idx) {
 		if (filename_skeleton_ == null) {
 			return null;
@@ -424,7 +426,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		return ret_val.toString();
 	}
-	
+
 	private void chk_log_file() {
 		if (logfile_size_ == 0 && logfile_number_ != 1) {
 			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileSize (= {0}) and LogFileNumber (= {1}). LogFileNumber was reset to 1.", logfile_size_ , logfile_number_));
@@ -491,7 +493,7 @@ public class LegacyLogger implements ILoggerPlugin {
 
 		return true;
 	}
-	
+
 	private boolean log_file_emerg(final TitanLoggerApi.TitanLogEvent event) {
 		boolean write_succes = true;
 		final String event_str = event_to_string(event, false);
@@ -526,7 +528,7 @@ public class LegacyLogger implements ILoggerPlugin {
 
 		return write_succes;
 	}
-	
+
 	private boolean log_file(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered) {
 		if (is_disk_full_) {
 			if (disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
@@ -755,7 +757,7 @@ public class LegacyLogger implements ILoggerPlugin {
 						case UNKNOWN_VALUE:
 						case unknown:
 							break;
-						} 
+						}
 					}
 				} else {
 					if (source_info_format == source_info_format_t.SINFO_SINGLE ||
@@ -1370,7 +1372,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			case starting__function:
 				break;
 			}
-			break; 
+			break;
 		}
 		case ALT_parallelPTC__exit: {
 			final PTC__exit px = choice.get_field_parallelPTC__exit();

@@ -472,11 +472,11 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		return new TitanInteger(array_size);
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -642,7 +642,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type {0}", p_td.name));
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {

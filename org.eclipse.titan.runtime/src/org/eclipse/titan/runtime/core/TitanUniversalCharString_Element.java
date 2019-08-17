@@ -28,7 +28,7 @@ public class TitanUniversalCharString_Element {
 
 	/**
 	 * Whether the value is bound.
-	 * 
+	 *
 	 * @return {@code true} if the value is bound.
 	 */
 	public boolean is_bound() {
@@ -670,11 +670,11 @@ public class TitanUniversalCharString_Element {
 		return str_val.char_at(char_pos);
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -707,7 +707,7 @@ public class TitanUniversalCharString_Element {
 			TTCN_Logger.log_event_unbound();
 		}
 	}
-	
+
 	// static functions
 	/**
 	 * Checks if the first value is equivalent to the second one.

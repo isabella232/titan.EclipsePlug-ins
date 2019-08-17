@@ -518,11 +518,11 @@ public class TitanOctetString extends Base_Type {
 		return new Module_Param_Octetstring(this);
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -632,7 +632,7 @@ public class TitanOctetString extends Base_Type {
 
 	/**
 	 * Creates a new hexstring with all bit inverted.
-	 * 
+	 *
 	 * operator~ in the core.
 	 *
 	 * @return the new hexstring with the inverted bits.
@@ -659,7 +659,7 @@ public class TitanOctetString extends Base_Type {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -689,7 +689,7 @@ public class TitanOctetString extends Base_Type {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -712,7 +712,7 @@ public class TitanOctetString extends Base_Type {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -742,7 +742,7 @@ public class TitanOctetString extends Base_Type {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -765,7 +765,7 @@ public class TitanOctetString extends Base_Type {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -794,7 +794,7 @@ public class TitanOctetString extends Base_Type {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -1031,7 +1031,7 @@ public class TitanOctetString extends Base_Type {
 
 		return rotate_right(rotate_count.get_int());
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
@@ -1149,7 +1149,6 @@ public class TitanOctetString extends Base_Type {
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
 		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		try {
-			
 			if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 				if (no_err) {
 					return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();

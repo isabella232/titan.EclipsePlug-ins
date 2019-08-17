@@ -784,7 +784,7 @@ public class TitanFloat_template extends Base_Template {
 				param.expr_type_error("a float");
 				break;
 			}
-			break;    
+			break;
 		default:
 			param.type_error("float template");
 		}

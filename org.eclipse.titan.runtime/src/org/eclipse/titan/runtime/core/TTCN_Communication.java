@@ -271,17 +271,16 @@ public final class TTCN_Communication {
 				disable_periodic_call();
 			}
 		}
-		
 	}
-	
+
 	public static NetworkFamily get_network_family() {
 		return hcnh.get_family();
 	}
-	
+
 	public static boolean has_local_address() {
 		return local_addr_set;
 	}
-	
+
 	public static void set_local_address(final String host_name) {
 		if (local_addr_set) {
 			TtcnError.TtcnWarning("The local address has already been set.");
@@ -298,7 +297,7 @@ public final class TTCN_Communication {
 		TTCN_Logger.log_executor_misc(enum_type.local__address__was__set, hcnh.get_local_host_str(), hcnh.get_local_addr_str(), 0);
 		local_addr_set = true;
 	}
-	
+
 	public static InetAddress get_local_address() {
 		if (!local_addr_set) {
 			throw new TtcnError("TTCN_Communication.get_local_address: internal error: the local address has not been set.");
@@ -1046,7 +1045,7 @@ public final class TTCN_Communication {
 
 			final StringWriter error = new StringWriter();
 			e.printStackTrace(new PrintWriter(error));
-	
+
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 			TTCN_Logger.log_event_str("Dynamic test case error: ");
 			TTCN_Logger.log_event_str(error.toString());
@@ -1105,7 +1104,6 @@ public final class TTCN_Communication {
 				TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.initialization__of__modules__failed);
 				success = false;
 			}
-			
 		} else {
 			TTCN_Logger.log_configdata(ExecutorConfigdata_reason.enum_type.processing__failed, null);
 		}
@@ -1632,7 +1630,7 @@ public final class TTCN_Communication {
 		local_incoming_buf.cut_message();
 
 		if (TTCN_Runtime.get_state() != executorStateEnum.MTC_IDLE) {
-			throw new TtcnError("Internal error: Message EXECUTE_TESTCASE arrived in invalid state."); 
+			throw new TtcnError("Internal error: Message EXECUTE_TESTCASE arrived in invalid state.");
 		}
 
 		TTCN_Logger.log_testcase_exec(testcase_name, module_name);

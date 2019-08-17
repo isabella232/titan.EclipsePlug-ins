@@ -93,9 +93,9 @@ public abstract class Base_Template {
 
 	/**
 	 * Whether the value is bound.
-	 * 
+	 *
 	 * is_bound() in the core.
-	 * 
+	 *
 	 * @return {@code true} if the value is bound.
 	 */
 	public boolean is_bound() {
@@ -336,7 +336,7 @@ public abstract class Base_Template {
 	 * template is not a value list or complemented list template.
 	 * <p>
 	 * list_item in the core.
-	 * 
+	 *
 	 * @param list_index
 	 *                index of the element to return
 	 * @return the template at the specified position in this list
@@ -372,7 +372,7 @@ public abstract class Base_Template {
 	/**
 	 * Checks whether the template is present. A template is_present if it
 	 * is not uninitialized and does not match omit.
-	 * 
+	 *
 	 * Note: this is not the TTCN-3 ispresent()! causes DTE, must be used
 	 * only if the field is OPTIONAL<>
 	 *
@@ -387,7 +387,7 @@ public abstract class Base_Template {
 	/**
 	 * Checks whether the template is present. A template is_present if it
 	 * is not uninitialized and does not match omit.
-	 * 
+	 *
 	 * Note: this is not the TTCN-3 ispresent()! causes DTE, must be used
 	 * only if the field is OPTIONAL<>
 	 *

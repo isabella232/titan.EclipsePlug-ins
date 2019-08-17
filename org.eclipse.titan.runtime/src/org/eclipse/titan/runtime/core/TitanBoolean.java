@@ -154,7 +154,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise or operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator|| in the core.
 	 *
 	 * @param other_value
@@ -169,7 +169,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise or operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator|| in the core.
 	 *
 	 * @param other_value
@@ -185,7 +185,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise and operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator&& in the core.
 	 *
 	 * @param other_value
@@ -200,7 +200,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise and operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator&& in the core.
 	 *
 	 * @param other_value
@@ -216,7 +216,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise xor operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -231,7 +231,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise xor operation on this and the provided boolean.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -247,7 +247,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise negation.
-	 * 
+	 *
 	 * operator! in the core.
 	 *
 	 * @return the resulting boolean.
@@ -332,11 +332,11 @@ public class TitanBoolean extends Base_Type {
 		boolean_value = null;
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -436,7 +436,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise and operation on the provided booleans.
-	 * 
+	 *
 	 * static operator&& in the core.
 	 *
 	 * @param bool_value
@@ -456,7 +456,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise or operation on the provided booleans.
-	 * 
+	 *
 	 * static operator|| in the core.
 	 *
 	 * @param bool_value
@@ -476,7 +476,7 @@ public class TitanBoolean extends Base_Type {
 
 	/**
 	 * Performs a bitwise xor operation on the provided booleans.
-	 * 
+	 *
 	 * static operator^ in the core.
 	 *
 	 * @param bool_value

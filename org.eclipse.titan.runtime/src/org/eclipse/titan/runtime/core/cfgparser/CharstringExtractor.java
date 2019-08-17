@@ -10,7 +10,7 @@ package org.eclipse.titan.runtime.core.cfgparser;
 //TODO: duplicate of org.eclipse.titan.common.parsers.CharstringExtractor
 /**
  * Extracts TTCN-3 charstring
- * 
+ *
  * @author Arpad Lovassy
  */
 public class CharstringExtractor {
@@ -29,7 +29,7 @@ public class CharstringExtractor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param aTtcnCharstring
 	 *                the TTCN-3 string with escapes to extract
 	 * @param removeQuotes true to remove the beginning and ending '"' characters
@@ -45,7 +45,7 @@ public class CharstringExtractor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param aTtcnCharstring
 	 *                the TTCN-3 string with escapes to extract
 	 */
@@ -79,7 +79,7 @@ public class CharstringExtractor {
 	 *   \['"?\abfnrtv\u000a]
 	 *   \x[0-9a-fA-F][0-9a-fA-F]?
 	 *   \[0-3]?[0-7][0-7]?
-	 * 
+	 *
 	 * @param aTtcnCharstring
 	 *                TTCN-3 charstring representation, it can contain
 	 *                escape characters, NOT NULL

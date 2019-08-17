@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * When an error is encountered during encoding/decoding this allows us to write the stack of operations.
  * On each level in this hierarchy a context starts when it's object is created,
  *  and ends when the leaveContext function is called.
- * 
+ *
  * Please note the constructors and leaveContext function has to be called in pairs.
  * */
 public final class TTCN_EncDec_ErrorContext {

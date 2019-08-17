@@ -469,11 +469,11 @@ public class TitanHexString extends Base_Type {
 		}
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -606,7 +606,7 @@ public class TitanHexString extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
@@ -695,7 +695,7 @@ public class TitanHexString extends Base_Type {
 
 	/**
 	 * Creates a new hexstring with all bit inverted.
-	 * 
+	 *
 	 * operator~ in the core.
 	 *
 	 * @return the new hexstring with the inverted bits.
@@ -724,7 +724,7 @@ public class TitanHexString extends Base_Type {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -758,7 +758,7 @@ public class TitanHexString extends Base_Type {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -782,7 +782,7 @@ public class TitanHexString extends Base_Type {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -816,7 +816,7 @@ public class TitanHexString extends Base_Type {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -840,7 +840,7 @@ public class TitanHexString extends Base_Type {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -874,7 +874,7 @@ public class TitanHexString extends Base_Type {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -1156,7 +1156,7 @@ public class TitanHexString extends Base_Type {
 			final RAW_coding_par cp = new RAW_coding_par();
 			boolean orders = false;
 			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-				orders = true; 
+				orders = true;
 			}
 			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;

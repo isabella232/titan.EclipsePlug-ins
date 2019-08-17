@@ -41,7 +41,7 @@ public abstract class Base_Type {
 		//FIXME the other encoding specific descriptors
 		/**
 		 * In case of record of/ set of type the descriptor of the "of type".
-		 * Can not be final as it will be set in the preInit phase 
+		 * Can not be final as it will be set in the preInit phase
 		 * instead of the static module initialization phase when the descriptor is created.
 		 * */
 		public TTCN_Typedescriptor oftype_descr;
@@ -66,8 +66,8 @@ public abstract class Base_Type {
 			this.json = json;
 			this.oftype_descr = oftype_descr;
 		}
-		
-//		//FIXME: this is the old version, possibly remove 
+
+//		//FIXME: this is the old version, possibly remove
 		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_Typedescriptor oftype_descr) {
 			this.name = name;
 			this.raw = raw;
@@ -127,7 +127,7 @@ public abstract class Base_Type {
 
 	/**
 	 * Whether the value is bound.
-	 * 
+	 *
 	 * @return {@code true} if the value is bound.
 	 */
 	public abstract boolean is_bound();
@@ -192,7 +192,7 @@ public abstract class Base_Type {
 	public abstract void log();
 
 	/**
-	 * Initialize this object (or one of its fields/elements) with a 
+	 * Initialize this object (or one of its fields/elements) with a
 	 * module parameter value. The module parameter may contain references to
 	 * other module parameters or module parameter expressions, which are processed
 	 * by this method to calculated the final result.
@@ -215,7 +215,7 @@ public abstract class Base_Type {
 
 	/**
 	 * Encodes this value object with Titan's internal encoding and appends it into the provided buffer.
-	 * 
+	 *
 	 * @param text_buf the buffer to extend with the value's internal encoding.
 	 * */
 	public abstract void encode_text(final Text_Buf text_buf);
@@ -223,7 +223,7 @@ public abstract class Base_Type {
 	/**
 	 * Decodes from the provided buffer the actual contents of this value.
 	 * Overwriting previous contents.
-	 * 
+	 *
 	 * @param text_buf the buffer containing the value's internal encoding.
 	 * */
 	public abstract void decode_text(final Text_Buf text_buf);

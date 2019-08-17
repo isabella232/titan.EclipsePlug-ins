@@ -28,7 +28,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * TTCN-3 integer template
  *
  * Not yet complete rewrite
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanInteger_template extends Base_Template {

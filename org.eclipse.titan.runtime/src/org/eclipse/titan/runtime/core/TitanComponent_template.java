@@ -502,7 +502,7 @@ public class TitanComponent_template extends Base_Template {
 			default:
 				mp = new Module_Param_Integer(new TitanInteger(single_value));
 				break;
-			}    
+			}
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {

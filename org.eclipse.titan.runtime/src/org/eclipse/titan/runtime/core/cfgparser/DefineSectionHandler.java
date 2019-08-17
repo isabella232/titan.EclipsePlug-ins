@@ -35,7 +35,7 @@ public final class DefineSectionHandler {
 	}
 
 	public void addDefinition(final String name, final ParserRuleContext def) {
-		final List<Token> tokenList = getTokenList(def, tokenStream); 
+		final List<Token> tokenList = getTokenList(def, tokenStream);
 		definitions.put(name, tokenList);
 	}
 

@@ -84,7 +84,7 @@ public final class TTCN_Buffer {
 	}
 
 	/** Ensures that there are at least target_size writable bytes in the
-	 * memory area after buf_len. 
+	 * memory area after buf_len.
 	 * @param size_incr inctement buffer the number of size_incr
 	 * */
 	private void increase_size(final int size_incr) {
@@ -125,7 +125,7 @@ public final class TTCN_Buffer {
 	/**
 	 * Initializes the buffer with the contents of p_os.
 	 *
-	 * @param p_os 
+	 * @param p_os
 	 * 			the {@link TitanOctetString} used to initialize the buffer. */
 	public  TTCN_Buffer(final TitanOctetString p_os) {
 		p_os.must_bound("Initializing a TTCN_Buffer with an unbound octetstring value.");
@@ -138,7 +138,7 @@ public final class TTCN_Buffer {
 
 	/**
 	 * Initializes the buffer with the contents of p_cs.
-	 * @param p_cs 
+	 * @param p_cs
 	 * 			the {@link TitanCharString} used to initialize the buffer.*/
 	public TTCN_Buffer(final TitanCharString p_cs) {
 		p_cs.must_bound("Initializing a TTCN_Buffer with an unbound charstring value.");
@@ -184,7 +184,7 @@ public final class TTCN_Buffer {
 
 	/** Copies the contents of p_cs into this.
 	 * The read position and other attributes are reset.
-	 * @param p_cs 
+	 * @param p_cs
 	 * 			the {@link TitanCharString}
 	 *  */
 	public TTCN_Buffer operator_assign(final TitanCharString p_cs) {
@@ -251,8 +251,8 @@ public final class TTCN_Buffer {
 	}
 
 	/** Sets the (reading) position to pos, or to the end of buffer,
-	 * if pos > len. 
-	 * @param new_pos 
+	 * if pos > len.
+	 * @param new_pos
 	 * */
 	public void set_pos(final int new_pos) {
 		if (new_pos < buf_len) {
@@ -263,8 +263,8 @@ public final class TTCN_Buffer {
 	}
 
 	/** Increases the (reading) position by delta, or sets it to the
-	 * end of buffer, if get_pos() + delta > len. 
-	 * @param delta 
+	 * end of buffer, if get_pos() + delta > len.
+	 * @param delta
 	 * */
 	public void increase_pos(final int delta)  {
 		final int  new_buf_pos = buf_pos + delta;
@@ -305,7 +305,7 @@ public final class TTCN_Buffer {
 		buf_len += size_incr;
 	}
 
-	/** Appends single character c to the buffer. 
+	/** Appends single character c to the buffer.
 	 * @param c add c the buffer in the buf_len position
 	 * */
 	public void put_c(final byte c) {
@@ -314,7 +314,7 @@ public final class TTCN_Buffer {
 		buf_len++;
 	}
 
-	/** Appends char array to the buffer. 
+	/** Appends char array to the buffer.
 	 * @param cstr appends to the buffer
 	 * */
 	public void put_s(final char[] cstr) {
@@ -349,14 +349,14 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Same as put_string(). Provided only for backward compatibility. 
+	/** Same as put_string(). Provided only for backward compatibility.
 	 * @param p_os append to the buffer (call put_string method)
 	 * */
 	public void put_os(final TitanOctetString p_os) {
 		put_string(p_os);
 	}
 
-	/** Appends the contents of charstring p_cs to the buffer. 
+	/** Appends the contents of charstring p_cs to the buffer.
 	 * @param p_cs append to the buffer
 	 * */
 	public void put_string(final TitanCharString p_cs) {
@@ -367,7 +367,7 @@ public final class TTCN_Buffer {
 			final StringBuilder temp = p_cs.get_value();
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(n_chars);
-				
+
 				for (int i = 0; i < n_chars; i++) {
 					data_ptr[buf_len + i] = (byte)temp.charAt(i);
 				}
@@ -389,7 +389,7 @@ public final class TTCN_Buffer {
 		put_string(p_cs);
 	}
 
-	/** Appends the content of p_buf to the buffer. 
+	/** Appends the content of p_buf to the buffer.
 	 * @param p_buf append to the buffer
 	 * */
 	public void put_buf(final TTCN_Buffer p_buf) {
@@ -1160,7 +1160,7 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Get data of buffer and modify bitpos value. 
+	/** Get data of buffer and modify bitpos value.
 	 * @param bitpos
 	 * @return a char array of the bitstring within first the octet.
 	 * */
@@ -1173,7 +1173,7 @@ public final class TTCN_Buffer {
 	}
 
 	/** Sets the (reading) position to pos and the bit position to
-	 * bit_pos, or to the end of buffer, if pos > len. 
+	 * bit_pos, or to the end of buffer, if pos > len.
 	 * @param pos
 	 * @param bitpos
 	 * */
@@ -1182,7 +1182,7 @@ public final class TTCN_Buffer {
 		bit_pos = bitpos;
 	}
 
-	/** Sets the (reading) position to new_bit_pos or to the end of buffer, if new_bit_pos > len. 
+	/** Sets the (reading) position to new_bit_pos or to the end of buffer, if new_bit_pos > len.
 	 * @param new_bit_pos
 	 * */
 	public void set_pos_bit(final int new_bit_pos) {
@@ -1202,7 +1202,7 @@ public final class TTCN_Buffer {
 	}
 
 	/** Increases the (reading) position by delta bits, or sets it to
-	 * the end of buffer, if get_pos() + delta > len. 
+	 * the end of buffer, if get_pos() + delta > len.
 	 * @param delta
 	 * */
 	public void increase_pos_bit(final int delta) {
@@ -1237,7 +1237,7 @@ public final class TTCN_Buffer {
 		return (buf_len - buf_pos) * 8 - bit_pos;
 	}
 
-	/** Mark the start of extension bit processing during encoding. 
+	/** Mark the start of extension bit processing during encoding.
 	 * @param p_reverse*/
 	public void start_ext_bit(final boolean p_reverse) {
 		if (ext_level == 0) {
@@ -1309,13 +1309,14 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Appends s to the buffer. 
-	 * 
-	 * @param len 
+	/** Appends s to the buffer.
+	 *
+	 * @param len
 	 * @param s
 	 * @param pat_len pice length
 	 * @param fieldorder
 	 */
+	//TODO: comment
 	public void put_pad(final int len, final String s, final int pat_len, final raw_order_t fieldorder) {
 		if (len == 0) {
 			return;
@@ -1339,7 +1340,7 @@ public final class TTCN_Buffer {
 	}
 
 	/** Sets data the last bit position
-	 * @param p_last_bit 
+	 * @param p_last_bit
 	 * */
 	public void set_last_bit(final boolean p_last_bit) {
 		final int bitmask = 0x01 << last_bit_bitpos;
@@ -1357,12 +1358,13 @@ public final class TTCN_Buffer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param data
 	 * @param len
 	 * @param idx
 	 * @return
 	 */
+	//TODO comment
 	private static byte get_byte_rev(final byte[] data, final int len, final int idx) {
 		byte ch = '\0';
 		final int hossz = (len + 7) / 8 - 1;

@@ -19,7 +19,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 
 /**
  * Analyzer for string2ttcn statement
- * 
+ *
  * @author Gergo Ujhelyi
  */
 public class StringToTTCNAnalyzer {
@@ -58,10 +58,10 @@ public class StringToTTCNAnalyzer {
 
 	/**
 	 * Parses a string.
-	 * 
+	 *
 	 * @param code
 	 *                the value in the string2ttcn statement
-	 * 
+	 *
 	 * @return {@code true} if there were errors in the string,
 	 *         {@code false} otherwise
 	 */
@@ -86,7 +86,7 @@ public class StringToTTCNAnalyzer {
 
 	/**
 	 * Create and initialize a new CFG Lexer object
-	 * 
+	 *
 	 * @param reader
 	 *                file reader
 	 * @param lexerListener

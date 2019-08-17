@@ -122,7 +122,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(MessageFormat.format("Internal error: Invalid transport type ({0}) in port connection between {1} and {2}:{3}.", transport_type, owner_port.get_name(), remote_component, remote_port));
 			}
 		}
-		
+
 		public void log() {
 			TTCN_Logger.log_event("port connection between ");
 			owner_port.log();
@@ -131,7 +131,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			TTCN_Logger.log_event(":");
 			TTCN_Logger.log_event("%s", remote_port);
 		}
-		
+
 		public void clean_up() {
 			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM) {
 				sliding_buffer.clean_up();
@@ -672,7 +672,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		throw new TtcnError("Internal error: Calling TitanPort.remove_port");
 	}
 
-	/** Returns the outer message port it is mapped to when the port works in translation mode. 
+	/** Returns the outer message port it is mapped to when the port works in translation mode.
 	 * In the case of dual faced ports it returns the port object it is called on (this).
 	 * Otherwise returns null.
 	 * Emits errors when the port is mapped to more than one port or has both connections and mappings.
@@ -1470,7 +1470,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	 * */
 	public void change_port_state(final translation_port_state state) {
 		// intentionally empty
-	} 
+	}
 
 	private port_connection add_connection(final int remote_component, final String remote_port, final transport_type_enum transport_type) {
 		int index = -1;
@@ -1667,10 +1667,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else if (Arrays.equals(family, new byte[]{2,3})) {
 			port = new byte[2];
 			text_buf.pull_raw(2, port);
-			
+
 			addr = new byte[16];
 			text_buf.pull_raw(16, addr);
-			
+
 			scopeid = text_buf.pull_int().get_int();
 		} else {
 			//error : no ip address in Text Buffer
@@ -1685,13 +1685,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			final InetSocketAddress remote_address = new InetSocketAddress(temp_addr, temp_port);
 			final SocketChannel socketChannel = SocketChannel.open();
 			socketChannel.connect(remote_address);
-			
+
 			if (!TTCN_Communication.set_non_blocking_mode(socketChannel, true)) {
 				socketChannel.close();
 				TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, "Setting the non-blocking mode failed on the %s client socket.");
 				return;
 			}
-			
+
 			if (transport_type == transport_type_enum.TRANSPORT_INET_STREAM && !TTCN_Communication.set_tcp_nodelay(socketChannel, Boolean.TRUE)) {
 				socketChannel.close();
 				TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, "Setting the TCP_NODELAY flag failed on the TCP client socket.");
@@ -1838,7 +1838,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				remove_connection(connection);
 				return;
 			}
-			
+
 			TTCN_Snapshot.channelMap.get().put(com_channel, connection);
 			com_channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 

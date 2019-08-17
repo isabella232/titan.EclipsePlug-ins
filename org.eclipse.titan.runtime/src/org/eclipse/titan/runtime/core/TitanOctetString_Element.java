@@ -25,7 +25,7 @@ public class TitanOctetString_Element {
 
 	/**
 	 * Whether the value is bound.
-	 * 
+	 *
 	 * @return {@code true} if the value is bound.
 	 */
 	public boolean is_bound() {
@@ -54,11 +54,11 @@ public class TitanOctetString_Element {
 		}
 	}
 
-	/** 
+	/**
 	 * Do not use this function!<br>
 	 * It is provided by Java and currently used for debugging.
 	 * But it is not part of the intentionally provided interface,
-	 *   and so can be changed without notice. 
+	 *   and so can be changed without notice.
 	 * <p>
 	 * JAVA DESCRIPTION:
 	 * <p>
@@ -223,7 +223,7 @@ public class TitanOctetString_Element {
 
 	/**
 	 * Creates a new hexstring with all bit inverted.
-	 * 
+	 *
 	 * operator~ in the core.
 	 *
 	 * @return the new hexstring with the inverted bits.
@@ -244,7 +244,7 @@ public class TitanOctetString_Element {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -268,7 +268,7 @@ public class TitanOctetString_Element {
 	 * The resulting value is 1 if both bits are set to 1,
 	 *  otherwise the value for the resulting bit is 0.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator& in the core.
 	 *
 	 * @param other_value
@@ -288,7 +288,7 @@ public class TitanOctetString_Element {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -312,7 +312,7 @@ public class TitanOctetString_Element {
 	 * the resulting value is 0 if both bits are set to 0,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator| in the core.
 	 *
 	 * @param other_value
@@ -332,7 +332,7 @@ public class TitanOctetString_Element {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
@@ -356,7 +356,7 @@ public class TitanOctetString_Element {
 	 * The resulting value is 0 if both bits are the same,
 	 *  otherwise the value for the resulting bit is 1.
 	 * Both have to be the same length.
-	 * 
+	 *
 	 * operator^ in the core.
 	 *
 	 * @param other_value
