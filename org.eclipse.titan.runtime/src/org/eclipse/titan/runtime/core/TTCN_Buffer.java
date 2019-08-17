@@ -63,10 +63,11 @@ public final class TTCN_Buffer {
 	}
 
 	/**
-	 * Returns the smallest preferred size of the allocated memory area
-	 * that is at least target_size.
+	 * Returns the smallest preferred size of the allocated memory area that
+	 * is at least target_size.
 	 *
-	 * @param target_size the amount of memory requested.
+	 * @param target_size
+	 *                the amount of memory requested.
 	 * @return the amount of memory to be allocated.
 	 * */
 	private static int get_memory_size(final int target_size) {
@@ -83,9 +84,12 @@ public final class TTCN_Buffer {
 		return newSize;
 	}
 
-	/** Ensures that there are at least target_size writable bytes in the
+	/**
+	 * Ensures that there are at least target_size writable bytes in the
 	 * memory area after buf_len.
-	 * @param size_incr inctement buffer the number of size_incr
+	 *
+	 * @param size_incr
+	 *                inctement buffer the number of size_incr
 	 * */
 	private void increase_size(final int size_incr) {
 		if (data_ptr != null) {
@@ -112,9 +116,12 @@ public final class TTCN_Buffer {
 		reset_buffer();
 	}
 
-	/** Copy constructor.
-	 * @param p_buf the {@link TTCN_Buffer}  used to initialize the buffer.
-	 *  */
+	/**
+	 * Copy constructor.
+	 *
+	 * @param p_buf
+	 *                the {@link TTCN_Buffer} used to initialize the buffer.
+	 * */
 	public TTCN_Buffer(final TTCN_Buffer p_buf) {
 		data_ptr = new byte[p_buf.data_ptr.length];
 		System.arraycopy(p_buf.data_ptr, 0, data_ptr, 0, p_buf.data_ptr.length);
@@ -126,7 +133,8 @@ public final class TTCN_Buffer {
 	 * Initializes the buffer with the contents of p_os.
 	 *
 	 * @param p_os
-	 * 			the {@link TitanOctetString} used to initialize the buffer. */
+	 *                the {@link TitanOctetString} used to initialize the buffer.
+	 */
 	public  TTCN_Buffer(final TitanOctetString p_os) {
 		p_os.must_bound("Initializing a TTCN_Buffer with an unbound octetstring value.");
 
@@ -138,8 +146,10 @@ public final class TTCN_Buffer {
 
 	/**
 	 * Initializes the buffer with the contents of p_cs.
+	 *
 	 * @param p_cs
-	 * 			the {@link TitanCharString} used to initialize the buffer.*/
+	 *                the {@link TitanCharString} used to initialize the buffer.
+	 */
 	public TTCN_Buffer(final TitanCharString p_cs) {
 		p_cs.must_bound("Initializing a TTCN_Buffer with an unbound charstring value.");
 
@@ -152,10 +162,12 @@ public final class TTCN_Buffer {
 		reset_buffer();
 	}
 
-	/** Copies the contents of p_buf into this.
-	 * The read position and other attributes are reset.
+	/**
+	 * Copies the contents of p_buf into this. The read position and other
+	 * attributes are reset.
+	 *
 	 * @param p_buf
-	 *  */
+	 * */
 	public TTCN_Buffer operator_assign(final TTCN_Buffer p_buf) {
 		if (p_buf != this) {
 			buf_len = p_buf.buf_len;
@@ -170,9 +182,11 @@ public final class TTCN_Buffer {
 		return this;
 	}
 
-	/** Copies the contents of p_os into this. Other attributes are reset.
+	/**
+	 * Copies the contents of p_os into this. Other attributes are reset.
+	 *
 	 * @param p_os
-	 * 				  */
+	 * */
 	public  TTCN_Buffer operator_assign(final TitanOctetString p_os) {
 		p_os.must_bound("Assignment of an unbound octetstring value to a TTCN_Buffer.");
 		buf_len = p_os.lengthof().get_int();
@@ -182,11 +196,13 @@ public final class TTCN_Buffer {
 		return this;
 	}
 
-	/** Copies the contents of p_cs into this.
-	 * The read position and other attributes are reset.
+	/**
+	 * Copies the contents of p_cs into this. The read position and other
+	 * attributes are reset.
+	 *
 	 * @param p_cs
-	 * 			the {@link TitanCharString}
-	 *  */
+	 *                the {@link TitanCharString}
+	 * */
 	public TTCN_Buffer operator_assign(final TitanCharString p_cs) {
 		p_cs.must_bound("Assignment of an unbound charstring value to a TTCN_Buffer.");
 
@@ -250,8 +266,10 @@ public final class TTCN_Buffer {
 		return buf_pos;
 	}
 
-	/** Sets the (reading) position to pos, or to the end of buffer,
-	 * if pos > len.
+	/**
+	 * Sets the (reading) position to pos, or to the end of buffer, if pos >
+	 * len.
+	 *
 	 * @param new_pos
 	 * */
 	public void set_pos(final int new_pos) {
@@ -262,8 +280,10 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Increases the (reading) position by delta, or sets it to the
-	 * end of buffer, if get_pos() + delta > len.
+	/**
+	 * Increases the (reading) position by delta, or sets it to the end of
+	 * buffer, if get_pos() + delta > len.
+	 *
 	 * @param delta
 	 * */
 	public void increase_pos(final int delta)  {
@@ -294,9 +314,13 @@ public final class TTCN_Buffer {
 		return end_ptr;
 	}
 
-	/** How many chars have you written after a get_end(), beginning from end_ptr.
+	/**
+	 * How many chars have you written after a get_end(), beginning from
+	 * end_ptr.
+	 *
 	 * @see get_end()
-	 * @param size_incr the buffer length increment this value
+	 * @param size_incr
+	 *                the buffer length increment this value
 	 */
 	public void increase_length(final int size_incr) {
 		if (data_ptr.length < buf_len + size_incr) {
@@ -305,8 +329,11 @@ public final class TTCN_Buffer {
 		buf_len += size_incr;
 	}
 
-	/** Appends single character c to the buffer.
-	 * @param c add c the buffer in the buf_len position
+	/**
+	 * Appends single character c to the buffer.
+	 *
+	 * @param c
+	 *                add c the buffer in the buf_len position
 	 * */
 	public void put_c(final byte c) {
 		increase_size(1);
@@ -314,8 +341,11 @@ public final class TTCN_Buffer {
 		buf_len++;
 	}
 
-	/** Appends char array to the buffer.
-	 * @param cstr appends to the buffer
+	/**
+	 * Appends char array to the buffer.
+	 *
+	 * @param cstr
+	 *                appends to the buffer
 	 * */
 	public void put_s(final char[] cstr) {
 		final int length = cstr.length;
@@ -329,9 +359,12 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Appends the contents of octetstring p_os to the buffer.
-	 * @param p_os append to the buffer
-	 *  */
+	/**
+	 * Appends the contents of octetstring p_os to the buffer.
+	 *
+	 * @param p_os
+	 *                append to the buffer
+	 * */
 	public void put_string(final TitanOctetString p_os) {
 		p_os.must_bound("Appending an unbound octetstring value to a TTCN_Buffer.");
 
@@ -349,15 +382,21 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Same as put_string(). Provided only for backward compatibility.
-	 * @param p_os append to the buffer (call put_string method)
+	/**
+	 * Same as put_string(). Provided only for backward compatibility.
+	 *
+	 * @param p_os
+	 *                append to the buffer (call put_string method)
 	 * */
 	public void put_os(final TitanOctetString p_os) {
 		put_string(p_os);
 	}
 
-	/** Appends the contents of charstring p_cs to the buffer.
-	 * @param p_cs append to the buffer
+	/**
+	 * Appends the contents of charstring p_cs to the buffer.
+	 *
+	 * @param p_cs
+	 *                append to the buffer
 	 * */
 	public void put_string(final TitanCharString p_cs) {
 		p_cs.must_bound("Appending an unbound charstring value to a TTCN_Buffer.");
@@ -382,15 +421,21 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Same as put_string(). Provided only for backward compatibility.
-	 * @param p_cs append to the buffer (call put_string method)
-	 *  */
+	/**
+	 * Same as put_string(). Provided only for backward compatibility.
+	 *
+	 * @param p_cs
+	 *                append to the buffer (call put_string method)
+	 * */
 	public void put_cs(final TitanCharString p_cs) {
 		put_string(p_cs);
 	}
 
-	/** Appends the content of p_buf to the buffer.
-	 * @param p_buf append to the buffer
+	/**
+	 * Appends the content of p_buf to the buffer.
+	 *
+	 * @param p_buf
+	 *                append to the buffer
 	 * */
 	public void put_buf(final TTCN_Buffer p_buf) {
 		if (p_buf.data_ptr == null) {
@@ -423,7 +468,8 @@ public final class TTCN_Buffer {
 	/**
 	 * Stores the current contents of the buffer to variable p_os.
 	 *
-	 * @param p_os the variable to store the contents of the buffer into.
+	 * @param p_os
+	 *                the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanOctetString p_os) {
 		p_os.clean_up();
@@ -439,7 +485,8 @@ public final class TTCN_Buffer {
 	/**
 	 * Stores the current contents of the buffer to variable p_cs.
 	 *
-	 * @param p_cs the variable to store the contents of the buffer into.
+	 * @param p_cs
+	 *                the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanCharString p_cs) {
 		p_cs.clean_up();
@@ -457,7 +504,8 @@ public final class TTCN_Buffer {
 	/**
 	 * Stores the current contents of the buffer to variable p_cs.
 	 *
-	 * @param p_cs the variable to store the contents of the buffer into.
+	 * @param p_cs
+	 *                the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(final TitanUniversalCharString p_cs) {
 		p_cs.clean_up();
@@ -472,8 +520,10 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Cuts the bytes between the beginning of the buffer and the read position.
-	 *  After that the read position will point to the beginning of the updated buffer.
+	/**
+	 * Cuts the bytes between the beginning of the buffer and the read
+	 * position. After that the read position will point to the beginning of
+	 * the updated buffer.
 	 */
 	public void cut() {
 		if (buf_pos > 0) {
@@ -501,9 +551,11 @@ public final class TTCN_Buffer {
 		reset_buffer();
 	}
 
-	/** Cuts the bytes between the read position and the end of the buffer.
-	 * The read position remains unchanged (i.e. it will point to the end
-	 * of the truncated buffer. */
+	/**
+	 * Cuts the bytes between the read position and the end of the buffer.
+	 * The read position remains unchanged (i.e. it will point to the end of
+	 * the truncated buffer.
+	 */
 	public void cut_end() {
 		if (buf_pos > buf_len) {
 			TTCN_EncDec_ErrorContext.error_internal("Read pointer points beyond the buffer end when cutting from a TTCN_Buffer.");
@@ -537,8 +589,10 @@ public final class TTCN_Buffer {
 		ext_level = 0;
 	}
 
-	/** Returns whether the buffer (beginning from the read position)
-	 * contains a complete TLV. */
+	/**
+	 * Returns whether the buffer (beginning from the read position)
+	 * contains a complete TLV.
+	 */
 	public boolean contains_complete_TLV() {
 		throw new TtcnError("contains_complete_TLV() for TTCN_Buffer is not implemented!");
 	}
@@ -560,12 +614,17 @@ public final class TTCN_Buffer {
 		TTCN_Logger.log_char(')');
 	}
 
-	/** Puts a bit string in the buffer. Use only this function if you use the buffer as bit buffer.
+	/**
+	 * Puts a bit string in the buffer. Use only this function if you use
+	 * the buffer as bit buffer.
 	 *
-	 * @param len number of bits to write
-	 * @param s char list
+	 * @param len
+	 *                number of bits to write
+	 * @param s
+	 *                char list
 	 * @param coding_par
-	 * @param align alignment length
+	 * @param align
+	 *                alignment length
 	 */
 	public void put_b(int len, byte[] s, final RAW_coding_par coding_par, int align) {
 		final int loc_align = align < 0 ? -align : align;
@@ -638,9 +697,6 @@ public final class TTCN_Buffer {
 		} else {
 			// copy_memory();
 		}
-
-		// System.out.println("buf_len: "+buf_len +" bit_pos: "+bit_pos+"\r\n");
-		// System.out.println("new_size: "+new_size+" new_bit_pos: "+new_bit_pos+"\r\n");
 
 		if (coding_par.hexorder == raw_order_t.ORDER_MSB) {
 			final byte[] st2 = new byte[(len + 7) / 8];
@@ -897,6 +953,7 @@ public final class TTCN_Buffer {
 	 * @param coding_par
 	 * @param top_bit_order
 	 *  */
+	//TODO comment
 	public void get_b(final int len, final byte[] s, final RAW_coding_par coding_par,final raw_order_t top_bit_order) {
 		if (len == 0) {
 			return;
@@ -1099,9 +1156,13 @@ public final class TTCN_Buffer {
 		bit_pos = new_bit_pos;
 	}
 
-	/** Puts
-	 * @param len number of zeros in the buffer.
+	/**
+	 * Puts zeros into the buffer
+	 *
+	 * @param len
+	 *                number of zeros in the buffer.
 	 * @param fieldorder
+	 *                the field order.
 	 */
 	public void put_zero(final int len, final raw_order_t fieldorder) {
 		if (len == 0) {
@@ -1160,8 +1221,11 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Get data of buffer and modify bitpos value.
+	/**
+	 * Get data of buffer and modify bitpos value.
+	 *
 	 * @param bitpos
+	 *                will contain the current bit_pos value.
 	 * @return a char array of the bitstring within first the octet.
 	 * */
 	public byte[] get_read_data(final AtomicInteger bitpos) {
@@ -1172,18 +1236,25 @@ public final class TTCN_Buffer {
 		return null;
 	}
 
-	/** Sets the (reading) position to pos and the bit position to
-	 * bit_pos, or to the end of buffer, if pos > len.
+	/**
+	 * Sets the (reading) position to pos and the bit position to bit_pos,
+	 * or to the end of buffer, if pos > len.
+	 *
 	 * @param pos
+	 *                the new starting position in the buffer.
 	 * @param bitpos
+	 *                the new starting position in the octet.
 	 * */
 	public void set_pos(final int pos, final int bitpos) {
 		buf_pos = pos < buf_len ? pos : buf_len;
 		bit_pos = bitpos;
 	}
 
-	/** Sets the (reading) position to new_bit_pos or to the end of buffer, if new_bit_pos > len.
-	 * @param new_bit_pos
+	/**
+	 * Sets the (reading) position to new_bit_pos or to the end of buffer,
+	 * if new_bit_pos > len.
+	 *
+	 * @param new_bit_pos the new bit position in the octet.
 	 * */
 	public void set_pos_bit(final int new_bit_pos) {
 		final int new_pos = new_bit_pos / 8;
@@ -1201,9 +1272,11 @@ public final class TTCN_Buffer {
 		return buf_pos * 8 + bit_pos;
 	}
 
-	/** Increases the (reading) position by delta bits, or sets it to
-	 * the end of buffer, if get_pos() + delta > len.
-	 * @param delta
+	/**
+	 * Increases the (reading) position by delta bits, or sets it to the end
+	 * of buffer, if get_pos() + delta > len.
+	 *
+	 * @param delta the number of bits to inrease the reading position with.
 	 * */
 	public void increase_pos_bit(final int delta) {
 		final int new_buf_pos = buf_pos + (bit_pos + delta) / 8; // bytes
@@ -1216,9 +1289,11 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Increases the (reading) position to a multiple of padding.
-	 *  @param padding
-	 *  @return the number of bits used up.
+	/**
+	 * Increases the (reading) position to a multiple of padding.
+	 *
+	 * @param padding the number of bits to be used as padding.
+	 * @return the number of bits used up.
 	 */
 	public int increase_pos_padd(final int padding) {
 		if (padding != 0) { // <---old bit pos--->
@@ -1279,8 +1354,10 @@ public final class TTCN_Buffer {
 		return current_bitorder;
 	}
 
-	/** Sets current_bitorder to the new_order
-	 * @param new_order
+	/**
+	 * Sets current_bitorder to the new_order
+	 *
+	 * @param new_order the new bit order.
 	 * */
 	public void set_order(final boolean new_order) {
 		current_bitorder = new_order;
@@ -1292,6 +1369,7 @@ public final class TTCN_Buffer {
 	 * @param pat_len
 	 * @param fieldorder
 	 */
+	//TODO: comment
 	public void put_pad(final int len, final byte[] s, final int pat_len, final raw_order_t fieldorder) {
 		if (len == 0) {
 			return;
@@ -1339,7 +1417,9 @@ public final class TTCN_Buffer {
 		}
 	}
 
-	/** Sets data the last bit position
+	/**
+	 * Sets data the last bit position
+	 *
 	 * @param p_last_bit
 	 * */
 	public void set_last_bit(final boolean p_last_bit) {
