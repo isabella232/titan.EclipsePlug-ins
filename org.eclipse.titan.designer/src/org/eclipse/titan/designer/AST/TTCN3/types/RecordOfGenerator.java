@@ -985,11 +985,11 @@ public final class RecordOfGenerator {
 
 	private static void generateValueToString(final StringBuilder source) {
 		source.append('\n');
-		source.append("\t\t/** \n");
+		source.append("\t\t/**\n");
 		source.append("\t\t * Do not use this function!<br>\n");
 		source.append("\t\t * It is provided by Java and currently used for debugging.\n");
 		source.append("\t\t * But it is not part of the intentionally provided interface,\n");
-		source.append("\t\t *   and so can be changed without notice. \n");
+		source.append("\t\t *   and so can be changed without notice.\n");
 		source.append("\t\t * <p>\n");
 		source.append("\t\t * JAVA DESCRIPTION:\n");
 		source.append("\t\t * <p>\n");
