@@ -375,7 +375,7 @@ public final class Param_Types {
 			}
 
 			TTCN_Logger.log_event_str(" ");
-			exception_str.append(" ");
+			exception_str.append(' ');
 			if (id != null && id.is_custom()) {
 				final String custom_ctx = id.get_str();
 				TTCN_Logger.log_event_str(custom_ctx);
@@ -389,7 +389,7 @@ public final class Param_Types {
 				TTCN_Logger.log_event_str(param_ctx);
 				exception_str.append(param_ctx);
 				TTCN_Logger.log_event_str("'");
-				exception_str.append("'");
+				exception_str.append('\'');
 			}
 
 			switch (operation_type) {
