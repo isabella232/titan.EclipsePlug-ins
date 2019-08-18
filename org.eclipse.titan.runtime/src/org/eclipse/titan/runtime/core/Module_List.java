@@ -146,7 +146,7 @@ public final class Module_List {
 	}
 
 	// Originally RT2
-	public static Module_Parameter get_param(Module_Param_Name param_name, final Module_Parameter caller) {
+	public static Module_Parameter get_param(final Module_Param_Name param_name, final Module_Parameter caller) {
 		// The first segment in the parameter name can either be the module name,
 		// or the module parameter name - both must be checked
 		final String first_name = param_name.get_current_name();
@@ -234,7 +234,7 @@ public final class Module_List {
 
 	public static void send_usage_stats() {
 		//FIXME collect version info
-		StringBuilder builder = new StringBuilder("module version infos");
+		final StringBuilder builder = new StringBuilder("module version infos");
 		//FIXME add module versions
 		Usage_Stats.sendAsync(builder.toString());
 	}

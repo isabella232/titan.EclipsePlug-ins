@@ -455,7 +455,7 @@ public class TitanAsn_Null_template extends Base_Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public Module_Parameter get_param(Module_Param_Name param_name) {
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
 		Module_Parameter mp = null;
 		switch (template_selection) {
 		case UNINITIALIZED_TEMPLATE:

@@ -355,7 +355,7 @@ public final class Param_Types {
 		}
 
 		public void error(final String err, final Object... args) {
-			StringBuilder exception_str = new StringBuilder();
+			final StringBuilder exception_str = new StringBuilder();
 			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 			TTCN_Logger.log_event_str("Error while ");
 			exception_str.append("Error while ");
@@ -476,7 +476,7 @@ public final class Param_Types {
 	public static class Module_Param_Reference extends Module_Parameter {
 		private Module_Param_Name mp_ref;
 
-		public Module_Param_Reference(Module_Param_Name p) {
+		public Module_Param_Reference(final Module_Param_Name p) {
 			mp_ref = p;
 			if (mp_ref == null) {
 				throw new TtcnError("Internal error: Module_Param_Reference::Module_Param_Reference()");
@@ -495,8 +495,8 @@ public final class Param_Types {
 			//	error("References to other variables are not allowed.");
 			//}
 			mp_ref.reset();
-			Module_Parameter mp = Module_List.get_param(mp_ref, this);
-			Module_Param_Ptr ptr = new Module_Param_Ptr(mp);
+			final Module_Parameter mp = Module_List.get_param(mp_ref, this);
+			final Module_Param_Ptr ptr = new Module_Param_Ptr(mp);
 			ptr.set_temporary();
 			return ptr;
 		}

@@ -228,7 +228,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public Module_Parameter get_param(Module_Param_Name param_name) {
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
 			return optionalValue.get_param(param_name);

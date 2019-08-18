@@ -336,17 +336,18 @@ public class TitanCharacter_String extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public Module_Parameter get_param(Module_Param_Name param_name) {
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
 		if (!is_bound()) {
 			return new Module_Param_Unbound();
 		}
-		Module_Parameter mp_field_identification = identification.get_param(param_name);
+
+		final Module_Parameter mp_field_identification = identification.get_param(param_name);
 		mp_field_identification.set_id(new Module_Param_FieldName("identification"));
-		Module_Parameter mp_field_data_value_descriptor = data__value__descriptor.get_param(param_name);
+		final Module_Parameter mp_field_data_value_descriptor = data__value__descriptor.get_param(param_name);
 		mp_field_data_value_descriptor.set_id(new Module_Param_FieldName("data_value_descriptor"));
-		Module_Parameter mp_field_string_value = string__value.get_param(param_name);
+		final Module_Parameter mp_field_string_value = string__value.get_param(param_name);
 		mp_field_string_value.set_id(new Module_Param_FieldName("string_value"));
-		Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
+		final Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
 		mp.add_elem(mp_field_identification);
 		mp.add_elem(mp_field_data_value_descriptor);
 		mp.add_elem(mp_field_string_value);

@@ -202,7 +202,7 @@ public abstract class Base_Type {
 	// Originally RT2
 	//TODO: make it abstract
 	//public abstract Module_Parameter get_param(Module_Param_Name param_name);
-	public Module_Parameter get_param(Module_Param_Name param_name) {
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
 		return null;
 	}
 

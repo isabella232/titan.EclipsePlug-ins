@@ -1218,7 +1218,7 @@ public class TitanFloat extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public Module_Parameter get_param(Module_Param_Name param_name) {
+	public Module_Parameter get_param(final Module_Param_Name param_name) {
 		if (!is_bound()) {
 			return new Module_Param_Unbound();
 		}
