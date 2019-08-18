@@ -900,7 +900,7 @@ public class TitanTemplate_Array<Tvalue extends Base_Type,Ttemplate extends Base
 			mp = new Module_Param_AnyOrNone();
 			break;
 		case SPECIFIC_VALUE: {
-			List<Module_Parameter> values = new ArrayList<Module_Parameter>();
+			final List<Module_Parameter> values = new ArrayList<Module_Parameter>();
 			for (int i = 0; i < array_size; ++i) {
 				values.add(single_value[i].get_param(param_name));
 			}

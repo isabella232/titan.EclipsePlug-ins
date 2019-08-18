@@ -605,11 +605,13 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			}
 			return array_elements[param_index].get_param(param_name);
 		}
-		List<Module_Parameter> values = new ArrayList<Module_Parameter>();
+
+		final List<Module_Parameter> values = new ArrayList<Module_Parameter>();
 		for (int i = 0; i < array_size; ++i) {
 			values.add(array_elements[i].get_param(param_name));
 		}
-		Module_Param_Value_List mp = new Module_Param_Value_List();
+
+		final Module_Param_Value_List mp = new Module_Param_Value_List();
 		mp.add_list_with_implicit_ids(values);
 		values.clear();
 		return mp;
