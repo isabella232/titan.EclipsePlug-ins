@@ -905,7 +905,7 @@ public final class TTCN_Buffer {
 			}
 
 			if (coding_par.csn1lh) {
-				int offset = buf_len == 0 ? 0 : buf_len - 1;
+				final int offset = buf_len == 0 ? 0 : buf_len - 1;
 				if (local_fieldorder == raw_order_t.ORDER_LSB) {
 					data_ptr[offset] ^= TTCN_EncDec.CSN1_L_H_Mask & ~RAW.BitMaskTable[bit_pos];
 				} else {
