@@ -1602,7 +1602,7 @@ public final class EnumeratedGenerator {
 		// first check if the reference name is a valid enumerated value
 		source.append("\t\t\t\tfinal String enum_name = param.get_enumerated();\n");
 		// get_enumerated() returns null if the reference contained more than one name
-		source.append(MessageFormat.format("\t\t\t\t{0}.enum_type enum_val = (enum_name != null) ? {0}.str_to_enum(enum_name) : {0}.enum_type.UNKNOWN_VALUE;\n", name));
+		source.append(MessageFormat.format("\t\t\t\tfinal {0}.enum_type enum_val = (enum_name != null) ? {0}.str_to_enum(enum_name) : {0}.enum_type.UNKNOWN_VALUE;\n", name));
 		source.append(MessageFormat.format("\t\t\t\tif ({0}.is_valid_enum(enum_val)) '{'\n", name));
 		source.append("\t\t\t\t\tsingle_value = enum_val;\n");
 		source.append("\t\t\t\t\tis_ifPresent = param.get_ifpresent();\n");
