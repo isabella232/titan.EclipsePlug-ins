@@ -301,17 +301,15 @@ public final class TTCN_Buffer {
 	 * @return the empty part of buffer (after buf_len piece). */
 	//TODO check if this really became pointless.
 	public byte[] get_end() {
-		final byte[] end_ptr;
-
 		if (data_ptr != null) {
 			final int end_len = data_ptr.length - buf_len;
-			end_ptr = new byte[end_len];
+			final byte[] end_ptr = new byte[end_len];
 			System.arraycopy(data_ptr, buf_len, end_ptr, 0, end_len);
-		} else {
-			end_ptr = null;
+
+			return end_ptr;
 		}
 
-		return end_ptr;
+		return null;
 	}
 
 	/**
@@ -533,13 +531,9 @@ public final class TTCN_Buffer {
 
 			final int new_len = buf_len - buf_pos;
 			if (new_len > 0) {
-				final byte[] data;
-				final int new_size = get_memory_size(new_len);
-				if (new_size < data_ptr.length) {
-					data = new byte[new_size];
-				} else {
-					data = new byte[data_ptr.length];
-				}
+				final int allocation_size = get_memory_size(new_len);
+				final int new_size = allocation_size < data_ptr.length ? allocation_size : data_ptr.length;
+				final byte[] data = new byte[new_size];
 
 				System.arraycopy(data_ptr, buf_pos, data, 0, new_len);
 				data_ptr = data;
