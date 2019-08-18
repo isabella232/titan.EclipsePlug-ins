@@ -474,7 +474,7 @@ public final class Param_Types {
 	 * @note Enumerated values are stored as references (with only 1 name segment),
 	 * since the parser cannot distinguish them. */
 	public static class Module_Param_Reference extends Module_Parameter {
-		private Module_Param_Name mp_ref;
+		private final Module_Param_Name mp_ref;
 
 		public Module_Param_Reference(final Module_Param_Name p) {
 			mp_ref = p;
