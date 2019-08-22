@@ -204,8 +204,8 @@ public final class Param_Types {
 		public abstract type_t get_type();
 
 		public void basic_check(final int check_bits, final String what) {
-			final boolean is_template = (check_bits & basic_check_bits_t.BC_TEMPLATE.getValue()) != 0 ? true : false;
-			final boolean is_list = (check_bits & basic_check_bits_t.BC_LIST.getValue()) != 0 ? true : false;
+			final boolean is_template = (check_bits & basic_check_bits_t.BC_TEMPLATE.getValue()) != 0;
+			final boolean is_list = (check_bits & basic_check_bits_t.BC_LIST.getValue()) != 0;
 			if (is_template || !is_list) {
 				if (get_operation_type() != operation_type_t.OT_ASSIGN) {
 					//throw TtcnError instead of error()
