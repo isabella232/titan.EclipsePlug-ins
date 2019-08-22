@@ -38,7 +38,7 @@ public final class IOUtils {
 	public static void writeStringToFile(final File file, final String data) throws IOException {
 		BufferedWriter outStream = null;
 		try {
-			outStream = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF8_KEY));
+			outStream = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 			outStream.write(data);
 		} finally {
 			IOUtils.closeQuietly(outStream);
@@ -84,7 +84,7 @@ public final class IOUtils {
 	 * @return the string read from the provided input stream.
 	 * */
 	public static String inputStreamToString(final InputStream input) throws IOException {
-		final Reader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF8_KEY));
+		final Reader reader = new BufferedReader(new InputStreamReader(input));
 		final StringBuilder content = new StringBuilder();
 		final char[] buffer = new char[1024];
 		int n;
