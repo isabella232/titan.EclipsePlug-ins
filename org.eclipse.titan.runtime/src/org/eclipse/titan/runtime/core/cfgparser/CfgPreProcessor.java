@@ -103,7 +103,7 @@ public class CfgPreProcessor {
 		final String dir = file.getParent();
 		final Reader reader;
 		try {
-			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF8));
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 		} catch (FileNotFoundException e) {
 			config_preproc_error(e.toString(), file, null);
 			return;

@@ -121,7 +121,7 @@ public final class CfgAnalyzer {
 					file = preparsedFile;
 				}
 				config_preproc_error = preprocessor.get_error_flag();
-				reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF8));
+				reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			} catch (FileNotFoundException e) {
 				throw new TtcnError(e);
 			}
