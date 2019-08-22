@@ -1143,7 +1143,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 			}
 		}
-		//FIXME what about write channels?
+		if (write_channels != null) {
+			for (final SelectableChannel channel : write_channels) {
+				channel.configureBlocking(false);
+				TTCN_Snapshot.channelMap.get().put(channel, this);
+				channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_WRITE);
+			}
+		}
 
 		TTCN_Snapshot.set_timer(this, call_interval, true, true, true);
 	}
