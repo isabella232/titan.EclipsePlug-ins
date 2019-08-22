@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,6 @@ import org.eclipse.titan.common.parsers.cfg.indices.LoggingSectionHandler;
 import org.eclipse.titan.common.parsers.cfg.indices.MCSectionHandler;
 import org.eclipse.titan.common.parsers.cfg.indices.ModuleParameterSectionHandler;
 import org.eclipse.titan.common.parsers.cfg.indices.TestportParameterSectionHandler;
-import org.eclipse.titan.common.utils.StandardCharsets;
 
 /**
  * @author eptedim
@@ -156,12 +156,15 @@ public final class CfgAnalyzer {
 			fileLength = code.length();
 		} else if (null != file) {
 			try {
-				reader = new BufferedReader(new InputStreamReader(file.getContents(), StandardCharsets.UTF8));
+				reader = new BufferedReader(new InputStreamReader(file.getContents(), file.getCharset()));
 				final IFileStore store = EFS.getStore( file.getLocationURI() );
 				final IFileInfo fileInfo = store.fetchInfo();
 				fileLength = (int) fileInfo.getLength();
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace("Could not get the contents of `" + fileName + "'", e);
+				return;
+			} catch (UnsupportedEncodingException e) {
+				ErrorReporter.logExceptionStackTrace("Character encoding of `" + fileName + "' is not supported", e);
 				return;
 			}
 		} else {
@@ -185,9 +188,10 @@ public final class CfgAnalyzer {
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
 		final CfgParser parser = new CfgParser( tokenStream );
 		parser.setActualFile( file );
-		//parser tree is built by default
+		// parse tree is built by default
+		// remove ConsoleErrorListener
+		parser.removeErrorListeners();
 		parserListener = new TitanListener();
-		parser.removeErrorListeners(); // remove ConsoleErrorListener
 		parser.addErrorListener(parserListener);
 		final ParserRuleContext parseTreeRoot = parser.pr_ConfigFile();
 
