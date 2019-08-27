@@ -49,6 +49,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueList_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
@@ -431,8 +432,19 @@ public final class Assignment_Statement extends Statement {
 		}
 
 		template.setMyGovernor(type);
+
 		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
-		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, true, true, true, true, false, assignment);
+
+		boolean allowOmit = true;
+		IType pt = type.getParentType();
+		if ( pt!= null) {
+			Type_type tt = pt.getTypetype();
+			if (Type_type.TYPE_TTCN3_CHOICE == tt ||  Type_type.TYPE_ASN1_CHOICE == tt) {
+				allowOmit = false;
+			}
+		}
+
+		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, true, allowOmit, true, true, false, assignment);
 		checkTemplateRestriction(timestamp);
 
 		if (reference.refersToStringElement()) {
