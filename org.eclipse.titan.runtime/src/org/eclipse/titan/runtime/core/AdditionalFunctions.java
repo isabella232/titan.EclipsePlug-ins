@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.MessageFormat;
@@ -5242,7 +5243,22 @@ public final class AdditionalFunctions {
 		if (instr.charstring) {
 			return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.cstr.toString(), posix_str, groupno, nocase));
 		} else {
-			return new TitanUniversalCharString(TTCN_Pattern.regexp(instr.to_utf(), posix_str, groupno, nocase));
+			//convert String to TitanUniversChars
+			String regexp_str = TTCN_Pattern.regexp(instr.to_utf(), posix_str, groupno, nocase);
+			List<TitanUniversalChar> uc_chars = new ArrayList<TitanUniversalChar>(regexp_str.length());
+			try {
+				byte[] utf_bytes = regexp_str.getBytes("UTF-32");
+				for (int i = 0; i < utf_bytes.length; i+=4) {
+					final char uc_group = (char)(utf_bytes[i] & 0xFF);
+					final char uc_plane = (char)(utf_bytes[i + 1] & 0xFF);
+					final char uc_row = (char)(utf_bytes[i + 2] & 0xFF);
+					final char uc_cell = (char)(utf_bytes[i + 3] & 0xFF);
+					uc_chars.add(new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell));
+				}
+			} catch (UnsupportedEncodingException e) {
+				throw new TtcnError(e);
+			}
+			return new TitanUniversalCharString(uc_chars);
 		}
 	}
 
