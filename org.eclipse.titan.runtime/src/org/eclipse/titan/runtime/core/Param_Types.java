@@ -253,6 +253,10 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_boolean()");
 		}
 
+		public TitanCharString get_charstring() {
+			throw new TtcnError("Internal error: Module_Param.get_charstring()");
+		}
+
 		public int get_size()  {
 			throw new TtcnError("Internal error: Module_Param.get_size()");
 		}
@@ -967,6 +971,11 @@ public final class Param_Types {
 
 		public int get_string_size() {
 			return cstr.get_value().length();
+		}
+
+		@Override
+		public TitanCharString get_charstring() {
+			return cstr;
 		}
 	}
 

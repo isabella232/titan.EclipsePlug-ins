@@ -1090,9 +1090,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			break;
 		}
 		case MP_Charstring: {
-			final TTCN_Buffer buff = new TTCN_Buffer();
-			buff.put_s(((String)param.get_string_data()).toCharArray());
-			this.operator_assign(TitanUniversalCharString.from_UTF8_buffer(buff));
+			this.operator_assign(param.get_charstring());
 			break;
 		}
 		case MP_Universal_Charstring:
