@@ -3352,6 +3352,7 @@ public final class RecordOfGenerator {
 			aSb.append("\t\t\t\tbreak;\n");
 		} else {
 			aSb.append("\t\t\tcase MP_Value_List: {\n");
+			aSb.append("\t\t\t\tremove_all_permutations();\n");
 			aSb.append("\t\t\t\tset_size(param.get_size());\n");
 			aSb.append("\t\t\t\tint current_index = 0;\n");
 			aSb.append("\t\t\t\tfor (int i = 0; i < param.get_size(); i++) {\n");
