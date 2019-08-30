@@ -1164,12 +1164,10 @@ public class TitanUniversalCharString extends Base_Type {
 				clean_up();
 				//no break
 			case OT_CONCAT:
-				final TTCN_Buffer buff = new TTCN_Buffer();
-				buff.put_s(((String)param.get_string_data()).toCharArray());
 				if (is_bound()) {
-					this.operator_assign(this.operator_concatenate(from_UTF8_buffer(buff)));
+					this.operator_assign(this.operator_concatenate(param.get_charstring()));
 				} else {
-					this.operator_assign(from_UTF8_buffer(buff));
+					this.operator_assign(param.get_charstring());
 				}
 				break;
 			default:
