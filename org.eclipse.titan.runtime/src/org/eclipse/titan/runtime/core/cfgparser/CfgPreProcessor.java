@@ -447,6 +447,10 @@ public class CfgPreProcessor {
 		}
 
 		out.append(typedMacroValue);
+		if ( CfgPreprocessorUtils.string_is_int(typedMacroValue) ) {
+			// int is also handled as float, in this case it must be converted to float format
+			out.append(".0");
+		}
 		return true;
 	}
 
