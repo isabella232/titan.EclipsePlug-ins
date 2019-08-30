@@ -34,14 +34,19 @@ import org.eclipse.titan.runtime.core.TtcnError;
  * It effects the [INCLUDE], [ORDERED_INCLUDE] and [DEFINE] sections.
  * After a successful preparsing we get one CFG file that will not contain
  * any [INCLUDE], [ORDERED_INCLUDE] or [DEFINE] sections,
- * where the content of the include files are copied into the place of the include file names,
- * macro references are resolved as they are defined in the [DEFINE] section.
+ * where the content of the include files are copied
+ *   into the place of the include file names in case of [ORDERED_INCLUDE],
+ *   or to the end of the file in case of [INCLUDE],
+ * macro references are resolved as they are defined in the [DEFINE] sections.
  * @author Arpad Lovassy
  */
 public class CfgPreProcessor {
 
 	private static final int RECURSION_LIMIT = 100;
 
+	/**
+	 * Sets to true by config_preproc_error() in case of error
+	 */
 	private boolean error_flag = false;
 
 	/**
@@ -61,7 +66,7 @@ public class CfgPreProcessor {
 	 * @param actualFile parsed cfg file to log the file name
 	 * @param token parsed token to log the line number
 	 */
-	private void config_preproc_error(String error_str, final File actualFile, final Token token) {
+	private void config_preproc_error(final String error_str, final File actualFile, final Token token) {
 		TTCN_Logger.begin_event(TTCN_Logger.Severity.ERROR_UNQUALIFIED);
 		TTCN_Logger.log_event("Parse error while pre-processing");
 		if ( actualFile != null ) {
@@ -91,8 +96,8 @@ public class CfgPreProcessor {
 	 *                     null in case of the root element
 	 * @param recursionDepth counter of the recursion depth
 	 */
-	private void preparseInclude(final File file, final StringBuilder out, AtomicBoolean modified, final CFGListener listener,
-										final ChainElement<File> includeChain, final int recursionDepth) {
+	private void preparseInclude(final File file, final StringBuilder out, final AtomicBoolean modified, final CFGListener listener,
+								 final ChainElement<File> includeChain, final int recursionDepth) {
 		if (recursionDepth > RECURSION_LIMIT) {
 			// dumb but safe defense against infinite recursion
 			config_preproc_error("Maximum include recursion depth reached", file, null);
@@ -389,7 +394,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_bool(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as boolean value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as boolean value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("false");
 			return true;
 		}
@@ -415,7 +420,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_int(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as integer value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as integer value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append('0');
 			return true;
 		}
@@ -441,7 +446,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_float(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as float value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as float value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("0.0");
 			return true;
 		}
@@ -471,7 +476,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_id(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as identifier value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as identifier value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			return true;
 		}
 
@@ -517,7 +522,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_bstr(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as bitstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as bitstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("''B");
 			return true;
 		}
@@ -545,7 +550,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_hstr(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as hexstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as hexstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("''H");
 			return true;
 		}
@@ -573,7 +578,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_ostr(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as octetstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as octetstring value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append("''O");
 			return true;
 		}
@@ -601,7 +606,7 @@ public class CfgPreProcessor {
 			return false;
 		}
 		if ( !CfgPreprocessorUtils.string_is_hostname(typedMacroValue) ) {
-			config_preproc_error(MessageFormat.format("Macro `{0}''cannot be interpreted as hostname value: `{1}''", typedMacroName, typedMacroValue), null, token);
+			config_preproc_error(MessageFormat.format("Macro `{0}'' cannot be interpreted as hostname value: `{1}''", typedMacroName, typedMacroValue), null, token);
 			out.append(typedMacroValue);
 			return true;
 		}
@@ -672,14 +677,14 @@ public class CfgPreProcessor {
 			return null;
 		}
 		final List<Token> tokenList = definitions.get( definition );
-		// true if macro definition is structured (starts with "{"). In this case the STRING keeps its beginning and ending quotes,
-		// in simple case beginning and ending quotes are removed
-		final boolean structured = tokenList.size() > 0 && tokenList.get(0).getType() == RuntimeCfgLexer.BEGINCHAR;
 		final StringBuilder out = new StringBuilder();
 		for (final Token token : tokenList) {
 			final int tokenType = token.getType();
 			switch (tokenType) {
 			case RuntimeCfgLexer.STRING: {
+				// true if macro definition is structured (starts with "{"). In this case the STRING keeps its beginning and ending quotes,
+				// in simple case beginning and ending quotes are removed
+				final boolean structured = tokenList.size() > 0 && tokenList.get(0).getType() == RuntimeCfgLexer.BEGINCHAR;
 				final CharstringExtractor cse = new CharstringExtractor( token.getText(), !structured );
 				final String text = cse.getExtractedString();
 				if ( cse.isErroneous() ) {
