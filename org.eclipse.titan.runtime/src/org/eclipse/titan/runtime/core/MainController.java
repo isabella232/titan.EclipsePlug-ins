@@ -745,7 +745,9 @@ public class MainController {
 
 
 	private static void process_create_req(final ComponentStruct tc) {
-		if (!request_allowed(mtc, "CREATE_REQ")) return;
+		if (!request_allowed(mtc, "CREATE_REQ")) {
+			return;
+		}
 
 		final Text_Buf text_buf = incoming_buf.get();
 
@@ -886,7 +888,9 @@ public class MainController {
 	private static void check_all_hc_configured() {
 		final boolean reconf = (mc_state == mcStateEnum.MC_RECONFIGURING);
 		if (is_hc_in_state(hcStateEnum.HC_CONFIGURING) ||
-			      is_hc_in_state(hcStateEnum.HC_CONFIGURING_OVERLOADED)) return;
+			      is_hc_in_state(hcStateEnum.HC_CONFIGURING_OVERLOADED)) {
+			return;
+		}
 	    if (is_hc_in_state(hcStateEnum.HC_IDLE)) {
 	    	mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_HC_CONNECTED;
 	    	// TODO error
@@ -2686,7 +2690,9 @@ public class MainController {
 		    default:
 		    	// TODO error
 		    }
-		    if (!ready_for_ack) break;
+		    if (!ready_for_ack) {
+			    break;
+		    }
 		}
 		if (ready_for_ack) {
 		    send_kill_ack(mtc);
@@ -3792,7 +3798,9 @@ public class MainController {
 
 
 	private static void process_connect_req(final ComponentStruct tc) {
-		if (!request_allowed(tc, "CONNECT_REQ")) return;
+		if (!request_allowed(tc, "CONNECT_REQ")) {
+			return;
+		}
 
 		final Text_Buf text_buf = incoming_buf.get();
 		final int sourceComponent = text_buf.pull_int().get_int();
@@ -4230,19 +4238,25 @@ public class MainController {
 	}
 
 	public static boolean request_allowed(final ComponentStruct from, final String message_name) {
-	  if (!message_expected(from, message_name)) return false;
+	  if (!message_expected(from, message_name)) {
+		  return false;
+	  }
 
 	  switch (from.tc_state) {
 	  case MTC_TESTCASE:
 		  if (from.equals(mtc)) {
 			  return true;
 		  }
-	      else break;
+	      else {
+		      break;
+	      }
 	  case PTC_FUNCTION:
 	      if (!from.equals(mtc)) {
 	    	  return true;
 	      }
-	      else break;
+	      else {
+		      break;
+	      }
 	  case TC_STOPPING:
 	  case PTC_STOPPING_KILLING:
 	  case PTC_KILLING:
