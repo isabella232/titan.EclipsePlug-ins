@@ -282,13 +282,13 @@ public class MainController {
 		String system_release;
 		String system_version;
 		
-		Host(SocketChannel sc) {
+		Host(final SocketChannel sc) {
 			socket = sc;
 			components = new ArrayList<ComponentStruct>();
 			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
 		}
 		
-		void addComponent(ComponentStruct comp) {
+		void addComponent(final ComponentStruct comp) {
 			components.add(comp);
 		}
 		
@@ -392,7 +392,7 @@ public class MainController {
 	private static ComponentStruct ptc;
 	private static ComponentStruct system;
 	
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		if(args.length > 1) {
 			System.out.println("For now only 1 arguments can be passed, the config file.");
 		}
@@ -481,7 +481,7 @@ public class MainController {
 		return 0;
 	}
 	
-	private static void create_mtc(Host host) {		
+	private static void create_mtc(final Host host) {		
 		if(mc_state != mcStateEnum.MC_ACTIVE) {
 			// TODO error
 			return;
@@ -558,7 +558,7 @@ public class MainController {
 	}
 	
 	
-	private static void handle_unknown_data(Host mtc) {
+	private static void handle_unknown_data(final Host mtc) {
 		Text_Buf local_incoming_buf = incoming_buf.get();
 		receiveMessage(mtc);
 		
@@ -598,7 +598,7 @@ public class MainController {
 		// TODO 
 	}
 
-	private static void process_error(ComponentStruct tc) {
+	private static void process_error(final ComponentStruct tc) {
 		Text_Buf text_buf = incoming_buf.get();
 		String reason = text_buf.pull_string();
 		text_buf.cut_message();	
@@ -611,7 +611,7 @@ public class MainController {
 		}
 	}
 	
-	private static void process_error(Host hc) {
+	private static void process_error(final Host hc) {
 		Text_Buf text_buf = incoming_buf.get();
 		String reason = text_buf.pull_string();
 		text_buf.cut_message();
@@ -634,7 +634,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_create_mtc(Host host) {
+	private static void send_create_mtc(final Host host) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_MTC);
 		send_message(host, text_buf);
@@ -655,7 +655,7 @@ public class MainController {
 	}
 	
 	
-	private static void handle_hc_data(Host hc) {
+	private static void handle_hc_data(final Host hc) {
 		Text_Buf local_incoming_buf = incoming_buf.get();
 		boolean error_flag = false;
 		receiveMessage(hc);
@@ -700,7 +700,7 @@ public class MainController {
 	
 	}
 	
-	private static void process_configure_nak(Host hc) {
+	private static void process_configure_nak(final Host hc) {
 		incoming_buf.get().cut_message();;
 		switch(hc.hc_state) {
 		case HC_CONFIGURING:
@@ -720,7 +720,7 @@ public class MainController {
 		}
 	}
 
-	private static void process_hc_ready(Host hc) {
+	private static void process_hc_ready(final Host hc) {
 		switch(hc.hc_state) {
 			case HC_OVERLOADED:
 				hc.hc_state = hcStateEnum.HC_ACTIVE;
@@ -736,7 +736,7 @@ public class MainController {
 		incoming_buf.get().cut_message();
 	}
 	
-	public static void send_error(Host hc, String reason) {
+	public static void send_error(final Host hc, final String reason) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
 		text_buf.push_string(reason);
@@ -744,7 +744,7 @@ public class MainController {
 	}
 	
 
-	private static void process_create_req(ComponentStruct tc) {
+	private static void process_create_req(final ComponentStruct tc) {
 		if (!request_allowed(mtc, "CREATE_REQ")) return;
 		
 		Text_Buf text_buf = incoming_buf.get();
@@ -814,7 +814,7 @@ public class MainController {
 
 	
 	// FIXME 
-	private static Host choose_ptc_location(String componentTypeName, String componentName, String componentLocation) {
+	private static Host choose_ptc_location(final String componentTypeName, final String componentName, final String componentLocation) {
 		Host location = null;
 		for (Host h : hosts) { 
 			if (!h.equals(mtc.comp_location)) {
@@ -825,7 +825,7 @@ public class MainController {
 	}
 	
 
-	boolean set_has_string(Set<String> set, String str) {
+	boolean set_has_string(final Set<String> set, final String str) {
 		if (str == null) {
 			return false;
 		}
@@ -842,9 +842,9 @@ public class MainController {
 	}
 
 	
-	private static void send_create_ptc(Host host, int comp_ref, String componentTypeModule, String componentTypeName, 
-			QualifiedName comp_type, String componentName, int isAlive, QualifiedName tc_fn_name, int seconds, 
-			int miliseconds) {
+	private static void send_create_ptc(final Host host, final int comp_ref, final String componentTypeModule, final String componentTypeName, 
+			final QualifiedName comp_type, final String componentName, final int isAlive, final QualifiedName tc_fn_name, final int seconds, 
+			final int miliseconds) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_PTC);
 		text_buf.push_int(comp_ref);
@@ -862,7 +862,7 @@ public class MainController {
 		send_message(host, text_buf);
 	}
 
-	private static void process_configure_ack(Host hc) {
+	private static void process_configure_ack(final Host hc) {
 		switch (hc.hc_state) {
 		case HC_CONFIGURING:
 			hc.hc_state = hcStateEnum.HC_ACTIVE;
@@ -900,7 +900,7 @@ public class MainController {
 		
 	}
 
-	private static boolean is_hc_in_state(hcStateEnum checked_state) {
+	private static boolean is_hc_in_state(final hcStateEnum checked_state) {
 		for (int i = 0; i < hosts.size(); i++) {
 			if(hosts.get(i).hc_state == checked_state) {
 				return true;
@@ -909,7 +909,7 @@ public class MainController {
 		return false;
 	}
 
-	public static void receiveMessage(Host hc) {
+	public static void receiveMessage(final Host hc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		final AtomicInteger buf_ptr = new AtomicInteger();
 		final AtomicInteger buf_len = new AtomicInteger();
@@ -928,7 +928,7 @@ public class MainController {
 		}
 	}
 	
-	public static void process_version(Host hc) {
+	public static void process_version(final Host hc) {
 		receiveMessage(hc);
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		final int msg_len = local_incoming_buf.pull_int().get_int();
@@ -953,7 +953,7 @@ public class MainController {
 		}
 	}
 	
-	private static void add_new_host(Host hc) {
+	private static void add_new_host(final Host hc) {
 		Text_Buf text_buf = incoming_buf.get();
 		hc.hostname = text_buf.pull_string();
 		hc.machine_type = text_buf.pull_string();
@@ -995,7 +995,7 @@ public class MainController {
 		text_buf.cut_message();
 	}
 	
-	private static void setup_host(Host host) {
+	private static void setup_host(final Host host) {
 		host.transport_supported[transport_type_enum.TRANSPORT_LOCAL.ordinal()] = true;
 		host.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()] = true;
 		
@@ -1046,14 +1046,14 @@ public class MainController {
 		
 	}
 
-	private static void send_configure_mtc(String config) {
+	private static void send_configure_mtc(final String config) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONFIGURE);
 		text_buf.push_string(config);
 		send_message(mtc.comp_location, text_buf);
 	}
 
-	private static void configure_host(Host host, boolean should_notify) {
+	private static void configure_host(final Host host, final boolean should_notify) {
 		hcStateEnum next_state = hcStateEnum.HC_CONFIGURING;
 		switch(host.hc_state) {
 		case HC_CONFIGURING:
@@ -1080,7 +1080,7 @@ public class MainController {
 		
 	}
 
-	private static void send_configure(Host hc) {
+	private static void send_configure(final Host hc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONFIGURE);
 		text_buf.push_string(config_str.get());
@@ -1088,7 +1088,7 @@ public class MainController {
 		send_message(hc, text_buf);
 	}
 
-	private static void send_message(Host hc, Text_Buf text_buf) {
+	private static void send_message(final Host hc, final Text_Buf text_buf) {
 		text_buf.calculate_length();
 		final byte[] msg_ptr = text_buf.get_data();
 		final int msg_len = text_buf.get_len();
@@ -1106,7 +1106,7 @@ public class MainController {
 		}		
 	}
 
-	private static void process_mtc_created(Host hc) {
+	private static void process_mtc_created(final Host hc) {
 		if(mc_state != mcStateEnum.MC_CREATING_MTC) {
 			send_error(hc, "Message MTC_CREATED arrived in invalid state.");
 			return;
@@ -1161,7 +1161,7 @@ public class MainController {
 	}
 	
 
-	private static void handle_tc_data(ComponentStruct tc) {
+	private static void handle_tc_data(final ComponentStruct tc) {
 		Text_Buf local_incoming_buf = incoming_buf.get();
 		
 		receiveMessage(tc.comp_location);
@@ -1330,7 +1330,7 @@ public class MainController {
 		return true;
 	}
 
-	private static void process_stopped(ComponentStruct tc, int msg_end) {
+	private static void process_stopped(final ComponentStruct tc, final int msg_end) {
 		switch(tc.tc_state) {
 		case TC_STOPPING:
 		case PTC_FUNCTION:
@@ -1354,7 +1354,7 @@ public class MainController {
 		component_stopped(tc);
 	}
 
-	private static void component_stopped(ComponentStruct tc) {
+	private static void component_stopped(final ComponentStruct tc) {
 		tcStateEnum old_state = tc.tc_state;
 		if (old_state == tcStateEnum.PTC_STOPPING_KILLING) {
 			tc.tc_state = tcStateEnum.PTC_KILLING;
@@ -1439,7 +1439,7 @@ public class MainController {
 		}
 	}
 
-	private static void process_unmapped(ComponentStruct tc) {
+	private static void process_unmapped(final ComponentStruct tc) {
 		if (!message_expected(tc, "UNMAPPED")) {
 			return;
 		}
@@ -1479,7 +1479,7 @@ public class MainController {
 		
 	}
 
-	private static void process_unmap_req(ComponentStruct tc) {
+	private static void process_unmap_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "UNMAP_REQ")) {
 			return;
 		}
@@ -1526,8 +1526,8 @@ public class MainController {
 		}
 	}
 
-	private static void send_unmap(ComponentStruct tc, String sourcePort, String systemPort,
-			int nof_params, Map_Params params, boolean translation) {
+	private static void send_unmap(final ComponentStruct tc, final String sourcePort, final String systemPort,
+			final int nof_params, final Map_Params params, final boolean translation) {
 
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAP);
@@ -1542,7 +1542,7 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void process_killed_req(ComponentStruct tc) {
+	private static void process_killed_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "KILLED_REQ")) {
 			return;
 		}
@@ -1626,7 +1626,7 @@ public class MainController {
 		}		
 	}
 
-	private static void send_killed_ack(ComponentStruct tc, boolean answer) {
+	private static void send_killed_ack(final ComponentStruct tc, final boolean answer) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_KILLED_ACK);
 		text_buf.push_int(answer ? 1 : 0);
@@ -1634,7 +1634,7 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void process_done_req(ComponentStruct tc) {
+	private static void process_done_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "DONE_REQ")) {
 			return;
 		}
@@ -1725,7 +1725,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_done_ack(ComponentStruct tc, boolean answer, VerdictTypeEnum verdict, String return_type, byte[] return_value) {
+	private static void send_done_ack(final ComponentStruct tc, final boolean answer, final VerdictTypeEnum verdict, final String return_type, final byte[] return_value) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_DONE_ACK);
 		text_buf.push_int(answer ? 1 : 0);
@@ -1737,7 +1737,7 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);		
 	}
 
-	private static void process_cancel_done_ack(ComponentStruct tc) {
+	private static void process_cancel_done_ack(final ComponentStruct tc) {
 		Text_Buf text_buf = incoming_buf.get();
 		int component_reference = text_buf.pull_int().get_int();
 		text_buf.cut_message();
@@ -1771,7 +1771,7 @@ public class MainController {
 		remove_requestor(tc.cancel_done_sent_for, started_tc);
 	}
 
-	private static void process_is_alive(ComponentStruct tc) {
+	private static void process_is_alive(final ComponentStruct tc) {
 		if (!request_allowed(tc, "IS_ALIVE")) {
 			return;
 		}
@@ -1858,14 +1858,14 @@ public class MainController {
 		return true;
 	}
 
-	private static void send_alive(ComponentStruct tc, boolean answer) {
+	private static void send_alive(final ComponentStruct tc, final boolean answer) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ALIVE);
 		text_buf.push_int(answer ? 1 : 0);
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void process_is_running(ComponentStruct tc) {
+	private static void process_is_running(final ComponentStruct tc) {
 		if (!request_allowed(tc, "IS_RUNNING")) {
 			return;
 		}
@@ -1959,14 +1959,14 @@ public class MainController {
 		return true;
 	}
 
-	private static void send_running(ComponentStruct tc, boolean answer) {
+	private static void send_running(final ComponentStruct tc, final boolean answer) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_RUNNING);
 		text_buf.push_int(answer ? 1 : 0);
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void process_mapped(ComponentStruct tc) {
+	private static void process_mapped(final ComponentStruct tc) {
 		if (!message_expected(tc, "MAPPED")) {
 			return;
 		}
@@ -2020,7 +2020,7 @@ public class MainController {
 		}
 	}
 
-	private static void process_killed(ComponentStruct tc) {
+	private static void process_killed(final ComponentStruct tc) {
 		System.out.println("Process killed: "+tc.tc_state.toString());
 		switch(tc.tc_state) {
 		case TC_IDLE:
@@ -2062,7 +2062,7 @@ public class MainController {
 		System.out.println("Configuration file was processed on the MTC.");
 	}
 
-	private static void process_map_req(ComponentStruct tc) {
+	private static void process_map_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "MAP_REQ")) {
 			return;
 		}
@@ -2119,7 +2119,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_map_ack(ComponentStruct tc, int nof_params, Map_Params params) {
+	private static void send_map_ack(final ComponentStruct tc, final int nof_params, final Map_Params params) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MAP_ACK);
 		text_buf.push_int(nof_params);
@@ -2130,8 +2130,8 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void send_map(ComponentStruct tc, String sourcePort, String systemPort, int nof_params,
-			Map_Params params, boolean translation) {
+	private static void send_map(final ComponentStruct tc, final String sourcePort, final String systemPort, final int nof_params,
+			final Map_Params params, final boolean translation) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MAP);
 		text_buf.push_int(translation ? 1 : 0);
@@ -2145,7 +2145,7 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void process_kill_req(ComponentStruct tc) {
+	private static void process_kill_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "KILL_REQ")) {
 			return;
 		}
@@ -2261,7 +2261,7 @@ public class MainController {
 		}
 	}
 
-	private static void process_stopped_killed(ComponentStruct tc, int msg_end) {
+	private static void process_stopped_killed(final ComponentStruct tc, final int msg_end) {
 		switch (tc.tc_state) {
 		case TC_CREATE:
 		case TC_START:
@@ -2294,7 +2294,7 @@ public class MainController {
 		
 	}
 
-	private static void component_terminated(ComponentStruct tc) {
+	private static void component_terminated(final ComponentStruct tc) {
 		tcStateEnum old_state = tc.tc_state;
 		tc.tc_state = tcStateEnum.TC_EXITING;
 		switch(mc_state) {
@@ -2438,7 +2438,7 @@ public class MainController {
 		
 	}
 
-	private static void destroy_connection(PortConnection conn, ComponentStruct tc, Iterator<PortConnection> it) {
+	private static void destroy_connection(final PortConnection conn, final ComponentStruct tc, final Iterator<PortConnection> it) {
 		switch (conn.conn_state) {
 		case CONN_LISTENING:
 		case CONN_CONNECTING:
@@ -2461,7 +2461,7 @@ public class MainController {
 		it.remove();
 	}
 
-	private static void destroy_mapping(PortConnection conn, int nof_params, Map_Params params, Iterator<PortConnection> it) {
+	private static void destroy_mapping(final PortConnection conn, final int nof_params, final Map_Params params, final Iterator<PortConnection> it) {
 		int tc_compref;
 		String tc_port;
 		String system_port;
@@ -2521,7 +2521,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_unmap_ack(ComponentStruct tc, int nof_params, Map_Params params) {
+	private static void send_unmap_ack(final ComponentStruct tc, final int nof_params, final Map_Params params) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAP_ACK);
 		text_buf.push_int(nof_params);
@@ -2532,7 +2532,7 @@ public class MainController {
 
 	}
 
-	private static void done_cancelled(ComponentStruct from, ComponentStruct started_tc) {
+	private static void done_cancelled(final ComponentStruct from, final ComponentStruct started_tc) {
 		if (started_tc.tc_state != tcStateEnum.PTC_STARTING) {
 			return;
 		}
@@ -2557,7 +2557,7 @@ public class MainController {
 		started_tc.tc_state = tcStateEnum.PTC_FUNCTION;
 	}
 
-	private static void remove_requestor(RequestorStruct reqs, ComponentStruct tc) {
+	private static void remove_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
 		switch (reqs.n_components) {
 		case 0:
 		    break;
@@ -2589,7 +2589,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_kill_ack_to_requestors(ComponentStruct tc) {
+	private static void send_kill_ack_to_requestors(final ComponentStruct tc) {
 		for (int i = 0; ; i++) {
 			ComponentStruct requestor = get_requestor(tc.kill_requestors, i);
 		    if (requestor == null) {
@@ -2608,7 +2608,7 @@ public class MainController {
 		tc.kill_requestors = new RequestorStruct();
 	}
 
-	private static void send_stop_ack_to_requestors(ComponentStruct tc) {
+	private static void send_stop_ack_to_requestors(final ComponentStruct tc) {
 		for (int i = 0; ; i++) {
 			ComponentStruct requestor = get_requestor(tc.stop_requestors, i);
 		    if (requestor == null) {
@@ -2690,15 +2690,15 @@ public class MainController {
 		}
 	}
 
-	private static void send_kill_ack(ComponentStruct tc) {
+	private static void send_kill_ack(final ComponentStruct tc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_KILL_ACK);
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void send_component_status_mtc(int comp_ref, boolean is_done, boolean is_killed, boolean is_any_done,
-			boolean is_all_done, boolean is_any_killed, boolean is_all_killed, VerdictTypeEnum local_verdict,
-			String return_type, byte[] return_value) {
+	private static void send_component_status_mtc(final int comp_ref, final boolean is_done, final boolean is_killed, final boolean is_any_done,
+			final boolean is_all_done, final boolean is_any_killed, final boolean is_all_killed, final VerdictTypeEnum local_verdict,
+			final String return_type, final byte[] return_value) {
 		
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_COMPONENT_STATUS);
@@ -2729,7 +2729,7 @@ public class MainController {
 		return false;
 	}
 
-	private static boolean component_is_alive(ComponentStruct tc) {
+	private static boolean component_is_alive(final ComponentStruct tc) {
 		switch (tc.tc_state) {
 		case TC_INITIAL:
 		case TC_IDLE:
@@ -2767,7 +2767,7 @@ public class MainController {
 		return false;
 	}
 
-	private static boolean component_is_running(ComponentStruct tc) {
+	private static boolean component_is_running(final ComponentStruct tc) {
 		switch (tc.tc_state) {
 		case TC_CREATE:
 		case TC_START:
@@ -2795,8 +2795,8 @@ public class MainController {
 		}
 	}
 
-	private static void send_component_status_to_requestor(ComponentStruct tc, ComponentStruct requestor, boolean done_status,
-			boolean killed_status) {
+	private static void send_component_status_to_requestor(final ComponentStruct tc, final ComponentStruct requestor, final boolean done_status,
+			final boolean killed_status) {
 		switch (requestor.tc_state) {
 		case PTC_FUNCTION:
 		case TC_CREATE:
@@ -2828,8 +2828,8 @@ public class MainController {
 		  }
 	}
 
-	private static void send_component_status_ptc(ComponentStruct tc, int comp_ref, boolean is_done,
-			boolean is_killed, VerdictTypeEnum local_verdict, String return_type, byte[] return_value) {
+	private static void send_component_status_ptc(final ComponentStruct tc, final int comp_ref, final boolean is_done,
+			final boolean is_killed, final VerdictTypeEnum local_verdict, final String return_type, final byte[] return_value) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_COMPONENT_STATUS);
 		text_buf.push_int(comp_ref);
@@ -2843,7 +2843,7 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);		
 	}
 
-	private static void process_stop_req(ComponentStruct tc) {
+	private static void process_stop_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "STOP_REQ")) {
 			return;
 		}
@@ -2977,7 +2977,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_stop_ack(ComponentStruct tc) {
+	private static void send_stop_ack(final ComponentStruct tc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_STOP_ACK);
 		send_message(tc.comp_location, text_buf);
@@ -3067,7 +3067,7 @@ public class MainController {
 		return ready_for_ack;
 	}
 
-	private static boolean kill_all_components(boolean testcase_ends) {
+	private static boolean kill_all_components(final boolean testcase_ends) {
 		boolean ready_for_ack = true;
 		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
 			ComponentStruct tc = components.get(i);
@@ -3150,7 +3150,7 @@ public class MainController {
 		return ready_for_ack;		
 	}
 
-	private static boolean has_requestor(RequestorStruct reqs, ComponentStruct tc) {
+	private static boolean has_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
 		switch(reqs.n_components) {
 		case 0:
 			return false;
@@ -3166,13 +3166,13 @@ public class MainController {
 		}
 	}
 
-	private static void send_stop(ComponentStruct tc) {
+	private static void send_stop(final ComponentStruct tc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_STOP);
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void process_disconnected(ComponentStruct tc) {
+	private static void process_disconnected(final ComponentStruct tc) {
 		if (!message_expected(tc, "DISCONNECTED")) {
 			return;
 		}
@@ -3211,7 +3211,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_disconnect_ack_to_requestors(PortConnection conn) {
+	private static void send_disconnect_ack_to_requestors(final PortConnection conn) {
 		for (int i=0; ; i++) {
 			ComponentStruct comp = get_requestor(conn.requestors, i);
 			if (comp == null) {
@@ -3231,7 +3231,7 @@ public class MainController {
 		conn.requestors = new RequestorStruct();
 	}
 
-	private static void process_disconnect_req(ComponentStruct tc) {
+	private static void process_disconnect_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "DISCONNECT_REQ")) {
 			return;
 		}
@@ -3276,14 +3276,14 @@ public class MainController {
 		}
 	}
 
-	private static void send_disconnect_ack(ComponentStruct tc) {
+	private static void send_disconnect_ack(final ComponentStruct tc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_DISCONNECT_ACK);
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void send_disconnect(ComponentStruct tc, String tailPort, int headComp,
-			String headPort) {
+	private static void send_disconnect(final ComponentStruct tc, final String tailPort, final int headComp,
+			final String headPort) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_DISCONNECT);
 		text_buf.push_string(tailPort);
@@ -3293,7 +3293,7 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void process_start_req(ComponentStruct tc) {
+	private static void process_start_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "START_REQ")) {
 			return;
 		}
@@ -3461,7 +3461,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_start_ack(ComponentStruct tc) {
+	private static void send_start_ack(final ComponentStruct tc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_START_ACK);
 		
@@ -3469,7 +3469,7 @@ public class MainController {
 	}
 
 	//private static void send_start(ComponentStruct target, QualifiedName tc_fn_name, int arg) {
-	private static void send_start(ComponentStruct target, QualifiedName tc_fn_name, byte[] arg) {
+	private static void send_start(final ComponentStruct target, final QualifiedName tc_fn_name, final byte[] arg) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_START);
 		text_buf.push_string(tc_fn_name.module_name);
@@ -3480,7 +3480,7 @@ public class MainController {
 		send_message(target.comp_location, text_buf);
 	}
 
-	private static void send_cancel_done_ptc(ComponentStruct comp, int component_reference) {
+	private static void send_cancel_done_ptc(final ComponentStruct comp, final int component_reference) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CANCEL_DONE);
 		text_buf.push_int(component_reference);
@@ -3488,7 +3488,7 @@ public class MainController {
 		send_message(mtc.comp_location, text_buf);
 	}
 
-	private static void send_cancel_done_mtc(int component_reference, boolean cancel_any_component_done) {
+	private static void send_cancel_done_mtc(final int component_reference, final boolean cancel_any_component_done) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CANCEL_DONE);
 		text_buf.push_int(component_reference);
@@ -3508,7 +3508,7 @@ public class MainController {
 		return false;
 	}
 
-	private static boolean component_is_done(ComponentStruct tc) {
+	private static boolean component_is_done(final ComponentStruct tc) {
 		switch(tc.tc_state) {
 		case TC_EXITING:
 		case TC_EXITED:
@@ -3536,7 +3536,7 @@ public class MainController {
 		}
 	}
 
-	private static void process_connected(ComponentStruct tc) {
+	private static void process_connected(final ComponentStruct tc) {
 		if (!message_expected(tc, "CONNECTED")) {
 			return;
 		}
@@ -3561,7 +3561,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_connect_ack_to_requestors(PortConnection conn) {
+	private static void send_connect_ack_to_requestors(final PortConnection conn) {
 		for (int i=0; ; i++) {
 			ComponentStruct comp = get_requestor(conn.requestors, i);
 			if (comp == null) {
@@ -3582,7 +3582,7 @@ public class MainController {
 		conn.requestors.n_components = 0;
 	}
 
-	private static void process_connect_listen_ack(ComponentStruct tc, int msg_end) {
+	private static void process_connect_listen_ack(final ComponentStruct tc, final int msg_end) {
 		if (!message_expected(tc, "CONNECT_LISTEN_ACK")) {
 			return;
 		}
@@ -3686,7 +3686,7 @@ public class MainController {
 		}		
 	}
 
-	private static void send_error_to_connect_requestors(PortConnection conn, String msg) {
+	private static void send_error_to_connect_requestors(final PortConnection conn, final String msg) {
 		String reason = "Establishment of port connection "+conn.comp_ref+":"+conn.port_name+" - "+conn.tailComp+":"
 				+conn.tailPort+" failed because "+msg;
 		for (int i=0; ;  i++) {
@@ -3706,7 +3706,7 @@ public class MainController {
 		}				
 	}
 
-	private static ComponentStruct get_requestor(RequestorStruct reqs, int index) {
+	private static ComponentStruct get_requestor(final RequestorStruct reqs, final int index) {
 		if (index >= 0 && index < reqs.n_components) {
 			if (reqs.n_components == 1) {
 				return reqs.comp;
@@ -3718,7 +3718,7 @@ public class MainController {
 		return null;
 	}
 
-	private static void process_connect_error(ComponentStruct tc) {
+	private static void process_connect_error(final ComponentStruct tc) {
 		if (!message_expected(tc, "CONNECT_ERROR")) {
 			return;
 		}
@@ -3754,12 +3754,12 @@ public class MainController {
 		}		
 	}
 
-	private static void remove_connection(PortConnection c) {
+	private static void remove_connection(final PortConnection c) {
 		components.get(c.headComp).conn_head_list.remove(c);
 		components.get(c.tailComp).conn_tail_list.remove(c);
 	}
 
-	private static void send_disconnect_to_server(PortConnection conn) {
+	private static void send_disconnect_to_server(final PortConnection conn) {
 		ComponentStruct comp = components.get(conn.headComp);
 		switch (comp.tc_state) {
 		case TC_IDLE:
@@ -3784,7 +3784,7 @@ public class MainController {
 	}
 
 
-	private static void process_connect_req(ComponentStruct tc) {
+	private static void process_connect_req(final ComponentStruct tc) {
 		if (!request_allowed(tc, "CONNECT_REQ")) return;
 		
 		Text_Buf text_buf = incoming_buf.get();
@@ -3860,7 +3860,7 @@ public class MainController {
 		}
 	}
 	
-	private static void add_requestor(RequestorStruct reqs, ComponentStruct tc) {
+	private static void add_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
 		switch(reqs.n_components) {
 		case 0:
 			reqs.n_components = 1;
@@ -3885,8 +3885,8 @@ public class MainController {
 		}
 	}
 
-	private static void send_connect_listen(ComponentStruct tc, String headPort, int tailComp,
-			String comp_name, String tailPort, transport_type_enum transport_type) {
+	private static void send_connect_listen(final ComponentStruct tc, final String headPort, final int tailComp,
+			final String comp_name, final String tailPort, final transport_type_enum transport_type) {
 		
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONNECT_LISTEN);
@@ -3899,8 +3899,8 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void send_connect(ComponentStruct tc, String headPort, int tailComp, String compName,
-			String tailPort, transport_type_enum transport_type, InetAddress address, byte[] local_port_number) {
+	private static void send_connect(final ComponentStruct tc, final String headPort, final int tailComp, final String compName,
+			final String tailPort, final transport_type_enum transport_type, final InetAddress address, final byte[] local_port_number) {
 
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONNECT);
@@ -3929,13 +3929,13 @@ public class MainController {
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void send_connect_ack(ComponentStruct tc) {
+	private static void send_connect_ack(final ComponentStruct tc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONNECT_ACK);
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static transport_type_enum choose_port_connection_transport(int sourceComponent, int destinationComponent) {
+	private static transport_type_enum choose_port_connection_transport(final int sourceComponent, final int destinationComponent) {
 		Host headLoc = components.get(sourceComponent).comp_location;
 		if (sourceComponent == destinationComponent && headLoc.transport_supported[transport_type_enum.TRANSPORT_LOCAL.ordinal()]) {
 			return transport_type_enum.TRANSPORT_LOCAL; 
@@ -4002,7 +4002,7 @@ public class MainController {
 		}
 	}
 	
-	private static void add_connection(PortConnection pc) {
+	private static void add_connection(final PortConnection pc) {
 		if (pc.headComp > pc.tailComp) {
 			int tmp_comp = pc.headComp;
 			pc.headComp = pc.tailComp;
@@ -4030,8 +4030,8 @@ public class MainController {
 		tailComp.conn_tail_list.add(pc);		
 	}
 
-	private static boolean valid_endpoint(int component_reference, boolean new_connection, ComponentStruct requestor, 
-			String operation) {
+	private static boolean valid_endpoint(final int component_reference, final boolean new_connection, final ComponentStruct requestor, 
+			final String operation) {
 		switch(component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			send_error(requestor.comp_location, MessageFormat.format("The {0} refers to the null component reference.", operation));
@@ -4137,7 +4137,7 @@ public class MainController {
 		
 	}
 
-	private static void process_ptc_created(Host hc) {
+	private static void process_ptc_created(final Host hc) {
 		switch(mc_state) {
 		case MC_EXECUTING_TESTCASE:
 		case MC_TERMINATING_TESTCASE:
@@ -4211,20 +4211,20 @@ public class MainController {
 		handle_tc_data(tc);
 	}
 	
-	private static void send_kill(ComponentStruct tc) {
+	private static void send_kill(final ComponentStruct tc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_KILL);
 		send_message(tc.comp_location, text_buf);
 	}
 
-	private static void send_create_ack(ComponentStruct create_requestor, int component_reference) {
+	private static void send_create_ack(final ComponentStruct create_requestor, final int component_reference) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_ACK);
 		text_buf.push_int(component_reference);
 		send_message(create_requestor.comp_location, text_buf);
 	}
 
-	public static boolean request_allowed(ComponentStruct from, String message_name) {
+	public static boolean request_allowed(final ComponentStruct from, final String message_name) {
 	  if (!message_expected(from, message_name)) return false;
 
 	  switch (from.tc_state) {
@@ -4251,7 +4251,7 @@ public class MainController {
 	  return false;
 	}
 
-	private static boolean message_expected(ComponentStruct from, String message_name) {
+	private static boolean message_expected(final ComponentStruct from, final String message_name) {
 		switch (mc_state) {
 		case MC_EXECUTING_TESTCASE:
 			switch (mtc.tc_state) {
@@ -4271,7 +4271,7 @@ public class MainController {
 		}
 	}
 
-	private static void close_connection(Host hc) {
+	private static void close_connection(final Host hc) {
 		try {
 			hc.socket.close();
 		} catch (IOException e) {
@@ -4339,7 +4339,7 @@ public class MainController {
 		mtc.local_verdict = VerdictTypeEnum.NONE;
 	}
 
-	private static void send_ptc_verdict(boolean continue_execution) {
+	private static void send_ptc_verdict(final boolean continue_execution) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_PTC_VERDICT);
 		int n_ptcs = 0;
@@ -4387,7 +4387,7 @@ public class MainController {
 		incoming_buf.get().cut_message();;
 	}
 
-	private static void process_log(Host tc) {
+	private static void process_log(final Host tc) {
 		Text_Buf text_buf = incoming_buf.get();
 		int seconds = text_buf.pull_int().get_int();
 		int microseconds = text_buf.pull_int().get_int();
@@ -4400,7 +4400,7 @@ public class MainController {
 		text_buf.cut_message();
 	}
 
-	private static void execute_testcase(Host hc, String moduleName, String testcaseName) {
+	private static void execute_testcase(final Host hc, final String moduleName, final String testcaseName) {
 		if (mc_state != mcStateEnum.MC_READY) {
 		    // TODO error 
 			return;
@@ -4410,7 +4410,7 @@ public class MainController {
 		mtc.tc_state = tcStateEnum.MTC_CONTROLPART;
 	}
 
-	private static void send_execute_testcase(Host hc, String moduleName, String testcaseName) {
+	private static void send_execute_testcase(final Host hc, final String moduleName, final String testcaseName) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXECUTE_TESTCASE);
 		text_buf.push_string(moduleName);
@@ -4418,7 +4418,7 @@ public class MainController {
 		send_message(hc, text_buf);
 	}
 
-	private static void execute_control(Host hc, String module_name) {
+	private static void execute_control(final Host hc, final String module_name) {
 		if (mc_state != mcStateEnum.MC_READY) {
 		    // TODO error
 		    return;
@@ -4428,14 +4428,14 @@ public class MainController {
 	    mtc.tc_state = tcStateEnum.MTC_CONTROLPART;
 	}
 	
-	private static void send_execute_control(Host hc, String module_name) {
+	private static void send_execute_control(final Host hc, final String module_name) {
 		Text_Buf text_buf = new Text_Buf();
 	    text_buf.push_int(MSG_EXECUTE_CONTROL);
 	    text_buf.push_string(module_name);
 	    send_message(hc, text_buf);
 	}
 
-	private static RequestorStruct init_requestors(ComponentStruct tc) {
+	private static RequestorStruct init_requestors(final ComponentStruct tc) {
 		RequestorStruct requestors = new RequestorStruct();
 		if (tc != null) {
 			requestors.n_components = 1;
@@ -4511,7 +4511,7 @@ public class MainController {
 		}
 	}
 
-	private static void send_exit_hc(Host hc) {
+	private static void send_exit_hc(final Host hc) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXIT_HC);
 		send_message(hc, text_buf);
