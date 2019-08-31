@@ -46,6 +46,12 @@ type record myrecordType
   integer field3 optional
 };
 
+type union myunionType
+{
+  integer field1,
+  charstring field2
+};
+
 const integer cg_integer := 5;
 const myrecordofType cg_recordof := {1};
 
@@ -1957,6 +1963,134 @@ function f_recordValueTests()
 
     {	vt_i := vt_i;	}
 	{	vt_i := {field1:=1, field2:="akarmi", field3:=omit}; }
+
+	{	vt_i := {}; }
+	{	vt_i := {1,"akarmi",3,4,5}; }
+	{	vt_i := (null, omit, '00'B, '00'H, '00'O, true, "akarmi", 5, 5.5, char(0,0,0,0)); }
+	{	vt_i := {field2:=1}; }
+	{	vt_i := {field4:=1}; }
+	{	vt_i := {field1:=1, field1:="akarmi"}; }
+	{	vt_i := {field1:=omit, field2:=omit}; }
+	{	vt_i := {field2:="akarmi", field1:=1}; }
+	{	vt_i := {1}; }
+	{	vt_i := {1,2,3}; }
+	{	vt_i := {-,-}; }
+	{	vt_i := {field1:='00'O, field2:='00'B}; }
+    {	vt_i := null; }
+    {	vt_i := xx4; }
+    {	vt_i := true;	}
+    {	vt_i := false;	}
+    {	vt_i := not false; }
+    {	vt_i := 5; }
+    {	vt_i := 5.5; }
+    {	vt_i := "akarmi"; }
+    {	vt_i := char(0,0,0,0); }
+    {	vt_i := 'aa'H; }
+    {	vt_i := '00'B; }
+    {	vt_i := 5 * 5; }
+    {	vt_i := 5 + 5; }
+    {	vt_i := 5 - 5; }
+    {	vt_i := 5 / 5; }
+    {	vt_i := 5 mod 5; }
+    {	vt_i := 5 rem 5; }
+    {	vt_i := true and true; }
+    {	vt_i := true or true; }
+    {	vt_i := not4b 'aa'H; }
+    {	vt_i := not4b '00'B; }
+    {	vt_i := '00'B and4b '00'B; }
+    {	vt_i := '00'H and4b '00'H; }
+    {	vt_i := '00'B or4b '00'B; }
+    {	vt_i := '00'H or4b '00'H; }
+    {	vt_i := '00'B xor4b '00'B; }
+    {	vt_i := '00'H xor4b '00'H; }
+    {	vt_i := '00'B << 1; }
+    {	vt_i := '00'H << 1; }
+    {	vt_i := '00'B >> 1; }
+    {	vt_i := '00'H >> 1; }
+    {	vt_i := '00'B <@ 1; }
+    {	vt_i := '00'H <@ 1; }
+    {	vt_i := '00'B @> 1; }
+    {	vt_i := '00'H @> 1; }
+    {	vt_i := '00'B & '00'B; }
+    {	vt_i := '00'H & '00'H; }
+    {	vt_i := "akarmi" & "akarmi2"; }
+    {	vt_i := 5 == 5; }
+    {	vt_i := 5 != 5; }
+    {	vt_i := 5 < 5; }
+    {	vt_i := 5 > 5; }
+    {	vt_i := 5 <= 5; }
+    {	vt_i := 5 >= 5; }
+    {	vt_i := bit2hex('00'B); }
+    {	vt_i := bit2int('00'B); }
+    {	vt_i := bit2oct('00'B); }
+    {	vt_i := bit2str('00'B); }
+    {	vt_i := char2int("5"); }
+    {	vt_i := char2oct("akarmi"); }
+    {	vt_i := float2int( 5.5); }
+    {	vt_i := float2str(5.5); }
+    {	vt_i := hex2int('FF'H); }
+    {	vt_i := hex2oct('FF00'H); }
+    {	vt_i := hex2str('FF00'H); }
+    {	vt_i := int2char(5); }
+    {	vt_i := int2float(5); }
+    {	vt_i := int2str(5); }
+    {	vt_i := int2unichar(5); }
+    {	vt_i := oct2bit('00FF'O); }
+    {	vt_i := oct2char('0F'O); }
+    {	vt_i := oct2hex('0F'O); }
+    {	vt_i := oct2int('0F'O); }
+    {	vt_i := oct2str('0F'O); }
+    {	vt_i := str2bit("0101"); }
+    {	vt_i := str2float("5.5"); }
+    {	vt_i := str2hex("0101"); }
+    {	vt_i := str2int("5"); }
+    {	vt_i := str2oct("0101"); }
+    {	vt_i := unichar2int(char(0,0,0,0)); }
+    {	vt_i := unichar2char(char(0,0,0,0)); }
+    {	vt_i := int2bit(1,3); }
+    {	vt_i := int2hex(1,3); }
+    {	vt_i := int2oct(1,3); }
+    {	vt_i := rnd(); }
+    {	vt_i := rnd(5.5); }
+    {	vt_i := isbound(5.5); }
+    {	vt_i := isvalue(5.5); }
+    {	vt_i := lengthof("akarmi"); }
+    {	vt_i := sizeof(cg_recordof); }
+    {	vt_i := regexp("akarmi","akarmi", 0); }
+    {	vt_i := match(5,5); }
+    {	vt_i := mtc; }
+    {	vt_i := system; }
+    {	vt_i := self; }
+    {	vt_i := any component . running; }
+    {	vt_i := all component . running; }
+    {	vt_i := any component . alive; }
+    {	vt_i := all component . alive; }
+    {	vt_i := any timer . running; }
+    {	vt_i := f_comp_return().running; }
+    {	vt_i := f_comp_return().alive; }
+    {	vt_i := TL_t.read; }
+    {	vt_i := mycomponent.create; }
+    {	vt_i := activate(temp_altstep()); }
+    {	vt_i := activate(derefers(temp_altstep_pointer)()); }
+    {	vt_i := execute(temp_altstep(), 5); }
+    {	vt_i := execute(derefers(temp_altstep_pointer)(),5); }
+    {	vt_i := refers(f_functiontypeValueTest); }
+	{	vt_i := refers(ef_c_ext_function); }
+	{	vt_i := refers(as_c_altstep); }
+	{	vt_i := refers(tc_c_testcase); }
+	{	vt_i := omit length(2..5); }
+}
+
+function f_unionValueTests()
+{
+    timer TL_t := 5.0;
+    var template myunionType vt_i := omit;
+
+    {	vt_i := vt_i;	}
+	{	vt_i := {field1:=1}; }
+	{	vt_i := {field2:="akarmi"}; }
+
+	{	vt_i.field1 := omit};
 
 	{	vt_i := {}; }
 	{	vt_i := {1,"akarmi",3,4,5}; }

@@ -5746,13 +5746,13 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4544);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4674);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate numeric value 1 for enumeration `item2'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was declared here again",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 41;
+		lineNum += 47;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `guard2' in module `template_assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `timerName' in module `template_assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 18;
@@ -6361,6 +6361,57 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@template_assignment_tests.myrecordType'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Length restriction cannot be used in template of type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 12;
+		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@template_assignment_tests.myunionType'", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 9; i++) {
+			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@template_assignment_tests.myunionType'", lineNum, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existent field `field4' in union template for type `@template_assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context", lineNum, IMarker.SEVERITY_ERROR));
+		}
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		for (i = 0; i < 3; i++) {
+			markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@template_assignment_tests.myunionType'", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@template_assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
+		for (i = 0; i < 72; i++) {
+			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@template_assignment_tests.myunionType'", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Incompatible value: `@template_assignment_tests.myunionType' was expected", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		for (i = 0; i < 4; i++) {
+			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@template_assignment_tests.myunionType'", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		for (i = 0; i < 14; i++) {
+			markersToCheck.add(new MarkerToCheck("Incompatible value: `@template_assignment_tests.myunionType' was expected", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep' in module `template_assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
+		for (i = 0; i < 4; i++) {
+			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@template_assignment_tests.myunionType'", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("Length restriction cannot be used in template of type `@template_assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 13;
 		markersToCheck.add(new MarkerToCheck("Too few elements in the array template: 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in the array template: 3 was expected instead of 4",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7437,6 +7488,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
+
 	private ArrayList<MarkerToCheck> template_formalparlist_tests_ttcn_initializer() {
 		//template_formalparlist_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(22);

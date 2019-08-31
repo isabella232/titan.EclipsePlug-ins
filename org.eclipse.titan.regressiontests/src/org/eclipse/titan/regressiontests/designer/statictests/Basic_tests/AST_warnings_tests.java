@@ -1311,7 +1311,7 @@ public class AST_warnings_tests {
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(30);
-		int lineNum = 147;
+		int lineNum = 153;
 		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
@@ -1336,7 +1336,7 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("`*'' in superset has no effect during matching",  ++lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 251;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@template_assignment_tests.myrecordType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 115;
+		lineNum += 243;
 		markersToCheck.add(new MarkerToCheck("Length restriction is useless for an array template",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 2725;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@ASNTypes.ASNSequenceType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
