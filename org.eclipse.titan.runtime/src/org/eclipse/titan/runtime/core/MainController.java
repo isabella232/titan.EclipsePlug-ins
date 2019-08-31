@@ -701,7 +701,7 @@ public class MainController {
 	}
 
 	private static void process_configure_nak(final Host hc) {
-		incoming_buf.get().cut_message();;
+		incoming_buf.get().cut_message();
 		switch(hc.hc_state) {
 		case HC_CONFIGURING:
 		case HC_CONFIGURING_OVERLOADED:
@@ -4404,7 +4404,7 @@ public class MainController {
 		any_component_killed_requested.set(false);
 		all_component_killed_requested.set(false);
 		text_buf.cut_message();
-		incoming_buf.get().cut_message();;
+		incoming_buf.get().cut_message();
 	}
 
 	private static void process_log(final Host tc) {
