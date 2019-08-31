@@ -431,19 +431,9 @@ public final class Assignment_Statement extends Statement {
 		}
 
 		template.setMyGovernor(type);
-
 		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
-
-		boolean allowOmit = true;
-		IType pt = type.getParentType();
-		if ( pt!= null) {
-			Type_type tt = pt.getTypetype();
-			if (Type_type.TYPE_TTCN3_CHOICE == tt ||  Type_type.TYPE_ASN1_CHOICE == tt) {
-				allowOmit = false;
-			}
-		}
-
-		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, true, allowOmit, true, true, false, assignment);
+		final boolean omitAllowed = type.getParentType() == null || type.fieldIsOptional(reference.getSubreferences());
+		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, true, omitAllowed, true, true, false, assignment);
 		checkTemplateRestriction(timestamp);
 
 		if (reference.refersToStringElement()) {
