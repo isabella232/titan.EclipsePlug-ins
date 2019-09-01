@@ -1812,7 +1812,7 @@ public final class RecordOfGenerator {
 		//source.append("\t\t\t\t\t} else {\n");
 		//source.append( MessageFormat.format( "\t\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t\t\tvalue_elements.add( temp );\n");
+		source.append("\t\t\t\t\tvalue_elements.add( temp );\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase OMIT_VALUE:\n");
@@ -2879,7 +2879,7 @@ public final class RecordOfGenerator {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic int n_list_elem() {\n");
 		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
-		aSb.append(MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName ) );
+		aSb.append(MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn list_value.size();\n");
 		aSb.append("\t\t}\n");
