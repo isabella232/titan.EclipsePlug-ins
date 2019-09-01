@@ -9,10 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -223,15 +219,8 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 	}
 
 	@Override
-	/** {@inheritDoc} */
-	public void set_param(Module_Parameter param) {
+	public void set_param(final Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "set value");
-
-		// Originally RT2
-		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
-			param = param.get_referenced_param().get();
-		}
-
 		switch (param.get_type()) {
 		case MP_Value_List:
 			if (param.get_size() > 2) {
@@ -277,22 +266,6 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 			param.type_error("set value", "CHARACTER STRING.identification.context-negotiation");
 			break;
 		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public Module_Parameter get_param(final Module_Param_Name param_name) {
-		if (!is_bound()) {
-			return new Module_Param_Unbound();
-		}
-		Module_Parameter mp_field_presentation_context_id = presentation__context__id.get_param(param_name);
-		mp_field_presentation_context_id.set_id(new Module_Param_FieldName("presentation_context_id"));
-		Module_Parameter mp_field_transfer_syntax = transfer__syntax.get_param(param_name);
-		mp_field_transfer_syntax.set_id(new Module_Param_FieldName("transfer_syntax"));
-		Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
-		mp.add_elem(mp_field_presentation_context_id);
-		mp.add_elem(mp_field_transfer_syntax);
-		return mp;
 	}
 
 	@Override

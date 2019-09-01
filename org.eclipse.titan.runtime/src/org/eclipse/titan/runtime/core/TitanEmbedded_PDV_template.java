@@ -188,7 +188,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		}
 		if (other_value.get_field_data__value__descriptor().is_bound()) {
 			if (other_value.get_field_data__value__descriptor().ispresent()) {
-				get_field_data__value__descriptor().operator_assign(other_value.get_field_data__value__descriptor().get());
+				get_field_data__value__descriptor().operator_assign(other_value.get_field_data__value__descriptor().constGet());
 			} else {
 				get_field_data__value__descriptor().operator_assign(template_sel.OMIT_VALUE);
 			}
@@ -449,7 +449,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			if(!other_value.get_field_data__value__descriptor().is_bound()) {
 				return false;
 			}
-			if((other_value.get_field_data__value__descriptor().ispresent() ? !data__value__descriptor.match(other_value.get_field_data__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
+			if((other_value.get_field_data__value__descriptor().ispresent() ? !data__value__descriptor.match(other_value.get_field_data__value__descriptor().constGet(), legacy) : !data__value__descriptor.match_omit(legacy))) {
 				return false;
 			}
 			if(!other_value.get_field_data__value().is_bound()) {
@@ -649,9 +649,9 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 					if (match_value.constGet_field_data__value__descriptor().ispresent()) {
-						if( !data__value__descriptor.match(match_value.constGet_field_data__value__descriptor().get(), legacy) ) {
+						if( !data__value__descriptor.match(match_value.constGet_field_data__value__descriptor().constGet(), legacy) ) {
 							TTCN_Logger.log_logmatch_info(".data-value-descriptor");
-							data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor().get(), legacy);
+							data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor().constGet(), legacy);
 							TTCN_Logger.set_logmatch_buffer_len(previous_size);
 						}
 					} else {
@@ -683,7 +683,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			identification.log_match(match_value.constGet_field_identification(), legacy);
 			TTCN_Logger.log_event_str(", data-value-descriptor := ");
 			if (match_value.constGet_field_data__value__descriptor().ispresent()) {
-				data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor(), legacy);
+				data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor().constGet(), legacy);
 			} else {
 				TTCN_Logger.log_event_str("omit with ");
 				data__value__descriptor.log();

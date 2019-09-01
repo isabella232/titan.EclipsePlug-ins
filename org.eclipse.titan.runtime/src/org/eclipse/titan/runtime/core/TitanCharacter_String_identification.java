@@ -456,26 +456,26 @@ public class TitanCharacter_String_identification extends Base_Type {
 			if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
 				param.error("Unexpected array index in module parameter, expected a valid field name for union type `CHARACTER STRING.identification'");
 			}
-			if ("syntaxes".equals(param_field)) {
+			if("syntaxes".equals(param_field)) {
 				get_field_syntaxes().set_param(param);
 				return;
-			} else if ("syntax".equals(param_field)) {
+			} else if("syntax".equals(param_field)) {
 				get_field_syntax().set_param(param);
 				return;
-			} else if ("presentation-context-id".equals(param_field)) {
+			} else if("presentation-context-id".equals(param_field)) {
 				get_field_presentation__context__id().set_param(param);
 				return;
-			} else if ("context-negotiation".equals(param_field)) {
+			} else if("context-negotiation".equals(param_field)) {
 				get_field_context__negotiation().set_param(param);
 				return;
-			} else if ("transfer-syntax".equals(param_field)) {
+			} else if("transfer-syntax".equals(param_field)) {
 				get_field_transfer__syntax().set_param(param);
 				return;
-			} else if ("fixed".equals(param_field)) {
+			} else if("fixed".equals(param_field)) {
 				get_field_fixed().set_param(param);
 				return;
 			} else {
-				param.error("Field `%%s' not found in union type `CHARACTER STRING.identification'", param_field);
+				param.error(MessageFormat.format("Field `{0}' not found in union template type `CHARACTER STRING.identification'", param_field));
 			}
 		}
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), "union value");
@@ -561,7 +561,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 				throw new TtcnError(MessageFormat.format("Field `{0}' not found in union type `CHARACTER STRING.identification'", param_field));
 			}
 		}
-		Module_Parameter mp_field = null;
+		Module_Parameter mp_field;
 		switch(union_selection) {
 		case ALT_syntaxes:
 			mp_field = get_field_syntaxes().get_param(param_name);
@@ -588,7 +588,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			mp_field.set_id(new Module_Param_FieldName("fixed"));
 			break;
 		default:
-			break;
+			mp_field = null;
 		}
 		final Module_Param_Assignment_List mp = new Module_Param_Assignment_List();
 		mp.add_elem(mp_field);

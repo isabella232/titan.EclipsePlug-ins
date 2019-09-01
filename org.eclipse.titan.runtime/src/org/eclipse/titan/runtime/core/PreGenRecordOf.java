@@ -2139,6 +2139,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -6486,6 +6487,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -8613,6 +8615,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -10740,6 +10743,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -12867,6 +12871,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -14994,6 +14999,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -17121,6 +17127,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -19248,6 +19255,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -21375,6 +21383,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -23502,6 +23511,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -36729,6 +36739,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -52176,6 +52187,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -54303,6 +54315,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -63090,6 +63103,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -65217,6 +65231,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {
@@ -69564,6 +69579,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			case MP_Value_List: {
+				remove_all_permutations();
 				set_size(param.get_size());
 				int current_index = 0;
 				for (int i = 0; i < param.get_size(); i++) {

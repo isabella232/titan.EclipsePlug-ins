@@ -11,15 +11,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
-import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 
 /**
@@ -198,7 +189,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 		if (other_value.get_field_data__value__descriptor().is_bound()) {
 			if (other_value.get_field_data__value__descriptor().ispresent()) {
-				get_field_data__value__descriptor().operator_assign(other_value.get_field_data__value__descriptor().get());
+				get_field_data__value__descriptor().operator_assign(other_value.get_field_data__value__descriptor().constGet());
 			} else {
 				get_field_data__value__descriptor().operator_assign(template_sel.OMIT_VALUE);
 			}
@@ -459,7 +450,7 @@ public class TitanCharacter_String_template extends Base_Template {
 			if(!other_value.get_field_data__value__descriptor().is_bound()) {
 				return false;
 			}
-			if((other_value.get_field_data__value__descriptor().ispresent() ? !data__value__descriptor.match(other_value.get_field_data__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
+			if((other_value.get_field_data__value__descriptor().ispresent() ? !data__value__descriptor.match(other_value.get_field_data__value__descriptor().constGet(), legacy) : !data__value__descriptor.match_omit(legacy))) {
 				return false;
 			}
 			if(!other_value.get_field_string__value().is_bound()) {
@@ -659,9 +650,9 @@ public class TitanCharacter_String_template extends Base_Template {
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 					if (match_value.constGet_field_data__value__descriptor().ispresent()) {
-						if( !data__value__descriptor.match(match_value.constGet_field_data__value__descriptor().get(), legacy) ) {
+						if( !data__value__descriptor.match(match_value.constGet_field_data__value__descriptor().constGet(), legacy) ) {
 							TTCN_Logger.log_logmatch_info(".data-value-descriptor");
-							data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor().get(), legacy);
+							data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor().constGet(), legacy);
 							TTCN_Logger.set_logmatch_buffer_len(previous_size);
 						}
 					} else {
@@ -693,7 +684,7 @@ public class TitanCharacter_String_template extends Base_Template {
 			identification.log_match(match_value.constGet_field_identification(), legacy);
 			TTCN_Logger.log_event_str(", data-value-descriptor := ");
 			if (match_value.constGet_field_data__value__descriptor().ispresent()) {
-				data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor(), legacy);
+				data__value__descriptor.log_match(match_value.constGet_field_data__value__descriptor().constGet(), legacy);
 			} else {
 				TTCN_Logger.log_event_str("omit with ");
 				data__value__descriptor.log();
@@ -779,15 +770,8 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	@Override
-	/** {@inheritDoc} */
-	public void set_param(Module_Parameter param) {
+	public void set_param(final Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), "record template");
-
-		// Originally RT2
-		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
-			param = param.get_referenced_param().get();
-		}
-
 		switch (param.get_type()) {
 		case MP_Omit:
 			operator_assign(template_sel.OMIT_VALUE);
@@ -864,57 +848,6 @@ public class TitanCharacter_String_template extends Base_Template {
 			break;
 		}
 		is_ifPresent = param.get_ifpresent();
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public Module_Parameter get_param(final Module_Param_Name param_name) {
-		Module_Parameter mp = null;
-		switch (template_selection) {
-		case UNINITIALIZED_TEMPLATE:
-			mp = new Module_Param_Unbound();
-			break;
-		case OMIT_VALUE:
-			mp = new Module_Param_Omit();
-			break;
-		case ANY_VALUE:
-			mp = new Module_Param_Any();
-			break;
-		case ANY_OR_OMIT:
-			mp = new Module_Param_AnyOrNone();
-			break;
-		case SPECIFIC_VALUE: {
-			Module_Parameter mp_field_identification = identification.get_param(param_name);
-			mp_field_identification.set_id(new Module_Param_FieldName("identification"));
-			Module_Parameter mp_field_data_value_descriptor = data__value__descriptor.get_param(param_name);
-			mp_field_data_value_descriptor.set_id(new Module_Param_FieldName("data_value_descriptor"));
-			Module_Parameter mp_field_string_value = string__value.get_param(param_name);
-			mp_field_string_value.set_id(new Module_Param_FieldName("string_value"));
-			mp = new Module_Param_Assignment_List();
-			mp.add_elem(mp_field_identification);
-			mp.add_elem(mp_field_data_value_descriptor);
-			mp.add_elem(mp_field_string_value);
-			break;
-		}
-		case VALUE_LIST:
-		case COMPLEMENTED_LIST: {
-			if (template_selection == template_sel.VALUE_LIST) {
-				mp = new Module_Param_List_Template();
-			} else {
-				mp = new Module_Param_ComplementList_Template();
-			}
-			for (int i = 0; i < list_value.size(); ++i) {
-				mp.add_elem(list_value.get(i).get_param(param_name));
-			}
-			break;
-		}
-		default:
-			throw new TtcnError("Referencing an uninitialized/unsupported template of type CHARACTER STRING.");
-		}
-		if (is_ifPresent) {
-			mp.set_ifpresent();
-		}
-		return mp;
 	}
 
 	@Override
