@@ -169,13 +169,13 @@ public class MainController {
 	private static final int MSG_CONFIGURE_NAK = 201;
 
 	private enum mcStateEnum{ MC_INACTIVE, MC_LISTENING, MC_LISTENING_CONFIGURED, MC_HC_CONNECTED,
-	  MC_CONFIGURING, MC_ACTIVE, MC_SHUTDOWN, MC_CREATING_MTC, MC_READY,
-	  MC_TERMINATING_MTC, MC_EXECUTING_CONTROL, MC_EXECUTING_TESTCASE,
-	  MC_TERMINATING_TESTCASE, MC_PAUSED, MC_RECONFIGURING
+		MC_CONFIGURING, MC_ACTIVE, MC_SHUTDOWN, MC_CREATING_MTC, MC_READY,
+		MC_TERMINATING_MTC, MC_EXECUTING_CONTROL, MC_EXECUTING_TESTCASE,
+		MC_TERMINATING_TESTCASE, MC_PAUSED, MC_RECONFIGURING
 	}
 
 	private enum connStateEnum { CONN_LISTENING, CONN_CONNECTING, CONN_CONNECTED,
-		  CONN_DISCONNECTING, CONN_MAPPING, CONN_MAPPED, CONN_UNMAPPING
+		CONN_DISCONNECTING, CONN_MAPPING, CONN_MAPPED, CONN_UNMAPPING
 	}
 
 	private enum hcStateEnum { HC_IDLE, HC_CONFIGURING, HC_ACTIVE, HC_OVERLOADED, HC_CONFIGURING_OVERLOADED,
@@ -295,12 +295,12 @@ public class MainController {
 	}
 
 	private enum tcStateEnum { TC_INITIAL, TC_IDLE, TC_CREATE, TC_START, TC_STOP, TC_KILL,
-		  TC_CONNECT, TC_DISCONNECT, TC_MAP, TC_UNMAP, TC_STOPPING, TC_EXITING,
-		  TC_EXITED,
-		  MTC_CONTROLPART, MTC_TESTCASE, MTC_ALL_COMPONENT_STOP,
-		  MTC_ALL_COMPONENT_KILL, MTC_TERMINATING_TESTCASE, MTC_PAUSED,
-		  PTC_FUNCTION, PTC_STARTING, PTC_STOPPED, PTC_KILLING, PTC_STOPPING_KILLING,
-		  PTC_STALE, TC_SYSTEM, MTC_CONFIGURING
+		TC_CONNECT, TC_DISCONNECT, TC_MAP, TC_UNMAP, TC_STOPPING, TC_EXITING,
+		TC_EXITED,
+		MTC_CONTROLPART, MTC_TESTCASE, MTC_ALL_COMPONENT_STOP,
+		MTC_ALL_COMPONENT_KILL, MTC_TERMINATING_TESTCASE, MTC_PAUSED,
+		PTC_FUNCTION, PTC_STARTING, PTC_STOPPED, PTC_KILLING, PTC_STOPPING_KILLING,
+		PTC_STALE, TC_SYSTEM, MTC_CONFIGURING
 	};
 
 
@@ -446,11 +446,11 @@ public class MainController {
 	private static int batchMode() {
 		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
 		System.out.println(String.format("Entering batch mode. Waiting for %d HC%s to connect...", n_hosts.get(),
-				 n_hosts.get().compareTo(BigInteger.ONE) > 0 ? "s" : ""));
+				n_hosts.get().compareTo(BigInteger.ONE) > 0 ? "s" : ""));
 
 		if (executeItems.size() <= 0) {
-		    // TODO return
-		    return -1;
+			// TODO return
+			return -1;
 		}
 		mc_state = mcStateEnum.MC_LISTENING;
 		try {
@@ -494,7 +494,7 @@ public class MainController {
 			break;
 		default:
 			// TODO error
-		    return;
+			return;
 		}
 
 		System.out.println("Creating MTC on host "+host.hostname+".");
@@ -567,25 +567,25 @@ public class MainController {
 			final int msg_type = local_incoming_buf.pull_int().get_int();
 			boolean process_more_messages = false;
 			switch (msg_type) {
-	        case MSG_ERROR:
-	        	process_error(mtc);
-	        	process_more_messages = true;
-	        	break;
-	        case MSG_LOG:
-	        	process_log(mtc);
-	        	process_more_messages = true;
-	        	break;
-	        case MSG_VERSION:
-	        	process_version(mtc);
-	        	break;
-	        case MSG_MTC_CREATED:
-	        	process_mtc_created(mtc);
-	        	break;
-	        case MSG_PTC_CREATED:
-	        	process_ptc_created(mtc);
-	        	break;
-	        default:
-	        	// TODO error
+			case MSG_ERROR:
+				process_error(mtc);
+				process_more_messages = true;
+				break;
+			case MSG_LOG:
+				process_log(mtc);
+				process_more_messages = true;
+				break;
+			case MSG_VERSION:
+				process_version(mtc);
+				break;
+			case MSG_MTC_CREATED:
+				process_mtc_created(mtc);
+				break;
+			case MSG_PTC_CREATED:
+				process_ptc_created(mtc);
+				break;
+			default:
+				// TODO error
 			}
 			if (process_more_messages) {
 				local_incoming_buf.cut_message();
@@ -643,15 +643,15 @@ public class MainController {
 	public static void printWelcome() {
 		System.out.printf("\n"+
 				"*************************************************************************\n"+
-			    "* TTCN-3 Test Executor - Main Controller 2                              *\n"+
-			    "* Version: %-40s                     *\n"+
-			    "* Copyright (c) 2000-2019 Ericsson Telecom AB                           *\n"+
-			    "* All rights reserved. This program and the accompanying materials      *\n"+
-			    "* are made available under the terms of the Eclipse Public License v2.0 *\n"+
-			    "* which accompanies this distribution, and is available at              *\n"+
-			    "* https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html            *\n"+
-			    "*************************************************************************\n"+
-			    "\n", TTCN_Runtime.PRODUCT_NUMBER);
+				"* TTCN-3 Test Executor - Main Controller 2                              *\n"+
+				"* Version: %-40s                     *\n"+
+				"* Copyright (c) 2000-2019 Ericsson Telecom AB                           *\n"+
+				"* All rights reserved. This program and the accompanying materials      *\n"+
+				"* are made available under the terms of the Eclipse Public License v2.0 *\n"+
+				"* which accompanies this distribution, and is available at              *\n"+
+				"* https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html            *\n"+
+				"*************************************************************************\n"+
+				"\n", TTCN_Runtime.PRODUCT_NUMBER);
 	}
 
 
@@ -674,7 +674,7 @@ public class MainController {
 				break;
 			case MSG_CREATE_NAK:
 				// TODO
-		        break;
+				break;
 			case MSG_LOG:
 				process_log(hc);
 				break;
@@ -683,7 +683,7 @@ public class MainController {
 				break;
 			case MSG_DEBUG_RETURN_VALUE:
 				// TODO
-		        break;
+				break;
 			default:
 				// TODO error
 				error_flag = true;
@@ -722,15 +722,15 @@ public class MainController {
 
 	private static void process_hc_ready(final Host hc) {
 		switch(hc.hc_state) {
-			case HC_OVERLOADED:
-				hc.hc_state = hcStateEnum.HC_ACTIVE;
-		    break;
-			case HC_CONFIGURING_OVERLOADED:
-			  hc.hc_state = hcStateEnum.HC_CONFIGURING;
-		    break;
-			default:
-				send_error(hc, "Unexpected message HC_READY was received.");
-				return;
+		case HC_OVERLOADED:
+			hc.hc_state = hcStateEnum.HC_ACTIVE;
+			break;
+		case HC_CONFIGURING_OVERLOADED:
+			hc.hc_state = hcStateEnum.HC_CONFIGURING;
+			break;
+		default:
+			send_error(hc, "Unexpected message HC_READY was received.");
+			return;
 		}
 		System.out.println("Host "+hc.hostname+" is no more overloaded.");
 		incoming_buf.get().cut_message();
@@ -871,13 +871,13 @@ public class MainController {
 			break;
 		case HC_CONFIGURING_OVERLOADED:
 			hc.hc_state = hcStateEnum.HC_OVERLOADED;
-		    break;
+			break;
 		default:
 			send_error(hc, "Unexpected message CONFIGURE_ACK was received.");
 		}
 
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
-		    check_all_hc_configured();
+			check_all_hc_configured();
 		}
 		else {
 			System.out.println("Host "+hc.hostname+" was configured successfully.");
@@ -888,19 +888,20 @@ public class MainController {
 	private static void check_all_hc_configured() {
 		final boolean reconf = (mc_state == mcStateEnum.MC_RECONFIGURING);
 		if (is_hc_in_state(hcStateEnum.HC_CONFIGURING) ||
-			      is_hc_in_state(hcStateEnum.HC_CONFIGURING_OVERLOADED)) {
+				is_hc_in_state(hcStateEnum.HC_CONFIGURING_OVERLOADED)) {
 			return;
 		}
-	    if (is_hc_in_state(hcStateEnum.HC_IDLE)) {
-	    	mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_HC_CONNECTED;
-	    	// TODO error
-	    }   else if (is_hc_in_state(hcStateEnum.HC_ACTIVE) || is_hc_in_state(hcStateEnum.HC_OVERLOADED)) {
-	    	System.out.println("Configuration file was processed on all HCs.");
-	    	mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_ACTIVE;
-	    } else {
-	    	mc_state = mcStateEnum.MC_LISTENING;
-	    	//TODO error
-	    }
+
+		if (is_hc_in_state(hcStateEnum.HC_IDLE)) {
+			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_HC_CONNECTED;
+			// TODO error
+		}   else if (is_hc_in_state(hcStateEnum.HC_ACTIVE) || is_hc_in_state(hcStateEnum.HC_OVERLOADED)) {
+			System.out.println("Configuration file was processed on all HCs.");
+			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_ACTIVE;
+		} else {
+			mc_state = mcStateEnum.MC_LISTENING;
+			//TODO error
+		}
 
 	}
 
@@ -967,7 +968,7 @@ public class MainController {
 		hc.system_version = text_buf.pull_string();
 
 		for (int i = 0; i < transport_type_enum.TRANSPORT_NUM.ordinal(); i++) {
-		    hc.transport_supported[i] = false;
+			hc.transport_supported[i] = false;
 		}
 
 		final int n_supported_transports = text_buf.pull_int().get_int();
@@ -1012,13 +1013,13 @@ public class MainController {
 		case MC_HC_CONNECTED:
 		case MC_ACTIVE:
 			mc_state = mcStateEnum.MC_CONFIGURING;
-		    break;
+			break;
 		case MC_LISTENING:
 		case MC_LISTENING_CONFIGURED:
 			mc_state = mcStateEnum.MC_LISTENING_CONFIGURED;
-		    break;
+			break;
 		case MC_RECONFIGURING:
-		    break;
+			break;
 		default:
 			//TODO error
 			return;
@@ -1070,18 +1071,18 @@ public class MainController {
 		case HC_DOWN:
 			break;
 		case HC_OVERLOADED:
-		    next_state =hcStateEnum.HC_CONFIGURING_OVERLOADED;
-		    // no break
+			next_state =hcStateEnum.HC_CONFIGURING_OVERLOADED;
+			// no break
 		default:
 			host.hc_state = next_state;
 			if (should_notify) {
 				System.out.println("Downloading configuration file to HC on host "+host.hostname+".");
 			}
-		    send_configure(host);
+			send_configure(host);
 
-		    if (mc_state != mcStateEnum.MC_RECONFIGURING) {
-		    	// TODO send debug setup
-		    }
+			if (mc_state != mcStateEnum.MC_RECONFIGURING) {
+				// TODO send debug setup
+			}
 		}
 
 	}
@@ -1177,125 +1178,125 @@ public class MainController {
 			final int msg_end = local_incoming_buf.get_pos() + msg_len;
 			final int msg_type = local_incoming_buf.pull_int().get_int();
 			switch (msg_type) {
-	        case MSG_ERROR:
-	        	process_error(tc);
-	        	break;
-	        case MSG_LOG:
-	        	process_log(tc.comp_location);
-	        	break;
-	        case MSG_CREATE_REQ:
-	        	process_create_req(tc);
-	        	break;
-	        case MSG_START_REQ:
-	        	process_start_req(tc);
-	        	break;
-	        case MSG_STOP_REQ:
-	        	process_stop_req(tc);
-	        	break;
-	        case MSG_KILL_REQ:
-	        	process_kill_req(tc);
-	        	break;
-	        case MSG_IS_RUNNING:
-	        	process_is_running(tc);
-	        	break;
-	        case MSG_IS_ALIVE:
-	        	process_is_alive(tc);
-	        	break;
-	        case MSG_DONE_REQ:
-	        	process_done_req(tc);
-	        	break;
-	        case MSG_KILLED_REQ:
-	        	process_killed_req(tc);
-	        	break;
-	        case MSG_CANCEL_DONE_ACK:
-	        	process_cancel_done_ack(tc);
-	        	break;
-	        case MSG_CONNECT_REQ:
-	        	process_connect_req(tc);
-	        	break;
-	        case MSG_CONNECT_LISTEN_ACK:
-	        	process_connect_listen_ack(tc, msg_end);
-	        	break;
-	        case MSG_CONNECTED:
-	        	process_connected(tc);
-	        	break;
-	        case MSG_CONNECT_ERROR:
-	        	process_connect_error(tc);
-	        	break;
-	        case MSG_DISCONNECT_REQ:
-	        	process_disconnect_req(tc);
-	        	break;
-	        case MSG_DISCONNECTED:
-	        	process_disconnected(tc);
-	        	break;
-	        case MSG_MAP_REQ:
-	        	process_map_req(tc);
-	        	break;
-	        case MSG_MAPPED:
-	        	process_mapped(tc);
-	        	break;
-	        case MSG_UNMAP_REQ:
-	        	process_unmap_req(tc);
-        		break;
-	        case MSG_UNMAPPED:
-	        	process_unmapped(tc);
-	        	break;
-	        case MSG_DEBUG_RETURN_VALUE:
-	        	// TODO
-	        	break;
-	        case MSG_DEBUG_HALT_REQ:
-	        	// TODO
-	        	break;
-	        case MSG_DEBUG_CONTINUE_REQ:
-	        	// TODO
-	        	break;
-	        case MSG_DEBUG_BATCH:
-	        	// TODO
-	        	break;
-	        default:
-	        	if (tc.equals(mtc)) {
-	        		// these messages can be received only from the MTC
-	        		switch (msg_type) {
-	        		case MSG_TESTCASE_STARTED:
-	        			process_testcase_started();
-	        			break;
-	        		case MSG_TESTCASE_FINISHED:
-	        			process_testcase_finished();
-	        			break;
-	        		case MSG_MTC_READY:
-	        			process_mtc_ready();
-	        			break;
-	        		case MSG_CONFIGURE_ACK:
-	        			process_configure_ack_mtc();
-	        			break;
-	        		case MSG_CONFIGURE_NAK:
-	        			process_configure_nak_mtc();
-	        			break;
-	        		default:
-	        			// TODO error
-	        			close_connection = true;
-	        		}
-	          } else {
-	        	  // these messages can be received only from PTCs
-	        	  switch (msg_type) {
-	        	  case MSG_STOPPED:
-	        		  process_stopped(tc, msg_end);
-	        		  break;
-	        	  case MSG_STOPPED_KILLED:
-	        		  process_stopped_killed(tc, msg_end);
-	        		  break;
-	        	  case MSG_KILLED:
-	        		  process_killed(tc);
-	        		  break;
-	        	  default:
-	        		  System.out.println(MessageFormat.format("Invalid message type ({}) was received from PTC {1} "
-	        		  		+ "at {2} [{3}].", msg_type, tc.comp_ref, tc.comp_location.hostname,
-	        				  tc.comp_location.address.toString()));
-	        		  close_connection = true;
-	        		  // TODO
-	        	  }
-	          	}
-	        }
+			case MSG_ERROR:
+				process_error(tc);
+				break;
+			case MSG_LOG:
+				process_log(tc.comp_location);
+				break;
+			case MSG_CREATE_REQ:
+				process_create_req(tc);
+				break;
+			case MSG_START_REQ:
+				process_start_req(tc);
+				break;
+			case MSG_STOP_REQ:
+				process_stop_req(tc);
+				break;
+			case MSG_KILL_REQ:
+				process_kill_req(tc);
+				break;
+			case MSG_IS_RUNNING:
+				process_is_running(tc);
+				break;
+			case MSG_IS_ALIVE:
+				process_is_alive(tc);
+				break;
+			case MSG_DONE_REQ:
+				process_done_req(tc);
+				break;
+			case MSG_KILLED_REQ:
+				process_killed_req(tc);
+				break;
+			case MSG_CANCEL_DONE_ACK:
+				process_cancel_done_ack(tc);
+				break;
+			case MSG_CONNECT_REQ:
+				process_connect_req(tc);
+				break;
+			case MSG_CONNECT_LISTEN_ACK:
+				process_connect_listen_ack(tc, msg_end);
+				break;
+			case MSG_CONNECTED:
+				process_connected(tc);
+				break;
+			case MSG_CONNECT_ERROR:
+				process_connect_error(tc);
+				break;
+			case MSG_DISCONNECT_REQ:
+				process_disconnect_req(tc);
+				break;
+			case MSG_DISCONNECTED:
+				process_disconnected(tc);
+				break;
+			case MSG_MAP_REQ:
+				process_map_req(tc);
+				break;
+			case MSG_MAPPED:
+				process_mapped(tc);
+				break;
+			case MSG_UNMAP_REQ:
+				process_unmap_req(tc);
+				break;
+			case MSG_UNMAPPED:
+				process_unmapped(tc);
+				break;
+			case MSG_DEBUG_RETURN_VALUE:
+				// TODO
+				break;
+			case MSG_DEBUG_HALT_REQ:
+				// TODO
+				break;
+			case MSG_DEBUG_CONTINUE_REQ:
+				// TODO
+				break;
+			case MSG_DEBUG_BATCH:
+				// TODO
+				break;
+			default:
+				if (tc.equals(mtc)) {
+					// these messages can be received only from the MTC
+					switch (msg_type) {
+					case MSG_TESTCASE_STARTED:
+						process_testcase_started();
+						break;
+					case MSG_TESTCASE_FINISHED:
+						process_testcase_finished();
+						break;
+					case MSG_MTC_READY:
+						process_mtc_ready();
+						break;
+					case MSG_CONFIGURE_ACK:
+						process_configure_ack_mtc();
+						break;
+					case MSG_CONFIGURE_NAK:
+						process_configure_nak_mtc();
+						break;
+					default:
+						// TODO error
+						close_connection = true;
+					}
+				} else {
+					// these messages can be received only from PTCs
+					switch (msg_type) {
+					case MSG_STOPPED:
+						process_stopped(tc, msg_end);
+						break;
+					case MSG_STOPPED_KILLED:
+						process_stopped_killed(tc, msg_end);
+						break;
+					case MSG_KILLED:
+						process_killed(tc);
+						break;
+					default:
+						System.out.println(MessageFormat.format("Invalid message type ({}) was received from PTC {1} "
+								+ "at {2} [{3}].", msg_type, tc.comp_ref, tc.comp_location.hostname,
+								tc.comp_location.address.toString()));
+						close_connection = true;
+						// TODO
+					}
+				}
+			}
 
 			if (close_connection) {
 				break;
@@ -1505,7 +1506,7 @@ public class MainController {
 		text_buf.cut_message();
 
 		if (!valid_endpoint(sourceComponent, false, tc, "unmap")) {
-		    return;
+			return;
 		}
 
 		final PortConnection conn = find_connection(sourceComponent, sourcePort, TitanComponent.SYSTEM_COMPREF, systemPort);
@@ -1513,22 +1514,22 @@ public class MainController {
 			send_unmap_ack(tc, nof_params, params);
 		}
 		else {
-		    switch (conn.conn_state) {
-		    case CONN_MAPPED:
-		    	send_unmap(components.get(sourceComponent), sourcePort, systemPort, nof_params, params, translation);
-		    	conn.conn_state = connStateEnum.CONN_UNMAPPING;
-		    case CONN_UNMAPPING:
-		    	add_requestor(conn.requestors, tc);
-		    	tc.tc_state = tcStateEnum.TC_UNMAP;
-		    	break;
-		    case CONN_MAPPING:
-		    	send_error(tc.comp_location, MessageFormat.format("The port mapping {0}:{1} - system:{2} cannot be "
-		    			+ "destroyed because a map operation is in progress on it.", sourceComponent, sourcePort, systemPort));
-		    	break;
-		    default:
-		    	send_error(tc.comp_location, MessageFormat.format("The port mapping {0}:{1} - system:{2} is in invalid "
-		    			+ "state.", sourceComponent, sourcePort, systemPort));
-		    }
+			switch (conn.conn_state) {
+			case CONN_MAPPED:
+				send_unmap(components.get(sourceComponent), sourcePort, systemPort, nof_params, params, translation);
+				conn.conn_state = connStateEnum.CONN_UNMAPPING;
+			case CONN_UNMAPPING:
+				add_requestor(conn.requestors, tc);
+				tc.tc_state = tcStateEnum.TC_UNMAP;
+				break;
+			case CONN_MAPPING:
+				send_error(tc.comp_location, MessageFormat.format("The port mapping {0}:{1} - system:{2} cannot be "
+						+ "destroyed because a map operation is in progress on it.", sourceComponent, sourcePort, systemPort));
+				break;
+			default:
+				send_error(tc.comp_location, MessageFormat.format("The port mapping {0}:{1} - system:{2} is in invalid "
+						+ "state.", sourceComponent, sourcePort, systemPort));
+			}
 		}
 	}
 
@@ -1559,51 +1560,51 @@ public class MainController {
 
 		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
-		    send_error(tc.comp_location, "Killed operation was requested on the null component reference.");
-		    return;
+			send_error(tc.comp_location, "Killed operation was requested on the null component reference.");
+			return;
 		case TitanComponent.MTC_COMPREF:
-		    send_error(tc.comp_location, "Killed operation was requested on the component reference of the MTC.");
-		    return;
+			send_error(tc.comp_location, "Killed operation was requested on the component reference of the MTC.");
+			return;
 		case TitanComponent.SYSTEM_COMPREF:
-		    send_error(tc.comp_location, "Killed operation was requested on the component reference of the system.");
-		    return;
+			send_error(tc.comp_location, "Killed operation was requested on the component reference of the system.");
+			return;
 		case TitanComponent.ANY_COMPREF:
-		    if (tc.equals(mtc)) {
-			    final boolean answer = !is_all_component_alive();
-		      send_killed_ack(mtc, answer);
-		      if (!answer) {
-		    	  any_component_killed_requested.set(true);
-		      }
-		    } else {
-		    	send_error(tc.comp_location, "Operation 'any component.killed' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc.equals(mtc)) {
+				final boolean answer = !is_all_component_alive();
+				send_killed_ack(mtc, answer);
+				if (!answer) {
+					any_component_killed_requested.set(true);
+				}
+			} else {
+				send_error(tc.comp_location, "Operation 'any component.killed' can only be performed on the MTC.");
+			}
+			return;
 		case TitanComponent.ALL_COMPREF:
-		    if (tc == mtc) {
-			    final boolean answer = !is_any_component_alive();
-		      send_killed_ack(mtc, answer);
-		      if (!answer) {
-		    	  all_component_killed_requested.set(true);
-		      }
-		    } else {
-		    	send_error(tc.comp_location, "Operation 'all component.killed' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc == mtc) {
+				final boolean answer = !is_any_component_alive();
+				send_killed_ack(mtc, answer);
+				if (!answer) {
+					all_component_killed_requested.set(true);
+				}
+			} else {
+				send_error(tc.comp_location, "Operation 'all component.killed' can only be performed on the MTC.");
+			}
+			return;
 		default:
-		    break;
+			break;
 		}
 
 		final ComponentStruct comp = components.get(component_reference);
 		if (comp == null) {
-		    send_error(tc.comp_location, MessageFormat.format("The argument of killed operation is an invalid "
-		    		+ "component reference: {0}.", component_reference));
-		    return;
+			send_error(tc.comp_location, MessageFormat.format("The argument of killed operation is an invalid "
+					+ "component reference: {0}.", component_reference));
+			return;
 		}
 		switch (comp.tc_state) {
 		case TC_EXITING:
 		case TC_EXITED:
-		    send_killed_ack(tc, true);
-		    break;
+			send_killed_ack(tc, true);
+			break;
 		case TC_IDLE:
 		case TC_CREATE:
 		case TC_START:
@@ -1619,16 +1620,16 @@ public class MainController {
 		case PTC_STOPPED:
 		case PTC_KILLING:
 		case PTC_STOPPING_KILLING:
-		    send_killed_ack(tc, false);
-		    add_requestor(comp.killed_requestors, tc);
-		    break;
+			send_killed_ack(tc, false);
+			add_requestor(comp.killed_requestors, tc);
+			break;
 		case PTC_STALE:
-		    send_error(tc.comp_location, MessageFormat.format("The argument of killed operation ({0}) is a component "
-		    		+ "reference that belongs to an earlier testcase.", component_reference));
-		    break;
+			send_error(tc.comp_location, MessageFormat.format("The argument of killed operation ({0}) is a component "
+					+ "reference that belongs to an earlier testcase.", component_reference));
+			break;
 		default:
-		    send_error(tc.comp_location, MessageFormat.format("The test component that the killed operation refers to "
-		    		+ "({0}) is in invalid state.", component_reference));
+			send_error(tc.comp_location, MessageFormat.format("The test component that the killed operation refers to "
+					+ "({0}) is in invalid state.", component_reference));
 		}
 	}
 
@@ -1651,60 +1652,60 @@ public class MainController {
 
 		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
-		    send_error(tc.comp_location, "Done operation was requested on the null component reference.");
-		    return;
+			send_error(tc.comp_location, "Done operation was requested on the null component reference.");
+			return;
 		case TitanComponent.MTC_COMPREF:
-		    send_error(tc.comp_location, "Done operation was requested on the component reference of the MTC.");
-		    return;
+			send_error(tc.comp_location, "Done operation was requested on the component reference of the MTC.");
+			return;
 		case TitanComponent.SYSTEM_COMPREF:
-		    send_error(tc.comp_location, "Done operation was requested on the component reference of the system.");
-		    return;
+			send_error(tc.comp_location, "Done operation was requested on the component reference of the system.");
+			return;
 		case TitanComponent.ANY_COMPREF:
-		    if (tc.equals(mtc)) {
-			    final boolean answer = is_any_component_done();
-		      send_done_ack(mtc, answer, VerdictTypeEnum.NONE, null, null);
-		      if (answer) {
-		    	  any_component_done_sent.set(true);
-		      }
-		      else {
-		    	  any_component_done_requested.set(true);
-		      }
-		    } else {
-		    	send_error(tc.comp_location, "Operation 'any component.done' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc.equals(mtc)) {
+				final boolean answer = is_any_component_done();
+				send_done_ack(mtc, answer, VerdictTypeEnum.NONE, null, null);
+				if (answer) {
+					any_component_done_sent.set(true);
+				}
+				else {
+					any_component_done_requested.set(true);
+				}
+			} else {
+				send_error(tc.comp_location, "Operation 'any component.done' can only be performed on the MTC.");
+			}
+			return;
 		case TitanComponent.ALL_COMPREF:
-		    if (tc.equals(mtc)) {
-			    final boolean answer = !is_any_component_running();
-		      send_done_ack(mtc, answer, VerdictTypeEnum.NONE, null, null);
-		      if (!answer) {
-		    	  all_component_done_requested.set(true);
-		      }
-		    } else {
-		    	send_error(tc.comp_location, "Operation 'all component.done' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc.equals(mtc)) {
+				final boolean answer = !is_any_component_running();
+				send_done_ack(mtc, answer, VerdictTypeEnum.NONE, null, null);
+				if (!answer) {
+					all_component_done_requested.set(true);
+				}
+			} else {
+				send_error(tc.comp_location, "Operation 'all component.done' can only be performed on the MTC.");
+			}
+			return;
 		default:
-		    break;
+			break;
 		}
 
 		final ComponentStruct comp = components.get(component_reference);
 		if (comp == null) {
-		    send_error(tc.comp_location, MessageFormat.format("The argument of done operation is an invalid component "
-		    		+ "reference: {0}.", component_reference));
-		    return;
+			send_error(tc.comp_location, MessageFormat.format("The argument of done operation is an invalid component "
+					+ "reference: {0}.", component_reference));
+			return;
 		}
 
 		switch (comp.tc_state) {
 		case PTC_STOPPED:
-		    // this answer has to be cancelled when the component is re-started
-		    add_requestor(comp.done_requestors, tc);
-		    // no break
+			// this answer has to be cancelled when the component is re-started
+			add_requestor(comp.done_requestors, tc);
+			// no break
 		case TC_EXITING:
 		case TC_EXITED:
 		case PTC_KILLING:
 			send_done_ack(tc, true, comp.local_verdict, comp.return_type, comp.return_value);
-		    break;
+			break;
 		case TC_IDLE:
 		case TC_CREATE:
 		case TC_START:
@@ -1718,16 +1719,16 @@ public class MainController {
 		case PTC_FUNCTION:
 		case PTC_STARTING:
 		case PTC_STOPPING_KILLING:
-		    send_done_ack(tc, false, VerdictTypeEnum.NONE, null, null);
-		    add_requestor(comp.done_requestors, tc);
-		    break;
+			send_done_ack(tc, false, VerdictTypeEnum.NONE, null, null);
+			add_requestor(comp.done_requestors, tc);
+			break;
 		case PTC_STALE:
-		    send_error(tc.comp_location, MessageFormat.format("The argument of done operation ({0}) "
-		    		+ "is a component reference that belongs to an earlier testcase.", component_reference));
-		    break;
+			send_error(tc.comp_location, MessageFormat.format("The argument of done operation ({0}) "
+					+ "is a component reference that belongs to an earlier testcase.", component_reference));
+			break;
 		default:
-		    send_error(tc.comp_location, MessageFormat.format("The test component that the done operation refers to ({0}) "
-		    		+ "is in invalid state.", component_reference));
+			send_error(tc.comp_location, MessageFormat.format("The test component that the done operation refers to ({0}) "
+					+ "is in invalid state.", component_reference));
 		}
 	}
 
@@ -1749,29 +1750,29 @@ public class MainController {
 		text_buf.cut_message();
 		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
-		    send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to the null component reference.");
-		    return;
+			send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to the null component reference.");
+			return;
 		case TitanComponent.MTC_COMPREF:
-		    send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to the component reference of the MTC.");
-		    return;
+			send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to the component reference of the MTC.");
+			return;
 		case TitanComponent.SYSTEM_COMPREF:
-		    send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to the component reference of the system.");
-		    return;
+			send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to the component reference of the system.");
+			return;
 		case TitanComponent.ANY_COMPREF:
-		    send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to 'any component'.");
-		    return;
+			send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to 'any component'.");
+			return;
 		case TitanComponent.ALL_COMPREF:
-		    send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to 'all component'.");
-		    return;
+			send_error(tc.comp_location, "Message CANCEL_DONE_ACK refers to 'all component'.");
+			return;
 		default:
-		    break;
+			break;
 		}
 		final ComponentStruct started_tc = components.get(component_reference);
 
 		if (started_tc == null) {
-		    send_error(tc.comp_location, MessageFormat.format("Message CANCEL_DONE_ACK refers to an invalid "
-		    		+ "component reference: {0}.", component_reference));
-		    return;
+			send_error(tc.comp_location, MessageFormat.format("Message CANCEL_DONE_ACK refers to an invalid "
+					+ "component reference: {0}.", component_reference));
+			return;
 		}
 		done_cancelled(tc, started_tc);
 		remove_requestor(tc.cancel_done_sent_for, started_tc);
@@ -1788,38 +1789,38 @@ public class MainController {
 		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			send_error(tc.comp_location, "Alive operation was requested on the null component reference.");
-		    return;
+			return;
 		case TitanComponent.MTC_COMPREF:
-		    send_error(tc.comp_location, "Alive operation was requested on the component reference of the MTC.");
-		    return;
+			send_error(tc.comp_location, "Alive operation was requested on the component reference of the MTC.");
+			return;
 		case TitanComponent.SYSTEM_COMPREF:
-		    send_error(tc.comp_location, "Alive operation was requested on the component reference of the system.");
-		    return;
+			send_error(tc.comp_location, "Alive operation was requested on the component reference of the system.");
+			return;
 		case TitanComponent.ANY_COMPREF:
-		    if (tc.equals(mtc)) {
-		    	send_alive(mtc, is_any_component_alive());
-		    }
-		    else {
-		    	send_error(tc.comp_location, "Operation 'any component.alive' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc.equals(mtc)) {
+				send_alive(mtc, is_any_component_alive());
+			}
+			else {
+				send_error(tc.comp_location, "Operation 'any component.alive' can only be performed on the MTC.");
+			}
+			return;
 		case TitanComponent.ALL_COMPREF:
-		    if (tc.equals(mtc)) {
-		    	send_alive(mtc, is_all_component_alive());
-		    }
-		    else {
-		    	send_error(tc.comp_location, "Operation 'all component.alive' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc.equals(mtc)) {
+				send_alive(mtc, is_all_component_alive());
+			}
+			else {
+				send_error(tc.comp_location, "Operation 'all component.alive' can only be performed on the MTC.");
+			}
+			return;
 		default:
-		    break;
+			break;
 		}
 
 		final ComponentStruct comp = components.get(component_reference);
 		if (comp == null) {
-		    send_error(tc.comp_location, MessageFormat.format("The argument of alive operation is an invalid "
-		    		+ "component reference: {0}.", component_reference));
-		    return;
+			send_error(tc.comp_location, MessageFormat.format("The argument of alive operation is an invalid "
+					+ "component reference: {0}.", component_reference));
+			return;
 		}
 
 		switch (comp.tc_state) {
@@ -1838,16 +1839,16 @@ public class MainController {
 		case PTC_STOPPED:
 		case PTC_KILLING:
 		case PTC_STOPPING_KILLING:
-		    send_alive(tc, true);
-		    break;
+			send_alive(tc, true);
+			break;
 		case TC_EXITING:
 		case TC_EXITED:
-		    send_alive(tc, false);
-		    break;
+			send_alive(tc, false);
+			break;
 		case PTC_STALE:
-		    send_error(tc.comp_location, MessageFormat.format("The argument of alive operation ({0}) is a "
-		    		+ "component reference that belongs to an earlier testcase.", component_reference));
-		    break;
+			send_error(tc.comp_location, MessageFormat.format("The argument of alive operation ({0}) is a "
+					+ "component reference that belongs to an earlier testcase.", component_reference));
+			break;
 		default:
 			send_error(tc.comp_location, MessageFormat.format("The test component that the alive operation referes to "
 					+ "({0}) is in invalid state.", component_reference));
@@ -1881,32 +1882,32 @@ public class MainController {
 		text_buf.cut_message();
 		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
-		    send_error(tc.comp_location, "Running operation was requested on the null component reference.");
-		    return;
+			send_error(tc.comp_location, "Running operation was requested on the null component reference.");
+			return;
 		case TitanComponent.MTC_COMPREF:
-		    send_error(tc.comp_location, "Running operation was requested on the component reference of the MTC.");
-		    return;
+			send_error(tc.comp_location, "Running operation was requested on the component reference of the MTC.");
+			return;
 		case TitanComponent.SYSTEM_COMPREF:
-		    send_error(tc.comp_location, "Running operation was requested on the component reference of the system.");
-		    return;
+			send_error(tc.comp_location, "Running operation was requested on the component reference of the system.");
+			return;
 		case TitanComponent.ANY_COMPREF:
-		    if (tc.equals(mtc)) {
-		    	send_running(mtc, is_any_component_running());
-		    }
-		    else {
-		    	send_error(tc.comp_location, "Operation 'any component.running' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc.equals(mtc)) {
+				send_running(mtc, is_any_component_running());
+			}
+			else {
+				send_error(tc.comp_location, "Operation 'any component.running' can only be performed on the MTC.");
+			}
+			return;
 		case TitanComponent.ALL_COMPREF:
-		    if (tc.equals(mtc)) {
-		    	send_running(mtc, is_all_component_running());
-		    }
-		    else {
-		    	send_error(tc.comp_location, "Operation 'all component.running' can only be performed on the MTC.");
-		    }
-		    return;
+			if (tc.equals(mtc)) {
+				send_running(mtc, is_all_component_running());
+			}
+			else {
+				send_error(tc.comp_location, "Operation 'all component.running' can only be performed on the MTC.");
+			}
+			return;
 		default:
-		    break;
+			break;
 		}
 
 		final ComponentStruct comp = components.get(component_reference);
@@ -1929,19 +1930,19 @@ public class MainController {
 		case PTC_FUNCTION:
 		case PTC_STARTING:
 		case PTC_STOPPING_KILLING:
-		    send_running(tc, true);
-		    break;
+			send_running(tc, true);
+			break;
 		case TC_IDLE:
 		case TC_EXITING:
 		case TC_EXITED:
 		case PTC_STOPPED:
 		case PTC_KILLING:
-		    send_running(tc, false);
-		    break;
+			send_running(tc, false);
+			break;
 		case PTC_STALE:
 			send_error(tc.comp_location, MessageFormat.format("The argument of running operation ({0}) "
 					+ "is a component reference that belongs to an earlier testcase.", component_reference));
-		    break;
+			break;
 		default:
 			send_error(tc.comp_location, MessageFormat.format("The test component that the running operation refers "
 					+ "to ({0}) is in invalid state.", component_reference));
@@ -2084,7 +2085,7 @@ public class MainController {
 
 		if (!valid_endpoint(sourceComponent, true, tc, "map")) {
 			text_buf.cut_message();
-		    return;
+			return;
 		}
 
 		final Map_Params params = new Map_Params(nof_params);
@@ -2205,13 +2206,13 @@ public class MainController {
 		boolean target_inactive = false;
 		switch (target.tc_state) {
 		case PTC_STOPPED:
-		    // the done status of this PTC is already sent out
-		    // and it will not be cancelled in the future
+			// the done status of this PTC is already sent out
+			// and it will not be cancelled in the future
 			target.done_requestors = new RequestorStruct();
-		    // no break
+			// no break
 		case TC_IDLE:
-		    target_inactive = true;
-		    // no break
+			target_inactive = true;
+			// no break
 		case TC_CREATE:
 		case TC_START:
 		case TC_STOP:
@@ -2221,48 +2222,48 @@ public class MainController {
 		case TC_MAP:
 		case TC_UNMAP:
 		case PTC_FUNCTION:
-		    send_kill(target);
-		    if (target_inactive) {
-		    	// the PTC was inactive
-		    	target.tc_state = tcStateEnum.PTC_KILLING;
-		    	if (!target.is_alive) {
-		    		target.stop_requested = true;
-		    	}
-		    } else {
-		    	// the PTC was active
-		    	target.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
-		    	target.stop_requested = true;
-		    }
-		    target.stop_requestors = init_requestors(null);
-		    target.kill_requestors = init_requestors(tc);
-		    // TODO timer
-		    tc.tc_state = tcStateEnum.TC_KILL;
-		    break;
+			send_kill(target);
+			if (target_inactive) {
+				// the PTC was inactive
+				target.tc_state = tcStateEnum.PTC_KILLING;
+				if (!target.is_alive) {
+					target.stop_requested = true;
+				}
+			} else {
+				// the PTC was active
+				target.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
+				target.stop_requested = true;
+			}
+			target.stop_requestors = init_requestors(null);
+			target.kill_requestors = init_requestors(tc);
+			// TODO timer
+			tc.tc_state = tcStateEnum.TC_KILL;
+			break;
 		case TC_STOPPING:
-		    // the PTC is currently being stopped
-		    send_kill(target);
-		    target.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
-		    // TODO timer
-		    // no break
+			// the PTC is currently being stopped
+			send_kill(target);
+			target.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
+			// TODO timer
+			// no break
 		case PTC_KILLING:
 		case PTC_STOPPING_KILLING:
-		    // the PTC is currently being terminated
-		    add_requestor(target.kill_requestors, tc);
-		    tc.tc_state = tcStateEnum.TC_KILL;
-		    break;
+			// the PTC is currently being terminated
+			add_requestor(target.kill_requestors, tc);
+			tc.tc_state = tcStateEnum.TC_KILL;
+			break;
 		case TC_EXITING:
 		case TC_EXITED:
-		    // the PTC is already terminated
-		    send_kill_ack(tc);
-		    break;
+			// the PTC is already terminated
+			send_kill_ack(tc);
+			break;
 		case PTC_STARTING:
 			send_error(tc.comp_location, MessageFormat.format("PTC with component reference {0} cannot be killed "
 					+ "because it is currently being started.", component_reference));
-		    break;
+			break;
 		case PTC_STALE:
 			send_error(tc.comp_location, MessageFormat.format("The argument of kill operation ({0}) is a component "
 					+ "reference that belongs to an earlier testcase.", component_reference));
-		    break;
+			break;
 		default:
 			send_error(tc.comp_location, MessageFormat.format("The test component that the kill operation refers to "
 					+ "({0}) is in invalid state.", component_reference));
@@ -2282,7 +2283,7 @@ public class MainController {
 		case TC_STOPPING:
 		case PTC_FUNCTION:
 		case PTC_STOPPING_KILLING:
-		    break;
+			break;
 		default:
 			send_error(tc.comp_location, "Unexpected message STOPPED_KILLED was received.");
 			System.out.println("Unexpected message STOPPED_KILLED was received from PTC "+tc.comp_ref+".");
@@ -2407,8 +2408,8 @@ public class MainController {
 				send_stop_ack_to_requestors(tc);
 				send_kill_ack_to_requestors(tc);
 			}
-			default:
-				break;
+		default:
+			break;
 		}
 		for (int i=0; ; i++) {
 			final ComponentStruct comp = get_requestor(tc.cancel_done_sent_for, i);
@@ -2450,19 +2451,19 @@ public class MainController {
 		switch (conn.conn_state) {
 		case CONN_LISTENING:
 		case CONN_CONNECTING:
-		    if (conn.transport_type != transport_type_enum.TRANSPORT_LOCAL &&
-		      conn.headComp != tc.comp_ref) {
-		      // shut down the server side if the client has terminated
-		      send_disconnect_to_server(conn);
-		    }
-		    send_error_to_connect_requestors(conn, "test component "+tc.comp_ref+" has terminated during connection setup.");
+			if (conn.transport_type != transport_type_enum.TRANSPORT_LOCAL &&
+			conn.headComp != tc.comp_ref) {
+				// shut down the server side if the client has terminated
+				send_disconnect_to_server(conn);
+			}
+			send_error_to_connect_requestors(conn, "test component "+tc.comp_ref+" has terminated during connection setup.");
 
-		    break;
+			break;
 		case CONN_CONNECTED:
-		    break;
+			break;
 		case CONN_DISCONNECTING:
-		    send_disconnect_ack_to_requestors(conn);
-		    break;
+			send_disconnect_ack_to_requestors(conn);
+			break;
 		default:
 			// TODO error
 		}
@@ -2568,30 +2569,30 @@ public class MainController {
 	private static void remove_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
 		switch (reqs.n_components) {
 		case 0:
-		    break;
+			break;
 		case 1:
 			if (reqs.comp.equals(tc)) {
-		    	reqs.n_components = 0;
-		    }
-		    break;
+				reqs.n_components = 0;
+			}
+			break;
 		case 2:
-		    ComponentStruct tmp = null;
-		    if (reqs.components.get(0).equals(tc)) {
-		    	tmp = reqs.components.get(1);
-		    }
-		    else if (reqs.components.get(1).equals(tc)) {
-		    	tmp = reqs.components.get(0);
-		    }
-		    if (tmp != null) {
-   		        reqs.n_components = 1;
-		        reqs.comp = tmp;
-		    }
-		    break;
+			ComponentStruct tmp = null;
+			if (reqs.components.get(0).equals(tc)) {
+				tmp = reqs.components.get(1);
+			}
+			else if (reqs.components.get(1).equals(tc)) {
+				tmp = reqs.components.get(0);
+			}
+			if (tmp != null) {
+				reqs.n_components = 1;
+				reqs.comp = tmp;
+			}
+			break;
 		default:
 			for (final ComponentStruct comp : reqs.components) {
 				if (comp.equals(tc)) {
-			        reqs.n_components--;
-			        break;
+					reqs.n_components--;
+					break;
 				}
 			}
 		}
@@ -2600,18 +2601,18 @@ public class MainController {
 	private static void send_kill_ack_to_requestors(final ComponentStruct tc) {
 		for (int i = 0; ; i++) {
 			final ComponentStruct requestor = get_requestor(tc.kill_requestors, i);
-		    if (requestor == null) {
-		    	break;
-		    }
-		    if (requestor.tc_state == tcStateEnum.TC_KILL) {
-		    	send_kill_ack(requestor);
-		    	if (requestor.equals(mtc)) {
-		    		requestor.tc_state = tcStateEnum.MTC_TESTCASE;
-		    	}
-		    	else {
-		    		requestor.tc_state = tcStateEnum.PTC_FUNCTION;
-		    	}
-		    }
+			if (requestor == null) {
+				break;
+			}
+			if (requestor.tc_state == tcStateEnum.TC_KILL) {
+				send_kill_ack(requestor);
+				if (requestor.equals(mtc)) {
+					requestor.tc_state = tcStateEnum.MTC_TESTCASE;
+				}
+				else {
+					requestor.tc_state = tcStateEnum.PTC_FUNCTION;
+				}
+			}
 		}
 		tc.kill_requestors = new RequestorStruct();
 	}
@@ -2619,18 +2620,18 @@ public class MainController {
 	private static void send_stop_ack_to_requestors(final ComponentStruct tc) {
 		for (int i = 0; ; i++) {
 			final ComponentStruct requestor = get_requestor(tc.stop_requestors, i);
-		    if (requestor == null) {
-		    	break;
-		    }
-		    if (requestor.tc_state == tcStateEnum.TC_STOP) {
-		    	send_stop_ack(requestor);
-		    	if (requestor.equals(mtc)) {
-		    		requestor.tc_state = tcStateEnum.MTC_TESTCASE;
-		    	}
-			    else {
-			    	requestor.tc_state = tcStateEnum.PTC_FUNCTION;
-			    }
-		    }
+			if (requestor == null) {
+				break;
+			}
+			if (requestor.tc_state == tcStateEnum.TC_STOP) {
+				send_stop_ack(requestor);
+				if (requestor.equals(mtc)) {
+					requestor.tc_state = tcStateEnum.MTC_TESTCASE;
+				}
+				else {
+					requestor.tc_state = tcStateEnum.PTC_FUNCTION;
+				}
+			}
 		}
 		tc.stop_requestors = new RequestorStruct();
 	}
@@ -2640,63 +2641,63 @@ public class MainController {
 		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 
-		    switch (comp.tc_state) {
-		    case TC_INITIAL:
-		    case PTC_KILLING:
-		    	if (!comp.is_alive) {
-		    		ready_for_ack = false;
-		    	}
-		    	break;
-		    case TC_STOPPING:
-		    case PTC_STOPPING_KILLING:
-		    	ready_for_ack = false;
-		    	break;
-		    case TC_EXITING:
-		    case TC_EXITED:
-		    case PTC_STOPPED:
-		    case PTC_STALE:
-		    	break;
-		    case TC_IDLE:
-		      // only alive components can be in idle state
-		    	if (comp.is_alive) {
-		    		break;
-		    	}
-		    default:
-		    	//TODO error
-		    }
-		    if (!ready_for_ack) {
-		    	break;
-		    }
-		  }
-		  if (ready_for_ack) {
-			  send_stop_ack(mtc);
-			  mtc.tc_state = tcStateEnum.MTC_TESTCASE;
-		  }
+			switch (comp.tc_state) {
+			case TC_INITIAL:
+			case PTC_KILLING:
+				if (!comp.is_alive) {
+					ready_for_ack = false;
+				}
+				break;
+			case TC_STOPPING:
+			case PTC_STOPPING_KILLING:
+				ready_for_ack = false;
+				break;
+			case TC_EXITING:
+			case TC_EXITED:
+			case PTC_STOPPED:
+			case PTC_STALE:
+				break;
+			case TC_IDLE:
+				// only alive components can be in idle state
+				if (comp.is_alive) {
+					break;
+				}
+			default:
+				//TODO error
+			}
+			if (!ready_for_ack) {
+				break;
+			}
+		}
+		if (ready_for_ack) {
+			send_stop_ack(mtc);
+			mtc.tc_state = tcStateEnum.MTC_TESTCASE;
+		}
 	}
 
 	private static void check_all_component_kill() {
 		boolean ready_for_ack = true;
 		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
-		    switch (comp.tc_state) {
-		    case TC_INITIAL:
-		    case PTC_STOPPING_KILLING:
-		    case PTC_KILLING:
-		    	ready_for_ack = false;
-		    case TC_EXITING:
-		    case TC_EXITED:
-		    case PTC_STALE:
-		      break;
-		    default:
-		    	// TODO error
-		    }
-		    if (!ready_for_ack) {
-			    break;
-		    }
+			switch (comp.tc_state) {
+			case TC_INITIAL:
+			case PTC_STOPPING_KILLING:
+			case PTC_KILLING:
+				ready_for_ack = false;
+			case TC_EXITING:
+			case TC_EXITED:
+			case PTC_STALE:
+				break;
+			default:
+				// TODO error
+			}
+			if (!ready_for_ack) {
+				break;
+			}
 		}
 		if (ready_for_ack) {
-		    send_kill_ack(mtc);
-		    mtc.tc_state = tcStateEnum.MTC_TESTCASE;
+			send_kill_ack(mtc);
+			mtc.tc_state = tcStateEnum.MTC_TESTCASE;
 		}
 	}
 
@@ -2760,10 +2761,10 @@ public class MainController {
 			return true;
 		case TC_EXITING:
 		case TC_EXITED:
-		    return false;
+			return false;
 		default:
 			// TODO error
-		    return false;
+			return false;
 		}
 	}
 
@@ -2791,17 +2792,17 @@ public class MainController {
 		case PTC_FUNCTION:
 		case PTC_STARTING:
 		case PTC_STOPPING_KILLING:
-		    return true;
+			return true;
 		case TC_INITIAL:
 		case TC_IDLE:
 		case TC_EXITING:
 		case TC_EXITED:
 		case PTC_STOPPED:
 		case PTC_KILLING:
-		    return false;
+			return false;
 		default:
 			// TODO error
-		    return false;
+			return false;
 		}
 	}
 
@@ -2820,22 +2821,22 @@ public class MainController {
 		case TC_STOPPING:
 		case PTC_STOPPED:
 		case PTC_STARTING:
-		  if (done_status) {
-		      send_component_status_ptc(requestor, tc.comp_ref, true, killed_status, tc.local_verdict,
-		    		  tc.return_type, tc.return_value);
-		    } else {
-		      send_component_status_ptc(requestor, tc.comp_ref, false,killed_status, tc.local_verdict, null, null);
-		    }
-		    break;
-		  case PTC_STOPPING_KILLING:
-		  case PTC_KILLING:
-		  case TC_EXITING:
-		  case TC_EXITED:
-		    // the PTC requestor is not interested in the component status anymore
-		    break;
-		  default:
-			  // TODO error
-		  }
+			if (done_status) {
+				send_component_status_ptc(requestor, tc.comp_ref, true, killed_status, tc.local_verdict,
+						tc.return_type, tc.return_value);
+			} else {
+				send_component_status_ptc(requestor, tc.comp_ref, false,killed_status, tc.local_verdict, null, null);
+			}
+			break;
+		case PTC_STOPPING_KILLING:
+		case PTC_KILLING:
+		case TC_EXITING:
+		case TC_EXITED:
+			// the PTC requestor is not interested in the component status anymore
+			break;
+		default:
+			// TODO error
+		}
 	}
 
 	private static void send_component_status_ptc(final ComponentStruct tc, final int comp_ref, final boolean is_done,
@@ -3015,52 +3016,52 @@ public class MainController {
 				}
 				break;
 			case TC_CREATE:
-		    case TC_START:
-		    case TC_STOP:
-		    case TC_KILL:
-		    case TC_CONNECT:
-		    case TC_DISCONNECT:
-		    case TC_MAP:
-		    case TC_UNMAP:
-		    case PTC_FUNCTION:
-		    	if (tc.is_alive) {
-		    		send_stop(tc);
-		    		tc.tc_state = tcStateEnum.TC_STOPPING;
-		    	}
-		    	else {
-		    		send_kill(tc);
-		    		tc.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
-		    	}
-		    	tc.stop_requested = true;
-		    	tc.stop_requestors = init_requestors(null);
-		    	tc.killed_requestors = init_requestors(null);
-		    	// TODO timer
-		    	ready_for_ack = false;
-		    	break;
-		    case PTC_STARTING:
-		    	tc.cancel_done_sent_to = new RequestorStruct();
-		    	tc.tc_state = tcStateEnum.PTC_STOPPED;
-		    	break;
-		    case TC_STOPPING:
-		    case PTC_STOPPING_KILLING:
-		    	tc.stop_requestors = new RequestorStruct();
-		    	tc.killed_requestors = new RequestorStruct();
-		    	ready_for_ack = false;
-		    	break;
-		    case PTC_KILLING:
-		    	tc.stop_requestors = new RequestorStruct();
-		    	tc.killed_requestors = new RequestorStruct();
-		        if (!tc.is_alive) {
-		        	ready_for_ack = false;
-		        }
-		        break;
-		    case PTC_STOPPED:
-		    case TC_EXITING:
-		    case TC_EXITED:
-		    case PTC_STALE:
-		    	break;
-		    default:
-		    	throw new TtcnError("Test Component "+tc.comp_ref+" is in invalid state when stopping all components.");
+			case TC_START:
+			case TC_STOP:
+			case TC_KILL:
+			case TC_CONNECT:
+			case TC_DISCONNECT:
+			case TC_MAP:
+			case TC_UNMAP:
+			case PTC_FUNCTION:
+				if (tc.is_alive) {
+					send_stop(tc);
+					tc.tc_state = tcStateEnum.TC_STOPPING;
+				}
+				else {
+					send_kill(tc);
+					tc.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
+				}
+				tc.stop_requested = true;
+				tc.stop_requestors = init_requestors(null);
+				tc.killed_requestors = init_requestors(null);
+				// TODO timer
+				ready_for_ack = false;
+				break;
+			case PTC_STARTING:
+				tc.cancel_done_sent_to = new RequestorStruct();
+				tc.tc_state = tcStateEnum.PTC_STOPPED;
+				break;
+			case TC_STOPPING:
+			case PTC_STOPPING_KILLING:
+				tc.stop_requestors = new RequestorStruct();
+				tc.killed_requestors = new RequestorStruct();
+				ready_for_ack = false;
+				break;
+			case PTC_KILLING:
+				tc.stop_requestors = new RequestorStruct();
+				tc.killed_requestors = new RequestorStruct();
+				if (!tc.is_alive) {
+					ready_for_ack = false;
+				}
+				break;
+			case PTC_STOPPED:
+			case TC_EXITING:
+			case TC_EXITED:
+			case PTC_STALE:
+				break;
+			default:
+				throw new TtcnError("Test Component "+tc.comp_ref+" is in invalid state when stopping all components.");
 
 			}
 			final boolean mtc_requested_done = has_requestor(tc.done_requestors, mtc);
@@ -3091,54 +3092,54 @@ public class MainController {
 				tc.cancel_done_sent_to = new RequestorStruct();
 				// no break
 			case TC_IDLE:
-		    case PTC_STOPPED:
-		      is_inactive = true;
-		      // no break
-		    case TC_CREATE:
-		    case TC_START:
-		    case TC_STOP:
-		    case TC_KILL:
-		    case TC_CONNECT:
-		    case TC_DISCONNECT:
-		    case TC_MAP:
-		    case TC_UNMAP:
-		    case PTC_FUNCTION:
-		    	send_kill(tc);
-		    	if (is_inactive) {
-		    		tc.tc_state = tcStateEnum.PTC_KILLING;
-		    		if (!tc.is_alive) {
-		    			tc.stop_requested = true;
-		    		}
-		    	}
-		    	else {
-		    		tc.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
-		    		tc.stop_requested = true;
-		    	}
-		    	tc.stop_requestors = init_requestors(null);
-		    	tc.kill_requestors = init_requestors(null);
-		    	// TODO timer
-		    	ready_for_ack = false;
-		    	break;
-		    case TC_STOPPING:
-		    	send_kill(tc);
-		    	tc.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
-		    	// TODO timer
-		    	// no break
-		    case PTC_KILLING:
-		    case PTC_STOPPING_KILLING:
-		    	tc.stop_requestors = new RequestorStruct();
-		    	tc.kill_requestors = new RequestorStruct();
-		    	ready_for_ack = false;
-		    	break;
-		    case TC_EXITING:
-		    	if (testcase_ends) {
-		    		ready_for_ack = false;
-		    	}
-		    case TC_EXITED:
-		    case PTC_STALE:
-		    	break;
-	    	default:
-	    		// TODO error
+			case PTC_STOPPED:
+				is_inactive = true;
+				// no break
+			case TC_CREATE:
+			case TC_START:
+			case TC_STOP:
+			case TC_KILL:
+			case TC_CONNECT:
+			case TC_DISCONNECT:
+			case TC_MAP:
+			case TC_UNMAP:
+			case PTC_FUNCTION:
+				send_kill(tc);
+				if (is_inactive) {
+					tc.tc_state = tcStateEnum.PTC_KILLING;
+					if (!tc.is_alive) {
+						tc.stop_requested = true;
+					}
+				}
+				else {
+					tc.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
+					tc.stop_requested = true;
+				}
+				tc.stop_requestors = init_requestors(null);
+				tc.kill_requestors = init_requestors(null);
+				// TODO timer
+				ready_for_ack = false;
+				break;
+			case TC_STOPPING:
+				send_kill(tc);
+				tc.tc_state = tcStateEnum.PTC_STOPPING_KILLING;
+				// TODO timer
+				// no break
+			case PTC_KILLING:
+			case PTC_STOPPING_KILLING:
+				tc.stop_requestors = new RequestorStruct();
+				tc.kill_requestors = new RequestorStruct();
+				ready_for_ack = false;
+				break;
+			case TC_EXITING:
+				if (testcase_ends) {
+					ready_for_ack = false;
+				}
+			case TC_EXITED:
+			case PTC_STALE:
+				break;
+			default:
+				// TODO error
 			}
 			if (testcase_ends) {
 				tc.done_requestors = new RequestorStruct();
@@ -3396,7 +3397,7 @@ public class MainController {
 		byte return_value[] = new byte[text_buf.get_len() - text_buf.get_pos()];
 		text_buf.pull_raw(text_buf.get_len() - text_buf.get_pos(), return_value);
 		text_buf.cut_message();
-		*/
+		 */
 		final byte[] arg = new byte[text_buf.get_len() - text_buf.get_pos()];
 		text_buf.pull_raw(text_buf.get_len() - text_buf.get_pos(), arg);
 
@@ -3415,29 +3416,29 @@ public class MainController {
 					continue;
 				}
 				switch (comp.tc_state) {
-			    case TC_CREATE:
-			    case TC_START:
-			    case TC_STOP:
-			    case TC_KILL:
-			    case TC_CONNECT:
-			    case TC_DISCONNECT:
-			    case TC_MAP:
-			    case TC_UNMAP:
-			    case TC_STOPPING:
-			    case MTC_TESTCASE:
-			    case PTC_FUNCTION:
-			    case PTC_STARTING:
-			    case PTC_STOPPED:
-			    	send_cancel_done = true;
-			    	add_requestor(target.cancel_done_sent_to, comp);
-			    	break;
-			    case TC_EXITING:
-			    case TC_EXITED:
-			    case PTC_KILLING:
-			    case PTC_STOPPING_KILLING:
-			    	break;
-			    default:
-			    	// TODO error
+				case TC_CREATE:
+				case TC_START:
+				case TC_STOP:
+				case TC_KILL:
+				case TC_CONNECT:
+				case TC_DISCONNECT:
+				case TC_MAP:
+				case TC_UNMAP:
+				case TC_STOPPING:
+				case MTC_TESTCASE:
+				case PTC_FUNCTION:
+				case PTC_STARTING:
+				case PTC_STOPPED:
+					send_cancel_done = true;
+					add_requestor(target.cancel_done_sent_to, comp);
+					break;
+				case TC_EXITING:
+				case TC_EXITED:
+				case PTC_KILLING:
+				case PTC_STOPPING_KILLING:
+					break;
+				default:
+					// TODO error
 				}
 			}
 
@@ -3649,34 +3650,34 @@ public class MainController {
 			final ComponentStruct dst_comp = components.get(remote_component);
 			switch(dst_comp.tc_state) {
 			case TC_IDLE:
-		    case TC_CREATE:
-		    case TC_START:
-		    case TC_STOP:
-		    case TC_KILL:
-		    case TC_CONNECT:
-		    case TC_DISCONNECT:
-		    case TC_MAP:
-		    case TC_UNMAP:
-		    case TC_STOPPING:
-		    case MTC_TESTCASE:
-		    case PTC_FUNCTION:
-		    case PTC_STARTING:
-		    case PTC_STOPPED:
-		    	if (tc.comp_ref != TitanComponent.MTC_COMPREF && tc.comp_ref != remote_component) {
-		    		send_connect(dst_comp, remote_port, tc.comp_ref, tc.comp_name, local_port,
-		    				transport_type_enum.values()[transport_type], address, local_port_number);
-		    	}
-		    	else {
-		    		send_connect(dst_comp, remote_port, tc.comp_ref, "", local_port,
-		    				transport_type_enum.values()[transport_type], address, local_port_number);
-		    	}
-		    	conn.conn_state = connStateEnum.CONN_CONNECTING;
-		    	break;
-		    default:
-		    	send_disconnect_to_server(conn);
-		    	send_error_to_connect_requestors(conn, "test component "+dst_comp+" has terminated during connection setup.");
-		    	remove_connection(conn);
-		    	break;
+			case TC_CREATE:
+			case TC_START:
+			case TC_STOP:
+			case TC_KILL:
+			case TC_CONNECT:
+			case TC_DISCONNECT:
+			case TC_MAP:
+			case TC_UNMAP:
+			case TC_STOPPING:
+			case MTC_TESTCASE:
+			case PTC_FUNCTION:
+			case PTC_STARTING:
+			case PTC_STOPPED:
+				if (tc.comp_ref != TitanComponent.MTC_COMPREF && tc.comp_ref != remote_component) {
+					send_connect(dst_comp, remote_port, tc.comp_ref, tc.comp_name, local_port,
+							transport_type_enum.values()[transport_type], address, local_port_number);
+				}
+				else {
+					send_connect(dst_comp, remote_port, tc.comp_ref, "", local_port,
+							transport_type_enum.values()[transport_type], address, local_port_number);
+				}
+				conn.conn_state = connStateEnum.CONN_CONNECTING;
+				break;
+			default:
+				send_disconnect_to_server(conn);
+				send_error_to_connect_requestors(conn, "test component "+dst_comp+" has terminated during connection setup.");
+				remove_connection(conn);
+				break;
 			}
 		}
 		else {
@@ -3791,7 +3792,7 @@ public class MainController {
 		case PTC_STOPPED:
 			send_disconnect(comp, conn.headPort, conn.tailComp, conn.tailPort);
 		default:
-		    break;
+			break;
 		}
 
 	}
@@ -3839,7 +3840,7 @@ public class MainController {
 				}
 				else {
 					send_connect_listen(components.get(conn.headComp), conn.headPort, conn.tailComp, "",
-					          conn.tailPort, conn.transport_type);
+							conn.tailPort, conn.transport_type);
 				}
 				conn.conn_state = connStateEnum.CONN_LISTENING;
 				break;
@@ -3971,16 +3972,16 @@ public class MainController {
 
 		if (sourceComponent > destinationComponent) {
 			final int tmp_comp = sourceComponent;
-		    sourceComponent = destinationComponent;
-		    destinationComponent = tmp_comp;
-		    final String tmp_port = sourcePort;
-		    sourcePort = destinationPort;
-		    destinationPort = tmp_port;
-		  } else if (sourceComponent == destinationComponent && sourcePort.compareTo(destinationPort) > 0) {
-			  final String tmp_port = sourcePort;
-		    sourcePort = destinationPort;
-		    destinationPort = tmp_port;
-		  }
+			sourceComponent = destinationComponent;
+			destinationComponent = tmp_comp;
+			final String tmp_port = sourcePort;
+			sourcePort = destinationPort;
+			destinationPort = tmp_port;
+		} else if (sourceComponent == destinationComponent && sourcePort.compareTo(destinationPort) > 0) {
+			final String tmp_port = sourcePort;
+			sourcePort = destinationPort;
+			destinationPort = tmp_port;
+		}
 
 		final ComponentStruct headComp = components.get(sourceComponent);
 
@@ -4021,8 +4022,8 @@ public class MainController {
 			pc.headComp = pc.tailComp;
 			pc.tailComp = tmp_comp;
 			final String tmp_port = pc.headPort;
-		    pc.headPort = pc.tailPort;
-		    pc.tailPort = tmp_port;
+			pc.headPort = pc.tailPort;
+			pc.tailPort = tmp_port;
 		}
 		else if (pc.headComp == pc.tailComp && pc.headPort.compareTo(pc.tailPort) > 0) {
 			final String tmp_port = pc.headPort;
@@ -4092,7 +4093,7 @@ public class MainController {
 				send_error(requestor.comp_location, MessageFormat.format("The {0} refers to test component with "
 						+ "component reference {1}, which is currently being terminated.", operation, component_reference));
 				return false;
-		    }
+			}
 			else {
 				return true;
 			}
@@ -4101,10 +4102,10 @@ public class MainController {
 			if (new_connection) {
 				send_error(requestor.comp_location, MessageFormat.format("The {0} refers to test component with "
 						+ "component reference {1}, which has already terminated.", operation, component_reference));
-		      return false;
-		    } else {
-		    	return true;
-		    }
+				return false;
+			} else {
+				return true;
+			}
 		case PTC_STALE:
 			send_error(requestor.comp_location, MessageFormat.format("The {0} refers to component reference {1} "
 					+ ", which belongs to an earlier test case.", operation, component_reference));
@@ -4112,7 +4113,7 @@ public class MainController {
 		default:
 			send_error(requestor.comp_location, MessageFormat.format("The {0} refers to component reference {1} "
 					+ ", which is in invalid state.", operation, component_reference));
-		    return false;
+			return false;
 		}
 
 	}
@@ -4169,7 +4170,7 @@ public class MainController {
 		case TitanComponent.NULL_COMPREF:
 			send_error(hc, "Message PTC_CREATED refers to the null component reference.");
 			close_connection(hc);
-		    return;
+			return;
 		case TitanComponent.MTC_COMPREF:
 			send_error(hc, "Message PTC_CREATED refers to the component reference of the MTC.");
 			close_connection(hc);
@@ -4177,15 +4178,15 @@ public class MainController {
 		case TitanComponent.SYSTEM_COMPREF:
 			send_error(hc, "Message PTC_CREATED refers to the component reference of the system.");
 			close_connection(hc);
-		    return;
+			return;
 		case TitanComponent.ANY_COMPREF:
 			send_error(hc, "Message PTC_CREATED refers to 'any component'.");
 			close_connection(hc);
-		    return;
+			return;
 		case TitanComponent.ALL_COMPREF:
 			send_error(hc, "Message PTC_CREATED refers to 'all component'.");
 			close_connection(hc);
-		    return;
+			return;
 		}
 
 		final ComponentStruct tc = components.get(component_reference);
@@ -4238,55 +4239,55 @@ public class MainController {
 	}
 
 	public static boolean request_allowed(final ComponentStruct from, final String message_name) {
-	  if (!message_expected(from, message_name)) {
-		  return false;
-	  }
+		if (!message_expected(from, message_name)) {
+			return false;
+		}
 
-	  switch (from.tc_state) {
-	  case MTC_TESTCASE:
-		  if (from.equals(mtc)) {
-			  return true;
-		  }
-	      else {
-		      break;
-	      }
-	  case PTC_FUNCTION:
-	      if (!from.equals(mtc)) {
-	    	  return true;
-	      }
-	      else {
-		      break;
-	      }
-	  case TC_STOPPING:
-	  case PTC_STOPPING_KILLING:
-	  case PTC_KILLING:
-	    // silently ignore
-	      return false;
-	  default:
-	      break;
-	  }
-	  System.out.println(MessageFormat.format("The sender of message {0} is in unexpected state: {1}.", message_name, from.tc_state.toString()));
-	  send_error(from.comp_location, MessageFormat.format("The sender of message {0} is in unexpected state.", message_name));
-	  return false;
+		switch (from.tc_state) {
+		case MTC_TESTCASE:
+			if (from.equals(mtc)) {
+				return true;
+			}
+			else {
+				break;
+			}
+		case PTC_FUNCTION:
+			if (!from.equals(mtc)) {
+				return true;
+			}
+			else {
+				break;
+			}
+		case TC_STOPPING:
+		case PTC_STOPPING_KILLING:
+		case PTC_KILLING:
+			// silently ignore
+			return false;
+		default:
+			break;
+		}
+		System.out.println(MessageFormat.format("The sender of message {0} is in unexpected state: {1}.", message_name, from.tc_state.toString()));
+		send_error(from.comp_location, MessageFormat.format("The sender of message {0} is in unexpected state.", message_name));
+		return false;
 	}
 
 	private static boolean message_expected(final ComponentStruct from, final String message_name) {
 		switch (mc_state) {
 		case MC_EXECUTING_TESTCASE:
 			switch (mtc.tc_state) {
-		    case MTC_ALL_COMPONENT_STOP:
-		    case MTC_ALL_COMPONENT_KILL:
-		      // silently ignore
-		    	return false;
-		    default:
-		    	return true;
-		    }
-	    case MC_TERMINATING_TESTCASE:
-	      // silently ignore
-	    	return false;
-	    default:
-	    	send_error(from.comp_location, MessageFormat.format("Unexpected message {0} was received.", message_name));
-	    	return false;
+			case MTC_ALL_COMPONENT_STOP:
+			case MTC_ALL_COMPONENT_KILL:
+				// silently ignore
+				return false;
+			default:
+				return true;
+			}
+		case MC_TERMINATING_TESTCASE:
+			// silently ignore
+			return false;
+		default:
+			send_error(from.comp_location, MessageFormat.format("Unexpected message {0} was received.", message_name));
+			return false;
 		}
 	}
 
@@ -4387,7 +4388,7 @@ public class MainController {
 	private static void process_testcase_started() {
 		if (mc_state != mcStateEnum.MC_EXECUTING_CONTROL) {
 			send_error(mtc.comp_location, "Unexpected message TESTCASE_STARTED was received.");
-		    return;
+			return;
 		}
 
 		final Text_Buf text_buf = incoming_buf.get();
@@ -4422,7 +4423,7 @@ public class MainController {
 
 	private static void execute_testcase(final Host hc, final String moduleName, final String testcaseName) {
 		if (mc_state != mcStateEnum.MC_READY) {
-		    // TODO error
+			// TODO error
 			return;
 		}
 		send_execute_testcase(hc, moduleName, testcaseName);
@@ -4440,19 +4441,19 @@ public class MainController {
 
 	private static void execute_control(final Host hc, final String module_name) {
 		if (mc_state != mcStateEnum.MC_READY) {
-		    // TODO error
-		    return;
+			// TODO error
+			return;
 		}
 		send_execute_control(hc, module_name);
-	    mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
-	    mtc.tc_state = tcStateEnum.MTC_CONTROLPART;
+		mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
+		mtc.tc_state = tcStateEnum.MTC_CONTROLPART;
 	}
 
 	private static void send_execute_control(final Host hc, final String module_name) {
 		final Text_Buf text_buf = new Text_Buf();
-	    text_buf.push_int(MSG_EXECUTE_CONTROL);
-	    text_buf.push_string(module_name);
-	    send_message(hc, text_buf);
+		text_buf.push_int(MSG_EXECUTE_CONTROL);
+		text_buf.push_string(module_name);
+		send_message(hc, text_buf);
 	}
 
 	private static RequestorStruct init_requestors(final ComponentStruct tc) {
