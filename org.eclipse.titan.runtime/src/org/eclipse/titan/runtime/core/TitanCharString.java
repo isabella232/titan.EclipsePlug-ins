@@ -1228,7 +1228,7 @@ public class TitanCharString extends Base_Type {
 				if (ucs.charstring) {
 					// No special characters were found
 					if (is_bound()) {
-						operator_concatenate(ucs);
+						operator_assign(operator_concatenate(ucs));
 					} else {
 						operator_assign(ucs);
 					}
@@ -1244,7 +1244,7 @@ public class TitanCharString extends Base_Type {
 					}
 					final TitanCharString new_cs = new TitanCharString(ucs);
 					if (is_bound()) {
-						operator_concatenate(new_cs);
+						operator_assign(operator_concatenate(new_cs));
 					} else {
 						operator_assign(new_cs);
 					}
@@ -1263,12 +1263,12 @@ public class TitanCharString extends Base_Type {
 						is_nocase_pattern);
 				operand2.set_param(mp.get_operand2());
 				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
-					operator_concatenate(operand1);
-					operator_concatenate(operand2);
+					operator_assign(operator_concatenate(operand1));
+					operator_assign(operator_concatenate(operand2));
 				}
 				else {
 					operator_assign(operand1);
-					operator_concatenate(operand2);
+					operator_assign(operator_concatenate(operand2));
 				}
 			}
 			else {
