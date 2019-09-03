@@ -393,13 +393,13 @@ public class MainController {
 	private static ComponentStruct system;
 
 	public static void main(final String[] args) {
-		if(args.length > 1) {
+		if (args.length > 1) {
 			System.out.println("For now only 1 arguments can be passed, the config file.");
 		}
 
 		printWelcome();
 
-		if(args.length == 1) {
+		if (args.length == 1) {
 			mc_state = mcStateEnum.MC_INACTIVE;
 			final File config_file = new File(args[0]);
 			System.out.println("Using configuration file: "+config_file.getName());
@@ -455,7 +455,7 @@ public class MainController {
 			hosts = new ArrayList<Host>();
 			System.out.println(MessageFormat.format("Listening on IP address {0} and TCP port {1}.",
 					cfgAnalyzer.get().getMcSectionHandler().getLocalAddress(), cfgAnalyzer.get().getMcSectionHandler().getTcpPort().toString()));
-			while(n_hosts.get().compareTo(BigInteger.valueOf(hosts.size())) > 0) {
+			while (n_hosts.get().compareTo(BigInteger.valueOf(hosts.size())) > 0) {
 				final SocketChannel sc = serverSocketChannel.accept();
 				final Host host = new Host(sc);
 				hosts.add(host);
@@ -480,7 +480,7 @@ public class MainController {
 	}
 
 	private static void create_mtc(final Host host) {
-		if(mc_state != mcStateEnum.MC_ACTIVE) {
+		if (mc_state != mcStateEnum.MC_ACTIVE) {
 			// TODO error
 			return;
 		}
@@ -591,7 +591,7 @@ public class MainController {
 			} else {
 				break;
 			}
-		} while(local_incoming_buf.is_message());
+		} while (local_incoming_buf.is_message());
 		// TODO
 	}
 
@@ -688,10 +688,10 @@ public class MainController {
 				break;
 			}
 			local_incoming_buf.cut_message();
-			if(msg_type != MSG_CONFIGURE_ACK) {
+			if (msg_type != MSG_CONFIGURE_ACK) {
 				receiveMessage(hc);
 			}
-		} while(local_incoming_buf.is_message());
+		} while (local_incoming_buf.is_message());
 		// TODO
 
 	}
@@ -758,12 +758,12 @@ public class MainController {
 
 		// FIXME choose location
 		final Host ptcLoc = choose_ptc_location(componentTypeName, componentName, componentLocation);
-		if(ptcLoc == null) {
-			if(!is_hc_in_state(hcStateEnum.HC_ACTIVE)) {
+		if (ptcLoc == null) {
+			if (!is_hc_in_state(hcStateEnum.HC_ACTIVE)) {
 				send_error(tc.comp_location, "There is no active HC connection. Create operation cannot be performed.");
 			} else {
 				String compData = "component type: "+componentTypeModule+"."+componentTypeName;
-				if(componentName != null) {
+				if (componentName != null) {
 					compData = compData+", name: "+componentName;
 				}
 				if (componentLocation != null) {
@@ -899,7 +899,7 @@ public class MainController {
 
 	private static boolean is_hc_in_state(final hcStateEnum checked_state) {
 		for (int i = 0; i < hosts.size(); i++) {
-			if(hosts.get(i).hc_state == checked_state) {
+			if (hosts.get(i).hc_state == checked_state) {
 				return true;
 			}
 		}
@@ -932,12 +932,12 @@ public class MainController {
 		final int msg_type = local_incoming_buf.pull_int().get_int();
 
 		if (msg_type == MSG_VERSION) {
-			for (int i=0; i<4; i++) {
+			for (int i = 0; i < 4; i++) {
 				local_incoming_buf.pull_int();
 			}
 
 			final int modules_size = local_incoming_buf.pull_int().get_int();
-			for(int i=0; i<modules_size; i++) {
+			for (int i = 0; i < modules_size; i++) {
 				local_incoming_buf.pull_string();
 				final int value = local_incoming_buf.pull_int().get_int();
 				final byte[] data = new byte[16];
@@ -964,7 +964,7 @@ public class MainController {
 		}
 
 		final int n_supported_transports = text_buf.pull_int().get_int();
-		for (int i=0; i<n_supported_transports; i++) {
+		for (int i = 0; i < n_supported_transports; i++) {
 			final int transport_type = text_buf.pull_int().get_int();
 			if (transport_type >= 0 && transport_type < transport_type_enum.TRANSPORT_NUM.ordinal()) {
 				if (hc.transport_supported[transport_type]) {
@@ -1103,7 +1103,7 @@ public class MainController {
 	}
 
 	private static void process_mtc_created(final Host hc) {
-		if(mc_state != mcStateEnum.MC_CREATING_MTC) {
+		if (mc_state != mcStateEnum.MC_CREATING_MTC) {
 			send_error(hc, "Message MTC_CREATED arrived in invalid state.");
 			return;
 		}
@@ -1292,7 +1292,7 @@ public class MainController {
 					receiveMessage(tc.comp_location);
 				}
 			}
-		} while(local_incoming_buf.is_message());
+		} while (local_incoming_buf.is_message());
 		// FIXME
 
 		if (!tc.equals(mtc)) {
@@ -1308,7 +1308,7 @@ public class MainController {
 	}
 
 	private static boolean ready_to_finish_testcase() {
-		for (int i=tc_first_comp_ref; i<= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			switch(comp.tc_state) {
 			case TC_EXITED:
@@ -1369,7 +1369,7 @@ public class MainController {
 		}
 		boolean send_status_to_mtc = false;
 		boolean send_done_to_mtc = false;
-		for (int i=0; ; i++) {
+		for (int i = 0;; i++) {
 			final ComponentStruct requestor = get_requestor(tc.done_requestors, i);
 			if (requestor == null) {
 				break;
@@ -1518,7 +1518,7 @@ public class MainController {
 		text_buf.push_string(sourcePort);
 		text_buf.push_string(systemPort);
 		text_buf.push_int(nof_params);
-		for (int i=0; i<nof_params; i++) {
+		for (int i = 0; i < nof_params; i++) {
 			text_buf.push_string(params.get_param(i).get_value().toString());
 		}
 
@@ -1829,7 +1829,7 @@ public class MainController {
 	}
 
 	private static boolean is_all_component_alive() {
-		for (int i=tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (!comp.is_alive) {
 				return false;
@@ -1921,7 +1921,7 @@ public class MainController {
 	}
 
 	private static boolean is_all_component_running() {
-		for (int i=tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			if (tc.stop_requested) {
 				continue;
@@ -1977,7 +1977,7 @@ public class MainController {
 			send_error(tc.comp_location, MessageFormat.format("Unexpected MAPPED message was received for mapping "
 					+ "{0}:{1} - system:{2}.", tc.comp_ref, localPort, systemPort));
 		} else {
-			for (int i=0; ; i++) {
+			for (int i = 0;; i++) {
 				final ComponentStruct comp = get_requestor(conn.requestors, i);
 				if (comp == null) {
 					break;
@@ -2098,7 +2098,7 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MAP_ACK);
 		text_buf.push_int(nof_params);
-		for (int i=0; i<nof_params; i++) {
+		for (int i = 0; i < nof_params; i++) {
 			text_buf.push_string(params.get_param(i).get_value().toString());
 		}
 
@@ -2113,7 +2113,7 @@ public class MainController {
 		text_buf.push_string(sourcePort);
 		text_buf.push_string(systemPort);
 		text_buf.push_int(nof_params);
-		for (int i=0; i<nof_params; i++) {
+		for (int i = 0; i < nof_params; i++) {
 			text_buf.push_string(params.get_param(i).get_value().toString());
 		}
 
@@ -2281,7 +2281,7 @@ public class MainController {
 
 		boolean send_status_to_mtc = false;
 		boolean send_done_to_mtc = true;
-		for (int i=0; ; i++) {
+		for (int i = 0;; i++) {
 			final ComponentStruct requestor = get_requestor(tc.done_requestors, i);
 			if (requestor == null) {
 				break;
@@ -2292,7 +2292,7 @@ public class MainController {
 				send_component_status_to_requestor(tc, requestor, true, true);
 			}
 		}
-		for (int i=0; ; i++) {
+		for (int i = 0;; i++) {
 			final ComponentStruct requestor = get_requestor(tc.killed_requestors, i);
 			if (requestor == null) {
 				break;
@@ -2367,7 +2367,7 @@ public class MainController {
 		default:
 			break;
 		}
-		for (int i=0; ; i++) {
+		for (int i = 0;; i++) {
 			final ComponentStruct comp = get_requestor(tc.cancel_done_sent_for, i);
 			if (comp == null) {
 				break;
@@ -2377,7 +2377,7 @@ public class MainController {
 		tc.cancel_done_sent_for = new RequestorStruct();
 
 		Iterator<PortConnection> it = tc.conn_head_list.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			final PortConnection conn = it.next();
 			if (conn.tailComp == TitanComponent.SYSTEM_COMPREF) {
 				destroy_mapping(conn, 0, null, it);
@@ -2455,7 +2455,7 @@ public class MainController {
 			}
 			break;
 		case CONN_MAPPING:
-			for (int i=0; ; i++) {
+			for (int i = 0;; i++) {
 				final ComponentStruct comp = get_requestor(conn.requestors, i);
 				if (comp == null) {
 					break;
@@ -2484,7 +2484,7 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAP_ACK);
 		text_buf.push_int(nof_params);
-		for (int i=0; i<nof_params; i++) {
+		for (int i = 0; i < nof_params; i++) {
 			text_buf.push_string(params.get_param(i).get_value().toString());
 		}
 		send_message(tc.comp_location, text_buf);
@@ -2504,7 +2504,7 @@ public class MainController {
 		final ComponentStruct start_requestor = started_tc.start_requestor;
 		if (start_requestor.tc_state == tcStateEnum.TC_START) {
 			send_start_ack(start_requestor);
-			if(start_requestor.equals(mtc)) {
+			if (start_requestor.equals(mtc)) {
 				start_requestor.tc_state = tcStateEnum.MTC_TESTCASE;
 			} else {
 				start_requestor.tc_state = tcStateEnum.PTC_FUNCTION;
@@ -2584,7 +2584,7 @@ public class MainController {
 
 	private static void check_all_component_stop() {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 
 			switch (comp.tc_state) {
@@ -2623,7 +2623,7 @@ public class MainController {
 
 	private static void check_all_component_kill() {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			switch (comp.tc_state) {
 			case TC_INITIAL:
@@ -2677,7 +2677,7 @@ public class MainController {
 	}
 
 	private static boolean is_any_component_alive() {
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_alive(comp)) {
 				return true;
@@ -2715,7 +2715,7 @@ public class MainController {
 	}
 
 	private static boolean is_any_component_running() {
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_running(comp)) {
 				return true;
@@ -2936,7 +2936,7 @@ public class MainController {
 
 	private static boolean stop_all_components() {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			switch(tc.tc_state) {
 			case TC_INITIAL:
@@ -3019,7 +3019,7 @@ public class MainController {
 
 	private static boolean kill_all_components(final boolean testcase_ends) {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			boolean is_inactive = false;
 			switch(tc.tc_state) {
@@ -3161,7 +3161,7 @@ public class MainController {
 	}
 
 	private static void send_disconnect_ack_to_requestors(final PortConnection conn) {
-		for (int i=0; ; i++) {
+		for (int i = 0;; i++) {
 			final ComponentStruct comp = get_requestor(conn.requestors, i);
 			if (comp == null) {
 				break;
@@ -3340,7 +3340,7 @@ public class MainController {
 			// target.return_value = return_value;
 			target.return_value = null;
 			target.cancel_done_sent_to = init_requestors(null);
-			for (int i=0; ; i++) {
+			for (int i = 0;; i++) {
 				final ComponentStruct comp = get_requestor(target.done_requestors, i);
 				if (comp == null) {
 					break;
@@ -3383,7 +3383,7 @@ public class MainController {
 			target.done_requestors = new RequestorStruct();
 		}
 		if (send_cancel_done) {
-			for (int i=0; ; i++) {
+			for (int i = 0;; i++) {
 				final ComponentStruct comp = get_requestor(target.cancel_done_sent_to, i);
 				if (comp == null) {
 					break;
@@ -3441,7 +3441,7 @@ public class MainController {
 	}
 
 	private static boolean is_any_component_done() {
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_done(comp)) {
 				return true;
@@ -3504,7 +3504,7 @@ public class MainController {
 	}
 
 	private static void send_connect_ack_to_requestors(final PortConnection conn) {
-		for (int i=0; ; i++) {
+		for (int i = 0;; i++) {
 			final ComponentStruct comp = get_requestor(conn.requestors, i);
 			if (comp == null) {
 				break;
@@ -3625,7 +3625,7 @@ public class MainController {
 	private static void send_error_to_connect_requestors(final PortConnection conn, final String msg) {
 		final String reason = "Establishment of port connection "+conn.comp_ref+":"+conn.port_name+" - "+conn.tailComp+":"
 				+conn.tailPort+" failed because "+msg;
-		for (int i=0; ;  i++) {
+		for (int i = 0;; i++) {
 			final ComponentStruct comp = get_requestor(conn.requestors, i);
 			if (comp == null) {
 				break;
@@ -3841,7 +3841,7 @@ public class MainController {
 		text_buf.push_string(tailPort);
 		text_buf.push_int(transport_type.ordinal());
 		if (address != null) {
-			if(address instanceof Inet4Address) {
+			if (address instanceof Inet4Address) {
 				final byte temp[] = address.getAddress();
 				text_buf.push_raw(2, new byte[]{2, 0});
 				text_buf.push_raw(local_port_number.length, local_port_number);
@@ -3913,7 +3913,7 @@ public class MainController {
 			return null;
 		}
 
-		if(headComp.conn_head_list.size() <= tailComp.conn_tail_list.size()) {
+		if (headComp.conn_head_list.size() <= tailComp.conn_tail_list.size()) {
 			for (final PortConnection pc : headConn) {
 				if (pc.tailComp == destinationComponent && pc.headPort.equals(sourcePort)
 						&& pc.tailPort.equals(destinationPort)) {
@@ -4034,7 +4034,7 @@ public class MainController {
 
 	private static void process_mtc_ready() {
 		incoming_buf.get().cut_message();
-		if(mc_state != mcStateEnum.MC_EXECUTING_CONTROL || mtc.tc_state != tcStateEnum.MTC_CONTROLPART) {
+		if (mc_state != mcStateEnum.MC_EXECUTING_CONTROL || mtc.tc_state != tcStateEnum.MTC_CONTROLPART) {
 			send_error(mtc.comp_location, "Unexpected message MTC_READY was received.");
 			return;
 		}
@@ -4112,7 +4112,7 @@ public class MainController {
 		}
 
 		tc.tc_state = tcStateEnum.TC_IDLE;
-		if(mc_state == mcStateEnum.MC_TERMINATING_TESTCASE || mtc.stop_requested ||
+		if (mc_state == mcStateEnum.MC_TERMINATING_TESTCASE || mtc.stop_requested ||
 				mtc.tc_state == tcStateEnum.MTC_ALL_COMPONENT_KILL ||
 				(mtc.tc_state == tcStateEnum.MTC_ALL_COMPONENT_STOP && !tc.is_alive)) {
 			send_kill(tc);
@@ -4126,7 +4126,7 @@ public class MainController {
 		} else {
 			if (tc.create_requestor.tc_state == tcStateEnum.TC_CREATE) {
 				send_create_ack(tc.create_requestor, component_reference);
-				if(tc.create_requestor.equals(mtc)) {
+				if (tc.create_requestor.equals(mtc)) {
 					tc.create_requestor.tc_state = tcStateEnum.MTC_TESTCASE;
 				} else {
 					tc.create_requestor.tc_state = tcStateEnum.PTC_FUNCTION;
@@ -4235,7 +4235,7 @@ public class MainController {
 		any_component_killed_requested.set(false);
 		all_component_killed_requested.set(false);
 
-		if(ready_to_finish) {
+		if (ready_to_finish) {
 			finish_testcase();
 		}
 	}
@@ -4260,7 +4260,7 @@ public class MainController {
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		}
 
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			comp.tc_state = tcStateEnum.PTC_STALE;
 		}
@@ -4271,14 +4271,14 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_PTC_VERDICT);
 		int n_ptcs = 0;
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (comp.tc_state != tcStateEnum.PTC_STALE) {
 				n_ptcs++;
 			}
 		}
 		text_buf.push_int(n_ptcs);
-		for (int i = tc_first_comp_ref; i<=components.size(); i++) {
+		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (comp.tc_state != tcStateEnum.PTC_STALE) {
 				text_buf.push_int(comp.comp_ref);
@@ -4390,7 +4390,7 @@ public class MainController {
 	}
 
 	private static void process_final_log() {
-		for (int i=0; i<2; i++) {
+		for (int i = 0; i < 2; i++) {
 			receiveMessage(mtc.comp_location);
 			final Text_Buf local_incoming_buf = incoming_buf.get();
 			final int msg_len = local_incoming_buf.pull_int().get_int();
