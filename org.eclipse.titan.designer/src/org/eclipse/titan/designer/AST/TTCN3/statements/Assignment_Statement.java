@@ -415,7 +415,7 @@ public final class Assignment_Statement extends Statement {
 
 	private void checkTemplateAssignment(final CompilationTimeStamp timestamp, final Assignment assignment,
 			final Expected_Value_type expectedValue, final IReferenceChain referenceChain) {
-		IType type = getType(timestamp, assignment);
+		final IType type = getType(timestamp, assignment);
 
 		if (type == null) {
 			isErroneous = true;
@@ -424,16 +424,16 @@ public final class Assignment_Statement extends Statement {
 
 		type.check(timestamp); //temp
 
-		type = type.getFieldType(timestamp, reference, 1, expectedValue, false);
-		if (type == null) {
+		final IType fieldType = type.getFieldType(timestamp, reference, 1, expectedValue, false);
+		if (fieldType == null) {
 			isErroneous = true;
 			return;
 		}
 
-		template.setMyGovernor(type);
-		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
-		final boolean omitAllowed = type.getParentType() == null || type.fieldIsOptional(reference.getSubreferences());
-		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, true, omitAllowed, true, true, false, assignment);
+		template.setMyGovernor(fieldType);
+		final ITTCN3Template temporalTemplate = fieldType.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
+		final boolean omitAllowed = fieldType.getParentType() == null || type.fieldIsOptional(reference.getSubreferences());
+		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, fieldType, true, omitAllowed, true, true, false, assignment);
 		checkTemplateRestriction(timestamp);
 
 		if (reference.refersToStringElement()) {
