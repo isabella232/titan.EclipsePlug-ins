@@ -117,16 +117,6 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private IActionBars actionBars;
 	
 	/**
-	 * The boolean selector for the autoJump switch.
-	 */
-	private static boolean autoJumpToDefinition = true;
-	
-	/**
-	 * The boolean selector for the hide call list switch.
-	 */
-	private static boolean showCallList = true;
-	
-	/**
 	 * The <code>messageLabel</code> is a Label for show status informations.
 	 * Use in: {@link #setMessage(String)}
 	 * @see #setMessage(String)
@@ -157,6 +147,16 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * Possible values: </code>TREE_VIEWER<code> or <code>TABLE_VIEWEVR</code>.
 	 */
 	private int inFocus;
+	
+	/**
+	 * The boolean selector for the autoJump switch.
+	 */
+	private static boolean autoJumpToDefinition = true;
+	
+	/**
+	 * The boolean selector for the hide call list switch.
+	 */
+	private static boolean showCallList = true;
 	
 	/**
 	 * Store the current used CallHierarchyAction instance.
@@ -196,8 +196,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * The <code>CallHierarchyView</code>'s view id.<br>
 	 * Usage: {@link #showView()}
 	 */
-	public static final String  viewID = "org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView";
-
+	public  static final String  viewID = "org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView";
 	private static final String INITIAL_MESSAGE 			= "To display the call hierarchy, select one function or testcase\n"
 			+ "and choose the 'Open Call Hierarchy' menu option or press Ctrl+Alt+H.";
 	private static final String CALLING_IN_PROJECT			= "\"{0}\" calls in project: \"{1}\"."; 
@@ -563,24 +562,23 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	}
 
 	/**
-	 * The {@link CallHierarchyView}'s focus handler.<br>
-	 * Use:<br>
-	 * - {@link #focused}<br>
-	 * - {@link #inFocus}
+	 * Update the tree viewer and set the sort direction.
+	 * 
+	 * @param selectedElement
+	 * 			The new selected node
 	 */
-	@Override
-	public void setFocus() {
-		if(focused == inFocus) {
-			return;
+	private void tableViewerUpdate(final Object selectedElement) {
+		treeViewerSelectedNode = (CallHierarchyNode) selectedElement;
+		final Object[] references = treeViewerSelectedNode.getReferences();
+
+		final int sortDirection = table.getSortDirection();
+		if(sortDirection == SWT.UP) {
+			Arrays.sort(references, getReferenceComparator);
+		} else {
+			Arrays.sort(references, getReferenceComparator.reversed());
 		}
-		if(inFocus == TREE_VIEWER) {
-			focused = TREE_VIEWER;
-			treeViewer.getControl().setFocus();
-		}
-		if(inFocus == TABLE_VIEWEVR && showCallList) {
-			focused = TABLE_VIEWEVR;
-			tableViewer.getControl().setFocus();
-		}
+
+		tableViewer.setInput(references);
 	}
 
 	/**
@@ -604,25 +602,26 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			return 0;
 		}
 	};
-
+	
 	/**
-	 * Update the tree viewer and set the sort direction.
-	 * 
-	 * @param selectedElement
-	 * 			The new selected node
+	 * The {@link CallHierarchyView}'s focus handler.<br>
+	 * Use:<br>
+	 * - {@link #focused}<br>
+	 * - {@link #inFocus}
 	 */
-	private void tableViewerUpdate(final Object selectedElement) {
-		treeViewerSelectedNode = (CallHierarchyNode) selectedElement;
-		final Object[] references = treeViewerSelectedNode.getReferences();
-
-		final int sortDirection = table.getSortDirection();
-		if(sortDirection == SWT.UP) {
-			Arrays.sort(references, getReferenceComparator);
-		} else {
-			Arrays.sort(references, getReferenceComparator.reversed());
+	@Override
+	public void setFocus() {
+		if(focused == inFocus) {
+			return;
 		}
-
-		tableViewer.setInput(references);
+		if(inFocus == TREE_VIEWER) {
+			focused = TREE_VIEWER;
+			treeViewer.getControl().setFocus();
+		}
+		if(inFocus == TABLE_VIEWEVR && showCallList) {
+			focused = TABLE_VIEWEVR;
+			tableViewer.getControl().setFocus();
+		}
 	}
 	
 	/**
@@ -733,6 +732,15 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	public CallHierarchy getCallHierarchy() {
 		return callHierarchy;
 	}
+	
+	/**
+	 * Set the callHierarchyAction field.
+	 * 
+	 * @param callHierarchyAction Store the current used CallHierarchyAction instance.
+	 */
+	public void setAction(CallHierarchyAction callHierarchyAction) {
+		this.callHierarchyAction = callHierarchyAction;
+	}
 
 	/**
 	 * Set the {@link #messageLabel}'s text.
@@ -789,14 +797,5 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		if(level == STATUS_LINE_LEVEL_ERROR) {
 			statusLineManager.setMessage(ImageCache.getImage(STATUS_LINE_ERROR_ICON), message);
 		}
-	}
-	
-	/**
-	 * Set the callHierarchyAction field.
-	 * 
-	 * @param callHierarchyAction Store the current used CallHierarchyAction instance.
-	 */
-	public void setAction(CallHierarchyAction callHierarchyAction) {
-		this.callHierarchyAction = callHierarchyAction;
 	}
 }
