@@ -212,6 +212,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private static final String COLLAPSE_TREE_VIEWER_ICON	= "call_hierarchy_collapse.gif";
 	private static final String SEARCH_HISTORY				= "Search history";
 	private static final String SEARCH_HISTORYICON			= "call_hierarchy_search_history.gif";
+	private static final String STATUS_LINE_MESSAGE_ICON 	= "titan.gif";
+	private static final String STATUS_LINE_ERROR_ICON 		= "compiler_error_fresh.gif";
 	private static final String FUNCTION_ICON 				= "function.gif";
 	private static final String TESTCASE_ICON 				= "testcase.gif";
 	private static final String FUNCTION_EXTERNAL_ICON 		= "function_external.gif";
@@ -285,20 +287,40 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * Set the {@link #treeViewer} input.<br>
 	 * Initialize the {@link #tableViewer} to empty.<br>
 	 * Set the {@link #treeViewerSelectedNode} to the root.<br>
+	 * Set the {@link #searcHistoryAction} to visible if the {@link #callHierarchy}'s search log is not empty.<br>
+	 * Set the {@link #refreshAction} to visible if the {@link #callHierarchy}'s search log is not empty.<br>
 	 * Set the focus to the {@link #treeViewer}.
+	 * 
 	 * @param node
 	 * 			The new root {@link CallHierarchyNode} for the {@link #treeViewer}.
 	 */
 	public void setInput(final CallHierarchyNode node) {
 		treeViewer.setInput(node);
 		treeViewer.refresh();
-
-		final Object[] emptyInput = {};
-		tableViewer.setInput(emptyInput);
+		
+		if(showCallList)  {
+			final Object[] emptyInput = {};
+			TableColumn column[] = table.getColumns();
+			column[0].setWidth(columnSizes[0]);
+			column[1].setWidth(columnSizes[1]);
+			column[2].setWidth(columnSizes[2]);
+			tableViewer.setInput(emptyInput);
+		}
 
 		treeViewerSelectedNode = node;
 		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getCurrentNode().getName().substring(1), callHierarchy.getCurrentProject().getName()));
-		treeViewer.getControl().setFocus();
+		if(callHierarchy.getSearchLog().size() > 0) {
+			searcHistoryAction.setEnabled(true);
+			refreshAction.setEnabled(true);
+		}
+    	treeViewer.getControl().forceFocus();
+    	treeViewer.getTree().select(treeViewer.getTree().getItem(0));
+    	if(treeViewer.getTree().getItem(0).getData() instanceof CallHierarchyNode) {
+    		if(autoJumpToDefinition) {
+    		CallHierarchyNode selectedNode = (CallHierarchyNode) treeViewer.getTree().getItem(0).getData();
+    		selectLocation(selectedNode.getNodeDefinition().getLocation());
+    		}
+    	}
 	}
 
 	/**
@@ -335,15 +357,18 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessVerticalSpace = true;
-
-		final SashForm splitter = new SashForm(parent, SWT.NONE);
-		splitter.setLayoutData(gridData);
-
-		setUpTreeViewer(splitter, gridData);
+		
+		if(showCallList)  {
+			splitter = new SashForm(parent, SWT.NONE);
+			splitter.setLayoutData(gridData);
+			setUpTreeViewer(splitter, gridData);
+			table = new Table(splitter, SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER);
+			table.setLayoutData(gridData);
+			setUpTableViewer(table);
+		} else {
+			setUpTreeViewer(parent, gridData);
+		}
 		treeViewer.getControl().setFocus();
-
-		table = new Table(splitter, SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION | SWT.BORDER);
-		setUpTableViewer(table);
 	}
 	
 	/**
@@ -506,7 +531,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		final ArrayList<TableColumn> tableColumns = new ArrayList<TableColumn>();
 		for (int i = 0; i < columnHeaders.length; i++) {
 			tableLayout.addColumnData(columnLayouts[i]);
-			final TableColumn tableColumn = new TableColumn(table, SWT.NONE,i);
+			final TableColumn tableColumn = new TableColumn(table, SWT.NONE, i);
 			tableColumn.setResizable(columnLayouts[i].resizable);
 			tableColumn.setText(columnHeaders[i]);
 			tableColumns.add(tableColumn);
@@ -552,7 +577,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			focused = TREE_VIEWER;
 			treeViewer.getControl().setFocus();
 		}
-		if(inFocus == TABLE_VIEWEVR) {
+		if(inFocus == TABLE_VIEWEVR && showCallList) {
 			focused = TABLE_VIEWEVR;
 			tableViewer.getControl().setFocus();
 		}
@@ -578,7 +603,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 			return 0;
 		}
-	}; 
+	};
 
 	/**
 	 * Update the tree viewer and set the sort direction.
@@ -615,7 +640,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 		final Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
 		
-		if (selectedElement instanceof CallHierarchyNode) {
+		if (selectedElement instanceof CallHierarchyNode && showCallList) {
 			tableViewerUpdate(selectedElement);
 			inFocus = TREE_VIEWER;
 		}
@@ -758,11 +783,11 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		statusLineManager.setErrorMessage(null);
 
 		if(level == STATUS_LINE_LEVEL_MESSAGE) {
-			statusLineManager.setMessage(ImageCache.getImage("titan.gif"), message);
+			statusLineManager.setMessage(ImageCache.getImage(STATUS_LINE_MESSAGE_ICON), message);
 		}
 
 		if(level == STATUS_LINE_LEVEL_ERROR) {
-			statusLineManager.setMessage(ImageCache.getImage("compiler_error_fresh.gif"), message);
+			statusLineManager.setMessage(ImageCache.getImage(STATUS_LINE_ERROR_ICON), message);
 		}
 	}
 	
