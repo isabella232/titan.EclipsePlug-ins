@@ -1,9 +1,9 @@
----
+////
 Author: Jenő Balaskó
 Version: 4/198 17-CRL 113 200/6, Rev. F
 Date: 2019-04-09
 
----
+////
 = User Guide for the TITAN Designer for the Eclipse IDE
 :author: Jenő Balaskó
 :revnumber: 4/198 17-CRL 113 200/6, Rev. F
@@ -45,9 +45,10 @@ ifdef::env-github,backend-html5[]
 * link:8-contents_of_the_problems_view.adoc[Contents of the Problems View]
 * link:9-contents_of_the_tasks_view.adoc[Contents of the Tasks View]
 * link:10-contents_of_the_outline_view.adoc[Contents of the Outline View]
-* link:11-extensions_to_the_project_explorer.adoc[Extensions to the Project Explorer]
-* link:12-references.adoc[References]
-* link:13-abbreviations.adoc[Abbreviations]
+* link:11-contents_of_the_call_hierarchy_view.adoc[Contents of the Call Hierarchy View]
+* link:12-extensions_to_the_project_explorer.adoc[Extensions to the Project Explorer]
+* link:13-references.adoc[References]
+* link:14-abbreviations.adoc[Abbreviations]
 endif::[]
 
 ifndef::env-github,backend-html5[]
@@ -61,7 +62,8 @@ include::7-editing_with_titan_designer_plugin.adoc[leveloffset=+1]
 include::8-contents_of_the_problems_view.adoc[leveloffset=+1]
 include::9-contents_of_the_tasks_view.adoc[leveloffset=+1]
 include::10-contents_of_the_outline_view.adoc[leveloffset=+1]
-include::11-extensions_to_the_project_explorer.adoc[leveloffset=+1]
-include::12-references.adoc[leveloffset=+1]
-include::13-abbreviations.adoc[leveloffset=+1]
+include::11-contents_of_the_call_hierarchy_view.adoc[leveloffset=+1]
+include::12-extensions_to_the_project_explorer.adoc[leveloffset=+1]
+include::13-references.adoc[leveloffset=+1]
+include::14-abbreviations.adoc[leveloffset=+1]
 endif::[]
