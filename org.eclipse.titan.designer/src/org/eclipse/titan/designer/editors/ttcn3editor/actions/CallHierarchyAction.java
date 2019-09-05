@@ -87,8 +87,8 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 * 			The new selection from the TTCN3 Editor.
 	 */
 	@Override
-	public void selectionChanged(final IAction action, final ISelection selection) {
-		this.selection = selection;
+	public void selectionChanged(final IAction action, final ISelection currentSelection) {
+		selection = currentSelection;
 	}
 
 	/**
@@ -207,7 +207,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 */
 	public void showStatusLineMessage(final String message, final int level) {
 		if(targetEditor == null) {
-			return;
+			targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		}
 
 		final IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
