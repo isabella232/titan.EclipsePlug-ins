@@ -111,6 +111,11 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private boolean autoJumpToDefinition = true;
 	
 	/**
+	 * The boolean selector for the hide call list switch.
+	 */
+	private static boolean showCallList = true;
+	
+	/**
 	 * The action for the refresh button.
 	 */
 	private Action refreshAction;
@@ -180,6 +185,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private static final String JUMP_TO_DEFINITION_ICON		= "call_hierarchy_auto_definition_jump.gif";
 	private static final String REFRESH						= "Refresh";
 	private static final String REFRESH_ICON				= "call_hierarchy_search_refresh.gif";
+	private static final String CALL_LINE_VIEW				= "Call line view";
+	private static final String CALL_LINE_VIEW_ICON			= "call_hierarchy_call_line_view.gif";
 	private static final int    TREE_VIEWER					= 0;
 	private static final int    TABLE_VIEWEVR				= 1;
 	private static final int    STATUS_LINE_LEVEL_MESSAGE 	= 0;
@@ -226,6 +233,24 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		final CallHierarchyView view = (CallHierarchyView) viewPart;
 
 		return view;
+	}
+	
+	/**
+	 * Close the current view.
+	 */
+	public void hideView() {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().hideView(this);
+	}
+	
+	/**
+	 * Clear and redraw the view. If the previous search exist reload it.
+	 */
+	public void reDraw() {
+		hideView();
+		if(callHierarchyAction != null && callHierarchy.getCurrentNode() != null && callHierarchy.getCurrentNode().getNodeDefinition() != null) {
+			callHierarchyAction.processing(callHierarchy.getCurrentNode());
+		}
+		showView();
 	}
 
 	/**
@@ -319,6 +344,17 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		jumpToDefinitionAction.setImageDescriptor(ImageCache.getImageDescriptor(JUMP_TO_DEFINITION_ICON));
 		jumpToDefinitionAction.setChecked(autoJumpToDefinition);
 		actionBars.getToolBarManager().add(jumpToDefinitionAction);
+		
+		//Hide call list
+		final Action hideCallListAction = new Action(CALL_LINE_VIEW) {
+			@Override
+			public void run() {
+				showCallList = isChecked();
+				reDraw();
+			}};
+		hideCallListAction.setImageDescriptor(ImageCache.getImageDescriptor(CALL_LINE_VIEW_ICON));
+		hideCallListAction.setChecked(showCallList);
+		actionBars.getToolBarManager().add(hideCallListAction);
 	}
 
 	/**
