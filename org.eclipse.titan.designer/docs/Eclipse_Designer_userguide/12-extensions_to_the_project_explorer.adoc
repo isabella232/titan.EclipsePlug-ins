@@ -1,6 +1,6 @@
 = Extensions to the Project Explorer
 :toc:
-:figure-number: 128
+:figure-number: 135
 
 [[filtering-resources-from-the-view]]
 == Filtering Resources from the View

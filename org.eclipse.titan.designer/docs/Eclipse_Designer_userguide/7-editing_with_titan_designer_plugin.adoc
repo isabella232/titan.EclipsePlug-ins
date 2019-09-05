@@ -1,6 +1,6 @@
 = Editing with TITAN Designer Plugin
 :toc:
-:figure-number: 92
+:figure-number: 96
 
 This chapter presents the editors provided by TITAN Designer plug-in and their features.
 
