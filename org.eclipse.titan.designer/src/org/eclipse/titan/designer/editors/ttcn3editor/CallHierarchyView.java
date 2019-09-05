@@ -177,6 +177,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private static final String CALLING_IN_PROJECT			= "\"{0}\" calls in project: \"{1}\"."; 
 	private static final String EDITOR_OPEN_ERROR			= "The new editor can not open!";
 	private static final String JUMP_TO_DEFINITION			= "Auto jump to definition.";
+	private static final String JUMP_TO_DEFINITION_ICON		= "call_hierarchy_auto_definition_jump.gif";
 	private static final String REFRESH						= "Refresh";
 	private static final String REFRESH_ICON				= "call_hierarchy_search_refresh.gif";
 	private static final int    TREE_VIEWER					= 0;
@@ -309,15 +310,15 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		refreshAction.setEnabled(false);
 		actionBars.getToolBarManager().add(refreshAction);
 		
-		final Action categorise = new Action(JUMP_TO_DEFINITION) {
+		//Jump to definition
+		final Action jumpToDefinitionAction = new Action(JUMP_TO_DEFINITION) {
 			@Override
 			public void run() {
 				autoJumpToDefinition = isChecked();
-			}
-		};
-		categorise.setImageDescriptor(ImageCache.getImageDescriptor("auto_definition_selection.gif"));
-		categorise.setChecked(autoJumpToDefinition);
-		actionBars.getToolBarManager().add(categorise);
+			}};
+		jumpToDefinitionAction.setImageDescriptor(ImageCache.getImageDescriptor(JUMP_TO_DEFINITION_ICON));
+		jumpToDefinitionAction.setChecked(autoJumpToDefinition);
+		actionBars.getToolBarManager().add(jumpToDefinitionAction);
 	}
 
 	/**
