@@ -13,18 +13,34 @@ import java.util.Arrays;
 import java.util.Comparator;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TableLayout;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.ColumnLayoutData;
+import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -35,21 +51,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.editors.ttcn3editor.actions.CallHierarchyAction;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
-import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ColumnLayoutData;
-import org.eclipse.jface.viewers.ColumnPixelData;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Event;
 
 /**
  * <p>
@@ -79,6 +85,11 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @see TableViewer
 	 */
 	private Table table;
+	
+	/**
+	 * Splitter for the main UI.
+	 */
+	private SashForm splitter;
 
 	/**
 	 * The content provider for the {@link #treeViewer}.
@@ -108,18 +119,13 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	/**
 	 * The boolean selector for the autoJump switch.
 	 */
-	private boolean autoJumpToDefinition = true;
+	private static boolean autoJumpToDefinition = true;
 	
 	/**
 	 * The boolean selector for the hide call list switch.
 	 */
 	private static boolean showCallList = true;
 	
-	/**
-	 * The action for the refresh button.
-	 */
-	private Action refreshAction;
-
 	/**
 	 * The <code>messageLabel</code> is a Label for show status informations.
 	 * Use in: {@link #setMessage(String)}
@@ -131,12 +137,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * The {@link CallHierarchy} contains the in the call hierarchy view used search algorithms implementation.
 	 * @see CallHierarchy
 	 */
-	private final CallHierarchy callHierarchy;
-	
-	/**
-	 * Store the current used CallHierarchyAction instance.
-	 */
-	private CallHierarchyAction callHierarchyAction;
+	private static CallHierarchy callHierarchy;
 
 	/**
 	 * The current selected {@link CallHierarchyNode} in the {@link #treeViewer}.
@@ -156,6 +157,21 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * Possible values: </code>TREE_VIEWER<code> or <code>TABLE_VIEWEVR</code>.
 	 */
 	private int inFocus;
+	
+	/**
+	 * Store the current used CallHierarchyAction instance.
+	 */
+	private CallHierarchyAction callHierarchyAction;
+	
+	/**
+	 * SearchHistoryMenuCreator for the search history list.
+	 */
+	private Action searcHistoryAction;
+	
+	/**
+	 * The action for the refresh button.
+	 */
+	private Action refreshAction;
 
 	/**
 	 * The {@link #tableViewer}'s headers.
@@ -163,12 +179,17 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private final String columnHeaders[] = {"", "Line", "Call"};
 
 	/**
+	 * The {@link #tableViewer}'s column's sizes.
+	 */
+	private final int columnSizes[] = {18, 60, 300};
+	
+	/**
 	 * The {@link #tableViewer}'s column layouts.
 	 */
 	private final ColumnLayoutData columnLayouts[] = {
-			new ColumnPixelData(18, false, true),
-			new ColumnWeightData(60),
-			new ColumnWeightData(300)
+			new ColumnPixelData(columnSizes[0], false, true),
+			new ColumnWeightData(columnSizes[1]),
+			new ColumnWeightData(columnSizes[2])
 	};
 
 	/**
@@ -181,14 +202,19 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			+ "and choose the 'Open Call Hierarchy' menu option or press Ctrl+Alt+H.";
 	private static final String CALLING_IN_PROJECT			= "\"{0}\" calls in project: \"{1}\"."; 
 	private static final String EDITOR_OPEN_ERROR			= "The new editor can not open!";
-	private static final String JUMP_TO_DEFINITION			= "Auto jump to definition.";
-	private static final String JUMP_TO_DEFINITION_ICON		= "call_hierarchy_auto_definition_jump.gif";
 	private static final String REFRESH						= "Refresh";
 	private static final String REFRESH_ICON				= "call_hierarchy_search_refresh.gif";
+	private static final String JUMP_TO_DEFINITION			= "Auto jump to definition";
+	private static final String JUMP_TO_DEFINITION_ICON		= "call_hierarchy_auto_definition_jump.gif";
 	private static final String CALL_LINE_VIEW				= "Call line view";
 	private static final String CALL_LINE_VIEW_ICON			= "call_hierarchy_call_line_view.gif";
 	private static final String COLLAPSE_TREE_VIEWER		= "Close all";
 	private static final String COLLAPSE_TREE_VIEWER_ICON	= "call_hierarchy_collapse.gif";
+	private static final String SEARCH_HISTORY				= "Search history";
+	private static final String SEARCH_HISTORYICON			= "call_hierarchy_search_history.gif";
+	private static final String FUNCTION_ICON 				= "function.gif";
+	private static final String TESTCASE_ICON 				= "testcase.gif";
+	private static final String FUNCTION_EXTERNAL_ICON 		= "function_external.gif";
 	private static final int    TREE_VIEWER					= 0;
 	private static final int    TABLE_VIEWEVR				= 1;
 	private static final int    STATUS_LINE_LEVEL_MESSAGE 	= 0;
@@ -203,7 +229,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 */
 	public CallHierarchyView() {
 		callHierarchy 	= new CallHierarchy();
-		contentProvider = new CallHierarchyContentProvider(this.callHierarchy);
+		contentProvider = new CallHierarchyContentProvider(callHierarchy);
 		labelProvider 	= new CallHierarchyLabelProvider();
 		inFocus 		= TREE_VIEWER;
 		focused 		= TREE_VIEWER;
@@ -367,6 +393,81 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			}};
 		collapseTreeViewerAction.setImageDescriptor(ImageCache.getImageDescriptor(COLLAPSE_TREE_VIEWER_ICON));
 		actionBars.getToolBarManager().add(collapseTreeViewerAction);
+		
+		//Search history
+		searcHistoryAction = new Action(SEARCH_HISTORY, Action.AS_DROP_DOWN_MENU) {};
+		searcHistoryAction.setMenuCreator(new SearchHistoryMenuCreator());
+		searcHistoryAction.setImageDescriptor(ImageCache.getImageDescriptor(SEARCH_HISTORYICON));
+		searcHistoryAction.setEnabled(false);
+		actionBars.getToolBarManager().add(searcHistoryAction);
+	}
+	
+	/**
+	 * Menu creator for the search history menu.
+	 *
+	 */
+	private class SearchHistoryMenuCreator implements IMenuCreator {
+		
+		/**
+		 * The current menu.
+		 */
+	    private Menu menu;
+	    
+	    /**
+	     * Dispose the menu.
+	     */
+		@Override
+		public void dispose() {
+			if (menu != null) {
+				menu.dispose();
+				menu = null;
+			}	
+		}
+
+		/**
+		 *  The menu generator. List the search log with icons.
+		 */
+		@Override
+		public Menu getMenu(Control parent) {
+			if (menu != null) {
+				menu.dispose();
+			}
+			menu = new Menu(parent);
+			
+			ArrayList<CallHierarchyNode> searchLog = callHierarchy.getSearchLog();
+			for (int i = searchLog.size()-1; i>=0; i--) {
+				CallHierarchyNode currentLogItem = searchLog.get(i);
+				MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
+				menuItem.setText(currentLogItem.getName().substring(1));
+				String iconName = "titan.gif";
+		        switch(currentLogItem.getNodeDefinition().getAssignmentName()) { 
+		            case "function": 
+		            	iconName = FUNCTION_ICON;
+		                break; 
+		            case "testcase": 
+		            	iconName = TESTCASE_ICON;
+		                break; 
+		            case "external function": 
+		            	iconName = FUNCTION_EXTERNAL_ICON;
+		                break; 
+		        }
+				menuItem.setImage(ImageCache.getImageDescriptor(iconName).createImage());
+				menuItem.addSelectionListener(new SelectionAdapter() {
+	                public void widgetSelected(SelectionEvent event) {
+	                	callHierarchyAction.processing(currentLogItem);
+	                }
+	            });
+			}
+			return menu;
+		}
+
+		/**
+		 * Return the current menu.
+		 */
+		@Override
+		public Menu getMenu(Menu parent) {
+			return menu;
+		}
 	}
 
 	/**
@@ -605,7 +706,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * 			The used {@link CallHierarchy} object.
 	 */
 	public CallHierarchy getCallHierarchy() {
-		return this.callHierarchy;
+		return callHierarchy;
 	}
 
 	/**
