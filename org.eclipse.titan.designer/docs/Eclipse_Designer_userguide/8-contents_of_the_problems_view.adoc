@@ -1,7 +1,7 @@
 [[the_problems_view]]
 = Contents of the Problems View
 :toc:
-:figure-number: 109
+:figure-number: 113
 
 This section presents how TITAN Designer plugin is integrated in the Problems view.
 
@@ -80,4 +80,3 @@ image::images/8_F104.png[title="Grouping by type"]
 Here every problem reported by the TITAN plugin is placed into the same group labeled TITAN Problems. Other problems are placed into a group labeled Other Problems.
 
 image::images/8_F105.png[title="Grouping by TITAN problems"]
-

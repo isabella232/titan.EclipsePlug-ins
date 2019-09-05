@@ -1,10 +1,10 @@
 = The Call Hierarchy View
 :toc:
-:figure-number: 127
+:figure-number: 124
 
 This section presents how TITAN Designer plugin implement the Call Hierarchy View.
 
-During the development is often useful to get a higher level view of a TTCN-3 function's (image:images/function.png[title="function_icon"]), testcase's (image:images/testcase.png[title="testcase_icon"]) or external function's (image:images/function_external.png[title="function_external_icon"]) call hierarchies. This view help you see your function's place in the call tree and you can see witch other functions call your's.
+During the development is often useful to get a higher level view of a TTCN-3 functions (image:images/function.png[title="function_icon"]), testcases (image:images/testcase.png[title="testcase_icon"]) or external functions (image:images/function_external.png[title="function_external_icon"]) call hierarchies. This view help you see your functions place in the call tree and you can see witch other functions call yours.
 
 image::images/11_01_call_hierarchy_view.png[title="The Call Hierarchy view", align="center"]
 

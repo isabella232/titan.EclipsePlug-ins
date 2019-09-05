@@ -1,6 +1,6 @@
 = Contents of the Tasks View
 :toc:
-:figure-number: 114
+:figure-number: 117
 
 This section presents how TITAN Designer plugin is integrated in the Tasks view.
 
@@ -19,4 +19,3 @@ It is the on-the-fly parser creating these notifications, not the TITAN compiler
 Eclipse provides all the nice features for Task markers as it did for Problem markers, with the only exception being that grouping is not supported; see <<8-contents_of_the_problems_view.adoc#eclipse-provided-features, here>>
 
 image::images/9_F106.png[title="TODO and FIXME task markers"]
-
