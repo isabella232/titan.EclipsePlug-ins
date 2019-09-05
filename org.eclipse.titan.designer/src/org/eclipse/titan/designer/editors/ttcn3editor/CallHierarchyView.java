@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.editors.ttcn3editor.actions.CallHierarchyAction;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.jface.viewers.TableLayout;
@@ -108,6 +109,11 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * The boolean selector for the autoJump switch.
 	 */
 	private boolean autoJumpToDefinition = true;
+	
+	/**
+	 * The action for the refresh button.
+	 */
+	private Action refreshAction;
 
 	/**
 	 * The <code>messageLabel</code> is a Label for show status informations.
@@ -121,6 +127,11 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @see CallHierarchy
 	 */
 	private final CallHierarchy callHierarchy;
+	
+	/**
+	 * Store the current used CallHierarchyAction instance.
+	 */
+	private CallHierarchyAction callHierarchyAction;
 
 	/**
 	 * The current selected {@link CallHierarchyNode} in the {@link #treeViewer}.
@@ -166,6 +177,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private static final String CALLING_IN_PROJECT			= "\"{0}\" calls in project: \"{1}\"."; 
 	private static final String EDITOR_OPEN_ERROR			= "The new editor can not open!";
 	private static final String JUMP_TO_DEFINITION			= "Auto jump to definition.";
+	private static final String REFRESH						= "Refresh";
+	private static final String REFRESH_ICON				= "call_hierarchy_search_refresh.gif";
 	private static final int    TREE_VIEWER					= 0;
 	private static final int    TABLE_VIEWEVR				= 1;
 	private static final int    STATUS_LINE_LEVEL_MESSAGE 	= 0;
@@ -230,7 +243,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		tableViewer.setInput(emptyInput);
 
 		treeViewerSelectedNode = node;
-		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getSelectedAssignment().getFullName().substring(1), callHierarchy.getCurrentProject().getName()));
+		setMessage(MessageFormat.format(CALLING_IN_PROJECT, callHierarchy.getCurrentNode().getName().substring(1), callHierarchy.getCurrentProject().getName()));
 		treeViewer.getControl().setFocus();
 	}
 
@@ -286,6 +299,16 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * 			The view's action bars.
 	 */
 	private void setUpActionBars(IActionBars actionBars) {
+		//Refresh
+		refreshAction = new Action(REFRESH) {
+			@Override
+			public void run() {
+				callHierarchyAction.processing(callHierarchy.getCurrentNode());
+			}};
+		refreshAction.setImageDescriptor(ImageCache.getImageDescriptor(REFRESH_ICON));
+		refreshAction.setEnabled(false);
+		actionBars.getToolBarManager().add(refreshAction);
+		
 		final Action categorise = new Action(JUMP_TO_DEFINITION) {
 			@Override
 			public void run() {
@@ -591,5 +614,14 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		if(level == STATUS_LINE_LEVEL_ERROR) {
 			statusLineManager.setMessage(ImageCache.getImage("compiler_error_fresh.gif"), message);
 		}
+	}
+	
+	/**
+	 * Set the callHierarchyAction field.
+	 * 
+	 * @param callHierarchyAction Store the current used CallHierarchyAction instance.
+	 */
+	public void setAction(CallHierarchyAction callHierarchyAction) {
+		this.callHierarchyAction = callHierarchyAction;
 	}
 }

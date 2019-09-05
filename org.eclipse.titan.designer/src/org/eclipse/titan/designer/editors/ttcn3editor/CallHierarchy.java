@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.editors.ttcn3editor;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.text.MessageFormat;
 import org.eclipse.ui.IEditorPart;
@@ -62,8 +63,10 @@ public class CallHierarchy {
 	private static final String SELECTED_ASSIGNMENT_NOT_FOUND 	= "The selected object is not a function or testcase or not found.";
 	private static final String CALL_HIERARCY_BUILDING 			= "Call hierarchy view building in progress ...";
 	private static final String CALL_HIERARCY_BUILDING_COMPLETE = "Call Hierarchy building complete on the \"{0}\".";
-	private static final int    STATUS_LINE_LEVEL_MESSAGE = 0;
-	private static final int    STATUS_LINE_LEVEL_ERROR = 1;
+	private static final String STATUS_LINE_ERROR_ICON 			= "compiler_error_fresh.gif";
+	private static final String STATUS_LINE_MESSAGE_ICON 		= "titan.gif";
+	private static final int    STATUS_LINE_LEVEL_MESSAGE 		= 0;
+	private static final int    STATUS_LINE_LEVEL_ERROR 		= 1;
 
 	/**
 	 * The current editor. <br> Setting in the {@link #initialization()} or in the  {@link #setActiveEditor(IEditorPart)}.
@@ -81,11 +84,6 @@ public class CallHierarchy {
 	private ProjectSourceParser projectSourceParser = null;
 
 	/**
-	 * The selected file. <br> Setting in the {@link #initialization()}.
-	 */
-	private IFile selectedFile = null;
-
-	/**
 	 * The selected module. <br> Setting in the {@link #initialization()}.
 	 */
 	private Module selectedModule = null;
@@ -96,10 +94,20 @@ public class CallHierarchy {
 	private IStatusLineManager  statusLineManager	= null;
 
 	/**
-	 * The selected Assignment. Setting in the {@link #functionCallFinder(ISelection)()}.
+	 * The selected CallHierarchyNode. Setting in the {@link #functionCallFinder(ISelection)} and the {@link #setcurrentNode()}.
 	 */
-	private Assignment selectedAssignment = null;
-
+	private static CallHierarchyNode currentNode = null;
+	
+	/**
+	 * Store the search history.
+	 */
+	private static ArrayList<CallHierarchyNode> searchLog = new ArrayList<CallHierarchyNode>();;
+	
+	/**
+	 * The search history list allowed long.
+	 */
+	private final int SEARCH_LOG_HISTORY_LONG = 15;
+	
 	/**
 	 * Constructor of CallHierarchy.<br>
 	 * Set the Assignment filters ({@link #filterAssignmentType}) for the find {@link #functionCallFinder(ISelection)}.
@@ -139,7 +147,7 @@ public class CallHierarchy {
 		}
 		statusLineManager.setErrorMessage(null);
 
-		selectedFile = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
+		final IFile selectedFile = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
 		if (selectedFile == null) {
 			showStatusLineMessage(FILENOTIDENTIFIABLE, STATUS_LINE_LEVEL_ERROR);
 			return false;
@@ -211,7 +219,7 @@ public class CallHierarchy {
 			return null;
 		}
 
-		selectedAssignment = referenceFinder.assignment;
+		final Assignment selectedAssignment = referenceFinder.assignment;
 		if(!(selectedAssignment instanceof Definition)) {
 			return null;
 		}
@@ -226,8 +234,9 @@ public class CallHierarchy {
 				node.addChild(currentModule, functionCallHit.reference);
 			}
 		}
-
-		showStatusLineMessage(MessageFormat.format(CALL_HIERARCY_BUILDING_COMPLETE, getSelectedAssignmentName()));
+		setCurrentNode(node);
+		
+		showStatusLineMessage(MessageFormat.format(CALL_HIERARCY_BUILDING_COMPLETE, currentNode.getName()));
 		return node;
 	}
 
@@ -244,21 +253,24 @@ public class CallHierarchy {
 	 * @see CallHierarchyNode
 	 */
 	public CallHierarchyNode functionCallFinder(final CallHierarchyNode node) {
+		if(node == null) {
+			return node;
+		}
+		if(node.getNodeDefinition() == null) {
+			return node;
+		}
+		showStatusLineMessage(CALL_HIERARCY_BUILDING);
 		boolean initializationStatus = initialization();
 		if(!initializationStatus)  {
 			return null;
 		}
 
 		final Set<String> modules = projectSourceParser.getKnownModuleNames();
-
-		showStatusLineMessage(CALL_HIERARCY_BUILDING);
-
 		for (String moduleName : modules) {
 			final Module module = projectSourceParser.getModuleByName(moduleName);
 			if(module == null) continue;
 
 			final FunctionCallVisitor functionCallVisitor = new FunctionCallVisitor((Assignment) node.getNodeDefinition());
-
 			module.accept(functionCallVisitor);
 
 			final Set<Reference> setOfCallreferences = functionCallVisitor.getFunctionCalls();
@@ -266,9 +278,7 @@ public class CallHierarchy {
 				node.addChild(module, reference);
 			}
 		}
-
-		showStatusLineMessage(MessageFormat.format(CALL_HIERARCY_BUILDING_COMPLETE, getSelectedAssignmentName()));
-
+		showStatusLineMessage(MessageFormat.format(CALL_HIERARCY_BUILDING_COMPLETE, currentNode.getName()));
 		return node;
 	}
 
@@ -326,7 +336,7 @@ public class CallHierarchy {
 			}
 
 			final Reference reference = (Reference) node;
-			final Assignment referedAssignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			final Assignment referedAssignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 
 			if(referedAssignment == null) {
 				return V_CONTINUE;
@@ -335,8 +345,8 @@ public class CallHierarchy {
 			if(!(referedAssignment instanceof Definition)) {
 				return V_CONTINUE;
 			}
-
-			if(!(referedAssignment.equals(target))) {
+			
+			if(!(referedAssignment.getFullName().equals(target.getFullName()))) {
 				return V_CONTINUE;
 			}
 
@@ -344,7 +354,38 @@ public class CallHierarchy {
 			return V_CONTINUE;
 		}
 	}
-
+	
+	/**
+	 * Add a new search start selection for the searchLog.
+	 * When the pushed element already exist, the method remove it and push it to the top.
+	 * The method limit them list length to the SEARCH_LOG_HISTORY_LONG limit.
+	 * 
+	 * @param name The name of the searched object.
+	 * @param selection The new search start point for the log.
+	 */
+	public void addToSearchLog(CallHierarchyNode selectedNode) {
+		final String selectedNodeName = selectedNode.getName();
+		for (int i = 0; i < searchLog.size(); i++) {
+			if(searchLog.get(i).getName().equals(selectedNodeName)) {
+				searchLog.remove(searchLog.get(i));
+				break;
+			}
+		}
+		searchLog.add(selectedNode);
+		if(searchLog.size() > SEARCH_LOG_HISTORY_LONG) {
+			searchLog.remove(0);
+		}
+	}
+	
+	/**
+	 * Getter for the search log.
+	 * 
+	 * @return The search log.
+	 */
+	public ArrayList<CallHierarchyNode> getSearchLog() {
+		return searchLog;
+	}
+	
 	/**
 	 * Show message on the target editors status bar.<br>
 	 * The message level is automatically STATUS_LINE_LEVEL_MESSAGE.
@@ -375,24 +416,12 @@ public class CallHierarchy {
 		statusLineManager.setErrorMessage(null);
 
 		if(level == STATUS_LINE_LEVEL_MESSAGE) {
-			statusLineManager.setMessage(ImageCache.getImage("titan.gif"), message);
+			statusLineManager.setMessage(ImageCache.getImage(STATUS_LINE_MESSAGE_ICON), message);
 		}
 
 		if(level == STATUS_LINE_LEVEL_ERROR) {
-			statusLineManager.setMessage(ImageCache.getImage("compiler_error_fresh.gif"), message);
+			statusLineManager.setMessage(ImageCache.getImage(STATUS_LINE_ERROR_ICON), message);
 		}
-	}
-
-	/**
-	 * Return the actual selected assignment.<br>
-	 * Setting in the {@link #initialization()}.
-	 *
-	 * @return
-	 * 			The actual selected assignment.
-	 * @see #initialization()
-	 */
-	public Assignment getSelectedAssignment() {
-		return this.selectedAssignment;
 	}
 
 	/**
@@ -408,15 +437,27 @@ public class CallHierarchy {
 	}
 
 	/**
-	 * Return the actual selected assignment's name.<br>
-	 * Setting in the {@link #initialization()}.
+	 * Return the actual selected CallHierarchyNode.<br>
+	 * Setting in the {@link #functionCallFinder(ISelection)} and the {@link #setcurrentNode()}.
 	 *
 	 * @return
-	 * 			The actual selected assignment's name.
-	 * @see #initialization()
+	 * 			The selected CallHierarchyNode.
+	 * @see #functionCallFinder(ISelection)
+	 * @see #setcurrentNode()
 	 */
-	public String getSelectedAssignmentName() {
-		return this.selectedAssignment.getFullName();
+	public CallHierarchyNode getCurrentNode() {
+		return currentNode;
+	}
+	
+	/**
+	 * Set the actual selected CallHierarchyNode.<br>
+	 * Setting in the {@link #functionCallFinder(ISelection)} and the {@link #setcurrentNode()}.
+	 * 
+	 * @param currentNode
+	 * 			The actual selected CallHierarchyNode.
+	 */
+	public void setCurrentNode(CallHierarchyNode newNode) {
+		currentNode = newNode;
 	}
 
 	/**

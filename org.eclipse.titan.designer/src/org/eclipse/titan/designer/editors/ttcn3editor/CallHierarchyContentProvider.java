@@ -40,8 +40,6 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 
 	/**
 	 * Return array of the parent node's children as Object.<br>
-	 * Use for the {@link CallHierarchyView}'s treeWiever.<br>
-	 * <b>The search run as only when the current node is not updated yet!<b>
 	 *
 	 * @see CallHierarchyNode#getChildren()
 	 * @see ITreeContentProvider
@@ -55,33 +53,11 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 		if (!(parentElement instanceof CallHierarchyNode)) {
 			return new Object[] {};
 		}
-
 		CallHierarchyNode parentNode = (CallHierarchyNode) parentElement;
-		if(!parentNode.isUpdated()) {
-			CallHierarchyNode updatedParentNode = callHierarchy.functionCallFinder(parentNode);
-			return updatedParentNode.getChildren();
-		}
-
-		return parentNode.getChildren();
+		CallHierarchyNode updatedParentNode = callHierarchy.functionCallFinder(parentNode);
+		return updatedParentNode.getChildren();
 	}
-
-	/**
-	 * Unused method in this implementation.
-	 */
-	@Override
-	public Object getParent(final Object element) {
-		return null;
-	}
-
-	/**
-	 * Always return true, because the child searching run when the user get the children on the TreeViewer.
-	 * @see #getChildren()
-	 */
-	@Override
-	public boolean hasChildren(final Object element) {
-		return true;
-	}
-
+	
 	/**
 	 * Return array of the parent node's children as Object.<br>
 	 * Use for the {@link CallHierarchyView}'s treeWiever.
@@ -98,8 +74,24 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 		if (!(inputElement instanceof CallHierarchyNode)) {
 			return null;
 		}
-
 		return getChildren(inputElement);
+	}
+	
+	/**
+	 * Unused method in this implementation.
+	 */
+	@Override
+	public Object getParent(final Object element) {
+		return null;
+	}
+
+	/**
+	 * Always return true, because the child searching run when the user get the children on the TreeViewer.
+	 * @see #getChildren()
+	 */
+	@Override
+	public boolean hasChildren(final Object element) {
+		return true;
 	}
 
 	/**

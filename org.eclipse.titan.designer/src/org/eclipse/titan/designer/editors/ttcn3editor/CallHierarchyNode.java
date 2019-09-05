@@ -44,11 +44,6 @@ public class CallHierarchyNode {
 	private HashMap<Reference, Module> nodeReferences;
 
 	/**
-	 * Updating flag for prevent the multiple node update in the {@link CallHierarchyContentProvider}.
-	 */
-	private boolean isUpdated;
-
-	/**
 	 * Constructor for empty node. The constructor is: {@link #CallHierarchyNode(Module, Definition)}
 	 */
 	public CallHierarchyNode() {
@@ -71,21 +66,6 @@ public class CallHierarchyNode {
 		this.nodeDefinition 	= nodeDefinition;
 		this.nodeChildren 		= new HashMap<Definition, CallHierarchyNode>();
 		this.nodeReferences 	= new HashMap<Reference, Module>();
-		this.isUpdated 			= false;
-	}
-
-	/**
-	 * Set updating flag for prevent the multiple node update or override.
-	 */
-	public void update() {
-		this.isUpdated = true;
-	}
-
-	/**
-	 * Check updating flag for prevent the multiple node update in the {@link CallHierarchyContentProvider}.
-	 */
-	public boolean isUpdated() {
-		return this.isUpdated;
 	}
 
 	/**
@@ -236,7 +216,7 @@ public class CallHierarchyNode {
 	}
 
 	/**
-	 * Return a reference's parent. The return definition contain the reference.
+	 * Search and return a reference's parent. The return definition contain the reference.
 	 *
 	 * @param reference
 	 * 			The reference which the method searching the parent.
@@ -255,5 +235,13 @@ public class CallHierarchyNode {
 
 		final Definition parentDefinition = (Definition) referenceParentNode;
 		return parentDefinition;
+	}
+	
+	/**
+	 * Clear the node's child's and references.
+	 */
+	public void clearNode() {
+		this.nodeChildren.clear();
+		this.nodeReferences.clear();
 	}
 }
