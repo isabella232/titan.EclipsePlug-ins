@@ -187,6 +187,8 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	private static final String REFRESH_ICON				= "call_hierarchy_search_refresh.gif";
 	private static final String CALL_LINE_VIEW				= "Call line view";
 	private static final String CALL_LINE_VIEW_ICON			= "call_hierarchy_call_line_view.gif";
+	private static final String COLLAPSE_TREE_VIEWER		= "Close all";
+	private static final String COLLAPSE_TREE_VIEWER_ICON	= "call_hierarchy_collapse.gif";
 	private static final int    TREE_VIEWER					= 0;
 	private static final int    TABLE_VIEWEVR				= 1;
 	private static final int    STATUS_LINE_LEVEL_MESSAGE 	= 0;
@@ -355,6 +357,16 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		hideCallListAction.setImageDescriptor(ImageCache.getImageDescriptor(CALL_LINE_VIEW_ICON));
 		hideCallListAction.setChecked(showCallList);
 		actionBars.getToolBarManager().add(hideCallListAction);
+		
+		//Collapse tree viewer
+		final Action collapseTreeViewerAction = new Action(COLLAPSE_TREE_VIEWER) {
+			@Override
+			public void run() {
+				treeViewer.collapseAll();
+				treeViewer.expandToLevel(2);
+			}};
+		collapseTreeViewerAction.setImageDescriptor(ImageCache.getImageDescriptor(COLLAPSE_TREE_VIEWER_ICON));
+		actionBars.getToolBarManager().add(collapseTreeViewerAction);
 	}
 
 	/**
