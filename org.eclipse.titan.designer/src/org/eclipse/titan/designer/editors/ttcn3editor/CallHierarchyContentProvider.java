@@ -24,7 +24,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 	 * The <code>callHierarchy</code> object is needed because of the graph processing algorithms.
 	 * @see CallHierarchy
 	 */
-	private CallHierarchy callHierarchy = null;
+	private final CallHierarchy callHierarchy;
 
 	/**
 	 * The content provider's constructor.<br>
