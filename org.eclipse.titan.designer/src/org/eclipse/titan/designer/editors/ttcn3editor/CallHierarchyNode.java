@@ -173,11 +173,12 @@ public class CallHierarchyNode {
 	 * 			The new child's Reference.
 	 */
 	public void addChild(final Module referenceModule, final Reference reference) {
-		Definition parentDefinition = getReferenceParent(reference);
+		final Definition parentDefinition = getReferenceParent(reference);
 		if(parentDefinition == null) {
 			return;
 		}
-		CallHierarchyNode node = addNode(referenceModule, parentDefinition);
+
+		final CallHierarchyNode node = addNode(referenceModule, parentDefinition);
 		node.addReference(referenceModule, reference);
 	}
 
@@ -211,7 +212,7 @@ public class CallHierarchyNode {
 		if(nodeChildren.containsKey(definition)) {
 			return nodeChildren.get(definition);
 		} else {
-			CallHierarchyNode newNode = new CallHierarchyNode(definitionModule, definition);
+			final CallHierarchyNode newNode = new CallHierarchyNode(definitionModule, definition);
 			nodeChildren.put(definition, newNode);
 			return newNode;
 		}

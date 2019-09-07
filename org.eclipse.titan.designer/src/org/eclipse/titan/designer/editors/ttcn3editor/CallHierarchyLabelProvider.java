@@ -51,7 +51,7 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 			return ImageCache.getImage(iconName);
 		}
 
-		CallHierarchyNode node = (CallHierarchyNode) element;
+		final CallHierarchyNode node = (CallHierarchyNode) element;
 		switch(node.getNodeDefinition().getAssignmentType()) { 
 		case A_FUNCTION:
 		case A_FUNCTION_RVAL:
@@ -90,7 +90,7 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 			return "error";
 		}
 
-		CallHierarchyNode node = (CallHierarchyNode) element;
+		final CallHierarchyNode node = (CallHierarchyNode) element;
 		final int matches = node.getReferencesNumber();
 		if (matches > 0) {
 			final String text = "{0}   -   ({1} matches)";
@@ -106,7 +106,7 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 			return null;
 		}
 
-		String iconName = "match.gif";
+		final String iconName = "match.gif";
 		return ImageCache.getImage(iconName);
 	}
 
@@ -130,7 +130,7 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 			return null;
 		}
 
-		Reference reference = (Reference) element;
+		final Reference reference = (Reference) element;
 		switch (columnIndex) {
 		case COLUMN_LINE:
 			return String.valueOf(reference.getLocation().getLine());

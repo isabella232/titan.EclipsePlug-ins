@@ -52,8 +52,9 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 		if (!(parentElement instanceof CallHierarchyNode)) {
 			return new Object[] {};
 		}
-		CallHierarchyNode parentNode = (CallHierarchyNode) parentElement;
-		CallHierarchyNode updatedParentNode = callHierarchy.functionCallFinder(parentNode);
+
+		final CallHierarchyNode parentNode = (CallHierarchyNode) parentElement;
+		final CallHierarchyNode updatedParentNode = callHierarchy.functionCallFinder(parentNode);
 		return updatedParentNode.getChildren();
 	}
 
