@@ -106,7 +106,7 @@ public class CallHierarchy {
 	/**
 	 * The search history list allowed long.
 	 */
-	private final int SEARCH_LOG_HISTORY_LONG = 15;
+	private static final int SEARCH_LOG_HISTORY_LONG = 15;
 
 	/**
 	 * Constructor of CallHierarchy.<br>
