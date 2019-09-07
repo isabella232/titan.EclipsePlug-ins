@@ -463,17 +463,24 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 				final CallHierarchyNode currentLogItem = searchLog.get(i);
 				MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
 				menuItem.setText(currentLogItem.getName().substring(1));
-				String iconName = "titan.gif";
-		        switch(currentLogItem.getNodeDefinition().getAssignmentName()) { 
-		            case "function": 
+				String iconName;
+		        switch(currentLogItem.getNodeDefinition().getAssignmentType()) { 
+		            case A_FUNCTION:
+		            case A_FUNCTION_RVAL:
+		            case A_FUNCTION_RTEMP:
 		            	iconName = FUNCTION_ICON;
 		                break; 
-		            case "testcase": 
+		            case A_TESTCASE: 
 		            	iconName = TESTCASE_ICON;
 		                break; 
-		            case "external function": 
+		            case A_EXT_FUNCTION:
+		            case A_EXT_FUNCTION_RVAL:
+		            case A_EXT_FUNCTION_RTEMP:
 		            	iconName = FUNCTION_EXTERNAL_ICON;
-		                break; 
+		                break;
+		            default:
+		        	    iconName = "titan.gif";
+		        	    break;
 		        }
 				menuItem.setImage(ImageCache.getImageDescriptor(iconName).createImage());
 				menuItem.addSelectionListener(new SelectionAdapter() {

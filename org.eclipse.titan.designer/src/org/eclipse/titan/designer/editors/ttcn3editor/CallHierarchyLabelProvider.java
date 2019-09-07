@@ -52,16 +52,22 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 		}
 		
 		CallHierarchyNode node = (CallHierarchyNode) element;
-        switch(node.getNodeDefinition().getAssignmentName()) { 
-            case "function": 
+        switch(node.getNodeDefinition().getAssignmentType()) { 
+        case A_FUNCTION:
+        case A_FUNCTION_RVAL:
+        case A_FUNCTION_RTEMP: 
             	iconName = FUNCTION_ICON;
                 break; 
-            case "testcase": 
+        case A_TESTCASE: 
             	iconName = TESTCASE_ICON;
                 break; 
-            case "external function": 
+        case A_EXT_FUNCTION:
+        case A_EXT_FUNCTION_RVAL:
+        case A_EXT_FUNCTION_RTEMP:
             	iconName = FUNCTION_EXTERNAL_ICON;
                 break; 
+        default:
+    	    break;
         }
 		return ImageCache.getImage(iconName);
 	}
