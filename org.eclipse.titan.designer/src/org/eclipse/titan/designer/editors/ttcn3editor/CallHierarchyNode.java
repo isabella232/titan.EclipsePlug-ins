@@ -233,8 +233,7 @@ public class CallHierarchyNode {
 			return null;
 		}
 
-		final Definition parentDefinition = (Definition) referenceParentNode;
-		return parentDefinition;
+		return (Definition) referenceParentNode;
 	}
 
 	/**

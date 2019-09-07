@@ -259,9 +259,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			return null;
 		}
 
-		final CallHierarchyView view = (CallHierarchyView) viewPart;
-
-		return view;
+		return (CallHierarchyView) viewPart;
 	}
 
 	/**
