@@ -1,0 +1,64 @@
+= The Call Hierarchy View
+:toc:
+:figure-number: 124
+
+This section presents how TITAN Designer plugin implement the Call Hierarchy View.
+
+During the development is often useful to get an overview of the TTCN-3 function (image:images/function.png[title="function_icon"]), testcase (image:images/testcase.png[title="testcase_icon"]) or external function (image:images/function_external.png[title="function_external_icon"]) calls. This view help see your functions location in the call tree and you can see witch other functions call yours.
+
+image::images/11_01_call_hierarchy_view.png[title="The Call Hierarchy view", align="center"]
+
+You can call the view from the *Window/Show View* menu, from the *right click menu* or with the *CTRL+ALT+H* command.
+The Call Hierarchy View consists of three main parts. The toolbar, the actual tree view and the current call list.
+
+== The Tree
+
+image::images/11_02_call_hierarchy_view_tree.png[title="The Call Hierarchy Tree", align="center", width=326px, height=300px]
+
+The root of the tree always represents the searched TTCN-3 function (image:images/function.png[title="functionicon"]), testcase (image:images/testcase.png[title="testcase_icon"]) or external function (image:images/function_external.png[title="function_external_icon"]). The second level of the tree contains the functions what call the searched (root) function. Near the tree nodes you can see the number of calls.
+
+When you click to a tree node, the editor jump to the function definition and select it automatically (if this option is enabled image:images/11_12_call_hierarchy_view_definition_jump_icon.png[title="definition_jump_icon"] ) and the call list on the right side show the current calls, if the call list is enabled (image:images/11_14_call_hierarchy_view_call_list_icon.png[title="call_list_icon"]). When you click to the small arrow near a subnode  (image:images/11_10_call_hierarchy_view_tree_node.png[title="tree_node"]), you start a subsearch on the selected node. You can build recursively the part of the tree what you need.
+
+== The Call List
+
+image::images/11_03_call_hierarchy_view_call_list.png[title="The Call List", align="center", width=326px, height=300px]
+
+Near the tree nodes you can see the number of calls (image:images/11_10_call_hierarchy_view_tree_node.png[title="tree_node"]), when you click to a tree node the call list show the calls with the row number. When you click to a row in the list, the editor jump to the  row of the call. (image:images/11_11_call_hierarchy_view_call_list_row.png[title="view_call_list_row"]) You can switch off the call list in the toolbar. (image:images/11_14_call_hierarchy_view_call_list_icon.png[title="call_list_icon"])
+
+== The Toolbar
+
+On the top of the view you can see a toolbar with five buttons:
+
+=== The refresh button
+
+image::images/11_04_call_hierarchy_view_refresh.png[title="The refresh button", align="center"]
+
+The refresh button (image:images/11_12_call_hierarchy_view_refresh_icon.png[title="refresh_icon"]) update the current search. (Update the unsaved changes too.)
+
+=== The auto jump to definition switch
+
+image::images/11_05_call_hierarchy_view_auto_jump.png[title="Auto jump to definition switch", align="center"]
+
+When this option (image:images/11_12_call_hierarchy_view_definition_jump_icon.png[title="definition_jump_icon"]) is switched on, the editor jump to the definition of the selected function automatically, when you choose a node in the tree.
+
+=== The call list switch
+
+image::images/11_06_call_hierarchy_view_call_lines.png[title="Call list switch.", align="center"]
+
+This switch (image:images/11_14_call_hierarchy_view_call_list_icon.png[title="call_list_icon"]) show or hide the function call list table.
+
+image::images/11_07_call_hierarchy_view_call_lines_off.png[title="Closed call lines table.", align="center", width=659px, height=306px]
+
+=== The close all button
+
+image::images/11_15_call_hierarchy_collapse.png[title="Close tree button.", align="center"]
+
+This button (image:images/11_12_call_hierarchy_view_collapse_icon.png[title="collapse_icon"]) collapse the call hierarchy tree.
+
+=== The search history
+
+image::images/11_09_call_hierarchy_view_history_list.png[title="TThe hystory list.", align="center", width=684px, height=303px]
+
+The history droppdown menu (image:images/11_13_call_hierarchy_view_history_icon.png[title="history_icon"]) list the prevouse searches and you cen recall these searches.
+
+NOTE: The search discover your unsaved changes too under the tree bulding, updating or under the hystory recall.

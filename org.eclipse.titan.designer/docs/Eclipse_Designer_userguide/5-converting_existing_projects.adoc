@@ -1,6 +1,6 @@
 = Converting Existing Projects
 :toc:
-:figure-number: 87
+:figure-number: 92
 
 In the TITAN toolset we are supporting 3 different tools/project handling principles at this time: Makefiles, mctr_gui projects and Eclipse projects. Before going into detail on how to convert one of the first two into an Eclipse project, we should review the features offered by these tools to work with projects.
 
@@ -152,4 +152,3 @@ Group files are read, but as such an automated wizard is not allowed to create a
 In the last two cases if the location of the project directly contains any of the files to be imported, instead of creating Eclipse links, the original files will be used.
 
 Although it might be possible to work with the project created, it is recommended to fine tune it by hand afterwards (or for large projects do the conversion by hand to start with). As the generated out is known to have serious flows: not structured, not easy to version handle and contains links to all files … even if it would be possible to create a project hierarchy using existing projects.
-

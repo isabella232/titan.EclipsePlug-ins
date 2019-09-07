@@ -49,15 +49,17 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 */
 	private IEditorPart targetEditor;
 
-	private static final String SHOW_VIEW_ERROR 		= "The \"Call Hierarchy\" view cannot be displayed.";
-	private static final String REFERENCE_SEARCH_FAILED = "The Call Hierarchy search failed.";
-	private static final int STATUS_LINE_LEVEL_MESSAGE	= 0;
-	private static final int STATUS_LINE_LEVEL_ERROR 	= 1;
-	private static final int STATUS_LINE_CLEAR 			= -1;
+	private static final String SHOW_VIEW_ERROR 				= "The Call Hierarchy view cannot be displayed.";
+	private static final String REFERENCE_SEARCH_FAILED 		= "The Call Hierarchy search failed.";
+	private static final String STATUS_LINE_MESSAGE_ICON 		= "titan.gif";
+	private static final String STATUS_LINE_ERROR_ICON 			= "compiler_error_fresh.gif";
+	private static final int    STATUS_LINE_LEVEL_MESSAGE 		= 0;
+	private static final int    STATUS_LINE_LEVEL_ERROR 		= 1;
+	private static final int 	STATUS_LINE_CLEAR 				= -1;
 
 	/**
 	 * The <code>CallHierarchyAction</code> class constructor.<br>
-	 * Set the current selection empty.
+	 * Set the current selection empty and set the target editor.
 	 */
 	public CallHierarchyAction() {
 		selection 		= TextSelection.emptySelection();
@@ -65,7 +67,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	}
 
 	/**
-	 * The run method react for the triggered action.
+	 * The run method react for the triggered action and call the processing() method.
 	 *
 	 * @see #processing()
 	 * @param action
@@ -73,7 +75,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 */
 	@Override
 	public void run(final IAction action) {
-		processing();
+		processing(selection);
 	}
 
 	/**
@@ -85,8 +87,8 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 * 			The new selection from the TTCN3 Editor.
 	 */
 	@Override
-	public void selectionChanged(final IAction action, final ISelection selection) {
-		this.selection = selection;
+	public void selectionChanged(final IAction action, final ISelection currentSelection) {
+		selection = currentSelection;
 	}
 
 	/**
@@ -103,7 +105,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	}
 
 	/**
-	 * The execute method react for the triggered event.
+	 * The execute method react for the triggered event and call the processing() method.
 	 *
 	 * @see #processing()
 	 * @param event
@@ -111,18 +113,20 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 */
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		processing();
+		processing(selection);
 		return null;
 	}
 
 	/**
-	 * <p>
 	 * The real processing method.<br>
 	 * Show the {@link CallHierarchyView} and run the {@link CallHierarchy#functionCallFinder(ISelection)} reference search method.<br>
 	 * Then create the call hierarchy graph root and add the search results to the root and then update the {@link CallHierarchyView}.
-	 * </p>
+	 * Then the method add the current function to the {@link CallHierarchy#addToSearchLog()}.
+	 * 
+	 * @param currentSelection
+	 * 			The selection for the search target from the editor
 	 */
-	private void processing() {
+	private void processing(final ISelection currentSelection) {
 		clearStatusLineMessage();
 
 		final CallHierarchyView callHierarchyView = CallHierarchyView.showView();
@@ -130,17 +134,51 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 			showStatusLineMessage(SHOW_VIEW_ERROR, STATUS_LINE_LEVEL_ERROR);
 			return;
 		}
-
 		final CallHierarchy callHierarchy = callHierarchyView.getCallHierarchy();
-
-		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(selection);
+		
+		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(currentSelection);
 		if(selectedNode == null) {
 			showStatusLineMessage(REFERENCE_SEARCH_FAILED, STATUS_LINE_LEVEL_ERROR);
 			return;
 		}
-
+		callHierarchy.addToSearchLog(selectedNode);
 		final CallHierarchyNode root = new CallHierarchyNode();
 		root.addChild(selectedNode);
+		callHierarchyView.setAction(this);
+		callHierarchyView.setInput(root);
+	}
+	
+	/**
+	 * The processing method for node reprocessing.<br>
+	 * Show the {@link CallHierarchyView} and run the {@link CallHierarchy#functionCallFinder()} reference search method.<br>
+	 * Then create the call hierarchy graph root and add the search results to the root and then update the {@link CallHierarchyView}.
+	 * Then the method add the current function to the {@link CallHierarchy#addToSearchLog()} and set the current selected node in the {@link CallHierarchy#setCurrentNode()}.
+	 * 
+	 * @param searchabledNode
+	 * 			The selection for the search target from the editor
+	 */
+	public void processing(final CallHierarchyNode searchabledNode) {
+		searchabledNode.clearNode();
+		clearStatusLineMessage();
+
+		final CallHierarchyView callHierarchyView = CallHierarchyView.showView();
+		if(callHierarchyView == null) {
+			showStatusLineMessage(SHOW_VIEW_ERROR, STATUS_LINE_LEVEL_ERROR);
+			return;
+		}
+		final CallHierarchy callHierarchy = callHierarchyView.getCallHierarchy();
+		
+		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(searchabledNode);
+		if(selectedNode == null) {
+			showStatusLineMessage(REFERENCE_SEARCH_FAILED, STATUS_LINE_LEVEL_ERROR);
+			return;
+		}
+		callHierarchy.setCurrentNode(selectedNode);
+		callHierarchy.addToSearchLog(selectedNode);
+		
+		final CallHierarchyNode root = new CallHierarchyNode();
+		root.addChild(selectedNode);
+		callHierarchyView.setAction(this);
 		callHierarchyView.setInput(root);
 	}
 
@@ -169,7 +207,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 */
 	public void showStatusLineMessage(final String message, final int level) {
 		if(targetEditor == null) {
-			return;
+			targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		}
 
 		final IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
@@ -181,18 +219,18 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 		statusLineManager.setErrorMessage(null);
 
 		if(level == STATUS_LINE_LEVEL_MESSAGE) {
-			statusLineManager.setMessage(ImageCache.getImage("titan.gif"), message);
+			statusLineManager.setMessage(ImageCache.getImage(STATUS_LINE_MESSAGE_ICON), message);
 		}
 
 		if(level == STATUS_LINE_LEVEL_ERROR) {
-			statusLineManager.setErrorMessage(ImageCache.getImage("compiler_error_fresh.gif"), message);
+			statusLineManager.setErrorMessage(ImageCache.getImage(STATUS_LINE_ERROR_ICON), message);
 		}
 	}
 
 	/**
 	 * Clear the target editors status bar.<br>
-	 * Use: {@link #showStatusLineMessage(String, int)}
-	 * @see {@link #showStatusLineMessage(String, int)}
+	 * Use: {@link #showStatusLineMessage()}
+	 * @see {@link #showStatusLineMessage()}
 	 */
 	public void clearStatusLineMessage() {
 		showStatusLineMessage("", STATUS_LINE_CLEAR);

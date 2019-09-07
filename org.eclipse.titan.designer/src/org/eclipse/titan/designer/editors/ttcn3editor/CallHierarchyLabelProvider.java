@@ -27,9 +27,12 @@ import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
  */
 public class CallHierarchyLabelProvider extends LabelProvider implements ITableLabelProvider {
 
-	private static final int COLUMN_ICON = 0;
-	private static final int COLUMN_LINE = 1;
-	private static final int COLUMN_INFO = 2;
+	private static final String FUNCTION_ICON 			= "function.gif";
+	private static final String TESTCASE_ICON			= "testcase.gif";
+	private static final String FUNCTION_EXTERNAL_ICON	= "function_external.gif";
+	private static final int 	COLUMN_ICON 			= 0;
+	private static final int 	COLUMN_LINE 			= 1;
+	private static final int 	COLUMN_INFO 			= 2;
 
 	/**
 	 * Give an icon for the input element by the {@link CallHierarchyNode}'s
@@ -43,25 +46,23 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 	@Override
 	public Image getImage(final Object element) {
 		String iconName = "titan.gif";
-
+		
 		if (!(element instanceof CallHierarchyNode)) {
 			return ImageCache.getImage(iconName);
 		}
-
-		CallHierarchyNode node = (CallHierarchyNode) element;
-
-		if (node.getNodeDefinition().getAssignmentName().equals("function")) {
-			iconName = "function.gif";
-		}
-
-		if (node.getNodeDefinition().getAssignmentName().equals("testcase")) {
-			iconName = "testcase.gif";
-		}
 		
-		if (node.getNodeDefinition().getAssignmentName().equals("external function")) {
-			iconName = "function_external.gif";
-		}
-
+		CallHierarchyNode node = (CallHierarchyNode) element;
+        switch(node.getNodeDefinition().getAssignmentName()) { 
+            case "function": 
+            	iconName = FUNCTION_ICON;
+                break; 
+            case "testcase": 
+            	iconName = TESTCASE_ICON;
+                break; 
+            case "external function": 
+            	iconName = FUNCTION_EXTERNAL_ICON;
+                break; 
+        }
 		return ImageCache.getImage(iconName);
 	}
 
@@ -124,15 +125,13 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 		}
 
 		Reference reference = (Reference) element;
-
 		switch (columnIndex) {
-		case COLUMN_LINE:
-			return String.valueOf(reference.getLocation().getLine());
-		case COLUMN_INFO: {
-			return reference.getDisplayName();
+			case COLUMN_LINE:
+				return String.valueOf(reference.getLocation().getLine());
+			case COLUMN_INFO: {
+				return reference.getDisplayName();
+			}
 		}
-		}
-
 		return null;
 	}
 }

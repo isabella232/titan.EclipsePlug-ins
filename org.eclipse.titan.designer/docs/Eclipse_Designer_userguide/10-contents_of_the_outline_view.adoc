@@ -1,6 +1,6 @@
 = Contents of the Outline View
 :toc:
-:figure-number: 121
+:figure-number: 118
 
 This section presents how TITAN Designer plugin is integrated in the Outline view.
 
