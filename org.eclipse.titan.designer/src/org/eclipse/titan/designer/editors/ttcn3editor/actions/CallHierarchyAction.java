@@ -135,7 +135,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 			return;
 		}
 		final CallHierarchy callHierarchy = callHierarchyView.getCallHierarchy();
-		
+
 		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(currentSelection);
 		if(selectedNode == null) {
 			showStatusLineMessage(REFERENCE_SEARCH_FAILED, STATUS_LINE_LEVEL_ERROR);
@@ -147,7 +147,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 		callHierarchyView.setAction(this);
 		callHierarchyView.setInput(root);
 	}
-	
+
 	/**
 	 * The processing method for node reprocessing.<br>
 	 * Show the {@link CallHierarchyView} and run the {@link CallHierarchy#functionCallFinder()} reference search method.<br>
@@ -167,7 +167,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 			return;
 		}
 		final CallHierarchy callHierarchy = callHierarchyView.getCallHierarchy();
-		
+
 		final CallHierarchyNode selectedNode = callHierarchy.functionCallFinder(searchabledNode);
 		if(selectedNode == null) {
 			showStatusLineMessage(REFERENCE_SEARCH_FAILED, STATUS_LINE_LEVEL_ERROR);
@@ -175,7 +175,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 		}
 		callHierarchy.setCurrentNode(selectedNode);
 		callHierarchy.addToSearchLog(selectedNode);
-		
+
 		final CallHierarchyNode root = new CallHierarchyNode();
 		root.addChild(selectedNode);
 		callHierarchyView.setAction(this);

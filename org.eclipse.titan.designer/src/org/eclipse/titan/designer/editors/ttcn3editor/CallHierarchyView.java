@@ -85,7 +85,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @see TableViewer
 	 */
 	private Table table;
-	
+
 	/**
 	 * Splitter for the main UI.
 	 */
@@ -110,12 +110,12 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @see IStatusLineManager
 	 */
 	private IStatusLineManager statusLineManager;
-	
+
 	/**
 	 * The view's action bars.
 	 */
 	private IActionBars actionBars;
-	
+
 	/**
 	 * The <code>messageLabel</code> is a Label for show status informations.
 	 * Use in: {@link #setMessage(String)}
@@ -147,27 +147,27 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * Possible values: </code>TREE_VIEWER<code> or <code>TABLE_VIEWEVR</code>.
 	 */
 	private int inFocus;
-	
+
 	/**
 	 * The boolean selector for the autoJump switch.
 	 */
 	private static boolean autoJumpToDefinition = true;
-	
+
 	/**
 	 * The boolean selector for the hide call list switch.
 	 */
 	private static boolean showCallList = true;
-	
+
 	/**
 	 * Store the current used CallHierarchyAction instance.
 	 */
 	private CallHierarchyAction callHierarchyAction;
-	
+
 	/**
 	 * SearchHistoryMenuCreator for the search history list.
 	 */
 	private Action searcHistoryAction;
-	
+
 	/**
 	 * The action for the refresh button.
 	 */
@@ -182,7 +182,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * The {@link #tableViewer}'s column's sizes.
 	 */
 	private final int columnSizes[] = {18, 60, 300};
-	
+
 	/**
 	 * The {@link #tableViewer}'s column layouts.
 	 */
@@ -263,14 +263,14 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 		return view;
 	}
-	
+
 	/**
 	 * Close the current view.
 	 */
 	public void hideView() {
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().hideView(this);
 	}
-	
+
 	/**
 	 * Clear and redraw the view. If the previous search exist reload it.
 	 */
@@ -296,7 +296,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	public void setInput(final CallHierarchyNode node) {
 		treeViewer.setInput(node);
 		treeViewer.refresh();
-		
+
 		if(showCallList)  {
 			final Object[] emptyInput = {};
 			TableColumn column[] = table.getColumns();
@@ -312,14 +312,14 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			searcHistoryAction.setEnabled(true);
 			refreshAction.setEnabled(true);
 		}
-    	treeViewer.getControl().forceFocus();
-    	treeViewer.getTree().select(treeViewer.getTree().getItem(0));
-    	if(treeViewer.getTree().getItem(0).getData() instanceof CallHierarchyNode) {
-    		if(autoJumpToDefinition) {
-    		CallHierarchyNode selectedNode = (CallHierarchyNode) treeViewer.getTree().getItem(0).getData();
-    		selectLocation(selectedNode.getNodeDefinition().getLocation());
-    		}
-    	}
+		treeViewer.getControl().forceFocus();
+		treeViewer.getTree().select(treeViewer.getTree().getItem(0));
+		if(treeViewer.getTree().getItem(0).getData() instanceof CallHierarchyNode) {
+			if(autoJumpToDefinition) {
+				CallHierarchyNode selectedNode = (CallHierarchyNode) treeViewer.getTree().getItem(0).getData();
+				selectLocation(selectedNode.getNodeDefinition().getLocation());
+			}
+		}
 	}
 
 	/**
@@ -332,10 +332,10 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	public void createPartControl(final Composite parent) {
 		statusLineManager = getViewSite().getActionBars().getStatusLineManager();
 		callHierarchy.setStatusLineManager(statusLineManager);
-		
+
 		actionBars = getViewSite().getActionBars();
 		setUpActionBars(actionBars);
-		
+
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		gridLayout.makeColumnsEqualWidth = true;
@@ -356,7 +356,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		gridData.grabExcessHorizontalSpace = true;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessVerticalSpace = true;
-		
+
 		if(showCallList)  {
 			splitter = new SashForm(parent, SWT.NONE);
 			splitter.setLayoutData(gridData);
@@ -369,7 +369,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		}
 		treeViewer.getControl().setFocus();
 	}
-	
+
 	/**
 	 * Set up the action bars, the buttons, switches and actions.
 	 * 
@@ -383,63 +383,63 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			public void run() {
 				callHierarchyAction.processing(callHierarchy.getCurrentNode());
 			}};
-		refreshAction.setImageDescriptor(ImageCache.getImageDescriptor(REFRESH_ICON));
-		refreshAction.setEnabled(false);
-		actionBars.getToolBarManager().add(refreshAction);
-		
-		//Jump to definition
-		final Action jumpToDefinitionAction = new Action(JUMP_TO_DEFINITION) {
-			@Override
-			public void run() {
-				autoJumpToDefinition = isChecked();
-			}};
-		jumpToDefinitionAction.setImageDescriptor(ImageCache.getImageDescriptor(JUMP_TO_DEFINITION_ICON));
-		jumpToDefinitionAction.setChecked(autoJumpToDefinition);
-		actionBars.getToolBarManager().add(jumpToDefinitionAction);
-		
-		//Hide call list
-		final Action hideCallListAction = new Action(CALL_LINE_VIEW) {
-			@Override
-			public void run() {
-				showCallList = isChecked();
-				reDraw();
-			}};
-		hideCallListAction.setImageDescriptor(ImageCache.getImageDescriptor(CALL_LINE_VIEW_ICON));
-		hideCallListAction.setChecked(showCallList);
-		actionBars.getToolBarManager().add(hideCallListAction);
-		
-		//Collapse tree viewer
-		final Action collapseTreeViewerAction = new Action(COLLAPSE_TREE_VIEWER) {
-			@Override
-			public void run() {
-				treeViewer.collapseAll();
-				treeViewer.expandToLevel(2);
-			}};
-		collapseTreeViewerAction.setImageDescriptor(ImageCache.getImageDescriptor(COLLAPSE_TREE_VIEWER_ICON));
-		actionBars.getToolBarManager().add(collapseTreeViewerAction);
-		
-		//Search history
-		searcHistoryAction = new Action(SEARCH_HISTORY, Action.AS_DROP_DOWN_MENU) {};
-		searcHistoryAction.setMenuCreator(new SearchHistoryMenuCreator());
-		searcHistoryAction.setImageDescriptor(ImageCache.getImageDescriptor(SEARCH_HISTORYICON));
-		searcHistoryAction.setEnabled(false);
-		actionBars.getToolBarManager().add(searcHistoryAction);
+			refreshAction.setImageDescriptor(ImageCache.getImageDescriptor(REFRESH_ICON));
+			refreshAction.setEnabled(false);
+			actionBars.getToolBarManager().add(refreshAction);
+
+			//Jump to definition
+			final Action jumpToDefinitionAction = new Action(JUMP_TO_DEFINITION) {
+				@Override
+				public void run() {
+					autoJumpToDefinition = isChecked();
+				}};
+				jumpToDefinitionAction.setImageDescriptor(ImageCache.getImageDescriptor(JUMP_TO_DEFINITION_ICON));
+				jumpToDefinitionAction.setChecked(autoJumpToDefinition);
+				actionBars.getToolBarManager().add(jumpToDefinitionAction);
+
+				//Hide call list
+				final Action hideCallListAction = new Action(CALL_LINE_VIEW) {
+					@Override
+					public void run() {
+						showCallList = isChecked();
+						reDraw();
+					}};
+					hideCallListAction.setImageDescriptor(ImageCache.getImageDescriptor(CALL_LINE_VIEW_ICON));
+					hideCallListAction.setChecked(showCallList);
+					actionBars.getToolBarManager().add(hideCallListAction);
+
+					//Collapse tree viewer
+					final Action collapseTreeViewerAction = new Action(COLLAPSE_TREE_VIEWER) {
+						@Override
+						public void run() {
+							treeViewer.collapseAll();
+							treeViewer.expandToLevel(2);
+						}};
+						collapseTreeViewerAction.setImageDescriptor(ImageCache.getImageDescriptor(COLLAPSE_TREE_VIEWER_ICON));
+						actionBars.getToolBarManager().add(collapseTreeViewerAction);
+
+						//Search history
+						searcHistoryAction = new Action(SEARCH_HISTORY, Action.AS_DROP_DOWN_MENU) {};
+						searcHistoryAction.setMenuCreator(new SearchHistoryMenuCreator());
+						searcHistoryAction.setImageDescriptor(ImageCache.getImageDescriptor(SEARCH_HISTORYICON));
+						searcHistoryAction.setEnabled(false);
+						actionBars.getToolBarManager().add(searcHistoryAction);
 	}
-	
+
 	/**
 	 * Menu creator for the search history menu.
 	 *
 	 */
 	private class SearchHistoryMenuCreator implements IMenuCreator {
-		
+
 		/**
 		 * The current menu.
 		 */
-	    private Menu menu;
-	    
-	    /**
-	     * Dispose the menu.
-	     */
+		private Menu menu;
+
+		/**
+		 * Dispose the menu.
+		 */
 		@Override
 		public void dispose() {
 			if (menu != null) {
@@ -457,37 +457,37 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 				menu.dispose();
 			}
 			menu = new Menu(parent);
-			
+
 			ArrayList<CallHierarchyNode> searchLog = callHierarchy.getSearchLog();
 			for (int i = searchLog.size()-1; i>=0; i--) {
 				final CallHierarchyNode currentLogItem = searchLog.get(i);
 				MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
 				menuItem.setText(currentLogItem.getName().substring(1));
 				String iconName;
-		        switch(currentLogItem.getNodeDefinition().getAssignmentType()) { 
-		            case A_FUNCTION:
-		            case A_FUNCTION_RVAL:
-		            case A_FUNCTION_RTEMP:
-		            	iconName = FUNCTION_ICON;
-		                break; 
-		            case A_TESTCASE: 
-		            	iconName = TESTCASE_ICON;
-		                break; 
-		            case A_EXT_FUNCTION:
-		            case A_EXT_FUNCTION_RVAL:
-		            case A_EXT_FUNCTION_RTEMP:
-		            	iconName = FUNCTION_EXTERNAL_ICON;
-		                break;
-		            default:
-		        	    iconName = "titan.gif";
-		        	    break;
-		        }
+				switch(currentLogItem.getNodeDefinition().getAssignmentType()) { 
+				case A_FUNCTION:
+				case A_FUNCTION_RVAL:
+				case A_FUNCTION_RTEMP:
+					iconName = FUNCTION_ICON;
+					break; 
+				case A_TESTCASE: 
+					iconName = TESTCASE_ICON;
+					break; 
+				case A_EXT_FUNCTION:
+				case A_EXT_FUNCTION_RVAL:
+				case A_EXT_FUNCTION_RTEMP:
+					iconName = FUNCTION_EXTERNAL_ICON;
+					break;
+				default:
+					iconName = "titan.gif";
+					break;
+				}
 				menuItem.setImage(ImageCache.getImageDescriptor(iconName).createImage());
 				menuItem.addSelectionListener(new SelectionAdapter() {
-	                public void widgetSelected(SelectionEvent event) {
-	                	callHierarchyAction.processing(currentLogItem);
-	                }
-	            });
+					public void widgetSelected(SelectionEvent event) {
+						callHierarchyAction.processing(currentLogItem);
+					}
+				});
 			}
 			return menu;
 		}
@@ -609,7 +609,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			return 0;
 		}
 	};
-	
+
 	/**
 	 * The {@link CallHierarchyView}'s focus handler.<br>
 	 * Use:<br>
@@ -630,7 +630,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			tableViewer.getControl().setFocus();
 		}
 	}
-	
+
 	/**
 	 * The selectionChanged method for the {@link ISelectionChangedListener}.
 	 *
@@ -645,7 +645,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		}
 
 		final Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
-		
+
 		if (selectedElement instanceof CallHierarchyNode && showCallList) {
 			tableViewerUpdate(selectedElement);
 			inFocus = TREE_VIEWER;
@@ -654,7 +654,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		if (selectedElement instanceof Reference) {
 			inFocus = TABLE_VIEWEVR;
 		}
-		
+
 		if(!autoJumpToDefinition && !(selectedElement instanceof Reference)) {
 			return;
 		}
@@ -703,7 +703,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			}
 			showView();
 		}
-		
+
 		final IEditorPart targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		final ITextEditor editor 			= (ITextEditor) targetEditor;
 		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
@@ -739,7 +739,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	public CallHierarchy getCallHierarchy() {
 		return callHierarchy;
 	}
-	
+
 	/**
 	 * Set the callHierarchyAction field.
 	 * 

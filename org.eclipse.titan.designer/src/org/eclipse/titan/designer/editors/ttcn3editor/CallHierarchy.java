@@ -97,17 +97,17 @@ public class CallHierarchy {
 	 * The selected CallHierarchyNode. Setting in the {@link #functionCallFinder(ISelection)} and the {@link #setcurrentNode()}.
 	 */
 	private static CallHierarchyNode currentNode = null;
-	
+
 	/**
 	 * Store the search history.
 	 */
 	private static ArrayList<CallHierarchyNode> searchLog = new ArrayList<CallHierarchyNode>();;
-	
+
 	/**
 	 * The search history list allowed long.
 	 */
 	private final int SEARCH_LOG_HISTORY_LONG = 15;
-	
+
 	/**
 	 * Constructor of CallHierarchy.<br>
 	 * Set the Assignment filters ({@link #filterAssignmentType}) for the find {@link #functionCallFinder(ISelection)}.
@@ -235,7 +235,7 @@ public class CallHierarchy {
 			}
 		}
 		setCurrentNode(node);
-		
+
 		showStatusLineMessage(MessageFormat.format(CALL_HIERARCY_BUILDING_COMPLETE, currentNode.getName()));
 		return node;
 	}
@@ -345,7 +345,7 @@ public class CallHierarchy {
 			if(!(referedAssignment instanceof Definition)) {
 				return V_CONTINUE;
 			}
-			
+
 			if(!(referedAssignment.getFullName().equals(target.getFullName()))) {
 				return V_CONTINUE;
 			}
@@ -354,7 +354,7 @@ public class CallHierarchy {
 			return V_CONTINUE;
 		}
 	}
-	
+
 	/**
 	 * Add a new search start selection for the searchLog.
 	 * When the pushed element already exist, the method remove it and push it to the top.
@@ -376,7 +376,7 @@ public class CallHierarchy {
 			searchLog.remove(0);
 		}
 	}
-	
+
 	/**
 	 * Getter for the search log.
 	 * 
@@ -385,7 +385,7 @@ public class CallHierarchy {
 	public ArrayList<CallHierarchyNode> getSearchLog() {
 		return searchLog;
 	}
-	
+
 	/**
 	 * Show message on the target editors status bar.<br>
 	 * The message level is automatically STATUS_LINE_LEVEL_MESSAGE.
@@ -448,7 +448,7 @@ public class CallHierarchy {
 	public CallHierarchyNode getCurrentNode() {
 		return currentNode;
 	}
-	
+
 	/**
 	 * Set the actual selected CallHierarchyNode.<br>
 	 * Setting in the {@link #functionCallFinder(ISelection)} and the {@link #setcurrentNode()}.

@@ -57,7 +57,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 		CallHierarchyNode updatedParentNode = callHierarchy.functionCallFinder(parentNode);
 		return updatedParentNode.getChildren();
 	}
-	
+
 	/**
 	 * Return array of the parent node's children as Object.<br>
 	 * Use for the {@link CallHierarchyView}'s treeWiever.
@@ -76,7 +76,7 @@ public class CallHierarchyContentProvider implements ITreeContentProvider {
 		}
 		return getChildren(inputElement);
 	}
-	
+
 	/**
 	 * Unused method in this implementation.
 	 */

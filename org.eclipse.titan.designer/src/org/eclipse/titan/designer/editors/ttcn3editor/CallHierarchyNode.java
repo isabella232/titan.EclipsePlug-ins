@@ -236,7 +236,7 @@ public class CallHierarchyNode {
 		final Definition parentDefinition = (Definition) referenceParentNode;
 		return parentDefinition;
 	}
-	
+
 	/**
 	 * Clear the node's child's and references.
 	 */
