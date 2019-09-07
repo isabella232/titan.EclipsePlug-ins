@@ -460,7 +460,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 			
 			ArrayList<CallHierarchyNode> searchLog = callHierarchy.getSearchLog();
 			for (int i = searchLog.size()-1; i>=0; i--) {
-				CallHierarchyNode currentLogItem = searchLog.get(i);
+				final CallHierarchyNode currentLogItem = searchLog.get(i);
 				MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
 				menuItem.setText(currentLogItem.getName().substring(1));
 				String iconName = "titan.gif";
