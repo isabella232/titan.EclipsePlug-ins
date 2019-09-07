@@ -7,20 +7,20 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.editors.ttcn3editor.actions;
 
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.IEditorActionDelegate;
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchy;
 import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
 import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyView;
+import org.eclipse.titan.designer.graphics.ImageCache;
+import org.eclipse.ui.IEditorActionDelegate;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * <p>

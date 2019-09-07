@@ -8,10 +8,12 @@
 package org.eclipse.titan.designer.editors.ttcn3editor;
 
 import java.util.HashMap;
+
+import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
-import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.editors.ttcn3editor.actions.CallHierarchyAction;
 
 /**
  * <p>

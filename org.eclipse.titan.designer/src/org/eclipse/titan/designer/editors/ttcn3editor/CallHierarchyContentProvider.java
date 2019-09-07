@@ -7,9 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.editors.ttcn3editor;
 
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
+import org.eclipse.jface.viewers.Viewer;
 
 /**
  * Content provider for the {@link CallHierarchyView}'s TreeViewer.<br>

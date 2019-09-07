@@ -7,13 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.editors.ttcn3editor;
 
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.viewers.LabelProvider;
 import java.text.MessageFormat;
+
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.graphics.ImageCache;
-import org.eclipse.titan.designer.editors.ttcn3editor.CallHierarchyNode;
 
 /**
  * <p>
