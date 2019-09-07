@@ -191,7 +191,7 @@ public class CallHierarchy {
 	 * @see CallHierarchyNode
 	 */
 	public CallHierarchyNode functionCallFinder(final ISelection selection) {
-		boolean initializationStatus = initialization();
+		final boolean initializationStatus = initialization();
 		if(!initializationStatus)  {
 			return null;
 		}
@@ -260,13 +260,13 @@ public class CallHierarchy {
 			return node;
 		}
 		showStatusLineMessage(CALL_HIERARCY_BUILDING);
-		boolean initializationStatus = initialization();
+		final boolean initializationStatus = initialization();
 		if(!initializationStatus)  {
 			return null;
 		}
 
 		final Set<String> modules = projectSourceParser.getKnownModuleNames();
-		for (String moduleName : modules) {
+		for (final String moduleName : modules) {
 			final Module module = projectSourceParser.getModuleByName(moduleName);
 			if(module == null) continue;
 
@@ -274,7 +274,7 @@ public class CallHierarchy {
 			module.accept(functionCallVisitor);
 
 			final Set<Reference> setOfCallreferences = functionCallVisitor.getFunctionCalls();
-			for (Reference reference : setOfCallreferences) {
+			for (final Reference reference : setOfCallreferences) {
 				node.addChild(module, reference);
 			}
 		}
@@ -363,7 +363,7 @@ public class CallHierarchy {
 	 * @param name The name of the searched object.
 	 * @param selection The new search start point for the log.
 	 */
-	public void addToSearchLog(CallHierarchyNode selectedNode) {
+	public void addToSearchLog(final CallHierarchyNode selectedNode) {
 		final String selectedNodeName = selectedNode.getName();
 		for (int i = 0; i < searchLog.size(); i++) {
 			if(searchLog.get(i).getName().equals(selectedNodeName)) {
@@ -456,7 +456,7 @@ public class CallHierarchy {
 	 * @param currentNode
 	 * 			The actual selected CallHierarchyNode.
 	 */
-	public void setCurrentNode(CallHierarchyNode newNode) {
+	public void setCurrentNode(final CallHierarchyNode newNode) {
 		currentNode = newNode;
 	}
 

@@ -299,7 +299,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 
 		if(showCallList)  {
 			final Object[] emptyInput = {};
-			TableColumn column[] = table.getColumns();
+			final TableColumn column[] = table.getColumns();
 			column[0].setWidth(columnSizes[0]);
 			column[1].setWidth(columnSizes[1]);
 			column[2].setWidth(columnSizes[2]);
@@ -316,7 +316,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		treeViewer.getTree().select(treeViewer.getTree().getItem(0));
 		if(treeViewer.getTree().getItem(0).getData() instanceof CallHierarchyNode) {
 			if(autoJumpToDefinition) {
-				CallHierarchyNode selectedNode = (CallHierarchyNode) treeViewer.getTree().getItem(0).getData();
+				final CallHierarchyNode selectedNode = (CallHierarchyNode) treeViewer.getTree().getItem(0).getData();
 				selectLocation(selectedNode.getNodeDefinition().getLocation());
 			}
 		}
@@ -376,7 +376,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * @param actionBars
 	 * 			The view's action bars.
 	 */
-	private void setUpActionBars(IActionBars actionBars) {
+	private void setUpActionBars(final IActionBars actionBars) {
 		//Refresh
 		refreshAction = new Action(REFRESH) {
 			@Override
@@ -452,16 +452,16 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		 *  The menu generator. List the search log with icons.
 		 */
 		@Override
-		public Menu getMenu(Control parent) {
+		public Menu getMenu(final Control parent) {
 			if (menu != null) {
 				menu.dispose();
 			}
 			menu = new Menu(parent);
 
-			ArrayList<CallHierarchyNode> searchLog = callHierarchy.getSearchLog();
+			final ArrayList<CallHierarchyNode> searchLog = callHierarchy.getSearchLog();
 			for (int i = searchLog.size()-1; i>=0; i--) {
 				final CallHierarchyNode currentLogItem = searchLog.get(i);
-				MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
+				final MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
 				menuItem.setText(currentLogItem.getName().substring(1));
 				String iconName;
 				switch(currentLogItem.getNodeDefinition().getAssignmentType()) { 
@@ -484,7 +484,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 				}
 				menuItem.setImage(ImageCache.getImageDescriptor(iconName).createImage());
 				menuItem.addSelectionListener(new SelectionAdapter() {
-					public void widgetSelected(SelectionEvent event) {
+					public void widgetSelected(final SelectionEvent event) {
 						callHierarchyAction.processing(currentLogItem);
 					}
 				});
@@ -496,7 +496,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 		 * Return the current menu.
 		 */
 		@Override
-		public Menu getMenu(Menu parent) {
+		public Menu getMenu(final Menu parent) {
 			return menu;
 		}
 	}
@@ -745,7 +745,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * 
 	 * @param callHierarchyAction Store the current used CallHierarchyAction instance.
 	 */
-	public void setAction(CallHierarchyAction callHierarchyAction) {
+	public void setAction(final CallHierarchyAction callHierarchyAction) {
 		this.callHierarchyAction = callHierarchyAction;
 	}
 
