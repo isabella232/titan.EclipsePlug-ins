@@ -203,7 +203,9 @@ public class CallHierarchy {
 
 		int offset;
 		if (selection instanceof TextSelection && !selection.isEmpty() && !"".equals(((TextSelection) selection).getText())) {
-			if (reportDebugInformation) TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
+			if (reportDebugInformation) {
+				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
+			}
 			final TextSelection textSelection = (TextSelection) selection;
 			offset = textSelection.getOffset() + textSelection.getLength();
 		} else {
@@ -268,7 +270,9 @@ public class CallHierarchy {
 		final Set<String> modules = projectSourceParser.getKnownModuleNames();
 		for (final String moduleName : modules) {
 			final Module module = projectSourceParser.getModuleByName(moduleName);
-			if(module == null) continue;
+			if(module == null) {
+				continue;
+			}
 
 			final FunctionCallVisitor functionCallVisitor = new FunctionCallVisitor((Assignment) node.getNodeDefinition());
 			module.accept(functionCallVisitor);
