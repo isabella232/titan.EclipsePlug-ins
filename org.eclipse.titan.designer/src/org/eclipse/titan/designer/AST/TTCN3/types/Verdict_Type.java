@@ -173,7 +173,7 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCodingAttributes(CompilationTimeStamp timestamp, IReferenceChain refChain) {
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
 		checkJson(timestamp); 
 		//TODO add check for xer encoding
 	}
