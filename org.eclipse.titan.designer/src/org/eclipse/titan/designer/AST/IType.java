@@ -684,6 +684,28 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void setRawAttributes(final RawAST newAttributes);
 
 	/**
+	 * Set the json attribute of a type from outside.
+	 * Should be used only when json attribute checking requires it
+	 *
+	 * @param newAttributes the new attributes to set.
+	 * */
+	void setJsonAttributes(final JsonAST newAttributes);
+
+	/**
+	 * If the type does not have its json attribute, generate and check a default one.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * */
+	void forceJson(final CompilationTimeStamp timestamp);
+
+	//FIXME: comment
+	void checkJson(final CompilationTimeStamp timestamp);
+
+	//FIXME: comment
+	void checkJsonDefault();
+
+	/**
 	 * Adds a coding to the type.
 	 *
 	 * @param timestamp the time stamp of the actual semantic check cycle.

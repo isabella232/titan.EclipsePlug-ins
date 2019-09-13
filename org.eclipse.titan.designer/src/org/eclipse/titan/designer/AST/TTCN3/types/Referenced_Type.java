@@ -654,6 +654,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void forceJson(final CompilationTimeStamp timestamp) {
+		if (refd != null && !refd.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
+			refd.forceJson(timestamp);
+		}
+	}
+
 	/**
 	 * Searches and adds a completion proposal to the provided collector if a
 	 * valid one is found.

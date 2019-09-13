@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
@@ -746,6 +747,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	/** {@inheritDoc} */
 	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		checkSetSeqRawCodingAttributes(timestamp);
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
 
 		if (refChain.contains(this)) {
@@ -801,6 +803,28 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		return rawLength;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceJson(final CompilationTimeStamp timestamp) {
+		if (jsonAttribute == null) {
+			jsonAttribute = new JsonAST();
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJson(final CompilationTimeStamp timestamp) {
+		checkSetSeqJson(timestamp);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJsonDefault() {
+		if (getNofComponents() != 0) {
+			getLocation().reportSemanticError("JSON default values are not available for record/set types with 1 or more fields");
+		}
 	}
 
 	@Override

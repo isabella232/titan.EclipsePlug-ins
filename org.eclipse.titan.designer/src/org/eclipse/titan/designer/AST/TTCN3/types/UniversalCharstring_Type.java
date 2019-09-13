@@ -348,7 +348,60 @@ public final class UniversalCharstring_Type extends Type {
 				}
 			}
 		}
+
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		final int length = defaultValue.length();
+		int i = 0;
+		while (i < length) {
+			final char value = defaultValue.charAt(i);
+			if (value == '\\') {
+				if (i == length-1) {
+					getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+					return;
+				}
+				
+				switch (value) {
+				case '\\':
+				case '\"':
+				case 'n':
+	            case 't':
+	            case 'r':
+	            case 'f':
+	            case 'b':
+	            case '/':
+					break;
+	            case 'u':
+	            {
+	            	if (i + 4 >= length) {
+	            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+	            		return;
+	            	}
+	            	for (int j = 1; j < 5; j++) {
+		            	final char nextChar = defaultValue.charAt(i+j);
+		            	if ((nextChar < '0' || nextChar > '9') &&
+		            			(nextChar < 'a' || nextChar > 'f') &&
+		            			(nextChar < 'A' || nextChar > 'F')) {
+		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		            		return;
+		            	}
+	            	}
+	            i += 4;
+	            break;
+	            }
+				default:
+					getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+					return;
+				}
+			}
+			i++;
+		}//while
 	}
 
 	@Override

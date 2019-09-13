@@ -383,6 +383,8 @@ public final class Integer_Type extends Type {
 				rawAttribute.byteorder = RawAST.XDEFMSB;
 			}
 		}
+
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
 	}
 
@@ -448,6 +450,14 @@ public final class Integer_Type extends Type {
 		}
 
 		return getDefaultRawFieldLength();
+	}
+
+	@Override
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		if (!defaultValue.matches("-?[0-9]+")) {
+			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		}
 	}
 
 	@Override

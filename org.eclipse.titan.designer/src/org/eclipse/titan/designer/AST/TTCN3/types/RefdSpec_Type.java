@@ -277,6 +277,14 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public void forceJson(final CompilationTimeStamp timestamp) {
+		if (jsonAttribute == null) {
+			refdType.forceJson(timestamp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());

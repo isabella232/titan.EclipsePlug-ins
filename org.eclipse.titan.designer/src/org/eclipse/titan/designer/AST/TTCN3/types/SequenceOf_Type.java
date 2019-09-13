@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
@@ -866,6 +867,14 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	public void forceRaw(final CompilationTimeStamp timestamp) {
 		if (rawAttribute == null) {
 			rawAttribute = new RawAST(getDefaultRawFieldLength());
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceJson(final CompilationTimeStamp timestamp) {
+		if (jsonAttribute == null) {
+			jsonAttribute = new JsonAST();
 		}
 	}
 

@@ -204,7 +204,18 @@ public final class Boolean_Type extends ASN1Type {
 				rawAttribute.length_restriction = restrictionLength;
 			}
 		}
+
+		checkJson(timestamp);		
 		//TODO add checks for other encodings.
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		if (!defaultValue.matches("true|false")) {
+			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		}
 	}
 
 	@Override
