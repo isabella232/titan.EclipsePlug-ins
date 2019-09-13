@@ -1019,7 +1019,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
-		checkJson(null);
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
 
 		if (refChain.contains(this)) {
