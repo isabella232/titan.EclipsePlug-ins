@@ -173,6 +173,22 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
+		checkJson(timestamp); 
+		//TODO add check for xer encoding
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		if (!defaultValue.matches("none|pass|inconc|fail|error")) {
+			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
 		if (coding == MessageEncoding_type.BER) {
 			return hasEncoding(timestamp, MessageEncoding_type.BER, null);

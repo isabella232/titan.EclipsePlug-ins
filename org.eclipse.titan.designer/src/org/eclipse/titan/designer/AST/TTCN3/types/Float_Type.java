@@ -306,7 +306,84 @@ public final class Float_Type extends ASN1Type {
 				getLocation().reportSemanticError(MessageFormat.format("Invalid length ({0}) specified in parameter FIELDLENGTH for float type `{1}''. The FIELDLENGTH must be single (32) or double (64)", rawAttribute.fieldlength, getFullName()));
 			}
 		}
+
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		if (defaultValue.matches("-?infinity|not_a_number") || defaultValue.length() < 1) {
+			// special float values => skip the rest of the check
+			return;
+		}
+
+		boolean first_digit = false; // first non-zero digit reached
+		boolean zero = false; // first zero digit reached
+		boolean decimal_point = false; // decimal point (.) reached
+		boolean exponent_mark = false; // exponential mark (e or E) reached
+		boolean exponent_sign = false; // sign of the exponential (- or +) reached
+		boolean error = false;
+
+		int i = (defaultValue.charAt(0) == '-') ? 1 : 0;
+		while(!error && i < defaultValue.length()) {
+			final char value = defaultValue.charAt(i);
+			switch (value) {
+			case '.':
+				if (decimal_point || exponent_mark || (!first_digit && !zero)) {
+					error = true;
+				}
+				decimal_point = true;
+				first_digit = false;
+				zero = false;
+				break;
+			case 'e':
+			case 'E':
+				if (exponent_mark || (!first_digit && !zero)) {
+					error = true;
+				}
+				exponent_mark = true;
+				first_digit = false;
+				zero = false;
+				break;
+			case '0':
+				if (!first_digit && (exponent_mark || (!decimal_point && zero))) {
+					error = true;
+				}
+				zero = true;
+				break;
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				if (!first_digit && zero && (!decimal_point || exponent_mark)) {
+					error = true;
+				}
+				first_digit = true;
+				break;
+			case '-':
+			case '+':
+				if (exponent_sign || !exponent_mark || zero || first_digit) {
+					error = true;
+				}
+				exponent_sign = true;
+				break;
+			default:
+				error = true;
+			}
+			++i;
+		}
+		//FIXME: err = !first_digit && !zero
+		if (!first_digit && !zero) {
+			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		}
 	}
 
 	@Override

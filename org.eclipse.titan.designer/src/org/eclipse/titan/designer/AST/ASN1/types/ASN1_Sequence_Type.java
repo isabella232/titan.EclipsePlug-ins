@@ -41,7 +41,9 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
@@ -1017,6 +1019,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
 
 		if (refChain.contains(this)) {
@@ -1031,6 +1034,108 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			cf.getType().checkCodingAttributes(timestamp, refChain);
 		}
 		refChain.previousState();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceJson(final CompilationTimeStamp timestamp) {
+		if (jsonAttribute == null) {
+			jsonAttribute = new JsonAST();
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJson(final CompilationTimeStamp timestamp) {
+		if (jsonAttribute == null && !hasEncodeAttribute("JSON")) {
+			return;
+		}
+
+		for (int i = 0; i < getNofComponents(); i++) {
+			final Type fieldType = getComponentByIndex(i).getType();
+			fieldType.forceJson(timestamp);
+		}
+
+		if (jsonAttribute == null) {
+			return;
+		}
+
+		if (jsonAttribute.omit_as_null && !isOptionalField()) {
+			getLocation().reportSemanticError("Invalid attribute, 'omit as null' requires optional field of a record or set.");
+		}
+
+		if (jsonAttribute.as_value) {
+			getLocation().reportSemanticError("Invalid attribute, 'as value' is only allowed for unions, the anytype, or records or sets with one field");
+		}
+
+		if (jsonAttribute.alias != null) {
+			final IType parent = getParentType();
+			if (parent == null) {
+				// only report this error when using the new codec handling, otherwise
+				// ignore the attribute (since it can also be set by the XML 'name as ...' attribute)
+				getLocation().reportSemanticError("Invalid attribute, 'name as ...' requires field of a record, set or union.");
+			} else {
+				switch (parent.getTypetype()) {
+				case TYPE_TTCN3_SEQUENCE:
+				case TYPE_TTCN3_SET:
+				case TYPE_TTCN3_CHOICE:
+				case TYPE_ANYTYPE:
+					break;
+				default:
+					// only report this error when using the new codec handling, otherwise
+					// ignore the attribute (since it can also be set by the XML 'name as ...' attribute)
+					getLocation().reportSemanticError("Invalid attribute, 'name as ...' requires field of a record, set or union.");
+					break;
+				}
+			}
+
+			if (parent != null && parent.getJsonAttribute() != null && parent.getJsonAttribute().as_value) {
+				switch (parent.getTypetype()) {
+				case TYPE_TTCN3_CHOICE:
+				case TYPE_ANYTYPE:
+					// parent_type_name remains null if the 'as value' attribute is set for an invalid type
+					getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'name as ...' will be ignored, because parent {0} is encoded without field names.", parent.getTypename()));
+					break;
+				case TYPE_TTCN3_SEQUENCE:
+				case TYPE_TTCN3_SET:
+					if (((TTCN3_Set_Seq_Choice_BaseType)parent).getNofComponents() == 1) {
+						// parent_type_name remains null if the 'as value' attribute is set for an invalid type
+						getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'name as ...' will be ignored, because parent {0} is encoded without field names.", parent.getTypename()));
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
+		if (jsonAttribute.default_value != null) {
+			checkJsonDefault();
+		}
+
+		//TODO: check schema extensions
+
+		if (jsonAttribute.metainfo_unbound) {
+			if (getParentType() == null || (getParentType().getTypetype() != Type_type.TYPE_TTCN3_SEQUENCE &&
+					getParentType().getTypetype() != Type_type.TYPE_TTCN3_SET)) {
+				// only allowed if it's an array type or a field of a record/set
+				getLocation().reportSemanticError("Invalid attribute 'metainfo for unbound', requires record, set, record of, set of, array or field of a record or set");
+			}
+		}
+
+		if (jsonAttribute.as_number) {
+			getLocation().reportSemanticError("Invalid attribute, 'as number' is only allowed for enumerated types");
+		}
+
+		//FIXME: check tag_list
+
+		if (jsonAttribute.as_map) {
+			getLocation().reportSemanticError("Invalid attribute, 'as map' requires record of or set of");
+		}
+
+		if (jsonAttribute.enum_texts.size() > 0) {
+			getLocation().reportSemanticError("Invalid attribute, 'text ... as ...' requires an enumerated type");
+		}
 	}
 
 	// This is the same as in ASN1_Set_type

@@ -209,7 +209,17 @@ public final class HexString_Type extends Type {
 				}
 			}
 		}
+
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
+	}
+
+	@Override
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		if (!defaultValue.matches("[0-9a-fA-F]+")) {
+			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		}
 	}
 
 	@Override

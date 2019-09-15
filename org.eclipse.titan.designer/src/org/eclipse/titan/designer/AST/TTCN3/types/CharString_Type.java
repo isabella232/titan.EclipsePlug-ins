@@ -326,7 +326,67 @@ public final class CharString_Type extends Type {
 				}
 			}
 		}
+
+		checkJson(timestamp);
 		//TODO add checks for other encodings.
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		final int length = defaultValue.length();
+		int i = 0;
+		while (i < length) {
+			final char value = defaultValue.charAt(i);
+			if (value < 0) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+				return;
+			}
+			if (value == '\\') {
+				if (i == length-1) {
+					getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+					return;
+				}
+				
+				switch (value) {
+				case '\\':
+				case '\"':
+				case 'n':
+	            case 't':
+	            case 'r':
+	            case 'f':
+	            case 'b':
+	            case '/':
+					break;
+	            case 'u':
+	            {
+	            	if (i + 4 >= length) {
+	            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+	            		return;
+	            	}
+	            	if (defaultValue.charAt(i+1) != '0' || defaultValue.charAt(i+2) != '0' ||
+	            			defaultValue.charAt(i+3) < '0' || defaultValue.charAt(i+3) > '7') {
+	            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+	            		return;
+	            	}
+	            	final char nextChar = defaultValue.charAt(i+4);
+	            	if ((nextChar < '0' || nextChar > '9') &&
+	            			(nextChar < 'a' || nextChar > 'f') &&
+	            			(nextChar < 'A' || nextChar > 'F')) {
+	            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+	            		return;
+	            	}
+	            i += 4;
+	            break;
+	            }
+				default:
+					getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+					return;
+				}
+			}
+			i++;
+		}//while
 	}
 
 	@Override
