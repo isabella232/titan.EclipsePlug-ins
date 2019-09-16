@@ -7,9 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.executor;
 
+import java.io.IOException;
+
+import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * @author Kristof Szabados
@@ -17,6 +22,11 @@ import org.eclipse.ui.console.MessageConsole;
 public final class TITANConsole {
 	private static final String TITLE = "TITAN RUNTIME console";
 	private static MessageConsole console = null;
+	private static boolean inHeadLessMode;
+
+	static {
+		inHeadLessMode = !PlatformUI.isWorkbenchRunning();
+	}
 
 	private TITANConsole() {
 	}
@@ -28,5 +38,40 @@ public final class TITANConsole {
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] {console});
 		}
 		return console;
+	}
+
+	public static void println(final String message, final MessageConsoleStream stream) {
+		if(inHeadLessMode) {
+			return;
+		}
+		stream.println(message);
+		try {
+			stream.flush();
+		} catch (IOException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+	}
+
+	// It creates a MessageStream just for this println
+	public static void println(final String message) {
+		if(inHeadLessMode) {
+			return;
+		}
+		println(message, getConsole().newMessageStream());
+	}
+
+	public static void print(final String message, final MessageConsoleStream stream) {
+		if(inHeadLessMode) {
+			return;
+		}
+		stream.print(message);
+	}
+
+	// It creates a MessageStream just for this println
+	public static void print(final String message) {
+		if(inHeadLessMode) {
+			return;
+		}
+		print(message, getConsole().newMessageStream());
 	}
 }
