@@ -384,16 +384,6 @@ public final class SingleExecutor extends BaseExecutor {
 					executedTests.add(new ExecutedTestcase((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), executionFinished
 							.group(1), executionFinished.group(2), ""));
 				}
-
-				if (project == null) {
-					return;
-				}
-
-				try {
-					project.refreshLocal(IResource.DEPTH_INFINITE, null);
-				} catch (CoreException e) {
-					ErrorReporter.logExceptionStackTrace(e);
-				}
 			}
 			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
 			builder.delete(0, fastOffset);
