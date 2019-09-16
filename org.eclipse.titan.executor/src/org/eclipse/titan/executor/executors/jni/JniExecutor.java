@@ -58,7 +58,6 @@ import org.eclipse.titan.executor.views.executormonitor.MainControllerElement;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * This executor handles the execution of tests compiled in a parallel mode, via directly connecting to the MainController written in C++.
@@ -105,8 +104,6 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 
 	private Action automaticExecution, startSession, configure, startHCs, cmtc, smtc, generalPause, cont, stop, emtc, generalLogging,
 	shutdownSession, info;
-
-	private MessageConsoleStream consoleStream;
 
 	private ConfigFileHandler configHandler = null;
 
@@ -229,8 +226,6 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		};
 		info.setToolTipText("Updates the status displaying hierarchy");
 
-		consoleStream = TITANConsole.getConsole().newMessageStream();
-
 		jnimw = new JNIMiddleWare(this);
 		jnimw.initialize(1500);
 
@@ -300,7 +295,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * */
 	@Override
 	public void insertError(final int severity, final String msg) {
-		consoleStream.println("Error: " + msg);
+		TITANConsole.println("Error: " + msg);
 
 		if (severityLevelExtraction) {
 			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), SeverityResolver
@@ -340,7 +335,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	public void batchedInsertNotify(final ArrayList<String[]> s) {
 		if (loggingIsEnabled && consoleLogging) {
 			for (final String[] sv : s) {
-				consoleStream.println(sv[2] + ": " + sv[4]);
+				TITANConsole.println(sv[2] + ": " + sv[4]);
 			}
 		}
 
@@ -393,7 +388,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	@Override
 	public void insertNotify(final Timeval time, final String source, final int severity, final String msg) {
 		if (loggingIsEnabled && consoleLogging) {
-			consoleStream.println(source + ": " + msg);
+			TITANConsole.println(source + ": " + msg);
 		}
 
 		final Formatter formatter = new Formatter();
