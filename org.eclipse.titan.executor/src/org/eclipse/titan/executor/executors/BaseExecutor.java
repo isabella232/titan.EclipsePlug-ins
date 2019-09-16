@@ -83,7 +83,6 @@ import org.eclipse.titan.executor.designerconnection.EnvironmentHelper;
 import org.eclipse.titan.executor.executors.ExecuteDialog.ExecutableType;
 import org.eclipse.titan.executor.graphics.ImageCache;
 import org.eclipse.titan.executor.preferences.PreferenceConstants;
-import org.eclipse.titan.executor.tabpages.maincontroller.BaseMainControllerTab;
 import org.eclipse.titan.executor.tabpages.maincontroller.BaseMainControllerTab.ExecutableCalculationHelper;
 import org.eclipse.titan.executor.tabpages.testset.TestSetTab;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorStorage;
@@ -247,7 +246,7 @@ public abstract class BaseExecutor {
 
 		//correct the testcase list
 		if (null != executablePath && executablePath.length() > 0 && testcaseRefreshOnStart) {
-			final ExecutableCalculationHelper helper = BaseMainControllerTab.checkExecutable(configuration, project, URIUtil.toURI(executablePath));
+			final ExecutableCalculationHelper helper = ExecutableCalculationHelper.checkExecutable(configuration, project, URIUtil.toURI(executablePath));
 			if (helper.executableFileIsValid && helper.executableIsExecutable) {
 				helper.availableTestcases.toArray(new String[helper.availableTestcases.size()]);
 			}

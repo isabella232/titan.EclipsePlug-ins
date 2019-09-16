@@ -441,137 +441,137 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		public boolean executableIsExecutable = false;
 		public boolean executableIsForSingleMode = false;
 		public List<String> availableTestcases = new ArrayList<String>();
-	}
 
-	/**
-	 * Checks that the executable is existing, executable and of the right kind.
-	 * Also extracts the available testcases.
-	 *
-	 * @param configuration the configuration to get the environmental variables from.
-	 * @param project the project to be used.
-	 * @param executableFileName the resolved path of the executable.
-	 *
-	 * @return the information extracted.
-	 * */
-	public static ExecutableCalculationHelper checkExecutable(final ILaunchConfiguration configuration, final IProject project, final URI executableFileName) {
-		final ExecutableCalculationHelper result = new ExecutableCalculationHelper();
+		/**
+		 * Checks that the executable is existing, executable and of the right kind.
+		 * Also extracts the available testcases.
+		 *
+		 * @param configuration the configuration to get the environmental variables from.
+		 * @param project the project to be used.
+		 * @param executableFileName the resolved path of the executable.
+		 *
+		 * @return the information extracted.
+		 * */
+		public static ExecutableCalculationHelper checkExecutable(final ILaunchConfiguration configuration, final IProject project, final URI executableFileName) {
+			final ExecutableCalculationHelper result = new ExecutableCalculationHelper();
 
-		final File file = new File(executableFileName);
-		if (!file.exists() || !file.isFile()) {
-			return result;
-		}
-
-		final ProcessBuilder pb = new ProcessBuilder();
-		final Map<String, String> env = pb.environment();
-		Map<String, String> tempEnvironmentalVariables;
-
-		try {
-			tempEnvironmentalVariables = (HashMap<String, String>) configuration.getAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES, new HashMap<String, String>());
-			EnvironmentHelper.resolveVariables(env, tempEnvironmentalVariables);
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			result.executableFileIsValid = false;
-		}
-
-		if (project != null) {
-			final IProject actualProject = DynamicLinkingHelper.getProject(project.getName());
-			if (actualProject != null) {
-				EnvironmentHelper.setTitanPath(env);
-				EnvironmentHelper.set_LICENSE_FILE_PATH(env);
-				EnvironmentHelper.set_LD_LIBRARY_PATH(DynamicLinkingHelper.getProject(actualProject.getName()), env);
+			final File file = new File(executableFileName);
+			if (!file.exists() || !file.isFile()) {
+				return result;
 			}
-		}
 
-		Process proc;
-		final String exename = PathConverter.convert(file.getPath(), true, TITANDebugConsole.getConsole());
-		StringBuilder lastParam = new StringBuilder(exename);
-		lastParam.append(" -v");
-		List<String> shellCommand;
-		shellCommand = new ArrayList<String>(3);
-		shellCommand.add("sh");
-		shellCommand.add("-c");
-		shellCommand.add(lastParam.toString());
-		// "sh", "-c", "exename", "-v" doesn't work :(   It has to be
-		// "sh", "-c", "exename -v"
-		for (final String c : shellCommand) {
-			TITANConsole.print(c + ' ');
-		}
-		TITANConsole.println("");
-		pb.command(shellCommand);
-		final Pattern singlePattern = Pattern.compile("TTCN-3 Test Executor \\(single mode\\).*");
-		result.executableIsForSingleMode = false;
-		BufferedReader stderr = null;
-		try {
-			proc = pb.start();
+			final ProcessBuilder pb = new ProcessBuilder();
+			final Map<String, String> env = pb.environment();
+			Map<String, String> tempEnvironmentalVariables;
 
-			stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-			String line = stderr.readLine();
-			while (line != null) {
-				if (singlePattern.matcher(line).matches()) {
-					result.executableIsForSingleMode = true;
+			try {
+				tempEnvironmentalVariables = (HashMap<String, String>) configuration.getAttribute(ILaunchManager.ATTR_ENVIRONMENT_VARIABLES, new HashMap<String, String>());
+				EnvironmentHelper.resolveVariables(env, tempEnvironmentalVariables);
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				result.executableFileIsValid = false;
+			}
+
+			if (project != null) {
+				final IProject actualProject = DynamicLinkingHelper.getProject(project.getName());
+				if (actualProject != null) {
+					EnvironmentHelper.setTitanPath(env);
+					EnvironmentHelper.set_LICENSE_FILE_PATH(env);
+					EnvironmentHelper.set_LD_LIBRARY_PATH(DynamicLinkingHelper.getProject(actualProject.getName()), env);
 				}
-				line = stderr.readLine();
-			}
-			proc.waitFor();
-			result.executableFileIsValid = true;
-		} catch (IOException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			result.executableFileIsValid = false;
-		} catch (InterruptedException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			result.executableFileIsValid = false;
-		} finally {
-			IOUtils.closeQuietly(stderr);
-		}
-
-		// ProcessBuilder.command did not make a copy but took a reference;
-		// changes to shellCommand continue to affect the variable pb.
-		lastParam = new StringBuilder(exename);
-		lastParam.append(" -l");
-		// replace the last parameter
-		shellCommand.set(shellCommand.size() - 1, lastParam.toString());
-		for (final String c : shellCommand) {
-			TITANConsole.print(c + ' ');
-		}
-		TITANConsole.println("");
-
-		BufferedReader stdout = null;
-		try {
-			proc = pb.start();
-
-			stdout = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-			String line;
-			while ((line = stdout.readLine()) != null) {
-				result.availableTestcases.add(line);
-				TITANConsole.println(line);
 			}
 
-			final int exitval = proc.waitFor();
-			if (exitval != 0 && stderr.ready()) {
-				TITANConsole.println("Testing of the executable failed");
-				TITANConsole.println("  with value:" + exitval);
-				TITANConsole.println("Sent the following error messages:");
-				while ((line = stderr.readLine()) != null) {
+			Process proc;
+			final String exename = PathConverter.convert(file.getPath(), true, TITANDebugConsole.getConsole());
+			StringBuilder lastParam = new StringBuilder(exename);
+			lastParam.append(" -v");
+			List<String> shellCommand;
+			shellCommand = new ArrayList<String>(3);
+			shellCommand.add("sh");
+			shellCommand.add("-c");
+			shellCommand.add(lastParam.toString());
+			// "sh", "-c", "exename", "-v" doesn't work :(   It has to be
+			// "sh", "-c", "exename -v"
+			for (final String c : shellCommand) {
+				TITANConsole.print(c + ' ');
+			}
+			TITANConsole.println("");
+			pb.command(shellCommand);
+			final Pattern singlePattern = Pattern.compile("TTCN-3 Test Executor \\(single mode\\).*");
+			result.executableIsForSingleMode = false;
+			BufferedReader stderr = null;
+			try {
+				proc = pb.start();
+
+				stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+				String line = stderr.readLine();
+				while (line != null) {
+					if (singlePattern.matcher(line).matches()) {
+						result.executableIsForSingleMode = true;
+					}
+					line = stderr.readLine();
+				}
+				proc.waitFor();
+				result.executableFileIsValid = true;
+			} catch (IOException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				result.executableFileIsValid = false;
+			} catch (InterruptedException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				result.executableFileIsValid = false;
+			} finally {
+				IOUtils.closeQuietly(stderr);
+			}
+
+			// ProcessBuilder.command did not make a copy but took a reference;
+			// changes to shellCommand continue to affect the variable pb.
+			lastParam = new StringBuilder(exename);
+			lastParam.append(" -l");
+			// replace the last parameter
+			shellCommand.set(shellCommand.size() - 1, lastParam.toString());
+			for (final String c : shellCommand) {
+				TITANConsole.print(c + ' ');
+			}
+			TITANConsole.println("");
+
+			BufferedReader stdout = null;
+			try {
+				proc = pb.start();
+
+				stdout = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+				stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+				String line;
+				while ((line = stdout.readLine()) != null) {
+					result.availableTestcases.add(line);
 					TITANConsole.println(line);
 				}
 
-				result.executableIsExecutable = false;
-			} else {
-				result.executableIsExecutable = true;
-			}
-			result.executableFileIsValid = true;
-		} catch (IOException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			result.executableFileIsValid = false;
-		} catch (InterruptedException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			result.executableFileIsValid = false;
-		} finally {
-			IOUtils.closeQuietly(stdout, stderr);
-		}
+				final int exitval = proc.waitFor();
+				if (exitval != 0 && stderr.ready()) {
+					TITANConsole.println("Testing of the executable failed");
+					TITANConsole.println("  with value:" + exitval);
+					TITANConsole.println("Sent the following error messages:");
+					while ((line = stderr.readLine()) != null) {
+						TITANConsole.println(line);
+					}
 
-		return result;
+					result.executableIsExecutable = false;
+				} else {
+					result.executableIsExecutable = true;
+				}
+				result.executableFileIsValid = true;
+			} catch (IOException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				result.executableFileIsValid = false;
+			} catch (InterruptedException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				result.executableFileIsValid = false;
+			} finally {
+				IOUtils.closeQuietly(stdout, stderr);
+			}
+
+			return result;
+		}
 	}
 
 	protected final void handleExecutableModified() {
@@ -590,7 +590,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 					uri = TITANPathUtilities.resolvePathURI(executableFileText.getStringValue(), getProject().getLocation().toOSString());
 				}
 
-				final ExecutableCalculationHelper helper = checkExecutable(lastConfiguration, DynamicLinkingHelper.getProject(projectNameText.getText()), uri);
+				final ExecutableCalculationHelper helper = ExecutableCalculationHelper.checkExecutable(lastConfiguration, DynamicLinkingHelper.getProject(projectNameText.getText()), uri);
 				executableFileIsValid = helper.executableFileIsValid;
 				executableIsExecutable = helper.executableIsExecutable;
 				executableIsForSingleMode = helper.executableIsForSingleMode;
@@ -785,7 +785,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		final URI uri2 = TITANPathUtilities.resolvePathURI(executable, project.getLocation().toOSString());
 		if (null != executable && executable.length() > 0) {
 			file = new File(uri2);
-			helper = checkExecutable(configuration, project, uri2);
+			helper = ExecutableCalculationHelper.checkExecutable(configuration, project, uri2);
 			if (!file.exists()) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"An error was found while creating the default launch configuration for project " + project.getName(),
