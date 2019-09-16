@@ -28,7 +28,6 @@ import org.eclipse.titan.executor.Activator;
 import org.eclipse.titan.executor.TITANConsole;
 import org.eclipse.titan.executor.graphics.ImageCache;
 import org.eclipse.titan.executor.views.notification.Notification;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
 
 /**
@@ -78,7 +77,6 @@ public final class HostJob extends Job {
 			}
 		}
 
-		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		String line;
 		final BufferedReader stdout = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 		final BufferedReader stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
@@ -103,11 +101,11 @@ public final class HostJob extends Job {
 			}
 			proc.destroy();
 		} catch (IOException e) {
-			stream.println("execution failed beacuse of interrupion");
+			TITANConsole.println("execution failed beacuse of interrupion");
 			ErrorReporter.logExceptionStackTrace(e);
 			return Status.CANCEL_STATUS;
 		} catch (InterruptedException e) {
-			stream.println("execution failed beacuse of interrupion");
+			TITANConsole.println("execution failed beacuse of interrupion");
 			ErrorReporter.logExceptionStackTrace(e);
 			return Status.CANCEL_STATUS;
 		} finally {

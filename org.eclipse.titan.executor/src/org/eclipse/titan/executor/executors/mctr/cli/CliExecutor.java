@@ -61,7 +61,6 @@ import org.eclipse.titan.executor.views.executormonitor.MainControllerElement;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * This executor handles the execution of tests compiled in a parallel mode, connecting to the MainController via command line.
@@ -411,11 +410,11 @@ public final class CliExecutor extends BaseExecutor {
 	}
 
 	private void printCommandToTitanConsole(final List<String> command) {
-		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		for (final String c : command) {
-			stream.print(c + ' ');
+			TITANConsole.print(c + ' ');
 		}
-		stream.println();
+
+		TITANConsole.println("");
 	}
 
 	private String getMctrPath(final Map<String, String> env) {

@@ -59,7 +59,6 @@ import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
 import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * @author Kristof Szabados
@@ -309,11 +308,10 @@ public final class SingleExecutor extends BaseExecutor {
 		command.add(" sleep 1; cd '" + PathConverter.convert(workingdirectoryPath, true, console) + "'; '" + PathConverter.convert(executablePath, true, console)
 				+ "' '" + PathConverter.convert(actualConfigPath, true, console) + "'");
 
-		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		for (final String c : command) {
-			stream.print(c + ' ');
+			TITANConsole.print(c + ' ');
 		}
-		stream.println();
+		TITANConsole.println("");
 
 		pb.command(command);
 		pb.redirectErrorStream(true);

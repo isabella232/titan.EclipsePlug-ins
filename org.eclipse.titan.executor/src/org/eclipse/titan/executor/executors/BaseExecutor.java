@@ -91,7 +91,6 @@ import org.eclipse.titan.executor.views.executormonitor.LaunchStorage;
 import org.eclipse.titan.executor.views.executormonitor.MainControllerElement;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
 
 /**
@@ -525,7 +524,6 @@ public abstract class BaseExecutor {
 
 		HostController controller;
 		List<String> shellCommand;
-		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		String command;
 
 		for (int i = 0; i < hostControllers.size(); i++) {
@@ -580,9 +578,9 @@ public abstract class BaseExecutor {
 			shellCommand.add(command);
 
 			for (final String c : shellCommand) {
-				stream.print(c + ' ');
+				TITANConsole.print(c + ' ');
 			}
-			stream.println();
+			TITANConsole.println("");
 
 			pb.command(shellCommand);
 			if (workingdirectoryPath != null) {

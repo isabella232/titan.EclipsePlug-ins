@@ -199,7 +199,7 @@ public final class JNIMiddleWare {
 			eTh = new Thread(new EventDispatcher());
 			eTh.start();
 		} else {
-			TITANConsole.getConsole().newMessageStream().println("Main Controller has been already initialized!");
+			TITANConsole.println("Main Controller has been already initialized!");
 		}
 	}
 

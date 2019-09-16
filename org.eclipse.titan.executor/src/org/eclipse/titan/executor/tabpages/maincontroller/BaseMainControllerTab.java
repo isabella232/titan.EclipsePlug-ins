@@ -66,7 +66,6 @@ import org.eclipse.titan.executor.designerconnection.DynamicLinkingHelper;
 import org.eclipse.titan.executor.designerconnection.EnvironmentHelper;
 import org.eclipse.titan.executor.graphics.ImageCache;
 import org.eclipse.titan.executor.tabpages.testset.TestSetTab;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
@@ -483,7 +482,6 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			}
 		}
 
-		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		Process proc;
 		final String exename = PathConverter.convert(file.getPath(), true, TITANDebugConsole.getConsole());
 		StringBuilder lastParam = new StringBuilder(exename);
@@ -496,9 +494,9 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		// "sh", "-c", "exename", "-v" doesn't work :(   It has to be
 		// "sh", "-c", "exename -v"
 		for (final String c : shellCommand) {
-			stream.print(c + ' ');
+			TITANConsole.print(c + ' ');
 		}
-		stream.println();
+		TITANConsole.println("");
 		pb.command(shellCommand);
 		final Pattern singlePattern = Pattern.compile("TTCN-3 Test Executor \\(single mode\\).*");
 		result.executableIsForSingleMode = false;
@@ -533,9 +531,9 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		// replace the last parameter
 		shellCommand.set(shellCommand.size() - 1, lastParam.toString());
 		for (final String c : shellCommand) {
-			stream.print(c + ' ');
+			TITANConsole.print(c + ' ');
 		}
-		stream.println();
+		TITANConsole.println("");
 
 		BufferedReader stdout = null;
 		try {
@@ -546,16 +544,16 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			String line;
 			while ((line = stdout.readLine()) != null) {
 				result.availableTestcases.add(line);
-				stream.println(line);
+				TITANConsole.println(line);
 			}
 
 			final int exitval = proc.waitFor();
 			if (exitval != 0 && stderr.ready()) {
-				stream.println("Testing of the executable failed");
-				stream.println("  with value:" + exitval);
-				stream.println("Sent the following error messages:");
+				TITANConsole.println("Testing of the executable failed");
+				TITANConsole.println("  with value:" + exitval);
+				TITANConsole.println("Sent the following error messages:");
 				while ((line = stderr.readLine()) != null) {
-					stream.println(line);
+					TITANConsole.println(line);
 				}
 
 				result.executableIsExecutable = false;
