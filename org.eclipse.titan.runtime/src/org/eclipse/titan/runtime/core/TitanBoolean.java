@@ -71,6 +71,7 @@ public class TitanBoolean extends Base_Type {
 	 * @return the boolean value.
 	 * */
 	public Boolean get_value() {
+		must_bound("Using the value of an unbound boolean variable.");
 		return boolean_value;
 	}
 
