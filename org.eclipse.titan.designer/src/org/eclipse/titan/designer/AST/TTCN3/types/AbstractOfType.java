@@ -520,7 +520,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	        IType ofTypeLast = ofType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 	        if ((ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type) ofTypeLast).getNofComponents() == 2 )) {
 	        	final Type keyType = ((TTCN3_Sequence_Type) ofTypeLast).getComponentByIndex(0).getType();
-	        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UNIVERSALSTRING) {
+	        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
 	        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
 	        	}
 
@@ -529,7 +529,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	        	}
 	        } else if (ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SET || ((TTCN3_Set_Type) ofTypeLast).getNofComponents() == 2 ) {
 	        	final Type keyType = ((TTCN3_Set_Type) ofTypeLast).getComponentByIndex(0).getType();
-	        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UNIVERSALSTRING) {
+	        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
 	        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
 	        	}
 
@@ -549,7 +549,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void checkJsonDefault() {
-		if (!jsonAttribute.default_value.matches("{}")) {
+		if (!jsonAttribute.default_value.matches("\\{\\}")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for type `{0}'. Only the empty array is allowed.", getTypename()));
 		}
 	}
