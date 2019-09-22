@@ -197,6 +197,8 @@ public final class Module_List {
 		return param;
 	}
 
+	//FIXME implement log_param
+
 	public static void execute_control(final String module_name) {
 		final TTCN_Module module = lookup_module(module_name);
 		if (module == null) {
