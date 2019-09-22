@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.Cygwin;
 import org.eclipse.titan.common.utils.IOUtils;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
@@ -42,6 +43,12 @@ public final class PathConverter {
 	private static final String INTERRUPTION = "execution failed beacuse of interrupion";
 
 	private static final ConcurrentHashMap<String, String> CYGWINPATHMAP = new ConcurrentHashMap<String, String>();
+
+	private static boolean inHeadLessMode;
+
+	static {
+		inHeadLessMode = !PlatformUI.isWorkbenchRunning();
+	}
 
 	/** private constructor to disable instantiation */
 	private PathConverter() {
@@ -136,6 +143,10 @@ public final class PathConverter {
 	}
 
 	private static void printDebug(final MessageConsoleStream stream, final String line) {
+		if(inHeadLessMode) {
+			return;
+		}
+
 		if (stream != null) {
 			stream.println(line);
 		}
@@ -191,6 +202,10 @@ public final class PathConverter {
 	}
 
 	private static MessageConsoleStream printCommandToDebugConsole(final boolean reportDebugInformation, final MessageConsole outputConsole, final List<String> command) {
+		if(inHeadLessMode) {
+			return null;
+		}
+
 		MessageConsoleStream stream = null;
 		if (reportDebugInformation) {
 			stream = outputConsole.newMessageStream();
