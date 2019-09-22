@@ -137,7 +137,6 @@ public final class CfgAnalyzer {
 		final CFGListener lexerListener = new CFGListener(fileName);
 		final CommonTokenStream tokenStream = createTokenStream(reader, lexerListener);
 		final RuntimeCfgParser parser = new RuntimeCfgParser( tokenStream );
-		
 		RuntimeCfgParser.reset_configuration_options();
 		parser.setActualFile( file );
 
@@ -156,7 +155,7 @@ public final class CfgAnalyzer {
 		final boolean config_process_error = parser.get_error_flag();
 		return lexerListener.encounteredError() || parserListener.encounteredError() || config_process_error;
 	}
-	
+
 	public MCSectionHandler getMcSectionHandler() {
 		return mcSectionHandler;
 	}
