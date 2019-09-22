@@ -5258,6 +5258,7 @@ public final class AdditionalFunctions {
 			} catch (UnsupportedEncodingException e) {
 				throw new TtcnError(e);
 			}
+
 			return new TitanUniversalCharString(uc_chars);
 		}
 	}
