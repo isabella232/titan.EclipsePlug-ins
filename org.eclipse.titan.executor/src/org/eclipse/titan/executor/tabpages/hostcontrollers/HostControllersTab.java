@@ -59,7 +59,6 @@ import org.eclipse.titan.executor.TITANDebugConsole;
 import org.eclipse.titan.executor.designerconnection.DesignerHelper;
 import org.eclipse.titan.executor.graphics.ImageCache;
 import org.eclipse.titan.executor.tabpages.maincontroller.BaseMainControllerTab;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * @author Kristof Szabados
@@ -335,16 +334,14 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void handleInitialization() {
-		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
-		stream.println("initializing a host controller");
-
+		TITANDebugConsole.println("initializing a host controller");
 
 		final IProject project = getProject();
 		if (null == project) {
 			return;
 		}
 
-		stream.println(project.getName());
+		TITANDebugConsole.println(project.getName());
 
 		try {
 			final String workingdirectory = project.getPersistentProperty(new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER,
@@ -358,8 +355,8 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 					executable += ".exe";
 				}
 			}
-			stream.println(workingdirectory);
-			stream.println(executable);
+			TITANDebugConsole.println(workingdirectory);
+			TITANDebugConsole.println(executable);
 
 			final TableItem[] items = hostViewer.getTable().getItems();
 			for (final TableItem item : items) {

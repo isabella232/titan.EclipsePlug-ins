@@ -422,7 +422,7 @@ public final class CliExecutor extends BaseExecutor {
 		if (env.containsKey("TTCN3_DIR")) {
 			mctrCliPath = "$TTCN3_DIR/bin/mctr_cli";
 		} else {
-			TITANDebugConsole.getConsole().newMessageStream().println("warning: TTCN3_DIR environment variable is not set");
+			TITANDebugConsole.println("warning: TTCN3_DIR environment variable is not set");
 			mctrCliPath = "mctr_cli";
 		}
 		return mctrCliPath;
@@ -1013,7 +1013,7 @@ public final class CliExecutor extends BaseExecutor {
 			fastOffset = 0;
 			readFullLineOnly(stdout);
 
-			TITANDebugConsole.getConsole().newMessageStream().println("MC in suspected state: " + suspectedLastState);
+			TITANDebugConsole.println("MC in suspected state: " + suspectedLastState);
 		}
 
 		statusChangeHandler();
