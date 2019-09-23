@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
 import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
@@ -180,8 +181,43 @@ public final class RotateRightExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		return value1.getExpressionGovernor(timestamp, expectedValue);
+		IType type = getMyGovernor();
+		if (type != null) {
+			return type;
+		}
+
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
+
+		if (last == null || value1 == null) {
+			return null;
+		}
+
+		if (last.getIsErroneous(timestamp)) {
+			setIsErroneous(true);
+			return null;
+		}
+
+		value1.setLoweridToReference(timestamp);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		switch (tempType) {
+		case TYPE_BITSTRING:
+		case TYPE_HEXSTRING:
+		case TYPE_OCTETSTRING:
+		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
+			return TypeFactory.createType(tempType);
+		case TYPE_SET_OF:
+		case TYPE_SEQUENCE_OF:
+		case TYPE_ARRAY:
+			return value1.getExpressionGovernor(timestamp, expectedValue);
+		case TYPE_UNDEFINED:
+			return null;
+		default:
+			setIsErroneous(true);
+			return null;
+		}
 	}
 
 	@Override
