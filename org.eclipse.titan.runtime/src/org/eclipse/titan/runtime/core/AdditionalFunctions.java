@@ -728,7 +728,12 @@ public final class AdditionalFunctions {
 		if (value > Integer.MIN_VALUE && value < Integer.MAX_VALUE) {
 			return new TitanInteger((int) value);
 		}
-		return new TitanInteger(new BigDecimal(value).toBigInteger());
+		try {
+			return new TitanInteger(new BigDecimal(value).toBigInteger());
+		} catch (NumberFormatException e) {
+			// value is infinite or NaN
+		    throw new TtcnError("Conversion of float value `" + value + "' to integer failed");
+		}
 	}
 
 	/**
