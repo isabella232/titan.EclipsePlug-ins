@@ -517,7 +517,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		//FIXME: check tag_list
 
 		if (jsonAttribute.as_map) {
-	        IType ofTypeLast = ofType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+	        final IType ofTypeLast = ofType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 	        if ((ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type) ofTypeLast).getNofComponents() == 2 )) {
 	        	final Type keyType = ((TTCN3_Sequence_Type) ofTypeLast).getComponentByIndex(0).getType();
 	        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
