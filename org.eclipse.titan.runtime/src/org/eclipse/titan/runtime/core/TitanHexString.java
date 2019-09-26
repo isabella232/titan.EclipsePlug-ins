@@ -525,7 +525,7 @@ public class TitanHexString extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void set_param(Module_Parameter param) {
-		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "hexstring value");
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue() | basic_check_bits_t.BC_LIST.getValue(), "hexstring value");
 
 		// Originally RT2
 		if (param.get_type() == Module_Parameter.type_t.MP_Reference) {
