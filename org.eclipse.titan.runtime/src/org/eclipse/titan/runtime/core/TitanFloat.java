@@ -89,6 +89,7 @@ public class TitanFloat extends Base_Type {
 	 * @return the float value as double.
 	 * */
 	public Double get_value() {
+		must_bound("Using the value of an unbound float variable.");
 		return float_value.getValue();
 	}
 
