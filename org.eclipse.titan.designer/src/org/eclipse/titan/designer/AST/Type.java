@@ -881,7 +881,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 			analyzer.parse(rawAttribute, jsonAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(),
 					rawFound, jsonFound);
-
+			//FIME: check variant attribute is related to ... encoding
 			if (!rawFound.get() && newRaw) {
 				rawAttribute = null;
 			}

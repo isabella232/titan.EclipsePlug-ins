@@ -21,7 +21,9 @@ import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
@@ -36,10 +38,12 @@ import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Type_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.Undefined_Assignment;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.BuildTimestamp;
@@ -561,39 +565,44 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			}
 		}
 
-		if (rawAttribute == null) {
-			return;
-		}
+		if (rawAttribute != null) {
 
-		refd.forceRaw(timestamp);
-		if (rawAttribute.fieldlength == 0 && rawAttribute.length_restriction != -1) {
-			switch (refdLast.getTypetype()) {
-			case TYPE_BITSTRING:
-				rawAttribute.fieldlength = rawAttribute.length_restriction;
-				rawAttribute.length_restriction = -1;
-				break;
-			case TYPE_HEXSTRING:
-				rawAttribute.fieldlength = rawAttribute.length_restriction * 4;
-				rawAttribute.length_restriction = -1;
-				break;
-			case TYPE_OCTETSTRING:
-				rawAttribute.fieldlength = rawAttribute.length_restriction * 8;
-				rawAttribute.length_restriction = -1;
-				break;
-			case TYPE_CHARSTRING:
-			case TYPE_UCHARSTRING:
-				rawAttribute.fieldlength = rawAttribute.length_restriction * 8;
-				rawAttribute.length_restriction = -1;
-				break;
-			case TYPE_SEQUENCE_OF:
-			case TYPE_SET_OF:
-				rawAttribute.fieldlength = rawAttribute.length_restriction;
-				rawAttribute.length_restriction = -1;
-				break;
-			default:
-				break;
+			refd.forceRaw(timestamp);
+			if (rawAttribute.fieldlength == 0 && rawAttribute.length_restriction != -1) {
+				switch (refdLast.getTypetype()) {
+				case TYPE_BITSTRING:
+					rawAttribute.fieldlength = rawAttribute.length_restriction;
+					rawAttribute.length_restriction = -1;
+					break;
+				case TYPE_HEXSTRING:
+					rawAttribute.fieldlength = rawAttribute.length_restriction * 4;
+					rawAttribute.length_restriction = -1;
+					break;
+				case TYPE_OCTETSTRING:
+					rawAttribute.fieldlength = rawAttribute.length_restriction * 8;
+					rawAttribute.length_restriction = -1;
+					break;
+				case TYPE_CHARSTRING:
+				case TYPE_UCHARSTRING:
+					rawAttribute.fieldlength = rawAttribute.length_restriction * 8;
+					rawAttribute.length_restriction = -1;
+					break;
+				case TYPE_SEQUENCE_OF:
+				case TYPE_SET_OF:
+					rawAttribute.fieldlength = rawAttribute.length_restriction;
+					rawAttribute.length_restriction = -1;
+					break;
+				default:
+					break;
+				}
 			}
 		}
+
+		if (refd.getJsonAttribute() == null) {
+			refd.forceJson(timestamp);
+		}
+		checkJson(timestamp);
+
 		//TODO add checks for other encodings.
 
 		if (refChain.contains(this)) {
@@ -601,6 +610,404 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		refdLast.checkCodingAttributes(timestamp, refChain);
+	}
+
+	@Override
+	public void checkJsonDefault() {
+		final String defaultValue = jsonAttribute.default_value;
+		final int length = defaultValue.length();
+		int i;
+		switch (refdLast.getTypetype()) {
+		case TYPE_BOOL:
+			if (!defaultValue.matches("true|false")) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			}
+			break;
+		case TYPE_INTEGER:
+			if (!defaultValue.matches("-?[0-9]+")) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			}
+			break;
+		case TYPE_REAL:
+			if (defaultValue.matches("-?infinity|not_a_number") || defaultValue.length() < 1) {
+				// special float values => skip the rest of the check
+				return;
+			}
+
+			boolean first_digit = false; // first non-zero digit reached
+			boolean zero = false; // first zero digit reached
+			boolean decimal_point = false; // decimal point (.) reached
+			boolean exponent_mark = false; // exponential mark (e or E) reached
+			boolean exponent_sign = false; // sign of the exponential (- or +) reached
+			boolean error = false;
+
+			i = (defaultValue.charAt(0) == '-') ? 1 : 0;
+			while(!error && i < defaultValue.length()) {
+				final char value = defaultValue.charAt(i);
+				switch (value) {
+				case '.':
+					if (decimal_point || exponent_mark || (!first_digit && !zero)) {
+						error = true;
+					}
+					decimal_point = true;
+					first_digit = false;
+					zero = false;
+					break;
+				case 'e':
+				case 'E':
+					if (exponent_mark || (!first_digit && !zero)) {
+						error = true;
+					}
+					exponent_mark = true;
+					first_digit = false;
+					zero = false;
+					break;
+				case '0':
+					if (!first_digit && (exponent_mark || (!decimal_point && zero))) {
+						error = true;
+					}
+					zero = true;
+					break;
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+					if (!first_digit && zero && (!decimal_point || exponent_mark)) {
+						error = true;
+					}
+					first_digit = true;
+					break;
+				case '-':
+				case '+':
+					if (exponent_sign || !exponent_mark || zero || first_digit) {
+						error = true;
+					}
+					exponent_sign = true;
+					break;
+				default:
+					error = true;
+				}
+				++i;
+			}
+			//FIXME: err = !first_digit && !zero
+			if (!first_digit && !zero) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			}
+			break;
+		case TYPE_BITSTRING:
+			if (!defaultValue.matches("[0-1]+")) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			}
+			break;
+		case TYPE_OCTETSTRING:
+			if (defaultValue.length() % 2 == 1 || !defaultValue.matches("[0-9a-fA-F]+")) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			}
+			break;
+		case TYPE_HEXSTRING:
+			if (!defaultValue.matches("[0-9a-fA-F]+")) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			}
+			break;
+		case TYPE_CHARSTRING:
+			i = 0;
+			while (i < length) {
+				final char value = defaultValue.charAt(i);
+				if (value < 0) {
+					getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+					return;
+				}
+				if (value == '\\') {
+					if (i == length-1) {
+						getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+						return;
+					}
+					
+					switch (value) {
+					case '\\':
+					case '\"':
+					case 'n':
+		            case 't':
+		            case 'r':
+		            case 'f':
+		            case 'b':
+		            case '/':
+						break;
+		            case 'u':
+		            {
+		            	if (i + 4 >= length) {
+		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		            		return;
+		            	}
+		            	if (defaultValue.charAt(i+1) != '0' || defaultValue.charAt(i+2) != '0' ||
+		            			defaultValue.charAt(i+3) < '0' || defaultValue.charAt(i+3) > '7') {
+		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		            		return;
+		            	}
+		            	final char nextChar = defaultValue.charAt(i+4);
+		            	if ((nextChar < '0' || nextChar > '9') &&
+		            			(nextChar < 'a' || nextChar > 'f') &&
+		            			(nextChar < 'A' || nextChar > 'F')) {
+		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		            		return;
+		            	}
+		            i += 4;
+		            break;
+		            }
+					default:
+						getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+						return;
+					}
+				}
+				i++;
+			}//while
+			break;
+		case TYPE_UCHARSTRING:
+			i = 0;
+			while (i < length) {
+				final char value = defaultValue.charAt(i);
+				if (value == '\\') {
+					if (i == length-1) {
+						getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+						return;
+					}
+					
+					switch (value) {
+					case '\\':
+					case '\"':
+					case 'n':
+		            case 't':
+		            case 'r':
+		            case 'f':
+		            case 'b':
+		            case '/':
+						break;
+		            case 'u':
+		            {
+		            	if (i + 4 >= length) {
+		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+		            		return;
+		            	}
+		            	for (int j = 1; j < 5; j++) {
+			            	final char nextChar = defaultValue.charAt(i+j);
+			            	if ((nextChar < '0' || nextChar > '9') &&
+			            			(nextChar < 'a' || nextChar > 'f') &&
+			            			(nextChar < 'A' || nextChar > 'F')) {
+			            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			            		return;
+			            	}
+		            	}
+		            i += 4;
+		            break;
+		            }
+					default:
+						getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+						return;
+					}
+				}
+				i++;
+			}//while
+			break;
+		case TYPE_VERDICT:
+			if (!defaultValue.matches("none|pass|inconc|fail|error")) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+			}
+			break;
+		case TYPE_SET_OF:
+		case TYPE_SEQUENCE_OF:
+			if (!jsonAttribute.default_value.matches("\\{\\}")) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for type `{0}'. Only the empty array is allowed.", getTypename()));
+			}
+			break;
+		case TYPE_TTCN3_SET:
+		case TYPE_TTCN3_SEQUENCE:
+			if (((TTCN3_Set_Seq_Choice_BaseType)refdLast).getNofComponents() != 0) {
+				getLocation().reportSemanticError("JSON default values are not available for record/set types with 1 or more fields");
+			}
+			break;
+		default:
+			super.checkJsonDefault();
+			break;
+		}
+	}
+	
+	@Override
+	public void checkJson(CompilationTimeStamp timestamp) {
+		if (jsonAttribute == null && !hasEncodeAttribute("JSON")) {
+			return;
+		}
+
+		if (jsonAttribute == null) {
+			return;
+		}
+
+		if (jsonAttribute.omit_as_null && !isOptionalField()) {
+			getLocation().reportSemanticError("Invalid attribute, 'omit as null' requires optional field of a record or set.");
+		}
+
+		if (jsonAttribute.as_value) {
+			switch(refdLast.getTypetype()) {
+			case TYPE_TTCN3_CHOICE:
+			case TYPE_ANYTYPE:
+				break; // OK
+			case TYPE_TTCN3_SEQUENCE:
+			case TYPE_TTCN3_SET:
+				if (((TTCN3_Set_Seq_Choice_BaseType)refdLast).getNofComponents() == 1) {
+					break; // OK
+				}
+			default:
+				getLocation().reportSemanticError("Invalid attribute, 'as value' is only allowed for unions, the anytype, or records or sets with one field");
+				break;
+			}
+		}
+
+		if (jsonAttribute.alias != null) {
+			final IType parent = getParentType();
+			if (parent == null) {
+				// only report this error when using the new codec handling, otherwise
+				// ignore the attribute (since it can also be set by the XML 'name as ...' attribute)
+				getLocation().reportSemanticError("Invalid attribute, 'name as ...' requires field of a record, set or union.");
+			} else {
+				switch (parent.getTypetype()) {
+				case TYPE_TTCN3_SEQUENCE:
+				case TYPE_TTCN3_SET:
+				case TYPE_TTCN3_CHOICE:
+				case TYPE_ANYTYPE:
+					break;
+				default:
+					// only report this error when using the new codec handling, otherwise
+					// ignore the attribute (since it can also be set by the XML 'name as ...' attribute)
+					getLocation().reportSemanticError("Invalid attribute, 'name as ...' requires field of a record, set or union.");
+					break;
+				}
+			}
+
+			if (parent != null && parent.getJsonAttribute() != null && parent.getJsonAttribute().as_value) {
+				switch (parent.getTypetype()) {
+				case TYPE_TTCN3_CHOICE:
+				case TYPE_ANYTYPE:
+					// parent_type_name remains null if the 'as value' attribute is set for an invalid type
+					getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'name as ...' will be ignored, because parent {0} is encoded without field names.", parent.getTypename()));
+					break;
+				case TYPE_TTCN3_SEQUENCE:
+				case TYPE_TTCN3_SET:
+					if (((TTCN3_Set_Seq_Choice_BaseType)parent).getNofComponents() == 1) {
+						// parent_type_name remains null if the 'as value' attribute is set for an invalid type
+						getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'name as ...' will be ignored, because parent {0} is encoded without field names.", parent.getTypename()));
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
+		if (jsonAttribute.default_value != null) {
+			checkJsonDefault();
+		}
+
+		//TODO: check schema extensions 
+
+		if (jsonAttribute.metainfo_unbound) {
+			if (refdLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE || 
+					refdLast.getTypetype() == Type_type.TYPE_TTCN3_SET) {
+				final TTCN3_Set_Seq_Choice_BaseType last = (TTCN3_Set_Seq_Choice_BaseType)refdLast;
+				final int nofComponents = last.getNofComponents();
+				if (jsonAttribute.as_value && nofComponents == 1) {
+					getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'metainfo for unbound' will be ignored, because the {0} is encoded without field names.", refdLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE ? "record" : "set"));
+				} else {
+					for (int i = 0; i < nofComponents; i++) {
+						Type componentType = last.getComponentByIndex(i).getType();
+						if (componentType.jsonAttribute == null) {
+							componentType.jsonAttribute = new JsonAST();
+						}
+						componentType.jsonAttribute.metainfo_unbound = true;
+					}
+				}
+			} else {
+				switch (refdLast.getTypetype()) {
+				case TYPE_SEQUENCE_OF:
+				case TYPE_SET_OF:
+				case TYPE_ARRAY:
+					break;
+				default:
+					if (getParentType() == null || (getParentType().getTypetype() != Type_type.TYPE_TTCN3_SEQUENCE &&
+					getParentType().getTypetype() != Type_type.TYPE_TTCN3_SET)) {
+						// only allowed if it's an array type or a field of a record/set
+						getLocation().reportSemanticError("Invalid attribute 'metainfo for unbound', requires record, set, record of, set of, array or field of a record or set");
+					}
+					break;
+				}
+			}
+		}
+
+		if (jsonAttribute.as_number) {
+			if (refdLast.getTypetypeTtcn3() != Type_type.TYPE_TTCN3_ENUMERATED) { 
+				getLocation().reportSemanticError("Invalid attribute, 'as number' is only allowed for enumerated types");
+			} else if (jsonAttribute.enum_texts.size() != 0) {
+				getLocation().reportSemanticWarning("Attribute 'text ... as ...' will be ignored, because the enumerated values are encoded as numbers");
+			}
+		}
+
+		//FIXME: check tag_list
+
+		if (jsonAttribute.as_map) {
+			if (refdLast.getTypetype() != Type_type.TYPE_SEQUENCE_OF && refdLast.getTypetype() != Type_type.TYPE_SET_OF) {
+				getLocation().reportSemanticError("Invalid attribute, 'as map' requires record of or set of");
+			} else {  // T_SEQOF && T_SETOF
+				final AbstractOfType last = (AbstractOfType) refdLast;
+				final IType ofType = last.getOfType();
+				final IType ofTypeLast = ofType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				if ((ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type) ofTypeLast).getNofComponents() == 2 )) {
+		        	final Type keyType = ((TTCN3_Sequence_Type) ofTypeLast).getComponentByIndex(0).getType();
+		        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
+		        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
+		        	}
+
+		        	if (keyType.isOptionalField()) {
+		        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
+		        	}
+		        } else if (ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SET || ((TTCN3_Set_Type) ofTypeLast).getNofComponents() == 2 ) {
+		        	final Type keyType = ((TTCN3_Set_Type) ofTypeLast).getComponentByIndex(0).getType();
+		        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
+		        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
+		        	}
+
+		        	if (keyType.isOptionalField()) {
+		        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
+		        	}
+		        } else {
+		        	getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type to be a record or set with 2 fields");
+		        }
+			}
+		}
+
+		if (jsonAttribute.enum_texts.size() > 0) {
+			if (refdLast.getTypetypeTtcn3() != Type_type.TYPE_TTCN3_ENUMERATED) {
+				getLocation().reportSemanticError("Invalid attribute, 'text ... as ...' requires an enumerated type");
+			} else {
+				for (int i = 0; i < jsonAttribute.enum_texts.size(); i++) {
+					final Identifier identifier = new Identifier(Identifier_type.ID_TTCN, jsonAttribute.enum_texts.get(i).from, NULL_Location.INSTANCE, true);
+					if (!((TTCN3_Enumerated_Type)refdLast).hasEnumItemWithName(identifier)) {
+						getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for enumerated type `{0}'", getTypename()));
+					} else {
+						final EnumItem enumItem = ((TTCN3_Enumerated_Type)refdLast).getEnumItemWithName(identifier);
+						final int index = (int) ((Integer_Value) enumItem.getValue()).getValue();
+						jsonAttribute.enum_texts.get(i).index = index;
+						for (int j = 0; j < i; j++) {
+							if (jsonAttribute.enum_texts.get(j).index == index) {
+								getLocation().reportSemanticError(MessageFormat.format("Duplicate attribute 'text ... as ...' for enumerated value '{0}'", jsonAttribute.enum_texts.get(i).from));
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
