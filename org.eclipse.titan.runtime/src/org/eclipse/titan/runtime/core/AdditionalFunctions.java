@@ -1402,7 +1402,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString hex2str(final TitanHexString_Element value) {
 		value.must_bound("The argument of function hex2str() is an unbound hexstring element.");
 
-		return new TitanCharString(String.valueOf(value.get_nibble()));
+		return new TitanCharString(String.valueOf(hexdigit_to_char(value.get_nibble())));
 	}
 
 	// C.20 - oct2int
