@@ -1612,8 +1612,11 @@ public final class AdditionalFunctions {
 	 * */
 	public static TitanCharString oct2str(final TitanOctetString_Element value) {
 		value.must_bound("The argument of function oct2str() is an unbound octetstring element.");
-
-		return new TitanCharString(String.valueOf(value.get_nibble() & 0xFF));
+		final StringBuilder ret_val = new StringBuilder();
+		final int digit = value.get_nibble() & 0xFF;
+		ret_val.append(hexdigit_to_char(digit / 16));
+		ret_val.append(hexdigit_to_char(digit % 16));
+		return new TitanCharString(ret_val);
 	}
 
 	// C.24 - oct2char
