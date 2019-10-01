@@ -492,7 +492,7 @@ public final class TTCN_Logger {
 	};
 
 	/** Sub-category names for all Severity enum values,
-	 * used when TTCN_Logger::log_event_types is set to log sub-categories */
+	 * used when TTCN_Logger.log_event_types is set to log sub-categories */
 	public static String severity_subcategory_names[] = {
 		"",
 		// ACTION:

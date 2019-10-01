@@ -549,7 +549,7 @@ public class TitanHexString extends Base_Type {
 				}
 				break;
 			default:
-				throw new TtcnError("Internal error: HEXSTRING::set_param()");
+				throw new TtcnError("Internal error: TitanHexString.set_param()");
 			}
 			break;
 		case MP_Expression:

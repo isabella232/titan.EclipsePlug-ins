@@ -339,7 +339,7 @@ public final class Param_Types {
 
 		// Originally RT2
 		public Module_Param_Ptr get_referenced_param() {
-			throw new TtcnError("Internal error: Module_Param::get_referenced_param()");
+			throw new TtcnError("Internal error: Module_Param.get_referenced_param()");
 		}
 
 		public expression_operand_t get_expr_type() {
@@ -483,7 +483,7 @@ public final class Param_Types {
 		public Module_Param_Reference(final Module_Param_Name p) {
 			mp_ref = p;
 			if (mp_ref == null) {
-				throw new TtcnError("Internal error: Module_Param_Reference::Module_Param_Reference()");
+				throw new TtcnError("Internal error: Module_Param_Reference.Module_Param_Reference()");
 			}
 		}
 

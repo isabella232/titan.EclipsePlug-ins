@@ -1537,7 +1537,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			connection.stream_socket = null;
 			break;
 		default:
-			throw new TtcnError("Internal error: PORT::remove_connection(): invalid transport type.");
+			throw new TtcnError("Internal error: TitanPort.remove_connection(): invalid transport type.");
 		}
 
 		connection_list.remove(connection);

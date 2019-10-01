@@ -485,7 +485,7 @@ public class TitanOctetString extends Base_Type {
 				}
 				break;
 			default:
-				throw new TtcnError("Internal error: OCTETSTRING::set_param()");
+				throw new TtcnError("Internal error: TitanOctetString.set_param()");
 			}
 			break;
 		case MP_Expression:

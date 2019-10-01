@@ -301,7 +301,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				// Known in compile time: string type with(out) range or list
 			case PSE_REFDSET:
 				if (pse.t == null) {
-					System.err.println("PatternString::create_charstring_literals()");
+					System.err.println("PatternString.create_charstring_literals()");
 					break;
 				}
 				if (pse.t.getSubtype()== null) {
@@ -370,7 +370,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 								s.append("\"");
 								break;
 							default:
-								System.err.println("PatternString::create_charstring_literals()");
+								System.err.println("PatternString.create_charstring_literals()");
 								break;
 							}
 							s.append(" + \"]\"");
@@ -392,13 +392,13 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 								s.append("\"");
 								break;
 							default:
-								System.err.println("PatternString::create_charstring_literals()");
+								System.err.println("PatternString.create_charstring_literals()");
 								break;
 							}
 						}
 						break;
 					default:
-						System.err.println("PatternString::create_charstring_literals()");
+						System.err.println("PatternString.create_charstring_literals()");
 						break;
 					}
 					s.append("+\"");
@@ -477,7 +477,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		return s.toString();
 	}
 
-	/** Called by Value::get_value_refd_last() */
+	/** Called by Value.get_value_refd_last() */
 	public Value get_value() {
 		if (content == null) {
 			return null;
@@ -555,7 +555,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			is_charstring = false;
 			is_universal_charstring = false;
 			if (p_ref == null) {
-				System.err.println("PatternString::ps_elem_t.ps_elem_t()");
+				System.err.println("PatternString.ps_elem_t.ps_elem_t()");
 			} else {
 				ref = p_ref;
 			}
@@ -577,7 +577,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				ref = p.ref;
 				break;
 			case PSE_REFDSET:
-				System.err.println("PatternString::ps_elem_t::ps_elem_t");
+				System.err.println("PatternString.ps_elem_t.ps_elem_t");
 			default:
 				break;
 			}
@@ -623,7 +623,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 		public void checkRef(final PatternType pstr_type, final Expected_Value_type expected_value, final CompilationTimeStamp timestamp) {
 			if (kind != kind_t.PSE_REF) {
-				System.err.println("PatternString::ps_elem_t::chk_ref()");
+				System.err.println("PatternString.ps_elem_t.chk_ref()");
 				return;
 			}
 

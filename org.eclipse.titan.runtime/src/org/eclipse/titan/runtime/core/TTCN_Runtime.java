@@ -439,11 +439,11 @@ public final class TTCN_Runtime {
 	private static void set_component_type(final String par_component_type_module, final String par_component_type_name) {
 		if (par_component_type_module == null || par_component_type_module.length() == 0 ||
 				par_component_type_name == null || par_component_type_name.length() == 0) {
-			throw new TtcnError("Internal error: TTCN_Runtime::set_component_type: Trying to set an invalid component type.");
+			throw new TtcnError("Internal error: TTCN_Runtime.set_component_type: Trying to set an invalid component type.");
 		}
 
 		if (component_type_module.get() != null && component_type_name.get() != null) {
-			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::set_component_type: Trying to set component type {0}.{1} while another one is active.", par_component_type_module, par_component_type_name));
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.set_component_type: Trying to set component type {0}.{1} while another one is active.", par_component_type_module, par_component_type_name));
 		}
 
 		component_type_module.set(par_component_type_module);
@@ -454,7 +454,7 @@ public final class TTCN_Runtime {
 	private static void set_system_type(final String par_system_type_module, final String par_system_type_name) {
 		if (par_system_type_module == null || par_system_type_module.length() == 0 ||
 				par_system_type_name == null || par_system_type_name.length() == 0) {
-			throw new TtcnError("Internal error: TTCN_Runtime::set_system_type: Trying to set an invalid system component type.");
+			throw new TtcnError("Internal error: TTCN_Runtime.set_system_type: Trying to set an invalid system component type.");
 		}
 
 		system_type_module.set(par_system_type_module);
@@ -474,11 +474,11 @@ public final class TTCN_Runtime {
 	private static void set_testcase_name(final String parModuleName, final String parTestcaseName) {
 		if (parModuleName == null || parModuleName.length() == 0 ||
 				parTestcaseName == null || parTestcaseName.length() == 0) {
-			throw new TtcnError("Internal error: TTCN_Runtime::set_testcase_name: Trying to set an invalid testcase name.");
+			throw new TtcnError("Internal error: TTCN_Runtime.set_testcase_name: Trying to set an invalid testcase name.");
 		}
 
 		if (testcaseModuleName.get() != null || testcaseDefinitionName.get() != null) {
-			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::set_testcase_name: Trying to set testcase name {0}.{1} while another one is active.", parModuleName, parTestcaseName));
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.set_testcase_name: Trying to set testcase name {0}.{1} while another one is active.", parModuleName, parTestcaseName));
 		}
 
 		testcaseModuleName.set(parModuleName);
@@ -2667,20 +2667,20 @@ public final class TTCN_Runtime {
 			if (is_mtc()) {
 				any_component_done_status = TitanAlt_Status.ALT_YES;
 			} else {
-				throw new TtcnError("Internal error: TTCN_Runtime::set_component_done(ANY_COMPREF): can be used only on MTC.");
+				throw new TtcnError("Internal error: TTCN_Runtime.set_component_done(ANY_COMPREF): can be used only on MTC.");
 			}
 			break;
 		case TitanComponent.ALL_COMPREF:
 			if (is_mtc()) {
 				all_component_done_status = TitanAlt_Status.ALT_YES;
 			} else {
-				throw new TtcnError("Internal error: TTCN_Runtime::set_component_done(ALL_COMPREF): can be used only on MTC.");
+				throw new TtcnError("Internal error: TTCN_Runtime.set_component_done(ALL_COMPREF): can be used only on MTC.");
 			}
 			break;
 		case TitanComponent.NULL_COMPREF:
 		case TitanComponent.MTC_COMPREF:
 		case TitanComponent.SYSTEM_COMPREF:
-			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::set_component_done: invalid component reference: {0}.", component_reference));
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.set_component_done: invalid component reference: {0}.", component_reference));
 		default: {
 			final int index = get_component_status_table_index(component_reference);
 			final component_status_table_struct temp_struct = component_status_table.get().get(index);
@@ -2734,14 +2734,14 @@ public final class TTCN_Runtime {
 			if (is_mtc()) {
 				any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
 			} else {
-				throw new TtcnError("Internal error: TTCN_Runtime::cancel_component_done(ANY_COMPREF): can be used only on MTC.");
+				throw new TtcnError("Internal error: TTCN_Runtime.cancel_component_done(ANY_COMPREF): can be used only on MTC.");
 			}
 			break;
 		case TitanComponent.ALL_COMPREF:
 		case TitanComponent.NULL_COMPREF:
 		case TitanComponent.MTC_COMPREF:
 		case TitanComponent.SYSTEM_COMPREF:
-			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::cancel_component_done: invalid component reference: {0}.", component_reference));
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.cancel_component_done: invalid component reference: {0}.", component_reference));
 		default:
 			if (in_component_status_table(component_reference)) {
 				final int index = get_component_status_table_index(component_reference);
@@ -2834,11 +2834,11 @@ public final class TTCN_Runtime {
 
 	private static void add_component(final int component_reference, final Thread thread) {
 		if (component_reference != TitanComponent.MTC_COMPREF && get_component_by_compref(component_reference) != null) {
-			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::add_component: duplicated component reference ({0})", component_reference));
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.add_component: duplicated component reference ({0})", component_reference));
 		}
 
 		if (get_component_by_thread(thread) != null) {
-			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::add_component: duplicated thread ({0})", thread));
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.add_component: duplicated thread ({0})", thread));
 		}
 
 		final component_thread_struct newComp = new component_thread_struct();

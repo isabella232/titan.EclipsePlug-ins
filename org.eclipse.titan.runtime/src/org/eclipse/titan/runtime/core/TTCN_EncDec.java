@@ -192,7 +192,7 @@ public final class TTCN_EncDec {
 		if (p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() > error_type.ET_ALL.ordinal()
 				|| p_eb.ordinal() < error_behavior_type.EB_DEFAULT.ordinal()
 				|| p_eb.ordinal() > error_behavior_type.EB_IGNORE.ordinal()) {
-			throw new TtcnError("EncDec::set_error_behavior(): Invalid parameter.");
+			throw new TtcnError("TTCN_EncDec.set_error_behavior(): Invalid parameter.");
 		}
 		if (p_eb == error_behavior_type.EB_DEFAULT) {
 			if (p_et == error_type.ET_ALL) {
@@ -218,7 +218,7 @@ public final class TTCN_EncDec {
 	 */
 	public static error_behavior_type get_error_behavior(final error_type p_et) {
 		if (p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
-			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
+			throw new TtcnError("TTCN_EncDec.get_error_behavior(): Invalid parameter.");
 		}
 		return error_behavior[p_et.ordinal()];
 	}
@@ -230,7 +230,7 @@ public final class TTCN_EncDec {
 	 */
 	public static error_behavior_type get_default_error_behavior(final error_type p_et) {
 		if (p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
-			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
+			throw new TtcnError("TTCN_EncDec.get_default_error_behavior(): Invalid parameter.");
 		}
 		return default_error_behavior[p_et.ordinal()];
 	}

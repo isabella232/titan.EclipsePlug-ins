@@ -56,11 +56,11 @@ public final class Event_Handler {
 
 		//FIXME implement rest
 		public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
-			throw new TtcnError("Channel_And_Timeout_Event_Handler::Handle_Event: Erroneous usage of class Channel_And_Timeout_Event_Handler");
+			throw new TtcnError("Channel_And_Timeout_Event_Handler.Handle_Event: Erroneous usage of class Channel_And_Timeout_Event_Handler");
 		}
 
 		public void Handle_Timeout(final double time_since_last_call) {
-			throw new TtcnError("Channel_And_Timeout_Event_Handler::Handle_Timeout: Erroneous usage of class Channel_And_Timeout_Event_Handler");
+			throw new TtcnError("Channel_And_Timeout_Event_Handler.Handle_Timeout: Erroneous usage of class Channel_And_Timeout_Event_Handler");
 		}
 
 		public void log() {

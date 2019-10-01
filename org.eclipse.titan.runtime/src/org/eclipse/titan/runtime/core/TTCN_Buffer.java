@@ -1319,7 +1319,7 @@ public final class TTCN_Buffer {
 	/** Apply the extension bit to the encoded bytes. */
 	public void stop_ext_bit() {
 		if (ext_level <= 0) {
-			TTCN_EncDec_ErrorContext.error_internal("TTCN_Buffer::stop_ext_bit() was called without start_ext_bit().");
+			TTCN_EncDec_ErrorContext.error_internal("TTCN_Buffer.stop_ext_bit() was called without start_ext_bit().");
 		}
 
 		--ext_level;
