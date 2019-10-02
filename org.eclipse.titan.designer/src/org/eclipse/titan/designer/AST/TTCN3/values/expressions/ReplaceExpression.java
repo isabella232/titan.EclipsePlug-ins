@@ -880,7 +880,7 @@ public final class ReplaceExpression extends Expression_Value {
 		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 
 		final boolean isValue1 = templateInstance1.getDerivedReference() == null && templateInstance1.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp());
-		final boolean isValue4 = templateInstance4.getDerivedReference() == null && templateInstance4.getTemplateBody() instanceof SpecificValue_Template;
+		final boolean isValue4 = templateInstance4.getDerivedReference() == null && templateInstance4.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp());
 		final Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		switch (expressionType) {
 		case TYPE_BITSTRING:
