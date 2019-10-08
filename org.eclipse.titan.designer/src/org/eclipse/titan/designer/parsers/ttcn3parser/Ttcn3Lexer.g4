@@ -17,8 +17,6 @@ import Ttcn3BaseLexer;
 
 @header
 {
-import java.util.List;
-import java.util.ArrayList;
 }
 
 @members {
@@ -27,27 +25,6 @@ import java.util.ArrayList;
   public void enableRealtime() {
   	realtimeEnabled = true;
   }
-
-private List<TITANMarker> warningsAndErrors = new ArrayList<TITANMarker>();
-
-public List<TITANMarker> getWarningsAndErrors() {
-	return warningsAndErrors;
-}
-
-public TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
-	TITANMarker marker = new TITANMarker(
-		aMessage,
-		(aStartToken != null) ? aStartToken.getLine() : -1,
-		(aStartToken != null) ? aStartToken.getStartIndex() : -1,
-		(aEndToken != null) ? aEndToken.getStopIndex() + 1 : -1,
-		aSeverity, aPriority );
-	return marker;
-}
-
-public void reportWarning( final String aMessage, final Token aStartToken, final Token aEndToken ) {
-	TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL );
-	warningsAndErrors.add(marker);
-}
 }
 
 // Overriding tokens inherited from Ttcn3BaseLexer.g4

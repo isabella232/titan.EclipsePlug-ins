@@ -15,6 +15,7 @@ lexer grammar Ttcn3BaseLexer;
  */
 
 @header {
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -81,6 +82,14 @@ import org.eclipse.titan.designer.AST.Location;
     ParserMarkerSupport.createWarningMarker(actualFile, warningMarker);
   }
 
+  public void createErrorMarker(TITANMarker errorMarker) {
+    if (actualFile == null) {
+      return;
+    }
+
+    ParserMarkerSupport.createErrorMarker(actualFile, errorMarker);
+  }
+
     IntervalDetector intervalDetector = new IntervalDetector();
 
   public Interval getRootInterval() {
@@ -140,6 +149,86 @@ import org.eclipse.titan.designer.AST.Location;
 			}
 		}
 	}
+
+	/** binstr is valid bitstring */
+	boolean valid_bit = true;
+	/** binstr is valid octetstring */
+	boolean valid_oct = true;
+	/** binstr is not a valid octetstr but a valid hexstr */
+	boolean half_oct = false;
+	/** binstr contains matching symbol */
+	boolean contains_match = false;
+	/** binstr contains whitespace characters */
+	boolean contains_ws = false;
+	/** token start index */
+	int startIndex = 0;
+
+	private List<TITANMarker> warningsAndErrors = new ArrayList<TITANMarker>();
+
+	public List<TITANMarker> getWarningsAndErrors() {
+		return warningsAndErrors;
+	}
+
+	public TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
+		TITANMarker marker = new TITANMarker(
+			aMessage,
+			(aStartToken != null) ? aStartToken.getLine() : -1,
+			(aStartToken != null) ? aStartToken.getStartIndex() : -1,
+			(aEndToken != null) ? aEndToken.getStopIndex() + 1 : -1,
+			aSeverity, aPriority );
+		return marker;
+	}
+
+	public TITANMarker createMarker( final String aMessage, final int line, final int start, final int stop, final int aSeverity, final int aPriority ) {
+		TITANMarker marker = new TITANMarker(
+			aMessage,
+			line, start, stop,
+			aSeverity, aPriority );
+		return marker;
+	}
+
+	private void reportWarning( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+		TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL );
+		warningsAndErrors.add(marker);
+	}
+
+	private void reportWarning( final String aMessage, final int line, final int start, final int stop ) {
+		TITANMarker marker = createMarker( aMessage, line, start, stop, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL );
+		warningsAndErrors.add(marker);
+	}
+
+	private void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+		TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL );
+		warningsAndErrors.add(marker);
+	}
+
+	private void reportError( final String aMessage, final int line, final int start, final int stop ) {
+		TITANMarker marker = createMarker( aMessage, line, start, stop, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL );
+		warningsAndErrors.add(marker);
+	}
+
+	private void warning( final String msg ) {
+		final int line = getLine();
+		final int stopIndex = getCharIndex();
+		reportWarning( msg, line, startIndex, stopIndex );
+	}
+	
+	private void error( final String msg ) {
+		final int line = getLine();
+		final int stopIndex = getCharIndex();
+		reportError( msg, line, startIndex, stopIndex );
+	}
+
+	/**
+	 * Report error for invalid character and shows marker only for one character
+	 * @param msg error message
+	 */
+	private void errorChar( final String msg ) {
+		final int line = getLine();
+		final int stopIndex = getCharIndex();
+		reportError( msg, line, stopIndex - 1, stopIndex );
+	}
+
 }
 
 /*------------------------------------------- Keywords -------------------------------------------*/
@@ -231,6 +320,12 @@ tokens {
 
   XOR,                        XOR4B,
 
+  BSTRING,
+  BSTRINGMATCH,
+  HSTRINGMATCH,
+  OSTRING,
+  OSTRINGMATCH,
+  BHOSTRING_WRONG,
 
   /*------------------------------ Predefined function identifiers --------------------------------*/
 
@@ -331,23 +426,87 @@ fragment BIN: [01];
 fragment BINORMATCH: BIN | '?' | '*';
 fragment HEX: [0-9A-Fa-f];
 fragment HEXORMATCH: HEX | '?' | '*';
-fragment OCT: HEX HEX;
+fragment OCT: HEX WS? HEX;
 fragment OCTORMATCH: OCT | '?' | '*';
 
 // Corresponds to titan/compiler2/ttcn3/compiler.l
 // TTCN-3 standard is more strict, it does NOT allow whitespaces between the bin/hex/oct digits
-BSTRING:		'\'' WS? ( BIN        WS? )* '\'B';
-BSTRINGMATCH:	'\'' WS? ( BINORMATCH WS? )* '\'B';
-HSTRING:		'\'' WS? ( HEX        WS? )* '\'H';
-HSTRINGMATCH:	'\'' WS? ( HEXORMATCH WS? )* '\'H';
-OSTRING:		'\'' WS? ( OCT        WS? )* '\'O';
-OSTRINGMATCH:	'\'' WS? ( OCTORMATCH WS? )* '\'O';
 
-// Tokens for erroneous cases for [BHO]STRING(MATCH)? rules
+// BHOSTRING_WRONG is for for erroneous cases for [BHO]STRING(MATCH)? rules
 //  - wrong character between the quotes
 //  - odd number of hex digits in case of OSTRING(MATCH)?)
 // These tokens are not used in any parser rules, but these cases must be parser errors instead of lexer errors
-BHOSTRING_WRONG:		'\'' ~( '\'' )* '\'' [BHO];
+
+HSTRING:
+{	valid_bit = true;
+	valid_oct = true;
+	half_oct = false;
+	contains_match = false;
+	contains_ws = false;
+	startIndex = getCharIndex();
+}
+	'\''
+	(	[01]		{	half_oct = !half_oct;	}
+	|	[2-9A-Fa-f]	{	valid_bit = false;
+						half_oct = !half_oct;
+					}
+	|	[?*]		{	contains_match = true;
+						if (half_oct) {
+							valid_oct = false;
+						}
+					}
+	|	WS			{	contains_ws = true;	}
+	|	~[']		{	errorChar("Invalid character `" + (char)_input.LA(0) + "' in binary string");
+						setType( BHOSTRING_WRONG );
+					}
+	)*
+	(	'\''
+		(	[Bb]	{	if ( _input.LA(0) == 'b' ) {
+							warning("The last character of a bitstring literal should be `B' instead of `b'");
+						}
+						if (valid_bit) {
+							if (contains_ws) {
+								warning("Bitstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
+							}
+	        				setType( contains_match ? BSTRINGMATCH : BSTRING );
+						} else {
+							error("Bitstring value contains invalid character");
+							setType( BHOSTRING_WRONG );
+						}
+					}
+		|	[Hh]	{	if ( _input.LA(0) == 'h' ) {
+							warning("The last character of a hexstring literal should be `H' instead of `h'");
+						}
+						if (contains_ws) {
+							warning("Hexstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
+						}
+       					setType( contains_match ? HSTRINGMATCH : HSTRING );
+					}
+		|	[Oo]	{	if ( _input.LA(0) == 'o' ) {
+							warning("The last character of a octetstring literal should be `O' instead of `o'");
+						}
+						if (valid_oct && !half_oct) {
+							if (contains_ws) {
+								warning("Octetstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
+							}
+		       				setType( contains_match ? OSTRINGMATCH : OSTRING );
+						} else if (contains_match) {
+							error("Octetstring match contains half octet(s)");
+							setType( BHOSTRING_WRONG );
+						} else {
+							error("Octetstring value contains odd number of hexadecimal digits");
+							setType( BHOSTRING_WRONG );
+						}
+					}
+		|			{	error("Invalid binary string literal. Expecting `B', `H' or `O' after the closing `''");
+						setType( BHOSTRING_WRONG );
+					}
+		)
+	|		{	error("Unterminated binary string literal");
+				setType( BHOSTRING_WRONG );
+			}
+	)
+;
 
 // Macros
 MACRO_MODULEID:			'%moduleId' | '__MODULE__';
