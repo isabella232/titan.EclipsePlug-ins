@@ -82,15 +82,7 @@ import org.eclipse.titan.designer.AST.Location;
     ParserMarkerSupport.createWarningMarker(actualFile, warningMarker);
   }
 
-  public void createErrorMarker(TITANMarker errorMarker) {
-    if (actualFile == null) {
-      return;
-    }
-
-    ParserMarkerSupport.createErrorMarker(actualFile, errorMarker);
-  }
-
-    IntervalDetector intervalDetector = new IntervalDetector();
+  IntervalDetector intervalDetector = new IntervalDetector();
 
   public Interval getRootInterval() {
     return intervalDetector.getRootInterval();
