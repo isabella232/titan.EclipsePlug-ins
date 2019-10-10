@@ -352,7 +352,17 @@ tokens {
   UNICHAR2CHAR,               UNICHAR2INT,                UNICHAR2OCT,
 
   /* general macro, used for code completion, see TTCN3KeywordLessLexer */
-  MACRO
+  MACRO,
+  
+  /*------------------------------ Binary string tokens --------------------------------*/
+
+  BSTRING,
+  BSTRINGMATCH,
+  //HSTRING,	// already defined in rule HSTRING
+  HSTRINGMATCH,
+  OSTRING,
+  OSTRINGMATCH,
+  BHOSTRING_WRONG
 
 }
 
@@ -417,19 +427,86 @@ fragment OCTORMATCH: OCT | '?' | '*';
 // Corresponds to titan/compiler2/ttcn3/compiler.l
 // TTCN-3 standard is more strict, it does NOT allow whitespaces between the bin/hex/oct digits
 
-BSTRING:		'\'' WS? ( BIN        WS? )* '\'B';
-BSTRINGMATCH:	'\'' WS? ( BINORMATCH WS? )* '\'B';
-HSTRING:		'\'' WS? ( HEX        WS? )* '\'H';
-HSTRINGMATCH:	'\'' WS? ( HEXORMATCH WS? )* '\'H';
-OSTRING:		'\'' WS? ( OCT        WS? )* '\'O';
-OSTRINGMATCH:	'\'' WS? ( OCTORMATCH WS? )* '\'O';
-
 // BHOSTRING_WRONG is for for erroneous cases for [BHO]STRING(MATCH)? rules
 //  - wrong character between the quotes
 //  - odd number of hex digits in case of OSTRING(MATCH)?)
 // These tokens are not used in any parser rules, but these cases must be parser errors instead of lexer errors
 
-BHOSTRING_WRONG:		'\'' ~( '\'' )* '\'' [BHO];
+HSTRING:
+{	valid_bit = true;
+	valid_oct = true;
+	half_oct = false;
+	contains_match = false;
+	contains_ws = false;
+	startIndex = getCharIndex();
+}
+	'\''
+	(	[01]		{	half_oct = !half_oct;	}
+	|	[2-9A-Fa-f]	{	valid_bit = false;
+						half_oct = !half_oct;
+					}
+	|	[?*]		{	contains_match = true;
+						if (half_oct) {
+							valid_oct = false;
+						}
+					}
+	|	[ \t\r\n\f]
+		// a whitespace character. WS is not applicable here, as it can contain any number of characters, and using more Antlr * operators
+		// in the lexer can consume a lot of memory, and it can lead to OutOfMemoryError in case of long strings.
+					{	contains_ws = true;	}
+	|	~['0-9A-Fa-f?* \t\r\n\f]
+		// We make sure, that the options do NOT have any intersection
+					{	errorChar("Invalid character `" + (char)_input.LA(0) + "' in binary string");
+						setType( BHOSTRING_WRONG );
+					}
+	)*
+	(	'\''
+		(	[Bb]	{	if ( _input.LA(0) == 'b' ) {
+							warning("The last character of a bitstring literal should be `B' instead of `b'");
+						}
+						if (valid_bit) {
+							if (contains_ws) {
+								warning("Bitstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
+							}
+	        				setType( contains_match ? BSTRINGMATCH : BSTRING );
+						} else {
+							error("Bitstring value contains invalid character");
+							setType( BHOSTRING_WRONG );
+						}
+					}
+		|	[Hh]	{	if ( _input.LA(0) == 'h' ) {
+							warning("The last character of a hexstring literal should be `H' instead of `h'");
+						}
+						if (contains_ws) {
+							warning("Hexstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
+						}
+       					setType( contains_match ? HSTRINGMATCH : HSTRING );
+					}
+		|	[Oo]	{	if ( _input.LA(0) == 'o' ) {
+							warning("The last character of a octetstring literal should be `O' instead of `o'");
+						}
+						if (valid_oct && !half_oct) {
+							if (contains_ws) {
+								warning("Octetstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
+							}
+		       				setType( contains_match ? OSTRINGMATCH : OSTRING );
+						} else if (contains_match) {
+							error("Octetstring match contains half octet(s)");
+							setType( BHOSTRING_WRONG );
+						} else {
+							error("Octetstring value contains odd number of hexadecimal digits");
+							setType( BHOSTRING_WRONG );
+						}
+					}
+		|			{	error("Invalid binary string literal. Expecting `B', `H' or `O' after the closing `''");
+						setType( BHOSTRING_WRONG );
+					}
+		)
+	|		{	error("Unterminated binary string literal");
+				setType( BHOSTRING_WRONG );
+			}
+	)
+;
 
 // Macros
 MACRO_MODULEID:			'%moduleId' | '__MODULE__';
