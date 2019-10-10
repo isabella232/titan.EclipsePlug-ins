@@ -37,6 +37,7 @@ public class TitanBitString extends Base_Type {
 	 * Packed storage of bits, filled from LSB.
 	 * Each element only stores 8 bits.
 	 * //TODO check if using more bits would have better performance.
+	 * //TODO also check using byte, to improve performance
 	 */
 	private int bits_ptr[];
 
