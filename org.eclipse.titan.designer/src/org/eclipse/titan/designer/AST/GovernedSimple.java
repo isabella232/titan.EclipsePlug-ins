@@ -73,6 +73,9 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	/** the time when this governed simple was built the last time. */
 	protected BuildTimestamp lastTimeGenerated = null;
 
+	/** whether the value/template needs type compatibility conversion during code generation. */
+	protected boolean needs_conversion = false;
+
 	public void setGenNamePrefix(final String prefix) {
 		genNamePrefix = prefix;
 	}
@@ -93,6 +96,25 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	/** {@inheritDoc} */
 	public BuildTimestamp getLastTimeBuilt() {
 		return lastTimeGenerated;
+	}
+
+	/**
+	 * Return whether the value/template needs type compatibility conversion
+	 * during code generation.
+	 * 
+	 * @return {@code true} if the code generator will need to generate type
+	 *         conversion, {@code false} otherwise.
+	 * */
+	public boolean get_needs_conversion() {
+		return needs_conversion;
+	}
+
+	/**
+	 * Indicates that thisvalue/template will need type conversion code
+	 * generated.
+	 * */
+	public void set_needs_conversion() {
+		needs_conversion = true;
 	}
 
 	/***
