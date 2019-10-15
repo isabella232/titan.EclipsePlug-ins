@@ -83,7 +83,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	private static final String BADARRAYDIMENSION = "Array types should have the same dimension";
 	private static final String NOFFIELDSDONTMATCH =
-			"The number of fields in record/SEQUENCE types ({0}) and the size of the array ({1}) must be the same";
+			"The size of the array ({0}) must be >= than the number of mandatory fields in the record/SEQUENCE type ({1})";
 	private static final String NOTCOMPATIBLESETSETOF = "set/SET and set of/SET OF types are compatible only with other set/SET and set of/SET OF types";
 	private static final String NOTCOMPATIBLEUNIONANYTYPE = "union/CHOICE/anytype types are compatible only with other union/CHOICE/anytype types";
 
@@ -174,9 +174,16 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				return false;
 			}
 
-			final long thisNofComps = getDimension().getSize();
-			if (thisNofComps != tempTypeNofComps) {
-				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, thisNofComps, tempTypeNofComps));
+			int nofOptionalFields = 0;
+			for (int i = 0; i < tempTypeNofComps; i++) {
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				if (tempTypeCf.isOptional()) {
+					nofOptionalFields++;
+				}
+			}
+			final long nofComps = getDimension().getSize();
+			if (nofComps < tempTypeNofComps - nofComps) {
+				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, nofComps, tempTypeNofComps - nofOptionalFields));
 				return false;
 			}
 			TypeCompatibilityInfo.Chain lChain = leftChain;
@@ -223,9 +230,16 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				return false;
 			}
 
+			int nofOptionalFields = 0;
+			for (int i = 0; i < tempTypeNofComps; i++) {
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				if (tempTypeCf.isOptional()) {
+					nofOptionalFields++;
+				}
+			}
 			final long nofComps = getDimension().getSize();
-			if (nofComps != tempTypeNofComps) {
-				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, nofComps, tempTypeNofComps));
+			if (nofComps < tempTypeNofComps - nofComps) {
+				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, nofComps, tempTypeNofComps - nofOptionalFields));
 				return false;
 			}
 			TypeCompatibilityInfo.Chain lChain = leftChain;
@@ -1600,7 +1614,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		expression.preamble.append("}\n");
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
-			long to_offset = getDimension().getOffset();
+			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
 			conversionFunctionBody.append(MessageFormat.format("\t\tif(!from.is_bound() || from.size_of().get_int() != {0}) '{'\n", getDimension().getSize()));
@@ -1641,8 +1655,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final IType fromOfType = fromType.getElementType();
-			long from_offset = fromType.getDimension().getOffset();
-			long to_offset = getDimension().getOffset();
+			final long from_offset = fromType.getDimension().getOffset();
+			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
 
@@ -1680,7 +1694,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final int fromComponentCount = fromType.getNofComponents();
-			long to_offset = getDimension().getOffset();
+			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
 			conversionFunctionBody.append(MessageFormat.format("\t\tint index = {0};\n", to_offset));
@@ -1724,7 +1738,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final int fromComponentCount = fromType.getNofComponents();
-			long to_offset = getDimension().getOffset();
+			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
 			conversionFunctionBody.append(MessageFormat.format("\t\tint index = {0};\n", to_offset));
