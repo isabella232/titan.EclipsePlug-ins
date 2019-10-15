@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
@@ -272,14 +273,22 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			return type;
 		}
 
-		if (governor.isCompatible(timestamp, type, null, null, null)) {
+		final TypeCompatibilityInfo info = new TypeCompatibilityInfo(governor, type, true); 
+		if (governor.isCompatible(timestamp, type, info, null, null)) {
 			return governor;
 		}
 
-		if (!type.getIsErroneous(timestamp)) {
-			type.getLocation().reportSemanticError(
-					MessageFormat.format(INCOMATIBLEEXPLICITETYPE, governor.getTypename(), type.getTypename()));
+		if (info.getSubtypeError() == null) {
+			if (info.getErrorStr() == null) {
+				type.getLocation().reportSemanticError(
+						MessageFormat.format(INCOMATIBLEEXPLICITETYPE, governor.getTypename(), type.getTypename()));
+			} else {
+				getLocation().reportSemanticError(info.getErrorStr());
+			}
+		} else {
+			getLocation().reportSemanticError(info.getSubtypeError());
 		}
+
 		return type;
 	}
 

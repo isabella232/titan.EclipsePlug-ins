@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.NamingConventionHelper;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
@@ -39,6 +40,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.UnivCharString_Pattern_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
@@ -66,7 +68,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	public static final String TEMPLATEREFERENCEEXPECTEDINMODIFIES = "Reference to a template was expected"
 			+ " in the `modifies'' definition instead of {0}";
 	public static final String IMCOMPATIBLEBASETYPE = "The modified template has different type than the base template `{0}'':"
-			+ " `{1}'' was expected instead of `{2}'";
+			+ " `{1}'' was expected instead of `{2}''";
 	public static final String FEWERFORMALPARAMETERS = "The modified template has fewer formal parameters than base template `{0}'':"
 			+ " at least {1} parameter was expected instead of {2}";
 	public static final String DIFFERENTPARAMETERKINDS = "The kind of parameter is not the same as in base template `{0}'':"
@@ -549,10 +551,21 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		baseTemplate.check(timestamp);
 
 		final IType baseType = baseTemplate.getType(timestamp);
-		if (!type.isCompatible(timestamp, baseType, null, null, null)) {
-			type.getLocation().reportSemanticError(
-					MessageFormat.format(IMCOMPATIBLEBASETYPE, baseTemplate.getFullName(), baseType.getFullName(),
-							type.getFullName()));
+		final TypeCompatibilityInfo infoBase = new TypeCompatibilityInfo(type, baseType, true); 
+		if (!type.isCompatible(timestamp, baseType, infoBase, null, null)) {
+			if (infoBase.getSubtypeError() == null) {
+				if (infoBase.getErrorStr() == null) {
+					type.getLocation().reportSemanticError(
+							MessageFormat.format(IMCOMPATIBLEBASETYPE, baseTemplate.getFullName(), baseType.getFullName(),
+									type.getFullName()));
+				} else {
+					getLocation().reportSemanticError(infoBase.getErrorStr());
+				}
+			} else {
+				getLocation().reportSemanticError(infoBase.getSubtypeError());
+			}
+		} else if (infoBase.getNeedsConversion()) {
+			body.set_needs_conversion();
 		}
 
 		final FormalParameterList baseParameters = baseTemplate.getFormalParameterList(timestamp);
@@ -1025,7 +1038,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					}
 				}
 			} else {
-				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, "")));
+				if (body.get_needs_conversion()) {
+					final ExpressionStruct tempExpr = new ExpressionStruct();
+					final String tempId2 = type.generateConversion(aData, baseTemplate.getType(CompilationTimeStamp.getBaseTimestamp()), baseTemplate.getGenNameFromScope(aData, source, ""), tempExpr);
+					tempExpr.mergeExpression(source);
+					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, tempId2));
+				} else {
+					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, "")));
+				}
 				if ( body != null ) {
 					body.generateCodeInit( aData, source, genName );
 				}

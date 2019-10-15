@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
@@ -833,12 +834,22 @@ public final class FormalParameter extends Definition {
 			if (assignmentTypeIsCorrect) {
 				final IType fieldType = assignment.getType(timestamp).getFieldType(timestamp, reference, 1,
 						Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (fieldType != null) {
-					if (type != null && !type.isCompatible(timestamp, fieldType, null, null, null) ){
-						reference.getLocation().reportSemanticError(
-								MessageFormat.format(TYPEMISMATCH2, expectedString, type.getTypename(),
-										fieldType.getTypename()));
-					} else if (type != null && type.getSubtype() != null && fieldType.getSubtype() != null
+				if (fieldType != null && type != null) {
+					final TypeCompatibilityInfo info = new TypeCompatibilityInfo(type, fieldType, true); 
+					if (!type.isCompatible(timestamp, fieldType, info, null, null) ){
+						if (info.getSubtypeError() == null) {
+							if (info.getErrorStr() == null) {
+								reference.getLocation().reportSemanticError(
+										MessageFormat.format(TYPEMISMATCH2, expectedString, type.getTypename(),
+												fieldType.getTypename()));
+							} else {
+								getLocation().reportSemanticError(info.getErrorStr());
+							}
+						} else {
+							getLocation().reportSemanticError(info.getSubtypeError());
+						}
+						//FIXME reverse compatibility
+					} else if (type.getSubtype() != null && fieldType.getSubtype() != null
 							&& !type.getSubtype().isCompatible(timestamp, fieldType.getSubtype())) {
 						reference.getLocation().reportSemanticError(
 								MessageFormat.format(SUBTYPEMISMATCH, type.getSubtype().toString(), fieldType

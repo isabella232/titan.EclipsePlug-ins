@@ -531,6 +531,7 @@ public final class Def_Var extends Definition {
 			if (initialValue.returnsNative() || initialValue.getValuetype() == Value_type.REFERENCED_VALUE
 					|| initialValue.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE
 					|| type.getTypetypeTtcn3() != initialValue.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE)) {
+				//TODO if the referenced value is an external function we don't need to make a copy
 				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", typeGeneratedName, genName, expression.expression));
 			} else {
 				source.append(MessageFormat.format("final {0} {1} = {2};\n", typeGeneratedName, genName, expression.expression));

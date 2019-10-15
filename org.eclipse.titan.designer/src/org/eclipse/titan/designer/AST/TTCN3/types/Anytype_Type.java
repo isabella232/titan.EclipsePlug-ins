@@ -152,7 +152,7 @@ public final class Anytype_Type extends Type {
 					final CompField tempComponentField = tempType.getComponentByIndex(j);
 					final IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
 					if (!cf.getIdentifier().getDisplayName().equals(tempComponentField.getIdentifier().getDisplayName())
-							|| !cfType.getMyScope().getModuleScope().equals(tempTypeCompFieldType.getMyScope().getModuleScope())) {
+							/*|| !cfType.getMyScope().getModuleScope().equals(tempTypeCompFieldType.getMyScope().getModuleScope())*/) {
 						continue;
 					}
 					lChain.markState();
