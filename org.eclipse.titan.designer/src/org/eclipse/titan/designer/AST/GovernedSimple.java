@@ -98,21 +98,14 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		return lastTimeGenerated;
 	}
 
-	/**
-	 * Return whether the value/template needs type compatibility conversion
-	 * during code generation.
-	 * 
-	 * @return {@code true} if the code generator will need to generate type
-	 *         conversion, {@code false} otherwise.
-	 * */
+	@Override
+	/** {@inheritDoc} */
 	public boolean get_needs_conversion() {
 		return needs_conversion;
 	}
 
-	/**
-	 * Indicates that thisvalue/template will need type conversion code
-	 * generated.
-	 * */
+	@Override
+	/** {@inheritDoc} */
 	public void set_needs_conversion() {
 		needs_conversion = true;
 	}

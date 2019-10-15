@@ -34,6 +34,21 @@ public interface IGovernedSimple extends IGoverned {
 	 *  */
 	public BuildTimestamp getLastTimeBuilt();
 
+	/**
+	 * Return whether the value/template needs type compatibility conversion
+	 * during code generation.
+	 * 
+	 * @return {@code true} if the code generator will need to generate type
+	 *         conversion, {@code false} otherwise.
+	 * */
+	public boolean get_needs_conversion();
+
+	/**
+	 * Indicates that this value/template will need type conversion code
+	 * generated.
+	 * */
+	public void set_needs_conversion();
+
 	/***
 	 * Returns the Java expression that refers to the object, which has to be
 	 * initialized.
