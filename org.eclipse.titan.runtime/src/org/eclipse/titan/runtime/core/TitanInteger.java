@@ -54,8 +54,14 @@ public class TitanInteger extends Base_Type {
 	 * */
 	public TitanInteger(final int otherValue) {
 		boundFlag = true;
-		nativeFlag = true;
-		nativeInt = otherValue;
+		if( otherValue == Integer.MIN_VALUE) {
+			//special case: -MIN_VALUE = MAX_VALUE + 1, so the negated value doesn't fit into int
+			nativeFlag = false;
+			openSSL = BigInteger.valueOf(otherValue);
+		} else {
+			nativeFlag = true;
+			nativeInt = otherValue;
+		}
 	}
 
 	/**
@@ -142,8 +148,14 @@ public class TitanInteger extends Base_Type {
 	public TitanInteger operator_assign(final int otherValue) {
 		clean_up();
 		boundFlag = true;
-		nativeFlag = true;
-		nativeInt = otherValue;
+		if( otherValue == Integer.MIN_VALUE) {
+			//special case: -MIN_VALUE = MAX_VALUE + 1, so the negated value doesn't fit into int
+			nativeFlag = false;
+			openSSL = BigInteger.valueOf(otherValue);
+		} else {
+			nativeFlag = true;
+			nativeInt = otherValue;
+		}
 
 		return this;
 	}

@@ -136,7 +136,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	public boolean isNative() {
-		return value.compareTo(MAX_INTEGER) <= 0 && value.compareTo(MIN_INTEGER) >= 0;
+		return value.compareTo(MAX_INTEGER) <= 0 && value.compareTo(MIN_INTEGER) > 0;
 	}
 
 	public Integer_Value negate() {
