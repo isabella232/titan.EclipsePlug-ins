@@ -1768,6 +1768,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 							MessageFormat.format(TYPECOMPATWARNING, this.getTypename(), governor.getTypename()));
 				}
 			}
+			if (info.getNeedsConversion()) {
+				value.set_needs_conversion();
+			}
 		}
 
 		if (errorFlag) {
