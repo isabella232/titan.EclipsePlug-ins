@@ -591,12 +591,21 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 			final Type baseFpType = baseFormalpar.getType(timestamp);
 			final Type localFpType = localFormalpar.getType(timestamp);
-			if (!baseFpType.isCompatible(timestamp, localFpType, null, null, null)) {
-				if (!localFpType.getIsErroneous(timestamp) && !baseFpType.getIsErroneous(timestamp)) {
-					localFpType.getLocation().reportSemanticError(
-							MessageFormat.format(INCOMPATIBLEBASEPARAMETERTYPE, baseTemplate.getFullName(),
-									baseFpType.getTypename(), localFpType.getTypename()));
+			final TypeCompatibilityInfo infoPar = new TypeCompatibilityInfo(type, baseType, true); 
+			if (!baseFpType.isCompatible(timestamp, localFpType, infoPar, null, null)) {
+				if (infoPar.getSubtypeError() == null) {
+					if (infoPar.getErrorStr() == null) {
+						localFpType.getLocation().reportSemanticError(
+								MessageFormat.format(INCOMPATIBLEBASEPARAMETERTYPE, baseTemplate.getFullName(),
+										baseFpType.getTypename(), localFpType.getTypename()));
+					} else {
+						getLocation().reportSemanticError(infoPar.getErrorStr());
+					}
+				} else {
+					getLocation().reportSemanticError(infoPar.getSubtypeError());
 				}
+			} else if (infoPar.getNeedsConversion()) {
+				body.set_needs_conversion();
 			}
 
 			final Identifier baseFormalparId = baseFormalpar.getIdentifier();
