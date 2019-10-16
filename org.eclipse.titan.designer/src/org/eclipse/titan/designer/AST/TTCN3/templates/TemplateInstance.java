@@ -335,16 +335,28 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 
 		final IType baseTemplateType = derivedAssignment.getType(timestamp);
 		if (tempGovernor != null) {
-			if (!tempGovernor.isCompatible(timestamp, baseTemplateType, null, null, null)) {
-				derivedReference.getLocation().reportSemanticError(
-						MessageFormat.format(INCOMPATIBLEBASETYPE, derivedAssignment.getFullName(),
-								tempGovernor.getTypename(), baseTemplateType.getTypename()));
+			final TypeCompatibilityInfo info = new TypeCompatibilityInfo(governor, type, true); 
+			if (!tempGovernor.isCompatible(timestamp, baseTemplateType, info, null, null)) {
+				if (info.getSubtypeError() == null) {
+					if (info.getErrorStr() == null) {
+						derivedReference.getLocation().reportSemanticError(
+								MessageFormat.format(INCOMPATIBLEBASETYPE, derivedAssignment.getFullName(),
+										tempGovernor.getTypename(), baseTemplateType.getTypename()));
+					} else {
+						derivedReference.getLocation().reportSemanticError(info.getErrorStr());
+					}
+				} else {
+					derivedReference.getLocation().reportSemanticError(info.getSubtypeError());
+				}
+				
 
 				if (type == null) {
 					tempGovernor = baseTemplateType;
 				}
 
 				internalSetBase = false;
+			} else if (info.getNeedsConversion()) {
+				templateBody.set_needs_conversion();
 			}
 		} else {
 			tempGovernor = baseTemplateType;
