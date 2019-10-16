@@ -1150,18 +1150,20 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			final String fromTypeName = fromType.getGenNameValue( aData, conversionFunctionBody );
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append(MessageFormat.format("\t\tif(!from.is_bound() || from.size_of().get_int() != {0}) '{'\n", getNofComponents()));
 			conversionFunctionBody.append("\t\t\treturn false;\n");
 			conversionFunctionBody.append("\t\t}\n\n");
 
+			final String fromOfTypeName = fromOfType.getGenNameValue(aData, conversionFunctionBody);
 			for (int i = 0; i < getNofComponents(); i++) {
 				final CompField toComp = getComponentByIndex(i);
 				final Identifier toFieldName = toComp.getIdentifier();
 				final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final String tempId2 = aData.getTemporaryVariableName();
-				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_at({2});\n", fromOfType.getGenNameValue(aData, conversionFunctionBody), tempId2, i));
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_at({2});\n", fromOfTypeName, tempId2, i));
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
