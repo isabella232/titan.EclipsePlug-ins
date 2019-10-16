@@ -916,7 +916,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	}
 
 	@Override
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
@@ -927,12 +927,12 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		case TYPE_TTCN3_CHOICE:{
 			//heavy conversion is needed
 			final TTCN3_Choice_Type realFromType = (TTCN3_Choice_Type) refdType;
-			return generateConversionTTCNChoiceToTTCNChoice(aData, realFromType, fromName, expression);
+			return generateConversionTTCNChoiceToTTCNChoice(aData, realFromType, fromName, forValue, expression);
 		}
 		case TYPE_ASN1_CHOICE:{
 			//heavy conversion is needed
 			final ASN1_Choice_Type realFromType = (ASN1_Choice_Type) refdType;
-			return generateConversionASNChoiceToTTCNChoice(aData, realFromType, fromName, expression);
+			return generateConversionASNChoiceToTTCNChoice(aData, realFromType, fromName, forValue, expression);
 		}
 		default:
 			expression.expression.append(MessageFormat.format("//FIXME conversion from {0} to {1} is not needed or nor supported yet\n", fromType.getTypename(), getTypename()));
@@ -943,7 +943,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		return fromName;
 	}
 
-	protected String generateConversionTTCNChoiceToTTCNChoice(final JavaGenData aData, final TTCN3_Choice_Type fromType, final String fromName, final ExpressionStruct expression) {
+	protected String generateConversionTTCNChoiceToTTCNChoice(final JavaGenData aData, final TTCN3_Choice_Type fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final String tempId = aData.getTemporaryVariableName();
 		final String name = getGenNameValue(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
@@ -975,7 +975,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
 
 						final ExpressionStruct tempExpression = new ExpressionStruct();
-						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, forValue, tempExpression);
 						tempExpression.openMergeExpression(conversionFunctionBody);
 
 						conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_field_{0}().operator_assign({1});\n", toFieldName.getName() , tempId3));
@@ -999,7 +999,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		return tempId;
 	}
 
-	protected String generateConversionASNChoiceToTTCNChoice(final JavaGenData aData, final ASN1_Choice_Type fromType, final String fromName, final ExpressionStruct expression) {
+	protected String generateConversionASNChoiceToTTCNChoice(final JavaGenData aData, final ASN1_Choice_Type fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final String tempId = aData.getTemporaryVariableName();
 		final String name = getGenNameValue(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
@@ -1031,7 +1031,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
 
 						final ExpressionStruct tempExpression = new ExpressionStruct();
-						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+						final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, forValue, tempExpression);
 						tempExpression.openMergeExpression(conversionFunctionBody);
 
 						conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_field_{0}().operator_assign({1});\n", toFieldName.getName() , tempId3));

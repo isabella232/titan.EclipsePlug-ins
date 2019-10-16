@@ -214,7 +214,7 @@ public final class Value_ActualParameter extends ActualParameter {
 				}
 
 				if (needsConversion) {
-					expressionExpression = new StringBuilder(toType.generateConversion(aData, fromType, expressionExpression.toString(), expression));
+					expressionExpression = new StringBuilder(toType.generateConversion(aData, fromType, expressionExpression.toString(), true, expression));
 				}
 
 				//TODO copy might be needed here

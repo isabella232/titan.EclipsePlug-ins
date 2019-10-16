@@ -1102,7 +1102,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	}
 
 	@Override
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
@@ -1113,20 +1113,20 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		case TYPE_TTCN3_SEQUENCE: {
 			//heavy conversion is needed
 			final TTCN3_Set_Seq_Choice_BaseType realFromType = (TTCN3_Set_Seq_Choice_BaseType) refdType;
-			return generateConversionTTCNSetSeqToTTCNSetSeq(aData, realFromType, fromName, expression);
+			return generateConversionTTCNSetSeqToTTCNSetSeq(aData, realFromType, fromName, forValue, expression);
 		}
 		case TYPE_ASN1_SEQUENCE: {
 			//heavy conversion is needed
 			final ASN1_Set_Seq_Choice_BaseType realFromType = (ASN1_Set_Seq_Choice_BaseType) refdType;
-			return generateConversionASNSetSeqToTTCNSetSeq(aData, realFromType, fromName, expression);
+			return generateConversionASNSetSeqToTTCNSetSeq(aData, realFromType, fromName, forValue, expression);
 		}
 		case TYPE_SEQUENCE_OF: {
 			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
-			return generateConversionSeqOfToSeq(aData, fromType, fromName, fromOfType, expression);
+			return generateConversionSeqOfToSeq(aData, fromType, fromName, fromOfType, forValue, expression);
 		}
 		case TYPE_ARRAY: {
 			final IType fromOfType = ((Array_Type)refdType).getElementType();
-			return generateConversionSeqOfToSeq(aData, fromType, fromName, fromOfType, expression);
+			return generateConversionSeqOfToSeq(aData, fromType, fromName, fromOfType, forValue, expression);
 		}
 		default:
 			expression.expression.append(MessageFormat.format("//FIXME conversion from {0} to {1} is not needed or nor supported yet\n", fromType.getTypename(), getTypename()));
@@ -1137,26 +1137,31 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		return fromName;
 	}
 
-	private String generateConversionSeqOfToSeq(final JavaGenData aData, final IType fromType, final String fromName, final IType fromOfType, final ExpressionStruct expression) {
+	private String generateConversionSeqOfToSeq(final JavaGenData aData, final IType fromType, final String fromName, final IType fromOfType, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
+		//TODO ez itt az
 
-		final String name = getGenNameValue(aData, expression.preamble);
+		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
 		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
 		expression.preamble.append("}\n");
+		if ("conv_PreGenRecordOf_PREGEN__RECORD__OF__INTEGER_rtype".equals(ConversionFunctionName)) {
+			int i = 0;
+			i++;
+		}
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			final String fromTypeName = fromType.getGenNameValue( aData, conversionFunctionBody );
+			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append(MessageFormat.format("\t\tif(!from.is_bound() || from.size_of().get_int() != {0}) '{'\n", getNofComponents()));
 			conversionFunctionBody.append("\t\t\treturn false;\n");
 			conversionFunctionBody.append("\t\t}\n\n");
 
-			final String fromOfTypeName = fromOfType.getGenNameValue(aData, conversionFunctionBody);
+			final String fromOfTypeName = forValue ? fromOfType.getGenNameValue(aData, conversionFunctionBody): fromOfType.getGenNameTemplate(aData, conversionFunctionBody);
 			for (int i = 0; i < getNofComponents(); i++) {
 				final CompField toComp = getComponentByIndex(i);
 				final Identifier toFieldName = toComp.getIdentifier();
@@ -1167,7 +1172,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
-				final String tempId3 = toFieldType.generateConversion(aData, fromOfType, tempId2, tempExpression);
+				final String tempId3 = toFieldType.generateConversion(aData, fromOfType, tempId2, forValue, tempExpression);
 				tempExpression.openMergeExpression(conversionFunctionBody);
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_field_{0}().operator_assign({1});\n", FieldSubReference.getJavaGetterName( toFieldName.getName() ), tempId3));

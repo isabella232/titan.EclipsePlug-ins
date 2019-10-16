@@ -437,7 +437,7 @@ public final class OctetString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanOctetString" );
 
 		return MessageFormat.format("TitanOctetString.convert_to_OctetString({0})", fromName);

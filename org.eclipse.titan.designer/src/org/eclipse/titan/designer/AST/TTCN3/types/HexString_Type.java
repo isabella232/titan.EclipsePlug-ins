@@ -398,7 +398,7 @@ public final class HexString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanHexString" );
 
 		return MessageFormat.format("TitanHexString.convert_to_HexString({0})", fromName);

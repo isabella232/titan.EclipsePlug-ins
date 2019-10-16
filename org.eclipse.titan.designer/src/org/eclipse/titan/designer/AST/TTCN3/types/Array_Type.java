@@ -1571,7 +1571,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
@@ -1583,26 +1583,26 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		case TYPE_TTCN3_SEQUENCE: {
 			//heavy conversion is needed
 			final TTCN3_Sequence_Type realFromType = (TTCN3_Sequence_Type) refdType;
-			return generateConversionTTCNSeqToArray(aData, realFromType, fromName, expression);
+			return generateConversionTTCNSeqToArray(aData, realFromType, fromName, forValue, expression);
 		}
 		case TYPE_ASN1_SEQUENCE: {
 			//heavy conversion is needed
 			final ASN1_Sequence_Type realFromType = (ASN1_Sequence_Type) refdType;
-			return generateConversionASNSeqToArray(aData, realFromType, fromName, expression);
+			return generateConversionASNSeqToArray(aData, realFromType, fromName, forValue, expression);
 		}
 		case TYPE_SEQUENCE_OF: {
 			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
-			return generateConversionSeqOfToArray(aData, (SequenceOf_Type)refdType, fromName, fromOfType, expression);
+			return generateConversionSeqOfToArray(aData, (SequenceOf_Type)refdType, fromName, fromOfType, forValue, expression);
 		}
 		case TYPE_ARRAY: {
-			return generateConversionArrayToArray(aData, (Array_Type)refdType, fromName, expression);
+			return generateConversionArrayToArray(aData, (Array_Type)refdType, fromName, forValue, expression);
 		}
 		default:
 			return "FATAL ERROR during converting to type " + getTypename();
 		}
 	}
 
-	private String generateConversionSeqOfToArray(final JavaGenData aData, final SequenceOf_Type fromType, final String fromName, final IType fromOfType, final ExpressionStruct expression) {
+	private String generateConversionSeqOfToArray(final JavaGenData aData, final SequenceOf_Type fromType, final String fromName, final IType fromOfType, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -1627,7 +1627,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
-				final String tempId3 = elementType.generateConversion(aData, fromOfType, tempId2, tempExpression);
+				final String tempId3 = elementType.generateConversion(aData, fromOfType, tempId2, forValue, tempExpression);
 				tempExpression.openMergeExpression(conversionFunctionBody);
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_at({0}).operator_assign({1});\n", to_offset + i, tempId3));
@@ -1642,7 +1642,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		return tempId;
 	}
 
-	private String generateConversionArrayToArray(final JavaGenData aData, final Array_Type fromType, final String fromName, final ExpressionStruct expression) {
+	private String generateConversionArrayToArray(final JavaGenData aData, final Array_Type fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -1666,7 +1666,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
-				final String tempId3 = elementType.generateConversion(aData, fromOfType, tempId2, tempExpression);
+				final String tempId3 = elementType.generateConversion(aData, fromOfType, tempId2, forValue, tempExpression);
 				tempExpression.openMergeExpression(conversionFunctionBody);
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_at({0}).operator_assign({1});\n", to_offset + i, tempId3));
@@ -1681,7 +1681,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		return tempId;
 	}
 
-	private String generateConversionTTCNSeqToArray(final JavaGenData aData, final TTCN3_Sequence_Type fromType, final String fromName, final ExpressionStruct expression) {
+	private String generateConversionTTCNSeqToArray(final JavaGenData aData, final TTCN3_Sequence_Type fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -1709,7 +1709,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
-				final String tempId3 = elementType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				final String tempId3 = elementType.generateConversion(aData, fromFieldType, tempId2, forValue, tempExpression);
 				tempExpression.openMergeExpression(conversionFunctionBody);
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_at(index).operator_assign({0});\n", tempId3));
@@ -1725,7 +1725,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		return tempId;
 	}
 
-	private String generateConversionASNSeqToArray(final JavaGenData aData, final ASN1_Sequence_Type fromType, final String fromName, final ExpressionStruct expression) {
+	private String generateConversionASNSeqToArray(final JavaGenData aData, final ASN1_Sequence_Type fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -1753,7 +1753,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
-				final String tempId3 = elementType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				final String tempId3 = elementType.generateConversion(aData, fromFieldType, tempId2, forValue, tempExpression);
 				tempExpression.openMergeExpression(conversionFunctionBody);
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tto.get_at(index).operator_assign({0});\n", tempId3));

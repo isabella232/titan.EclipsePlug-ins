@@ -394,7 +394,7 @@ public final class BitString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanBitString" );
 
 		return MessageFormat.format("TitanBitString.convert_to_BitString({0})", fromName);

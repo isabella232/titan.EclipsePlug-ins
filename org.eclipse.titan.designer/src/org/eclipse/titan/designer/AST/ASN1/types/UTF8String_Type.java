@@ -291,7 +291,7 @@ public final class UTF8String_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
 		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);

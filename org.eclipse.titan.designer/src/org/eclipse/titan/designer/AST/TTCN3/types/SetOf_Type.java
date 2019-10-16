@@ -750,7 +750,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
@@ -793,18 +793,18 @@ public final class SetOf_Type extends AbstractOfType {
 			}
 
 			final IType fromOfType = ((SetOf_Type)refdType).getOfType();
-			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
+			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, forValue, expression);
 		}
 		case TYPE_TTCN3_SET: {
 			final TTCN3_Set_Type refdFromType = (TTCN3_Set_Type)refdType;
-			return generateConversionSetToSetOf(aData, refdFromType, fromName, ofType, expression);
+			return generateConversionSetToSetOf(aData, refdFromType, fromName, ofType, forValue, expression);
 		}
 		default:
 			return "FATAL ERROR during converting to type " + getTypename();
 		}
 	}
 
-	private String generateConversionSetSeqOfToSetSeqOf(final JavaGenData aData, final IType fromType, final String fromName, final IType toOfType, final IType fromOfType, final ExpressionStruct expression) {
+	private String generateConversionSetSeqOfToSetSeqOf(final JavaGenData aData, final IType fromType, final String fromName, final IType toOfType, final IType fromOfType, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -826,7 +826,7 @@ public final class SetOf_Type extends AbstractOfType {
 			conversionFunctionBody.append(MessageFormat.format("\t\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 			final ExpressionStruct tempExpression = new ExpressionStruct();
-			final String tempId3 = toOfType.generateConversion(aData, fromOfType, tempId2, tempExpression);
+			final String tempId3 = toOfType.generateConversion(aData, fromOfType, tempId2, forValue, tempExpression);
 			tempExpression.openMergeExpression(conversionFunctionBody);
 
 			conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_at(i).operator_assign({0});\n", tempId3));
@@ -840,7 +840,7 @@ public final class SetOf_Type extends AbstractOfType {
 		return tempId;
 	}
 
-	private String generateConversionSetToSetOf(final JavaGenData aData, final TTCN3_Set_Type fromType, final String fromName, final IType toOfType, final ExpressionStruct expression) {
+	private String generateConversionSetToSetOf(final JavaGenData aData, final TTCN3_Set_Type fromType, final String fromName, final IType toOfType, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -867,7 +867,7 @@ public final class SetOf_Type extends AbstractOfType {
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
-				final String tempId3 = toOfType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				final String tempId3 = toOfType.generateConversion(aData, fromFieldType, tempId2, forValue, tempExpression);
 				tempExpression.openMergeExpression(conversionFunctionBody);
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_at({0}).operator_assign({1});\n", i, tempId3));

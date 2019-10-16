@@ -1068,7 +1068,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
@@ -1111,22 +1111,22 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			}
 
 			final IType fromOfType = ((SequenceOf_Type)refdType).getOfType();
-			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
+			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, forValue, expression);
 		}
 		case TYPE_TTCN3_SEQUENCE: {
 			final TTCN3_Sequence_Type refdFromType = (TTCN3_Sequence_Type)refdType;
-			return generateConversionSeqToSeqOf(aData, refdFromType, fromName, ofType, expression);
+			return generateConversionSeqToSeqOf(aData, refdFromType, fromName, ofType, forValue, expression);
 		}
 		case TYPE_ARRAY: {
 			final IType fromOfType = ((Array_Type)refdType).getElementType();
-			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, expression);
+			return generateConversionSetSeqOfToSetSeqOf(aData, fromType, fromName, ofType, fromOfType, forValue, expression);
 		}
 		default:
 			return "FATAL ERROR during converting to type " + getTypename();
 		}
 	}
 
-	private String generateConversionSetSeqOfToSetSeqOf(final JavaGenData aData, final IType fromType, final String fromName, final IType toOfType, final IType fromOfType, final ExpressionStruct expression) {
+	private String generateConversionSetSeqOfToSetSeqOf(final JavaGenData aData, final IType fromType, final String fromName, final IType toOfType, final IType fromOfType, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -1149,7 +1149,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			conversionFunctionBody.append(MessageFormat.format("\t\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 			final ExpressionStruct tempExpression = new ExpressionStruct();
-			final String tempId3 = toOfType.generateConversion(aData, fromOfType, tempId2, tempExpression);
+			final String tempId3 = toOfType.generateConversion(aData, fromOfType, tempId2, forValue, tempExpression);
 			tempExpression.openMergeExpression(conversionFunctionBody);
 
 			conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_at(i).operator_assign({0});\n", tempId3));
@@ -1164,7 +1164,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		return tempId;
 	}
 
-	private String generateConversionSeqToSeqOf(final JavaGenData aData, final TTCN3_Sequence_Type fromType, final String fromName, final IType toOfType, final ExpressionStruct expression) {
+	private String generateConversionSeqToSeqOf(final JavaGenData aData, final TTCN3_Sequence_Type fromType, final String fromName, final IType toOfType, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -1191,7 +1191,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				conversionFunctionBody.append(MessageFormat.format("\t\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
-				final String tempId3 = toOfType.generateConversion(aData, fromFieldType, tempId2, tempExpression);
+				final String tempId3 = toOfType.generateConversion(aData, fromFieldType, tempId2, forValue, tempExpression);
 				tempExpression.openMergeExpression(conversionFunctionBody);
 
 				conversionFunctionBody.append(MessageFormat.format("\t\t\t\tto.get_at({0}).operator_assign({1});\n", i, tempId3));

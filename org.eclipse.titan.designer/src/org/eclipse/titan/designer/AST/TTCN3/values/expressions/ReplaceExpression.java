@@ -868,7 +868,7 @@ public final class ReplaceExpression extends Expression_Value {
 				expression.postamble.append(tempExpression.postamble);
 			}
 
-			final String tempId2 = myGovernor.generateConversion(aData, lastTemplateGovernor, tempId1, expression);
+			final String tempId2 = myGovernor.generateConversion(aData, lastTemplateGovernor, tempId1, true, expression);
 			expression.expression.append(tempId2);
 		} else {
 			generateCodeExpressionReplace(aData, expression);

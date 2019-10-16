@@ -931,7 +931,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	}
 
 	@Override
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final IType refdType = fromType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (refdType == null || this == refdType) {
 			//no need to convert
@@ -942,12 +942,12 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		case TYPE_TTCN3_SET: {
 			//heavy conversion is needed
 			final TTCN3_Set_Seq_Choice_BaseType realFromType = (TTCN3_Set_Seq_Choice_BaseType) refdType;
-			return generateConversionTTCNSetSeqToTTCNSetSeq(aData, realFromType, fromName, expression);
+			return generateConversionTTCNSetSeqToTTCNSetSeq(aData, realFromType, fromName, forValue, expression);
 		}
 		case TYPE_ASN1_SET: {
 			//heavy conversion is needed
 			final ASN1_Set_Seq_Choice_BaseType realFromType = (ASN1_Set_Seq_Choice_BaseType) refdType;
-			return generateConversionASNSetSeqToTTCNSetSeq(aData, realFromType, fromName, expression);
+			return generateConversionASNSetSeqToTTCNSetSeq(aData, realFromType, fromName, forValue, expression);
 		}
 		default:
 			expression.expression.append(MessageFormat.format("//FIXME conversion from {0} to {1} is not needed or nor supported yet\n", fromType.getTypename(), getTypename()));

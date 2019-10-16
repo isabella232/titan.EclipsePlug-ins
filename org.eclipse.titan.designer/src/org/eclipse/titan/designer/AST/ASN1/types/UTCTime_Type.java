@@ -264,7 +264,7 @@ public final class UTCTime_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 
 		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
