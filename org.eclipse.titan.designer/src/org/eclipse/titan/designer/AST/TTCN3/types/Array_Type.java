@@ -1705,7 +1705,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final String tempId2 = aData.getTemporaryVariableName();
-				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() )));
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}(){3};\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() ), fromComp.isOptional()? ".constGet()" : "" ));
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
