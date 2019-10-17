@@ -9,7 +9,6 @@ package org.eclipse.titan.designer.parsers.ttcn3parser;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.regex.Pattern;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
