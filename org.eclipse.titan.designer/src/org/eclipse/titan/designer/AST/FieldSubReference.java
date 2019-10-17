@@ -153,7 +153,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	 */
 	public static String getJavaGetterName( final String aTtcn3RecField ) {
 		//TODO at this point this function no longer looks useful, lets just keep it for some time, in case we need it.
-		return aTtcn3RecField;
+		return aTtcn3RecField.replace('.', '_');
 	}
 
 	@Override
