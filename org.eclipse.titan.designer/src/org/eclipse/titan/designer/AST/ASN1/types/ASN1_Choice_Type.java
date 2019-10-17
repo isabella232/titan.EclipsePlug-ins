@@ -820,7 +820,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	protected String generateConversionTTCNChoiceToASNChoice(final JavaGenData aData, final TTCN3_Choice_Type fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final String tempId = aData.getTemporaryVariableName();
-		final String name = getGenNameValue(aData, expression.preamble);
+		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
@@ -829,7 +829,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append("\t\tif(!from.is_bound()) {\n");
 			conversionFunctionBody.append("\t\t\treturn false;\n");
 			conversionFunctionBody.append("\t\t}\n");
@@ -846,7 +847,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 					if (fromFieldName.equals(toFieldName) && fromFieldType.isCompatible(CompilationTimeStamp.getBaseTimestamp(), toFieldType, null, null, null)) {
 						conversionFunctionBody.append(MessageFormat.format("\t\tcase ALT_{0}: '{'\n", fromFieldName.getName()));
 						final String tempId2 = aData.getTemporaryVariableName();
-						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, fromFieldName.getName()));
+						final String fromFieldTypeName = forValue ? fromFieldType.getGenNameValue(aData, conversionFunctionBody): fromFieldType.getGenNameTemplate(aData, conversionFunctionBody);
+						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldTypeName, tempId2, fromFieldName.getName()));
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
 
 						final ExpressionStruct tempExpression = new ExpressionStruct();
@@ -876,7 +878,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	protected String generateConversionASNChoiceToASNChoice(final JavaGenData aData, final ASN1_Choice_Type fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		final String tempId = aData.getTemporaryVariableName();
-		final String name = getGenNameValue(aData, expression.preamble);
+		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
@@ -885,7 +887,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append("\t\tif(!from.is_bound()) {\n");
 			conversionFunctionBody.append("\t\t\treturn false;\n");
 			conversionFunctionBody.append("\t\t}\n");
@@ -902,7 +905,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 					if (fromFieldName.equals(toFieldName) && fromFieldType.isCompatible(CompilationTimeStamp.getBaseTimestamp(), toFieldType, null, null, null)) {
 						conversionFunctionBody.append(MessageFormat.format("\t\tcase ALT_{0}: '{'\n", fromFieldName.getName()));
 						final String tempId2 = aData.getTemporaryVariableName();
-						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, fromFieldName.getName()));
+						final String fromFieldTypeName = forValue ? fromFieldType.getGenNameValue(aData, conversionFunctionBody): fromFieldType.getGenNameTemplate(aData, conversionFunctionBody);
+						conversionFunctionBody.append(MessageFormat.format("\t\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldTypeName, tempId2, fromFieldName.getName()));
 						conversionFunctionBody.append(MessageFormat.format("\t\t\tif ({0}.is_bound()) '{'\n", tempId2));
 
 						final ExpressionStruct tempExpression = new ExpressionStruct();
