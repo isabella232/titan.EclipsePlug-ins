@@ -649,6 +649,10 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
+		if (get_needs_conversion()) {
+			return false;
+		}
+
 		if (referencedValue != null && referencedValue != this && referencedValue.canGenerateSingleExpression() && referencedValue.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
 			return true;
 		}
@@ -690,12 +694,29 @@ public final class Referenced_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (referencedValue == null || referencedValue == this) {
-			final ExpressionStruct expression = new ExpressionStruct();
-			expression.expression.append(name);
-			expression.expression.append(".operator_assign(");
-			reference.generateConstRef(aData, expression);
-			expression.expression.append(")");
-			expression.mergeExpression(source);
+			if (get_needs_conversion()) {
+				final ExpressionStruct tempExpr = new ExpressionStruct();
+				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final ExpressionStruct refExpr = new ExpressionStruct();
+				reference.generateConstRef(aData, refExpr);
+				if (refExpr.preamble.length() > 0) {
+					source.append(refExpr.preamble);
+				}
+
+				final String tempId2 = currentType.generateConversion(aData, referencedFieldType, refExpr.expression.toString(), true, tempExpr);
+				tempExpr.openMergeExpression(source);
+				source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, tempId2));
+			} else {
+				final ExpressionStruct expression = new ExpressionStruct();
+				expression.expression.append(name);
+				expression.expression.append(".operator_assign(");
+				reference.generateConstRef(aData, expression);
+				expression.expression.append(")");
+				expression.mergeExpression(source);
+			}
 
 			lastTimeGenerated = aData.getBuildTimstamp();
 
