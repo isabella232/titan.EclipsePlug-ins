@@ -765,7 +765,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 					} else {
 						final ExpressionStruct localExpression = new ExpressionStruct();
 						final String parname = MessageFormat.format("par{0}{1}", subrefsString, optionalSuffix);
-						final String conversionResult = redirectionType.generateConversion(aData, referenceType, parname, true, localExpression);
+						final String conversionResult = referenceType.generateConversion(aData, redirectionType, parname, true, localExpression);
 						if (localExpression.preamble.length() > 0) {
 							setValuesString.append(localExpression.preamble);
 						}
