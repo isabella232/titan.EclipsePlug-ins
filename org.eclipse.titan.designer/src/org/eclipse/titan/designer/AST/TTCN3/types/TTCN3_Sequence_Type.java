@@ -1140,18 +1140,12 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	private String generateConversionSeqOfToSeq(final JavaGenData aData, final IType fromType, final String fromName, final IType fromOfType, final boolean forValue, final ExpressionStruct expression) {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
-		//TODO ez itt az
-
 		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
 		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
 		expression.preamble.append("}\n");
-		if ("conv_PreGenRecordOf_PREGEN__RECORD__OF__INTEGER_rtype".equals(ConversionFunctionName)) {
-			int i = 0;
-			i++;
-		}
 
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final StringBuilder conversionFunctionBody = new StringBuilder();
