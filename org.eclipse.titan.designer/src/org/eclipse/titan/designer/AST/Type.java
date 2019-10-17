@@ -3666,7 +3666,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression) {
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
 		// the default implementation does nothing
 		return fromName;
 	}

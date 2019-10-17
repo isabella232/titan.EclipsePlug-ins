@@ -1290,6 +1290,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                the type to convert from to this type.
 	 * @param fromName
 	 *                the name/expression to be converted.
+	 * @param forValue
+	 *                {@code true} if the code conversion should be
+	 *                generated for values, {@code false} to generate it for
+	 *                templates.
 	 * @param expression
 	 *                the expression used to help the conversion if needed
 	 *                (pre- and postambles used in complex cases).
@@ -1298,5 +1302,5 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *         temporary variable holding the converted value, and
 	 *         expression converting the value.
 	 * */
-	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final ExpressionStruct expression);
+	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression);
 }
