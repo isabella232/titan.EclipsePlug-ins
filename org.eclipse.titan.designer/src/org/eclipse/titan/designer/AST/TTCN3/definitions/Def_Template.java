@@ -1050,7 +1050,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				if (body.get_needs_conversion()) {
 					final ExpressionStruct tempExpr = new ExpressionStruct();
 					final String tempId2 = type.generateConversion(aData, baseTemplate.getType(CompilationTimeStamp.getBaseTimestamp()), baseTemplate.getGenNameFromScope(aData, source, ""), false, tempExpr);
-					tempExpr.mergeExpression(source);
+					tempExpr.openMergeExpression(source);
 					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, tempId2));
 				} else {
 					source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, "")));
