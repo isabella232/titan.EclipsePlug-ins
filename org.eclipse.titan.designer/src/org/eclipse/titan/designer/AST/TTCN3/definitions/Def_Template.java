@@ -957,6 +957,15 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					// initialized first
 					getLocation().update_location_object(aData, aData.getPostInit());
 					baseTemplate.body.generateCodeInit(aData, aData.getPostInit(), body.get_lhs_name());
+
+					if (body.get_needs_conversion()) {
+						final ExpressionStruct tempExpr = new ExpressionStruct();
+						final String tempId2 = type.generateConversion(aData, baseTemplate.getType(CompilationTimeStamp.getBaseTimestamp()), baseTemplate.getGenNameFromScope(aData, aData.getPostInit(), ""), false, tempExpr);
+						tempExpr.openMergeExpression(aData.getPostInit());
+						aData.getPostInit().append(MessageFormat.format("{0}.operator_assign({1});\n", genName, tempId2));
+					} else {
+						aData.getPostInit().append(MessageFormat.format("{0}.operator_assign({1});\n", genName, baseTemplate.getGenNameFromScope(aData, aData.getPostInit(), "")));
+					}
 				}
 			}
 
