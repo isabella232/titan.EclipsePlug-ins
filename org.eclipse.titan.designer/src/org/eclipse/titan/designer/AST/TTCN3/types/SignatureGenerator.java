@@ -54,6 +54,9 @@ public final class SignatureGenerator {
 		/** Java type name of the exception */
 		private final String mJavaTypeName;
 
+		/** the name of the selection enum */
+		private final String mJavaSelectionName;
+
 		/** Java template name of the exception */
 		private final String mJavaTemplateName;
 
@@ -62,6 +65,7 @@ public final class SignatureGenerator {
 
 		public SignatureException(final String paramType, final String paramTemplate, final String displayName) {
 			mJavaTypeName = paramType;
+			mJavaSelectionName = FieldSubReference.getJavaGetterName( paramType );//paramType.replace('.', '_');
 			mJavaTemplateName = paramTemplate;
 			mDisplayName = displayName;
 		}
@@ -534,7 +538,7 @@ public final class SignatureGenerator {
 			source.append("\t\tpublic enum exception_selection_type {");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
-				source.append(MessageFormat.format(" ALT_{0},", exception.mJavaTypeName));
+				source.append(MessageFormat.format(" ALT_{0},", exception.mJavaSelectionName));
 			}
 			source.append(" UNBOUND_VALUE };\n");
 
@@ -556,7 +560,7 @@ public final class SignatureGenerator {
 			source.append("\t\t\tswitch (otherValue.exception_selection){\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
-				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\t\tfield = new {0}(({0})otherValue.field);\n", exception.mJavaTypeName));
 				source.append("\t\t\t\tbreak;\n");
 			}
@@ -578,12 +582,12 @@ public final class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 				source.append(MessageFormat.format("\t\tpublic {0}_exception( final {1} otherValue) '{'\n", def.genName, exception.mJavaTypeName));
 				source.append(MessageFormat.format("\t\t\tfield = new {0}(otherValue);\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\t\texception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\texception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaSelectionName));
 				source.append("\t\t}\n");
 
 				source.append(MessageFormat.format("\t\tpublic {0}_exception( final {1}_template otherValue) '{'\n", def.genName, exception.mJavaTypeName));
 				source.append(MessageFormat.format("\t\t\tfield = new {0}(otherValue.valueof());\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\t\texception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\texception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaSelectionName));
 				source.append("\t\t}\n");
 			}
 
@@ -611,18 +615,18 @@ public final class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("\t\t//originally {0}_field\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\tpublic {0} get_field_{0}() '{'\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\t\tif (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\tpublic {0} get_field_{1}() '{'\n", exception.mJavaTypeName, exception.mJavaSelectionName));
+				source.append(MessageFormat.format("\t\t\tif (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaSelectionName));
 				source.append("\t\t\t\tclean_up();\n");
 				source.append(MessageFormat.format("\t\t\t\tfield = new {0}();\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\t\t\texception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\texception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaSelectionName));
 				source.append("\t\t\t}\n");
 				source.append(MessageFormat.format("\t\t\treturn ({0})field;\n", exception.mJavaTypeName));
 				source.append("\t\t}\n");
 
 				source.append(MessageFormat.format("\t\t//originally const {0}_field\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\tpublic {0} constGet_field_{0}() '{'\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\t\tif (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\tpublic {0} constGet_field_{1}() '{'\n", exception.mJavaTypeName, exception.mJavaSelectionName));
+				source.append(MessageFormat.format("\t\t\tif (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Referencing to non-selected type integer in an exception of signature {0}.\");\n", def.displayName));
 				source.append("\t\t\t}\n");
 				source.append(MessageFormat.format("\t\t\treturn ({0})field;\n", exception.mJavaTypeName));
@@ -638,7 +642,7 @@ public final class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\t\ttext_buf.push_int({0});\n", i));
 				source.append("\t\t\t\tfield.encode_text(text_buf);\n");
 				source.append("\t\t\t\tbreak;\n");
@@ -655,7 +659,7 @@ public final class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("\t\t\tcase {0}:\n", i));
-				source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_text(text_buf);\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_text(text_buf);\n", exception.mJavaSelectionName));
 				source.append("\t\t\t\tbreak;\n");
 			}
 			source.append("\t\t\tdefault:\n");
@@ -672,7 +676,7 @@ public final class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
 				source.append("\t\t\t\tfield.log();\n");
 				source.append("\t\t\t\tbreak;\n");
@@ -694,12 +698,12 @@ public final class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("\t\tpublic {0}_exception_template(final {1} init_template) '{'\n", def.genName, exception.mJavaTemplateName));
-				source.append(MessageFormat.format("\t\t\texception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\texception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\tfield = new {0}(init_template);\n", exception.mJavaTemplateName));
 				source.append("\t\t}\n");
 
 				source.append(MessageFormat.format("\t\tpublic {0}_exception_template(final {1} init_template, final Value_Redirect_Interface value_redirect) '{'\n", def.genName, exception.mJavaTemplateName));
-				source.append(MessageFormat.format("\t\t\texception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\texception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\tfield = new {0}(init_template);\n", exception.mJavaTemplateName));
 				source.append("\t\t\tredirection_field = value_redirect;\n");
 				source.append("\t\t}\n\n");
@@ -725,8 +729,8 @@ public final class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("\t\t\t\treturn (({0}) field).match(other_value.get_field_{1}(), legacy);\n", exception.mJavaTemplateName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
+				source.append(MessageFormat.format("\t\t\t\treturn (({0}) field).match(other_value.get_field_{1}(), legacy);\n", exception.mJavaTemplateName, exception.mJavaSelectionName));
 			}
 			source.append("\t\t\tdefault:\n");
 			source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Internal error: Invalid selector when matching an exception of signature {0}.\");\n", def.displayName));
@@ -752,9 +756,9 @@ public final class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\t\t\tTTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
-				source.append(MessageFormat.format("\t\t\t\t\tfield.log_match(match_value.constGet_field_{0}(), legacy);\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\t\tfield.log_match(match_value.constGet_field_{0}(), legacy);\n", exception.mJavaSelectionName));
 				source.append("\t\t\t\t\tbreak;\n");
 			}
 			source.append("\t\t\t\tdefault:\n");
@@ -768,7 +772,7 @@ public final class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\t\t\tTTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
 				source.append("\t\t\t\t\tfield.log();\n");
 				source.append("\t\t\t\t\tbreak;\n");
@@ -791,9 +795,9 @@ public final class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
 				source.append("\t\t\t\t\tif (redirection_field != null) {\n");
-				source.append(MessageFormat.format("\t\t\t\t\t\tredirection_field.set_values(source_value.constGet_field_{0}());\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\t\t\t\tredirection_field.set_values(source_value.constGet_field_{0}());\n", exception.mJavaSelectionName));
 				source.append("\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\treturn;\n");
 			}
@@ -808,7 +812,7 @@ public final class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", exception.mJavaSelectionName));
 				source.append(MessageFormat.format("\t\t\t\treturn (({0}) field).get_selection() == template_sel.ANY_OR_OMIT;\n", exception.mJavaTemplateName));
 			}
 			source.append("\t\t\tdefault:\n");
