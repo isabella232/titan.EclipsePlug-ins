@@ -133,9 +133,9 @@ public final class Referenced_ActualParameter extends ActualParameter {
 			boolean needsConversion = false;
 			IType formalParType = null;
 			IType actualParType = null;
+			boolean isTemplateParamater = false;
 			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER
 					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT) {
-				boolean isTemplateParamater = false;
 				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT ||
 						formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT) {
 					isTemplateParamater = true;
@@ -173,13 +173,13 @@ public final class Referenced_ActualParameter extends ActualParameter {
 
 			if (needsConversion) {
 				final String tempId2 = aData.getTemporaryVariableName();
-				final String formalParTypeName = formalParType.getGenNameValue(aData, expression.preamble);
+				final String formalParTypeName = isTemplateParamater ? formalParType.getGenNameTemplate(aData, expression.preamble): formalParType.getGenNameValue(aData, expression.preamble);
 				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_VAL_OUT) {
 					final String finalExpression = MessageFormat.format("final {0} {1} = new {0}();\n", formalParTypeName, tempId2);
 					expression.preamble.append(finalExpression);
 				} else {
 					final ExpressionStruct preCallConversionExpression = new ExpressionStruct();
-					final String convertedExpression = formalParType.generateConversion(aData, actualParType, expressionExpression.toString(), true, preCallConversionExpression);
+					final String convertedExpression = formalParType.generateConversion(aData, actualParType, expressionExpression.toString(), !isTemplateParamater, preCallConversionExpression);
 					final String finalExpression = MessageFormat.format("final {0} {1} = {2};\n", formalParTypeName, tempId2, convertedExpression.toString());
 					//TODO copy might be needed here
 					if(preCallConversionExpression.preamble.length() > 0) {
@@ -193,7 +193,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 				expression.expression.append(tempId2);
 
 				final ExpressionStruct postCallConversionExpression = new ExpressionStruct();
-				final String convertedExpression = actualParType.generateConversion(aData, formalParType, tempId2, true, postCallConversionExpression);
+				final String convertedExpression = actualParType.generateConversion(aData, formalParType, tempId2, !isTemplateParamater, postCallConversionExpression);
 				if(postCallConversionExpression.preamble.length() > 0) {
 					expression.postamble.append(postCallConversionExpression.preamble);
 				}
