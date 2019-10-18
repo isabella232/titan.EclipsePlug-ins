@@ -624,7 +624,7 @@ public final class Referenced_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+		if (lengthRestriction != null || isIfpresent || get_needs_conversion()) {
 			return false;
 		}
 
@@ -680,8 +680,6 @@ public final class Referenced_Template extends TTCN3Template {
 
 		result.append(expression.expression);
 
-		//TODO handle cast needed
-
 		return result;
 	}
 
@@ -694,8 +692,25 @@ public final class Referenced_Template extends TTCN3Template {
 				expression.expression.append(getSingleExpression(aData, true));
 				return;
 			}
-			//TODO handle the needs conversion case
-			reference.generateCode(aData, expression);
+
+			if (get_needs_conversion()) {
+				final ExpressionStruct tempExpr = new ExpressionStruct();
+				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final ExpressionStruct refExpr = new ExpressionStruct();
+				reference.generateConstRef(aData, refExpr);
+				if (refExpr.preamble.length() > 0) {
+					expression.preamble.append(refExpr.preamble);
+				}
+
+				final String tempId2 = currentType.generateConversion(aData, referencedFieldType, refExpr.expression.toString(), false, tempExpr);
+				tempExpr.openMergeExpression(expression.preamble);
+				expression.expression.append(tempId2);
+			} else {
+				reference.generateCode(aData, expression);
+			}
 			return;
 		}
 
