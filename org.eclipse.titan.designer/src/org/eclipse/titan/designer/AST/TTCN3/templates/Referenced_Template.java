@@ -454,9 +454,24 @@ public final class Referenced_Template extends TTCN3Template {
 				setIsErroneous(true);
 				break;
 			default:
-				getLocation().reportSemanticError(MessageFormat.format(TYPEMISSMATCH2, type.getTypename(), governor.getTypename()));
+				if (info.getSubtypeError() == null) {
+					final String errorString = info.getErrorStringString();
+					if (errorString == null) {
+						getLocation().reportSemanticError(MessageFormat.format(TYPEMISSMATCH2, type.getTypename(), governor.getTypename()));
+					} else {
+						getLocation().reportSemanticError(errorString);
+					}
+				} else {
+					// this is ok.
+					getLocation().reportSemanticError(info.getSubtypeError());
+				}
+
 				setIsErroneous(true);
 				break;
+			}
+		} else {
+			if (info.getNeedsConversion()) {
+				set_needs_conversion();
 			}
 		}
 

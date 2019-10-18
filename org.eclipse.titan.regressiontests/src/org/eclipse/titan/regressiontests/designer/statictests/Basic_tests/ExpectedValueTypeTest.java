@@ -44,11 +44,11 @@ public class ExpectedValueTypeTest {
 		lineNum += 4;
 		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 9;
-		markersToCheck.add(new MarkerToCheck("Type mismatch: a value or template of type `@ExpectedValueTypeTest.Rec' was expected instead of `integer'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Type mismatch: `@ExpectedValueTypeTest.Rec' and `integer' are not compatible",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
 		int i = 0;
 		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Type mismatch: a value or template of type `charstring' was expected instead of `integer'", lineNum++, IMarker.SEVERITY_ERROR));
+			markersToCheck.add(new MarkerToCheck("Type mismatch: `charstring' and `integer' are not compatible", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 4;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template parameter `pl_rec'",  lineNum, IMarker.SEVERITY_ERROR));
