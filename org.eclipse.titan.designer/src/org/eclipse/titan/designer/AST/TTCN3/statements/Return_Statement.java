@@ -161,12 +161,7 @@ public final class Return_Statement extends Statement {
 				final Type returnType1 = ((Def_Function) definition).getType(timestamp);
 				template.setMyGovernor(returnType1);
 				final ITTCN3Template temporalTemplate1 = returnType1.checkThisTemplateRef(timestamp, template,Expected_Value_type.EXPECTED_TEMPLATE,null);
-				temporalTemplate1.checkThisTemplateGeneric(timestamp, returnType1, true, /* isModified */
-						true, /* allowOmit */
-						true, /* allowAnyOrOmit */
-						true, /* subCheck */
-						true, /* implicitOmit */
-						null);
+				temporalTemplate1.checkThisTemplateGeneric(timestamp, returnType1, true, true, true, true, true, null);
 				genRestrictionCheck = TemplateRestriction.check(timestamp, definition, temporalTemplate1, null);
 			}
 			break;
