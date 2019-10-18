@@ -393,43 +393,86 @@ public class MainController {
 	private static ComponentStruct system;
 
 	public static void main(final String[] args) {
-		if (args.length > 1) {
-			System.out.println("For now only 1 arguments can be passed, the config file.");
+		if (args.length != 1) {
+			//System.out.println("For now only 1 arguments can be passed, the config file.");
+			printUsage();
+			return;
 		}
 
 		printWelcome();
 
-		if (args.length == 1) {
-			mc_state = mcStateEnum.MC_INACTIVE;
-			final File config_file = new File(args[0]);
-			System.out.println("Using configuration file: "+config_file.getName());
-			cfgAnalyzer.set(new CfgAnalyzer());
-			final boolean config_file_failure = cfgAnalyzer.get().parse(config_file);
-			try {
-				config_str.set(new Scanner(config_file).useDelimiter("\\Z").next());
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		mc_state = mcStateEnum.MC_INACTIVE;
+		final File config_file = new File(args[0]);
+		System.out.println("Using configuration file: "+config_file.getName());
 
-			final MCSectionHandler mcSectionHandler = cfgAnalyzer.get().getMcSectionHandler();
-			executeItems = cfgAnalyzer.get().getExecuteSectionHandler().getExecuteitems();
-			if (config_file_failure) {
-				System.out.println("Error was found in the configuration file.");
-			} else {
-				n_hosts.set(mcSectionHandler.getNumHCsText());
+		cfgAnalyzer.set(new CfgAnalyzer());
 
-				try {
-					serverSocketChannel = ServerSocketChannel.open();
-					serverSocketChannel.socket().bind(new InetSocketAddress(mcSectionHandler.getLocalAddress(),
-							mcSectionHandler.getTcpPort().intValue()));
-					// FIXME BigInteger to int
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		//TODO: perhaps TtcnError for not existing file
+		final boolean config_file_failure = cfgAnalyzer.get().parse(config_file); 
+		if (config_file_failure) {
+			System.out.println("Error was found in the configuration file. Exiting");
+			//cleanup?
+			return;
+		}
 
-			}
+		//This block is necessary?
+		try {
+			config_str.set(new Scanner(config_file).useDelimiter("\\Z").next());
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		final MCSectionHandler mcSectionHandler = cfgAnalyzer.get().getMcSectionHandler();
+		//Check mcSectionHandler and executeItems
+		//Temporary solution because only the batch mode is supported
+		//Requirements:
+		//1. LocalAddress is a valid ip address
+		//2. TcpPort ?
+		//3. NumHCs:= 1 <<<<Temporarily
+		//4. [EXECUTE] is not empty
+		boolean errorFound = false;
+		String localAddress = mcSectionHandler.getLocalAddress();
+		if ( localAddress == null || localAddress.equals("")) {
+			errorFound = true;
+			System.out.println("LocalAddress not found in section [MAIN_CONTROLLER]");
+		}
+
+		BigInteger TCPPort = mcSectionHandler.getTcpPort();
+
+		if ( TCPPort == null) {
+			errorFound = true;
+			System.out.println("TCPPort not found in section [MAIN_CONTROLLER]");
+		} 
+
+		n_hosts.set(mcSectionHandler.getNumHCsText());
+		if ( n_hosts.get() == null ) {
+			errorFound = true;
+			System.out.println("NumHCs not found in section [MAIN_CONTROLLER]");
+		} else if ( n_hosts.get().intValue() != 1 ){
+			errorFound = true;
+			System.out.println("NumHCs shall be set for 1 in section [MAIN_CONTROLLER]");
+		}
+
+		executeItems = cfgAnalyzer.get().getExecuteSectionHandler().getExecuteitems();
+		if (executeItems.isEmpty()) {
+			errorFound = true;
+			System.out.println("No item in in section [EXECUTE]");
+		}
+
+		if (errorFound) {
+			System.out.println("Error was found in the configuration file. Exits. Bye");
+			return;
+		}
+
+		try {
+			serverSocketChannel = ServerSocketChannel.open();
+			serverSocketChannel.socket().bind(new InetSocketAddress(mcSectionHandler.getLocalAddress(),
+					mcSectionHandler.getTcpPort().intValue()));
+			// FIXME BigInteger to int
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		if (n_hosts.get().compareTo(BigInteger.ZERO) <= 0) {
@@ -650,7 +693,27 @@ public class MainController {
 				"\n", TTCN_Runtime.PRODUCT_NUMBER);
 	}
 
+	//original: Cli::printUsage
+	//  This is the titan.core solution:
+	//	public static void printUsage() {
+	//		System.err.printf(
+	//				"TTCN-3 Test Executor - Main Controller 2\n"+
+	//			    "Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
+	//			    "usage: mctr_cli [configuration_file]\n" +
+	//			    "where: the optional 'configuration_file' parameter specifies the name "+
+	//			    "and\nlocation of the main controller configuration file"+
+	//			    "\n");
+	//	}
 
+	//This is the temporal solution:
+	public static void printUsage() {
+		System.err.printf(
+			"TTCN-3 Test Executor - Main Controller 2\n"+
+			"Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
+			"usage: mctr_cli configuration_file\n" +
+			"where: the 'configuration_file' parameter specifies the name and \n"+
+			"location of the main controller configuration file\n");
+	}
 	private static void handle_hc_data(final Host hc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		boolean error_flag = false;
