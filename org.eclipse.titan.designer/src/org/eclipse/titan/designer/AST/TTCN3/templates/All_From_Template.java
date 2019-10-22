@@ -551,6 +551,9 @@ public class All_From_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		generateCodeInitAllFrom(aData, source, name);

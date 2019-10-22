@@ -141,6 +141,9 @@ public final class Any_Value_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );

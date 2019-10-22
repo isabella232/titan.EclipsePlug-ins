@@ -742,6 +742,9 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (realTemplate != null && realTemplate != this) {

@@ -533,6 +533,9 @@ public final class Indexed_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (asValue != null) {

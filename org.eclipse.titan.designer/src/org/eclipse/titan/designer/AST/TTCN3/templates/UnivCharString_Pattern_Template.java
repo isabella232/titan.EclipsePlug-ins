@@ -167,6 +167,9 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		final StringBuilder preamble = new StringBuilder();
