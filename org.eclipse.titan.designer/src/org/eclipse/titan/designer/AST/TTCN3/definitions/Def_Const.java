@@ -488,6 +488,7 @@ public final class Def_Const extends Definition {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, temp_sb);
+			arrayType.generateCodeTemplate(aData, temp_sb);
 		}
 
 		//TODO const with references to other const does not need to copy
@@ -520,6 +521,7 @@ public final class Def_Const extends Definition {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, sb);
+			arrayType.generateCodeTemplate(aData, sb);
 		}
 
 		if (last.canGenerateSingleExpression() ) {
