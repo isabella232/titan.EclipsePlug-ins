@@ -1606,7 +1606,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
-		final String name = getGenNameValue(aData, expression.preamble);
+		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, forValue, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
@@ -1616,14 +1616,16 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		if (!aData.hasTypeConversion(ConversionFunctionName)) {
 			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append(MessageFormat.format("\t\tif(!from.is_bound() || from.size_of().get_int() != {0}) '{'\n", getDimension().getSize()));
 			conversionFunctionBody.append("\t\t\treturn false;\n");
 			conversionFunctionBody.append("\t\t}\n\n");
 
 			for (int i = 0; i < getDimension().getSize(); i++) {
 				final String tempId2 = aData.getTemporaryVariableName();
-				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_at({2});\n", fromOfType.getGenNameValue(aData, conversionFunctionBody), tempId2, i));
+				final String fromOfTypeName = forValue ? fromOfType.getGenNameValue(aData, conversionFunctionBody): fromOfType.getGenNameTemplate(aData, conversionFunctionBody);
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_at({2});\n", fromOfTypeName, tempId2, i));
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
@@ -1646,7 +1648,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
-		final String name = getGenNameValue(aData, expression.preamble);
+		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, forValue, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
@@ -1658,11 +1660,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			final long from_offset = fromType.getDimension().getOffset();
 			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 
 			for (int i = 0; i < getDimension().getSize(); i++) {
 				final String tempId2 = aData.getTemporaryVariableName();
-				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_at({2});\n", fromOfType.getGenNameValue(aData, conversionFunctionBody), tempId2, from_offset + i));
+				final String fromOfTypeName = forValue ? fromOfType.getGenNameValue(aData, conversionFunctionBody): fromOfType.getGenNameTemplate(aData, conversionFunctionBody);
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_at({2});\n", fromOfTypeName, tempId2, from_offset + i));
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
@@ -1685,7 +1689,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
-		final String name = getGenNameValue(aData, expression.preamble);
+		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, forValue, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
@@ -1696,7 +1700,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			final int fromComponentCount = fromType.getNofComponents();
 			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append(MessageFormat.format("\t\tint index = {0};\n", to_offset));
 
 			for (int i = 0; i < fromComponentCount; i++) {
@@ -1705,7 +1710,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final String tempId2 = aData.getTemporaryVariableName();
-				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}(){3};\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() ), fromComp.isOptional()? ".constGet()" : "" ));
+				final String fromFieldTypeName = forValue ? fromFieldType.getGenNameValue(aData, conversionFunctionBody): fromFieldType.getGenNameTemplate(aData, conversionFunctionBody);
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}(){3};\n", fromFieldTypeName, tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() ), fromComp.isOptional()? ".constGet()" : "" ));
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
@@ -1729,7 +1735,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		//heavy conversion is needed
 		final String tempId = aData.getTemporaryVariableName();
 
-		final String name = getGenNameValue(aData, expression.preamble);
+		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
 		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, forValue, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
@@ -1740,7 +1746,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			final int fromComponentCount = fromType.getNofComponents();
 			final long to_offset = getDimension().getOffset();
 			final StringBuilder conversionFunctionBody = new StringBuilder();
-			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromType.getGenNameValue( aData, conversionFunctionBody )));
+			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
+			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append(MessageFormat.format("\t\tint index = {0};\n", to_offset));
 
 			for (int i = 0; i < fromComponentCount; i++) {
@@ -1749,7 +1756,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final String tempId2 = aData.getTemporaryVariableName();
-				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldType.getGenNameValue(aData, conversionFunctionBody), tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() )));
+				final String fromFieldTypeName = forValue ? fromFieldType.getGenNameValue(aData, conversionFunctionBody): fromFieldType.getGenNameTemplate(aData, conversionFunctionBody);
+				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldTypeName, tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName() )));
 				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
