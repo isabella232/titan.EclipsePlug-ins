@@ -1142,7 +1142,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final String tempId = aData.getTemporaryVariableName();
 		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
-		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, forValue, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
 		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
 		expression.preamble.append("}\n");

@@ -1132,7 +1132,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
-		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, forValue, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
 		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
 		expression.preamble.append("}\n");
@@ -1172,7 +1172,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 		final String name = forValue ? getGenNameValue(aData, expression.preamble) : getGenNameTemplate(aData, expression.preamble);
 		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", name, tempId));
-		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, expression.preamble);
+		final String ConversionFunctionName = Type.getConversionFunction(aData, fromType, this, forValue, expression.preamble);
 		expression.preamble.append(MessageFormat.format("if(!{0}({1}, {2})) '{'\n", ConversionFunctionName, tempId, fromName));
 		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Values or templates of type `{0}'' and `{1}'' are not compatible at run-time\");\n", getTypename(), fromType.getTypename()));
 		expression.preamble.append("}\n");
