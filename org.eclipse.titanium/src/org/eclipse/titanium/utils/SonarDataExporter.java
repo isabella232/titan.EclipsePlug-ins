@@ -14,8 +14,6 @@ import java.net.URI;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-import javax.xml.bind.JAXBException;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.URIUtil;
@@ -91,7 +89,7 @@ public class SonarDataExporter {
 
 		try {
 			exporter.export(MetricData.measure(project), file);
-		} catch (JAXBException e) {
+		} catch (Exception e) {
 			new ConsoleErrorHandler().reportException("Error while exporting the project metrics", e);
 		}
 	}
