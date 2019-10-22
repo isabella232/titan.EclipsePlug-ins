@@ -799,8 +799,25 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
-		// TODO check and handle conversion needs
-		reference.generateConstRef(aData, expression);
+		if (get_needs_conversion()) {
+			final ExpressionStruct tempExpr = new ExpressionStruct();
+			IType governor = myGovernor == null ? getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE): myGovernor;
+			IType currentType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+			final ExpressionStruct refExpr = new ExpressionStruct();
+			reference.generateConstRef(aData, refExpr);
+			if (refExpr.preamble.length() > 0) {
+				expression.preamble.append(refExpr.preamble);
+			}
+
+			final String tempId2 = currentType.generateConversion(aData, referencedFieldType, refExpr.expression.toString(), true, tempExpr);
+			tempExpr.openMergeExpression(expression.preamble);
+			expression.expression.append(tempId2);
+		} else {
+			reference.generateConstRef(aData, expression);
+		}
 	}
 
 	@Override

@@ -248,37 +248,9 @@ public final class Return_Statement extends Statement {
 
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			final IValue value = template.getValue();
-			final IValue realValue = value.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
-
-			boolean needsConversion = false;
-			IType fromType = null;
-			IType toType = null;
-			if (realValue instanceof Referenced_Value) {
-				Reference reference = ((Referenced_Value)realValue).getReference();
-				Assignment ass = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-				IType assType = ass.getType(CompilationTimeStamp.getBaseTimestamp());
-				fromType = assType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_TEMPLATE, false);
-				toType = ((Def_Function)definition).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				if (!toType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), fromType)) {
-					needsConversion = true;
-				}
-				if(reference.refersToStringElement()) {
-					needsConversion = true;
-				}
-			} else {
-				fromType = value.getMyGovernor();
-				toType = ((Def_Function)definition).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				if (!toType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), fromType)) {
-					needsConversion = true;
-				}
-			}
 
 			final ExpressionStruct valueExpression = new ExpressionStruct();
 			value.generateCodeExpressionMandatory(aData, valueExpression, true);
-
-			if (needsConversion) {
-				valueExpression.expression = new StringBuilder(toType.generateConversion(aData, fromType, valueExpression.expression.toString(), true, valueExpression));
-			}
 
 			expression.preamble.append(valueExpression.preamble);
 			expression.expression.append(valueExpression.expression);

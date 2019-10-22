@@ -416,6 +416,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		if (specificValue != null) {
 			specificValue.setMyGovernor(type);
 			final IValue temporalValue = type.checkThisValueRef(timestamp, specificValue);
+			temporalValue.setMyGovernor(specificValue.getMyGovernor());
 			selfReference = type.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, isModified,
 					allowOmit, true, implicitOmit, false));
 		}

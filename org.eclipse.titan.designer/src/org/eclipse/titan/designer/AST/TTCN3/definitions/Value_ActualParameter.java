@@ -161,37 +161,6 @@ public final class Value_ActualParameter extends ActualParameter {
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final FormalParameter formalParameter) {
 		//TODO not complete implementation pl. copy_needed
 		if (value != null ) {
-			boolean needsConversion = false;
-			IType fromType = null;
-			IType toType = null;
-			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT
-					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER) {
-				final IValue realValue = value.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
-				if (realValue instanceof Referenced_Value) {
-					Reference reference = ((Referenced_Value)realValue).getReference();
-					Assignment ass = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-					IType assType = ass.getType(CompilationTimeStamp.getBaseTimestamp());
-					fromType = assType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_TEMPLATE, false);
-					toType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-					if (!fromType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), toType)) {
-						needsConversion = true;
-					}
-					if(reference.refersToStringElement()) {
-						needsConversion = true;
-					}
-				} else {
-					fromType = value.getMyGovernor();
-					toType = formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-					if (!fromType.isIdentical(CompilationTimeStamp.getBaseTimestamp(), toType)) {
-						needsConversion = true;
-					}
-					if (value.getValuetype() == Value_type.EXPRESSION_VALUE) {
-						//TODO this could be done reduced by knowing the return type of the value.
-						needsConversion = true;
-					}
-				}
-			}
-
 			final parameterEvaluationType eval = formalParameter == null ? parameterEvaluationType.NORMAL_EVAL : formalParameter.getEvaluationType();
 			if (eval == parameterEvaluationType.NORMAL_EVAL) {
 				StringBuilder expressionExpression = new StringBuilder();
@@ -211,10 +180,6 @@ public final class Value_ActualParameter extends ActualParameter {
 					expression.preamble.append(MessageFormat.format(" {0}({1})", tempId, valueExpression.expression));
 					expression.preamble.append(valueExpression.postamble);
 					expressionExpression.append(tempId);
-				}
-
-				if (needsConversion) {
-					expressionExpression = new StringBuilder(toType.generateConversion(aData, fromType, expressionExpression.toString(), true, expression));
 				}
 
 				//TODO copy might be needed here
