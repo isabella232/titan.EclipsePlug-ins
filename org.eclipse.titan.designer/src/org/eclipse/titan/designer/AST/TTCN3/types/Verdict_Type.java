@@ -173,7 +173,7 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCodingAttributes(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		checkJson(timestamp); 
 		//TODO add check for xer encoding
 	}
@@ -289,7 +289,7 @@ public final class Verdict_Type extends Type {
 	}
 
 	@Override
-	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );

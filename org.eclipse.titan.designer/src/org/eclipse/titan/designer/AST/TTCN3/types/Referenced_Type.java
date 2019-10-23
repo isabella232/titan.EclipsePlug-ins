@@ -837,7 +837,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 	
 	@Override
-	public void checkJson(CompilationTimeStamp timestamp) {
+	public void checkJson(final CompilationTimeStamp timestamp) {
 		if (jsonAttribute == null && !hasEncodeAttribute("JSON")) {
 			return;
 		}

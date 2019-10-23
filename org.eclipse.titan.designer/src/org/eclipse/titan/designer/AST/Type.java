@@ -2909,7 +2909,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				final StringBuilder enum_texts_value = new StringBuilder();
 				enum_texts_value.append(MessageFormat.format("final JsonEnumText[] {0} = '{", enum_texts_name));
 				for (int i = 0; i < jsonAttribute.enum_texts.size(); i++) {
-					JsonEnumText element = jsonAttribute.enum_texts.get(i);
+					final JsonEnumText element = jsonAttribute.enum_texts.get(i);
 					if (i == 0) {
 						enum_texts_value.append(MessageFormat.format(("'{{0}, \"{1}\"'}"),element.index, element.to));
 					}
@@ -3193,9 +3193,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			// ASN.1 types automatically support JSON encoding
 			return true;
 		}
-		WithAttributesPath attributePath = getAttributePath();
+
+		final WithAttributesPath attributePath = getAttributePath();
 		if (attributePath != null) {
-			CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp() ;
+			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp() ;
 			final List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
 			for (int i = 0; i < realAttributes.size(); i++) {
 				final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
@@ -3241,7 +3242,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					final Qualifiers qualifiers = singleWithAttribute.getQualifiers();
 					if (qualifiers != null) {
 						for (int j = 0; j < qualifiers.getNofQualifiers(); j++) {
-							Qualifier qualifier = qualifiers.getQualifierByIndex(j);
+							final Qualifier qualifier = qualifiers.getQualifierByIndex(j);
 							final List<ISubReference> fieldsOrArrays = new ArrayList<ISubReference>();
 							for (int k = 0; k < qualifier.getNofSubReferences(); k++) {
 								fieldsOrArrays.add(qualifier.getSubReferenceByIndex(k));

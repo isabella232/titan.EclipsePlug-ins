@@ -892,7 +892,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
-	public String getGenNameJsonDescriptor(JavaGenData aData, StringBuilder source) {
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );
