@@ -4441,7 +4441,7 @@ public final class PortGenerator {
 
 			builder.append((int)name.charAt(i));
 		}
-		builder.append("}");
+		builder.append('}');
 		return builder.toString();
 	}
 }

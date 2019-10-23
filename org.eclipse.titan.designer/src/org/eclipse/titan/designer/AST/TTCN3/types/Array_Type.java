@@ -1365,7 +1365,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("for (int i = 0; i < length; ++i) {\n");
 		source.append(MessageFormat.format("value_list[i] = new {0}_template();\n", ownName));
 		source.append("}\n");
-		source.append("\n");
+		source.append('\n');
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append("throw new TtcnError(\"Internal error: Setting an invalid type for an array template.\");\n");
