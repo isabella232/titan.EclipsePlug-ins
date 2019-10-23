@@ -354,9 +354,9 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 		if (md5 != null) {
 			digest = md5.digest();
-			  if (actualTtc3Module != null) {
-				  actualTtc3Module.addMD5Digest(digest);
-			  }
+			if (actualTtc3Module != null) {
+				actualTtc3Module.addMD5Digest(digest);
+			}
 		}
 
 		try {

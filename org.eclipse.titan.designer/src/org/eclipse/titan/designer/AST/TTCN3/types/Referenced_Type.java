@@ -732,33 +732,33 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 					case '\\':
 					case '\"':
 					case 'n':
-		            case 't':
-		            case 'r':
-		            case 'f':
-		            case 'b':
-		            case '/':
+					case 't':
+					case 'r':
+					case 'f':
+					case 'b':
+					case '/':
 						break;
-		            case 'u':
-		            {
-		            	if (i + 4 >= length) {
-		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
-		            		return;
-		            	}
-		            	if (defaultValue.charAt(i+1) != '0' || defaultValue.charAt(i+2) != '0' ||
-		            			defaultValue.charAt(i+3) < '0' || defaultValue.charAt(i+3) > '7') {
-		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
-		            		return;
-		            	}
-		            	final char nextChar = defaultValue.charAt(i+4);
-		            	if ((nextChar < '0' || nextChar > '9') &&
-		            			(nextChar < 'a' || nextChar > 'f') &&
-		            			(nextChar < 'A' || nextChar > 'F')) {
-		            		getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
-		            		return;
-		            	}
-		            i += 4;
-		            break;
-		            }
+					case 'u':
+					{
+						if (i + 4 >= length) {
+							getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+							return;
+						}
+						if (defaultValue.charAt(i+1) != '0' || defaultValue.charAt(i+2) != '0' ||
+								defaultValue.charAt(i+3) < '0' || defaultValue.charAt(i+3) > '7') {
+							getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+							return;
+						}
+						final char nextChar = defaultValue.charAt(i+4);
+						if ((nextChar < '0' || nextChar > '9') &&
+								(nextChar < 'a' || nextChar > 'f') &&
+								(nextChar < 'A' || nextChar > 'F')) {
+							getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
+							return;
+						}
+						i += 4;
+						break;
+					}
 					default:
 						getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 						return;

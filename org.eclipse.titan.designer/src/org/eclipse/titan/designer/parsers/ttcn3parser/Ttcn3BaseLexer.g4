@@ -468,7 +468,7 @@ HSTRING:
 							if (contains_ws) {
 								warning("Bitstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
 							}
-	        				setType( contains_match ? BSTRINGMATCH : BSTRING );
+						setType( contains_match ? BSTRINGMATCH : BSTRING );
 						} else {
 							error("Bitstring value contains invalid character");
 							setType( BHOSTRING_WRONG );
@@ -489,7 +489,7 @@ HSTRING:
 							if (contains_ws) {
 								warning("Octetstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
 							}
-		       				setType( contains_match ? OSTRINGMATCH : OSTRING );
+						setType( contains_match ? OSTRINGMATCH : OSTRING );
 						} else if (contains_match) {
 							error("Octetstring match contains half octet(s)");
 							setType( BHOSTRING_WRONG );

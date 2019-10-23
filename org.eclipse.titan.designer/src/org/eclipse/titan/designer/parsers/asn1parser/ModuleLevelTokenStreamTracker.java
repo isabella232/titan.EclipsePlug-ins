@@ -52,13 +52,13 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 
 		do {
 			t = getTokenSource().nextToken();
-	        if ( t instanceof WritableToken ) {
-	        	((WritableToken)t).setTokenIndex(tokens.size());
-	        }
- 			first = t;
+			if ( t instanceof WritableToken ) {
+				((WritableToken)t).setTokenIndex(tokens.size());
+			}
+			first = t;
 			if (t.getType() == Token.EOF) {
 				fetchedEOF = true;
-		        tokens.add(new TokenWithIndexAndSubTokens(t));
+				tokens.add(new TokenWithIndexAndSubTokens(t));
 				return ++i;
 			} else if (discardMask.contains(Integer.valueOf(t.getType()))) {
 				// discard this Token

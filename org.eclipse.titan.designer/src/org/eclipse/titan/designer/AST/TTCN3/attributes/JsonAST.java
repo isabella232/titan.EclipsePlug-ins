@@ -92,8 +92,8 @@ public class JsonAST {
 
 	public boolean empty() {
 		return omit_as_null == false && alias == null && as_value == false &&
-			   default_value == null && metainfo_unbound == false && as_number == false &&
-			   /*tag_list == null &&*/ as_map == false && enum_texts.size() == 0;
+				default_value == null && metainfo_unbound == false && as_number == false &&
+				/*tag_list == null &&*/ as_map == false && enum_texts.size() == 0;
 
 	}
 }

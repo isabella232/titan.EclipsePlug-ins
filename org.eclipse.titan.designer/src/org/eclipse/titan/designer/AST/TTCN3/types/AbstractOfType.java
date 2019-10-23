@@ -517,28 +517,28 @@ public abstract class AbstractOfType extends ASN1Type {
 		//FIXME: check tag_list
 
 		if (jsonAttribute.as_map) {
-	        final IType ofTypeLast = ofType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-	        if ((ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type) ofTypeLast).getNofComponents() == 2 )) {
-	        	final Type keyType = ((TTCN3_Sequence_Type) ofTypeLast).getComponentByIndex(0).getType();
-	        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
-	        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
-	        	}
+			final IType ofTypeLast = ofType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			if ((ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type) ofTypeLast).getNofComponents() == 2 )) {
+				final Type keyType = ((TTCN3_Sequence_Type) ofTypeLast).getComponentByIndex(0).getType();
+				if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
+					getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
+				}
 
-	        	if (keyType.isOptionalField()) {
-	        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
-	        	}
-	        } else if (ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SET || ((TTCN3_Set_Type) ofTypeLast).getNofComponents() == 2 ) {
-	        	final Type keyType = ((TTCN3_Set_Type) ofTypeLast).getComponentByIndex(0).getType();
-	        	if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
-	        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
-	        	}
+				if (keyType.isOptionalField()) {
+					getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
+				}
+			} else if (ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SET || ((TTCN3_Set_Type) ofTypeLast).getNofComponents() == 2 ) {
+				final Type keyType = ((TTCN3_Set_Type) ofTypeLast).getComponentByIndex(0).getType();
+				if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
+					getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be a universal charstring");
+				}
 
-	        	if (keyType.isOptionalField()) {
-	        		getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
-	        	}
-	        } else {
-	        	getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type to be a record or set with 2 fields");
-	        }
+				if (keyType.isOptionalField()) {
+					getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
+				}
+			} else {
+				getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type to be a record or set with 2 fields");
+			}
 		}
 
 		if (jsonAttribute.enum_texts.size() > 0) {
