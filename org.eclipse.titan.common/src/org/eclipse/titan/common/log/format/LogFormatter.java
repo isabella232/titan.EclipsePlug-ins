@@ -43,9 +43,9 @@ public class LogFormatter {
 		resizeIndentation(DEFAULT_INDENTATION_SIZE);
 	}
 
-	private IProgressMonitor internalMonitor;
-	private FileChannel inChannel;
-	private FileChannel outChannel;
+	private final IProgressMonitor internalMonitor;
+	private final FileChannel inChannel;
+	private final FileChannel outChannel;
 
 	private LastTokenTypes lastToken;
 	private int indentationLevel;

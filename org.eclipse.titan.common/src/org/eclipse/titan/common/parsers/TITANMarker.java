@@ -11,12 +11,12 @@ package org.eclipse.titan.common.parsers;
  * @author Kristof Szabados
  * */
 public class TITANMarker {
-	private String message;
-	private int line = -1;
+	private final String message;
+	private final int line;
 	private int offset = -1;
 	private int endOffset = -1;
 	private int severity;
-	private int priority;
+	private final int priority;
 
 	public TITANMarker(final String message, final int line, final int offset, final int endOffset, final int severity, final int priority) {
 		this.message = message;

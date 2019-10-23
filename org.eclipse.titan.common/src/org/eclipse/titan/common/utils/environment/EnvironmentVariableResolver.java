@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 public class EnvironmentVariableResolver {
 
-	private Pattern pattern;
-	private String variableStart;
-	private String variableEnd;
+	private final Pattern pattern;
+	private final String variableStart;
+	private final String variableEnd;
 
 	private EnvironmentVariableResolver(final Pattern pattern, final String variableStart, final String variableEnd) {
 		this.pattern = pattern;

@@ -48,7 +48,7 @@ import org.eclipse.ui.ide.dialogs.PathVariableSelectionDialog;
  * @author Kristof Szabados
  * */
 public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
-	private int type;
+	private final int type;
 	private String rootPath;
 	private Composite composite;
 

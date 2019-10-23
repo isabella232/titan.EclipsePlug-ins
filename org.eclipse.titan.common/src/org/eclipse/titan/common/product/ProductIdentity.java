@@ -21,7 +21,7 @@ public final class ProductIdentity implements Comparable<ProductIdentity> {
 	private int revisionLetter;
 	private int verificationStep;
 
-	private boolean magicString;
+	private final boolean magicString;
 
 	private ProductIdentity(final String productNumber, final int productNumberSuffix, final int revisionDigit, final int revisionLetter,
 			final int verificationStep) {
