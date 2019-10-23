@@ -643,8 +643,8 @@ public final class SetOf_Type extends AbstractOfType {
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
-				String ownName = getGenNameOwn(aData);
-				String valueName = getGenNameValue(aData, source);
+				final String ownName = getGenNameOwn(aData);
+				final String valueName = getGenNameValue(aData, source);
 				source.append(MessageFormat.format("\t// code for type {0} is not generated, {1} is used instead\n", ownName, valueName));
 				break;
 			}

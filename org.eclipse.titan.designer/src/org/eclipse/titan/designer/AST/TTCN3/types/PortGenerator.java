@@ -4432,7 +4432,7 @@ public final class PortGenerator {
 	}
 
 	private static final String nameToByteArray(final String name) {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("new byte[]{ ");
 		for( int i = 0; i < name.length(); i++) {
 			if (i != 0) {
