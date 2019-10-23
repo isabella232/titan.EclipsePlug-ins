@@ -705,7 +705,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			}
 			break;
 		case TYPE_OCTETSTRING:
-			if (defaultValue.length() % 2 == 1 || !defaultValue.matches("[0-9a-fA-F]+")) {
+			if (defaultValue.length() % 2 != 0 || !defaultValue.matches("[0-9a-fA-F]+")) {
 				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 			}
 			break;
