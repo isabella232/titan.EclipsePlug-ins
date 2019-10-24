@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TITAN_Designer_Properties>
+  <ActiveConfiguration>Default</ActiveConfiguration>
+  <ProjectProperties>
+    <MakefileSettings>
+      <GNUMake>true</GNUMake>
+      <incrementalDependencyRefresh>true</incrementalDependencyRefresh>
+      <targetExecutable>bin/regressionTestSmall</targetExecutable>
+      <omitInValueList>true</omitInValueList>
+    </MakefileSettings>
+    <LocalBuildSettings>
+      <MakefileScript/>
+      <workingDirectory>java_src</workingDirectory>
+    </LocalBuildSettings>
+  </ProjectProperties>
+  <FileProperties>
+    <FileResource>
+      <FilePath>src/TverdictOper.ttcn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+  </FileProperties>
+</TITAN_Designer_Properties>
