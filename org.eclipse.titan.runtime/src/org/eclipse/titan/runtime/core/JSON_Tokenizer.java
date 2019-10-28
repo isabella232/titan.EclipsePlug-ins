@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class JSON_Tokenizer {
 
 	/** JSON token types */
-	private enum json_token_t {
+	public enum json_token_t {
 		JSON_TOKEN_ERROR,         // not actually a token, used when get_next_token() fails
 		JSON_TOKEN_NONE,          // not actually a token, used for initializing
 		JSON_TOKEN_OBJECT_START,  // "{"
