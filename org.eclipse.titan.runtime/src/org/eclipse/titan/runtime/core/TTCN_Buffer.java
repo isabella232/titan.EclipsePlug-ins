@@ -358,6 +358,24 @@ public final class TTCN_Buffer {
 	}
 
 	/**
+	 * Appends char array to the buffer.
+	 *
+	 * @param cstr
+	 *                appends to the buffer
+	 * */
+	public void put_s(final byte[] cstr) {
+		final int length = cstr.length;
+
+		if (length > 0) {
+			increase_size(length);
+			for (int i = 0; i < length; i++) {
+				data_ptr[i + buf_len] =  cstr[i];
+			}
+			buf_len += length;
+		}
+	}
+
+	/**
 	 * Appends the contents of octetstring p_os to the buffer.
 	 *
 	 * @param p_os
