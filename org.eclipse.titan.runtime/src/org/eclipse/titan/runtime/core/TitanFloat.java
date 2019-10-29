@@ -9,7 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Float;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
@@ -1224,5 +1227,91 @@ public class TitanFloat extends Base_Type {
 			return new Module_Param_Unbound();
 		}
 		return new Module_Param_Float(float_value.getValue());
+	}
+
+	private static final String POS_INF_STR = "\"infinity\"";
+	private static final String NEG_INF_STR = "\"-infinity\"";
+	private static final String NAN_STR = "\"not_a_number\"";
+	private static final String POS_INF_STR_DEFAULT = "infinity";
+	private static final String NEG_INF_STR_DEFAULT = "-infinity";
+	private static final String NAN_STR_DEFAULT = "not_a_number";
+
+	public int JSON_encode(TTCN_Typedescriptor cborFloatDescr, JSON_Tokenizer p_tok) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+					"Encoding an unbound float value.");
+			return -1;
+		}
+
+		double value = float_value.getValue();
+		if (Double.POSITIVE_INFINITY == value) {
+			return p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, POS_INF_STR);
+		}
+		if (Double.NEGATIVE_INFINITY == value) {
+			return p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, NEG_INF_STR);
+		}
+		if (Double.isNaN(value)) {
+			return p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, NAN_STR);
+		}
+
+		// true if decimal representation possible (use %f format)
+		boolean decimal_repr = (value == 0.0)
+				|| (value > -MAX_DECIMAL_FLOAT && value <= -MIN_DECIMAL_FLOAT)
+				|| (value >= MIN_DECIMAL_FLOAT && value < MAX_DECIMAL_FLOAT);
+
+		String tmp_str = String.format(decimal_repr ? "%f" : "%e", value);
+		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
+		return enc_len;
+	}
+
+	public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int i) {
+		AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		StringBuilder value = new StringBuilder();
+		AtomicInteger value_len = new AtomicInteger(0);
+		int dec_len = 0;
+		boolean use_default = p_td.json.default_value != null && 0 == p_tok.get_buffer_length();
+		if (use_default) {
+			// No JSON data in the buffer -> use default value
+			value.append(p_td.json.default_value);
+			value_len.set(value.length());
+		} else {
+			dec_len = p_tok.get_next_token(token, value, value_len);
+		}
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			}
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+			if ( (use_default ? POS_INF_STR_DEFAULT : POS_INF_STR).equals(value) ) {
+				float_value = new Ttcn3Float(Double.POSITIVE_INFINITY);
+			}
+			else if ( (use_default ? NEG_INF_STR_DEFAULT : NEG_INF_STR).equals(value) ) {
+				float_value = new Ttcn3Float(Double.NEGATIVE_INFINITY);
+			}
+			else if ( (use_default ? NAN_STR_DEFAULT : NAN_STR).equals(value) ) {
+				float_value = new Ttcn3Float(Double.NaN);
+			}
+			else if (!use_default) {
+				String spec_val = MessageFormat.format("float ({0}, {1} or {2})", POS_INF_STR, NEG_INF_STR, NAN_STR);
+				if(!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", spec_val);
+				}
+				float_value = null;
+				return JSON.JSON_ERROR_FATAL;
+			}
+		}
+		else if (json_token_t.JSON_TOKEN_NUMBER == token.get()) {
+			float_value = new Ttcn3Float(Double.parseDouble(value.toString()));
+		} else {
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+		if (!is_bound() && use_default) {
+			// Already checked the default value for the string possibilities, now
+			// check for a valid number
+			float_value = new Ttcn3Float(Double.parseDouble(value.toString()));
+		}
+		return (int)dec_len;
 	}
 }

@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -33,6 +34,10 @@ import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
  **/
 public class JSON {
 
+	private JSON() {
+		// Hide constructor
+	}
+
 	public static final class JsonEnumText {
 		public int index;
 		public String text;
@@ -48,7 +53,7 @@ public class JSON {
 		public boolean as_number;
 		public boolean as_map;
 		public int nof_enum_texts;
-		public ArrayList<JsonEnumText> enum_texts;
+		public List<JsonEnumText> enum_texts;
 
 		public TTCN_JSONdescriptor() {
 			// TODO Auto-generated constructor stub
@@ -107,8 +112,8 @@ public class JSON {
 	}
 
 	//originally enum json_chosen_field_t
-	private static final int CHOSEN_FIELD_UNSET = -1;
-	private static final int CHOSEN_FIELD_OMITTED = -2;
+	public static final int CHOSEN_FIELD_UNSET = -1;
+	public static final int CHOSEN_FIELD_OMITTED = -2;
 
 	// JSON decoding error messages
 	public static final String JSON_DEC_BAD_TOKEN_ERROR = "Failed to extract valid token, invalid JSON format%s";
@@ -289,7 +294,7 @@ public class JSON {
 					data = data.substring(0, data.length() - 1 );
 				}
 				cs = new TitanCharString(data);
-			}    
+			}
 		} else if (tag == 21) { // base16
 			cs = AdditionalFunctions.oct2str(os);
 		}
@@ -413,8 +418,6 @@ public class JSON {
 		}
 	}
 
-//TODO: implement TitanFloat.JSON_encode()
-/*
 	public static void cbor2json_coding(TTCN_Buffer buff, JSON_Tokenizer tok, boolean in_object) {
 		byte type = check_and_get_buffer(buff, 1)[0];
 		buff.increase_pos(1);
@@ -511,7 +514,7 @@ public class JSON {
 				for (int i = 0; i < num_of_pairs; i = i + 1) {
 					// whether to put : or , after the next token
 					in_object = i % 2 == 0;
-					cbor2json_coding(buff, tok, in_object); 
+					cbor2json_coding(buff, tok, in_object);
 				}
 				tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				break;
@@ -574,7 +577,7 @@ public class JSON {
 					TitanFloat f = new TitanFloat();
 					TitanOctetString os = new TitanOctetString(check_and_get_buffer(buff, 8));
 					TitanInteger i = AdditionalFunctions.oct2int(os);
-					if (i.get_long() != 0x7FF8000000000000L) { // NAN    
+					if (i.get_long() != 0x7FF8000000000000L) { // NAN
 						f.decode(cbor_float_descr_, buff, TTCN_EncDec.coding_type.CT_RAW, 0);
 						f.JSON_encode(cbor_float_descr_, tok);
 					} else {
@@ -601,7 +604,6 @@ public class JSON {
 				throw new TtcnError("Unexpected major type "+major_type+" while decoding using cbor2json().");
 			}
 	}
-*/
 
 	////////////////////////////////////////////////////////////////////////////////
 	////  BSON conversion
@@ -745,7 +747,7 @@ public class JSON {
 		TitanInteger os_len = os.lengthof();
 		encode_int_bson(buff, os_len, length);
 		try {
-			int type = Integer.parseInt(cs4.get_value().toString(),16);	
+			int type = Integer.parseInt(cs4.get_value().toString(),16);
 			buff.put_c((byte) type);
 		} catch (NumberFormatException e) {
 			throw new TtcnError("Incorrect binary format while encoding with json2bson()");
@@ -1316,8 +1318,6 @@ public class JSON {
 		}
 	}
 
-//TODO: implement TitanFloat.JSON_encode()
-/*
 	public static void bson2json_coding(TTCN_Buffer buff, JSON_Tokenizer tok, boolean in_object, boolean in_array) {
 		TitanInteger length = new TitanInteger(0);
 		// Beginning of the document
@@ -1537,5 +1537,4 @@ public class JSON {
 			}
 		}
 	}
-*/
 }
