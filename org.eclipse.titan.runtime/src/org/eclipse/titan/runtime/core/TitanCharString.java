@@ -90,7 +90,8 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString(final TitanCharString_Element otherValue) {
 		otherValue.must_bound("Copying an unbound charstring value.");
 
-		val_ptr = new StringBuilder(otherValue.get_char());
+		val_ptr = new StringBuilder(1);
+		val_ptr.append(otherValue.get_char());
 	}
 
 	/**
