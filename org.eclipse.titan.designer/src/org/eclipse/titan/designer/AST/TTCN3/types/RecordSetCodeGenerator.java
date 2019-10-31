@@ -2329,7 +2329,7 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", genName));
 		source.append( MessageFormat.format("\t\t\t\treturn operator_assign(({0}) otherValue);\n", genName));
 		source.append("\t\t\t}\n\n");
-		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", genName));
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `'{'0'}''''' can not be cast to `{0}''''\", otherValue));\n", genName));
 		source.append("\t\t}\n");
 
 		source.append('\n');
@@ -2338,7 +2338,7 @@ public final class RecordSetCodeGenerator {
 		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}_template) '{'\n", genName));
 		source.append( MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template) otherValue);\n", genName));
 		source.append("\t\t\t}\n\n");
-		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", otherValue));\n", genName));
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `'{'0'}''''' can not be cast to `{0}_template''''\", otherValue));\n", genName));
 		source.append("\t\t}\n\n");
 
 		if ( aData.isDebug() ) {
@@ -3646,7 +3646,7 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("\t\t\tif (other_value instanceof {0}) '{'\n", className));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}) other_value);\n", className));
 		source.append("\t\t\t}\n");
-		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", other_value));\n", className));
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `'{'0'}''''' can not be cast to `{0}''''\", other_value));\n", className));
 		source.append("\t\t}\n\n");
 
 		source.append("\t\t@Override\n");
@@ -3654,7 +3654,7 @@ public final class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("\t\t\tif (other_value instanceof {0}_template) '{'\n", className));
 		source.append(MessageFormat.format("\t\t\t\treturn operator_assign(({0}_template) other_value);\n", className));
 		source.append("\t\t\t}\n");
-		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", other_value));\n", className));
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `'{'0'}''''' can not be cast to `{0}_template''''\", other_value));\n", className));
 		source.append("\t\t}\n\n");
 
 		if ( aData.isDebug() ) {
