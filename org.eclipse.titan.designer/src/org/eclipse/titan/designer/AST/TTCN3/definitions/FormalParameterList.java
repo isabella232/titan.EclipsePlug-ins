@@ -392,6 +392,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			}
 			default:
 				isStartable = false;
+				break;
 			}
 
 			if (!parameter.hasDefaultValue()) {

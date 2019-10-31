@@ -708,6 +708,7 @@ public final class Set_Value extends Value {
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
+			break;
 		}
 
 		if (nofComps == 0) {
@@ -737,9 +738,10 @@ public final class Set_Value extends Value {
 				break;
 			default:
 				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
+				break;
 			}
-			final Identifier fieldName = compField.getIdentifier();
 
+			final Identifier fieldName = compField.getIdentifier();
 			IValue fieldValue;
 			if (hasComponentWithName(fieldName)) {
 				fieldValue = getComponentByName(fieldName).getValue();

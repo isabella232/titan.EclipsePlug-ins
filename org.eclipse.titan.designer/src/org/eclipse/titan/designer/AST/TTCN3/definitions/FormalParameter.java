@@ -1115,6 +1115,7 @@ public final class FormalParameter extends Definition {
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+			break;
 		}
 
 		source.append( ' ' );
@@ -1184,6 +1185,7 @@ public final class FormalParameter extends Definition {
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+			break;
 		}
 	}
 

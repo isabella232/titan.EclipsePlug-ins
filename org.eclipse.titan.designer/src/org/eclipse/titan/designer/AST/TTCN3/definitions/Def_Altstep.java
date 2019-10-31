@@ -773,6 +773,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 				break;
 			default:
 				source.append(MessageFormat.format("par_{0}.operator_assign({0});\n", FormalParName));
+				break;
 			}
 		}
 		source.append("}\n\n");

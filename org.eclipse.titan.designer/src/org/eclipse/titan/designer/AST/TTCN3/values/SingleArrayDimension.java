@@ -129,6 +129,7 @@ public final class SingleArrayDimension extends ArrayDimension {
 		default:
 			value.getLocation().reportSemanticError(INTEGERVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 	}
 

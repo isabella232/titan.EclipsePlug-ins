@@ -164,6 +164,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 		default:
 			lower.getLocation().reportSemanticError(OPERANDERROR1);
 			lower.setIsErroneous(true);
+			break;
 		}
 
 		final IValue upperLast = upper.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
@@ -189,6 +190,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 		default:
 			upper.getLocation().reportSemanticError(OPERANDERROR2);
 			upper.setIsErroneous(true);
+			break;
 		}
 
 		if (!getIsErroneous(timestamp) && !lower.getIsErroneous(timestamp) && !upper.getIsErroneous(timestamp)) {

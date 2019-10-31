@@ -278,6 +278,7 @@ public final class Macro_Value extends Value {
 			break;
 		default:
 			setIsErroneous(true);
+			break;
 		}
 
 		return lastValue;

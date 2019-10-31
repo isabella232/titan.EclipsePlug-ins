@@ -253,6 +253,7 @@ public final class Def_Timer extends Definition {
 					return;
 				default:
 					defaultDuration.getLocation().reportSemanticError(OPERANDERROR);
+					break;
 				}
 			} else {
 				checkArrayDuration(timestamp,defaultDuration, 0);

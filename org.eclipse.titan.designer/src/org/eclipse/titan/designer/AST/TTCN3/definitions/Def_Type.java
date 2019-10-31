@@ -322,6 +322,7 @@ public final class Def_Type extends Definition {
 				// only extension attributes are allowed ... and
 				// only because they can not be stopped earlier.
 				extensionAttribute.getLocation().reportSemanticError("Extension attributes are not supported for types");
+				break;
 			}
 		}
 	}

@@ -1127,6 +1127,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+			break;
 		}
 
 		tempSource.append(returnTypeName);
