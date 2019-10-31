@@ -224,7 +224,7 @@ public class TitanHexString extends Base_Type {
 		otherValue.must_bound("Assignment of an unbound hexstring value.");
 
 		if (otherValue != this) {
-			nibbles_ptr = otherValue.nibbles_ptr;
+			nibbles_ptr = TitanString_Utils.copy_byte_list(otherValue.nibbles_ptr);
 		}
 
 		return this;
