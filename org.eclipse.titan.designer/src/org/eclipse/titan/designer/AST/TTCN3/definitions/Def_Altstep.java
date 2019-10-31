@@ -62,10 +62,6 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	private static final String KIND = "altstep";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final FormalParameterList formalParList;
 	private final Reference runsOnRef;
 	private Component_Type runsOnType = null;
@@ -116,6 +112,10 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_ALTSTEP;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	@Override

@@ -90,10 +90,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	private static final String KIND = " template";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final Type type;
 
 	private final TemplateRestriction.Restriction_type templateRestriction;
@@ -168,6 +164,10 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_TEMPLATE;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	@Override

@@ -52,10 +52,6 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 
 	private static final String KIND = "controlpart";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private StatementBlock statementblock;
 
 	private WithAttributesPath withAttributesPath = null;
@@ -63,6 +59,10 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	private Location location;
 
 	private Location commentLocation = null;
+
+	public static String getKind() {
+		return KIND;
+	}
 
 	/**
 	 * @return The location of the comment assigned to this definition. Or

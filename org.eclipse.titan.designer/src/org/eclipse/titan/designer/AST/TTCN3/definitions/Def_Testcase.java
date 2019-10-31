@@ -58,10 +58,6 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 
 	private static final String KIND = "testcase";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final FormalParameterList formalParList;
 	private final Reference runsOnReference;
 	private Component_Type runsOnType = null;
@@ -100,6 +96,10 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_TESTCASE;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	@Override

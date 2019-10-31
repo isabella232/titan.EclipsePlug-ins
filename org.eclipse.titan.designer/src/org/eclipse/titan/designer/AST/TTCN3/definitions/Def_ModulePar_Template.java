@@ -53,10 +53,6 @@ public final class Def_ModulePar_Template extends Definition {
 	private static final String FULLNAMEPART2 = ".<default_template>";
 	private static final String KIND = " template module parameter";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final Type type;
 	private final TTCN3Template defaultTemplate;
 	private ITTCN3Template realTemplate;
@@ -112,6 +108,10 @@ public final class Def_ModulePar_Template extends Definition {
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_MODULEPAR_TEMPLATE;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	@Override

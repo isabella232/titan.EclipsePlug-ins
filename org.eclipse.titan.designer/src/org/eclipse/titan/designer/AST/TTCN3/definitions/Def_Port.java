@@ -51,10 +51,6 @@ public final class Def_Port extends Definition {
 
 	private static final String KIND = "port definition";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final Reference portTypeReference;
 	private Port_Type portType = null;
 	private final ArrayDimensions dimensions;
@@ -76,6 +72,10 @@ public final class Def_Port extends Definition {
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_PORT;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	@Override

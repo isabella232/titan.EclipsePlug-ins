@@ -152,7 +152,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 				}
 			}
 
-			StringBuilder expressionExpression = new StringBuilder();
+			final StringBuilder expressionExpression = new StringBuilder();
 			final ExpressionStruct valueExpression = new ExpressionStruct();
 			reference.generateCode(aData, valueExpression);
 			Value.generateCodeExpressionOptionalFieldReference(aData, valueExpression, reference);

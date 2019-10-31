@@ -566,7 +566,7 @@ public final class FormalParameter extends Definition {
 				if(!Value_type.NOTUSED_VALUE.equals(temp.getValuetype())) {
 					type.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
 					if (Value_type.REFERENCED_VALUE.equals(temp.getValuetype())) {
-						Reference reference = ((Referenced_Value)temp).getReference();
+						final Reference reference = ((Referenced_Value)temp).getReference();
 						if(reference.refersToStringElement()) {
 							value.set_needs_conversion();
 						}
