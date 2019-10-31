@@ -975,13 +975,45 @@ public final class Referenced_Template extends TTCN3Template {
 			// the expressions within reference need temporary objects
 			source.append("{\n");
 			source.append(expression.preamble);
-			//FIXME handle the needs conversion case
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, expression.expression));
+			if (get_needs_conversion()) {
+				final ExpressionStruct tempExpr = new ExpressionStruct();
+				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final ExpressionStruct refExpr = new ExpressionStruct();
+				reference.generateConstRef(aData, refExpr);
+				if (refExpr.preamble.length() > 0) {
+					source.append(refExpr.preamble);
+				}
+
+				final String tempId2 = currentType.generateConversion(aData, referencedFieldType, refExpr.expression.toString(), false, tempExpr);
+				tempExpr.openMergeExpression(source);
+				source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, tempId2));
+			} else {
+				source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, expression.expression));
+			}
 			source.append(expression.postamble);
 			source.append("}\n");
 		} else {
-			//FIXME handle the needs conversion case
-			source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, expression.expression));
+			if (get_needs_conversion()) {
+				final ExpressionStruct tempExpr = new ExpressionStruct();
+				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+				final ExpressionStruct refExpr = new ExpressionStruct();
+				reference.generateConstRef(aData, refExpr);
+				if (refExpr.preamble.length() > 0) {
+					source.append(refExpr.preamble);
+				}
+
+				final String tempId2 = currentType.generateConversion(aData, referencedFieldType, refExpr.expression.toString(), false, tempExpr);
+				tempExpr.openMergeExpression(source);
+				source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, tempId2));
+			} else {
+				source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, expression.expression));
+			}
 		}
 
 		if (lengthRestriction != null) {
