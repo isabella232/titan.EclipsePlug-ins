@@ -57,10 +57,6 @@ public final class Def_ModulePar extends Definition {
 
 	private static final String KIND = " module parameter";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final Type type;
 	private final Value defaultValue;
 
@@ -85,6 +81,10 @@ public final class Def_ModulePar extends Definition {
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_MODULEPAR;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	public Value getDefaultValue() {

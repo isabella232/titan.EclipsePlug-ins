@@ -64,10 +64,6 @@ public final class Def_Const extends Definition {
 
 	private static final String KIND = "constant ";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final Type type;
 	private Value value;
 
@@ -89,6 +85,10 @@ public final class Def_Const extends Definition {
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_CONST;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	@Override

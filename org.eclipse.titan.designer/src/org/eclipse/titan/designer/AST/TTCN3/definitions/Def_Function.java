@@ -108,10 +108,6 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	private static final String KIND = "function";
 
-	public static String getKind() {
-		return KIND;
-	}
-
 	private final Assignment_type assignmentType;
 	private final FormalParameterList formalParList;
 	private final Reference runsOnRef;
@@ -189,6 +185,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return assignmentType;
+	}
+
+	public static String getKind() {
+		return KIND;
 	}
 
 	@Override
