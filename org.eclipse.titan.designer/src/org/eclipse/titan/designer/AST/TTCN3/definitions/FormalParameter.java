@@ -44,6 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -564,6 +565,12 @@ public final class FormalParameter extends Definition {
 				final IValue temp = type.checkThisValueRef(timestamp, value);
 				if(!Value_type.NOTUSED_VALUE.equals(temp.getValuetype())) {
 					type.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
+					if (Value_type.REFERENCED_VALUE.equals(temp.getValuetype())) {
+						Reference reference = ((Referenced_Value)temp).getReference();
+						if(reference.refersToStringElement()) {
+							value.set_needs_conversion();
+						}
+					}
 				}
 				return new Value_ActualParameter(temp);
 			}
