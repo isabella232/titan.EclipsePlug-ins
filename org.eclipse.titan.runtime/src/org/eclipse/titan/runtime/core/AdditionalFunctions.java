@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
@@ -5493,5 +5494,59 @@ public final class AdditionalFunctions {
 		System.arraycopy(output, 0, result, 0, outpotPos);
 
 		return new TitanOctetString(result);
+	}
+
+	public static TitanOctetString json2cbor(final TitanUniversalCharString value) {
+		TitanOctetString result = new TitanOctetString();
+		TTCN_Buffer buff = new TTCN_Buffer();
+		value.encode_utf8(buff);
+		final byte[] ustr = buff.get_data();
+		final int ustr_len = buff.get_len();
+		String json_str = new String(ustr);
+		JSON_Tokenizer tok = new JSON_Tokenizer(json_str, ustr_len);
+		buff.clear();
+		AtomicInteger num_of_items = new AtomicInteger(0);
+		JSON.json2cbor_coding(buff, tok, num_of_items);
+		buff.get_string(result);
+		return result;
+	}
+
+	public static TitanUniversalCharString cbor2json(final TitanOctetString value) {
+		TitanUniversalCharString result = new TitanUniversalCharString();
+		TTCN_Buffer buff = new TTCN_Buffer();
+		buff.put_os(value);
+		JSON_Tokenizer tok = new JSON_Tokenizer();
+		JSON.cbor2json_coding(buff, tok, false);
+		final byte[] resultBytes = tok.get_buffer().toString().getBytes();
+		result.decode_utf8(resultBytes, CharCoding.UTF_8, false);
+		return result;
+	}
+
+	public static TitanUniversalCharString bson2json(final TitanOctetString value) {
+		TitanUniversalCharString result = new TitanUniversalCharString();
+		TTCN_Buffer buff = new TTCN_Buffer();
+		buff.put_os(value);
+		JSON_Tokenizer tok = new JSON_Tokenizer();
+		JSON.bson2json_coding(buff, tok, false, false);
+		final byte[] resultBytes = tok.get_buffer().toString().getBytes();
+		result.decode_utf8(resultBytes, CharCoding.UTF_8, false);
+		return result;
+	}
+
+	public static TitanOctetString json2bson(final TitanUniversalCharString value) {
+		TitanOctetString result = new TitanOctetString();
+		TTCN_Buffer buff = new TTCN_Buffer();
+		value.encode_utf8(buff);
+		final byte[] ustr = buff.get_data();
+		final int ustr_len = buff.get_len();
+		String json_str = new String(ustr);
+		JSON_Tokenizer tok = new JSON_Tokenizer(json_str, ustr_len);
+		buff.clear();
+		TitanInteger length = new TitanInteger(0);
+		TitanCharString cs = new TitanCharString();
+		boolean is_special = false;
+		JSON.json2bson_coding(buff, tok, false, false, length, cs, is_special);
+		buff.get_string(result);
+		return result;
 	}
 }
