@@ -84,7 +84,6 @@ import org.eclipse.titan.runtime.core.TitanUniversalChar;
 import org.eclipse.titan.runtime.core.TitanUniversalCharString;
 import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 import java.io.File;
@@ -122,7 +121,7 @@ import java.util.regex.Pattern;
 
 	// pattern for matching typed macro string, for example: ${a, float}
 	private final static Pattern PATTERN_TYPED_MACRO = Pattern.compile("\\$\\s*\\{\\s*([A-Za-z][A-Za-z0-9_]*)\\s*,\\s*[A-Za-z][A-Za-z0-9_]*\\s*\\}");
-	
+
 	private static final String STRING_TO_TTCN_PREFIX = "$#&&&(#TTCNSTRINGPARSING$#&&^#%";
 	private static final String STRING_TO_TTCN_COMPONENT_PREFIX = "$#&&&(#TTCNSTRINGPARSING_COMPONENT$#&&^#% ";
 
@@ -186,7 +185,7 @@ import java.util.regex.Pattern;
 	 * Sets a module parameter
 	 * @param new module parameter
 	 */
-	private void set_param(Module_Parameter param) {
+	private void set_param(final Module_Parameter param) {
 		Module_List.set_param(param);
 	}
 
@@ -315,7 +314,7 @@ import java.util.regex.Pattern;
 	/**
 	 * Converts USI format to universal char
 	 * @param text hexadecimal string starting with [Uu][+]?, example: U+123, uAA0A
-	 * @return converted universal char, or null on error 
+	 * @return converted universal char, or null on error
 	 */
 	private TitanUniversalChar usiToUc( final String text ) {
 		if (null == text) {
@@ -353,7 +352,7 @@ import java.util.regex.Pattern;
 			return null;
 		}
 	}
- 
+
 	private static TitanInteger toTitanInteger( BigInteger bi ) {
 		final int i = bi.intValue();
 		if (bi.equals(BigInteger.valueOf(i))) {
@@ -1472,14 +1471,14 @@ pr_ParameterName returns [List<String> names]
 @init {
 	$names = new ArrayList<String>();
 }:
-(	id1 = pr_ParameterNamePart	{	$names.add($id1.text);	}
-	(	separator = pr_Dot
-		id2 = pr_ParameterNameTail[$names]
+(	id = pr_ParameterNamePart	{	$names.add($id.text);	}
+	(	pr_Dot
+		pr_ParameterNameTail[$names]
 	|
 	)
-|	star = pr_StarModuleName
+|	pr_StarModuleName
 	DOT
-	id3 = pr_ParameterNamePart	{	$names.add($id3.text);	}
+	id = pr_ParameterNamePart	{	$names.add($id.text);	}
 )
 ;
 
@@ -1662,7 +1661,7 @@ pr_ParameterReference returns [Module_Parameter moduleparameter]:
 	// enumerated values are also treated as references by the parser,
 	// these will be sorted out later during set_param()
 	pns = pr_ParameterNameSegment
-	{	
+	{
 		$moduleparameter = ($pns.names == null || $pns.names.size() == 0) ? null :
 			new Module_Param_Reference(new Module_Param_Name($pns.names));
 	}
@@ -1691,7 +1690,7 @@ pr_IndexItemIndex returns [int integer]:
 	i = pr_ParameterExpression
 	SQUARECLOSE
 	{
-		final Module_Parameter mp = $i.moduleparameter; 
+		final Module_Parameter mp = $i.moduleparameter;
 		mp.set_id( new Module_Param_CustomName("array index") );
 		final TitanInteger tmp = new TitanInteger();
 		tmp.set_param(mp);
@@ -1935,10 +1934,10 @@ pr_Quadruple returns [TitanUniversalCharString ucstr]:
 		$plane.moduleparameter.set_id(new Module_Param_CustomName("quadruple plane"));
 		$row.moduleparameter.set_id(new Module_Param_CustomName("quadruple row"));
 		$cell.moduleparameter.set_id(new Module_Param_CustomName("quadruple cell"));
-		final TitanInteger g = new TitanInteger(); 
-		final TitanInteger p = new TitanInteger(); 
-		final TitanInteger r = new TitanInteger(); 
-		final TitanInteger c = new TitanInteger(); 
+		final TitanInteger g = new TitanInteger();
+		final TitanInteger p = new TitanInteger();
+		final TitanInteger r = new TitanInteger();
+		final TitanInteger c = new TitanInteger();
 		g.set_param($group.moduleparameter);
 		p.set_param($plane.moduleparameter);
 		r.set_param($row.moduleparameter);

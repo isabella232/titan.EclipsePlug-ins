@@ -11,11 +11,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-/** 
+/**
  * A class for building and processing JSON documents. Stores the document in a buffer.
  * Can build JSON documents by inserting tokens into an empty buffer.
  * Can extract tokens from an existing JSON document.
- * 
+ *
  * @author Arpad Lovassy
  */
 public class JSON_Tokenizer {
@@ -36,7 +36,7 @@ public class JSON_Tokenizer {
 		JSON_TOKEN_LITERAL_NULL   // "null" value
 	};
 
-	/** The buffer that stores the JSON document 
+	/** The buffer that stores the JSON document
 	 * This is a buffer with exponential allocation (expstring), only uses expstring
 	 * memory operations from memory.h (ex.: mputstr, mputprintf) */
 	private StringBuilder buf_ptr;
@@ -54,12 +54,12 @@ public class JSON_Tokenizer {
 	private json_token_t previous_token;
 
 	/** Activates or deactivates pretty printing
-	 * If active, put_next_token() and put_separator() will add extra newlines 
+	 * If active, put_next_token() and put_separator() will add extra newlines
 	 * and indenting to the JSON code to make it more readable for you humans,
 	 * otherwise it will be compact (no white spaces). */
 	private boolean pretty;
 
-	/** Initializes the properties of the tokenizer. 
+	/** Initializes the properties of the tokenizer.
 	 * The buffer is initialized with the parameter data (unless it's empty). */
 	private void init(final String p_buf, final int p_buf_len) {
 		if (p_buf != null && p_buf_len != 0) {
@@ -113,7 +113,7 @@ public class JSON_Tokenizer {
 		return false;
 	}
 
-	/** Attempts to find a JSON string at the current buffer position. 
+	/** Attempts to find a JSON string at the current buffer position.
 	 * Returns true if a valid string is found before the end of the buffer
 	 * is reached, otherwise returns false. */
 	private boolean check_for_string() {
@@ -232,8 +232,8 @@ public class JSON_Tokenizer {
 	 * the name of a JSON object field (without quotes), or the string representation
 	 * of a JSON number, or a JSON string (with quotes and double-escaped).
 	 * @param p_str_len [out] The character length of the token data (if there is data)
-	 * @return The number of characters extracted 
-	 * @note The token data is not copied, *p_token_str will point to the start of the 
+	 * @return The number of characters extracted
+	 * @note The token data is not copied, *p_token_str will point to the start of the
 	 * data in the tokenizer's buffer. */
 	public int get_next_token(final AtomicReference<json_token_t> p_token, final StringBuilder p_token_str, AtomicInteger p_str_len)	{
 		int start_pos = buf_pos;
@@ -321,11 +321,11 @@ public class JSON_Tokenizer {
 				else if (check_for_literal("true")) {
 					p_token.set(json_token_t.JSON_TOKEN_LITERAL_TRUE);
 					break;
-				} 
+				}
 				else if (check_for_literal("false")) {
 					p_token.set(json_token_t.JSON_TOKEN_LITERAL_FALSE);
 					break;
-				} 
+				}
 				else if (check_for_literal("null")) {
 					p_token.set(json_token_t.JSON_TOKEN_LITERAL_NULL);
 					break;
@@ -355,17 +355,17 @@ public class JSON_Tokenizer {
 	public int put_next_token(json_token_t p_token) {
 		return put_next_token(p_token, null);
 	}
-	
-	/** Adds the specified JSON token to end of the buffer. 
+
+	/** Adds the specified JSON token to end of the buffer.
 	 * @param p_token [in] Token type
 	 * @param p_token_str [in] The name of a JSON object field (without quotes), or
-	 * the string representation of a JSON number, or a JSON string (with quotes 
+	 * the string representation of a JSON number, or a JSON string (with quotes
 	 * and double-escaped). For all the other tokens this parameter will be ignored.
 	 * @return The number of characters added to the JSON document */
 	public int put_next_token(json_token_t p_token, final String p_token_str) {
 		int start_len = buf_len;
 		switch(p_token) {
-		case JSON_TOKEN_OBJECT_START: 
+		case JSON_TOKEN_OBJECT_START:
 		case JSON_TOKEN_ARRAY_START: {
 			put_separator();
 			put_c( (json_token_t.JSON_TOKEN_OBJECT_START == p_token) ? '{' : '[' );
@@ -376,7 +376,7 @@ public class JSON_Tokenizer {
 			}
 			break;
 		}
-		case JSON_TOKEN_OBJECT_END: 
+		case JSON_TOKEN_OBJECT_END:
 		case JSON_TOKEN_ARRAY_END: {
 			if (pretty) {
 				if (json_token_t.JSON_TOKEN_OBJECT_START != previous_token && json_token_t.JSON_TOKEN_ARRAY_START != previous_token) {
@@ -388,7 +388,7 @@ public class JSON_Tokenizer {
 					--depth;
 					--buf_len;
 					buf_ptr.setCharAt(buf_len, (char) 0);
-				}    
+				}
 			}
 			put_c( (json_token_t.JSON_TOKEN_OBJECT_END == p_token) ? '}' : ']' );
 			break;
@@ -440,7 +440,7 @@ public class JSON_Tokenizer {
 	public boolean check_for_number() {
 		return check_for_number(null);
 	}
-	
+
 	/** Attempts to find a JSON number at the current buffer position.
 	 * For number format see http://json.org/.
 	 * Returns true if a valid number is found before the end of the buffer
@@ -511,7 +511,7 @@ public class JSON_Tokenizer {
 				return first_digit || zero;
 			}
 
-			++buf_pos; 
+			++buf_pos;
 		}
 		if (is_float != null) {
 			is_float.set( decimal_point || exponent_mark );
@@ -559,7 +559,7 @@ public class JSON_Tokenizer {
 			default:
 				if (str.charAt(i) < 32 && str.charAt(i) > 0) {
 					// use the JSON \ uHHHH notation for other control characters
-					// (this is just for esthetic reasons, these wouldn't break the JSON 
+					// (this is just for esthetic reasons, these wouldn't break the JSON
 					// string format)
 					ret_val.append("\\u00");
 					ret_val.append(str.charAt(i) / 16);
