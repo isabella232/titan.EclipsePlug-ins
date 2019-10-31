@@ -211,7 +211,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			return converted.hasSingleExpression();
 		}
 
-		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+		if (lengthRestriction != null || isIfpresent || get_needs_conversion()) {
 			return false;
 		}
 
