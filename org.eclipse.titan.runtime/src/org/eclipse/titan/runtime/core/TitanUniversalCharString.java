@@ -263,9 +263,13 @@ public class TitanUniversalCharString extends Base_Type {
 		otherValue.must_bound("Assignment of an unbound universal charstring value.");
 
 		if (otherValue != this) {
-			val_ptr = otherValue.val_ptr;
-			cstr = otherValue.cstr;
 			charstring = otherValue.charstring;
+			if (charstring) {
+				cstr = new StringBuilder(otherValue.cstr);
+			} else {
+				val_ptr = new ArrayList<TitanUniversalChar>();
+				val_ptr.addAll(otherValue.val_ptr);
+			}
 		}
 
 		return this;
