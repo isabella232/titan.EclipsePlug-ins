@@ -257,7 +257,7 @@ class ChangeCreator {
 				final Sequence_Value sv = (Sequence_Value)node;
 				if (sv.getMyGovernor() != null && sv.getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).equals(type)) {
 					locations.add(sv);
-				} else if (sv.getMyGovernor() == null && node instanceof Def_Template) {
+				} else if (sv.getMyGovernor() == null && sv.getDefiningAssignment() instanceof Def_Template) {
 					TITANDebugConsole.println("Governor NULL: "+sv.getFullName()+"   "+sv.getDefiningAssignment()+"   "+sv.toString());
 				}
 			} else if (node instanceof TTCN3Template) {
