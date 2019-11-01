@@ -107,11 +107,7 @@ public final class Value_ActualParameter extends ActualParameter {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeDefaultValue(final JavaGenData aData, final StringBuilder source) {
-		//FIXME handle the needs conversion case
-		if (value != null) {
-			// TODO check if needed at all, right now this is intentionally not active
-//			value.generateCodeInit(aData, source, value.get_lhs_name());
-		}
+		// no code is generated here to reduce the load on class members in the generated code.
 	}
 
 	@Override
