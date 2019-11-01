@@ -3650,7 +3650,7 @@ pr_ImportDef [Group parent_group]
 			impmod.setVisibility(modifier);
 		}
 		impmod.setWithAttributes(attributes);
-		impmod.setLocation(getLocation( modifier != null ? $m.start : $col, endcol));
+		impmod.setLocation(getLocation( $m.start == null ? $col : $m.start, endcol));
 		if(semicolon) {
 			Location loc = impmod.getLocation();
 			loc.setEndOffset(offset + getLastVisibleToken().getStopIndex() + 1);
