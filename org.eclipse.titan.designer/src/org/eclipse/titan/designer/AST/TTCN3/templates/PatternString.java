@@ -425,10 +425,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_IN
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT)) {
-						final String value_literal = "value";
-						str = (String.format("if (%s.get_istemplate_kind(\"%s\") == false) {\n"
+						str = (String.format("if (%s.get_istemplate_kind(\"value\") == false) {\n"
 								+ "throw new TtcnError(\"Only specific value template allowed in pattern reference with \\\\N{ref}\");\n"
-								+ "}\n", expr.expression.toString(), value_literal));
+								+ "}\n", expr.expression.toString()));
 					}
 					preamble.append(str);
 
