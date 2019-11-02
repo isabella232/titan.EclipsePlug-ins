@@ -300,7 +300,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				s.append(')');
 				break;
 				// Known in compile time: string type with(out) range or list
-			case PSE_REFDSET:
+			case PSE_REFDSET:{
 				if (pse.t == null) {
 					System.err.println("PatternString.create_charstring_literals()");
 					break;
@@ -409,8 +409,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				}
 				s.append("\"");
 				break;
+			}
 				// Not known in compile time
-			case PSE_REF:
+			case PSE_REF: {
 				final Assignment assign = pse.ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 				ExpressionStruct expr = new ExpressionStruct();
 				pse.ref.generateConstRef(aData, expr);
@@ -467,6 +468,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 				expr = null;
 				break;
+			}
 			} //for
 			if(i > 0) {
 				s.append(")");
@@ -685,7 +687,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			case A_PAR_TEMP_INOUT:
 				// error reporting moved up
 				break;
-			case A_TEMPLATE:
+			case A_TEMPLATE: {
 				ITTCN3Template templ = null;
 				templ = ((Def_Template) ass).getTemplate(timestamp);
 				refcheckertype.checkThisTemplateRef(timestamp, templ);
@@ -708,7 +710,8 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					break;
 				}
 				break;
-			default:
+			}
+			default: {
 				final Reference t_ref = ref;
 				t_ref.setLocation(ref.getLocation());
 				v = new Referenced_Value(t_ref);
@@ -716,6 +719,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				v.setMyScope(ref.getMyScope());
 				v.setLocation(ref.getLocation());
 				refcheckertype.checkThisValue(timestamp, v, null, new ValueCheckingOptions(expected_value, false, false, true, false, false));
+			}
 			}
 			if (v_last != null && (v_last.getValuetype() == Value_type.CHARSTRING_VALUE || v_last.getValuetype() == Value_type.UNIVERSALCHARSTRING_VALUE)) {
 				// the reference points to a constant substitute the reference with the known value
