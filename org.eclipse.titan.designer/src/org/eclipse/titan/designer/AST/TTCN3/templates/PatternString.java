@@ -294,10 +294,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			// Known in compile time: string literal, const etc. , escaping here
 			case PSE_STR:
 				s.append("new TitanCharString(");
-				s.append("\"");
+				s.append('\"');
 				s.append(pse.str);
-				s.append("\"");
-				s.append(')');
+				s.append("\")");
 				break;
 				// Known in compile time: string type with(out) range or list
 			case PSE_REFDSET:{
@@ -334,7 +333,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 						break;
 					}
 				}
-				s.append("\"");
+				s.append('\"');
 				if (vec.size() > 1) {
 					s.append('(');
 				}
@@ -353,22 +352,22 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 							s.append("\"[\" + ");
 							switch (range.getMin().getValuetype()) {
 							case CHARSTRING_VALUE:
-								s.append("\"");
+								s.append('\"');
 								s.append(((Charstring_Value)range.getMin()).getValue());
-								s.append("\"");
+								s.append('\"');
 								s.append("+ \"-\" +");
-								s.append("\"");
+								s.append('\"');
 								s.append(((Charstring_Value)range.getMax()).getValue());
-								s.append("\"");
+								s.append('\"');
 								break;
 							case UNIVERSALCHARSTRING_VALUE:
-								s.append("\"");
+								s.append('\"');
 								s.append(((UniversalCharstring_Value)range.getMin()).getValue().getStringRepresentationForPattern());
-								s.append("\"");
+								s.append('\"');
 								s.append("+ \"-\" +");
-								s.append("\"");
+								s.append('\"');
 								s.append(((UniversalCharstring_Value)range.getMax()).getValue().getStringRepresentationForPattern());
-								s.append("\"");
+								s.append('\"');
 								break;
 							default:
 								System.err.println("PatternString.create_charstring_literals()");
@@ -383,14 +382,14 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 							final Single_ParsedSubType single = (Single_ParsedSubType)pst;
 							switch (single.getValue().getValuetype()) {
 							case CHARSTRING_VALUE:
-								s.append("\"");
+								s.append('\"');
 								s.append(((Charstring_Value)single.getValue()).getValue());
-								s.append("\"");
+								s.append('\"');
 								break;
 							case UNIVERSALCHARSTRING_VALUE:
-								s.append("\"");
+								s.append('\"');
 								s.append(((UniversalCharstring_Value)single.getValue()).getValue().getStringRepresentationForPattern());
-								s.append("\"");
+								s.append('\"');
 								break;
 							default:
 								System.err.println("PatternString.create_charstring_literals()");
@@ -407,7 +406,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				if (vec.size() > 1) {
 					s.append(')');
 				}
-				s.append("\"");
+				s.append('\"');
 				break;
 			}
 				// Not known in compile time
@@ -471,12 +470,12 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			}
 			} //for
 			if(i > 0) {
-				s.append(")");
+				s.append(')');
 			}
 		}
 		s.append(") ,");
 		s.append(nocase ? "true" : "false");
-		s.append(")");
+		s.append(')');
 		return s.toString();
 	}
 
