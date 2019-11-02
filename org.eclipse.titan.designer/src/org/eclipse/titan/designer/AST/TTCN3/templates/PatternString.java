@@ -435,32 +435,42 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 							+ "throw new TtcnError(\"The length of the %scharstring must be of length one, when it is being referenced in a pattern with \\\\N{ref}\");\n"
 							+ "}\n", expr.expression.toString(), assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING ? "universal " : "")));
 				}
-				if (assign != null && (assign.getAssignmentType() == Assignment_type.A_TEMPLATE
-						|| assign.getAssignmentType() == Assignment_type.A_MODULEPAR_TEMPLATE
-						|| assign.getAssignmentType() == Assignment_type.A_VAR_TEMPLATE
-						|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_IN
-						|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT
-						|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT)) {
-					if ((assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_CHARSTRING
-							|| assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) && !pse.with_N) {
-						s.append(".get_single_value()");
-					} else if (assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING && pse.with_N) {
-						s.append(".valueof().get_stringRepr_for_pattern()");
-					} else {
-						s.append(".valueof()");
+				if (assign != null) {
+					switch (assign.getAssignmentType()) {
+					case A_TEMPLATE:
+					case A_MODULEPAR_TEMPLATE:
+					case A_VAR_TEMPLATE:
+					case A_PAR_TEMP_IN:
+					case A_PAR_TEMP_OUT:
+					case A_PAR_TEMP_INOUT:
+						if ((assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_CHARSTRING
+						|| assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) && !pse.with_N) {
+							s.append(".get_single_value()");
+						} else if (assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING && pse.with_N) {
+							s.append(".valueof().get_stringRepr_for_pattern()");
+						} else {
+							s.append(".valueof()");
+						}
+						break;
+					case A_MODULEPAR:
+					case A_VAR:
+					case A_PAR_VAL:
+					case A_PAR_VAL_IN:
+					case A_PAR_VAL_OUT:
+					case A_PAR_VAL_INOUT:
+						if (assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
+							s.append(".get_stringRepr_for_pattern()");
+						}
+						break;
+					case A_CONST:
+					case A_EXT_CONST:
+						if (assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
+							s.append(".get_stringRepr_for_pattern()");
+						}
+						break;
+					default:
+						break;
 					}
-				} else if (assign != null && (assign.getAssignmentType() == Assignment_type.A_MODULEPAR
-						|| assign.getAssignmentType() == Assignment_type.A_VAR
-						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL
-						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_IN
-						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_OUT
-						|| assign.getAssignmentType() == Assignment_type.A_PAR_VAL_INOUT)
-						&& assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
-					s.append(".get_stringRepr_for_pattern()");
-				} else if (assign != null && (assign.getAssignmentType() == Assignment_type.A_CONST
-						|| assign.getAssignmentType() == Assignment_type.A_EXT_CONST)
-						&& assign.getType(CompilationTimeStamp.getBaseTimestamp()).getTypetype() == Type_type.TYPE_UCHARSTRING) {
-					s.append(".get_stringRepr_for_pattern()");
 				}
 
 				expr = null;
