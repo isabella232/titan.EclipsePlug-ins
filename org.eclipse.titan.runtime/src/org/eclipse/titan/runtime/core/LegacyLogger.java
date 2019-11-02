@@ -495,7 +495,6 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private boolean log_file_emerg(final TitanLoggerApi.TitanLogEvent event) {
-		boolean write_succes = true;
 		final String event_str = event_to_string(event, false);
 		if (event_str == null) {
 			TtcnError.TtcnWarning("No text for event");
@@ -514,7 +513,8 @@ public class LegacyLogger implements ILoggerPlugin {
 				fatal_error("Opening of log file {0} for writing failed.", filename_emergency);
 			}
 		}
-		write_succes = true;
+
+		boolean write_succes = true;
 		try{
 			final BufferedWriter localWriter = new BufferedWriter(new FileWriter(er_), 32768);
 			log_file_writer.set(localWriter);
