@@ -146,7 +146,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		return location;
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
@@ -242,7 +242,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 	}
 
 	//FIXME comment
-	public String create_charstring_literals(JavaGenData aData, final Module module, final StringBuilder preamble) {
+	public String create_charstring_literals(final JavaGenData aData, final Module module, final StringBuilder preamble) {
 		StringBuilder s = new StringBuilder();
 		check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
 		if (patterntype == PatternType.CHARSTRING_PATTERN) {
