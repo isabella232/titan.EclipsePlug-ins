@@ -237,24 +237,25 @@ public class JSON {
 
 	// Never use buff.get_read_data() without checking if it has enough bytes in the
 	// buffer.
-	public static byte[] check_and_get_buffer(final TTCN_Buffer buff, int bytes) {
+	public static byte[] check_and_get_buffer(final TTCN_Buffer buff, final int bytes) {
 		if (bytes < 0) {
 			throw new TtcnError(MessageFormat.format("Incorrect length byte received: {0}, while decoding using cbor2json()", bytes));
 		}
 		if (buff.get_pos() + bytes > buff.get_len()) {
 			throw new TtcnError("Not enough bytes in bytestream while decoding using cbor2json().");
 		}
+
 		return buff.get_read_data();
 	}
 
-	public static void encode_ulong_long_int_cbor(TTCN_Buffer buff, int bytes, long value) {
+	public static void encode_ulong_long_int_cbor(final TTCN_Buffer buff, final int bytes, final long value) {
 		for (int i = bytes - 1; i >= 0; i--) {
 			buff.put_c((byte)((value >> i*8)));
 		}
 	}
 
 	// major_type parameter needed for the string encoding
-	public static void encode_int_cbor(TTCN_Buffer buff, int major_type, TitanInteger int_num) {
+	public static void encode_int_cbor(final TTCN_Buffer buff, int major_type, TitanInteger int_num) {
 		boolean is_negative = false;
 		if (int_num.is_less_than(0)) {
 			major_type = 1 << 5;
@@ -298,7 +299,7 @@ public class JSON {
 		}
 	}
 
-	public static void decode_int_cbor(TTCN_Buffer buff, int bytes, TitanInteger result) {
+	public static void decode_int_cbor(final TTCN_Buffer buff, final int bytes, final TitanInteger result) {
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
 		TTCN_Buffer tmp_buf = new TTCN_Buffer();
 		tmp_buf.put_s(tmp);
@@ -308,7 +309,7 @@ public class JSON {
 		buff.increase_pos(bytes);
 	}
 
-	public static void decode_uint_cbor(TTCN_Buffer buff, int bytes, TitanInteger result) {
+	public static void decode_uint_cbor(final TTCN_Buffer buff, final int bytes, final TitanInteger result) {
 		result.operator_assign(0);
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
 		for (int i = bytes - 1; i >= 0; i--) {
@@ -317,7 +318,7 @@ public class JSON {
 		buff.increase_pos(bytes);
 	}
 
-	public static void decode_ulong_long_int_cbor(TTCN_Buffer buff, int bytes, AtomicLong value) {
+	public static void decode_ulong_long_int_cbor(final TTCN_Buffer buff, final int bytes, final AtomicLong value) {
 		value.set(0);
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
 		for (int i = bytes - 1; i >= 0; i--) {
@@ -326,7 +327,7 @@ public class JSON {
 		buff.increase_pos(bytes);
 	}
 
-	public static void decode_integer_cbor(TTCN_Buffer buff, int minor_type, TitanInteger result) {
+	public static void decode_integer_cbor(final TTCN_Buffer buff, final int minor_type, final TitanInteger result) {
 		if (minor_type <= 23) {
 			result.operator_assign( minor_type );
 		} else if (minor_type == 24) { // A number in 8 bits
@@ -689,7 +690,7 @@ public class JSON {
 
 	// Never use buff.get_read_data() without checking if it has enough bytes in the
 	// buffer.
-	public static byte[] check_and_get_buffer_bson(final TTCN_Buffer buff, int bytes) {
+	public static byte[] check_and_get_buffer_bson(final TTCN_Buffer buff, final int bytes) {
 		if (bytes < 0) {
 			throw new TtcnError("Incorrect length byte received: " + bytes + "%d, while decoding using bson2json()");
 		}

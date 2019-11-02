@@ -198,7 +198,7 @@ public class JSON_Tokenizer {
 
 	/** Constructs a tokenizer with an empty buffer.
 	 * Use put_next_token() to build a JSON document and get_buffer()/get_buffer_length() to retrieve it */
-	public JSON_Tokenizer(boolean p_pretty) {
+	public JSON_Tokenizer(final boolean p_pretty) {
 		pretty = p_pretty;
 		init(null, 0);
 	}
@@ -235,7 +235,7 @@ public class JSON_Tokenizer {
 	 * @return The number of characters extracted
 	 * @note The token data is not copied, *p_token_str will point to the start of the
 	 * data in the tokenizer's buffer. */
-	public int get_next_token(final AtomicReference<json_token_t> p_token, final StringBuilder p_token_str, AtomicInteger p_str_len)	{
+	public int get_next_token(final AtomicReference<json_token_t> p_token, final StringBuilder p_token_str, final AtomicInteger p_str_len)	{
 		int start_pos = buf_pos;
 		p_token.set(json_token_t.JSON_TOKEN_NONE);
 		if (null != p_token_str && null != p_str_len) {
@@ -352,7 +352,7 @@ public class JSON_Tokenizer {
 		buf_pos = p_buf_pos;
 	}
 
-	public int put_next_token(json_token_t p_token) {
+	public int put_next_token(final json_token_t p_token) {
 		return put_next_token(p_token, null);
 	}
 
@@ -362,7 +362,7 @@ public class JSON_Tokenizer {
 	 * the string representation of a JSON number, or a JSON string (with quotes
 	 * and double-escaped). For all the other tokens this parameter will be ignored.
 	 * @return The number of characters added to the JSON document */
-	public int put_next_token(json_token_t p_token, final String p_token_str) {
+	public int put_next_token(final json_token_t p_token, final String p_token_str) {
 		int start_len = buf_len;
 		switch(p_token) {
 		case JSON_TOKEN_OBJECT_START:
@@ -431,7 +431,7 @@ public class JSON_Tokenizer {
 	/** Adds raw data to the end of the buffer.
 	 * @param p_data [in] Pointer to the beginning of the data
 	 * @param p_len [in] Length of the data in bytes */
-	public void put_raw_data(final String p_data, int p_len) {
+	public void put_raw_data(final String p_data, final int p_len) {
 		//TODO: do we need p_len?
 		buf_ptr.append(p_data.substring(0, p_len));
 		buf_len += p_len;
@@ -447,7 +447,7 @@ public class JSON_Tokenizer {
 	 * is reached, otherwise returns false.
 	 * is_float variable is true if the number is a float. The result
 	 * should be used only if this function returns true. */
-	public boolean check_for_number(AtomicBoolean is_float)	{
+	public boolean check_for_number(final AtomicBoolean is_float)	{
 		boolean first_digit = false; // first non-zero digit reached
 		boolean zero = false; // first zero digit reached
 		boolean decimal_point = false; // decimal point (.) reached
