@@ -88,7 +88,8 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		if (elems.isEmpty()) {
 			return null;
 		}
-		ps_elem_t last_elem = elems.get(elems.size()-1);
+
+		final ps_elem_t last_elem = elems.get(elems.size()-1);
 		if (last_elem.kind == kind_t.PSE_STR) {
 			return last_elem;
 		} else {
@@ -117,8 +118,8 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 	}
 
 	public void addStringUSI(final List<String> usi_str) {
-		UniversalCharstring s = new UniversalCharstring(usi_str, location);
-		ps_elem_t last_elem = get_last_elem();
+		final UniversalCharstring s = new UniversalCharstring(usi_str, location);
+		final ps_elem_t last_elem = get_last_elem();
 		if (last_elem != null) {
 			last_elem.str = last_elem.str.concat(s.getStringRepresentationForPattern());
 		} else {
@@ -243,7 +244,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 	//FIXME comment
 	public String create_charstring_literals(final JavaGenData aData, final Module module, final StringBuilder preamble) {
-		StringBuilder s = new StringBuilder();
+		final StringBuilder s = new StringBuilder();
 		check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
 		if (patterntype == PatternType.CHARSTRING_PATTERN) {
 			aData.addBuiltinTypeImport("TitanCharString_template");
@@ -267,7 +268,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			if(i > 0) {
 				s.append(".operator_concatenate(");
 			}
-			ps_elem_t pse = elems.get(i);
+			final ps_elem_t pse = elems.get(i);
 
 			if (pse.is_charstring) {
 				if (i == 0) {
@@ -338,7 +339,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					s.append('(');
 				}
 				for (int j = 0; j < vec.size(); j++) {
-					ParsedSubType pst = vec.get(j);
+					final ParsedSubType pst = vec.get(j);
 					if (j > 0) {
 						s.append("|\"+");
 					} else {
@@ -348,7 +349,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					case RANGE_PARSEDSUBTYPE:
 						//double check to avoid ClassCastException
 						if (pst instanceof Range_ParsedSubType) {
-							Range_ParsedSubType range = (Range_ParsedSubType)pst;
+							final Range_ParsedSubType range = (Range_ParsedSubType)pst;
 							s.append("\"[\" + ");
 							switch (range.getMin().getValuetype()) {
 							case CHARSTRING_VALUE:
@@ -379,7 +380,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					case SINGLE_PARSEDSUBTYPE:
 						//double check to avoid ClassCastException
 						if (pst instanceof Single_ParsedSubType) {
-							Single_ParsedSubType single = (Single_ParsedSubType)pst;
+							final Single_ParsedSubType single = (Single_ParsedSubType)pst;
 							switch (single.getValue().getValuetype()) {
 							case CHARSTRING_VALUE:
 								s.append("\"");
@@ -410,7 +411,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				break;
 				// Not known in compile time
 			case PSE_REF:
-				Assignment assign = pse.ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				final Assignment assign = pse.ref.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 				ExpressionStruct expr = new ExpressionStruct();
 				pse.ref.generateConstRef(aData, expr);
 				Value.generateCodeExpressionOptionalFieldReference(aData, expr, pse.ref);
@@ -424,7 +425,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_IN
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT
 							|| assign.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT)) {
-						String value_literal = "value";
+						final String value_literal = "value";
 						str = (String.format("if (%s.get_istemplate_kind(\"%s\") == false) {\n"
 								+ "throw new TtcnError(\"Only specific value template allowed in pattern reference with \\\\N{ref}\");\n"
 								+ "}\n", expr.expression.toString(), value_literal));
@@ -496,7 +497,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 	public void check_refs(final Expected_Value_type expected_value, final CompilationTimeStamp timestamp) {
 		for (int i = 0; i < elems.size(); i++) {
-			ps_elem_t pse = elems.get(i);
+			final ps_elem_t pse = elems.get(i);
 			switch (pse.kind) {
 			case PSE_STR:
 				break;
@@ -641,11 +642,12 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				return;
 			}
 
-			Assignment ass = ref.getRefdAssignment(timestamp, false);
+			final Assignment ass = ref.getRefdAssignment(timestamp, false);
 			if (ass == null) {
 				return;
 			}
-			IType ref_type = ass.getType(timestamp).getTypeRefdLast(timestamp).getFieldType(timestamp, ref, 1, expected_value, null, false);
+
+			final IType ref_type = ass.getType(timestamp).getTypeRefdLast(timestamp).getFieldType(timestamp, ref, 1, expected_value, null, false);
 			Type_type tt;
 			switch (pstr_type) {
 			case CHARSTRING_PATTERN:
@@ -694,7 +696,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 					//TODO: template concat in RT2
 				case CSTR_PATTERN:
 					if (!with_N) {
-						PatternString ps = ((CharString_Pattern_Template)templ).getPatternstring();
+						final PatternString ps = ((CharString_Pattern_Template)templ).getPatternstring();
 						if (!ps.has_refs()) {
 							v_last = ps.get_value();
 						}
@@ -707,7 +709,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 				}
 				break;
 			default:
-				Reference t_ref = ref;
+				final Reference t_ref = ref;
 				t_ref.setLocation(ref.getLocation());
 				v = new Referenced_Value(t_ref);
 				v.setMyGovernor(refcheckertype);
