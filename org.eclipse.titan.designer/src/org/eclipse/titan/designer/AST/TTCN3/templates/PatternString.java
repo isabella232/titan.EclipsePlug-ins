@@ -74,7 +74,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 	private Location location = null;
 
 	/** String elements for the PatternStringLexer */
-	private List<ps_elem_t> elems = new ArrayList<ps_elem_t>();
+	private final List<ps_elem_t> elems = new ArrayList<ps_elem_t>();
 
 	public PatternString() {
 		patterntype = PatternType.CHARSTRING_PATTERN;
@@ -534,7 +534,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 		private String str;
 		private Reference ref;
 		private Type t; // The type of the reference in the case of PSE_REFDSET
-		private boolean with_N; // If the reference was given as \N{ref} in the pattern
+		private final boolean with_N; // If the reference was given as \N{ref} in the pattern
 		private boolean is_charstring; // \N{charstring}
 		private boolean is_universal_charstring; // \N{universal charstring}
 
