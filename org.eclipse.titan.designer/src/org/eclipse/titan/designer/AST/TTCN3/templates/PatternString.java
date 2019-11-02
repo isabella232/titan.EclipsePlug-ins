@@ -293,8 +293,7 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 			switch (pse.kind) {
 			// Known in compile time: string literal, const etc. , escaping here
 			case PSE_STR:
-				s.append("new TitanCharString(");
-				s.append('\"');
+				s.append("new TitanCharString(\"");
 				s.append(pse.str);
 				s.append("\")");
 				break;
