@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
@@ -450,6 +451,10 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 				final ExpressionStruct variableReferenceExpression = new ExpressionStruct();
 				final Reference variableReference = redirection.getVariableReference();
 				variableReference.generateCode(aData, variableReferenceExpression);
+				final Assignment assignment = variableReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+				if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(variableReference.getSubreferences())) {
+					variableReferenceExpression.expression.append(".get()");
+				}
 				instanceParameterList.append(variableReferenceExpression.expression);
 				if (variableReferenceExpression.preamble != null) {
 					expression.preamble.append(variableReferenceExpression.preamble);
