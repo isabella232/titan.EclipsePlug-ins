@@ -7,6 +7,8 @@
 ###############################################################################
 # switch on sending of usage statistics in titan eclipse
 perl -i -p -e 's/(^[^\S\n]*public static final boolean USAGE_STAT_SENDING = )(false|true);/\1true;/g' org.eclipse.titan.common/src/org/eclipse/titan/common/product/ProductConstants.java 
+perl -i -p -e 's/(^[^\S\n]*public static final boolean USAGE_STAT_SENDING = )(false|true);/\1true;/g' org.eclipse.titan.runtime/src/org/eclipse/titan/runtime/core/Usage_Stats.java
 
 # switch on license file checking in titan eclipse
-perl -i -p -e 's/(^[^\S\n]*public static final boolean LICENSE_NEEDED = )(false|true);/\1true;/g' org.eclipse.titan.common/src/org/eclipse/titan/common/product/ProductConstants.java 
+perl -i -p -e 's/(^[^\S\n]*public static final boolean LICENSE_NEEDED = )(false|true);/\1true;/g' org.eclipse.titan.common/src/org/eclipse/titan/common/product/ProductConstants.java
+
