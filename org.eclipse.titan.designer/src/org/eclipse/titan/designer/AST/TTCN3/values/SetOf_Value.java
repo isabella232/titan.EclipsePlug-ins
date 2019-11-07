@@ -695,6 +695,7 @@ public final class SetOf_Value extends Value {
 				} else {
 					tempId = name;
 				}
+
 				source.append(MessageFormat.format("{0}.set_size({1});\n", tempId, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
 				String embeddedTypeName = null;
@@ -711,11 +712,11 @@ public final class SetOf_Value extends Value {
 						final String tempId2 = aData.getTemporaryVariableName();
 						source.append("{\n");
 						source.append(MessageFormat.format("{0} {1} = {2}.get_at({3});\n", embeddedTypeName, tempId2, tempId, i));
-						value.generateCodeInit(aData, source, tempId2);
+						value.generateCodeInitMandatory(aData, source, tempId2);
 						source.append("}\n");
 					} else {
 						final String embeddedName = MessageFormat.format("{0}.get_at({1})", tempId, i);
-						value.generateCodeInit(aData, source, embeddedName);
+						value.generateCodeInitMandatory(aData, source, embeddedName);
 					}
 				}
 			}
