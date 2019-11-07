@@ -1142,7 +1142,6 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final String fromTypeName = forValue ? fromType.getGenNameValue( aData, conversionFunctionBody ): fromType.getGenNameTemplate(aData, conversionFunctionBody);
 			conversionFunctionBody.append(MessageFormat.format("\tpublic static boolean {0}(final {1} to, final {2} from) '{'\n", ConversionFunctionName, name, fromTypeName));
 			conversionFunctionBody.append("\t\tto.set_size(from.n_elem());\n");
-			conversionFunctionBody.append("FIXME ez az \n");
 
 			conversionFunctionBody.append("\t\tfor (int i = 0; i < from.n_elem(); i++) {\n");
 
