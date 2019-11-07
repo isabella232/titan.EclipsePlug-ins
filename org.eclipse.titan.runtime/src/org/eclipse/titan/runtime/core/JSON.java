@@ -26,7 +26,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 
 /**
- * FIXME comment
+ * JSON encoding/decoding functions
  *
  * @author Farkas Izabella Ingrid
  * @author Arpad Lovassy
@@ -51,7 +51,8 @@ public class JSON {
 	 */
 	public static final class TTCN_JSONdescriptor {
 
-		/** Encoding only.
+		/**
+		 * Encoding only.
 		 * true  : use the null literal to encode omitted fields in records or sets
 		 *         example: { "field1" : value1, "field2" : null, "field3" : value3 }
 		 * false : skip both the field name and the value if a field is omitted
@@ -143,8 +144,40 @@ public class JSON {
 			this.enum_texts = enum_texts;
 		}
 
+		public boolean isOmit_as_null() {
+			return omit_as_null;
+		}
+
+		public String getAlias() {
+			return alias;
+		}
+
+		public boolean isAs_value() {
+			return as_value;
+		}
+
 		public String getDefault_value() {
 			return default_value;
+		}
+
+		public boolean isMetainfo_unbound() {
+			return metainfo_unbound;
+		}
+
+		public boolean isAs_number() {
+			return as_number;
+		}
+
+		public boolean isAs_map() {
+			return as_map;
+		}
+
+		public int getNof_enum_texts() {
+			return nof_enum_texts;
+		}
+
+		public List<JsonEnumText> getEnum_texts() {
+			return enum_texts;
 		}
 	}
 
@@ -237,7 +270,7 @@ public class JSON {
 
 	// Never use buff.get_read_data() without checking if it has enough bytes in the
 	// buffer.
-	public static byte[] check_and_get_buffer(final TTCN_Buffer buff, final int bytes) {
+	private static byte[] check_and_get_buffer(final TTCN_Buffer buff, final int bytes) {
 		if (bytes < 0) {
 			throw new TtcnError(MessageFormat.format("Incorrect length byte received: {0}, while decoding using cbor2json()", bytes));
 		}
@@ -248,14 +281,14 @@ public class JSON {
 		return buff.get_read_data();
 	}
 
-	public static void encode_ulong_long_int_cbor(final TTCN_Buffer buff, final int bytes, final long value) {
+	private static void encode_ulong_long_int_cbor(final TTCN_Buffer buff, final int bytes, final long value) {
 		for (int i = bytes - 1; i >= 0; i--) {
 			buff.put_c((byte)((value >> i*8)));
 		}
 	}
 
 	// major_type parameter needed for the string encoding
-	public static void encode_int_cbor(final TTCN_Buffer buff, int major_type, TitanInteger int_num) {
+	private static void encode_int_cbor(final TTCN_Buffer buff, int major_type, TitanInteger int_num) {
 		boolean is_negative = false;
 		if (int_num.is_less_than(0)) {
 			major_type = 1 << 5;
@@ -299,7 +332,7 @@ public class JSON {
 		}
 	}
 
-	public static void decode_int_cbor(final TTCN_Buffer buff, final int bytes, final TitanInteger result) {
+	private static void decode_int_cbor(final TTCN_Buffer buff, final int bytes, final TitanInteger result) {
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
 		TTCN_Buffer tmp_buf = new TTCN_Buffer();
 		tmp_buf.put_s(tmp);
@@ -309,7 +342,7 @@ public class JSON {
 		buff.increase_pos(bytes);
 	}
 
-	public static void decode_uint_cbor(final TTCN_Buffer buff, final int bytes, final TitanInteger result) {
+	private static void decode_uint_cbor(final TTCN_Buffer buff, final int bytes, final TitanInteger result) {
 		result.operator_assign(0);
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
 		for (int i = bytes - 1; i >= 0; i--) {
@@ -318,7 +351,7 @@ public class JSON {
 		buff.increase_pos(bytes);
 	}
 
-	public static void decode_ulong_long_int_cbor(final TTCN_Buffer buff, final int bytes, final AtomicLong value) {
+	private static void decode_ulong_long_int_cbor(final TTCN_Buffer buff, final int bytes, final AtomicLong value) {
 		value.set(0);
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
 		for (int i = bytes - 1; i >= 0; i--) {
@@ -327,7 +360,7 @@ public class JSON {
 		buff.increase_pos(bytes);
 	}
 
-	public static void decode_integer_cbor(final TTCN_Buffer buff, final int minor_type, final TitanInteger result) {
+	private static void decode_integer_cbor(final TTCN_Buffer buff, final int minor_type, final TitanInteger result) {
 		if (minor_type <= 23) {
 			result.operator_assign( minor_type );
 		} else if (minor_type == 24) { // A number in 8 bits
@@ -341,7 +374,7 @@ public class JSON {
 		}
 	}
 
-	public static void decode_bytestring_cbor(final TTCN_Buffer buff, final JSON_Tokenizer tok, final int minor_type, final int tag) {
+	private static void decode_bytestring_cbor(final TTCN_Buffer buff, final JSON_Tokenizer tok, final int minor_type, final int tag) {
 		final TitanInteger length = new TitanInteger();
 		decode_integer_cbor(buff, minor_type, length);
 		final byte[] tmp = check_and_get_buffer(buff, length.get_int());
@@ -690,7 +723,7 @@ public class JSON {
 
 	// Never use buff.get_read_data() without checking if it has enough bytes in the
 	// buffer.
-	public static byte[] check_and_get_buffer_bson(final TTCN_Buffer buff, final int bytes) {
+	private static byte[] check_and_get_buffer_bson(final TTCN_Buffer buff, final int bytes) {
 		if (bytes < 0) {
 			throw new TtcnError("Incorrect length byte received: " + bytes + "%d, while decoding using bson2json()");
 		}
@@ -700,7 +733,7 @@ public class JSON {
 		return buff.get_read_data();
 	}
 
-	public static void encode_int_bson(final TTCN_Buffer buff, final TitanInteger int_num, final TitanInteger length) {
+	private static void encode_int_bson(final TTCN_Buffer buff, final TitanInteger int_num, final TitanInteger length) {
 		if (int_num.is_native()) { // 32 bit
 			length.operator_assign(length.add(4));
 			int value = int_num.get_int();
@@ -730,7 +763,7 @@ public class JSON {
 		}
 	}
 
-	public static TitanInteger decode_int_bson(final TTCN_Buffer buff, final int bytes) {
+	private static TitanInteger decode_int_bson(final TTCN_Buffer buff, final int bytes) {
 		final byte[] uc = check_and_get_buffer_bson(buff, bytes);
 		buff.increase_pos(bytes);
 		if (bytes <= 4) { //32 bit
@@ -753,7 +786,7 @@ public class JSON {
 		}
 	}
 
-	public static void put_name(final TTCN_Buffer buff, final TitanInteger length, final TitanCharString name, final boolean in_array) {
+	private static void put_name(final TTCN_Buffer buff, final TitanInteger length, final TitanCharString name, final boolean in_array) {
 		if (in_array) {
 			buff.put_cs(name);
 			buff.put_c((byte) 0); // Closing 0
@@ -770,7 +803,7 @@ public class JSON {
 		}
 	}
 
-	public static void get_name(final TTCN_Buffer buff, final JSON_Tokenizer tok, final boolean in_array) {
+	private static void get_name(final TTCN_Buffer buff, final JSON_Tokenizer tok, final boolean in_array) {
 		final byte[] uc = buff.get_read_data();
 		// Copy until closing 0
 		final String tmp_str = new String(uc);
@@ -780,7 +813,7 @@ public class JSON {
 		buff.increase_pos(tmp_str.length()+1);
 	}
 
-	public static boolean encode_bson_binary(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_binary(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -831,7 +864,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_date(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_date(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -880,7 +913,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_timestamp(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_timestamp(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -941,7 +974,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_regex(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_regex(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -986,7 +1019,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_oid(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_oid(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -1023,7 +1056,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_ref(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_ref(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -1081,7 +1114,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_undefined(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_undefined(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -1101,7 +1134,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_minkey(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_minkey(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -1126,7 +1159,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_maxkey(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_maxkey(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -1151,7 +1184,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_numberlong(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_numberlong(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
@@ -1179,7 +1212,7 @@ public class JSON {
 		return true;
 	}
 
-	public static boolean encode_bson_code_with_scope(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
+	private static boolean encode_bson_code_with_scope(final TTCN_Buffer buff, final JSON_Tokenizer tok, final TitanInteger length) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
 		final StringBuilder content = new StringBuilder();
 		final AtomicInteger len = new AtomicInteger();
