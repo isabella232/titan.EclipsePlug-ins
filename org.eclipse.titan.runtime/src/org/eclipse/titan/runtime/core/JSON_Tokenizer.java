@@ -63,8 +63,7 @@ public class JSON_Tokenizer {
 	 * The buffer is initialized with the parameter data (unless it's empty). */
 	private void init(final String p_buf, final int p_buf_len) {
 		if (p_buf != null && p_buf_len != 0) {
-			//TODO: do we need p_buf_len?
-			buf_ptr = new StringBuilder(p_buf.substring(0, p_buf_len));
+			buf_ptr = new StringBuilder(p_buf);
 		} else {
 			buf_ptr = null;
 		}
@@ -432,8 +431,7 @@ public class JSON_Tokenizer {
 	 * @param p_data [in] Pointer to the beginning of the data
 	 * @param p_len [in] Length of the data in bytes */
 	public void put_raw_data(final String p_data, final int p_len) {
-		//TODO: do we need p_len?
-		buf_ptr.append(p_data.substring(0, p_len));
+		buf_ptr.append(p_data);
 		buf_len += p_len;
 	}
 
