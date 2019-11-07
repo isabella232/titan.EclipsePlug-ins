@@ -179,8 +179,11 @@ public final class Referenced_ActualParameter extends ActualParameter {
 					expression.preamble.append(finalExpression);
 				} else {
 					final ExpressionStruct preCallConversionExpression = new ExpressionStruct();
+					expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", formalParTypeName, tempId2));
+					expression.preamble.append(MessageFormat.format("if({0}.is_bound()) '{'\n", expressionExpression.toString()));
 					final String convertedExpression = formalParType.generateConversion(aData, actualParType, expressionExpression.toString(), !isTemplateParamater, preCallConversionExpression);
-					final String finalExpression = MessageFormat.format("final {0} {1} = {2};\n", formalParTypeName, tempId2, convertedExpression);
+					final String finalExpression = MessageFormat.format("{0}.operator_assign({1});\n", tempId2, convertedExpression);
+
 					//TODO copy might be needed here
 					if(preCallConversionExpression.preamble.length() > 0) {
 						expression.preamble.append(preCallConversionExpression.preamble);
@@ -189,10 +192,12 @@ public final class Referenced_ActualParameter extends ActualParameter {
 						expression.preamble.append(preCallConversionExpression.postamble);
 					}
 					expression.preamble.append(finalExpression);
+					expression.preamble.append("}\n");
 				}
 				expression.expression.append(tempId2);
 
 				final ExpressionStruct postCallConversionExpression = new ExpressionStruct();
+				expression.postamble.append(MessageFormat.format("if({0}.is_bound()) '{'\n", tempId2));
 				final String convertedExpression = actualParType.generateConversion(aData, formalParType, tempId2, !isTemplateParamater, postCallConversionExpression);
 				if(postCallConversionExpression.preamble.length() > 0) {
 					expression.postamble.append(postCallConversionExpression.preamble);
@@ -201,6 +206,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 					expression.postamble.append(postCallConversionExpression.postamble);
 				}
 				expression.postamble.append(MessageFormat.format("{0}.operator_assign({1});\n", expressionExpression, convertedExpression));
+				expression.postamble.append("}\n");
 			} else {
 				//TODO copy might be needed here
 				expression.expression.append(expressionExpression);
