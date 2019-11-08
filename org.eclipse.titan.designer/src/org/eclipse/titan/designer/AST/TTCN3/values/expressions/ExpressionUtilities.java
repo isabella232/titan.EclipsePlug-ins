@@ -278,9 +278,29 @@ public final class ExpressionUtilities {
 				final boolean retVal1 = type1.isCompatible(timestamp, type2, info1, null, null);
 				final boolean retVal2 = type2.isCompatible(timestamp, type1, info2, null, null);
 				if (!retVal1 && !retVal2) {
-					expression.getLocation().reportSemanticError(info1.getErrorStringString());
-					expression.setIsErroneous(true);
+					
+					if (info1.getErrorStr() != null) {
+						operand1.getLocation().reportSemanticError(info1.getErrorStringString());
+						expression.setIsErroneous(true);
+					} else if (info2.getErrorStr() != null) {
+						operand2.getLocation().reportSemanticError(info2.getErrorStringString());
+						expression.setIsErroneous(true);
+					} else {
+						if (info1.getSubtypeError() == null && info2.getSubtypeError() == null) {
+							expression.getLocation().reportSemanticError(MessageFormat.format("Type mismatch: `{0}'' and `{1}'' are not compatible", type1.getTypename(), type2.getTypename()));
+							expression.setIsErroneous(true);
+						} else {
+							if (info1.getNeedsConversion() || info2.getNeedsConversion()) {
+								expression.set_needs_conversion();
+							}
+						}
+					}
+
 					return;
+				}
+
+				if (info1.getNeedsConversion() || info2.getNeedsConversion()) {
+					expression.set_needs_conversion();
 				}
 
 				if (GeneralConstants.WARNING.equals(typeCompatibilitySeverity)) {
