@@ -1798,10 +1798,16 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				final IType toFieldType = toComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				final IType fromFieldType = fromComp.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-				final String tempId2 = aData.getTemporaryVariableName();
+				String tempId2;
 				final String fromFieldTypeName = forValue ? fromFieldType.getGenNameValue( aData, conversionFunctionBody ): fromFieldType.getGenNameTemplate(aData, conversionFunctionBody);
-				conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}(){3};\n", fromFieldTypeName, tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName()), forValue && fromComp.isOptional()? ".constGet()" : "" ));
-				conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
+				if (fromComp.isOptional()) {
+					tempId2 = MessageFormat.format("from.constGet_field_{0}()", FieldSubReference.getJavaGetterName( fromFieldName.getName()));
+					conversionFunctionBody.append(MessageFormat.format("\t\tif(from.constGet_field_{0}().is_bound()) '{'\n", FieldSubReference.getJavaGetterName( fromFieldName.getName())));
+				} else {
+					tempId2 = aData.getTemporaryVariableName();
+					conversionFunctionBody.append(MessageFormat.format("\t\tfinal {0} {1} = from.constGet_field_{2}();\n", fromFieldTypeName, tempId2, FieldSubReference.getJavaGetterName( fromFieldName.getName()) ));
+					conversionFunctionBody.append(MessageFormat.format("\t\tif({0}.is_bound()) '{'\n", tempId2));
+				}
 
 				final ExpressionStruct tempExpression = new ExpressionStruct();
 				final String tempId3 = toFieldType.generateConversion(aData, fromFieldType, tempId2, forValue, tempExpression);
