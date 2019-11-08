@@ -7,12 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
@@ -282,14 +284,12 @@ public final class EqualsExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
+		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression() && !get_needs_conversion();
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//FIXME handle the needs conversion case
-		// TODO maybe this can be optimized later
 		boolean isOptional1 = false;
 		boolean isOptional2 = false;
 
@@ -312,6 +312,31 @@ public final class EqualsExpression extends Expression_Value {
 			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
 				isOptional2 = true;
 			}
+		}
+
+		if (get_needs_conversion()) {
+			final ExpressionStruct tempExpr = new ExpressionStruct();
+			final IType type1 = value1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType type2 = value2.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			if (isOptional2) {
+				value2.generateCodeExpression(aData, tempExpr, true);
+			} else {
+				value2.generateCodeExpressionMandatory(aData, tempExpr, false);
+			}
+
+			if (tempExpr.preamble.length() > 0) {
+				expression.preamble.append(tempExpr.preamble);
+			}
+			final String tempId2 = type1.generateConversion(aData, type2, tempExpr.expression.toString(), true, expression);
+			//expression.expression.append(tempId2);
+			if (isOptional1) {
+				value1.generateCodeExpression(aData, expression, true);
+			} else {
+				value1.generateCodeExpressionMandatory(aData, expression, false);
+			}
+			expression.expression.append( MessageFormat.format(".operator_equals({0})", tempId2) );
+
+			return;
 		}
 
 		if (isOptional1) {
