@@ -654,7 +654,7 @@ public class JSON {
 				// Decoding algorithm from the standard
 				final byte[] halfp = check_and_get_buffer(buff, 2);
 				buff.increase_pos(2);
-				final int half = (halfp[0] << 8) + halfp[1];
+				final int half = (halfp[0] << 8) + (halfp[1] & 0xFF);
 				final int exp = (half >> 10) & 0x1f;
 				final int mant = half & 0x3ff;
 				double val;
