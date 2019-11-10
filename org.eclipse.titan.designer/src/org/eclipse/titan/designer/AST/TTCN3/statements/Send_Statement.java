@@ -141,13 +141,13 @@ public final class Send_Statement extends Statement {
 			portReference.setCodeSection(codeSection);
 		}
 		if (parameter != null) {
-			parameter.setCodeSection(codeSection);;
+			parameter.setCodeSection(codeSection);
 		}
 		if (toClause != null) {
-			toClause.setCodeSection(codeSection);;
+			toClause.setCodeSection(codeSection);
 		}
 		if (redirectTimestamp != null) {
-			redirectTimestamp.setCodeSection(codeSection);;
+			redirectTimestamp.setCodeSection(codeSection);
 		}
 	}
 
