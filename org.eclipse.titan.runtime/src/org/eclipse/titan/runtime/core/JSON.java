@@ -1675,7 +1675,7 @@ public class JSON {
 				break;
 			}
 			default:
-				throw new TtcnError("Unexpected type " + type + " while decoding using bson2json().");
+				throw new TtcnError("Unexpected type " + type[0] + " while decoding using bson2json().");
 			}
 		}
 	}
