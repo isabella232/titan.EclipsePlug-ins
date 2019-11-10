@@ -718,7 +718,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			i = 0;
 			while (i < length) {
 				final char value = defaultValue.charAt(i);
-				if (value < 0) {
+				if ((byte)value < 0) {
 					getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 					return;
 				}
