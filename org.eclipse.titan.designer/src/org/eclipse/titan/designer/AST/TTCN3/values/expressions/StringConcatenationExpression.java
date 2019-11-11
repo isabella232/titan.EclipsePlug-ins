@@ -31,7 +31,6 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -46,9 +45,6 @@ public final class StringConcatenationExpression extends Expression_Value {
 
 	private final Value value1;
 	private final Value value2;
-
-	//FIXME strictly for debug purposes
-	private static int stackCounter = 0;
 
 	public StringConcatenationExpression(final Value value1, final Value value2) {
 		this.value1 = value1;
@@ -257,13 +253,8 @@ public final class StringConcatenationExpression extends Expression_Value {
 		boolean v2_string = false;
 
 		if (value1 != null) {
-			stackCounter++;
 			value1.setLoweridToReference(timestamp);
 			tempType1 = value1.getExpressionReturntype(timestamp, expectedValue);
-			if (stackCounter > 10) {
-				TITANDebugConsole.println("possible string concatenation stackoverflow in file `" + getLocation().getFile().getLocation().toOSString() + "' line `" + getLocation().getLine() + "'");
-			}
-			stackCounter--;
 
 			switch (tempType1) {
 			case TYPE_BITSTRING:
