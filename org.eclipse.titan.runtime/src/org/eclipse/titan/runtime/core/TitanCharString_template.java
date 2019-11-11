@@ -110,6 +110,20 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	/**
 	 * Initializes to a given value.
 	 * The template becomes a specific template and the value is copied.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
+	public TitanCharString_template(final TitanCharString_Element otherValue) {
+		super(template_sel.SPECIFIC_VALUE);
+		otherValue.must_bound("Creating a template from an unbound charstring value.");
+
+		single_value = new TitanCharString(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 * The template becomes a specific template and the value is copied.
 	 * Causes dynamic testcase error if the parameter is not present or omit.
 	 *
 	 * @param otherValue
@@ -237,6 +251,26 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	 * @return the new template object.
 	 */
 	public TitanCharString_template operator_assign(final TitanCharString otherValue) {
+		otherValue.must_bound("Assignment of an unbound charstring value to a template.");
+
+		clean_up();
+		set_selection(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanCharString(otherValue);
+
+		return this;
+	}
+
+	/**
+	 * Assigns the other value to this template.
+	 * Overwriting the current content in the process.
+	 *<p>
+	 * operator= in the core.
+	 *
+	 * @param otherValue
+	 *                the other value to assign.
+	 * @return the new template object.
+	 */
+	public TitanCharString_template operator_assign(final TitanCharString_Element otherValue) {
 		otherValue.must_bound("Assignment of an unbound charstring value to a template.");
 
 		clean_up();
