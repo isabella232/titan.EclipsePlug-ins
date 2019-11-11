@@ -261,7 +261,7 @@ public final class StringConcatenationExpression extends Expression_Value {
 			value1.setLoweridToReference(timestamp);
 			tempType1 = value1.getExpressionReturntype(timestamp, expectedValue);
 			if (stackCounter > 10) {
-				TITANDebugConsole.println("possible string concatenation stackoverflow in file `" + getLocation().getFile() + "' line `" + getLocation().getLine() + "'");
+				TITANDebugConsole.println("possible string concatenation stackoverflow in file `" + getLocation().getFile().getLocation().toOSString() + "' line `" + getLocation().getLine() + "'");
 			}
 			stackCounter--;
 
