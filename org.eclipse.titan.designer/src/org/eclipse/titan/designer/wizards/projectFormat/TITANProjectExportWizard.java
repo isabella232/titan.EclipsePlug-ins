@@ -94,7 +94,7 @@ public class TITANProjectExportWizard extends Wizard implements IExportWizard {
 				break;
 			case IResource.FOLDER:
 				if (excludeWorkingdirectoryContents) {
-					for (IContainer workingDirectory : workingDirectories) {
+					for (final IContainer workingDirectory : workingDirectories) {
 						if (workingDirectory.equals(resource)) {
 							return false;
 						}

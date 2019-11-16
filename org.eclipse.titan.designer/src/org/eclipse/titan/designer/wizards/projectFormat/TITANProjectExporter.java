@@ -224,7 +224,7 @@ public final class TITANProjectExporter {
 			return false;
 		}
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 		DocumentBuilder builder;
 		try {
@@ -234,13 +234,13 @@ public final class TITANProjectExporter {
 			return false;
 		}
 
-		DOMImplementation impl = builder.getDOMImplementation();
+		final DOMImplementation impl = builder.getDOMImplementation();
 		final Document document = impl.createDocument(null, "TITAN_Project_File_Information", null);
 
-		Element root = document.getDocumentElement();
+		final Element root = document.getDocumentElement();
 		root.setAttribute("version", "1.0");
 
-		boolean result = saveProjectInformation(root, project, packAllProjectsIntoOne, !packAllProjectsIntoOne);
+		final boolean result = saveProjectInformation(root, project, packAllProjectsIntoOne, !packAllProjectsIntoOne);
 		if (!result) {
 			return false;
 		}
@@ -265,38 +265,38 @@ public final class TITANProjectExporter {
 		// DOMImplementation
 		// object implements the load and save features of the DOM 3.0
 		// specification.
-		DOMImplementation domImpl = registry.getDOMImplementation(ProjectFormatConstants.LOAD_SAVE_VERSION);
-		DOMImplementationLS domImplLS = (DOMImplementationLS) domImpl;
+		final DOMImplementation domImpl = registry.getDOMImplementation(ProjectFormatConstants.LOAD_SAVE_VERSION);
+		final DOMImplementationLS domImplLS = (DOMImplementationLS) domImpl;
 		// If the mode is MODE_SYNCHRONOUS, the parse and parseURI
 		// methods of the LSParser
 		// object return the org.w3c.dom.Document object. If the mode is
 		// MODE_ASYNCHRONOUS,
 		// the parse and parseURI methods return null.
-		LSParser parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, ProjectFormatConstants.XML_SCHEMA);
-		DOMConfiguration config = parser.getDomConfig();
-		DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
+		final LSParser parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, ProjectFormatConstants.XML_SCHEMA);
+		final DOMConfiguration config = parser.getDomConfig();
+		final DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
 		config.setParameter("error-handler", errorHandler);
 		config.setParameter("validate", Boolean.TRUE);
 		config.setParameter("schema-type", ProjectFormatConstants.XML_SCHEMA);
 		config.setParameter("validate-if-schema", Boolean.TRUE);
-		LSSerializer dom3Writer = domImplLS.createLSSerializer();
-		LSOutput output = domImplLS.createLSOutput();
+		final LSSerializer dom3Writer = domImplLS.createLSSerializer();
+		final LSOutput output = domImplLS.createLSOutput();
 
-		IPath projectFilePath = Path.fromOSString(projectFile);
-		URI projectFileURI = URIUtil.toURI(projectFilePath);
+		final IPath projectFilePath = Path.fromOSString(projectFile);
+		final URI projectFileURI = URIUtil.toURI(projectFilePath);
 
 		try {
-			StringWriter sw = new StringWriter();
+			final StringWriter sw = new StringWriter();
 			output.setCharacterStream(sw);
 			output.setEncoding("UTF-8");
 			dom3Writer.write(document, output);
-			String temporaloutput = sw.getBuffer().toString();
+			final String temporaloutput = sw.getBuffer().toString();
 
-			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(projectFile));
+			final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(projectFile));
 			bufferedWriter.write(temporaloutput);
 			bufferedWriter.flush();
 			bufferedWriter.close();
-			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(projectFileURI);
+			final IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(projectFileURI);
 			for (final IFile file : files) {
 				file.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			}
@@ -336,20 +336,20 @@ public final class TITANProjectExporter {
 			copyrightStr = PreferenceConstants.COPYRIGHT_DEFAULT_STRING;
 		}
 
-		Comment commentNode = document.createComment(copyrightStr);
+		final Comment commentNode = document.createComment(copyrightStr);
 		root.appendChild(commentNode);
 		// save the name of the project
-		Element projectNameNode = document.createElement(ProjectFormatConstants.PROJECTNAME_NODE);
+		final Element projectNameNode = document.createElement(ProjectFormatConstants.PROJECTNAME_NODE);
 		projectNameNode.appendChild(document.createTextNode(project.getName()));
 		root.appendChild(projectNameNode);
 
-		boolean result = saveReferencedProjectsData(root, project, storeReferredProjectLocationURI);
+		final boolean result = saveReferencedProjectsData(root, project, storeReferredProjectLocationURI);
 		if (!result) {
 			return false;
 		}
 
 		final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
-		ExportResourceVisitor visitor = new ExportResourceVisitor(workingDirectories, isExcludedWorkingDirectoryContents,
+		final ExportResourceVisitor visitor = new ExportResourceVisitor(workingDirectories, isExcludedWorkingDirectoryContents,
 				isExcludedDotResources, excludeLinkedContents);
 		try {
 			if (project.isAccessible()) {
@@ -361,12 +361,12 @@ public final class TITANProjectExporter {
 
 		IPath projectFilePath = new Path(projectFile);
 		projectFilePath = projectFilePath.removeLastSegments(1);
-		URI projectFileURI = URIUtil.toURI(projectFilePath);
+		final URI projectFileURI = URIUtil.toURI(projectFilePath);
 
-		Map<String, IFolder> folders = visitor.getFolders();
+		final Map<String, IFolder> folders = visitor.getFolders();
 		saveFoldersData(root, folders, projectFileURI);
 
-		Map<String, IFile> files = visitor.getFiles();
+		final Map<String, IFile> files = visitor.getFiles();
 		saveFilesData(root, files, projectFileURI);
 
 		savePathVariableData(root);
@@ -374,14 +374,14 @@ public final class TITANProjectExporter {
 		saveConfigurationData(root, project, files, folders, saveDefaultValues);
 
 		if (packReferencedProjects) {
-			List<IProject> referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+			final List<IProject> referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
 			referencedProjects.remove(project);
 
 			if (!referencedProjects.isEmpty()) {
-				Element projectsElement = document.createElement(ProjectFormatConstants.PACKED_REFERENCED_PROJECTS_NODE);
+				final Element projectsElement = document.createElement(ProjectFormatConstants.PACKED_REFERENCED_PROJECTS_NODE);
 				root.appendChild(projectsElement);
-				for (IProject tempProject : referencedProjects) {
-					Element element = document.createElement(ProjectFormatConstants.PACKED_REFERENCED_PROJECT_NODE);
+				for (final IProject tempProject : referencedProjects) {
+					final Element element = document.createElement(ProjectFormatConstants.PACKED_REFERENCED_PROJECT_NODE);
 					projectsElement.appendChild(element);
 					//the packed r. p. node must not contain packed r.p nodes but the project locationURI should be removed, as ordered above
 					saveProjectInformation(element, tempProject, false, storeReferredProjectLocationURI); 
@@ -401,17 +401,17 @@ public final class TITANProjectExporter {
 	 *            the project to be processed.
 	 * */
 	private boolean saveReferencedProjectsData(final Node root, final IProject project, final boolean storeReferredProjectLocationURI) {
-		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
+		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
 		if (referencedProjects.length == 0) {
 			return true;
 		}
 
 		final Document document = root.getOwnerDocument();
-		Element projectsElement = document.createElement(ProjectFormatConstants.REFERENCED_PROJECTS_NODE);
+		final Element projectsElement = document.createElement(ProjectFormatConstants.REFERENCED_PROJECTS_NODE);
 		root.appendChild(projectsElement);
 
 		for (final IProject tempProject : referencedProjects) {
-			Element element = document.createElement(ProjectFormatConstants.REFERENCED_PROJECT_NODE);
+			final Element element = document.createElement(ProjectFormatConstants.REFERENCED_PROJECT_NODE);
 			element.setAttribute(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE, tempProject.getName());
 
 			boolean projectLocationURIset = false;
@@ -445,7 +445,7 @@ public final class TITANProjectExporter {
 			}
 
 			try {
-				String location = tempProject.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+				final String location = tempProject.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						ProjectBuildPropertyData.LOAD_LOCATION));
 				if (location == null || location.length() == 0) {
 					final IProject tempProject2 = tempProject;
@@ -466,7 +466,7 @@ public final class TITANProjectExporter {
 					try {
 						locationuri = org.eclipse.core.runtime.URIUtil.fromString(location);
 						if (locationuri.getScheme() == null || locationuri.getScheme().length() <= 1) {
-							Path locationPath = new Path(location);
+							final Path locationPath = new Path(location);
 							locationuri = org.eclipse.core.runtime.URIUtil.fromString("file:/" + locationPath.toString());
 						}
 
@@ -477,8 +477,8 @@ public final class TITANProjectExporter {
 
 					IPath path = new Path(projectFile);
 					path = path.removeLastSegments(1);
-					URI projecturi = URIUtil.toURI(path);
-					URI result = org.eclipse.core.runtime.URIUtil.makeRelative(locationuri, projecturi);
+					final URI projecturi = URIUtil.toURI(path);
+					final URI result = org.eclipse.core.runtime.URIUtil.makeRelative(locationuri, projecturi);
 					element.setAttribute(ProjectFormatConstants.REFERENCED_PROJECT_LOCATION_ATTRIBUTE, result.toString());
 				}
 			} catch (CoreException e) {
@@ -510,17 +510,17 @@ public final class TITANProjectExporter {
 		final Document document = root.getOwnerDocument();
 		final Element foldersRoot = document.createElement(ProjectFormatConstants.FOLDERS_NODE);
 		root.appendChild(foldersRoot);
-		for (IFolder folder : folders.values()) {
+		for (final IFolder folder : folders.values()) {
 			final Element folderRoot = document.createElement(ProjectFormatConstants.FOLDER_NODE);
 			foldersRoot.appendChild(folderRoot);
 			folderRoot.setAttribute(ProjectFormatConstants.FOLDER_ECLIPSE_LOCATION_NODE, folder.getProjectRelativePath().toString());
 
-			URI rawURI = folder.getRawLocationURI();
+			final URI rawURI = folder.getRawLocationURI();
 			if( rawURI != null) {
-				URI expandedURI = folder.getLocationURI();
+				final URI expandedURI = folder.getLocationURI();
 				if (rawURI.equals(expandedURI)) {
 					if (folder.getLocation() != null) {
-						URI result = org.eclipse.core.runtime.URIUtil.makeRelative(expandedURI, projectFileURI);
+						final URI result = org.eclipse.core.runtime.URIUtil.makeRelative(expandedURI, projectFileURI);
 						folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RELATIVE_LOCATION, result.toString());
 					} else {
 						folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RAW_LOCATION, expandedURI.toString());
@@ -553,16 +553,16 @@ public final class TITANProjectExporter {
 		final Document document = root.getOwnerDocument();
 		final Element filesRoot = document.createElement(ProjectFormatConstants.FILES_NODE);
 		root.appendChild(filesRoot);
-		for (IFile file : files.values()) {
+		for (final IFile file : files.values()) {
 			final Element fileRoot = document.createElement(ProjectFormatConstants.FILE_NODE);
 			filesRoot.appendChild(fileRoot);
 
 			fileRoot.setAttribute(ProjectFormatConstants.FILE_ECLIPSE_LOCATION_NODE, file.getProjectRelativePath().toString());
-			URI rawURI = file.getRawLocationURI();
-			URI expandedURI = file.getLocationURI();
+			final URI rawURI = file.getRawLocationURI();
+			final URI expandedURI = file.getLocationURI();
 			if (rawURI.equals(expandedURI)) {
 				if (file.getLocation() != null) {
-					URI result = org.eclipse.core.runtime.URIUtil.makeRelative(expandedURI, projectFileURI);
+					final URI result = org.eclipse.core.runtime.URIUtil.makeRelative(expandedURI, projectFileURI);
 					fileRoot.setAttribute(ProjectFormatConstants.FILE_RELATIVE_LOCATION, result.toString());
 				} else {
 					fileRoot.setAttribute(ProjectFormatConstants.FILE_RAW_LOCATION, file.getLocationURI().toString());
@@ -580,24 +580,24 @@ public final class TITANProjectExporter {
 	 *            the node to save the data under.
 	 * */
 	private void savePathVariableData(final Node root) {
-		IPathVariableManager pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
-		String[] names = pathVariableManager.getPathVariableNames();
+		final IPathVariableManager pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
+		final String[] names = pathVariableManager.getPathVariableNames();
 		if (names.length == 0) {
 			return;
 		}
 
-		List<String> namesArray = new ArrayList<String>(names.length);
-		for (String name : names) {
+		final List<String> namesArray = new ArrayList<String>(names.length);
+		for (final String name : names) {
 			namesArray.add(name);
 		}
 		Collections.sort(namesArray);
 		final Document document = root.getOwnerDocument();
 		final Element variablesRoot = document.createElement(ProjectFormatConstants.PATH_VARIABLES);
 		root.appendChild(variablesRoot);
-		for (String name : namesArray) {
+		for (final String name : namesArray) {
 			final Element variableRoot = document.createElement(ProjectFormatConstants.PATH_VARIABLE);
 			variablesRoot.appendChild(variableRoot);
-			URI value = pathVariableManager.getURIValue(name);
+			final URI value = pathVariableManager.getURIValue(name);
 			variableRoot.setAttribute("value", value.toString());
 			variableRoot.setAttribute("name", name);
 		}
@@ -631,21 +631,22 @@ public final class TITANProjectExporter {
 			ErrorReporter.logExceptionStackTrace(e);
 			activeConfigurationName = ProjectFormatConstants.DEFAULT_CONFIGURATION_NAME;
 		}
-		Element activeConfigurationNode = document.createElement(ProjectFormatConstants.ACTIVE_CONFIGURATION_NODE);
+
+		final Element activeConfigurationNode = document.createElement(ProjectFormatConstants.ACTIVE_CONFIGURATION_NODE);
 		activeConfigurationNode.appendChild(document.createTextNode(activeConfigurationName));
 		root.appendChild(activeConfigurationNode);
 
-		Node configurationsRoot = document.createElement(ProjectFormatConstants.CONFIGURATIONS_NODE);
+		final Node configurationsRoot = document.createElement(ProjectFormatConstants.CONFIGURATIONS_NODE);
 		root.appendChild(configurationsRoot);
 		final Document configurationDocument = ProjectDocumentHandlingUtility.getDocument(project);
-		List<String> configurations = ProjectFileHandler.getConfigurations(configurationDocument);
+		final List<String> configurations = ProjectFileHandler.getConfigurations(configurationDocument);
 
-		for (String config : configurations) {
-			Element configurationRoot = document.createElement(ProjectFormatConstants.CONFIGURATION_NODE);
+		for (final String config : configurations) {
+			final Element configurationRoot = document.createElement(ProjectFormatConstants.CONFIGURATION_NODE);
 			configurationRoot.setAttribute(ProjectFormatConstants.CONFIGURATION_NAME_ATTRIBUTE, config);
 			configurationsRoot.appendChild(configurationRoot);
 
-			Node configurationNode = ProjectFileHandler.findConfigurationNode(configurationDocument.getDocumentElement(), config);
+			final Node configurationNode = ProjectFileHandler.findConfigurationNode(configurationDocument.getDocumentElement(), config);
 			copyConfigurationData(configurationNode, project, configurationRoot, files, folders, saveDefaultValues);
 		}
 	}

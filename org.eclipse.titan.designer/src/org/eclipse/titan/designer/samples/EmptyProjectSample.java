@@ -39,7 +39,7 @@ final class EmptyProjectSample extends SampleProject {
 	}
 
 	@Override
-	protected void configure(IProject project) {
+	protected void configure(final IProject project) {
 		// Do nothing
 	}
 }

@@ -113,7 +113,7 @@ public class TpdImporter {
 	public TpdImporter(final Shell shell, final boolean headless) {
 		this.shell = shell;
 		this.headless = headless;
-		IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 		wasAutoBuilding = description.isAutoBuilding();
 		description.setAutoBuilding(false);
 		try {
@@ -172,7 +172,7 @@ public class TpdImporter {
 		parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, ProjectFormatConstants.XML_SCHEMA);
 
 		config = parser.getDomConfig();
-		DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
+		final DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
 		config.setParameter("error-handler", errorHandler);
 		config.setParameter("validate", Boolean.TRUE);
 		config.setParameter("schema-type", ProjectFormatConstants.XML_SCHEMA);
@@ -188,7 +188,7 @@ public class TpdImporter {
 			// Hint: cp $TTCN3_DIR/etc/xsd/TPD.xsd designer/schema/
 		}
 
-		URI resolvedProjectFileURI = TITANPathUtilities.resolvePath(projectFile, (URI) null);
+		final URI resolvedProjectFileURI = TITANPathUtilities.resolvePath(projectFile, (URI) null);
 		//====================================
 		// Loading all URI Documents (tpds) 
 		// and collect projects to be imported
@@ -200,18 +200,18 @@ public class TpdImporter {
 		final SubMonitor progress = SubMonitor.convert(monitor, 3);
 		progress.setTaskName("Loading data");
 
-		IProgressMonitor projectCreationMonitor = progress.newChild(1);
+		final IProgressMonitor projectCreationMonitor = progress.newChild(1);
 		projectCreationMonitor.beginTask("Creating required projects", projectsToImport.size());
 		//========================
 		// Create projects and 
 		// store load location 
 		// (where they are loaded from)
 		//========================
-		Map<URI, IProject> projectMap = new HashMap<URI, IProject>();
-		for (URI file : projectsToImport.keySet()) {
-			Document actualDocument = projectsToImport.get(file);
+		final Map<URI, IProject> projectMap = new HashMap<URI, IProject>();
+		for (final URI file : projectsToImport.keySet()) {
+			final Document actualDocument = projectsToImport.get(file);
 
-			IProject project = createProject(actualDocument.getDocumentElement(), file.equals(resolvedProjectFileURI) || !isSkipExistingProjects);
+			final IProject project = createProject(actualDocument.getDocumentElement(), file.equals(resolvedProjectFileURI) || !isSkipExistingProjects);
 			if (project == null) {
 				projectCreationMonitor.worked(1);
 				if (file.equals(resolvedProjectFileURI)) {
@@ -235,26 +235,26 @@ public class TpdImporter {
 		}
 		projectCreationMonitor.done();
 
-		IProgressMonitor normalInformationLoadingMonitor = progress.newChild(1);
+		final IProgressMonitor normalInformationLoadingMonitor = progress.newChild(1);
 		normalInformationLoadingMonitor.beginTask("Loading directly stored project information", projectsToImport.size());
 
 		//====================================
 		//Load Project Data from all projects:
 		//====================================
-		for (URI file : projectsToImport.keySet()) {
+		for (final URI file : projectsToImport.keySet()) {
 			if (!projectMap.containsKey(file)) {
 				normalInformationLoadingMonitor.worked(1);
 				continue;
 			}
 
-			IProject project = projectMap.get(file);
-			IPath projectFileFolderPath = new Path(file.getPath()).removeLastSegments(1);
-			URI projectFileFolderURI = URIUtil.toURI(projectFileFolderPath);
-			Document actualDocument = projectsToImport.get(file);
+			final IProject project = projectMap.get(file);
+			final IPath projectFileFolderPath = new Path(file.getPath()).removeLastSegments(1);
+			final URI projectFileFolderURI = URIUtil.toURI(projectFileFolderPath);
+			final Document actualDocument = projectsToImport.get(file);
 
 			if (this.searchPaths != null && !this.searchPaths.isEmpty()) {
-				String tpdNameAttrVal = tpdNameAttrMap.get(project.getName());
-				String tpdURIVal = tpdURIMap.get(project.getName());
+				final String tpdNameAttrVal = tpdNameAttrMap.get(project.getName());
+				final String tpdURIVal = tpdURIMap.get(project.getName());
 				if (tpdNameAttrVal != null) {
 					try {
 						project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.USE_TPD_NAME),
@@ -273,14 +273,14 @@ public class TpdImporter {
 				}
 			}
 
-			Element mainElement = actualDocument.getDocumentElement();
+			final Element mainElement = actualDocument.getDocumentElement();
 			//=== Get the copyright text ===
-			Node node = mainElement.getFirstChild();
+			final Node node = mainElement.getFirstChild();
 
 			String commentStr = ""; //default value. This will be changed for PreferenceConstants.COPYRIGHT_DEFAULT_STRING at export
 			if( node !=null && node.getNodeType() == Element.COMMENT_NODE ){
 				//process comment node
-				Comment comment = (Comment) node;
+				final Comment comment = (Comment) node;
 				commentStr = comment.getData();
 			}
 			try {
@@ -300,14 +300,14 @@ public class TpdImporter {
 		//=====================================
 		//Load information from packed projects
 		//=====================================
-		IPath mainProjectFileFolderPath = new Path(resolvedProjectFileURI.getPath()).removeLastSegments(1);
-		URI mainProjectFileFolderURI = URIUtil.toURI(mainProjectFileFolderPath);
+		final IPath mainProjectFileFolderPath = new Path(resolvedProjectFileURI.getPath()).removeLastSegments(1);
+		final URI mainProjectFileFolderURI = URIUtil.toURI(mainProjectFileFolderPath);
 
-		List<Node> packedProjects = loadPackedProjects(projectsToImport.get(resolvedProjectFileURI));
-		IProgressMonitor packedInformationLoadingMonitor = progress.newChild(1);
+		final List<Node> packedProjects = loadPackedProjects(projectsToImport.get(resolvedProjectFileURI));
+		final IProgressMonitor packedInformationLoadingMonitor = progress.newChild(1);
 		packedInformationLoadingMonitor.beginTask("Loading packed project information", packedProjects.size());
-		for (Node node : packedProjects) {
-			IProject project = createProject(node, false);
+		for (final Node node : packedProjects) {
+			final IProject project = createProject(node, false);
 			if (project == null) {
 				packedInformationLoadingMonitor.worked(1);
 				continue;
@@ -330,7 +330,7 @@ public class TpdImporter {
 		}
 		packedInformationLoadingMonitor.done();
 
-		IProject mainProject = projectMap.get(resolvedProjectFileURI);
+		final IProject mainProject = projectMap.get(resolvedProjectFileURI);
 		if (mainProject == null) {
 			progress.done();
 			return false;
@@ -341,7 +341,7 @@ public class TpdImporter {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("While setting `useTpdName' for project `" + mainProject.getName() + "'", e);
 		}
-		List<WorkspaceJob> jobs = new ArrayList<WorkspaceJob>();
+		final List<WorkspaceJob> jobs = new ArrayList<WorkspaceJob>();
 		List<IProject> projectsToBeConfigured;
 		if (isOpenPropertiesForAllImports) {
 			projectsToBeConfigured = projectsCreated;
@@ -352,7 +352,7 @@ public class TpdImporter {
 
 		if (!headless) {
 			for (final IProject project : projectsToBeConfigured) {
-				WorkspaceJob loadJob = new WorkspaceJob("Property initilizer for " + project.getName()) {
+				final WorkspaceJob loadJob = new WorkspaceJob("Property initilizer for " + project.getName()) {
 					@Override
 					public IStatus runInWorkspace(final IProgressMonitor monitor) {
 						Display.getDefault().asyncExec(new Runnable() {
@@ -376,7 +376,7 @@ public class TpdImporter {
 				jobs.add(loadJob);
 			}
 
-			for (WorkspaceJob job : jobs) {
+			for (final WorkspaceJob job : jobs) {
 				try {
 					job.join();
 				} catch (InterruptedException e) {
@@ -393,17 +393,17 @@ public class TpdImporter {
 
 	public static void validateTpd(final File tpdFile) throws IOException, SAXException {
 		final Schema tpdXsd = getTPDSchema();
-		Validator validator = tpdXsd.newValidator();
+		final Validator validator = tpdXsd.newValidator();
 		validator.validate(new StreamSource(tpdFile));
 	}
 
 	public static Schema getTPDSchema() throws IOException, SAXException {
-		Bundle bundle = Platform.getBundle(ProductConstants.PRODUCT_ID_DESIGNER);
+		final Bundle bundle = Platform.getBundle(ProductConstants.PRODUCT_ID_DESIGNER);
 		InputStream xsdInputStream = null;
 		try {
 			xsdInputStream = FileLocator.openStream(bundle, new Path(TPD_XSD), false);
-			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema result = factory.newSchema(new StreamSource(xsdInputStream));
+			final SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			final Schema result = factory.newSchema(new StreamSource(xsdInputStream));
 			xsdInputStream.close();
 			return result;
 		} finally {
@@ -412,7 +412,7 @@ public class TpdImporter {
 	}
 
 	private void activatePreviousSettings() {
-		IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 		if (description.isAutoBuilding() != wasAutoBuilding) {
 			description.setAutoBuilding(wasAutoBuilding);
 			try {
@@ -435,16 +435,16 @@ public class TpdImporter {
 	 * @return the list of found packed projects, an empty list if none.
 	 * */
 	private List<Node> loadPackedProjects(final Document document) {
-		NodeList referencedProjectsList = document.getDocumentElement().getChildNodes();
-		Node packed = ProjectFileHandler.getNodebyName(referencedProjectsList, ProjectFormatConstants.PACKED_REFERENCED_PROJECTS_NODE);
+		final NodeList referencedProjectsList = document.getDocumentElement().getChildNodes();
+		final Node packed = ProjectFileHandler.getNodebyName(referencedProjectsList, ProjectFormatConstants.PACKED_REFERENCED_PROJECTS_NODE);
 		if (packed == null) {
 			return new ArrayList<Node>();
 		}
 
-		List<Node> result = new ArrayList<Node>();
-		NodeList projects = packed.getChildNodes();
+		final List<Node> result = new ArrayList<Node>();
+		final NodeList projects = packed.getChildNodes();
 		for (int i = 0, size = projects.getLength(); i < size; i++) {
-			Node referencedProjectNode = projects.item(i);
+			final Node referencedProjectNode = projects.item(i);
 			if (ProjectFormatConstants.PACKED_REFERENCED_PROJECT_NODE.equals(referencedProjectNode.getNodeName())) {
 				result.add(referencedProjectNode);
 			}
@@ -466,30 +466,30 @@ public class TpdImporter {
 	 * @return true if the import was successful, false otherwise.
 	 * */
 	private boolean loadProjectDataFromNode(final Node mainElement, final IProject project, final URI projectFileFolderURI) {
-		NodeList mainNodes = mainElement.getChildNodes();
+		final NodeList mainNodes = mainElement.getChildNodes();
 
-		Node referencedProjectsNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.REFERENCED_PROJECTS_NODE);
+		final Node referencedProjectsNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.REFERENCED_PROJECTS_NODE);
 		if (referencedProjectsNode != null) {
 			if (!loadReferencedProjectsData(referencedProjectsNode, project)) {
 				return false;
 			}
 		}
 
-		Node pathVariablesNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.PATH_VARIABLES);
+		final Node pathVariablesNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.PATH_VARIABLES);
 		if (pathVariablesNode != null) {
 			if (!loadPathVariables(pathVariablesNode, project.getName())) {
 				return false;
 			}
 		}
 
-		Node foldersNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.FOLDERS_NODE);
+		final Node foldersNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.FOLDERS_NODE);
 		if (foldersNode != null) {
 			if (!loadFoldersData(foldersNode, project, projectFileFolderURI)) {
 				return false;
 			}
 		}
 
-		Node filesNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.FILES_NODE);
+		final Node filesNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.FILES_NODE);
 		if (filesNode != null) {
 			if (!loadFilesData(filesNode, project, projectFileFolderURI)) {
 				return false;
@@ -516,38 +516,39 @@ public class TpdImporter {
 	 * @return true if the import was successful, false otherwise.
 	 * */
 	private boolean loadReferencedProjectsData(final Node referencedProjectsNode, final IProject project) {
-		NodeList referencedProjectsList = referencedProjectsNode.getChildNodes();
-		List<IProject> referencedProjects = new ArrayList<IProject>();
+		final NodeList referencedProjectsList = referencedProjectsNode.getChildNodes();
+		final List<IProject> referencedProjects = new ArrayList<IProject>();
 		for (int i = 0, size = referencedProjectsList.getLength(); i < size; i++) {
-			Node referencedProjectNode = referencedProjectsList.item(i);
+			final Node referencedProjectNode = referencedProjectsList.item(i);
 			if (referencedProjectNode.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			NamedNodeMap attributeMap = referencedProjectNode.getAttributes();
+
+			final NamedNodeMap attributeMap = referencedProjectNode.getAttributes();
 			if (attributeMap == null) {
 				continue;
 			}
-			Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE);
+
+			final Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE);
 			if (nameNode == null) {
 				displayError("Import failed", "Error while importing project " + project.getName() + " the name attribute of the " + i
 						+ " th referenced project is missing");
 				return false;
 			}
 
-			String projectName = nameNode.getTextContent();
-
-			String realProjectName = finalProjectNames.get(projectName);
+			final String projectName = nameNode.getTextContent();
+			final String realProjectName = finalProjectNames.get(projectName);
 			if (realProjectName != null && realProjectName.length() > 0) {
-				IProject tempProject = ResourcesPlugin.getWorkspace().getRoot().getProject(realProjectName);
+				final IProject tempProject = ResourcesPlugin.getWorkspace().getRoot().getProject(realProjectName);
 				referencedProjects.add(tempProject);
 			} else {
 				//already existing projects:
-				IProject tempProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+				final IProject tempProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 				referencedProjects.add(tempProject);
 			}
 		}
 		try {
-			IProjectDescription description = project.getDescription();
+			final IProjectDescription description = project.getDescription();
 			description.setReferencedProjects(referencedProjects.toArray(new IProject[referencedProjects.size()]));
 			project.setDescription(description, null);
 		} catch (CoreException e) {
@@ -572,41 +573,44 @@ public class TpdImporter {
 	 * */
 	private boolean loadFoldersData(final Node foldersNode, final IProject project, final URI projectFileFolderURI) {
 		final URI projectLocationURI = project.getLocationURI();
-		NodeList folderNodeList = foldersNode.getChildNodes();
+		final NodeList folderNodeList = foldersNode.getChildNodes();
 
 		for (int i = 0, size = folderNodeList.getLength(); i < size; i++) {
-			Node folderItem = folderNodeList.item(i);
+			final Node folderItem = folderNodeList.item(i);
 			if (folderItem.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			NamedNodeMap attributeMap = folderItem.getAttributes();
+
+			final NamedNodeMap attributeMap = folderItem.getAttributes();
 			if (attributeMap == null) {
 				continue;
 			}
-			Node projectRelativePathNode = attributeMap.getNamedItem(ProjectFormatConstants.FOLDER_ECLIPSE_LOCATION_NODE);
+
+			final Node projectRelativePathNode = attributeMap.getNamedItem(ProjectFormatConstants.FOLDER_ECLIPSE_LOCATION_NODE);
 			if (projectRelativePathNode == null) {
 				displayError("Import failed", "Error while importing project " + project.getName()
 						+ " the project relative path attribute of the " + i + " th folder is missing");
 				return false;
 			}
 
-			String projectRelativePath = projectRelativePathNode.getTextContent();
+			final String projectRelativePath = projectRelativePathNode.getTextContent();
 
-			Node relativeURINode = attributeMap.getNamedItem(ProjectFormatConstants.FOLDER_RELATIVE_LOCATION);
-			Node rawURINode = attributeMap.getNamedItem(ProjectFormatConstants.FOLDER_RAW_LOCATION);
+			final Node relativeURINode = attributeMap.getNamedItem(ProjectFormatConstants.FOLDER_RELATIVE_LOCATION);
+			final Node rawURINode = attributeMap.getNamedItem(ProjectFormatConstants.FOLDER_RAW_LOCATION);
 
-			IFolder folder = project.getFolder(projectRelativePath);
+			final IFolder folder = project.getFolder(projectRelativePath);
 			if (!folder.exists()) {
 				try {
 					if (relativeURINode != null) {
-						String relativeLocation = relativeURINode.getTextContent();
+						final String relativeLocation = relativeURINode.getTextContent();
 						//if relativeLocation == "virtual:/virtual" then
 						//create a workaround according to the rawURI branch
 						if( "virtual:/virtual".equals(relativeLocation) ) {
 							folder.createLink(URI.create(relativeLocation), IResource.ALLOW_MISSING_LOCAL, null);
 							continue;
 						}
-						URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
+
+						final URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
 						if (absoluteURI == null) {
 							// The URI cannot be resolved - for example it
 							// contains not existing environment variables
@@ -615,7 +619,7 @@ public class TpdImporter {
 						if (TitanURIUtil.isPrefix(projectLocationURI, absoluteURI)) {
 							folder.create(false, true, null);
 						} else {
-							File tmpFolder = new File(absoluteURI);
+							final File tmpFolder = new File(absoluteURI);
 							if (tmpFolder.exists()) {
 								folder.createLink(absoluteURI, IResource.ALLOW_MISSING_LOCAL, null);
 							} else {
@@ -625,7 +629,7 @@ public class TpdImporter {
 							}
 						}
 					} else if (rawURINode != null) {
-						String rawLocation = rawURINode.getTextContent();
+						final String rawLocation = rawURINode.getTextContent();
 						folder.createLink(URI.create(rawLocation), IResource.ALLOW_MISSING_LOCAL, null);
 					} else {
 						TITANDebugConsole
@@ -660,42 +664,45 @@ public class TpdImporter {
 	 * @return true if the import was successful, false otherwise.
 	 * */
 	private boolean loadFilesData(final Node filesNode, final IProject project, final URI projectFileFolderURI) {
-		NodeList fileNodeList = filesNode.getChildNodes();
+		final NodeList fileNodeList = filesNode.getChildNodes();
 		for (int i = 0, size = fileNodeList.getLength(); i < size; i++) {
-			Node fileItem = fileNodeList.item(i);
+			final Node fileItem = fileNodeList.item(i);
 			if (fileItem.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			NamedNodeMap attributeMap = fileItem.getAttributes();
+
+			final NamedNodeMap attributeMap = fileItem.getAttributes();
 			if (attributeMap == null) {
 				// there is no attribute, check next node
 				continue;
 			}
-			Node projectRelativePathNode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_ECLIPSE_LOCATION_NODE);
+
+			final Node projectRelativePathNode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_ECLIPSE_LOCATION_NODE);
 			if (projectRelativePathNode == null) {
 				displayError("Import failed", "Error while importing project " + project.getName() + " some attributes of the " + i
 						+ " th file are missing");
 				continue;
 			}
 
-			String projectRelativePath = projectRelativePathNode.getTextContent();
+			final String projectRelativePath = projectRelativePathNode.getTextContent();
 
-			Node relativeURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RELATIVE_LOCATION);
-			Node rawURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RAW_LOCATION);
+			final Node relativeURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RELATIVE_LOCATION);
+			final Node rawURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RAW_LOCATION);
 
-			IFile targetFile = project.getFile(projectRelativePath);
+			final IFile targetFile = project.getFile(projectRelativePath);
 			if (!targetFile.exists()) {
 				try {
 					if (relativeURINode != null) {
-						String relativeLocation = relativeURINode.getTextContent();
+						final String relativeLocation = relativeURINode.getTextContent();
 						//perhaps the next few lines should be implemented as in the function loadFoldersData()
-						URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
+						final URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
 						if (absoluteURI == null) {
 							ErrorReporter.logError("Error while importing files into project `" + project.getName() + "'. File `"
 									+ absoluteURI + "' does not exist!");
 							continue;
 						}
-						File file = new File(absoluteURI);
+
+						final File file = new File(absoluteURI);
 						if (file.exists()) {
 							targetFile.createLink(absoluteURI, IResource.ALLOW_MISSING_LOCAL, null);
 						} else {
@@ -704,7 +711,7 @@ public class TpdImporter {
 							continue;
 						}
 					} else if (rawURINode != null) {
-						String rawURI = rawURINode.getTextContent();
+						final String rawURI = rawURINode.getTextContent();
 						targetFile.createLink(URI.create(rawURI), IResource.ALLOW_MISSING_LOCAL, null);
 					} else {
 						TITANDebugConsole
@@ -728,7 +735,7 @@ public class TpdImporter {
 	// Perhaps variableValue is not in a form of URI (with optional file
 	// scheme) or Path and it shall be converted in more steps:
 	private URI convertPathOrUriStringToURI(String pathOrUriString) throws URISyntaxException {
-		URI uri = new URI(pathOrUriString);
+		final URI uri = new URI(pathOrUriString);
 		if (uri.getScheme() == null || "file".equals(uri.getScheme())) {
 			return uri;
 		} else {
@@ -754,19 +761,20 @@ public class TpdImporter {
 	private boolean loadPathVariables(final Node rootNode, final String projectName) {
 		final IPathVariableManager pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
 
-		NodeList variableNodes = rootNode.getChildNodes();
+		final NodeList variableNodes = rootNode.getChildNodes();
 		for (int i = 0, size = variableNodes.getLength(); i < size; i++) {
-			Node variable = variableNodes.item(i);
+			final Node variable = variableNodes.item(i);
 			if (variable.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			NamedNodeMap attributeMap = variable.getAttributes();
+
+			final NamedNodeMap attributeMap = variable.getAttributes();
 			if (attributeMap == null) {
 				continue;
 			}
 
-			Node nameNode = attributeMap.getNamedItem("name");
-			Node valueNode = attributeMap.getNamedItem("value");
+			final Node nameNode = attributeMap.getNamedItem("name");
+			final Node valueNode = attributeMap.getNamedItem("value");
 
 			if (nameNode == null || valueNode == null) {
 				displayError("Import failed", "Error while importing project " + projectName
@@ -793,11 +801,11 @@ public class TpdImporter {
 							final URI variableValueURI = convertPathOrUriStringToURI(variableValue);
 							final String variableValue1 = variableValueURI.toString();
 							if (pathVariableManager.isDefined(variableName)) {
-								URI uri = pathVariableManager.getURIValue(variableName);
+								final URI uri = pathVariableManager.getURIValue(variableName);
 								if (!variableValue1.equals( uri.toString())) {
-									EditPathVariableDialog dialog = new EditPathVariableDialog(shell, variableName, uri, variableValueURI);
+									final EditPathVariableDialog dialog = new EditPathVariableDialog(shell, variableName, uri, variableValueURI);
 									if (Window.OK == dialog.open()) {
-										URI actualValue = dialog.getActualValue();
+										final URI actualValue = dialog.getActualValue();
 										pathVariableManager.setURIValue(variableName, actualValue);
 									}
 								}
@@ -831,7 +839,7 @@ public class TpdImporter {
 	 * */
 	private boolean loadConfigurationData(final IProject project, final NodeList mainNodes) {
 		final Document targetDocument = ProjectDocumentHandlingUtility.getDocument(project);
-		Node activeConfigurationNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.ACTIVE_CONFIGURATION_NODE);
+		final Node activeConfigurationNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.ACTIVE_CONFIGURATION_NODE);
 		String activeConfiguration = ProjectFormatConstants.DEFAULT_CONFIGURATION_NAME;
 		if (activeConfigurationNode != null) {
 			activeConfiguration = activeConfigurationNode.getTextContent();
@@ -850,46 +858,48 @@ public class TpdImporter {
 		removeConfigurationNodes(targetDocument.getDocumentElement());
 
 
-		Node targetActiveConfiguration = targetDocument.createElement(ProjectFormatConstants.ACTIVE_CONFIGURATION_NODE);
+		final Node targetActiveConfiguration = targetDocument.createElement(ProjectFormatConstants.ACTIVE_CONFIGURATION_NODE);
 		targetActiveConfiguration.appendChild(targetDocument.createTextNode(activeConfiguration));
 		targetDocument.getDocumentElement().appendChild(targetActiveConfiguration);
 
-		Node targetConfigurationsRoot = targetDocument.createElement(ProjectFormatConstants.CONFIGURATIONS_NODE);
+		final Node targetConfigurationsRoot = targetDocument.createElement(ProjectFormatConstants.CONFIGURATIONS_NODE);
 		targetDocument.getDocumentElement().appendChild(targetConfigurationsRoot);
 
-		Node configurationsNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.CONFIGURATIONS_NODE);
+		final Node configurationsNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.CONFIGURATIONS_NODE);
 		if (configurationsNode == null) {
 			ProjectDocumentHandlingUtility.saveDocument(project);
 			ProjectBuildPropertyData.setProjectAlreadyExported(project, false);
-			ProjectFileHandler handler = new ProjectFileHandler(project);
+			final ProjectFileHandler handler = new ProjectFileHandler(project);
 			handler.loadProjectSettingsFromDocument(targetDocument);
 
 			return true;
 		}
 
-		NodeList configurationsNodeList = configurationsNode.getChildNodes();
+		final NodeList configurationsNodeList = configurationsNode.getChildNodes();
 		for (int i = 0, size = configurationsNodeList.getLength(); i < size; i++) {
-			Node configurationNode = configurationsNodeList.item(i);
+			final Node configurationNode = configurationsNodeList.item(i);
 			if (configurationNode.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			NamedNodeMap attributeMap = configurationNode.getAttributes();
+
+			final NamedNodeMap attributeMap = configurationNode.getAttributes();
 			if (attributeMap == null) {
 				continue;
 			}
-			Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.CONFIGURATION_NAME_ATTRIBUTE);
+
+			final Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.CONFIGURATION_NAME_ATTRIBUTE);
 			if (nameNode == null) {
 				displayError("Import failed", "Error while importing project " + project.getName()
 						+ " the name attribute of a referenced project is missing");
 				return false;
 			}
 
-			String configurationName = nameNode.getTextContent();
+			final String configurationName = nameNode.getTextContent();
 
 			if (ProjectFormatConstants.DEFAULT_CONFIGURATION_NAME.equals(configurationName)) {
 				copyConfigurationData(targetDocument.getDocumentElement(), configurationNode);
 			} else {
-				Element targetConfiguration = targetDocument.createElement(ProjectFormatConstants.CONFIGURATION_NODE);
+				final Element targetConfiguration = targetDocument.createElement(ProjectFormatConstants.CONFIGURATION_NODE);
 				targetConfiguration.setAttribute(ProjectFormatConstants.CONFIGURATION_NAME_ATTRIBUTE, configurationName);
 				targetConfigurationsRoot.appendChild(targetConfiguration);
 
@@ -899,7 +909,7 @@ public class TpdImporter {
 
 		ProjectDocumentHandlingUtility.saveDocument(project);
 		ProjectBuildPropertyData.setProjectAlreadyExported(project, false);
-		ProjectFileHandler handler = new ProjectFileHandler(project);
+		final ProjectFileHandler handler = new ProjectFileHandler(project);
 		handler.loadProjectSettingsFromDocument(targetDocument);
 
 		return true;
@@ -913,8 +923,7 @@ public class TpdImporter {
 	 *            the node to use.
 	 * */
 	private void removeConfigurationNodes(final Node rootNode) {
-		NodeList rootNodeList = rootNode.getChildNodes();
-
+		final NodeList rootNodeList = rootNode.getChildNodes();
 		Node tempNode = ProjectFileHandler.getNodebyName(rootNodeList, ProjectFormatConstants.CONFIGURATIONS_NODE);
 		if (tempNode != null) {
 			rootNode.removeChild(tempNode);
@@ -951,8 +960,8 @@ public class TpdImporter {
 		final NodeList rootList = sourceRoot.getChildNodes();
 		Node targetNode = null;
 		for (int i = 0, size = rootList.getLength(); i < size; i++) {
-			Node tempNode = rootList.item(i);
-			String nodeName = tempNode.getNodeName();
+			final Node tempNode = rootList.item(i);
+			final String nodeName = tempNode.getNodeName();
 			if (ProjectFileHandler.PROJECTPROPERTIESXMLNODE.equals(nodeName) || ProjectFileHandler.FOLDERPROPERTIESXMLNODE.equals(nodeName)
 					|| ProjectFileHandler.FILEPROPERTIESXMLNODE.equals(nodeName)) {
 				targetNode = document.importNode(tempNode, true);
@@ -985,7 +994,7 @@ public class TpdImporter {
 
 		@Override
 		public void run() {
-			NewProjectNameDialog dialog = new NewProjectNameDialog(shell, projectName);
+			final NewProjectNameDialog dialog = new NewProjectNameDialog(shell, projectName);
 			if (dialog.open() == Window.OK) {
 				projectName = dialog.getName();
 				project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
@@ -1004,14 +1013,15 @@ public class TpdImporter {
 	 * document.
 	 * */
 	private IProject createProject(final Node mainElement, final boolean treatExistingProjectAsError) {
-		NodeList mainNodes = mainElement.getChildNodes();
-		Node projectNameNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.PROJECTNAME_NODE);
+		final NodeList mainNodes = mainElement.getChildNodes();
+		final Node projectNameNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.PROJECTNAME_NODE);
 		if (null == projectNameNode) {
 			TITANDebugConsole.getConsole().newMessageStream()
 					.println("The name of the project could not be found in the project descriptor, it will not be created.");
 			return null;
 		}
-		String originalProjectName = projectNameNode.getFirstChild().getTextContent();
+
+		final String originalProjectName = projectNameNode.getFirstChild().getTextContent();
 		String projectName = originalProjectName;
 
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
@@ -1032,7 +1042,7 @@ public class TpdImporter {
 			}
 			//Error dialog:
 			//gets a new project name instead of the existing one:
-			ProjectSelector temp = new ProjectSelector(projectName);
+			final ProjectSelector temp = new ProjectSelector(projectName);
 			Display.getDefault().syncExec(temp);
 			if (temp.cancelled) {
 				return null;
@@ -1082,9 +1092,7 @@ public class TpdImporter {
 			return false;
 		}
 
-		Document document = getDocumentFromFile(file.getPath());
-
-
+		final Document document = getDocumentFromFile(file.getPath());
 		if (document == null) {
 			final StringBuilder builder = new StringBuilder("It was not possible to load the imported project file: '" + file.toString()
 					+ "'\n");
@@ -1110,27 +1118,27 @@ public class TpdImporter {
 
 		projectsToImport.put(file, document);
 
-		Element mainElement = document.getDocumentElement();
-		NodeList mainNodes = mainElement.getChildNodes();
-		Node referencedProjectsNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.REFERENCED_PROJECTS_NODE);
+		final Element mainElement = document.getDocumentElement();
+		final NodeList mainNodes = mainElement.getChildNodes();
+		final Node referencedProjectsNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.REFERENCED_PROJECTS_NODE);
 		if (referencedProjectsNode == null) {
 			return true;
 		}
 
 		// === Get referenced projects ===
 		final IPath projectFileFolderPath = new Path(file.getPath()).removeLastSegments(1);
-		NodeList referencedProjectsList = referencedProjectsNode.getChildNodes();
+		final NodeList referencedProjectsList = referencedProjectsNode.getChildNodes();
 		boolean result = true;
 		for (int i = 0, size = referencedProjectsList.getLength(); i < size; i++) {
-			Node referencedProjectNode = referencedProjectsList.item(i);
+			final Node referencedProjectNode = referencedProjectsList.item(i);
 			if (referencedProjectNode.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			NamedNodeMap attributeMap = referencedProjectNode.getAttributes();
+			final NamedNodeMap attributeMap = referencedProjectNode.getAttributes();
 			if (attributeMap == null) {
 				continue;
 			}
-			Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE);
+			final Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE);
 			if (nameNode == null) {
 				displayError("Import failed", "Error while importing from file " + file
 						+ " the name attribute of a referenced project is missing");
@@ -1138,7 +1146,7 @@ public class TpdImporter {
 			}
 
 			final String projectName = nameNode.getTextContent();
-			Node locationNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_LOCATION_ATTRIBUTE);
+			final Node locationNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_LOCATION_ATTRIBUTE);
 			if (locationNode == null) {
 				if (i > 0) {
 					displayError("Import failed", "Error while importing from file " + file
@@ -1151,31 +1159,32 @@ public class TpdImporter {
 				break; // project handling continues in processing PackedReferencedProjects
 			}
 
-			String unresolvedProjectLocationURI = locationNode.getTextContent();
+			final String unresolvedProjectLocationURI = locationNode.getTextContent();
 
 			URI absoluteURI = TITANPathUtilities.resolvePath(unresolvedProjectLocationURI, URIUtil.toURI(projectFileFolderPath));
 
 			String fileName;
 			// Determine tpdname
-			Node tpdNameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_TPD_NAME_ATTRIBUTE);
+			final Node tpdNameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_TPD_NAME_ATTRIBUTE);
 			if(tpdNameNode != null) {
 				fileName = tpdNameNode.getTextContent();
 			}else {
 				fileName = projectName + ".tpd";
 			}
+
 			tpdNameAttrMap.put(projectName, fileName);
 			if (searchPaths != null && !searchPaths.isEmpty()) {
 				File f = new File(absoluteURI);
-				IPath unresolvedProjectLocationURIPath = new Path(unresolvedProjectLocationURI);
+				final IPath unresolvedProjectLocationURIPath = new Path(unresolvedProjectLocationURI);
 				if(!unresolvedProjectLocationURIPath.isAbsolute() && (!f.exists() || f.isDirectory())) {;
 					// Try search paths
-					for (String path : searchPaths) {
+					for (final String path : searchPaths) {
 						String filePath = path;
 						if(path.charAt(path.length() - 1) != '/') {
 							filePath += "/";
 						}
 						filePath += fileName;
-						String systemPath = new Path(filePath).toOSString();
+						final String systemPath = new Path(filePath).toOSString();
 						f = new File(systemPath);
 						// tpd found
 						if (f.exists() && !f.isDirectory()) {
@@ -1229,7 +1238,7 @@ public class TpdImporter {
 		final LSInput lsInput = domImplLS.createLSInput();
 		Document document = null;
 		try {
-			FileInputStream istream = new FileInputStream(file);
+			final FileInputStream istream = new FileInputStream(file);
 			lsInput.setByteStream(istream);
 			document = parser.parse(lsInput);
 			istream.close();

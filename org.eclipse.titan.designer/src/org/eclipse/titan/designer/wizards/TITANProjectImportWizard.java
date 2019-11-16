@@ -158,14 +158,14 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 			processedProjectFiles.add(information.getSourceFile());
 			final List<IPath> projectFilesToBeProcessed = new ArrayList<IPath>();
 
-			for (IncludedProject includedProject : includedProjects) {
+			for (final IncludedProject includedProject : includedProjects) {
 				final IPath temp = includedProject.getAbsolutePath();
 				if (temp != null) {
 					projectFilesToBeProcessed.add(temp);
 				}
 			}
 			while (!projectFilesToBeProcessed.isEmpty()) {
-				IPath tempPath = projectFilesToBeProcessed.remove(projectFilesToBeProcessed.size() - 1);
+				final IPath tempPath = projectFilesToBeProcessed.remove(projectFilesToBeProcessed.size() - 1);
 				if (processedProjectFiles.contains(tempPath.toOSString())) {
 					continue;
 				}
@@ -202,7 +202,7 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 				}
 
 				includedProjects = tempProjectInformation.getIncludedProjects();
-				for (IncludedProject includedProject : includedProjects) {
+				for (final IncludedProject includedProject : includedProjects) {
 					final IPath temp = includedProject.getAbsolutePath();
 					if (temp != null) {
 						projectFilesToBeProcessed.add(temp);

@@ -56,7 +56,7 @@ class TITANProjectExportMainPage extends WizardPage {
 
 		@Override
 		public void modifyText(final ModifyEvent e) {
-			Object source = e.getSource();
+			final Object source = e.getSource();
 			if (source == projectFileText) {
 				handleProjectFileModified();
 			}
@@ -69,7 +69,7 @@ class TITANProjectExportMainPage extends WizardPage {
 
 		@Override
 		public void widgetSelected(final SelectionEvent e) {
-			Object source = e.getSource();
+			final Object source = e.getSource();
 			if (source == projectFileSelectionButton) {
 				handleProjectFileButtonSelected();
 			}
@@ -87,10 +87,10 @@ class TITANProjectExportMainPage extends WizardPage {
 
 	@Override
 	public void createControl(final Composite parent) {
-		Composite pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final Composite pageComposite = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		pageComposite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL);
+		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 
@@ -121,7 +121,7 @@ class TITANProjectExportMainPage extends WizardPage {
 			return false;
 		}
 
-		List<?> selectionList = selection.toList();
+		final List<?> selectionList = selection.toList();
 		if (!(selectionList.get(0) instanceof IProject)) {
 			setErrorMessage("A project has to be selected");
 			return false;
@@ -130,7 +130,7 @@ class TITANProjectExportMainPage extends WizardPage {
 		project = (IProject) selectionList.get(0);
 
 		if (filePath != null) {
-			IPath projectFilePath = Path.fromOSString(filePath);
+			final IPath projectFilePath = Path.fromOSString(filePath);
 			if (!projectFilePath.isValidPath(filePath)) {
 				setErrorMessage("The provided file path does not seem to be valid on this platform");
 				return false;
@@ -141,12 +141,12 @@ class TITANProjectExportMainPage extends WizardPage {
 	}
 
 	protected void createProjectFileEditor(final Composite parent) {
-		Font font = parent.getFont();
-		Group group = new Group(parent, SWT.NONE);
+		final Font font = parent.getFont();
+		final Group group = new Group(parent, SWT.NONE);
 		group.setText("Target project file:");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		group.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		group.setLayout(layout);
 		group.setFont(font);
@@ -164,11 +164,11 @@ class TITANProjectExportMainPage extends WizardPage {
 				// in the current project folder in the current workspace
 
 				//URI string or path string::
-				String loadLocation = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+				final String loadLocation = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						ProjectBuildPropertyData.LOAD_LOCATION));
 				if (loadLocation != null) {
-					URI projectFileURI = new URI(loadLocation);
-					IPath projectFilePath = URIUtil.toPath(projectFileURI);
+					final URI projectFileURI = new URI(loadLocation);
+					final IPath projectFilePath = URIUtil.toPath(projectFileURI);
 					if(projectFilePath != null) {
 						projectFileText.setText(projectFilePath.toString());//bugfix by ethbaat // FIXME: toOSString() ???
 					} 
@@ -189,8 +189,8 @@ class TITANProjectExportMainPage extends WizardPage {
 	}
 
 	protected void handleProjectFileButtonSelected() {
-		FileDialog dialog = new FileDialog(getShell());
-		IPath path = new Path(projectFileText.getText());
+		final FileDialog dialog = new FileDialog(getShell());
+		final IPath path = new Path(projectFileText.getText());
 		dialog.setFileName(path.lastSegment());
 		dialog.setFilterExtensions(new String[] { "*.tpd" });
 		final String file = dialog.open();
@@ -210,7 +210,7 @@ class TITANProjectExportMainPage extends WizardPage {
 	}
 
 	protected void handleProjectFileModified() {
-		String temp = projectFileText.getText();
+		final String temp = projectFileText.getText();
 
 		if (check(temp)) {
 			projectFile = temp;

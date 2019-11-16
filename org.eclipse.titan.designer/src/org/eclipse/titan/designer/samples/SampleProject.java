@@ -60,7 +60,7 @@ public abstract class SampleProject {
 	 * @throws CoreException when something goes wrong ...
 	 */
 	private void setupFiles(final Map<String, String> files, final IContainer root) throws CoreException {
-		for (Map.Entry<String, String> entry : files.entrySet()) {
+		for (final Map.Entry<String, String> entry : files.entrySet()) {
 			final int indexOfLastSlash = entry.getKey().lastIndexOf('/');
 			final String filename = entry.getKey().substring(indexOfLastSlash + 1);
 

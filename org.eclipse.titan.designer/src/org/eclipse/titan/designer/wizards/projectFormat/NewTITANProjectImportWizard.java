@@ -73,7 +73,7 @@ public class NewTITANProjectImportWizard extends BasicNewResourceWizard implemen
 					}
 
 					if (!result) {
-						for (IProject project : projectsCreated) {
+						for (final IProject project : projectsCreated) {
 							try {
 								project.delete(true, null);
 							} catch (CoreException e) {

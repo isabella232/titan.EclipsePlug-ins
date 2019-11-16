@@ -197,15 +197,15 @@ public final class GUIProjectImporter {
 		// DOMImplementation
 		// object implements the load and save features of the DOM 3.0
 		// specification.
-		DOMImplementation domImpl = registry.getDOMImplementation(LOAD_SAVE_VERSION);
-		DOMImplementationLS domImplLS = (DOMImplementationLS) domImpl;
+		final DOMImplementation domImpl = registry.getDOMImplementation(LOAD_SAVE_VERSION);
+		final DOMImplementationLS domImplLS = (DOMImplementationLS) domImpl;
 		// If the mode is MODE_SYNCHRONOUS, the parse and parseURI
 		// methods of the LSParser
 		// object return the org.w3c.dom.Document object. If the mode is
 		// MODE_ASYNCHRONOUS, the parse and parseURI methods return null.
-		LSParser parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, XML_SCHEMA);
-		DOMConfiguration config = parser.getDomConfig();
-		DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
+		final LSParser parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, XML_SCHEMA);
+		final DOMConfiguration config = parser.getDomConfig();
+		final DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
 		config.setParameter("error-handler", errorHandler);
 		config.setParameter("validate", Boolean.TRUE);
 		config.setParameter("schema-type", XML_SCHEMA);
@@ -213,9 +213,9 @@ public final class GUIProjectImporter {
 
 		final LSInput lsInput = domImplLS.createLSInput();
 		try {
-			InputStream istream = new FileInputStream(file);
+			final InputStream istream = new FileInputStream(file);
 			lsInput.setByteStream(istream);
-			Document document = parser.parse(lsInput);
+			final Document document = parser.parse(lsInput);
 			istream.close();
 			return document;
 		} catch (IOException e) {
@@ -241,37 +241,37 @@ public final class GUIProjectImporter {
 	 * @return the read project data, or null if there was an error.
 	 * */
 	public ProjectInformation loadProjectFile(final String projectFile, final SubMonitor monitor, final boolean headless) {
-		Document document = getDocumentFromFile(projectFile);
+		final Document document = getDocumentFromFile(projectFile);
 		if (document == null) {
 			return null;
 		}
 
-		String documentType = document.getDoctype().getNodeName();
+		final String documentType = document.getDoctype().getNodeName();
 		if (!"TITAN_GUI_project_file".equals(documentType)) {
 			reportError("Incorrect document type `" + documentType + "' in file `" + projectFile + "'. Expected: `TITAN_GUI_project_file'", headless);
 			return null;
 		}
 
-		String rootNodeName = document.getDocumentElement().getNodeName();
+		final String rootNodeName = document.getDocumentElement().getNodeName();
 		if (!"Project".equals(rootNodeName)) {
 			reportError("Incorrect root node name `" + rootNodeName + "' in file `" + projectFile + "'. Expected root node name: `Project'", headless);
 			return null;
 		}
 
-		ProjectInformation projectInformation = new ProjectInformation();
+		final ProjectInformation projectInformation = new ProjectInformation();
 		projectInformation.sourceFile = projectFile;
 		IPath path = new Path(projectFile);
 		path = path.removeFileExtension();
 		projectInformation.name = path.lastSegment();
 
 		final NodeList rootList = document.getDocumentElement().getChildNodes();
-		int size = rootList.getLength();
+		final int size = rootList.getLength();
 		final SubMonitor progress = SubMonitor.convert(monitor, size);
 		progress.setTaskName("Loading data");
 
 		for (int j = 0; j < size; j++) {
-			Node node = rootList.item(j);
-			String nodeName = node.getNodeName();
+			final Node node = rootList.item(j);
+			final String nodeName = node.getNodeName();
 
 			if("#text".equals(nodeName)) {
 				//do nothing, empty node because found a "\n"
@@ -326,8 +326,8 @@ public final class GUIProjectImporter {
 	private void loadGeneralSettings(final Node generalNode, final ProjectInformation projectInformation) {
 		final NodeList nodeList = generalNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			String nodeName = node.getNodeName();
+			final Node node = nodeList.item(i);
+			final String nodeName = node.getNodeName();
 			if("#text".equals(nodeName)) {
 				//do nothing, empty node because found a "\n"
 			} else if ("Project_Name".equals(nodeName)) {
@@ -342,7 +342,7 @@ public final class GUIProjectImporter {
 				final String context = node.getTextContent();
 				projectInformation.executionMode = "Single".equals(context) ? ExecutionModes.SINGLE : ExecutionModes.PARALLEL;
 			} else if ("Code_Splitting_Mode".equals(nodeName)) {
-				String temp = node.getTextContent();
+				final String temp = node.getTextContent();
 				if ("Type".equals(temp)) {
 					projectInformation.codeSplittingMode = CodeSplittingModes.TYPE;
 				}
@@ -367,8 +367,8 @@ public final class GUIProjectImporter {
 			} else if ("Log_Dir".equals(nodeName)) {
 				projectInformation.logDirs.add(node.getTextContent());
 			} else if ("UnUsed_List".equals(nodeName)) {
-				String temp = node.getTextContent();
-				String[] temp2 = temp.split(",");
+				final String temp = node.getTextContent();
+				final String[] temp2 = temp.split(",");
 				Collections.addAll(projectInformation.unUsedList, temp2);
 			}
 			// Log_Format, Update_Symlinks,
@@ -502,11 +502,11 @@ public final class GUIProjectImporter {
 					continue;
 				}
 
-				IPath path = new Path(absolutePath);
-				IPath locationPath = project.getLocation();
+				final IPath path = new Path(absolutePath);
+				final IPath locationPath = project.getLocation();
 				if (!locationPath.isPrefixOf(path)) {
-					IFolder folder = project.getFolder("Log_Dir" + (i + 1));
-					URI linkTarget = URIUtil.toURI(absolutePath);
+					final IFolder folder = project.getFolder("Log_Dir" + (i + 1));
+					final URI linkTarget = URIUtil.toURI(absolutePath);
 					folder.createLink(linkTarget, IResource.ALLOW_MISSING_LOCAL, null);
 				}
 			}
@@ -531,17 +531,17 @@ public final class GUIProjectImporter {
 	 * */
 	public static void setUnusedFiles(final IProject project, final ProjectInformation info, final IProgressMonitor monitor) throws CoreException {
 		for (int i = 0, size = info.unUsedList.size(); i < size; i++) {
-			String temp = info.unUsedList.get(i);
+			final String temp = info.unUsedList.get(i);
 			monitor.subTask("Resolving the path `" + temp + "'");
-			String absolutePath = PathConverter.getAbsolutePath(info.sourceFile, temp);
+			final String absolutePath = PathConverter.getAbsolutePath(info.sourceFile, temp);
 			if (absolutePath == null) {
 				continue;
 			}
 
-			IPath path = new Path(absolutePath);
-			IFile file = project.getFile(path.lastSegment());
+			final IPath path = new Path(absolutePath);
+			final IFile file = project.getFile(path.lastSegment());
 			if (file.isAccessible()) {
-				QualifiedName excludedFileQualifier = new QualifiedName(FileBuildPropertyData.QUALIFIER,
+				final QualifiedName excludedFileQualifier = new QualifiedName(FileBuildPropertyData.QUALIFIER,
 						FileBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY);
 				file.setPersistentProperty(excludedFileQualifier, "true");
 			}
@@ -563,13 +563,13 @@ public final class GUIProjectImporter {
 			return;
 		}
 
-		IPath path = new Path(absolutePath);
-		IPath locationPath = project.getLocation();
+		final IPath path = new Path(absolutePath);
+		final IPath locationPath = project.getLocation();
 		if (!locationPath.isPrefixOf(path)) {
-			IFile file = project.getFile(path.lastSegment());
-			URI linkTarget = URIUtil.toURI(absolutePath);
+			final IFile file = project.getFile(path.lastSegment());
+			final URI linkTarget = URIUtil.toURI(absolutePath);
 			if (file.exists()) {
-				URI fileLocation = file.getLocationURI().normalize();
+				final URI fileLocation = file.getLocationURI().normalize();
 				if (!fileLocation.equals(linkTarget.normalize()) && !fileLocation.equals(linkTarget)) {
 					ErrorReporter.logWarning("The file `" + file.getName() + "' could not be created pointing to location `"
 							+ linkTarget + "' as it already exists and is pointing to `" + fileLocation + "'");
@@ -595,8 +595,8 @@ public final class GUIProjectImporter {
 	private void loadListSettings(final Node generalNode, final String expectedNodeName, final List<String> list) {
 		final NodeList nodeList = generalNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			String nodeName = node.getNodeName();
+			final Node node = nodeList.item(i);
+			final String nodeName = node.getNodeName();
 			if (expectedNodeName.equals(nodeName)) {
 				list.add(node.getTextContent());
 			}
@@ -622,9 +622,9 @@ public final class GUIProjectImporter {
 		final SubMonitor progress = SubMonitor.convert(monitor, list.size());
 		progress.setTaskName("Creating links");
 
-		for (String element : list) {
+		for (final String element : list) {
 			progress.subTask("Resolving the path `" + element + "'");
-			String absolutePath = PathConverter.getAbsolutePath(basePath, element);
+			final String absolutePath = PathConverter.getAbsolutePath(basePath, element);
 			if (absolutePath != null) {
 				progress.subTask("creating link for `" + absolutePath + "'");
 				createLink(project, absolutePath);
@@ -646,23 +646,24 @@ public final class GUIProjectImporter {
 	private void loadTestSets(final Node generalNode, final ProjectInformation projectInformation) {
 		final NodeList nodeList = generalNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			String nodeName = node.getNodeName();
+			final Node node = nodeList.item(i);
+			final String nodeName = node.getNodeName();
 			if ("Test_Set".equals(nodeName)) {
 				String name;
-				List<String> testcases = new ArrayList<String>();
-				Node namedAttribute = node.getAttributes().getNamedItem("name");
+				final List<String> testcases = new ArrayList<String>();
+				final Node namedAttribute = node.getAttributes().getNamedItem("name");
 				if (namedAttribute != null) {
 					name = namedAttribute.getTextContent();
 					final NodeList nodeList2 = node.getChildNodes();
 					for (int j = 0; j < nodeList2.getLength(); j++) {
-						Node node2 = nodeList2.item(j);
-						String nodeName2 = node2.getNodeName();
+						final Node node2 = nodeList2.item(j);
+						final String nodeName2 = node2.getNodeName();
 						if ("TC".equals(nodeName2)) {
 							testcases.add(node2.getTextContent());
 						}
 					}
-					TestSet set = new TestSet();
+
+					final TestSet set = new TestSet();
 					set.name = name;
 					set.testcases = testcases;
 					projectInformation.testsets.add(set);
@@ -687,18 +688,18 @@ public final class GUIProjectImporter {
 	private void loadIncludedProjects(final Node generalNode, final ProjectInformation projectInformation, final IProgressMonitor monitor) {
 		final NodeList nodeList = generalNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			String nodeName = node.getNodeName();
+			final Node node = nodeList.item(i);
+			final String nodeName = node.getNodeName();
 			if ("Included_Project".equals(nodeName)) {
-				Node filesAttribute = node.getAttributes().getNamedItem("included_files");
-				Node pathAttribute = node.getAttributes().getNamedItem("path");
+				final Node filesAttribute = node.getAttributes().getNamedItem("included_files");
+				final Node pathAttribute = node.getAttributes().getNamedItem("path");
 				if (filesAttribute != null && pathAttribute != null) {
-					IncludedProject included = new IncludedProject();
+					final IncludedProject included = new IncludedProject();
 					included.files = filesAttribute.getTextContent();
 					included.path = pathAttribute.getTextContent();
 
 					monitor.subTask("Resolving the path `" + included.path + "'");
-					String absolutePath = PathConverter.getAbsolutePath(projectInformation.sourceFile, included.path);
+					final String absolutePath = PathConverter.getAbsolutePath(projectInformation.sourceFile, included.path);
 					if (absolutePath == null) {
 						included.absolutePath = null;
 					} else {
@@ -728,9 +729,9 @@ public final class GUIProjectImporter {
 	public static void setIncludedProjects(final IProject project, final ProjectInformation info) throws CoreException {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
-		IProjectDescription description = project.getDescription();
-		IProject[] referencedProjects = description.getReferencedProjects();
-		List<IProject> references = Arrays.asList(referencedProjects);
+		final IProjectDescription description = project.getDescription();
+		final IProject[] referencedProjects = description.getReferencedProjects();
+		final List<IProject> references = Arrays.asList(referencedProjects);
 
 		for (int i = 0, size = info.includeProjects.size(); i < size; i++) {
 			IPath path = info.includeProjects.get(i).absolutePath;
@@ -739,9 +740,9 @@ public final class GUIProjectImporter {
 			}
 
 			path = path.removeFileExtension();
-			String includedProjectName = path.lastSegment();
+			final String includedProjectName = path.lastSegment();
 
-			IProject newProject = workspace.getRoot().getProject(includedProjectName);
+			final IProject newProject = workspace.getRoot().getProject(includedProjectName);
 			references.add(newProject);
 		}
 
@@ -765,9 +766,9 @@ public final class GUIProjectImporter {
 	 *                the monitor to report progress to.
 	 * */
 	private void loadFileGroups(final Node generalNode, final FileGroup fileGroup, final String basePath, final IProgressMonitor monitor, final boolean headless) {
-		Node pathAttribute = generalNode.getAttributes().getNamedItem("path");
-		Node nameAttribute = generalNode.getAttributes().getNamedItem("name");
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final Node pathAttribute = generalNode.getAttributes().getNamedItem("path");
+		final Node nameAttribute = generalNode.getAttributes().getNamedItem("name");
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final SubMonitor progress = SubMonitor.convert(monitor, 100);
@@ -786,21 +787,21 @@ public final class GUIProjectImporter {
 				return;
 			}
 
-			File file = new File(path);
+			final File file = new File(path);
 			if (!file.exists()) {
 				reportError("Could not load the group file `" + path + "' referred by `" + basePath + "' as `"
 						+ pathAttribute.getTextContent() + "'", headless);
 				return;
 			}
 
-			Document document = getDocumentFromFile(path);
+			final Document document = getDocumentFromFile(path);
 			if (document == null) {
 				reportError("Could not load the group from the group file `" + path + "'", headless);
 				return;
 			}
 
-			FileGroup newGroup = new FileGroup();
-			SubMonitor groupMonitor = progress.newChild(1);
+			final FileGroup newGroup = new FileGroup();
+			final SubMonitor groupMonitor = progress.newChild(1);
 			groupMonitor.setTaskName("Loading group: " + file.getAbsolutePath());
 			groupMonitor.subTask("Loading group: " + file.getAbsolutePath());
 			loadFileGroups(document.getDocumentElement(), newGroup, path, groupMonitor.newChild(1),headless);
@@ -823,14 +824,14 @@ public final class GUIProjectImporter {
 		}
 
 		final NodeList nodeList = generalNode.getChildNodes();
-		SubMonitor groupMonitor = progress.newChild(1);
+		final SubMonitor groupMonitor = progress.newChild(1);
 		groupMonitor.beginTask("Loading group: " + fileGroup.name, nodeList.getLength());
 		groupMonitor.subTask("Loading group: " + fileGroup.name);
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			String nodeName = node.getNodeName();
+			final Node node = nodeList.item(i);
+			final String nodeName = node.getNodeName();
 			if ("File".equals(nodeName)) {
-				Node pathAttribute2 = node.getAttributes().getNamedItem("path");
+				final Node pathAttribute2 = node.getAttributes().getNamedItem("path");
 				if (pathAttribute2 == null) {
 					reportError("One of the `File' nodes in the group `" + fileGroup.name + "' does not have a `path' attribute",headless);
 					continue;
@@ -839,7 +840,7 @@ public final class GUIProjectImporter {
 					TITANDebugConsole.println("Read the named file group path `" + pathAttribute2.getTextContent() + "'");
 				}
 				groupMonitor.subTask("Resolving the path `" + pathAttribute2.getTextContent() + "'");
-				String path = PathConverter.getAbsolutePath(basePath, pathAttribute2.getTextContent());
+				final String path = PathConverter.getAbsolutePath(basePath, pathAttribute2.getTextContent());
 				if (reportDebugInformation) {
 					TITANDebugConsole.println("The named absolute file group path relative to `" + basePath + "' is `" + path + "'");
 				}
@@ -853,13 +854,13 @@ public final class GUIProjectImporter {
 				}
 			} else if ("File_Groups".equals(nodeName)) {
 				final NodeList nodeList2 = node.getChildNodes();
-				IProgressMonitor groupMonitor2 = groupMonitor.newChild(1);
+				final IProgressMonitor groupMonitor2 = groupMonitor.newChild(1);
 				groupMonitor2.beginTask("Loading internal group nodes", nodeList2.getLength());
 				for (int j = 0; j < nodeList2.getLength(); j++) {
-					Node node2 = nodeList2.item(j);
-					String nodeName2 = node2.getNodeName();
+					final Node node2 = nodeList2.item(j);
+					final String nodeName2 = node2.getNodeName();
 					if ("File_Group".equals(nodeName2)) {
-						FileGroup newGroup = new FileGroup();
+						final FileGroup newGroup = new FileGroup();
 						loadFileGroups(node2, newGroup, basePath, groupMonitor2,headless);
 						fileGroup.groups.add(newGroup);
 					}
@@ -867,7 +868,7 @@ public final class GUIProjectImporter {
 				}
 				groupMonitor2.done();
 			} else if ("File_Group".equals(nodeName)) {
-				FileGroup newGroup = new FileGroup();
+				final FileGroup newGroup = new FileGroup();
 				loadFileGroups(node, newGroup, basePath, groupMonitor,headless);
 				fileGroup.groups.add(newGroup);
 			}
@@ -898,9 +899,9 @@ public final class GUIProjectImporter {
 		final SubMonitor progress = SubMonitor.convert(monitor, group.files.size() + group.groups.size());
 		progress.setTaskName("Creating settings");
 		for (int i = 0, size = group.files.size(); i < size; i++) {
-			String temp = group.files.get(i);
+			final String temp = group.files.get(i);
 			progress.subTask("Resolving the path `" + temp + "'");
-			String absolutePath = PathConverter.getAbsolutePath(sourceFile, temp);
+			final String absolutePath = PathConverter.getAbsolutePath(sourceFile, temp);
 			if (absolutePath != null) {
 				progress.subTask("creating link for `" + absolutePath + "'");
 				createLink(project, absolutePath);
@@ -1002,26 +1003,26 @@ public final class GUIProjectImporter {
 	public static boolean importProjectfromPrj(final String projectFile) {
 
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		List<String> processedProjectFiles = new ArrayList<String>();
-		List<IPath> projectFilesToBeProcessed = new ArrayList<IPath>();
+		final List<String> processedProjectFiles = new ArrayList<String>();
+		final List<IPath> projectFilesToBeProcessed = new ArrayList<IPath>();
 		projectFilesToBeProcessed.add(new Path(projectFile));
 
 		while (!projectFilesToBeProcessed.isEmpty()) {
-			IPath tempPath = projectFilesToBeProcessed.remove(projectFilesToBeProcessed.size() - 1);
+			final IPath tempPath = projectFilesToBeProcessed.remove(projectFilesToBeProcessed.size() - 1);
 			if (processedProjectFiles.contains(tempPath.toOSString())) {
 				continue;
 			}
 
 			processedProjectFiles.add(tempPath.toOSString());
 
-			GUIProjectImporter importer = new GUIProjectImporter();
-			ProjectInformation tempProjectInformation = importer.loadProjectFile(tempPath.toOSString(), null,true); //true: headless
+			final GUIProjectImporter importer = new GUIProjectImporter();
+			final ProjectInformation tempProjectInformation = importer.loadProjectFile(tempPath.toOSString(), null,true); //true: headless
 			if(tempProjectInformation == null) {
 				continue;
 			}
 
-			IPath tempPath2 = tempPath.removeFileExtension();
-			String includedProjectName = tempPath2.lastSegment();
+			final IPath tempPath2 = tempPath.removeFileExtension();
+			final String includedProjectName = tempPath2.lastSegment();
 
 			IProject tempProject = workspace.getRoot().getProject(includedProjectName);
 			if (tempProject.exists()) {
@@ -1039,7 +1040,7 @@ public final class GUIProjectImporter {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
 
-			ProjectFileHandler pfHandler = new ProjectFileHandler(tempProject);
+			final ProjectFileHandler pfHandler = new ProjectFileHandler(tempProject);
 			pfHandler.saveProjectSettings();
 
 			try {
@@ -1048,9 +1049,9 @@ public final class GUIProjectImporter {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
 
-			List<IncludedProject> includedProjects = tempProjectInformation.getIncludedProjects();
-			for (IncludedProject includedProject : includedProjects) {
-				IPath temp = includedProject.getAbsolutePath();
+			final List<IncludedProject> includedProjects = tempProjectInformation.getIncludedProjects();
+			for (final IncludedProject includedProject : includedProjects) {
+				final IPath temp = includedProject.getAbsolutePath();
 				if (temp != null) {
 					projectFilesToBeProcessed.add(temp);
 				}

@@ -101,7 +101,7 @@ public class NewTITANProjectContentPage extends WizardPage {
 		samplesList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		int indexOfEmptyProject = 0;
 		int i = 0;
-		for (Map.Entry<String, SampleProject> entry : SampleProjects.getProjects().entrySet()) {
+		for (final Map.Entry<String, SampleProject> entry : SampleProjects.getProjects().entrySet()) {
 			samplesList.add(entry.getValue().getName());
 			if ("Empty Project".equals(entry.getValue().getName())) {
 				indexOfEmptyProject = i;
