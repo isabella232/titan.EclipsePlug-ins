@@ -41,7 +41,7 @@ public final class NewASN1ModuleCreationWizardPage extends WizardNewFileCreation
 	private static final String ERROR_MESSAGE = "When provided the extension of the ASN.1 Module must be \"asn\" or \"asn1\"";
 	private static final String OCCUPIED = "This module name would create a file that already exists.";
 
-	private boolean hasLicense;
+	private final boolean hasLicense;
 	private final NewASN1ModuleWizard wizard;
 
 	public NewASN1ModuleCreationWizardPage(final IStructuredSelection selection, final NewASN1ModuleWizard wizard) {

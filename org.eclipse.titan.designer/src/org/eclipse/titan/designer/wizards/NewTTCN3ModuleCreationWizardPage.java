@@ -41,7 +41,7 @@ public final class NewTTCN3ModuleCreationWizardPage extends WizardNewFileCreatio
 	private static final String ERROR_MESSAGE = "When provided the extension of the TTCN3 Module must be \"ttcn\" or \"ttcn3\"";
 	private static final String OCCUPIED = "This module name would create a file that already exists.";
 
-	private boolean hasLicense;
+	private final boolean hasLicense;
 	private final NewTTCN3ModuleWizard wizard;
 
 	public NewTTCN3ModuleCreationWizardPage(final IStructuredSelection selection, final NewTTCN3ModuleWizard wizard) {

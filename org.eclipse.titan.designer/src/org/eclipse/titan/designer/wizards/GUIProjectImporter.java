@@ -104,7 +104,7 @@ public final class GUIProjectImporter {
 	private static final class FileGroup {
 		private String name;
 		private List<String> files = new ArrayList<String>();
-		private List<FileGroup> groups = new ArrayList<FileGroup>();
+		private final List<FileGroup> groups = new ArrayList<FileGroup>();
 
 		private FileGroup() {
 		}
@@ -135,16 +135,16 @@ public final class GUIProjectImporter {
 		private String localHostExecute;
 		private String executeCommand;
 		private String executeHosts;
-		private List<String> logDirs = new ArrayList<String>();
-		private List<String> unUsedList = new ArrayList<String>();
-		private List<String> modules = new ArrayList<String>();
-		private List<String> testports = new ArrayList<String>();
-		private List<String> otherSources = new ArrayList<String>();
-		private List<String> configs = new ArrayList<String>();
-		private List<String> testcases = new ArrayList<String>();
-		private List<TestSet> testsets = new ArrayList<TestSet>();
-		private List<String> others = new ArrayList<String>();
-		private List<IncludedProject> includeProjects = new ArrayList<IncludedProject>();
+		private final List<String> logDirs = new ArrayList<String>();
+		private final List<String> unUsedList = new ArrayList<String>();
+		private final List<String> modules = new ArrayList<String>();
+		private final List<String> testports = new ArrayList<String>();
+		private final List<String> otherSources = new ArrayList<String>();
+		private final List<String> configs = new ArrayList<String>();
+		private final List<String> testcases = new ArrayList<String>();
+		private final List<TestSet> testsets = new ArrayList<TestSet>();
+		private final List<String> others = new ArrayList<String>();
+		private final List<IncludedProject> includeProjects = new ArrayList<IncludedProject>();
 		private FileGroup fileGroupRoot = null;
 
 		private ProjectInformation() {

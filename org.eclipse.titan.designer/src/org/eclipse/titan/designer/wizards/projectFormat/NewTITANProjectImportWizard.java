@@ -34,7 +34,7 @@ public class NewTITANProjectImportWizard extends BasicNewResourceWizard implemen
 
 	private NewTITANProjectImportMainPage mainPage;
 	private NewTITANProjectImportOptionsPage optionsPage;
-	private TpdImporter tpdImporter;
+	private final TpdImporter tpdImporter;
 
 	public NewTITANProjectImportWizard() {
 		tpdImporter = new TpdImporter(Display.getDefault().getActiveShell(), false);

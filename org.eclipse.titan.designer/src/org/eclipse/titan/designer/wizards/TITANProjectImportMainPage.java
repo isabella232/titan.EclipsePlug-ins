@@ -60,7 +60,7 @@ public class TITANProjectImportMainPage extends WizardPage {
 		}
 	}
 
-	private BasicProjectSelectorListener generalListener = new BasicProjectSelectorListener();
+	private final BasicProjectSelectorListener generalListener = new BasicProjectSelectorListener();
 	private Composite pageComposite;
 	private Text projectFileText;
 	private Button projectFileSelectionButton;

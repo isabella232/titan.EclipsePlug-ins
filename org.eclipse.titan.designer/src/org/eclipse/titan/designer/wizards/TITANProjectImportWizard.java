@@ -47,7 +47,7 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 	private TITANProjectImportMainPage mainPage;
 	private TITANProjectImportPage newProjectPage;
 	private TITANProjectImportRecursivelyPage recursivelyPage;
-	private boolean wasAutoBuilding;
+	private final boolean wasAutoBuilding;
 	private IConfigurationElement config;
 
 	public TITANProjectImportWizard() {

@@ -50,7 +50,7 @@ class TITANProjectExportMainPage extends WizardPage {
 	private String projectFile = null;
 	private IProject project = null;
 
-	private BasicProjectSelectorListener generalListener = new BasicProjectSelectorListener();
+	private final BasicProjectSelectorListener generalListener = new BasicProjectSelectorListener();
 
 	protected class BasicProjectSelectorListener implements ModifyListener, SelectionListener {
 

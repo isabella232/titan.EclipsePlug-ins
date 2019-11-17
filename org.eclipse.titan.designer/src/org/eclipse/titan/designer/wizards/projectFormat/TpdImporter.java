@@ -100,15 +100,15 @@ public class TpdImporter {
 	private LSParser parser;
 	private DOMConfiguration config;
 
-	private Map<String, String> finalProjectNames = new HashMap<String, String>();
-	private Map<URI, Document> projectsToImport = new HashMap<URI, Document>();
-	private List<URI> importChain = new ArrayList<URI>();
-	private boolean wasAutoBuilding;
-	private Shell shell;
+	private final Map<String, String> finalProjectNames = new HashMap<String, String>();
+	private final Map<URI, Document> projectsToImport = new HashMap<URI, Document>();
+	private final List<URI> importChain = new ArrayList<URI>();
+	private final boolean wasAutoBuilding;
+	private final Shell shell;
 	private final boolean headless;
 	private List<String> searchPaths;
-	private Map<String, String> tpdNameAttrMap = new HashMap<String, String>();
-	private Map<String, String> tpdURIMap = new HashMap<String, String>();
+	private final Map<String, String> tpdNameAttrMap = new HashMap<String, String>();
+	private final Map<String, String> tpdURIMap = new HashMap<String, String>();
 
 	public TpdImporter(final Shell shell, final boolean headless) {
 		this.shell = shell;

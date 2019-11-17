@@ -70,7 +70,7 @@ import org.w3c.dom.ls.LSSerializer;
  */
 public final class TITANProjectExporter {
 
-	private IProject project = null;
+	private final IProject project;
 	/**
 	 * The project file name path, e.g C:/MyFolder/MyProject.tpd or
 	 * /MyFolder/MyProject.tpd
@@ -83,7 +83,7 @@ public final class TITANProjectExporter {
 	private boolean saveDefaultValues = false;
 	private boolean packAllProjectsIntoOne = false;
 	private boolean useTpdNameAttribute = false;
-	private IPreferencesService preferenceService = null;
+	private final IPreferencesService preferenceService;
 
 	public TITANProjectExporter(final IProject project) {
 		this.project = project;

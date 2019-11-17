@@ -38,7 +38,7 @@ class TITANProjectExportOptionsPage extends WizardPage {
 	private boolean isPackAllProjectsIntoOne = false;
 	private Button useTpdNameAttribute;
 	private boolean isUseTpdNameAttribute = false;
-	private IPreferencesService preferenceService = null;
+	private final IPreferencesService preferenceService;
 
 	public TITANProjectExportOptionsPage(final boolean useTpdName) {
 		super(TITLE);

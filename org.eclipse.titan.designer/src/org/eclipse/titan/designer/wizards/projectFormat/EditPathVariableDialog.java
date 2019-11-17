@@ -27,8 +27,8 @@ import org.eclipse.swt.widgets.Text;
  * @author Kristof Szabados
  * */
 public class EditPathVariableDialog extends Dialog {
-	private String name;
-	private URI oldValue;
+	private final String name;
+	private final URI oldValue;
 	private URI actualValue;
 	private Text newValue;
 
