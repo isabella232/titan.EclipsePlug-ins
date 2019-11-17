@@ -64,8 +64,6 @@ public final class RotateLeftExpression extends Expression_Value {
 	private final Value value1;
 	private final Value value2;
 
-	private boolean needsConversion = false;
-
 	public RotateLeftExpression(final Value value1, final Value value2) {
 		this.value1 = value1;
 		this.value2 = value2;
@@ -324,11 +322,11 @@ public final class RotateLeftExpression extends Expression_Value {
 					} else {
 						// this is ok.
 						if (info.getNeedsConversion()) {
-							needsConversion = true;
+							set_needs_conversion();
 						}
 					}
 				} else if (info.getNeedsConversion()) {
-					needsConversion = true;
+					set_needs_conversion();
 				}
 				break;
 			}
@@ -355,11 +353,11 @@ public final class RotateLeftExpression extends Expression_Value {
 					} else {
 						// this is ok.
 						if (info.getNeedsConversion()) {
-							needsConversion = true;
+							set_needs_conversion();
 						}
 					}
 				} else if (info.getNeedsConversion()) {
-					needsConversion = true;
+					set_needs_conversion();
 				}
 				break;
 			}
@@ -436,7 +434,6 @@ public final class RotateLeftExpression extends Expression_Value {
 		isErroneous = false;
 		lastTimeChecked = timestamp;
 		lastValue = this;
-		needsConversion = false;
 
 		if (value1 == null || value2 == null) {
 			return lastValue;
@@ -632,13 +629,13 @@ public final class RotateLeftExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return !needsConversion && value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
+		return !get_needs_conversion() && value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		if (needsConversion) {
+		if (get_needs_conversion()) {
 			final ExpressionStruct tempExpr = new ExpressionStruct();
 			final String tempId1 = aData.getTemporaryVariableName();
 			final IType myGovernor = getMyGovernor();

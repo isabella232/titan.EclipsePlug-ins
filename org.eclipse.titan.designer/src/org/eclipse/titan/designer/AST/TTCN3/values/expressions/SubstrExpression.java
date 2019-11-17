@@ -67,8 +67,6 @@ public final class SubstrExpression extends Expression_Value {
 	private final Value value2;
 	private final Value value3;
 
-	private boolean needsConversion = false;
-
 	public SubstrExpression(final TemplateInstance templateInstance1, final Value value2, final Value value3) {
 		this.templateInstance1 = templateInstance1;
 		this.value2 = value2;
@@ -320,11 +318,11 @@ public final class SubstrExpression extends Expression_Value {
 					} else {
 						// this is ok.
 						if (info.getNeedsConversion()) {
-							needsConversion = true;
+							set_needs_conversion();
 						}
 					}
 				} else if (info.getNeedsConversion()) {
-					needsConversion = true;
+					set_needs_conversion();
 				}
 				break;
 			}
@@ -488,7 +486,6 @@ public final class SubstrExpression extends Expression_Value {
 		isErroneous = false;
 		lastTimeChecked = timestamp;
 		lastValue = this;
-		needsConversion = false;
 
 		if (templateInstance1 == null || value2 == null || value3 == null) {
 			return lastValue;
@@ -629,7 +626,7 @@ public final class SubstrExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return !needsConversion && templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
+		return !get_needs_conversion() && templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
 				&& value3.canGenerateSingleExpression();
 	}
 
@@ -641,7 +638,7 @@ public final class SubstrExpression extends Expression_Value {
 			return;
 		}
 
-		if (needsConversion) {
+		if (get_needs_conversion()) {
 			ExpressionStruct tempExpression = new ExpressionStruct();
 			generateCodeExpressionSubstring(aData, tempExpression);
 			final IType templateGovernor = templateInstance1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
