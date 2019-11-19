@@ -714,6 +714,7 @@ public class MainController {
 			"where: the 'configuration_file' parameter specifies the name and \n"+
 			"location of the main controller configuration file\n");
 	}
+
 	private static void handle_hc_data(final Host hc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		boolean error_flag = false;
