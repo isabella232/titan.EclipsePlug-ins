@@ -830,8 +830,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				getLocation().reportSemanticError("JSON default values are not available for record/set types with 1 or more fields");
 			}
 			break;
+		case TYPE_TTCN3_ENUMERATED:
+			final Identifier identifier = new Identifier(Identifier_type.ID_TTCN, jsonAttribute.default_value);
+			if (!((TTCN3_Enumerated_Type)refdLast).hasEnumItemWithName(identifier)) { 
+				getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for enumerated type `{0}'", getTypename()));
+			}
+			break;
 		default:
-			super.checkJsonDefault();
+			getLocation().reportSemanticError(MessageFormat.format("JSON default values are not available for type `{0}'", getTypename()));
 			break;
 		}
 	}
