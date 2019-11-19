@@ -2556,7 +2556,7 @@ public final class RecordSetCodeGenerator {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic int n_list_elem() {\n");
 		aSb.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
-		aSb.append(MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of enumeration type {0}.\");\n", displayName ) );
+		aSb.append(MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of enumeration type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn list_value.size();\n");
 		aSb.append("\t\t}\n\n");
@@ -3757,7 +3757,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic int n_list_elem() {\n");
 		source.append("\t\t\tif (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {\n");
-		source.append(MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of type {0}.\");\n", classDisplayName ) );
+		source.append(MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn list_value.size();\n");
 		source.append("\t\t}\n\n");
