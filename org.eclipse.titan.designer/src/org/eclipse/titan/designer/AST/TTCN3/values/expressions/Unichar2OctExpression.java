@@ -152,6 +152,10 @@ public final class Unichar2OctExpression extends Expression_Value {
 			final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType) {
+			case TYPE_CHARSTRING:
+				value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				set_needs_conversion();
+				break;
 			case TYPE_UCHARSTRING:
 				value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
@@ -290,7 +294,15 @@ public final class Unichar2OctExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.unichar2oct(");
-		value.generateCodeExpressionMandatory(aData, expression, true);
+		if (get_needs_conversion()) {
+			aData.addBuiltinTypeImport("TitanUniversalCharString");
+
+			expression.expression.append("TitanUniversalCharString.convert_to_UniversalCharString(");
+			value.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(')');
+		} else {
+			value.generateCodeExpressionMandatory(aData, expression, true);
+		}
 		if (code_string != null) {
 			expression.expression.append(',');
 			code_string.generateCodeExpressionMandatory(aData, expression, true);
