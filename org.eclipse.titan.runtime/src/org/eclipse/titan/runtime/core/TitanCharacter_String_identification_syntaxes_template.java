@@ -136,7 +136,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			return operator_assign((TitanCharacter_String_identification_syntaxes) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String_identification_syntaxes' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanCharacter_String_identification_syntaxes''", otherValue));
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			return operator_assign((TitanCharacter_String_identification_syntaxes_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String_identification_syntaxes' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanCharacter_String_identification_syntaxes_template''", otherValue));
 	}
 
 	/**
@@ -493,7 +493,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	@Override
 	public int n_list_elem() {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type CHARACTER STRING.identification.syntaxes.");
+		throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type CHARACTER STRING.identification.syntaxes.");
 		}
 		return list_value.size();
 	}

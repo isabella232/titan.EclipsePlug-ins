@@ -135,7 +135,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			return operator_assign((TitanEmbedded_PDV_identification_syntaxes) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_syntaxes' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanEmbedded_PDV_identification_syntaxes''", otherValue));
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			return operator_assign((TitanEmbedded_PDV_identification_syntaxes_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_syntaxes' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanEmbedded_PDV_identification_syntaxes_template''", otherValue));
 	}
 
 	/**
@@ -492,7 +492,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	@Override
 	public int n_list_elem() {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.identification.syntaxes.");
+		throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.identification.syntaxes.");
 		}
 		return list_value.size();
 	}

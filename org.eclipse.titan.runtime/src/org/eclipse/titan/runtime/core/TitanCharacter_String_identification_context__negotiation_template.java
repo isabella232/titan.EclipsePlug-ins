@@ -136,7 +136,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 			return operator_assign((TitanCharacter_String_identification_context__negotiation) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String_identification_context__negotiation' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanCharacter_String_identification_context__negotiation''", otherValue));
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 			return operator_assign((TitanCharacter_String_identification_context__negotiation_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String_identification_context__negotiation' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanCharacter_String_identification_context__negotiation_template''", otherValue));
 	}
 
 	/**
@@ -493,7 +493,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	@Override
 	public int n_list_elem() {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type CHARACTER STRING.identification.context-negotiation.");
+		throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type CHARACTER STRING.identification.context-negotiation.");
 		}
 		return list_value.size();
 	}

@@ -136,7 +136,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return operator_assign((TitanEmbedded_PDV) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanEmbedded_PDV''", otherValue));
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return operator_assign((TitanEmbedded_PDV_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to `TitanEmbedded_PDV_template''", otherValue));
 	}
 
 	/**
@@ -550,7 +550,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 	@Override
 	public int n_list_elem() {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.");
+		throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.");
 		}
 		return list_value.size();
 	}
