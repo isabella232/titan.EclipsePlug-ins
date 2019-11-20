@@ -1,13 +1,7 @@
----
-Author: Jenő Balaskó
-Version: 3/1531-CRL 113 200/6, Rev. F
-Date: 2019-04-09
-
----
 = Installation Guide for the TITAN Designer and TITAN Executor for the Eclipse IDE
 :author: Jenő Balaskó
-:revnumber: 3/1531-CRL 113 200/6, Rev. F
-:revdate: 2019-04-09
+:revnumber: 3/1531-CRL 113 200/6, Rev. G
+:revdate: 2019-11-29
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
@@ -96,9 +90,11 @@ For detailed information on installing Cygwin and configuring the environment va
 
 Only one detail of that document is emphasized here:
 
-"When installation is finished, add the `$CYGWIN_INSTALL_DIRECTORY\bin` directory to the `Path` environment variable of Windows, so Eclipse will access the shell commands.
-
-For example, if the cygwin root is "C:\cygwin64\" then "Path" should contain "C:\cygwin64\bin"."
+IMPORTANT: When installation is finished, add the +
+``$CYGWIN_INSTALL_DIRECTORY\bin`` and +
+``$CYGWIN_INSTALL_DIRECTORY\usr\bin`` directories to the ``PATH`` +
+environment variable of Windows, so Eclipse will access the shell commands. +
+For example, if the cygwin root is ``C:\cygwin64`` then ``Path`` should contain ``C:\cygwin64\bin;C:\cygwin64\usr\bin``.
 
 = Installing prerequisites
 
