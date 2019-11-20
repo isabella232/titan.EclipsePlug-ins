@@ -1,3 +1,9 @@
+---
+Author: Jenő Balaskó
+Version: 3/1531-CRL 113 200/6, Rev. G
+Date: 2019-11-29
+
+---
 = Installation Guide for the TITAN Designer and TITAN Executor for the Eclipse IDE
 :author: Jenő Balaskó
 :revnumber: 3/1531-CRL 113 200/6, Rev. G
