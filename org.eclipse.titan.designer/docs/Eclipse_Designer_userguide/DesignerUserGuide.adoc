@@ -1,13 +1,7 @@
-////
-Author: Jenő Balaskó
-Version: 4/198 17-CRL 113 200/6, Rev. F
-Date: 2019-04-09
-
-////
 = User Guide for the TITAN Designer for the Eclipse IDE
 :author: Jenő Balaskó
-:revnumber: 4/198 17-CRL 113 200/6, Rev. F
-:revdate: 2019-04-09
+:revnumber: 4/198 17-CRL 113 200/6, Rev. G
+:revdate: 2019-11-29
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
