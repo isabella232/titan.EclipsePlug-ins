@@ -10,11 +10,11 @@
 <feature
       id="TITAN_Designer"
       label="TITAN_Designer_Feature"
-      version="6.6.0.CRL_113_200_6_R6A_20190506-1000"
+      version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
       provider-name="Eclipse Titan Project">
 
    <description url="https://projects.eclipse.org/projects/tools.titan/downloads">
-      CRL 113 200/6 R6A (6.6.pl0) version of the TITAN Designer plug-in.
+      CRL 113 200/6 R6B (6.6.pl1) version of the TITAN Designer plug-in.
    </description>
 
    <copyright url="https://projects.eclipse.org/projects/tools.titan/downloads">
@@ -176,28 +176,28 @@ You may add additional accurate notices of copyright ownership.
          id="org.eclipse.titan.designer"
          download-size="3841"
          install-size="0"
-         version="6.6.0.CRL_113_200_6_R6A_20190506-1000"
+         version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="10546"
          install-size="0"
-         version="6.6.0.CRL_113_200_6_R6A_20190506-1000"
+         version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="532"
          install-size="0"
-         version="6.6.0.CRL_113_200_6_R6A_20190506-1000"
+         version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.runtime"
          download-size="0"
          install-size="0"
-         version="6.6.0.CRL_113_200_6_R6A_20190506-1000"
+         version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
          unpack="false"/>
 
 </feature>

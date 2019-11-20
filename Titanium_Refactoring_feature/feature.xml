@@ -10,11 +10,11 @@
 <feature
       id="Titanium.Refactoring"
       label="Refactoring"
-      version="6.6.0.CRL_113_200_6_R6A_20190506-1000"
+      version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
       provider-name="Eclipse Titan Project">
 
    <description url="https://projects.eclipse.org/projects/tools.titan/downloads">
-      CRL 113 200/6 R6A (6.6.pl0) version of the Titanium Refactoring plug-in.
+      CRL 113 200/6 R6B (6.6.pl1) version of the Titanium Refactoring plug-in.
    </description>
 
    <copyright>
@@ -168,16 +168,16 @@ You may add additional accurate notices of copyright ownership.
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.core.filesystem"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.titan.common" version="6.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.titan.designer" version="6.6.0" match="greaterOrEqual"/>
-      <import feature="Titanium" version="6.6.0"/>
+      <import plugin="org.eclipse.titan.common" version="6.6.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.titan.designer" version="6.6.1" match="greaterOrEqual"/>
+      <import feature="Titanium" version="6.6.1"/>
    </requires>
 
    <plugin
          id="org.eclipse.titanium.refactoring"
          download-size="0"
          install-size="0"
-         version="6.6.0.CRL_113_200_6_R6A_20190506-1000"
+         version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
          unpack="false"/>
 
 </feature>
