@@ -207,7 +207,7 @@ Code smells in this category indicate some issue in coding style.
 * *Report if the name of the module is mentioned in the name of the definition*: In TTCN-3 it is supported to refer definitions in a module name prefixed way. In cases the module reference notation is not need, this naming style only makes the name longer.
 * *Report if the name of the type is mentioned in the name of the definition*: In repeating the name of the type of a definition in the definitions name is a convenience method, but in some cases this makes the name of definition very large without adding any information.
 * *Report magic constants:* an integer higher than 5 or any string literal.
-* *Report if the attributes are being overridden*: When attributes are being overridden. 
+* *Report if the attributes are being overridden*: When attributes are being overridden.
 
 === Potential performance problems
 
@@ -1121,10 +1121,10 @@ By default the SoarQube web interface can be accessed on the http://localhost:90
 = References
 
 [[_1]]
-* [1] link:https://github.com/eclipse/titan.EclipsePlug-ins/blob/master/Eclipse_installationguide.adoc[Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE]
+* [1] link:https://github.com/eclipse/titan.EclipsePlug-ins/blob/master/org.eclipse.titan.help/docs/Eclipse_installationguide/Eclipse_installationguide.adoc[Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE]
 
 [[_2]]
-* [2] link:https://github.com/eclipse/titan.core/blob/master/usrguide/referenceguide/README.adoc[Programmers Technical Reference for TITAN TTCN-3 Test Executor]
+* [2] link:https://github.com/eclipse/titan.core/blob/master/usrguide/referenceguide/ReferenceGuide.adoc[Programmers Technical Reference for TITAN TTCN-3 Test Executor]
 
 [[_3]]
 * [3] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187301/04.01.01_60/es_20187301v040101p.pdf[Methods for Testing and Specification (MTS); The Testing and Test Control Notation version 3. Part 1: Core Language European Telecommunications Standards Institute ES 201 873-1 Version 4.1.1, July 2009]
@@ -1133,7 +1133,7 @@ By default the SoarQube web interface can be accessed on the http://localhost:90
 * [4] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.01.01_60/es_20187307v040101p.pdf[Methods for Testing and Specification (MTS); The Testing and Test Control Notation version 3. Part 7: Using ASN.1 with TTCN–3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.1.1, July 2009]
 
 [[_5]]
-* [5] Test software quality issues and connections to international standards Attila Kovács, Kristóf Szabados Acta Univ. Sapientiae, Informatica, 5, 1 (2013)
+* [5] link:https://www.researchgate.net/publication/263765466_Test_software_quality_issues_and_connections_to_international_standards[Test software quality issues and connections to international standards Attila Kovács, Kristóf Szabados Acta Univ. Sapientiae, Informatica, 5, 1 (2013)]
 
 [[_6]]
 * [6] link:https://www.cs.drexel.edu/~bmitchel/research/iwpc98.pdf[Mancoridis, S., Mitchell, B. S., Rorres, C., Chen, Y., & Gansner, E. R. (1998, June). Using automatic clustering to produce high-level system organizations of source code. In Program Comprehension, 1998. IWPC'98. Proceedings., 6th International Workshop on (pp. 45-52). IEEE]
