@@ -538,7 +538,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t/** {@inheritDoc} */\n");
 			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append(MessageFormat.format("\t\t\treturn RAW.RAW_encode_enum_type(p_td, myleaf, enum_value.enum_num, {0});\n", min_bits));
-			source.append("\t\t}\n");
+			source.append("\t\t}\n\n");
 
 
 			source.append("\t\t@Override\n");
@@ -549,8 +549,9 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\tif (decoded_length < 0) {\n");
 			source.append("\t\t\t\treturn decoded_length;\n");
 			source.append("\t\t\t}\n");
-			source.append("\t\t\tif (is_valid_enum(decoded_value.get())) {\n");
-			source.append("\t\t\t\tenum_value = enum_type.getValue(decoded_value.get());\n");
+			source.append("\t\t\tfinal int real_decoded_value = decoded_value.get();\n");
+			source.append("\t\t\tif (is_valid_enum(real_decoded_value)) {\n");
+			source.append("\t\t\t\tenum_value = enum_type.getValue(real_decoded_value);\n");
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tif (no_err) {\n");
 			source.append("\t\t\t\t\treturn -1;\n");
