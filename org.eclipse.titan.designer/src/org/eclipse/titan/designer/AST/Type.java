@@ -1276,6 +1276,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		case BER:
 		case PER:
 		case OER:
+		case TEXT:
+		case XER:
 			//FIXME not yet supported
 			return true;
 		default:{
