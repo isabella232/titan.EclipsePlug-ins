@@ -210,7 +210,7 @@ public class JSON_Tokenizer {
 	}
 
 	/** Reinitializes the tokenizer with a new buffer. */
-	public  void set_buffer(final String p_buf, final int p_buf_len) {
+	public void set_buffer(final String p_buf, final int p_buf_len) {
 		init(p_buf, p_buf_len);
 	}
 

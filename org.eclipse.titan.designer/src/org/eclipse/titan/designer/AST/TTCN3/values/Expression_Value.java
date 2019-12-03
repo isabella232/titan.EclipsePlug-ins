@@ -298,8 +298,20 @@ public abstract class Expression_Value extends Value {
 		/** port.getref() */
 		GETPORTREFERENCE_OPERATION,
 		/** now */
-		NOW_OPERATION
-		// FIXME missing: BSON2JSON, CBOR2JSON, JSON2BSON, JSON2CBOR, OPTYPE_GET_PORT_REF
+		NOW_OPERATION,
+		
+		//JSON related operations
+
+		/** bson2json(in octetstring) return universal charstring */
+		BSON2JSON_OPERATION,
+		/** cbor2json(in octetstring) return universal charstring */
+		CBOR2JSON_OPERATION,
+		/** json2bson(in universal charstring) return octetstring */
+		JSON2BSON_OPERATION,
+		/** json2cbor(in universal charstring) return octetstring */
+		JSON2CBOR_OPERATION
+
+		// FIXME missing: OPTYPE_GET_PORT_REF
 	}
 
 	/**

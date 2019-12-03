@@ -8215,6 +8215,18 @@ pr_PredefinedOps1 returns[Value value]
 				LogArguments logArguments = new LogArguments();
 				logArguments.add(logArgument);
 				$value = new Any2UnistrExpression(logArguments); }
+|   JSON2BSON
+	pr_LParen	v = pr_SingleExpression
+	pr_RParen	{	$value = new Json2BsonExpression($v.value); }
+|   JSON2CBOR
+	pr_LParen	v = pr_SingleExpression
+	pr_RParen	{	$value = new Json2CborExpression($v.value); }
+|   BSON2JSON
+	pr_LParen	v = pr_SingleExpression
+	pr_RParen	{	$value = new Bson2JsonExpression($v.value); }
+|   CBOR2JSON
+	pr_LParen	v = pr_SingleExpression
+	pr_RParen	{	$value = new Cbor2JsonExpression($v.value); }
 )
 { $value.setLocation(getLocation( $start, getStopToken())); };
 

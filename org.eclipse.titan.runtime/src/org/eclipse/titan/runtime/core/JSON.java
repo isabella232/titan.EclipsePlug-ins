@@ -305,15 +305,15 @@ public class JSON {
 			} else if (uns_num <= 0xFFFF) { // 16 bit
 				buff.put_c((byte)(major_type + 25));
 				encode_ulong_long_int_cbor(buff, 2, uns_num);
-			} else if (uns_num <= 0xFFFFFFFF) { // 32 bit
+			} else { // 32 bit
 				buff.put_c((byte)(major_type + 26));
 				encode_ulong_long_int_cbor(buff, 4, uns_num);
 			}
 		} else {
-			BigInteger bn = int_num.get_BigInteger();
-			byte byteArray[] = bn.toByteArray();
-			int bn_length = byteArray.length; //originally BN_num_bytes(bn);
-			long long_int = int_num.get_long();
+			final BigInteger bn = int_num.get_BigInteger();
+			final byte byteArray[] = bn.toByteArray();
+			final int bn_length = byteArray.length; //originally BN_num_bytes(bn);
+			final long long_int = int_num.get_long();
 			if (bn_length <= 4) { // 32 bit
 				buff.put_c((byte)(major_type + 26));
 				encode_ulong_long_int_cbor(buff, 4, long_int);
@@ -334,7 +334,7 @@ public class JSON {
 
 	private static void decode_int_cbor(final TTCN_Buffer buff, final int bytes, final TitanInteger result) {
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
-		TTCN_Buffer tmp_buf = new TTCN_Buffer();
+		final TTCN_Buffer tmp_buf = new TTCN_Buffer();
 		tmp_buf.put_s(tmp);
 		TitanOctetString os = new TitanOctetString();
 		tmp_buf.get_string(os);

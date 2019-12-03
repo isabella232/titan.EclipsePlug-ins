@@ -133,7 +133,7 @@ public final class AdditionalFunctions {
 		//intentionally private to disable instantiation
 	}
 
-	private static byte char_to_hexdigit(final char c) {
+	public static byte char_to_hexdigit(final char c) {
 		if (c >= '0' && c <= '9') {
 			return (byte) (c - '0');
 		} else if (c >= 'A' && c <= 'F') {
@@ -145,7 +145,7 @@ public final class AdditionalFunctions {
 		}
 	}
 
-	private static char hexdigit_to_char(final int hexdigit) {
+	public static char hexdigit_to_char(final int hexdigit) {
 		if (hexdigit < 16) {
 			return TitanHexString.HEX_DIGITS.charAt(hexdigit);
 		} else {
@@ -5064,7 +5064,7 @@ public final class AdditionalFunctions {
 
 	// float2str
 	public static TitanCharString float2str(final double value) {
-		//differnce between java and c++
+		//difference between java and c++
 		if (Double.isNaN(value)) {
 			return new TitanCharString("not_a_number");
 		} else if (value == Double.NEGATIVE_INFINITY) {
@@ -5081,7 +5081,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString float2str(final Ttcn3Float value) {
-		//differnce between java and c++
+		//difference between java and c++
 		if (Double.isNaN(value.getValue())) {
 			return new TitanCharString("not_a_number");
 		} else if (value.getValue() == Double.NEGATIVE_INFINITY) {
@@ -5100,7 +5100,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString float2str(final TitanFloat value) {
 		value.must_bound("The argument of function float2str() is an unbound float value.");
 
-		//differnce between java and c++
+		//difference between java and c++
 		if (value.get_value().isNaN()) {
 			return new TitanCharString("not_a_number");
 		} else if (value.get_value() == Double.NEGATIVE_INFINITY) {
@@ -5224,7 +5224,7 @@ public final class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The third argument (groupno) of function regexp() is a negative integer value: {0}.", groupno));
 		}
 
-		Pattern posix_str = null;
+		final Pattern posix_str;
 		if (expression_val != null) {
 			posix_str = TTCN_Pattern.convert_pattern(expression_val.get_stringRepr_for_pattern().toString(), nocase);
 		} else {
@@ -5385,7 +5385,7 @@ public final class AdditionalFunctions {
 		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = p_msg.length;
-		char[] output = new char[((octets_left*22) >> 4) + 7];
+		final char[] output = new char[((octets_left*22) >> 4) + 7];
 		int outpotPos = 0;
 		int n_4chars = 0;
 		final boolean linebreaks = use_linebreaks.get_value();
@@ -5428,7 +5428,7 @@ public final class AdditionalFunctions {
 		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = p_msg.length;
-		char[] output = new char[((octets_left*22) >> 4) + 7];
+		final char[] output = new char[((octets_left*22) >> 4) + 7];
 		int outpotPos = 0;
 		while (octets_left >= 3) {
 			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
@@ -5462,7 +5462,7 @@ public final class AdditionalFunctions {
 		final byte[] p_b64 = b64.get_value().toString().getBytes();
 		int b64Pos = 0;
 		int chars_left = b64.lengthof().get_int();
-		byte[] output = new byte[((chars_left >> 2) + 1 ) * 3 ];
+		final byte[] output = new byte[((chars_left >> 2) + 1 ) * 3 ];
 		int outpotPos = 0;
 		int bits = 0;
 		int n_bits = 0;
@@ -5497,7 +5497,6 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString json2cbor(final TitanUniversalCharString value) {
-		final TitanOctetString result = new TitanOctetString();
 		final TTCN_Buffer buff = new TTCN_Buffer();
 		value.encode_utf8(buff);
 		final byte[] ustr = buff.get_data();
@@ -5507,34 +5506,34 @@ public final class AdditionalFunctions {
 		buff.clear();
 		final AtomicInteger num_of_items = new AtomicInteger(0);
 		JSON.json2cbor_coding(buff, tok, num_of_items);
+		TitanOctetString result = new TitanOctetString();
 		buff.get_string(result);
 		return result;
 	}
 
 	public static TitanUniversalCharString cbor2json(final TitanOctetString value) {
-		final TitanUniversalCharString result = new TitanUniversalCharString();
 		final TTCN_Buffer buff = new TTCN_Buffer();
 		buff.put_os(value);
 		final JSON_Tokenizer tok = new JSON_Tokenizer();
 		JSON.cbor2json_coding(buff, tok, false);
 		final byte[] resultBytes = tok.get_buffer().toString().getBytes();
+		TitanUniversalCharString result = new TitanUniversalCharString();
 		result.decode_utf8(resultBytes, CharCoding.UTF_8, false);
 		return result;
 	}
 
 	public static TitanUniversalCharString bson2json(final TitanOctetString value) {
-		final TitanUniversalCharString result = new TitanUniversalCharString();
 		final TTCN_Buffer buff = new TTCN_Buffer();
 		buff.put_os(value);
 		final JSON_Tokenizer tok = new JSON_Tokenizer();
 		JSON.bson2json_coding(buff, tok, false, false);
 		final byte[] resultBytes = tok.get_buffer().toString().getBytes();
+		TitanUniversalCharString result = new TitanUniversalCharString();
 		result.decode_utf8(resultBytes, CharCoding.UTF_8, false);
 		return result;
 	}
 
 	public static TitanOctetString json2bson(final TitanUniversalCharString value) {
-		final TitanOctetString result = new TitanOctetString();
 		final TTCN_Buffer buff = new TTCN_Buffer();
 		value.encode_utf8(buff);
 		final byte[] ustr = buff.get_data();
@@ -5546,6 +5545,7 @@ public final class AdditionalFunctions {
 		final TitanCharString cs = new TitanCharString();
 		final boolean is_special = false;
 		JSON.json2bson_coding(buff, tok, false, false, length, cs, is_special);
+		TitanOctetString result = new TitanOctetString();
 		buff.get_string(result);
 		return result;
 	}

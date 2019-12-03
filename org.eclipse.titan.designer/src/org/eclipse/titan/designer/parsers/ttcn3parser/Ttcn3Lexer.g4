@@ -124,9 +124,9 @@ import Ttcn3BaseLexer;
   /*------------------------------ Predefined function identifiers --------------------------------*/
 
   BIT2HEX: 'bit2hex';               BIT2INT: 'bit2int';               BIT2OCT: 'bit2oct';
-  BIT2STR: 'bit2str';
+  BIT2STR: 'bit2str';               BSON2JSON: 'bson2json';
 
-  CHAR2INT: 'char2int';             CHAR2OCT: 'char2oct';
+  CBOR2JSON: 'cbor2json';           CHAR2INT: 'char2int';             CHAR2OCT: 'char2oct';
 
   DECODE_BASE64: 'decode_base64';   DECOMP: 'decomp';
 
@@ -144,6 +144,8 @@ import Ttcn3BaseLexer;
   INT2STR: 'int2str';               INT2UNICHAR: 'int2unichar';       ISBOUND: 'isbound';
   ISCHOSEN: 'ischosen';             ISPRESENT: 'ispresent';           ISVALUE: 'isvalue';
 
+  JSON2BSON: 'json2bson';           JSON2CBOR: 'json2cbor';
+
   LENGTHOF: 'lengthof';             LOG2STR: 'log2str';
 
   OCT2BIT: 'oct2bit';               OCT2CHAR: 'oct2char';             OCT2HEX: 'oct2hex';
@@ -159,7 +161,6 @@ import Ttcn3BaseLexer;
   TESTCASENAME: 'testcasename';     TTCN2STRING: 'ttcn2string';
 
   UNICHAR2CHAR: 'unichar2char';     UNICHAR2INT: 'unichar2int';       UNICHAR2OCT: 'unichar2oct';
-
 
 /*------------------------------ Predefined function identifiers --------------------------------*/
 

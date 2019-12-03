@@ -204,7 +204,7 @@ import org.eclipse.titan.designer.AST.Location;
 		final int stopIndex = getCharIndex();
 		reportWarning( msg, line, startIndex, stopIndex );
 	}
-	
+
 	private void error( final String msg ) {
 		final int line = getLine();
 		final int stopIndex = getCharIndex();
@@ -315,9 +315,9 @@ tokens {
   /*------------------------------ Predefined function identifiers --------------------------------*/
 
   BIT2HEX,                    BIT2INT,                    BIT2OCT,
-  BIT2STR,
+  BIT2STR,                    BSON2JSON,
 
-  CHAR2INT,                   CHAR2OCT,
+  CBOR2JSON,                  CHAR2INT,                   CHAR2OCT,
 
   DECODE_BASE64,              DECOMP,
 
@@ -334,6 +334,8 @@ tokens {
   INT2FLOAT,                  INT2HEX,                    INT2OCT,
   INT2STR,                    INT2UNICHAR,                ISBOUND,
   ISCHOSEN,                   ISPRESENT,                  ISVALUE,
+
+  JSON2BSON,                  JSON2CBOR,
 
   LENGTHOF,                   LOG2STR,
 
@@ -353,7 +355,7 @@ tokens {
 
   /* general macro, used for code completion, see TTCN3KeywordLessLexer */
   MACRO,
-  
+
   /*------------------------------ Binary string tokens --------------------------------*/
 
   BSTRING,
@@ -468,7 +470,7 @@ HSTRING:
 							if (contains_ws) {
 								warning("Bitstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
 							}
-						setType( contains_match ? BSTRINGMATCH : BSTRING );
+							setType( contains_match ? BSTRINGMATCH : BSTRING );
 						} else {
 							error("Bitstring value contains invalid character");
 							setType( BHOSTRING_WRONG );
@@ -489,7 +491,7 @@ HSTRING:
 							if (contains_ws) {
 								warning("Octetstring " + ( contains_match ? "match" : "value" ) + " contains whitespace and/or newline character(s)");
 							}
-						setType( contains_match ? OSTRINGMATCH : OSTRING );
+							setType( contains_match ? OSTRINGMATCH : OSTRING );
 						} else if (contains_match) {
 							error("Octetstring match contains half octet(s)");
 							setType( BHOSTRING_WRONG );
