@@ -1075,7 +1075,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public void checkJsonDefault() {
-		getLocation().reportSemanticError(MessageFormat.format("JSON default values are not available for type `{0}'", getTypename()));
+		getLocation().reportSemanticError(MessageFormat.format("JSON default values are not available for type `{0}''", getTypename()));
 	}
 
 	@Override

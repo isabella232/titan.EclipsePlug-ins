@@ -821,7 +821,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		case TYPE_SET_OF:
 		case TYPE_SEQUENCE_OF:
 			if (!jsonAttribute.default_value.matches("\\{\\}")) {
-				getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for type `{0}'. Only the empty array is allowed.", getTypename()));
+				getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for type `{0}''. Only the empty array is allowed.", getTypename()));
 			}
 			break;
 		case TYPE_TTCN3_SET:
@@ -833,11 +833,11 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		case TYPE_TTCN3_ENUMERATED:
 			final Identifier identifier = new Identifier(Identifier_type.ID_TTCN, jsonAttribute.default_value);
 			if (!((TTCN3_Enumerated_Type)refdLast).hasEnumItemWithName(identifier)) { 
-				getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for enumerated type `{0}'", getTypename()));
+				getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for enumerated type `{0}''", getTypename()));
 			}
 			break;
 		default:
-			getLocation().reportSemanticError(MessageFormat.format("JSON default values are not available for type `{0}'", getTypename()));
+			getLocation().reportSemanticError(MessageFormat.format("JSON default values are not available for type `{0}''", getTypename()));
 			break;
 		}
 	}
@@ -1000,14 +1000,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				for (int i = 0; i < jsonAttribute.enum_texts.size(); i++) {
 					final Identifier identifier = new Identifier(Identifier_type.ID_TTCN, jsonAttribute.enum_texts.get(i).from, NULL_Location.INSTANCE, true);
 					if (!((TTCN3_Enumerated_Type)refdLast).hasEnumItemWithName(identifier)) {
-						getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for enumerated type `{0}'", getTypename()));
+						getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for enumerated type `{0}''", getTypename()));
 					} else {
 						final EnumItem enumItem = ((TTCN3_Enumerated_Type)refdLast).getEnumItemWithName(identifier);
 						final int index = (int) ((Integer_Value) enumItem.getValue()).getValue();
 						jsonAttribute.enum_texts.get(i).index = index;
 						for (int j = 0; j < i; j++) {
 							if (jsonAttribute.enum_texts.get(j).index == index) {
-								getLocation().reportSemanticError(MessageFormat.format("Duplicate attribute 'text ... as ...' for enumerated value '{0}'", jsonAttribute.enum_texts.get(i).from));
+								getLocation().reportSemanticError(MessageFormat.format("Duplicate attribute 'text ... as ...' for enumerated value `{0}''", jsonAttribute.enum_texts.get(i).from));
 							}
 						}
 					}
