@@ -8,17 +8,21 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 
 /**
  * TTCN-3 boolean
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public final class Optional<TYPE extends Base_Type> extends Base_Type {
 	public enum optional_sel { OPTIONAL_UNBOUND, OPTIONAL_OMIT, OPTIONAL_PRESENT };
@@ -268,6 +272,143 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 		} else {
 			set_to_omit();
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		//TODO
+		//#ifdef TITAN_RUNTIME_2
+		//switch(get_selection()) {
+		//#else
+		switch(optionalSelection) {
+		//#endif
+		case OPTIONAL_PRESENT:
+			return optionalValue.JSON_encode(p_td, p_tok);
+		case OPTIONAL_OMIT:
+			return p_tok.put_next_token(json_token_t.JSON_TOKEN_LITERAL_NULL, null);
+		case OPTIONAL_UNBOUND:
+		default:
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound optional value.");
+			return -1;
+		}
+	}
+
+	//TODO
+	/*
+		#ifdef TITAN_RUNTIME_2
+		template<typename T_type>
+		int OPTIONAL<T_type>::JSON_encode_negtest(const Erroneous_descriptor_t* p_err_descr,
+				const TTCN_Typedescriptor_t& p_td,
+				JSON_Tokenizer& p_tok) const 
+		{
+			switch (get_selection()) {
+			case OPTIONAL_PRESENT:
+				return optional_value->JSON_encode_negtest(p_err_descr, p_td, p_tok);
+			case OPTIONAL_OMIT:
+				return p_tok.put_next_token(JSON_TOKEN_LITERAL_NULL, NULL);
+			case OPTIONAL_UNBOUND:
+			default:
+				TTCN_EncDec_ErrorContext::error(TTCN_EncDec::ET_UNBOUND,
+						"Encoding an unbound optional value.");
+				return -1;
+			}
+		}
+		#endif
+	 */
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		// try the optional value first
+		set_to_present();
+		int buf_pos = p_tok.get_buf_pos();
+		int dec_len = 0;
+		if (JSON.CHOSEN_FIELD_OMITTED == p_chosen_field) {
+			// the attribute 'chosen' says that this field has to be omitted
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_LITERAL_NULL == token.get()) {
+				set_to_omit();
+				return dec_len;
+			}
+			else {
+				if(!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_CHOSEN_FIELD_NOT_NULL, "");
+				}
+				// if this is set to warning, return to the beginning of the value and
+				// decode it as normal
+				p_tok.set_buf_pos(buf_pos);
+			}
+		}
+		dec_len = optionalValue.JSON_decode(p_td, p_tok, p_silent, p_chosen_field);
+		if (JSON.JSON_ERROR_FATAL == dec_len) {
+			if (p_silent) {
+				clean_up();
+			} else {
+				set_to_omit();
+			}
+		}
+		else if (JSON.JSON_ERROR_INVALID_TOKEN == dec_len) {
+			// invalid token, rewind the buffer and check if it's a "null" (= omit)
+			// this needs to be checked after the optional value, because it might also be
+			// able to decode a "null" value
+			p_tok.set_buf_pos(buf_pos);
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_LITERAL_NULL == token.get()) {
+				if (0 <= p_chosen_field) {
+					if(!p_silent) {
+						TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_CHOSEN_FIELD_OMITTED_NULL, "");
+					}
+				}
+				set_to_omit();
+			}
+			else {
+				// cannot get JSON_TOKEN_ERROR here, that was already checked by the optional value
+				dec_len = JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+		}
+		return dec_len;
 	}
 
 	@Override

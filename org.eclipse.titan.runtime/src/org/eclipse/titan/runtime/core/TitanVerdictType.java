@@ -8,7 +8,10 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Verdict;
@@ -327,6 +330,20 @@ public class TitanVerdictType extends Base_Type {
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 		//only xer and JSON will be supported
+		switch(p_coding) {
+		//TODO: case CT_XER:
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+		}
 		throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 	}
 
@@ -334,10 +351,89 @@ public class TitanVerdictType extends Base_Type {
 	/** {@inheritDoc} */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 		//only xer and JSON will be supported
-		throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+		switch(p_coding) {
+		//TODO: case CT_XER:
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0)
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received",
+						p_td.name);
+			p_buf.set_pos(tok.get_buf_pos());
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+		}
 	}
 
-	//TODO: implement VERDICTTYPE::XER_encode()
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound verdicttype value.");
+			return -1;
+		}
+
+		final String tmp_str = "\"" + verdict_value.getName() + "\"";
+		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
+		return enc_len;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		final StringBuilder value = new StringBuilder();
+		final AtomicInteger value_len = new AtomicInteger(0);
+		int dec_len = 0;
+		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		if (use_default) {
+			// No JSON data in the buffer -> use default value
+			value.append(p_td.json.getDefault_value());
+			value_len.set(value.length());
+		} else {
+			dec_len = p_tok.get_next_token(token, value, value_len);
+		}
+		boolean error = true;
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			}
+			dec_len = JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+			if (use_default || (value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
+				if (!use_default) {
+					// The default value doesn't have quotes around it
+					value.setLength(0);
+					value.append( value.substring(1, value.length() - 1) );
+					value_len.set(value.length());
+				}
+				for (VerdictTypeEnum v : VerdictTypeEnum.values()) {
+					if (v.getName().equals(value.toString())) {
+						verdict_value = v;
+						error = false;
+						break;
+					}
+				}
+			}
+		} else {
+			verdict_value = VerdictTypeEnum.UNBOUND;
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+		if (error) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "verdicttype");
+			}
+			verdict_value = VerdictTypeEnum.UNBOUND;
+			return JSON.JSON_ERROR_FATAL;
+		}
+		return dec_len;
+	}
 
 	public VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
 		for (final VerdictTypeEnum i : VerdictTypeEnum.values()) {
@@ -353,9 +449,7 @@ public class TitanVerdictType extends Base_Type {
 		return VerdictTypeEnum.UNBOUND;
 	}
 
+	//TODO: implement VERDICTTYPE::XER_encode()
 	//TODO: implement VERDICTTYPE::XER_decode()
-	//TODO: implement VERDICTTYPE::XER_decode()
-	//TODO: implement VERDICTTYPE::JSON_encode()
-	//TODO: implement VERDICTTYPE::JSON_decode()
 
 }

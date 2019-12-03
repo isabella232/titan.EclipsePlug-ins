@@ -9,7 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
@@ -602,6 +605,15 @@ public class TitanHexString extends Base_Type {
 			}
 			break;
 		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
@@ -634,8 +646,136 @@ public class TitanHexString extends Base_Type {
 				errorContext.leave_context();
 			}
 			break;
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound hexstring value.");
+			return -1;
+		}
+
+		StringBuilder tmp_str = new StringBuilder();
+		tmp_str.append('\"');
+		for (int i = 0; i < nibbles_ptr.length; ++i) {
+			if (i % 2 != 0) {
+				tmp_str.append( AdditionalFunctions.hexdigit_to_char(nibbles_ptr[i / 2] >> 4) );
+			} else {
+				tmp_str.append( AdditionalFunctions.hexdigit_to_char(nibbles_ptr[i / 2] & 0x0F) );
+			}
+		}
+		tmp_str.append('\"');
+		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str.toString());
+		return enc_len;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		final StringBuilder value = new StringBuilder();
+		final AtomicInteger value_len = new AtomicInteger(0);
+		boolean error = false;
+		int dec_len = 0;
+		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		if (use_default) {
+			// No JSON data in the buffer -> use default value
+			value.append(p_td.json.getDefault_value());
+			value_len.set(value.length());
+		} else {
+			dec_len = p_tok.get_next_token(token, value, value_len);
+		}
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			}
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+			if (use_default || (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
+				if (!use_default) {
+					// The default value doesn't have quotes around it
+					value.setLength(0);
+					value.append( value.substring(1, value.length() - 1) );
+					value_len.set(value.length());
+				}
+				// White spaces are ignored, so the resulting hexstring might be shorter
+				// than the extracted JSON string
+				int nibbles = value_len.get();
+				for (int i = 0; i < value_len.get(); ++i) {
+					if (value.charAt(i) == ' ') {
+						--nibbles;
+					}
+					else if (!isxdigit(value.charAt(i))) {
+						if (value.charAt(i) == '\\' && i + 1 < value_len.get() &&
+								(value.charAt(i+1) == 'n' || value.charAt(i+1) == 'r' || value.charAt(i+1) == 't')) {
+							// Escaped white space character
+							++i;
+							nibbles -= 2;
+						}
+						else {
+							error = true;
+							break;
+						}
+					}
+				}
+				if (!error) {
+					init_struct(nibbles);
+					int nibble_index = 0;
+					for (int i = 0; i < value_len.get(); ++i) {
+						if (!isxdigit(value.charAt(i))) {
+							continue;
+						}
+						set_nibble(nibble_index, AdditionalFunctions.char_to_hexdigit(value.charAt(i)));
+						++nibble_index;
+					}
+				}
+			} else {
+				error = true;
+			}
+		} else {
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+
+		if (error) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "hexstring");
+			}
+			return JSON.JSON_ERROR_FATAL;    
+		}
+		return dec_len;
+	}
+
+	static boolean isxdigit(char hexdigit) {
+		return HEX_DIGITS.indexOf(hexdigit) >= 0;
+	}
+
+	private void init_struct(int n_nibbles) {
+		if (n_nibbles < 0) {
+			nibbles_ptr = null;
+			throw new TtcnError("Initializing a hexstring with a negative length.");
+		} else if (n_nibbles == 0) {
+			// This will represent the empty strings so they won't need allocated
+			// memory, this delays the memory allocation until it is really needed.
+			nibbles_ptr = new byte[0];
+		} else {
+			nibbles_ptr = new byte[n_nibbles];
 		}
 	}
 

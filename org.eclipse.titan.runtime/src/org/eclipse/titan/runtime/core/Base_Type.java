@@ -22,6 +22,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
  * The base class of all types.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public abstract class Base_Type {
 
@@ -337,5 +338,24 @@ public abstract class Base_Type {
 	 * */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
 		throw new TtcnError(MessageFormat.format("RAW decoding requested for type `{0}'' which has no RAW encoding method.", p_td.name));
+	}
+
+//TODO: remove abstract methods
+/*
+	public abstract int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok);
+	public abstract int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field);
+/*/
+	//TODO: comment
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		throw new TtcnError(MessageFormat.format("JSON encoding requested for type `{0}'' which has no JSON encoding method.", p_td.name));
+	}
+
+	//TODO: comment
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		throw new TtcnError(MessageFormat.format("JSON decoding requested for type `{0}'' which has no JSON decoding method.", p_td.name));
+	}
+//*/
+	public final int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent) {
+		return JSON_decode(p_td, p_tok, p_silent, JSON.CHOSEN_FIELD_UNSET);
 	}
 }

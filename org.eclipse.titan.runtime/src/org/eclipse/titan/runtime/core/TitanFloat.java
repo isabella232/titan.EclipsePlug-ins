@@ -952,6 +952,15 @@ public class TitanFloat extends Base_Type {
 			}
 			break;
 		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
@@ -984,6 +993,18 @@ public class TitanFloat extends Base_Type {
 			} finally {
 				errorContext.leave_context();
 			}
+			break;
+		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
 			break;
 		}
 		default:
@@ -1236,6 +1257,7 @@ public class TitanFloat extends Base_Type {
 	private static final String NEG_INF_STR_DEFAULT = "-infinity";
 	private static final String NAN_STR_DEFAULT = "not_a_number";
 
+	@Override
 	public int JSON_encode(final TTCN_Typedescriptor cborFloatDescr, final JSON_Tokenizer p_tok) {
 		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
@@ -1264,7 +1286,8 @@ public class TitanFloat extends Base_Type {
 		return enc_len;
 	}
 
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int i) {
+	@Override
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);

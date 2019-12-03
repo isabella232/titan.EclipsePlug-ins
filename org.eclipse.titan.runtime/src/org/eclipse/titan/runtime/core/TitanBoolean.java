@@ -7,7 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
@@ -546,6 +548,15 @@ public class TitanBoolean extends Base_Type {
 			}
 			break;
 		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
@@ -578,6 +589,18 @@ public class TitanBoolean extends Base_Type {
 			} finally {
 				errorContext.leave_context();
 			}
+			break;
+		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
 			break;
 		}
 		default:
@@ -681,5 +704,49 @@ public class TitanBoolean extends Base_Type {
 		}
 
 		return decode_length + prepaddlength;
+	}
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,"Encoding an unbound boolean value.");
+			return -1;
+		}
+
+		return p_tok.put_next_token((boolean_value) ? json_token_t.JSON_TOKEN_LITERAL_TRUE : json_token_t.JSON_TOKEN_LITERAL_FALSE, null);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		int dec_len = 0;
+		if (p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length()) {
+			// No JSON data in the buffer -> use default value
+			if ("true".equals( p_td.json.getDefault_value() ) ) {
+				token.set( json_token_t.JSON_TOKEN_LITERAL_TRUE );
+			} 
+			else {
+				token.set( json_token_t.JSON_TOKEN_LITERAL_FALSE );
+			}
+		} else {
+			dec_len = p_tok.get_next_token(token, null, null);
+		}
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			}
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_LITERAL_TRUE == token.get()) {
+			boolean_value = true;
+		}
+		else if (json_token_t.JSON_TOKEN_LITERAL_FALSE == token.get()) {
+			boolean_value = false;
+		} 
+		else {
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+		return dec_len;
 	}
 }

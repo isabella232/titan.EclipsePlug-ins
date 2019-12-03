@@ -9,7 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.math.BigInteger;
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Integer;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
@@ -1236,6 +1239,15 @@ public class TitanInteger extends Base_Type {
 			}
 			break;
 		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
@@ -1270,9 +1282,109 @@ public class TitanInteger extends Base_Type {
 			}
 			break;
 		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,"Encoding an unbound integer value.");
+			return -1;
+		}
+
+		final StringBuilder tmp_str = new StringBuilder();
+		if (nativeFlag) {
+			tmp_str.append(nativeInt);
+		} else {
+			tmp_str.append(openSSL.toString());
+		}
+
+		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str.toString());
+		return enc_len;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		final StringBuilder value = new StringBuilder();
+		final AtomicInteger value_len = new AtomicInteger(0);
+		int dec_len = 0;
+		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		if (use_default) {
+			// No JSON data in the buffer -> use default value
+			value.setLength(0);
+			value.append( p_td.json.getDefault_value() );
+			value_len.set(value.length());
+		} else {
+			dec_len = p_tok.get_next_token(token, value, value_len);
+		}
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			}
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_NUMBER == token.get() || use_default) {
+			if (from_string(value.toString()) && value_len.get() == get_nof_digits() + ('-' == value.charAt(0) ? 1 : 0)) {
+				boundFlag = true;
+			} else {
+				if(!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "number", "integer");
+				}
+				boundFlag = false;
+				dec_len = JSON.JSON_ERROR_FATAL;
+			}
+		} else {
+			boundFlag = false;
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+		return dec_len;
+	}
+
+	private int get_nof_digits() {
+		int digits = 0;
+		if (nativeFlag) {
+			int x = nativeInt;
+			if (x == 0) {
+				return 1;
+			}
+			if (x < 0) {
+				x = -x;
+			}
+			while (x > 0) {
+				++digits;
+				x /= 10;
+			}
+		} else {
+			BigInteger x = openSSL;
+			if (x.compareTo(BigInteger.ZERO) == 0) {
+				return 1;
+			}
+			if (x.compareTo(BigInteger.ZERO) < 0) {
+				x = x.negate();
+			}
+			while (x.compareTo(BigInteger.ZERO) > 0) {
+				++digits;
+				x.divide(BigInteger.TEN);
+			}
+		}
+		return digits;
 	}
 
 	/**

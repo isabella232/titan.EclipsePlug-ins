@@ -11,7 +11,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
@@ -1039,7 +1042,15 @@ public class TitanCharString extends Base_Type {
 				errorContext.leave_context();
 			}
 			break;
-
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
@@ -1072,7 +1083,18 @@ public class TitanCharString extends Base_Type {
 				errorContext.leave_context();
 			}
 			break;
-
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 		}
@@ -1203,6 +1225,203 @@ public class TitanCharString extends Base_Type {
 		}
 
 		return decode_length + prepaddlength;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound charstring value.");
+			return -1;
+		}
+
+		final String tmp_str = to_JSON_string(val_ptr);  
+		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
+		return enc_len;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		final StringBuilder value = new StringBuilder();
+		final AtomicInteger value_len = new AtomicInteger(0);
+		int dec_len = 0;
+		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		if (use_default) {
+			// No JSON data in the buffer -> use default value
+			value.append(p_td.json.getDefault_value());
+			value_len.set(value.length());
+		} else {
+			dec_len = p_tok.get_next_token(token, value, value_len);
+		}
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			if(!p_silent) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			}
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+			if (!from_JSON_string(value.toString(), !use_default)) {
+				if(!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "charstring");
+				}
+				clean_up();
+				return JSON.JSON_ERROR_FATAL;
+			}
+		} else {
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+		return dec_len;
+	}
+
+	static String to_JSON_string( final StringBuilder cstr ) {
+		// Need at least 3 more characters (the double quotes around the string and the terminating zero)
+		final StringBuilder json_str = new StringBuilder();
+
+		json_str.append('\"');
+
+		for (int i = 0; i < cstr.length(); ++i) {
+			// Increase the size of the buffer if it's not big enough to store the
+			// characters remaining in the charstring plus 1 (for safety, in case this
+			// character needs to be double-escaped).
+			switch(cstr.charAt(i)) {
+			case '\\':
+				json_str.append("\\\\");
+				break;
+			case '\n':
+				json_str.append("\\n");
+				break;
+			case '\t':
+				json_str.append("\\t");
+				break;
+			case '\r':
+				json_str.append("\\r");
+				break;
+			case '\f':
+				json_str.append("\\f");
+				break;
+			case '\b':
+				json_str.append("\\b");
+				break;
+			case '\"':
+				json_str.append("\\\"");
+				break;
+			default:
+				json_str.append(cstr.charAt(i));
+				break;
+			}
+		}
+
+		json_str.append('\"');
+		return json_str.toString();
+	}
+
+	/**
+	 * 
+	 * @param p_value (in) JSON string
+	 * @param check_quotes
+	 * @param cstr (out) result
+	 * @return true on success, false otherwise
+	 */
+	static boolean from_JSON_string(final String p_value, boolean check_quotes, final StringBuilder cstr)	{
+		int start = 0;
+		int p_value_len = p_value.length();
+		int end = p_value_len;
+		if (check_quotes) {
+			start = 1;
+			end = p_value_len - 1;
+			if (p_value.charAt(0) != '\"' || p_value.charAt(p_value_len - 1) != '\"') {
+				return false;
+			}
+		}
+
+		// The resulting string (its length is less than or equal to end - start)
+		final StringBuilder str = new StringBuilder();
+		boolean error = false;
+
+		for (int i = start; i < end; ++i) {
+			if (0 > p_value.charAt(i)) {
+				error = true;
+				break;
+			}
+			if ('\\' == p_value.charAt(i)) {
+				if (i == end - 1) {
+					error = true;
+					break;
+				}
+				switch(p_value.charAt(i + 1)) {
+				case 'n':
+					str.append('\n');
+					break;
+				case 't':
+					str.append('\t');
+					break;
+				case 'r':
+					str.append('\r');
+					break;
+				case 'f':
+					str.append('\f');
+					break;
+				case 'b':
+					str.append('\b');
+					break;
+				case '\\':
+					str.append('\\');
+					break;
+				case '\"':
+					str.append('\"');
+					break;
+				case '/':
+					str.append('/');
+					break;
+				case 'u': {
+					if (end - i >= 6 && '0' == p_value.charAt(i + 2) && '0' == p_value.charAt(i + 3)) {
+						byte upper_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 4));
+						byte lower_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 5));
+						if (0x07 >= upper_nibble && 0x0F >= lower_nibble) {
+							str.append( (upper_nibble << 4) | lower_nibble );
+							// skip 4 extra characters (the 4 hex digits)
+							i += 4;
+						} else {
+							// error (found something other than hex digits) -> leave the for cycle
+							i = end;
+							error = true;
+						}
+					} else {
+						// error (not enough characters left or the first 2 hex digits are non-null) -> leave the for cycle
+						i = end;
+						error = true;
+					}
+					break; 
+				}
+				default:
+					// error (invalid escaped character) -> leave the for cycle
+					i = end;
+					error = true;
+					break;
+				}
+				// skip an extra character (the \)
+				++i;
+			} else {
+				str.append( p_value.charAt(i) );
+			} 
+
+			if (check_quotes && i == p_value_len - 1) {
+				// Special case: the last 2 characters are double escaped quotes ('\\' and '\"')
+				error = true;
+			}
+		}
+		return !error;
+	}
+
+	private boolean from_JSON_string(String p_value, boolean check_quotes) {
+		final StringBuilder out = new StringBuilder();
+		final boolean success = from_JSON_string(p_value, check_quotes, out);
+		if (success) {
+			val_ptr = out;
+		}
+		return success;
 	}
 
 	protected boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern, final AtomicBoolean is_nocase_pattern) {
