@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.types.UnionGenerator.FieldInfo;
+import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Anytype_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -259,6 +260,12 @@ public final class Anytype_Type extends Type {
 		}
 
 		return compFieldMap.componentFieldMap.get(name);
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public SubType.SubType_type getSubtypeType() {
+		return SubType.SubType_type.ST_UNION;
 	}
 
 	@Override
