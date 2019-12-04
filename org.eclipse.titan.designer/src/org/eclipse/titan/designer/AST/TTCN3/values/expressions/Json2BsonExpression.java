@@ -133,6 +133,7 @@ public final class Json2BsonExpression extends Expression_Value {
 		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
+		case TYPE_CHARSTRING:
 		case TYPE_UCHARSTRING:
 			value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			return;
