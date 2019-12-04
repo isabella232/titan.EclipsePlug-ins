@@ -134,6 +134,7 @@ public final class Json2CborExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
 			value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			return;
 		case TYPE_UNDEFINED:
