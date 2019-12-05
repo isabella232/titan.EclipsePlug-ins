@@ -65,7 +65,7 @@ public class JSON_Tokenizer {
 		if (p_buf != null && p_buf_len != 0) {
 			buf_ptr = new StringBuilder(p_buf);
 		} else {
-			buf_ptr = null;
+			buf_ptr = new StringBuilder();
 		}
 		buf_len = p_buf_len;
 		buf_pos = 0;
