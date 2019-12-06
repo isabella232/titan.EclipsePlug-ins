@@ -70,10 +70,10 @@
 	<property name="executor.name" value="org.eclipse.titan.executor"/>
 	<property name="help.name" value="org.eclipse.titan.help"/>
 	<property name="logviewer.name" value="org.eclipse.titan.log.viewer"/>
-	<property name="debug.name" value="org.eclipse.titan.debug"/>
-	<property name="regressiontests.name" value="org.eclipse.titan.regressiontests"/>
+	<!-- <property name="debug.name" value="org.eclipse.titan.debug"
+	<property name="regressiontests.name" value="org.eclipse.titan.regressiontests"/> -->
 	<property name="titanium.name" value="org.eclipse.titanium"/>
-	<property name="titanium.regressiontests.name" value="org.eclipse.titanium.regressiontests"/>
+	<!--<property name="titanium.regressiontests.name" value="org.eclipse.titanium.regressiontests"/> -->
 	<property name="titanium.refactoring.name" value="org.eclipse.titanium.refactoring"/>
 	<property name="designer.feature.name" value="TITAN_Designer_feature"/>
 	<property name="executor.feature.name" value="TITAN_Executor_feature"/>

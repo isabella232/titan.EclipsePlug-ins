@@ -64,7 +64,7 @@
 	<target name="logviewer.plugin" depends="init, common.plugin">
 		<build.plugin name="${logviewer.name}"/>
 	</target>
-
+	<!--
 	<target name="debug.plugin" depends="init, common.plugin, designer.plugin">
 		<build.plugin name="${debug.name}"/>
 	</target>
@@ -72,15 +72,16 @@
 	<target name="regressiontests.plugin" depends="init, common.plugin, designer.plugin">
 		<build.plugin name="${regressiontests.name}"/>
 	</target>
-
+	-->
 	<target name="titanium.plugin" depends="init, common.plugin, designer.plugin">
 		<build.plugin name="${titanium.name}"/>
 	</target>
-
+	
+	<!--
 	<target name="titanium.regressiontests.plugin" depends="init, titanium.plugin">
 		<build.plugin name="${titanium.regressiontests.name}"/>
 	</target>
-
+	-->
 	<target name="titanium.refactoring.plugin" depends="init, common.plugin, designer.plugin">
 		<build.plugin name="${titanium.refactoring.name}"/>
 	</target>
@@ -430,7 +431,7 @@
 	</macrodef>
 
 	<target name="updatesite.release"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, titanium.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.release.name}"
 			location="${updatesite.release.location}"
@@ -439,7 +440,7 @@
 	</target>
 
 	<target name="updatesite.FOA"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, titanium.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.FOA.name}"
 			location="${updatesite.FOA.location}"
@@ -447,7 +448,7 @@
 	</target>
 
 	<target name="updatesite.experimental"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, titanium.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.experimental.name}"
 			location="${updatesite.experimental.location}"
@@ -455,7 +456,7 @@
 	</target>
 
 	<target name="updatesite.testing"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, titanium.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.testing.name}"
 			location="${updatesite.testing.location}"
@@ -463,7 +464,7 @@
 	</target>
 
 	<target name="zip"
-			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, debug.plugin, regressiontests.plugin, titanium.plugin, titanium.regressiontests.plugin, titanium.refactoring.plugin">
+			depends="common.plugin, runtime, designer.plugin, executor.plugin, help.plugin, logviewer.plugin, titanium.plugin, titanium.refactoring.plugin">
 		<build.updatesite
 			site.name="${updatesite.release.name}"
 			location="${result.dir}/zip/${version.qualifier}/"
