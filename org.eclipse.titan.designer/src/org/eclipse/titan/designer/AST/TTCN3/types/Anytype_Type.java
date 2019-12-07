@@ -261,7 +261,7 @@ public final class Anytype_Type extends Type {
 
 		return compFieldMap.componentFieldMap.get(name);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
