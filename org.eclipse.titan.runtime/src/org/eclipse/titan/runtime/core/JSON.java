@@ -59,14 +59,14 @@ public class JSON {
 		 *         example: { "field1" : value1, "field3" : value3 }
 		 * The decoder will always accept both variants.
 		 */
-		private boolean omit_as_null;
+		private final boolean omit_as_null;
 
 		/**
 		 * An alias for the name of the field (in a record, set or union).
 		 * Encoding: this alias will appear instead of the name of the field
 		 * Decoding: the decoder will look for this alias instead of the field's real name
 		 */
-		private String alias;
+		private final String alias;
 
 		/**
 		 * If set, the union will be encoded as a JSON value instead of a JSON object
@@ -75,13 +75,13 @@ public class JSON {
 		 * selected field based on the type of the value. The first field (in the order
 		 * of declaration) that can successfully decode the value will be the selected one.
 		 */
-		private boolean as_value;
+		private final boolean as_value;
 
 		/**
 		 * Decoding only.
 		 * Fields that don't appear in the JSON code will decode this value instead.
 		 */
-		private String default_value;
+		private final String default_value;
 
 		/**
 		 * If set, encodes unbound fields of records and sets as null and inserts a
@@ -97,14 +97,14 @@ public class JSON {
 		 * with the meta information is found.
 		 * Example: [ value1, value2, { "metainfo []" : "unbound" }, value3 ]
 		 */
-		private boolean metainfo_unbound;
+		private final boolean metainfo_unbound;
 
 		/**
 		 * If set, the enumerated value's numeric form will be encoded as a JSON
 		 * number, instead of its name form as a JSON string (affects both encoding
 		 * and decoding).
 		 */
-		private boolean as_number;
+		private final boolean as_number;
 
 		/**
 		 * If set, encodes the value into a map of key-value pairs (i.e. a fully
@@ -118,12 +118,12 @@ public class JSON {
 		/**
 		 * Number of enumerated values whose texts are changed.
 		 */
-		private int nof_enum_texts;
+		private final int nof_enum_texts;
 
 		/**
 		 * List of enumerated values whose texts are changed.
 		 */
-		private List<JsonEnumText> enum_texts;
+		private final List<JsonEnumText> enum_texts;
 
 		public TTCN_JSONdescriptor(final boolean omit_as_null,
 				final String alias,
