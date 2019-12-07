@@ -498,7 +498,7 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	private void from_string(final String p_str) {
-		final String[] components = p_str.split(".");
+		final String[] components = p_str.split("\\.");
 		final List<TitanInteger> tmpList = new ArrayList<TitanInteger>();
 		for (final String component : components) {
 			if ( component.length() > 0 ) {
