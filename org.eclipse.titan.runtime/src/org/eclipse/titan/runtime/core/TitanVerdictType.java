@@ -336,7 +336,8 @@ public class TitanVerdictType extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 			JSON_encode(p_td, tok);
 			p_buf.put_s(tok.get_buffer().toString().getBytes());
 			break;
@@ -357,7 +358,8 @@ public class TitanVerdictType extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 			if(JSON_decode(p_td, tok, false) < 0)
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 						"Can not decode type '%s', because invalid or incomplete message was received",
@@ -379,7 +381,7 @@ public class TitanVerdictType extends Base_Type {
 		}
 
 		final String tmp_str = "\"" + verdict_value.getName() + "\"";
-		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
+		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
 		return enc_len;
 	}
 
@@ -390,7 +392,7 @@ public class TitanVerdictType extends Base_Type {
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
 		int dec_len = 0;
-		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		final boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
 		if (use_default) {
 			// No JSON data in the buffer -> use default value
 			value.append(p_td.json.getDefault_value());
@@ -413,7 +415,7 @@ public class TitanVerdictType extends Base_Type {
 					value.append( value.substring(1, value.length() - 1) );
 					value_len.set(value.length());
 				}
-				for (VerdictTypeEnum v : VerdictTypeEnum.values()) {
+				for (final VerdictTypeEnum v : VerdictTypeEnum.values()) {
 					if (v.getName().equals(value.toString())) {
 						verdict_value = v;
 						error = false;

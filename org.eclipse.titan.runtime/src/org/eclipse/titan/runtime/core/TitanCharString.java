@@ -1046,7 +1046,8 @@ public class TitanCharString extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 			JSON_encode(p_td, tok);
 			p_buf.put_s(tok.get_buffer().toString().getBytes());
 			break;
@@ -1087,7 +1088,8 @@ public class TitanCharString extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 			if(JSON_decode(p_td, tok, false) < 0) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -1236,7 +1238,7 @@ public class TitanCharString extends Base_Type {
 		}
 
 		final String tmp_str = to_JSON_string(val_ptr);  
-		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
+		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
 		return enc_len;
 	}
 
@@ -1247,7 +1249,7 @@ public class TitanCharString extends Base_Type {
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
 		int dec_len = 0;
-		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		final boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
 		if (use_default) {
 			// No JSON data in the buffer -> use default value
 			value.append(p_td.json.getDefault_value());
@@ -1326,7 +1328,7 @@ public class TitanCharString extends Base_Type {
 	 */
 	static boolean from_JSON_string(final String p_value, final boolean check_quotes, final StringBuilder cstr)	{
 		int start = 0;
-		int p_value_len = p_value.length();
+		final int p_value_len = p_value.length();
 		int end = p_value_len;
 		if (check_quotes) {
 			start = 1;
@@ -1377,8 +1379,8 @@ public class TitanCharString extends Base_Type {
 					break;
 				case 'u': {
 					if (end - i >= 6 && '0' == p_value.charAt(i + 2) && '0' == p_value.charAt(i + 3)) {
-						byte upper_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 4));
-						byte lower_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 5));
+						final byte upper_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 4));
+						final byte lower_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 5));
 						if (0x07 >= upper_nibble && 0x0F >= lower_nibble) {
 							str.append( (upper_nibble << 4) | lower_nibble );
 							// skip 4 extra characters (the 4 hex digits)

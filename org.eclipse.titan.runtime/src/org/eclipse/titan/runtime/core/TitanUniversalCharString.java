@@ -2296,7 +2296,8 @@ public class TitanUniversalCharString extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 			JSON_encode(p_td, tok);
 			p_buf.put_s(tok.get_buffer().toString().getBytes());
 			break;
@@ -2337,7 +2338,8 @@ public class TitanUniversalCharString extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 			if(JSON_decode(p_td, tok, false) < 0) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -2460,11 +2462,12 @@ public class TitanUniversalCharString extends Base_Type {
 		if (charstring) {
 			tmp_str = TitanCharString.to_JSON_string(cstr);
 		} else {
-			TTCN_Buffer tmp_buf = new TTCN_Buffer();
+			final TTCN_Buffer tmp_buf = new TTCN_Buffer();
 			encode_utf8(tmp_buf);
 			tmp_str = to_JSON_string(tmp_buf);
 		}
-		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
+
+		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
 		return enc_len;
 	}
 
@@ -2475,7 +2478,7 @@ public class TitanUniversalCharString extends Base_Type {
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
 		int dec_len = 0;
-		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		final boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
 		if (use_default) {
 			// No JSON data in the buffer -> use default value
 			value.append(p_td.json.getDefault_value());
@@ -2610,10 +2613,10 @@ public class TitanUniversalCharString extends Base_Type {
 				case 'u': {
 					if (end - i >= 6 && json_str.get(i + 2).is_char() && json_str.get(i + 3).is_char() &&
 							json_str.get(i + 4).is_char() && json_str.get(i + 5).is_char()) {
-						byte row_upper_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 2).getUc_cell());
-						byte row_lower_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 3).getUc_cell());
-						byte cell_upper_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 4).getUc_cell());
-						byte cell_lower_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 5).getUc_cell());
+						final byte row_upper_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 2).getUc_cell());
+						final byte row_lower_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 3).getUc_cell());
+						final byte cell_upper_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 4).getUc_cell());
+						final byte cell_lower_nibble = AdditionalFunctions.char_to_hexdigit(json_str.get(i + 5).getUc_cell());
 						if (row_upper_nibble <= 0x0F && row_lower_nibble <= 0x0F &&
 								cell_upper_nibble <= 0x0F && cell_lower_nibble <= 0x0F) {
 							ustr.add(new TitanUniversalChar((char)0, (char)0,

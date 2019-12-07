@@ -161,10 +161,10 @@ public class JSON_Tokenizer {
 	 * Returns true if the literal is found, otherwise returns false.
 	 * @param p_literal [in] Literal value to find */
 	private boolean check_for_literal(final String p_literal) {
-		int len = p_literal.length();
+		final int len = p_literal.length();
 		if (buf_len - buf_pos >= len &&
 				buf_ptr.substring(buf_pos).equals(p_literal)) {
-			int start_pos = buf_pos;
+			final int start_pos = buf_pos;
 			buf_pos += len;
 			if (!skip_white_spaces() || check_for_separator()) {
 				return true;
@@ -235,7 +235,7 @@ public class JSON_Tokenizer {
 	 * @note The token data is not copied, *p_token_str will point to the start of the
 	 * data in the tokenizer's buffer. */
 	public int get_next_token(final AtomicReference<json_token_t> p_token, final StringBuilder p_token_str, final AtomicInteger p_str_len)	{
-		int start_pos = buf_pos;
+		final int start_pos = buf_pos;
 		p_token.set(json_token_t.JSON_TOKEN_NONE);
 		if (null != p_token_str && null != p_str_len) {
 			p_token_str.setLength(0);
@@ -243,7 +243,7 @@ public class JSON_Tokenizer {
 		}
 
 		if (skip_white_spaces()) {
-			char c = buf_ptr.charAt(buf_pos);
+			final char c = buf_ptr.charAt(buf_pos);
 			switch (c) {
 			case '{':
 			case '[':
@@ -262,13 +262,14 @@ public class JSON_Tokenizer {
 				break;
 			case '\"': {
 				// string value or field name
-				int string_start_pos = buf_pos;
+				final int string_start_pos = buf_pos;
 				if(!check_for_string()) {
 					// invalid string value
 					p_token.set(json_token_t.JSON_TOKEN_ERROR);
 					break;
 				}
-				int string_end_pos = ++buf_pos; // step over the string's ending quotes
+
+				final int string_end_pos = ++buf_pos; // step over the string's ending quotes
 				if (skip_white_spaces() && ':' == buf_ptr.charAt(buf_pos)) {
 					// name token - don't include the starting and ending quotes
 					p_token.set(json_token_t.JSON_TOKEN_NAME);
@@ -297,13 +298,14 @@ public class JSON_Tokenizer {
 				if (('0' <= buf_ptr.charAt(buf_pos) && '9' >= buf_ptr.charAt(buf_pos)) ||
 						'-' == buf_ptr.charAt(buf_pos)) {
 					// number value
-					int number_start_pos = buf_pos;
+					final int number_start_pos = buf_pos;
 					if (!check_for_number()) {
 						// invalid number
 						p_token.set(json_token_t.JSON_TOKEN_ERROR);
 						break;
 					}
-					int number_length = buf_pos - number_start_pos;
+
+					final int number_length = buf_pos - number_start_pos;
 					if (skip_white_spaces() && !check_for_separator()) {
 						// must be followed by a separator (or only white spaces until the buffer ends)
 						p_token.set(json_token_t.JSON_TOKEN_ERROR);
@@ -362,7 +364,7 @@ public class JSON_Tokenizer {
 	 * and double-escaped). For all the other tokens this parameter will be ignored.
 	 * @return The number of characters added to the JSON document */
 	public int put_next_token(final json_token_t p_token, final String p_token_str) {
-		int start_len = buf_len;
+		final int start_len = buf_len;
 		switch(p_token) {
 		case JSON_TOKEN_OBJECT_START:
 		case JSON_TOKEN_ARRAY_START: {
@@ -526,11 +528,11 @@ public class JSON_Tokenizer {
 	private static final int MAX_TABS = TABS.length(); // 64
 
 	private static StringBuilder convert_to_json_string(final String str) {
-		StringBuilder ret_val = new StringBuilder("\"");
+		final StringBuilder ret_val = new StringBuilder("\"");
 		// control characters (like \n) cannot be placed in a JSON string, replace
 		// them with JSON metacharacters
 		// double quotes and backslashes need to be escaped, too
-		int str_len = str.length();
+		final int str_len = str.length();
 		for (int i = 0; i < str_len; ++i) {
 			switch (str.charAt(i)) {
 			case '\n':

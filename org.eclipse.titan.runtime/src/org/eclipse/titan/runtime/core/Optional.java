@@ -282,7 +282,8 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 			JSON_encode(p_td, tok);
 			p_buf.put_s(tok.get_buffer().toString().getBytes());
 			break;
@@ -300,7 +301,8 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 			if(JSON_decode(p_td, tok, false) < 0) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -361,7 +363,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 		// try the optional value first
 		set_to_present();
-		int buf_pos = p_tok.get_buf_pos();
+		final int buf_pos = p_tok.get_buf_pos();
 		int dec_len = 0;
 		if (JSON.CHOSEN_FIELD_OMITTED == p_chosen_field) {
 			// the attribute 'chosen' says that this field has to be omitted

@@ -5506,7 +5506,7 @@ public final class AdditionalFunctions {
 		buff.clear();
 		final AtomicInteger num_of_items = new AtomicInteger(0);
 		JSON.json2cbor_coding(buff, tok, num_of_items);
-		TitanOctetString result = new TitanOctetString();
+		final TitanOctetString result = new TitanOctetString();
 		buff.get_string(result);
 		return result;
 	}
@@ -5517,7 +5517,7 @@ public final class AdditionalFunctions {
 		final JSON_Tokenizer tok = new JSON_Tokenizer();
 		JSON.cbor2json_coding(buff, tok, false);
 		final byte[] resultBytes = tok.get_buffer().toString().getBytes();
-		TitanUniversalCharString result = new TitanUniversalCharString();
+		final TitanUniversalCharString result = new TitanUniversalCharString();
 		result.decode_utf8(resultBytes, CharCoding.UTF_8, false);
 		return result;
 	}
@@ -5528,7 +5528,7 @@ public final class AdditionalFunctions {
 		final JSON_Tokenizer tok = new JSON_Tokenizer();
 		JSON.bson2json_coding(buff, tok, false, false);
 		final byte[] resultBytes = tok.get_buffer().toString().getBytes();
-		TitanUniversalCharString result = new TitanUniversalCharString();
+		final TitanUniversalCharString result = new TitanUniversalCharString();
 		result.decode_utf8(resultBytes, CharCoding.UTF_8, false);
 		return result;
 	}
@@ -5545,7 +5545,7 @@ public final class AdditionalFunctions {
 		final TitanCharString cs = new TitanCharString();
 		final boolean is_special = false;
 		JSON.json2bson_coding(buff, tok, false, false, length, cs, is_special);
-		TitanOctetString result = new TitanOctetString();
+		final TitanOctetString result = new TitanOctetString();
 		buff.get_string(result);
 		return result;
 	}

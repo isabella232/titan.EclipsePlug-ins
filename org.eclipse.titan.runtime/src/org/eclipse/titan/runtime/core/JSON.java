@@ -296,7 +296,7 @@ public class JSON {
 			is_negative = true;
 		}
 		if (int_num.is_native()) {
-			int uns_num = int_num.get_int();
+			final int uns_num = int_num.get_int();
 			if (uns_num <= 23) {
 				buff.put_c((byte)(major_type + uns_num));
 			} else if (uns_num <= 0xFF) { // 8 bit
@@ -336,7 +336,7 @@ public class JSON {
 		final byte[] tmp = check_and_get_buffer(buff, bytes);
 		final TTCN_Buffer tmp_buf = new TTCN_Buffer();
 		tmp_buf.put_s(tmp);
-		TitanOctetString os = new TitanOctetString();
+		final TitanOctetString os = new TitanOctetString();
 		tmp_buf.get_string(os);
 		result.operator_assign( AdditionalFunctions.oct2int(os).get_int() );
 		buff.increase_pos(bytes);
@@ -613,7 +613,7 @@ public class JSON {
 			tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
 			final TitanInteger num_of_items = new TitanInteger();
 			decode_integer_cbor(buff, minor_type, num_of_items);
-			int num_of_pairs = num_of_items.get_int() * 2; // Number of all keys and values
+			final int num_of_pairs = num_of_items.get_int() * 2; // Number of all keys and values
 			for (int i = 0; i < num_of_pairs; i = i + 1) {
 				// whether to put : or , after the next token
 				cbor2json_coding(buff, tok, i % 2 == 0);
@@ -736,7 +736,7 @@ public class JSON {
 	private static void encode_int_bson(final TTCN_Buffer buff, final TitanInteger int_num, final TitanInteger length) {
 		if (int_num.is_native()) { // 32 bit
 			length.operator_assign(length.add(4));
-			int value = int_num.get_int();
+			final int value = int_num.get_int();
 			for (int i = 0; i < 4; i++) {
 				buff.put_c((byte)(value >> i*8));
 			}
@@ -964,8 +964,9 @@ public class JSON {
 		if (token.get() != json_token_t.JSON_TOKEN_OBJECT_END) {
 			return false;
 		}
-		TitanInteger timestamp = AdditionalFunctions.str2int(cs2);
-		TitanInteger increment = AdditionalFunctions.str2int(cs4);
+
+		final TitanInteger timestamp = AdditionalFunctions.str2int(cs2);
+		final TitanInteger increment = AdditionalFunctions.str2int(cs4);
 		buff.put_c((byte) 17);
 		length.operator_assign(length.add(1));
 		// We do not know the name here. It will be inserted later.
@@ -1478,7 +1479,7 @@ public class JSON {
 			case 13: // Javascript code. Decoded as string
 			case 14: // Symbol. Decoded as string
 			case 2: { // UTF8 string
-				TitanInteger len = decode_int_bson(buff, 4);
+				final TitanInteger len = decode_int_bson(buff, 4);
 				// Get the value of the pair
 				final byte[] uc = check_and_get_buffer_bson(buff, len.get_int());
 				final String tmp_str = new String(uc);

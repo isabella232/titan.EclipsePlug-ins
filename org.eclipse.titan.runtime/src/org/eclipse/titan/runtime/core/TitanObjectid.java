@@ -391,7 +391,8 @@ public class TitanObjectid extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 			JSON_encode(p_td, tok);
 			p_buf.put_s(tok.get_buffer().toString().getBytes());
 			break;
@@ -409,7 +410,8 @@ public class TitanObjectid extends Base_Type {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 			if(JSON_decode(p_td, tok, false) < 0) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -451,7 +453,7 @@ public class TitanObjectid extends Base_Type {
 		final AtomicInteger value_len = new AtomicInteger(0);
 		boolean error = false;
 		int dec_len = 0;
-		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		final boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
 		if (use_default) {
 			// No JSON data in the buffer -> use default value
 			value.setLength(0);
@@ -475,7 +477,7 @@ public class TitanObjectid extends Base_Type {
 					value_len.set(value.length());
 				}
 				// need a null-terminated string
-				String value2 = value.toString() + value_len.get();
+				final String value2 = value.toString() + value_len.get();
 				from_string(value2);
 			}
 		}
@@ -498,7 +500,7 @@ public class TitanObjectid extends Base_Type {
 	private void from_string(final String p_str) {
 		final String[] components = p_str.split(".");
 		final List<TitanInteger> tmpList = new ArrayList<TitanInteger>();
-		for (String component : components) {
+		for (final String component : components) {
 			if ( component.length() > 0 ) {
 				tmpList.add(new TitanInteger(Integer.parseInt(component)));
 			}
