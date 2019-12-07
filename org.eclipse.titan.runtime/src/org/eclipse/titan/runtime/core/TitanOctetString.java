@@ -1344,7 +1344,7 @@ public class TitanOctetString extends Base_Type {
 		return dec_len;
 	}
 
-	private void init_struct(int n_nibbles) {
+	private void init_struct(final int n_nibbles) {
 		if (n_nibbles < 0) {
 			val_ptr = null;
 			throw new TtcnError("Initializing a hexstring with a negative length.");

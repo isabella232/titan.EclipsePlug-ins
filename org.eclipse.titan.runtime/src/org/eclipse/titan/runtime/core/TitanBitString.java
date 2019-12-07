@@ -1442,7 +1442,7 @@ public class TitanBitString extends Base_Type {
 		return dec_len;
 	}
 
-	private void init_struct(int n_bits) {
+	private void init_struct(final int n_bits) {
 		if (n_bits < 0) {
 			bits_ptr = null;
 			this.n_bits = 0;

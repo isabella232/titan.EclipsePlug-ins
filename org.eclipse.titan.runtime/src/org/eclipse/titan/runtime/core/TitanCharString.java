@@ -1324,7 +1324,7 @@ public class TitanCharString extends Base_Type {
 	 * @param cstr (out) result
 	 * @return true on success, false otherwise
 	 */
-	static boolean from_JSON_string(final String p_value, boolean check_quotes, final StringBuilder cstr)	{
+	static boolean from_JSON_string(final String p_value, final boolean check_quotes, final StringBuilder cstr)	{
 		int start = 0;
 		int p_value_len = p_value.length();
 		int end = p_value_len;
@@ -1415,7 +1415,7 @@ public class TitanCharString extends Base_Type {
 		return !error;
 	}
 
-	private boolean from_JSON_string(String p_value, boolean check_quotes) {
+	private boolean from_JSON_string(final String p_value, final boolean check_quotes) {
 		final StringBuilder out = new StringBuilder();
 		final boolean success = from_JSON_string(p_value, check_quotes, out);
 		if (success) {

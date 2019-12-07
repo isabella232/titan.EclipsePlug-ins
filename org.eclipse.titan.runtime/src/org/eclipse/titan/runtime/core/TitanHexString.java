@@ -762,11 +762,11 @@ public class TitanHexString extends Base_Type {
 		return dec_len;
 	}
 
-	static boolean isxdigit(char hexdigit) {
+	static boolean isxdigit(final char hexdigit) {
 		return HEX_DIGITS.indexOf(hexdigit) >= 0;
 	}
 
-	private void init_struct(int n_nibbles) {
+	private void init_struct(final int n_nibbles) {
 		if (n_nibbles < 0) {
 			nibbles_ptr = null;
 			throw new TtcnError("Initializing a hexstring with a negative length.");

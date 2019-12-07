@@ -2557,7 +2557,7 @@ public class TitanUniversalCharString extends Base_Type {
 		return json_str.toString();
 	}
 
-	private boolean from_JSON_string(boolean check_quotes) {
+	private boolean from_JSON_string(final boolean check_quotes) {
 		final int json_len = val_ptr.size();
 		final List<TitanUniversalChar> json_str = val_ptr;
 
