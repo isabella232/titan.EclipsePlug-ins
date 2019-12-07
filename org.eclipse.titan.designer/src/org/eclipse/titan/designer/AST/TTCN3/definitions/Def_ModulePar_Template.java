@@ -457,17 +457,17 @@ public final class Def_ModulePar_Template extends Definition {
 
 		final StringBuilder moduleParamaterSetting = aData.getSetModuleParameters();
 		moduleParamaterSetting.append(MessageFormat.format("if(par_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
-		moduleParamaterSetting.append(MessageFormat.format("{0}.set_param(param);\n", genName));
-		moduleParamaterSetting.append("return true;\n");
-		moduleParamaterSetting.append("} else ");
+		moduleParamaterSetting.append(MessageFormat.format("\t\t\t{0}.set_param(param);\n", genName));
+		moduleParamaterSetting.append("\t\treturn true;\n");
+		moduleParamaterSetting.append("\t\t} else ");
 
 		final StringBuilder moduleParamaterGetting = aData.getGetModuleParameters();
 		moduleParamaterGetting.append(MessageFormat.format("if(par_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
-		moduleParamaterGetting.append(MessageFormat.format("return {0}.get_param(param_name);\n", genName));
-		moduleParamaterGetting.append("} else ");
+		moduleParamaterGetting.append(MessageFormat.format("\t\t\treturn {0}.get_param(param_name);\n", genName));
+		moduleParamaterGetting.append("\t\t} else ");
 
 		final StringBuilder listModulePars = aData.getListModulePars();
-		listModulePars.append(MessageFormat.format("System.out.println(\"{0}.{1}\");\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
+		listModulePars.append(MessageFormat.format("\t\tSystem.out.println(\"{0}.{1}\");\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
 
 	}
 

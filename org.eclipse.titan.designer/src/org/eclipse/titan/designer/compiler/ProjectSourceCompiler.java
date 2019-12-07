@@ -520,8 +520,9 @@ public class ProjectSourceCompiler {
 			aSb.append("\tpublic boolean set_module_param(final Param_Types.Module_Parameter param)\n");
 			aSb.append("\t{\n");
 			aSb.append("\t\tfinal String par_name = param.get_id().get_current_name();\n");
+			aSb.append("\t\t");
 			aSb.append(aData.getSetModuleParameters());
-			aSb.append("\t\t{\n");
+			aSb.append("{\n");
 			aSb.append("\t\t\treturn false;\n");
 			aSb.append("\t\t}\n");
 			aSb.append("\t}\n\n");
@@ -537,8 +538,9 @@ public class ProjectSourceCompiler {
 			aSb.append("\tpublic Param_Types.Module_Parameter get_module_param(final Param_Types.Module_Param_Name param_name)\n");
 			aSb.append("\t{\n");
 			aSb.append("\t\tfinal String par_name = param_name.get_current_name();\n");
+			aSb.append("\t\t");
 			aSb.append(aData.getGetModuleParameters());
-			aSb.append("\t\t{\n");
+			aSb.append("{\n");
 			aSb.append("\t\t\treturn null;\n");
 			aSb.append("\t\t}\n");
 			aSb.append("\t}\n\n");
@@ -599,8 +601,9 @@ public class ProjectSourceCompiler {
 		if (aData.getExecuteTestcase().length() > 0) {
 			aSb.append("\t@Override\n");
 			aSb.append("\tpublic void execute_testcase(final String tescase_name) {\n");
+			aSb.append("\t\t");
 			aSb.append(aData.getExecuteTestcase());
-			aSb.append("\t\t{\n");
+			aSb.append("{\n");
 			aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Test case {0} does not exist in module {1}.\", tescase_name, module_name));\n");
 			aSb.append("\t\t}\n");
 			aSb.append("\t}\n\n");
@@ -615,8 +618,9 @@ public class ProjectSourceCompiler {
 
 		if (aData.getInitComp().length() > 0) {
 			aSb.append("\tpublic boolean init_comp_type(final String component_type, final boolean init_base_comps) {\n");
+			aSb.append("\t\t");
 			aSb.append(aData.getInitComp());
-			aSb.append("\t\t{\n");
+			aSb.append("{\n");
 			aSb.append("\t\t\treturn false;\n");
 			aSb.append("\t\t}\n");
 			aSb.append("\t}\n\n");
