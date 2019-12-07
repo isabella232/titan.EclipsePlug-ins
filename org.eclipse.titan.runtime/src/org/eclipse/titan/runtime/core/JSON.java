@@ -807,7 +807,7 @@ public class JSON {
 		final byte[] uc = buff.get_read_data();
 		// Copy until closing 0
 		final String tmp_str = new String(uc);
-		if (in_array == false) { // We dont need name when in array
+		if (!in_array) { // We dont need name when in array
 			tok.put_next_token(json_token_t.JSON_TOKEN_NAME, tmp_str);
 		}
 		buff.increase_pos(tmp_str.length()+1);
@@ -1265,7 +1265,7 @@ public class JSON {
 		final AtomicInteger len = new AtomicInteger();
 		int prev_pos = tok.get_buf_pos();
 		tok.get_next_token(token, content, len);
-		if (in_object == false && token.get() != json_token_t.JSON_TOKEN_OBJECT_START && token.get() != json_token_t.JSON_TOKEN_ARRAY_START) {
+		if (!in_object && token.get() != json_token_t.JSON_TOKEN_OBJECT_START && token.get() != json_token_t.JSON_TOKEN_ARRAY_START) {
 			throw new TtcnError("Json document must be an object or array when encoding with json2bson()");
 		}
 		switch(token.get()) {
@@ -1303,7 +1303,7 @@ public class JSON {
 				prev_pos = tok.get_buf_pos();
 			}
 
-			if (in_object == true) {
+			if (in_object) {
 				final TTCN_Buffer tmp_buff = new TTCN_Buffer();
 				tmp_buff.put_c((byte) 3); // embedded document
 				length.operator_assign(length.add(1));
@@ -1312,7 +1312,7 @@ public class JSON {
 				length.operator_assign(length.add(sub_len));
 				tmp_buff.put_buf(sub_buff);
 				sub_buff = tmp_buff;
-			} else if (is_special == false) {
+			} else if (!is_special) {
 				length.operator_assign(length.add(sub_len));
 				encode_int_bson(buff, length, length);
 			} else {
@@ -1413,7 +1413,7 @@ public class JSON {
 			break;
 		}
 		case JSON_TOKEN_ARRAY_START: {
-			if (in_object == false) { // The top level json is an array
+			if (!in_object) { // The top level json is an array
 				in_object = true;
 			} else {
 				buff.put_c((byte) 4); // array
@@ -1451,7 +1451,7 @@ public class JSON {
 	public static void bson2json_coding(final TTCN_Buffer buff, final JSON_Tokenizer tok, final boolean in_object, final boolean in_array) {
 		TitanInteger length = new TitanInteger(0);
 		// Beginning of the document
-		if (in_object == false) {
+		if (!in_object) {
 			length = decode_int_bson(buff, 4);
 			// Check if the input is long enough
 			check_and_get_buffer_bson(buff, length.get_int()-4);
