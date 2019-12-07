@@ -1381,7 +1381,7 @@ public class TitanInteger extends Base_Type {
 			}
 			while (x.compareTo(BigInteger.ZERO) > 0) {
 				++digits;
-				x.divide(BigInteger.TEN);
+				x = x.divide(BigInteger.TEN);
 			}
 		}
 		return digits;
