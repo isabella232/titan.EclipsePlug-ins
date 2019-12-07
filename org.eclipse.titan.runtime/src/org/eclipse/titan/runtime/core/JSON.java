@@ -531,7 +531,7 @@ public class JSON {
 			final TitanInteger i = new TitanInteger();
 			decode_integer_cbor(buff, minor_type, i);
 			if (i.is_native()) {
-				final String tmp_str = "" + i.get_int();
+				final String tmp_str = Integer.toString(i.get_int());
 				tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 			} else {
 				final String tmp_str = i.get_BigInteger().toString();
@@ -545,7 +545,7 @@ public class JSON {
 				final TitanInteger num = new TitanInteger();
 				decode_uint_cbor(buff, 1, num);
 				final TitanInteger i = (num.add(1).mul(-1));
-				final String tmp_str = "" + (i.is_native() ? i.get_int() : i.get_BigInteger().toString());
+				final String tmp_str = (i.is_native() ? Integer.toString(i.get_int()) : i.get_BigInteger().toString());
 				tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				break;
 			}
@@ -553,7 +553,7 @@ public class JSON {
 				final TitanInteger num = new TitanInteger();
 				decode_uint_cbor(buff, 2, num);
 				final TitanInteger i = (num.add(1).mul(-1));
-				final String tmp_str = "" + (i.is_native() ? i.get_int() : i.get_BigInteger().toString());
+				final String tmp_str = (i.is_native() ? Integer.toString(i.get_int()) : i.get_BigInteger().toString());
 				tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				break;
 			}
@@ -562,7 +562,7 @@ public class JSON {
 				decode_ulong_long_int_cbor(buff, 4, num);
 				final TitanInteger i = new TitanInteger();
 				i.operator_assign((int) ((num.get()+1)*-1));
-				final String tmp_str = "" + (i.is_native() ? i.get_int() : i.get_BigInteger().toString());
+				final String tmp_str = (i.is_native() ? Integer.toString(i.get_int()) : i.get_BigInteger().toString());
 				tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				break;
 			}
@@ -571,13 +571,13 @@ public class JSON {
 				decode_int_cbor(buff, 8, i);
 				i.operator_assign(i.add(1));
 				i.operator_assign(i.mul(-1));
-				final String tmp_str = "" + (i.is_native() ? i.get_int() : i.get_BigInteger().toString());
+				final String tmp_str = (i.is_native() ? Integer.toString(i.get_int()) : i.get_BigInteger().toString());
 				tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				break;
 			}
 			default:
 				if (minor_type < 24) { // Integer  0 <= num <= 24
-					final String tmp_str = "" + ((minor_type+1)*-1);
+					final String tmp_str = Integer.toString((minor_type+1)*-1);
 					tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				}
 			}
@@ -695,12 +695,12 @@ public class JSON {
 			default: {
 				// put the simple value into the the json
 				if (minor_type >= 0 && minor_type <= 23) {
-					final String tmp_str = "" + minor_type;
+					final String tmp_str = Integer.toString(minor_type);
 					tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				} else if (minor_type == 24) { // The value is on the next byte
 					final int simple_value = buff.get_read_data()[0];
 					buff.increase_pos(1);
-					final String tmp_str = "" + simple_value;
+					final String tmp_str = Integer.toString(simple_value);
 					tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				}
 			}
@@ -1564,7 +1564,7 @@ public class JSON {
 			}
 			case 9: { // datetime
 				final TitanInteger date = decode_int_bson(buff, 8);
-				final String tmp_str = "" + date.get_long();
+				final String tmp_str = Long.toString(date.get_long());
 				tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
 				tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "$date");
 				tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
@@ -1635,15 +1635,15 @@ public class JSON {
 			}
 			case 16: { // 32bit integer
 				final TitanInteger value = decode_int_bson(buff, 4);
-				final String tmp_str = "" + value.get_int();
+				final String tmp_str = Integer.toString(value.get_int());
 				tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				break;
 			}
 			case 17: { // timestamp
 				final TitanInteger increment = decode_int_bson(buff, 4);
 				final TitanInteger timestamp = decode_int_bson(buff, 4);
-				final String increment_str = "" + increment.get_int();
-				final String timestamp_str = "" + timestamp.get_int();
+				final String increment_str = Integer.toString(increment.get_int());
+				final String timestamp_str = Integer.toString(timestamp.get_int());
 				tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
 				tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "$timestamp");
 				tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
@@ -1657,7 +1657,7 @@ public class JSON {
 			}
 			case 18: { //64 bit integer
 				final TitanInteger value = decode_int_bson(buff, 8);
-				final String tmp_str = "" + value.get_long();
+				final String tmp_str = Long.toString(value.get_long());
 				tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 				break;
 			}
