@@ -1674,8 +1674,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
 		source.append("\t\t\t\tif (template_selection == template_sel.VALUE_LIST) {\n");
 		source.append("\t\t\t\t\tmp = new Module_Param_List_Template();\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\telse {\n");
+		source.append("\t\t\t\t} else {\n");
 		source.append("\t\t\t\t\tmp = new Module_Param_ComplementList_Template();\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tfor (int i_i = 0; i_i < value_list.size(); ++i_i) {\n");
