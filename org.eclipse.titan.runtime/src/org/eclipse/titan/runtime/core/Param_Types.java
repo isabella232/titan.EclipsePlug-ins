@@ -1233,15 +1233,13 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str("(");
 			if (has_lower) {
 				new TitanFloat(lower_bound).log();
-			}
-			else {
+			} else {
 				TTCN_Logger.log_event_str("-infinity");
 			}
 			TTCN_Logger.log_event_str("..");
 			if (has_upper) {
 				new TitanFloat(upper_bound).log();
-			}
-			else {
+			} else {
 				TTCN_Logger.log_event_str("infinity");
 			}
 			TTCN_Logger.log_event_str(")");

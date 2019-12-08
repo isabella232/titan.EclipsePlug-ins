@@ -1309,8 +1309,7 @@ public class TitanFloat extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		}
-		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
 			if ( (use_default ? POS_INF_STR_DEFAULT : POS_INF_STR).equals(valueStr) ) {
 				float_value = new Ttcn3Float(Double.POSITIVE_INFINITY);
 			} else if ( (use_default ? NEG_INF_STR_DEFAULT : NEG_INF_STR).equals(valueStr) ) {
@@ -1325,8 +1324,7 @@ public class TitanFloat extends Base_Type {
 				float_value = null;
 				return JSON.JSON_ERROR_FATAL;
 			}
-		}
-		else if (json_token_t.JSON_TOKEN_NUMBER == token.get()) {
+		} else if (json_token_t.JSON_TOKEN_NUMBER == token.get()) {
 			float_value = new Ttcn3Float(Double.parseDouble(valueStr));
 		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;

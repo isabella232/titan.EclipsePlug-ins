@@ -462,8 +462,7 @@ public final class TTCN_Buffer {
 				increase_size(p_buf.buf_len);
 				System.arraycopy(p_buf.data_ptr, 0, data_ptr, buf_len, p_buf.buf_len);
 				buf_len += p_buf.buf_len;
-			}
-			else { // share the data
+			} else { // share the data
 				//*this = p_buf;
 				data_ptr =  new byte[p_buf.data_ptr.length];
 				System.arraycopy(p_buf.data_ptr, 0, data_ptr, 0, p_buf.data_ptr.length);

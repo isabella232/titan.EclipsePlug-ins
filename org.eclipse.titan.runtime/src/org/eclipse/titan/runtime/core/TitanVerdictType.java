@@ -406,8 +406,7 @@ public class TitanVerdictType extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			dec_len = JSON.JSON_ERROR_FATAL;
-		}
-		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
 			if (use_default || (value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
 				if (!use_default) {
 					// The default value doesn't have quotes around it

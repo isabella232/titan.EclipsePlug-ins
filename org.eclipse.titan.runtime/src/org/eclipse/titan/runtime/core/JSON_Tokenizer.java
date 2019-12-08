@@ -124,13 +124,13 @@ public class JSON_Tokenizer {
 		while (buf_pos < buf_len) {
 			if ('\"' == buf_ptr.charAt(buf_pos)) {
 				return true;
-			}
-			else if ('\\' == buf_ptr.charAt(buf_pos)) {
+			} else if ('\\' == buf_ptr.charAt(buf_pos)) {
 				// skip escaped character (so escaped quotes (\") are not mistaken for the ending quotes)
 				++buf_pos;
 			}
 			++buf_pos;
 		}
+
 		return false;
 	}
 
@@ -318,20 +318,17 @@ public class JSON_Tokenizer {
 						p_str_len.set(number_length);
 					}
 					break;
-				} // if (number value)
-				else if (check_for_literal("true")) {
+				} else if (check_for_literal("true")) {
+					// if (number value)
 					p_token.set(json_token_t.JSON_TOKEN_LITERAL_TRUE);
 					break;
-				}
-				else if (check_for_literal("false")) {
+				} else if (check_for_literal("false")) {
 					p_token.set(json_token_t.JSON_TOKEN_LITERAL_FALSE);
 					break;
-				}
-				else if (check_for_literal("null")) {
+				} else if (check_for_literal("null")) {
 					p_token.set(json_token_t.JSON_TOKEN_LITERAL_NULL);
 					break;
-				}
-				else {
+				} else {
 					p_token.set(json_token_t.JSON_TOKEN_ERROR);
 					break;
 				}
@@ -564,8 +561,7 @@ public class JSON_Tokenizer {
 					ret_val.append("\\u00");
 					ret_val.append(str.charAt(i) / 16);
 					ret_val.append((char)((str.charAt(i) % 16 < 10) ? (str.charAt(i) % 16 + '0') : (str.charAt(i) % 16 - 10 + 'A')));
-				}
-				else {
+				} else {
 					ret_val.append(str.charAt(i));
 				}
 				break;

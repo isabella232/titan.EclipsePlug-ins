@@ -1237,7 +1237,7 @@ public class TitanCharString extends Base_Type {
 			return -1;
 		}
 
-		final String tmp_str = to_JSON_string(val_ptr);  
+		final String tmp_str = to_JSON_string(val_ptr);
 		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
 		return enc_len;
 	}
@@ -1262,8 +1262,7 @@ public class TitanCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		}
-		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
 			if (!from_JSON_string(value.toString(), !use_default)) {
 				if(!p_silent) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "charstring");
@@ -1274,6 +1273,7 @@ public class TitanCharString extends Base_Type {
 		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
 		}
+
 		return dec_len;
 	}
 
@@ -1320,7 +1320,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param p_value (in) JSON string
 	 * @param check_quotes
 	 * @param cstr (out) result
@@ -1395,7 +1395,7 @@ public class TitanCharString extends Base_Type {
 						i = end;
 						error = true;
 					}
-					break; 
+					break;
 				}
 				default:
 					// error (invalid escaped character) -> leave the for cycle
@@ -1407,7 +1407,7 @@ public class TitanCharString extends Base_Type {
 				++i;
 			} else {
 				str.append( p_value.charAt(i) );
-			} 
+			}
 
 			if (check_quotes && i == p_value_len - 1) {
 				// Special case: the last 2 characters are double escaped quotes ('\\' and '\"')
@@ -1487,13 +1487,11 @@ public class TitanCharString extends Base_Type {
 				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
 					operator_assign(operator_concatenate(operand1));
 					operator_assign(operator_concatenate(operand2));
-				}
-				else {
+				} else {
 					operator_assign(operand1);
 					operator_assign(operator_concatenate(operand2));
 				}
-			}
-			else {
+			} else {
 				param.expr_type_error("a charstring");
 			}
 			break;

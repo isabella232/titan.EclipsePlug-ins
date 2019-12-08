@@ -1175,8 +1175,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		case COMPLEMENTED_LIST: {
 			if (template_selection == template_sel.VALUE_LIST) {
 				mp = new Module_Param_List_Template();
-			}
-			else {
+			} else {
 				mp = new Module_Param_ComplementList_Template();
 			}
 			for (int i = 0; i < value_list.size(); ++i) {

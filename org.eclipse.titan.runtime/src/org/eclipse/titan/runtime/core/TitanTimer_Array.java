@@ -261,8 +261,7 @@ public class TitanTimer_Array<T extends TitanTimer> extends TitanTimer {
 				}
 				result = ret_val;
 				break;
-			}
-			else if (ret_val == TitanAlt_Status.ALT_REPEAT ||
+			} else if (ret_val == TitanAlt_Status.ALT_REPEAT ||
 					(ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
 				result = ret_val;
 			}

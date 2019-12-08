@@ -727,8 +727,7 @@ public class TitanBoolean extends Base_Type {
 			// No JSON data in the buffer -> use default value
 			if ("true".equals( p_td.json.getDefault_value() ) ) {
 				token.set( json_token_t.JSON_TOKEN_LITERAL_TRUE );
-			} 
-			else {
+			} else {
 				token.set( json_token_t.JSON_TOKEN_LITERAL_FALSE );
 			}
 		} else {
@@ -739,14 +738,11 @@ public class TitanBoolean extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		}
-		else if (json_token_t.JSON_TOKEN_LITERAL_TRUE == token.get()) {
+		} else if (json_token_t.JSON_TOKEN_LITERAL_TRUE == token.get()) {
 			boolean_value = true;
-		}
-		else if (json_token_t.JSON_TOKEN_LITERAL_FALSE == token.get()) {
+		} else if (json_token_t.JSON_TOKEN_LITERAL_FALSE == token.get()) {
 			boolean_value = false;
-		} 
-		else {
+		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
 		}
 		return dec_len;

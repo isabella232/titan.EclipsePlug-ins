@@ -408,7 +408,7 @@ public class MainController {
 		cfgAnalyzer.set(new CfgAnalyzer());
 
 		//TODO: perhaps TtcnError for not existing file
-		final boolean config_file_failure = cfgAnalyzer.get().parse(config_file); 
+		final boolean config_file_failure = cfgAnalyzer.get().parse(config_file);
 		if (config_file_failure) {
 			System.out.println("Error was found in the configuration file. Exiting");
 			//cleanup?
@@ -443,7 +443,7 @@ public class MainController {
 		if ( TCPPort == null) {
 			errorFound = true;
 			System.out.println("TCPPort not found in section [MAIN_CONTROLLER]");
-		} 
+		}
 
 		n_hosts.set(mcSectionHandler.getNumHCsText());
 		if ( n_hosts.get() == null ) {

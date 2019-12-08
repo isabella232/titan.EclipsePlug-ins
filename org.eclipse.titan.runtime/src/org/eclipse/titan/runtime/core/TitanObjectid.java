@@ -432,11 +432,11 @@ public class TitanObjectid extends Base_Type {
 			return -1;
 		}
 
-		final StringBuilder objid_str = new StringBuilder(); 
+		final StringBuilder objid_str = new StringBuilder();
 		objid_str.append('"');
 		for (int i = 0; i < n_components; ++i) {
 			if ( i > 0 ) {
-				objid_str.append('.');	
+				objid_str.append('.');
 			}
 			objid_str.append(components_ptr.get(i));
 		}
@@ -467,8 +467,7 @@ public class TitanObjectid extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		}
-		else if (json_token_t.JSON_TOKEN_NUMBER == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_NUMBER == token.get() || use_default) {
 			if (use_default || (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
 				if (!use_default) {
 					// The default value doesn't have quotes around it
@@ -480,8 +479,7 @@ public class TitanObjectid extends Base_Type {
 				final String value2 = value.toString() + value_len.get();
 				from_string(value2);
 			}
-		}
-		else {
+		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
 		}
 
@@ -491,7 +489,7 @@ public class TitanObjectid extends Base_Type {
 			} else {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "object identifier");
 			}
-			return JSON.JSON_ERROR_FATAL;    
+			return JSON.JSON_ERROR_FATAL;
 		}
 
 		return dec_len;

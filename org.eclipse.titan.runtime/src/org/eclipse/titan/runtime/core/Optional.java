@@ -372,8 +372,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 			if (json_token_t.JSON_TOKEN_LITERAL_NULL == token.get()) {
 				set_to_omit();
 				return dec_len;
-			}
-			else {
+			} else {
 				if(!p_silent) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_CHOSEN_FIELD_NOT_NULL, "");
 				}
@@ -389,8 +388,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 			} else {
 				set_to_omit();
 			}
-		}
-		else if (JSON.JSON_ERROR_INVALID_TOKEN == dec_len) {
+		} else if (JSON.JSON_ERROR_INVALID_TOKEN == dec_len) {
 			// invalid token, rewind the buffer and check if it's a "null" (= omit)
 			// this needs to be checked after the optional value, because it might also be
 			// able to decode a "null" value
@@ -404,8 +402,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 					}
 				}
 				set_to_omit();
-			}
-			else {
+			} else {
 				// cannot get JSON_TOKEN_ERROR here, that was already checked by the optional value
 				dec_len = JSON.JSON_ERROR_INVALID_TOKEN;
 			}

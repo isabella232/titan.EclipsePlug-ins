@@ -189,8 +189,7 @@ public final class Module_List {
 						"exists in module `%s', and no parameter with name `%s' exists in any module.",
 						second_name, first_name, first_name);
 			}
-		}
-		else if (param.get_type() == Module_Parameter.type_t.MP_Unbound) {
+		} else if (param.get_type() == Module_Parameter.type_t.MP_Unbound) {
 			caller.error("Referenced module parameter '%s' is unbound.", param_name.get_str());
 		}
 

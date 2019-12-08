@@ -708,8 +708,7 @@ public class TitanHexString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		}
-		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
 			if (use_default || (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
 				if (!use_default) {
 					// The default value doesn't have quotes around it
@@ -723,15 +722,13 @@ public class TitanHexString extends Base_Type {
 				for (int i = 0; i < value_len.get(); ++i) {
 					if (value.charAt(i) == ' ') {
 						--nibbles;
-					}
-					else if (!isxdigit(value.charAt(i))) {
+					} else if (!isxdigit(value.charAt(i))) {
 						if (value.charAt(i) == '\\' && i + 1 < value_len.get() &&
 								(value.charAt(i+1) == 'n' || value.charAt(i+1) == 'r' || value.charAt(i+1) == 't')) {
 							// Escaped white space character
 							++i;
 							nibbles -= 2;
-						}
-						else {
+						} else {
 							error = true;
 							break;
 						}
@@ -759,7 +756,7 @@ public class TitanHexString extends Base_Type {
 			if(!p_silent) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "hexstring");
 			}
-			return JSON.JSON_ERROR_FATAL;    
+			return JSON.JSON_ERROR_FATAL;
 		}
 		return dec_len;
 	}

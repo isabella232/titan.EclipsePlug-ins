@@ -2491,8 +2491,7 @@ public class TitanUniversalCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		}
-		else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
 			final StringBuilder out = new StringBuilder();
 			if (TitanCharString.from_JSON_string(value.toString(), !use_default, out)) {
 				charstring = true;
@@ -2569,7 +2568,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (check_quotes) {
 			start = 1;
 			end = json_len - 1;
-			if (!json_str.get(0).is_char() || json_str.get(0).getUc_cell() != '\"' || 
+			if (!json_str.get(0).is_char() || json_str.get(0).getUc_cell() != '\"' ||
 					!json_str.get(json_len - 1).is_char() || json_str.get(json_len - 1).getUc_cell() != '\"') {
 				return false;
 			}
@@ -2634,7 +2633,7 @@ public class TitanUniversalCharString extends Base_Type {
 						i = end;
 						error = true;
 					}
-					break; 
+					break;
 				}
 				default:
 					// error (invalid escaped character) -> leave the for cycle
@@ -2646,7 +2645,7 @@ public class TitanUniversalCharString extends Base_Type {
 				++i;
 			} else {
 				ustr.add(new TitanUniversalChar(json_str.get(i)));
-			} 
+			}
 
 			if (check_quotes && i == json_len - 1) {
 				// Special case: the last 2 characters are double escaped quotes ('\\' and '\"')
