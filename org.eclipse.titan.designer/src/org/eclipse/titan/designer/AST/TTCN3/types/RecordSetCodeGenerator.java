@@ -4125,27 +4125,63 @@ public final class RecordSetCodeGenerator {
 	 *                the taglist as data.
 	 */
 	private static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
-		source.append("RAW_enc_tree temp_leaf;\n");
-		for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
-			final rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
-			source.append("{\n");
-			source.append(MessageFormat.format("int new_pos{0}[] = new int[myleaf.curr_pos.level + {1}];\n", temp_tag, tempField.fields.size()));
-			source.append(MessageFormat.format("System.arraycopy(myleaf.curr_pos.pos, 0, new_pos{0}, 0, myleaf.curr_pos.level);\n", temp_tag));
-			for (int l = 0; l < tempField.fields.size(); l++) {
-				source.append(MessageFormat.format("new_pos{0}[myleaf.curr_pos.level + {1}] = {2};\n", temp_tag, l, tempField.fields.get(l).nthfield));
+		boolean canBeSimple = taglist.fields.size() > 0;
+		if (taglist.fields.size() > 1) {
+			final rawAST_coding_field_list firstField = taglist.fields.get(0);
+			final int firstFieldSize = firstField.fields.size();
+			for (int i = 1; i < taglist.fields.size() && canBeSimple; i++) {
+				final rawAST_coding_field_list tempField = taglist.fields.get(i);
+				if (firstFieldSize != tempField.fields.size()) {
+					canBeSimple = false;
+				}
+				for (int j = 0; j < firstFieldSize && canBeSimple; j++) {
+					if (firstField.fields.get(j).nthfield != tempField.fields.get(j).nthfield) {
+						canBeSimple = false;
+					}
+				}
 			}
-			source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
-			source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
+		}
+		if (canBeSimple) {
+			final rawAST_coding_field_list tempField = taglist.fields.get(0);
+			final int tempFieldSize = tempField.fields.size();
+			source.append("{\n");
+			source.append(MessageFormat.format("final int new_pos{0}[] = new int[myleaf.curr_pos.level + {1}];\n", 0, tempFieldSize));
+			source.append(MessageFormat.format("System.arraycopy(myleaf.curr_pos.pos, 0, new_pos{0}, 0, myleaf.curr_pos.level);\n", 0));
+			for (int l = 0; l < tempFieldSize; l++) {
+				source.append(MessageFormat.format("new_pos{0}[myleaf.curr_pos.level + {1}] = {2};\n", 0, l, tempField.fields.get(l).nthfield));
+			}
+			source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{0});\n", 0, tempFieldSize));
+			source.append(MessageFormat.format("final RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos{0});\n", 0));
 			source.append("if (temp_leaf != null) {\n");
-			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).type));
+			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempFieldSize - 1).type));
 			source.append(" } else ");
+		} else {
+			source.append("RAW_enc_tree temp_leaf;\n");
+			for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
+				final rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
+				source.append("{\n");
+				source.append(MessageFormat.format("int new_pos{0}[] = new int[myleaf.curr_pos.level + {1}];\n", temp_tag, tempField.fields.size()));
+				source.append(MessageFormat.format("System.arraycopy(myleaf.curr_pos.pos, 0, new_pos{0}, 0, myleaf.curr_pos.level);\n", temp_tag));
+				for (int l = 0; l < tempField.fields.size(); l++) {
+					source.append(MessageFormat.format("new_pos{0}[myleaf.curr_pos.level + {1}] = {2};\n", temp_tag, l, tempField.fields.get(l).nthfield));
+				}
+				source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
+				source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
+				source.append("if (temp_leaf != null) {\n");
+				source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).type));
+				source.append(" } else ");
+			}
 		}
 
 		source.append(" {\n");
 		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
 		source.append(" }\n");
-		for (int temp_tag = taglist.fields.size() - 1; temp_tag >= 0; temp_tag--) {
+		if (canBeSimple) {
 			source.append("}\n");
+		} else {
+			for (int temp_tag = taglist.fields.size() - 1; temp_tag >= 0; temp_tag--) {
+				source.append("}\n");
+			}
 		}
 	}
 
