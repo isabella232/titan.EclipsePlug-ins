@@ -1243,18 +1243,12 @@ public class TitanBitString extends Base_Type {
 			for (int i = 0; i < bits_ptr.length; i++) {
 				myleaf.data_array[i] = (byte)bits_ptr[i];
 			}
-			boolean orders = false;
-			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			boolean orders = p_td.raw.byteorder == raw_order_t.ORDER_MSB;
 			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_LSB) {
 				orders = !orders;
 			}
 			myleaf.coding_par.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-			orders = false;
-			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			orders = p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB;
 			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_LSB) {
 				orders = !orders;
 			}
@@ -1299,18 +1293,12 @@ public class TitanBitString extends Base_Type {
 			n_bits = decode_length;
 			bits_ptr = new int[(decode_length + 7) / 8];
 			final RAW_coding_par cp = new RAW_coding_par();
-			boolean orders = false;
-			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			boolean orders = p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB;
 			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_LSB) {
 				orders = !orders;
 			}
 			cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-			orders = false;
-			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			orders = p_td.raw.byteorder == raw_order_t.ORDER_MSB;
 			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_LSB) {
 				orders = !orders;
 			}

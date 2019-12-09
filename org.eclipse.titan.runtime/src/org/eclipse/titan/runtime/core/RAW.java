@@ -131,7 +131,6 @@ public class RAW {
 		public byte data_array[] = new byte[RAW_INT_ENC_LENGTH];  /**< false */
 
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
-			boolean orders = false;
 			this.isleaf = is_leaf;
 			rec_of = false;
 			parent = par;
@@ -154,18 +153,13 @@ public class RAW {
 			ext_bit = raw_attr.extension_bit;
 			top_bit_order = raw_attr.top_bit_order;
 			calc = calc_type.CALC_NO;
-			if (raw_attr.byteorder == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			boolean orders = raw_attr.byteorder == raw_order_t.ORDER_MSB;
 			if (raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}
 
 			final raw_order_t tempbyteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-			orders = false;
-			if (raw_attr.bitorderinoctet == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			orders = raw_attr.bitorderinoctet == raw_order_t.ORDER_MSB;
 			if (raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}

@@ -2018,18 +2018,12 @@ public class TitanInteger extends Base_Type {
 			final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 			limit -= prepaddlength;
 			final RAW_coding_par cp = new RAW_coding_par();
-			boolean orders = false;
-			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			boolean orders = p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB;
 			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}
 			cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-			orders = false;
-			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-				orders = true;
-			}
+			orders = p_td.raw.byteorder == raw_order_t.ORDER_MSB;
 			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}
