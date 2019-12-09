@@ -797,11 +797,12 @@ public class TitanHexString extends Base_Type {
 			return new TitanHexString(this);
 		}
 
-		final byte temp[] = new byte[nibbles_ptr.length + other_value.nibbles_ptr.length];
-		System.arraycopy(nibbles_ptr, 0, temp, 0, nibbles_ptr.length);
-		System.arraycopy(other_value.nibbles_ptr, 0, temp, nibbles_ptr.length, other_value.nibbles_ptr.length);
+		final TitanHexString result = new TitanHexString();
+		result.nibbles_ptr = new byte[nibbles_ptr.length + other_value.nibbles_ptr.length];
+		System.arraycopy(nibbles_ptr, 0, result.nibbles_ptr, 0, nibbles_ptr.length);
+		System.arraycopy(other_value.nibbles_ptr, 0, result.nibbles_ptr, nibbles_ptr.length, other_value.nibbles_ptr.length);
 
-		return new TitanHexString(temp);
+		return result;
 	}
 
 	/**
@@ -818,11 +819,12 @@ public class TitanHexString extends Base_Type {
 		must_bound("Unbound left operand of hexstring concatenation.");
 		other_value.must_bound("Unbound right operand of hexstring element concatenation.");
 
-		final byte temp[] = new byte[nibbles_ptr.length + 1];
-		System.arraycopy(nibbles_ptr, 0, temp, 0, nibbles_ptr.length);
-		temp[ nibbles_ptr.length ] = (byte) other_value.get_nibble();
+		final TitanHexString result = new TitanHexString();
+		result.nibbles_ptr = new byte[nibbles_ptr.length + 1];
+		System.arraycopy(nibbles_ptr, 0, result.nibbles_ptr, 0, nibbles_ptr.length);
+		result.nibbles_ptr[ nibbles_ptr.length ] = (byte) other_value.get_nibble();
 
-		return new TitanHexString(temp);
+		return result;
 	}
 
 	/**
@@ -840,15 +842,15 @@ public class TitanHexString extends Base_Type {
 			return new TitanHexString(this);
 		}
 
-		final byte result[] = new byte[nibbles_ptr.length];
+		final TitanHexString result = new TitanHexString();
+		result.nibbles_ptr = new byte[nibbles_ptr.length];
 		for (int i = 0; i < nibbles_ptr.length; i++) {
-			result[i] = (byte)((~nibbles_ptr[i] & 0x0F));
+			result.nibbles_ptr[i] = (byte)((~nibbles_ptr[i] & 0x0F));
 		}
 
-		final TitanHexString ret_val = new TitanHexString(result);
-		ret_val.clearUnusedNibble();
+		result.clearUnusedNibble();
 
-		return ret_val;
+		return result;
 	}
 
 	/**
@@ -874,15 +876,15 @@ public class TitanHexString extends Base_Type {
 			return new TitanHexString(this);
 		}
 
-		final byte result[] = new byte[nibbles_ptr.length];
+		final TitanHexString result = new TitanHexString();
+		result.nibbles_ptr = new byte[nibbles_ptr.length];
 		for (int i = 0; i < nibbles_ptr.length; i++) {
-			result[i] = (byte) (nibbles_ptr[i] & otherValue.nibbles_ptr[i]);
+			result.nibbles_ptr[i] = (byte) (nibbles_ptr[i] & otherValue.nibbles_ptr[i]);
 		}
 
-		final TitanHexString ret_val = new TitanHexString(result);
 		clearUnusedNibble();
 
-		return ret_val;
+		return result;
 	}
 
 	/**
@@ -932,15 +934,15 @@ public class TitanHexString extends Base_Type {
 			return new TitanHexString(this);
 		}
 
-		final byte result[] = new byte[nibbles_ptr.length];
+		final TitanHexString result = new TitanHexString();
+		result.nibbles_ptr = new byte[nibbles_ptr.length];
 		for (int i = 0; i < nibbles_ptr.length; i++) {
-			result[i] = (byte) (nibbles_ptr[i] | otherValue.nibbles_ptr[i]);
+			result.nibbles_ptr[i] = (byte) (nibbles_ptr[i] | otherValue.nibbles_ptr[i]);
 		}
 
-		final TitanHexString ret_val = new TitanHexString(result);
 		clearUnusedNibble();
 
-		return ret_val;
+		return result;
 	}
 
 	/**
@@ -962,8 +964,8 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.length != 1) {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
-		final byte result = (byte) (get_nibble(0) | otherValue.get_nibble());
 
+		final byte result = (byte) (get_nibble(0) | otherValue.get_nibble());
 		return new TitanHexString(result);
 	}
 
@@ -990,15 +992,15 @@ public class TitanHexString extends Base_Type {
 			return new TitanHexString(this);
 		}
 
-		final byte result[] = new byte[nibbles_ptr.length];
+		final TitanHexString result = new TitanHexString();
+		result.nibbles_ptr = new byte[nibbles_ptr.length];
 		for (int i = 0; i < nibbles_ptr.length; i++) {
-			result[i] = (byte) (nibbles_ptr[i] ^ otherValue.nibbles_ptr[i]);
+			result.nibbles_ptr[i] = (byte) (nibbles_ptr[i] ^ otherValue.nibbles_ptr[i]);
 		}
 
-		final TitanHexString ret_val = new TitanHexString(result);
 		clearUnusedNibble();
 
-		return ret_val;
+		return result;
 	}
 
 	/**
@@ -1020,6 +1022,7 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.length != 1) {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
+
 		final byte result = (byte) (get_nibble(0) ^ otherValue.get_nibble());
 		return new TitanHexString(result);
 	}
@@ -1044,18 +1047,19 @@ public class TitanHexString extends Base_Type {
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
-			final byte result[] = new byte[nibbles_ptr.length];
+			final TitanHexString result = new TitanHexString();
+			result.nibbles_ptr = new byte[nibbles_ptr.length];
 			if (shift_count > n_nibbles) {
 				shift_count = n_nibbles;
 			}
 			for (int i = 0; i < n_nibbles - shift_count; i++) {
-				result[i] = nibbles_ptr[i + shift_count];
+				result.nibbles_ptr[i] = nibbles_ptr[i + shift_count];
 			}
 			for (int i = n_nibbles - shift_count; i < n_nibbles; i++) {
-				result[i] = (byte) 0;
+				result.nibbles_ptr[i] = (byte) 0;
 			}
 
-			return new TitanHexString(result);
+			return result;
 		} else if (shift_count == 0) {
 			return new TitanHexString(this);
 		} else {
@@ -1100,18 +1104,19 @@ public class TitanHexString extends Base_Type {
 			}
 
 			final int n_nibbles = nibbles_ptr.length;
-			final byte result[] = new byte[nibbles_ptr.length];
+			final TitanHexString result = new TitanHexString();
+			result.nibbles_ptr = new byte[nibbles_ptr.length];
 			if (shift_count > n_nibbles) {
 				shift_count = n_nibbles;
 			}
 			for (int i = 0; i < shift_count; i++) {
-				result[i] = (byte) 0;
+				result.nibbles_ptr[i] = (byte) 0;
 			}
 			for (int i = 0; i < n_nibbles - shift_count; i++) {
-				result[i + shift_count] = nibbles_ptr[i];
+				result.nibbles_ptr[i + shift_count] = nibbles_ptr[i];
 			}
 
-			return new TitanHexString(result);
+			return result;
 		} else if (shift_count == 0) {
 			return new TitanHexString(this);
 		} else {

@@ -606,11 +606,12 @@ public class TitanOctetString extends Base_Type {
 			return new TitanOctetString(this);
 		}
 
-		final byte temp[] = new byte[val_ptr.length + other_value.val_ptr.length];
-		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
-		System.arraycopy(other_value.val_ptr, 0, temp, val_ptr.length, other_value.val_ptr.length);
+		final TitanOctetString result = new TitanOctetString();
+		result.val_ptr = new byte[val_ptr.length + other_value.val_ptr.length];
+		System.arraycopy(val_ptr, 0, result.val_ptr, 0, val_ptr.length);
+		System.arraycopy(other_value.val_ptr, 0, result.val_ptr, val_ptr.length, other_value.val_ptr.length);
 
-		return new TitanOctetString(temp);
+		return result;
 	}
 
 	/**
@@ -627,11 +628,12 @@ public class TitanOctetString extends Base_Type {
 		must_bound("Unbound left operand of octetstring concatenation.");
 		other_value.must_bound("Unbound right operand of octetstring element concatenation.");
 
-		final byte temp[] = new byte[val_ptr.length + 1];
-		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
-		temp[val_ptr.length] = other_value.get_nibble();
+		final TitanOctetString result = new TitanOctetString();
+		result.val_ptr = new byte[val_ptr.length + 1];
+		System.arraycopy(val_ptr, 0, result.val_ptr, 0, val_ptr.length);
+		result.val_ptr[val_ptr.length] = other_value.get_nibble();
 
-		return new TitanOctetString(temp);
+		return result;
 	}
 
 	/**
