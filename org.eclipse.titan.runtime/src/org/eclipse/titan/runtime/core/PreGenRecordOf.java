@@ -25,6 +25,7 @@ import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
+import org.eclipse.titan.runtime.core.RAW.top_bit_order_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.compare_function_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.log_function_t;
 import org.eclipse.titan.runtime.core.RecordOf_Match.match_function_t;
@@ -972,16 +973,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -3079,16 +3071,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -5320,16 +5303,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -7448,16 +7422,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -9576,16 +9541,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -11704,16 +11660,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -13832,16 +13779,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -15960,16 +15898,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -18088,16 +18017,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -20216,16 +20136,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -22344,16 +22255,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -24451,16 +24353,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -26671,16 +26564,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -28891,16 +28775,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -31111,16 +30986,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -33331,16 +33197,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -35572,16 +35429,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -37679,16 +37527,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -39899,16 +39738,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -42119,16 +41949,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -44339,16 +44160,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -46559,16 +46371,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -48779,16 +48582,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -51020,16 +50814,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -53148,16 +52933,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -55255,16 +55031,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -57475,16 +57242,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -59695,16 +59453,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -61936,16 +61685,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -64064,16 +63804,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -66171,16 +65902,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -68412,16 +68134,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];
@@ -69946,16 +69659,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					if (p_td.raw == null) {
 						TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 					}
-					raw_order_t order;
-					switch (p_td.raw.top_bit_order) {
-					case TOP_BIT_LEFT:
-						order = raw_order_t.ORDER_LSB;
-						break;
-					case TOP_BIT_RIGHT:
-					default:
-						order = raw_order_t.ORDER_MSB;
-						break;
-					}
+					final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 					final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 					if (rawr < 0) {
 						final error_type temp = error_type.values()[-rawr];

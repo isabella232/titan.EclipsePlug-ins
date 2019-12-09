@@ -23,6 +23,7 @@ import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
+import org.eclipse.titan.runtime.core.RAW.top_bit_order_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
@@ -1263,17 +1264,8 @@ public class TitanInteger extends Base_Type {
 				if (p_td.raw == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 				}
-				raw_order_t order;
-				switch (p_td.raw.top_bit_order) {
-				case TOP_BIT_LEFT:
-					order = raw_order_t.ORDER_LSB;
-					break;
-				case TOP_BIT_RIGHT:
-				default:
-					order = raw_order_t.ORDER_MSB;
-					break;
-				}
 
+				final raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;
 				if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}

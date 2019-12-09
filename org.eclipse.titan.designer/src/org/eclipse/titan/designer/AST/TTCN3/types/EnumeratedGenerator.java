@@ -96,6 +96,7 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("RAW");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
+		aData.addBuiltinTypeImport("RAW.top_bit_order_t");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
@@ -479,16 +480,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\t\tif (p_td.raw == null) {\n");
 		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t\traw_order_t order;\n");
-		source.append("\t\t\t\t\tswitch (p_td.raw.top_bit_order) {\n");
-		source.append("\t\t\t\t\tcase TOP_BIT_LEFT:\n");
-		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_LSB;\n");
-		source.append("\t\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t\tcase TOP_BIT_RIGHT:\n");
-		source.append("\t\t\t\t\tdefault:\n");
-		source.append("\t\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
-		source.append("\t\t\t\t\t\tbreak;\n");
-		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal raw_order_t order = p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT ? raw_order_t.ORDER_LSB : raw_order_t.ORDER_MSB;\n");
 		source.append("\t\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("\t\t\t\t\tif (rawr < 0) {\n");
 		source.append("\t\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
