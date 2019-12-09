@@ -131,7 +131,9 @@ public final class CfgAnalyzer {
 					reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), detectedCharset));
 				}
 				
-			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			} catch (FileNotFoundException e) {
+				throw new TtcnError(e);
+			} catch (UnsupportedEncodingException e) {
 				throw new TtcnError(e);
 			}
 		} else {
