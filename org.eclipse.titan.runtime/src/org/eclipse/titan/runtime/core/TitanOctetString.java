@@ -481,13 +481,15 @@ public class TitanOctetString extends Base_Type {
 				val_ptr = new byte[param.get_string_size()];
 				System.arraycopy((byte[])param.get_string_data(), 0, val_ptr, 0, param.get_string_size());
 				break;
-			case OT_CONCAT:
+			case OT_CONCAT: {
+				final TitanOctetString temp = new TitanOctetString((byte[]) param.get_string_data());
 				if (is_bound()) {
-					this.operator_assign(this.operator_concatenate(new TitanOctetString((byte[]) param.get_string_data())));
+					this.operator_assign(this.operator_concatenate(temp));
 				} else {
-					this.operator_assign(new TitanOctetString((byte[]) param.get_string_data()));
+					this.operator_assign(temp);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Internal error: TitanOctetString.set_param()");
 			}

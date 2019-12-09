@@ -1052,13 +1052,15 @@ public class TitanBitString extends Base_Type {
 				bits_ptr = (int[]) param.get_string_data();
 				clear_unused_bits();
 				break;
-			case OT_CONCAT:
+			case OT_CONCAT: {
+				final TitanBitString temp = new TitanBitString((int[]) param.get_string_data(), param.get_string_size());
 				if (is_bound()) {
-					this.operator_assign(this.operator_concatenate(new TitanBitString((int[]) param.get_string_data(), param.get_string_size())));
+					this.operator_assign(this.operator_concatenate(temp));
 				} else {
-					this.operator_assign(new TitanBitString((int[]) param.get_string_data(), param.get_string_size()));
+					this.operator_assign(temp);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Internal error: TitanBitString.set_param()");
 			}

@@ -545,13 +545,15 @@ public class TitanHexString extends Base_Type {
 				System.arraycopy((byte[])param.get_string_data(), 0, nibbles_ptr, 0, param.get_string_size());
 				clearUnusedNibble();
 				break;
-			case OT_CONCAT:
+			case OT_CONCAT: {
+				final TitanHexString temp = new TitanHexString((byte[]) param.get_string_data());
 				if (is_bound()) {
-					this.operator_assign(this.operator_concatenate(new TitanHexString((byte[]) param.get_string_data())));
+					this.operator_assign(this.operator_concatenate(temp));
 				} else {
-					this.operator_assign(new TitanHexString((byte[]) param.get_string_data()));
+					this.operator_assign(temp);
 				}
 				break;
+			}
 			default:
 				throw new TtcnError("Internal error: TitanHexString.set_param()");
 			}
