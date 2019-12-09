@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
@@ -122,8 +123,15 @@ public final class CfgAnalyzer {
 					file = preparsedFile;
 				}
 				config_preproc_error = preprocessor.get_error_flag();
-				reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-			} catch (FileNotFoundException e) {
+				ConfigCharsetDetector detector = new ConfigCharsetDetector(file);
+				String detectedCharset = detector.detectCharSet();
+				if (detectedCharset == null) {
+					reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "ISO-8859-1"));
+				} else {
+					reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), detectedCharset));
+				}
+				
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
 				throw new TtcnError(e);
 			}
 		} else {
