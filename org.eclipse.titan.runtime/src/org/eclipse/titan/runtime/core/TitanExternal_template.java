@@ -550,7 +550,7 @@ public class TitanExternal_template extends Base_Template {
 	@Override
 	public int n_list_elem() {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
-		throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EXTERNAL.");
+			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EXTERNAL.");
 		}
 		return list_value.size();
 	}

@@ -492,7 +492,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	@Override
 	public int n_list_elem() {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
-		throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.identification.syntaxes.");
+			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EMBEDDED PDV.identification.syntaxes.");
 		}
 		return list_value.size();
 	}

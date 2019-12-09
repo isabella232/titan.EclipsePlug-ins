@@ -492,7 +492,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	@Override
 	public int n_list_elem() {
 		if (template_selection != template_sel.VALUE_LIST && template_selection != template_sel.COMPLEMENTED_LIST) {
-		throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EXTERNAL.identification.syntaxes.");
+			throw new TtcnError("Internal error: Accessing a list element of a non-list template of enumeration type EXTERNAL.identification.syntaxes.");
 		}
 		return list_value.size();
 	}
