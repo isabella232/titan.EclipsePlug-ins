@@ -1,0 +1,485 @@
+/******************************************************************************
+ * Copyright (c) 2000-2019 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ *
+ * Contributors:
+ *   Balasko, Jeno
+ *   Baranyi, Botond
+ *
+ ******************************************************************************/
+module JsonFunctions
+{
+
+import from JsonTypes all;
+import from JsonData language "ASN.1" all;
+import from OtherTypes all;
+
+//=================== Encoders =====================================
+
+// for TTCN-3 types
+external function f_enc_int(in integer x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_bool(in boolean x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_cs(in charstring x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_cs_x(in charstring x) return octetstring
+   with { extension "prototype(convert)"; extension "encode(XER:XER_EXTENDED)"; }
+
+external function f_enc_ucs_x(in universal charstring x) return octetstring
+   with { extension "prototype(convert)"; extension "encode(XER:XER_EXTENDED)"; }  
+
+external function f_enc_os(in octetstring x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_hex(in hexstring x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_bit(in bitstring x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_vt(in verdicttype x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_ucs(in universal charstring x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_f(in float x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_f_x(in float x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(XER:XER_EXTENDED)"; }
+
+external function f_enc_days(in Days x) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_R(in R rec) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_A(in A u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_ER(in EmptyRec u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+  
+external function f_enc_roi(in RoI u) return bitstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+  
+external function f_enc_rof(in RoF u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_rocs(in RoCS u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_ints(in IntArr u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_floats(in FloatArr u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_strs(in StrArr u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_profile(in Profile u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_profile_compact(in Profile u) return octetstring
+  with { extension "prototype(convert) encode(JSON) printing(compact)"; }
+
+external function f_enc_profile_compact_p(in Profile u) return octetstring
+  with { extension "encode(JSON) prototype(convert)  printing(compact)"; }
+  
+external function f_enc_profile_pretty(in Profile u) return octetstring
+  with { extension "prototype(convert) encode(JSON) printing(pretty)"; }
+
+external function f_enc_profile0(in Profile0 u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_cba(in CBA u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_kw_fld(in KeywordFields u) return octetstring
+  with { extension "prototype(convert)"; extension "encode(JSON)"; }
+
+external function f_enc_stuff(in Stuff x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_hpt(in HasPardType x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_asn_stuff(in AsnStuff x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_opt_uni(in OptionalUnions x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_meta_rec(in MetainfoRecord x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_meta_set(in MetainfoSet x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_meta_outer_rec(in MetainfoOuterRecord x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_meta_recof(in MetainfoRecOf x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_meta_setof(in MetainfoSetOf x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_meta_arr(in MetainfoArray x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_type_alias_rec(in SupportedRec x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_type_alias_list(in SupportedList x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_type_alias_uni(in SupportedUni x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_type_alias_enum(in SupportedEnum x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_type_alias_any(in SupportedAny x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_field_rec(in RecWithEncAttrInFields.rec x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_field_list(in RecWithEncAttrInFields.list x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_field_uni(in RecWithEncAttrInFields.uni x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_field_enum(in RecWithEncAttr.en x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_field_any(in RecWithEncAttr.at x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_elem_rec(in RecOfRec[-] x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_elem_list(in RecOfList[-] x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_elem_uni(in RecOfUni[-] x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_elem_enum(in RecOfEnum[-] x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_elem_any(in RecOfAny[-] x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_embedded_rec(in UniWithEmbEncAttr.rec.rec x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_embedded_list(in UniWithEmbEncAttr.rec.list x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_embedded_uni(in UniWithEmbEncAttr.uni_list[-] x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_embedded_enum(in UniWithEmbEncAttr.emb_list[-].en x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_embedded_any(in UniWithEmbEncAttr.emb_list[-].at_list[-] x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+external function f_enc_multi_rec(in MultiLevelRec x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_multi_list(in MultiLevelList x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_map(in Map x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_json_val(in JsonValue x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_enum_list(in EnumNumberList x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+// for ASN.1 types
+external function f_enc_seqofint(in SeqOfInt x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_seqprod(in SeqProduct x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_number(in Number x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_strings(in ManyStrings x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_complex(in ComplexSet x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_obj(in Object x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+
+external function f_enc_null(in HasNull x) return octetstring
+  with { extension "prototype(convert) encode(JSON)" }
+  
+//=================== Decoders =====================================
+
+// for TTCN-3 types
+external function f_dec_int(in octetstring x) return integer
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_bool(in octetstring x) return boolean
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_bit(in octetstring x) return bitstring
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_hex(in octetstring x) return hexstring
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_f(in octetstring x) return float
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_days(in octetstring x) return Days
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+  
+external function f_dec_os(in octetstring x) return octetstring
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_vt(in octetstring x) return verdicttype
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_cs(in octetstring x) return charstring
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_cs_x(in octetstring x) return charstring
+  with { extension "prototype(convert)"; extension "decode(XER:XER_EXTENDED)"; }
+  
+external function f_dec_ucs(in octetstring x) return universal charstring
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_ucs_x(in octetstring x) return universal charstring
+with { extension "prototype(convert)"; extension "decode(XER:XER_EXTENDED)"; }
+
+external function f_dec_ints(in octetstring u) return IntArr
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_floats(in octetstring u) return FloatArr
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_strs(in octetstring u) return StrArr
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_R(in octetstring x) return R
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+ 
+external function f_dec_A(in octetstring x) return A
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_A_fast(in octetstring x, out A y)
+  with { extension "prototype(fast)"; extension "decode(JSON)"; }
+
+external function f_dec_ER(in octetstring x) return EmptyRec
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+  
+external function f_dec_roi(in bitstring x) return RoI
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+  
+external function f_dec_rof(in octetstring x) return RoF
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_rocs(in octetstring x) return RoCS
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+ 
+external function f_dec_profile(in octetstring u) return Profile
+  with { extension "prototype(convert)"; extension "decode(JSON)"; } 
+
+external function f_dec_profile0(in octetstring u) return Profile0
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+  
+external function f_dec_cba(in octetstring u) return CBA
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_kw_fld(in octetstring u) return KeywordFields
+  with { extension "prototype(convert)"; extension "decode(JSON)"; }
+
+external function f_dec_stuff(in octetstring x) return Stuff
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_def(in octetstring x) return RecDef
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_hpt(in octetstring x) return HasPardType
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_asn_stuff(in octetstring x) return AsnStuff
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_opt_uni(in octetstring x) return OptionalUnions
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_meta_rec(in octetstring x) return MetainfoRecord
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_meta_set(in octetstring x) return MetainfoSet
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_meta_outer_rec(in octetstring x) return MetainfoOuterRecord
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_meta_recof(in octetstring x) return MetainfoRecOf
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_meta_setof(in octetstring x) return MetainfoSetOf
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_meta_arr(in octetstring x) return MetainfoArray
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_type_alias_rec(in octetstring x) return SupportedRec
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_type_alias_list(in octetstring x) return SupportedList
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_type_alias_uni(in octetstring x) return SupportedUni
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_type_alias_enum(in octetstring x) return SupportedEnum
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_type_alias_any(in octetstring x) return SupportedAny
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_field_rec(in octetstring x) return RecWithEncAttrInFields.rec
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_field_list(in octetstring x) return RecWithEncAttrInFields.list
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_field_uni(in octetstring x) return RecWithEncAttrInFields.uni
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_field_enum(in octetstring x) return RecWithEncAttr.en
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_field_any(in octetstring x) return RecWithEncAttr.at
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_elem_rec(in octetstring x) return RecOfRec[-]
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_elem_list(in octetstring x) return RecOfList[-]
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_elem_uni(in octetstring x) return RecOfUni[-]
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_elem_enum(in octetstring x) return RecOfEnum[-]
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_elem_any(in octetstring x) return RecOfAny[-]
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_embedded_rec(in octetstring x) return UniWithEmbEncAttr.rec.rec
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_embedded_list(in octetstring x) return UniWithEmbEncAttr.rec.list
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_embedded_uni(in octetstring x) return UniWithEmbEncAttr.uni_list[-]
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_embedded_enum(in octetstring x) return UniWithEmbEncAttr.emb_list[-].en
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_embedded_any(in octetstring x) return UniWithEmbEncAttr.emb_list[-].at_list[-]
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_multi_rec(in octetstring x) return MultiLevelRec
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_multi_list(in octetstring x) return MultiLevelList
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_map(in octetstring x) return Map
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_json_val(in octetstring x) return JsonValue
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_enum_list(in octetstring x) return EnumNumberList
+  with { extension "prototype(convert) decode(JSON)" }
+
+// for ASN.1 types
+external function f_dec_seqofint(in octetstring x) return SeqOfInt
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_seqprod(in octetstring x) return SeqProduct
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_number(in octetstring x) return Number
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_strings(in octetstring x) return ManyStrings
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_complex(in octetstring x) return ComplexSet
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_obj(in octetstring x) return Object
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_null(in octetstring x) return HasNull
+  with { extension "prototype(convert) decode(JSON)" }
+
+external function f_dec_pduwithid(in octetstring x) return PduWithId
+  with { extension "prototype(convert) decode(JSON)" }
+  
+external function f_dec_pduwithid2(in octetstring x) return PduWithId2
+  with { extension "prototype(convert) decode(JSON)" }
+  
+//============== Internal Functions ====================
+  
+function f_check_encoding(in octetstring encoded, in octetstring expected) {
+   log("encoded: ",encoded," expected: ",expected)
+   if(encoded == expected) {
+     setverdict(pass);
+   } else {
+      setverdict(fail, "expected:", expected,"received: ", encoded);
+   }
+ } with { extension "transparent"}
+ 
+ function f_check_encoding_bit(in bitstring encoded, in bitstring expected) {
+   log("encoded: ",encoded," expected: ",expected)
+   if(encoded == expected) {
+     setverdict(pass);
+   } else {
+      setverdict(fail, "expected:", expected,"received: ", encoded);
+   }
+ } with { extension "transparent"}
+ 
+ 
+ 
+ function f_bool2verdict(in boolean b) {
+   if(b){setverdict(pass)} else {setverdict(fail)}
+ } with { extension "transparent"}
+ 
+ function f_abs(in float f) return float {
+   if(f < 0.0 ) { f:= -f }
+   return f;
+ }
+ 
+}   

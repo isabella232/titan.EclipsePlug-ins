@@ -21,4 +21,13 @@
       </FileProperties>
     </FileResource>
   </FileProperties>
+  <FolderProperties>
+    <FolderResource>
+      <FolderPath>src/json</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+  </FolderProperties>
 </TITAN_Designer_Properties>
