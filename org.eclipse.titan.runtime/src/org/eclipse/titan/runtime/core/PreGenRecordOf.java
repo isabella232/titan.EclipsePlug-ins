@@ -1009,7 +1009,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -3107,7 +3107,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -5339,7 +5339,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -7458,7 +7458,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -9577,7 +9577,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -11696,7 +11696,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -13815,7 +13815,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -15934,7 +15934,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -18053,7 +18053,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -20172,7 +20172,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -22291,7 +22291,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -24389,7 +24389,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -26600,7 +26600,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -28811,7 +28811,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -31022,7 +31022,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -33233,7 +33233,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -35465,7 +35465,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -37563,7 +37563,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -39774,7 +39774,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -41985,7 +41985,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -44196,7 +44196,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -46407,7 +46407,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -48618,7 +48618,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -50850,7 +50850,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -52969,7 +52969,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -55067,7 +55067,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -57278,7 +57278,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -59489,7 +59489,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -61721,7 +61721,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -63840,7 +63840,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -65938,7 +65938,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -68170,7 +68170,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += get_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
