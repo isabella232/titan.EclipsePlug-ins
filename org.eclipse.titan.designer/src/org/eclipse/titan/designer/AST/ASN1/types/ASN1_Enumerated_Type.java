@@ -826,6 +826,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		}
 
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final ArrayList<Enum_field> fields = new ArrayList<EnumeratedGenerator.Enum_field>(items.size());
 		for (int i = 0; i < items.size(); i++) {
 			final EnumItem tempItem = items.get(i);
@@ -833,7 +834,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempItem.getValue()).getValue()));
 		}
 
-		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw);
+		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw, hasJson);
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 

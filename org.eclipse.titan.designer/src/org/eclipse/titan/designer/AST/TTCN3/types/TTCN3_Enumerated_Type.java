@@ -849,6 +849,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		generateCodeTypedescriptor(aData, source);
 
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 
 		final ArrayList<Enum_field> fields = new ArrayList<EnumeratedGenerator.Enum_field>(items.getItems().size());
 		for (int i = 0; i < items.getItems().size(); i++) {
@@ -857,7 +858,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			// enumeration values are stored as Integer_Value
 			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempValue).getValue()));
 		}
-		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw);
+		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw, hasJson);
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 

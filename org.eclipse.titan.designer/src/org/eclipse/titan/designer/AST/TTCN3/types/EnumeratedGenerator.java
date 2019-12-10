@@ -42,15 +42,17 @@ public final class EnumeratedGenerator {
 		private final String displayName;
 		private final String templateName;
 		private final boolean hasRaw;
+		private final boolean hasJson;
 		private long firstUnused = -1;  //first unused value for this enum type
 		private long secondUnused = -1; //second unused value for this enum type
 
-		public Enum_Defs(final List<Enum_field> aItems, final String aName, final String aDisplayName, final String aTemplateName, final boolean aHasRaw){
+		public Enum_Defs(final List<Enum_field> aItems, final String aName, final String aDisplayName, final String aTemplateName, final boolean aHasRaw, boolean aHasJson){
 			items = aItems;
 			name = aName;
 			displayName = aDisplayName;
 			templateName = aTemplateName;
 			hasRaw = aHasRaw;
+			hasJson = aHasJson;
 			calculateFirstAndSecondUnusedValues();
 		}
 
@@ -87,8 +89,8 @@ public final class EnumeratedGenerator {
 
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
 		aData.addBuiltinTypeImport("TitanInteger");
-		aData.addBuiltinTypeImport( "Base_Type" );
-		aData.addBuiltinTypeImport( "Base_Template" );
+		aData.addBuiltinTypeImport("Base_Type");
+		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Enumerated");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
@@ -107,6 +109,7 @@ public final class EnumeratedGenerator {
 		aData.addImport( "java.text.MessageFormat" );
 
 		final boolean rawNeeded = e_defs.hasRaw; //TODO can be forced optionally if needed
+		final boolean jsonNeeded = e_defs.hasJson; //TODO can be forced optionally if needed
 
 		//		if(needsAlias()) { ???
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", e_defs.name));
@@ -186,7 +189,7 @@ public final class EnumeratedGenerator {
 		generateValueSetParam(source, e_defs.name, e_defs.displayName);
 		generateValueGetParam(source);
 		generateValueEncodeDecodeText(source, e_defs.displayName);
-		generateValueEncodeDecode(aData, source, e_defs, rawNeeded);
+		generateValueEncodeDecode(aData, source, e_defs, rawNeeded, jsonNeeded);
 		source.append("\t}\n");
 	}
 
@@ -447,7 +450,7 @@ public final class EnumeratedGenerator {
 	}
 
 
-	private static void generateValueEncodeDecode(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs, final boolean rawNeeded) {
+	private static void generateValueEncodeDecode(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs, final boolean rawNeeded, final boolean jsonNeeded) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("\t\t\tswitch (p_coding) {\n");
@@ -466,6 +469,17 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
+		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -500,6 +514,19 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -555,6 +582,118 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\treturn decoded_length;\n");
 			source.append("\t\t}\n");
 		}
+
+		if (jsonNeeded) {
+			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+			aData.addImport("java.util.concurrent.atomic.AtomicReference");
+			aData.addBuiltinTypeImport("JSON_Tokenizer");
+			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
+
+			// JSON encode
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} */\n");
+			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
+			source.append("\t\t\tif (enum_value == enum_type.UNBOUND_VALUE) {\n");
+			source.append("\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,\n");
+			source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of enumerated type {0}.\");\n", e_defs.displayName));
+			source.append("\t\t\t\treturn -1;\n");
+			source.append("\t\t\t}\n\n");
+			source.append("\t\t\tString tmp_str = null;\n");
+			source.append("\t\t\tif (p_td.json.isAs_number()) {\n");
+			source.append("\t\t\t\ttmp_str = \"\"+enum_value.ordinal();\n");
+			source.append("\t\t\t} else {\n");
+			source.append("\t\t\t\tboolean text_found = false;\n");
+			source.append("\t\t\t\tfor (int i = 0; i < p_td.json.getNof_enum_texts(); ++i) {\n");
+			source.append("\t\t\t\t\tif (p_td.json.getEnum_texts().get(i).index == enum_value.ordinal()) {\n");
+			source.append("\t\t\t\t\t\ttmp_str = \"\\\"\" + p_td.json.getEnum_texts().get(i).text + \"\\\"\";\n");
+			source.append("\t\t\t\t\t\ttext_found = true;\n");
+			source.append("\t\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tif (!text_found) {\n");
+			source.append("\t\t\t\t\ttmp_str = \"\\\"\" + enum_value.toString() + \"\\\"\";\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tint enc_len = p_tok.put_next_token(p_td.json.isAs_number() ? json_token_t.JSON_TOKEN_NUMBER : json_token_t.JSON_TOKEN_STRING, tmp_str);\n");
+			source.append("\t\t\treturn enc_len;\n");
+			source.append("\t\t}\n\n");
+
+			// JSON decode
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} */\n");
+			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+			source.append("\t\t\tfinal AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+			source.append("\t\t\tfinal StringBuilder value = new StringBuilder();\n");
+			source.append("\t\t\tfinal AtomicInteger value_len = new AtomicInteger(0);\n");
+			source.append("\t\t\tboolean error = false;\n");
+			source.append("\t\t\tint dec_len = 0;\n");
+			source.append("\t\t\tboolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();\n");
+			source.append("\t\t\tif (use_default) {\n");
+			source.append("\t\t\t\t// No JSON data in the buffer -> use default value\n");
+			source.append("\t\t\t\tvalue.append(p_td.json.getDefault_value());\n");
+			source.append("\t\t\t\tvalue_len.set(value.length());\n");
+			source.append("\t\t\t} else {\n");
+			source.append("\t\t\t\tdec_len = p_tok.get_next_token(token, value, value_len);\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tif (json_token_t.JSON_TOKEN_ERROR == token.get()) {\n");
+			source.append("\t\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t} else if ((json_token_t.JSON_TOKEN_STRING == token.get() && !p_td.json.isAs_number()) || use_default) {\n");
+			source.append("\t\t\t\tif (use_default || (value.charAt(0) == '\\\"' && value.charAt(value_len.get() - 1) == '\\\"')) {\n");
+			source.append("\t\t\t\t\tif (!use_default) {\n");
+			source.append("\t\t\t\t\tvalue.setLength(value.length() - 1);\n");
+			source.append("\t\t\t\t\tvalue_len.set(value.length());\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tboolean text_found = false;\n");
+			source.append("\t\t\t\t\tfinal String tmpValue = use_default ? value.toString() : value.substring(1);\n");
+			source.append("\t\t\t\t\tfor (int i = 0; i < p_td.json.getNof_enum_texts(); ++i) {\n");
+			source.append("\t\t\t\t\t\tif (p_td.json.getEnum_texts().get(i).text.equals(tmpValue)) {\n");
+			source.append("\t\t\t\t\t\t\tenum_value = enum_type.getValue(p_td.json.getEnum_texts().get(i).index);\n");
+			source.append("\t\t\t\t\t\t\ttext_found = true;\n");
+			source.append("\t\t\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tif (!text_found) {\n");
+			source.append("\t\t\t\t\t\tenum_value = str_to_enum(tmpValue);\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tif (!use_default) {\n");
+			source.append("\t\t\t\t\t\tvalue.append('\"');\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tif (enum_type.UNKNOWN_VALUE == enum_value) {\n");
+			source.append("\t\t\t\t\t\terror = true;\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\terror = true;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t} else if (json_token_t.JSON_TOKEN_NUMBER == token.get() && p_td.json.isAs_number()) {\n");
+			source.append("\t\t\t\tfinal String value_str = value.toString();\n");
+			source.append("\t\t\t\tfinal int number = Integer.parseInt(value_str);\n");
+			source.append("\t\t\t\tif (value_str.matches(\".*[.Ee].*\")) {\n");
+			source.append("\t\t\t\t\terror = true;\n");
+			source.append("\t\t\t\t} else if (is_valid_enum(number)) {\n");
+			source.append("\t\t\t\t\tenum_value = enum_type.getValue(number);\n");
+			source.append("\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\terror = true;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t} else {\n");
+			source.append("\t\t\t\tenum_value = enum_type.UNBOUND_VALUE;\n");
+			source.append("\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("\t\t\t}\n\n");
+			source.append("\t\t\tif (error) {\n");
+			source.append("\t\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, p_td.json.isAs_number() ? \"number\" : \"string\", \"enumerated\");\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tenum_value = enum_type.UNBOUND_VALUE;\n");
+			source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\treturn dec_len;\n");
+			source.append("\t\t}\n\n");
+			//TODO
+			//, enum_type, enum_type
+		}
+
 	}
 
 	private static void generateValueStrToEnum(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs) {
