@@ -28,25 +28,25 @@ testcase str_to_bit() runs on PDTestComponent{ //In testcase definition//
 	if ((s2bcon == str2bit(""))
 	and (s2bcon == ''B))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2bcon1 == str2bit("000000" & "" & "111111"))
 	and (s2bcon1 == '000000111111'B))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2bcon2 == str2bit(substr("000000111111",0,6) & "" & substr("000000111111",6,6)))
 	and (s2bcon2 == '000000111111'B))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2bcon3 == str2bit(("000000" <@ lengthof(s2bcon2)/2) & "" & ("111111" @> lengthof(s2bcon2)/2)))
 	and (s2bcon3 == '000000111111'B))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 }
 
@@ -92,12 +92,12 @@ testcase str_to_float() runs on PDTestComponent{ //In testcase definition//
 	if ((s2fcon == str2float("0.0"))
 	and (s2fcon == 0.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon1 == str2float("12345678901.0"))
 	and (s2fcon1 == 12345678901.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon2 == str2float("000000000000" & "12345678901.0")) //^In if statement// \
 		//In the left operand of operation `and'// \
@@ -106,44 +106,44 @@ testcase str_to_float() runs on PDTestComponent{ //In testcase definition//
 		//^warning: Leading zero digit was detected and ignored in the mantissa of the operand of operation `str2float\(\)'//
 	and (s2fcon2 == 12345678901.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon3 == str2float("-12" & "345678901.0"))
 	and (s2fcon3 == -12345678901.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon4 == str2float("1.234E3"))
 	and (s2fcon4 == 1234.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon5 == str2float("1.234"))
 	and (s2fcon5 == 1.234))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon6 == str2float("1.0"))
 	and (s2fcon6 == 1.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2fcon7 == str2float("1"    )) and (s2fcon7 == 1.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon7m== str2float("-1"   )) and (s2fcon7m==-1.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon8m== str2float("-1."  )) and (s2fcon8m==-1.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon8 == str2float("1."   )) and (s2fcon8 == 1.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon9 == str2float("+001" )) and (s2fcon9 == 1.0)) //^In if statement// \
 		//In the left operand of operation `and'// \
@@ -151,7 +151,7 @@ testcase str_to_float() runs on PDTestComponent{ //In testcase definition//
 		//In the operand of operation \`str2float\(\)\'// \
 		//^warning: Leading zero digit was detected and ignored in the mantissa of the operand of operation `str2float\(\)'//
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon10== str2float("+001.")) and (s2fcon10== 1.0)) //^In if statement// \
 		//In the left operand of operation `and'// \
@@ -159,31 +159,31 @@ testcase str_to_float() runs on PDTestComponent{ //In testcase definition//
 		//In the operand of operation \`str2float\(\)\'// \
 		//^warning: Leading zero digit was detected and ignored in the mantissa of the operand of operation `str2float\(\)'//
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon11== str2float("-0"   )) and (s2fcon11== -0.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon12== str2float("-0."  )) and (s2fcon12== -0.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon13== str2float("-0.0" )) and (s2fcon13== -0.0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon14== str2float("infinity")) and (s2fcon14== infinity))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon15== str2float("-infinity")) and (s2fcon15== -infinity))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2fcon16== str2float("not_a_number" )) and (s2fcon16== not_a_number))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 }
 
@@ -201,25 +201,25 @@ testcase str_to_hex() runs on PDTestComponent{ //In testcase definition//
 	if ((s2hcon == str2hex(""))
 	and (s2hcon == ''H))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2hcon1 == str2hex("000000" & "" & "111111"))
 	and (s2hcon1 == '000000111111'H))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2hcon2 == str2hex(substr("000000111111",0,6) & "" & substr("000000111111",6,6)))
 	and (s2hcon2 == '000000111111'H))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2hcon3 == str2hex(("000000" <@ lengthof(s2hcon2)/2) & "" & ("111111" @> lengthof(s2hcon2)/2)))
 	and (s2hcon3 == '000000111111'H))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 }
 
@@ -252,12 +252,12 @@ testcase str_to_int() runs on PDTestComponent{ //In testcase definition//
 	if ((s2icon == str2int("0"))
 	and (s2icon == 0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon8 == str2int("+1"))
 	and (s2icon8 == 1))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon9 == str2int("01")) //^In if statement// \
 		//In the left operand of operation `and'// \
@@ -266,7 +266,7 @@ testcase str_to_int() runs on PDTestComponent{ //In testcase definition//
 		//^warning: Leading zero digit was detected and ignored in the operand of operation `str2int\(\)'//
 	and (s2icon9 == 1))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon10 == str2int("+01")) //^In if statement// \
 		//In the left operand of operation `and'// \
@@ -275,7 +275,7 @@ testcase str_to_int() runs on PDTestComponent{ //In testcase definition//
 		//^warning: Leading zero digit was detected and ignored in the operand of operation `str2int\(\)'//
 	and (s2icon10 == 1))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon11 == str2int("-01")) //^In if statement// \
 		//In the left operand of operation `and'// \
@@ -284,17 +284,17 @@ testcase str_to_int() runs on PDTestComponent{ //In testcase definition//
 		//^warning: Leading zero digit was detected and ignored in the operand of operation `str2int\(\)'//
 	and (s2icon11 == -1))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon1 == str2int("" & "1234567890"))
 	and (s2icon1 == 1234567890))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon2 == str2int("12" & "34567890"))
 	and (s2icon2 == 1234567890))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon3 == str2int("00000000000000000000000" & "1234567890")) //^In if statement// \
 		//In the left operand of operation `and'// \
@@ -303,54 +303,54 @@ testcase str_to_int() runs on PDTestComponent{ //In testcase definition//
 		//^warning: Leading zero digit was detected and ignored in the operand of operation `str2int\(\)'//
 	and (s2icon3 == 1234567890))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon4 == str2int("-12" & "34567890"))
 	and (s2icon4 == -1234567890))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((s2icon5 == str2int("12"))
 	and (s2icon5 == 12))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
     /* TODO move to error ttcn
 	if ((s2icon6 == str2int("ap"))
 	and (s2icon6 == 0))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);}
+	else {setverdict(fail);}
     */
         // Compile time evaluation.  (Positive/negative.)
 	if ((str2int("1234567891011121314151617181920") == s2icon6)
 	and (s2icon6 == str2int("1234567891011121314151617181920")))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((str2int("-1234567891011121314151617181920") == s2icon7)
 	and (s2icon7 == str2int("-1234567891011121314151617181920")))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((int2str(str2int("1234567891011121314151617181920")) == "1234567891011121314151617181920")
 	and ("1234567891011121314151617181920" == int2str(str2int("1234567891011121314151617181920"))))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((int2str(str2int("-1234567891011121314151617181920")) == "-1234567891011121314151617181920")
 	and ("-1234567891011121314151617181920" == int2str(str2int("-1234567891011121314151617181920"))))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((str2int("1234567891011121314151617181920") - 10 == s2icon6 - 10)
 	and (s2icon6 + 10 == str2int("1234567891011121314151617181920") + 10))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 	if ((str2int("-1234567891011121314151617181920") + 10 == s2icon7 + 10)
 	and (s2icon7 - 10 == str2int("-1234567891011121314151617181920") - 10))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 }
 
@@ -368,25 +368,25 @@ testcase str_to_oct() runs on PDTestComponent{ //In testcase definition//
 	if ((s2ocon == str2oct(""))
 	and (s2ocon == ''O))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2ocon1 == str2oct("000000" & "" & "111111"))
 	and (s2ocon1 == '000000111111'O))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2ocon2 == str2oct(substr("000000111111",0,6) & "" & substr("000000111111",6,6)))
 	and (s2ocon2 == '000000111111'O))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 
 	if ((s2ocon3 == str2oct(("000000" <@ lengthof(s2ocon2)/2) & "" & ("111111" @> lengthof(s2ocon2)/2)))
 	and (s2ocon3 == '000000111111'O))
 	     {setverdict(pass);}
-	else {setverdict(fail,__LINE__);} //^In else statement// \
+	else {setverdict(fail);} //^In else statement// \
                              //^warning\: Control never reaches this code because of previous effective condition\(s\)//
 }
 

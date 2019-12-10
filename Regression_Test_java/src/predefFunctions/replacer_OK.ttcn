@@ -36,9 +36,9 @@ testcase replace_hexstr() runs on PDTestComponent {
   var hexstring hs_1 := replace('ABCDEF'H, 0, 2, '123'H)    // returns '123CDEF'H
   var hexstring hs_2 := replace('ABCDEF'H, a, b + 1, '123'H)// returns '123CDEF'H
   if (hs_1 == '123CDEF'H) { setverdict(pass) }
-  else { setverdict(fail, 1) }
+  else { setverdict(fail) }
   if (hs_1 == hs_2) { setverdict(pass) }
-  else { setverdict(fail, 2) }
+  else { setverdict(fail) }
 }
 
 /* replace on OCTETSTRING values.  */
