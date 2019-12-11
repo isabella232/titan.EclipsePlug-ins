@@ -16,6 +16,18 @@
   </ProjectProperties>
   <FileProperties>
     <FileResource>
+      <FilePath>src/ASN1/enum1/enum1</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/ASN1/enum2/enum2</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
       <FilePath>src/TverdictOper.ttcn</FilePath>
       <FileProperties>
         <ExcludeFromBuild>true</ExcludeFromBuild>
@@ -23,6 +35,41 @@
     </FileResource>
   </FileProperties>
   <FolderProperties>
+    <FolderResource>
+      <FolderPath>src/ASN1/Test330</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/ASN1/Test332</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/ASN1/errorMessages</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/ASN1/errorMessages2</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/ASN1/parse</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
     <FolderResource>
       <FolderPath>src/json</FolderPath>
       <FolderProperties>

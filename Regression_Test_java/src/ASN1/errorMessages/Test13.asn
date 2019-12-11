@@ -7,18 +7,23 @@
 --
 -- Contributors:
 --   Balasko, Jeno
---   Kovacs, Ferenc
---   Raduly, Csaba
+--   Kulcsar, Endre
+--   Szabados, Kristof
 --
 --/////////////////////////////////////////////////////////////////////////////
-ASN-Definitions DEFINITIONS AUTOMATIC TAGS ::=
+Test13
+DEFINITIONS
+
+AUTOMATIC TAGS
+
+::=
+
 BEGIN
-IMPORTS ; -- nothing 
 
-ASN-CSTR ::= CHARACTER STRING
-ASN-SEQ-I ::= SEQUENCE (SIZE (1..10)) OF INTEGER
-ASN-SEQ-R ::= SEQUENCE { asn-seq-i ASN-SEQ-I }
-
-idx-ASN INTEGER ::= 0
+MySequenceType1 ::= SET
+		{
+		field1 INTEGER OPTIONAL,
+		field2 This-Is-An-Undefined-Type OPTIONAL
+		}
 
 END

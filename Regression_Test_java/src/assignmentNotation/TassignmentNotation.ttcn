@@ -25,18 +25,18 @@ type record tri
 function f1 () return integer { return 100 }
 type record of tri tritri
 type record of tritri tritritri
-//modulepar tritri tsp_param :=
-//{
-//  { 0, 1, 2 },
-//  { 4, 5, 6 }
-//}
-//modulepar tritritri tsp_param_param :=
-//{
-//  { { 10, 11, 12 }, { 13, 14, 15 } },
-//  { { 16, 17, 18 }, { 19, 20, 21 } }
-//}
-//modulepar integer tsp_index := 0
-//modulepar charstring tsp_editor := "mcedit"
+modulepar tritri tsp_param :=
+{
+  { 0, 1, 2 },
+  { 4, 5, 6 }
+}
+modulepar tritritri tsp_param_param :=
+{
+  { { 10, 11, 12 }, { 13, 14, 15 } },
+  { { 16, 17, 18 }, { 19, 20, 21 } }
+}
+modulepar integer tsp_index := 0
+modulepar charstring tsp_editor := "mcedit"
 testcase asns () runs on empty
 {
   template ASN_SEQ_R asn_temp := { asn_seq_i := { 0, 1, 2 } }
@@ -143,36 +143,36 @@ testcase arrays () runs on empty
   /* Creating holes in arrays is not possible.  (Without dynamic test case
      error.)  */
 }
-//testcase configs () runs on empty
-//{
-//  template tritri tsp_param_expected :=
-//  {
-//    { 0, 1, 2 },
-//    { 3, 4, 5 },
-//    { 33, 22, 11 },
-//    { 100, 100, 100 }
-//  }
-//  var tritri tsp_param_exp2 :=
-//  {
-//    [0] := { 0, 1, 2 },
-//    [1] := { 3, 4, 5 },
-//    [2] := { 33, 22, 11 },
-//    [3] := { 100, 100, 100 }
-//  }
-//  var tritri tsp_param_exp3 :=
-//  {
-//    [0] := { 0, 1, 2 },
-//    [3] := { 3, 4, 5 },
-//    [2] := { 33, 22, 11 },
-//    [1] := { 100, 100, 100 }
-//  }
-//  if (match (tsp_param, tsp_param_expected)) { setverdict (pass) }
-//  else { setverdict (fail, __LINE__) }
-//  if (tsp_param == tsp_param_exp2) { setverdict (pass) }
-//  else { setverdict (fail, __LINE__) }
-//  if (tsp_param != tsp_param_exp3) { setverdict (pass) }
-//  else { setverdict (fail, __LINE__) }
-//}
+testcase configs () runs on empty
+{
+  template tritri tsp_param_expected :=
+  {
+    { 0, 1, 2 },
+    { 3, 4, 5 },
+    { 33, 22, 11 },
+    { 100, 100, 100 }
+  }
+  var tritri tsp_param_exp2 :=
+  {
+    [0] := { 0, 1, 2 },
+    [1] := { 3, 4, 5 },
+    [2] := { 33, 22, 11 },
+    [3] := { 100, 100, 100 }
+  }
+  var tritri tsp_param_exp3 :=
+  {
+    [0] := { 0, 1, 2 },
+    [3] := { 3, 4, 5 },
+    [2] := { 33, 22, 11 },
+    [1] := { 100, 100, 100 }
+  }
+  if (match (tsp_param, tsp_param_expected)) { setverdict (pass) }
+  else { setverdict (fail, __LINE__) }
+  if (tsp_param == tsp_param_exp2) { setverdict (pass) }
+  else { setverdict (fail, __LINE__) }
+  if (tsp_param != tsp_param_exp3) { setverdict (pass) }
+  else { setverdict (fail, __LINE__) }
+}
 type record of my mylist
 type set of my_set myset
 type record my { intlist ilist, integer i }
@@ -336,7 +336,7 @@ control
   execute (recofs ())
   execute (setofs ())
   execute (arrays ())
-//  execute (configs ())
+  execute (configs ())
   execute (tc_TR938_939 ())
   execute (tc_TR943 ())
 }
