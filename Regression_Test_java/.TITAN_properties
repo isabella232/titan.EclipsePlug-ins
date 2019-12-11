@@ -6,6 +6,7 @@
       <GNUMake>true</GNUMake>
       <incrementalDependencyRefresh>true</incrementalDependencyRefresh>
       <targetExecutable>bin/regressionTestSmall</targetExecutable>
+      <addSourceLineInfo>true</addSourceLineInfo>
       <omitInValueList>true</omitInValueList>
     </MakefileSettings>
     <LocalBuildSettings>
