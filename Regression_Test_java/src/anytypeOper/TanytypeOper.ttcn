@@ -13,7 +13,7 @@
  ******************************************************************************/
 module TanytypeOper {
 // ********** Type definitions  *********************
-type component anytypeOper_mycomp {}; 
+type component anytypeOper_mycomp {};
 type enumerated anytypeOper_myenum {xx1,xx2,xx3};
 type record anytypeOper_trecord {
 	integer x1 optional,
