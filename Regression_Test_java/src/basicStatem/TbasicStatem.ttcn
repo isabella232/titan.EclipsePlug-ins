@@ -208,12 +208,12 @@ if (x2==1) {setverdict(pass)}  // "zero-sized" loop
  else {setverdict(fail)};
 }
 
-testcase basicStatemLabelGoto1() runs on basicStatem_mycomp {
-goto L1;		// forward
-setverdict(fail);
-label L1;
-setverdict(pass);
-}
+//testcase basicStatemLabelGoto1() runs on basicStatem_mycomp {
+//goto L1;		// forward
+//setverdict(fail);
+//label L1;
+//setverdict(pass);
+//}
 
 testcase basicStatemLabelGoto2() runs on basicStatem_mycomp {
 var integer x;
@@ -375,8 +375,8 @@ control {
  execute(basicStatemFor());
  execute(basicStatemWhile());
  execute(basicStatemDoWhile());
- execute(basicStatemLabelGoto1());
- execute(basicStatemLabelGoto2());
+// execute(basicStatemLabelGoto1());
+// execute(basicStatemLabelGoto2());
  execute(basicStatemStop());
  //execute(basicStatemfunctionCallAlias());
  execute(tc_HM79493_set());  // Set component variables/variable templates.

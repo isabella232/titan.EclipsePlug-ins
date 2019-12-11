@@ -71,6 +71,20 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
+      <FolderPath>src/cfgFile/testport_parameters</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/cfg_list_concat</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
       <FolderPath>src/json</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
