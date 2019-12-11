@@ -208,27 +208,27 @@ if (x2==1) {setverdict(pass)}  // "zero-sized" loop
  else {setverdict(fail)};
 }
 
-//testcase basicStatemLabelGoto1() runs on basicStatem_mycomp {
-//goto L1;		// forward
-//setverdict(fail);
-//label L1;
-//setverdict(pass);
-//}
-//
-//testcase basicStatemLabelGoto2() runs on basicStatem_mycomp {
-//var integer x;
-//x:=0
-//label L1;		// backward
-//x:=x+1;
-//if (x==2) {setverdict(pass)}
-//else { goto L1};
-//}
+testcase basicStatemLabelGoto1() runs on basicStatem_mycomp {
+goto L1;		// forward
+setverdict(fail);
+label L1;
+setverdict(pass);
+}
 
-//testcase basicStatemStop() runs on basicStatem_mycomp {
-//setverdict(pass);
-//stop;
-//setverdict(fail);
-//}
+testcase basicStatemLabelGoto2() runs on basicStatem_mycomp {
+var integer x;
+x:=0
+label L1;		// backward
+x:=x+1;
+if (x==2) {setverdict(pass)}
+else { goto L1};
+}
+
+testcase basicStatemStop() runs on basicStatem_mycomp {
+setverdict(pass);
+stop;
+setverdict(fail);
+}
 
 function f_aliasValue(integer par1, in integer par2, out integer par3,
   inout integer par4, template integer par5)
@@ -375,9 +375,9 @@ control {
  execute(basicStatemFor());
  execute(basicStatemWhile());
  execute(basicStatemDoWhile());
-// execute(basicStatemLabelGoto1());
-// execute(basicStatemLabelGoto2());
-// execute(basicStatemStop());
+ execute(basicStatemLabelGoto1());
+ execute(basicStatemLabelGoto2());
+ execute(basicStatemStop());
  //execute(basicStatemfunctionCallAlias());
  execute(tc_HM79493_set());  // Set component variables/variable templates.
  execute(tc_HM79493_check());  // All component variables/variable templates must be unbound.
