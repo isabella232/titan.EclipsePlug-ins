@@ -1435,7 +1435,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\tmyleaf.nodes = new RAW_enc_tree[encoded_num_of_records];\n"); //init_nodes_of_enc_tree
 			source.append("\t\t\tfor (int a = 0; a < encoded_num_of_records; a++) {\n");
 			source.append("\t\t\t\tmyleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);\n");
-			source.append("\t\t\t\tencoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);\n");
+			source.append("\t\t\t\tencoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t\treturn myleaf.length = encoded_length;\n");
 			source.append("\t\t}\n\n");
