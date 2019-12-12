@@ -16,7 +16,7 @@
 // char type is no longer a standalone type, it maps to charstring in the standard
 module TcharOper
 {
-type char typedefbasic_mychar; 
+type char typedefbasic_mychar;
 const char TcharOper_const1:="h";
 type component charOper_comptype { };
 

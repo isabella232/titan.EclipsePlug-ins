@@ -28,25 +28,25 @@ testcase charstrAssign() runs on charstrOper_comptype
   x3:="";
   x4:="ab123";
   if (x1=="ABCD") {setverdict(pass);}	//at declaration, with value
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x5=="ABCD") {setverdict(pass);}	//at declaration, with variable
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x2=="1234") {setverdict(pass);}	//later, with value
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x6=="1234") {setverdict(pass);}	//later, with variable
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x3=="") {setverdict(pass);}	//empty string
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x4=="ab123") {setverdict(pass);}	//change of size
-     else {setverdict(fail);}
+  else {setverdict(fail);}
 }
 
-// testcase charstrAssignQuote() runs on charstrOper_comptype
-//{ var charstring x1;
-//  x1:="ab""12";
-//  if ((x1=="ab""12")) {setverdict(pass);}
-//     else {setverdict(fail);}
-//}
+testcase charstrAssignQuote() runs on charstrOper_comptype
+{ var charstring x1;
+  x1:="ab""12";
+  if ((x1=="ab""12")) {setverdict(pass);}
+  else {setverdict(fail);}
+}
 
 
 testcase charstrAssignElem() runs on charstrOper_comptype
@@ -63,17 +63,17 @@ testcase charstrAssignElem() runs on charstrOper_comptype
   x4[1]:=x5[2];
   x6[6]:="B";
   if (x5[1]=="b") {setverdict(pass);}		//accessing an element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x3=="b") {setverdict(pass);}		//change string to element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x1=="AbAAAA") {setverdict(pass);}	//change element to value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x4=="AcAAAA") {setverdict(pass);}	//change element to element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x2=="AAbAAA") {setverdict(pass);}	//change element to string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x6=="AAAAAAB") {setverdict(pass);}	//add element to string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
 }
 
 testcase charstrLengthof() runs on charstrOper_comptype
@@ -88,19 +88,19 @@ testcase charstrLengthof() runs on charstrOper_comptype
   x4:="ab123";
   x5[4]:="e";
   if (lengthof(x1)==4) {setverdict(pass);}	//at declaration, with value
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (lengthof(x6)==4) {setverdict(pass);}	//at declaration, with variable
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (lengthof(x2)==4) {setverdict(pass);}	//later, with value
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (lengthof(x7)==4) {setverdict(pass);}	//later, with variable
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (lengthof(x3)==0) {setverdict(pass);}	//empty string
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (lengthof(x4)==5) {setverdict(pass);}	//change of size by assignment
-     else {setverdict(fail);}
+  else {setverdict(fail);}
   if (lengthof(x5)==5) {setverdict(pass);}	//change of size by adding element
-     else {setverdict(fail);}
+  else {setverdict(fail);}
 }
 
 testcase charstrAssignElemAdd() runs on charstrOper_comptype
@@ -114,19 +114,19 @@ testcase charstrAssignElemAdd() runs on charstrOper_comptype
   x2[6]:=x3;
   x4[6]:=x5[2];
   if ((x1=="AAAAAAb")and(lengthof(x1)==7)) {setverdict(pass);}	//add value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if ((x2=="AAAAAAb")and(lengthof(x2)==7)) {setverdict(pass);}	//add string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if ((x4=="AAAAAAc")and(lengthof(x4)==7)) {setverdict(pass);}	//add element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
 }
 
 testcase charstrConst() runs on charstrOper_comptype {
-const charstring TcharstrOper_const3:="klm";
-if (TcharstrOper_const1=="asd1") {setverdict(pass);}	//definition part
-     else {setverdict(fail);}
-if (TcharstrOper_const3=="klm") {setverdict(pass);}	//testcase
-     else {setverdict(fail);}
+  const charstring TcharstrOper_const3:="klm";
+  if (TcharstrOper_const1=="asd1") {setverdict(pass);}	//definition part
+  else {setverdict(fail);}
+  if (TcharstrOper_const3=="klm") {setverdict(pass);}	//testcase
+  else {setverdict(fail);}
 }
 
 testcase charstrCompEq() runs on charstrOper_comptype
@@ -136,41 +136,41 @@ testcase charstrCompEq() runs on charstrOper_comptype
   x3:="cde";
   x4:="d";
   if (x1==x2) {setverdict(pass);}	//string_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x1==x3)) {setverdict(pass);}	//string_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x4==x3[1]) {setverdict(pass);}	//string_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x4==x3[0])) {setverdict(pass);}	//string_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x1=="abc") {setverdict(pass);}	//string_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x1=="aabc")) {setverdict(pass);}	//string_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x3[1]==x4) {setverdict(pass);}	//element_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x3[2]==x4)) {setverdict(pass);}	//element_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x1[1]==x2[1]) {setverdict(pass);}	//element_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x1[0]==x2[1])) {setverdict(pass);}	//element_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x3[2]=="e") {setverdict(pass);}	//element_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x3[2]=="f")) {setverdict(pass);}	//element_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if ("abc"==x2) {setverdict(pass);}	//value_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not("dbc"==x2)) {setverdict(pass);}	//value_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if ("d"==x3[1]) {setverdict(pass);}	//value_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not("k"==x3[1])) {setverdict(pass);}	//value_element
-   else {setverdict(fail);}
-//  if ("df"=="df") {setverdict(pass);}	//value_value
-//   else {setverdict(fail);}
-//  if (not("dh"=="df")) {setverdict(pass);}	//value_value
-//   else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if ("df"=="df") {setverdict(pass);}	//value_value
+  //   else {setverdict(fail);}
+  //  if (not("dh"=="df")) {setverdict(pass);}	//value_value
+  //   else {setverdict(fail);}
 }
 
 testcase charstrCompNotEq() runs on charstrOper_comptype
@@ -180,43 +180,44 @@ testcase charstrCompNotEq() runs on charstrOper_comptype
   x3:="cde";
   x4:="d";
   if (not(x1!=x2)) {setverdict(pass);}	//string_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x1!=x3) {setverdict(pass);}	//string_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x4!=x3[1])) {setverdict(pass);}	//string_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x4!=x3[2]) {setverdict(pass);}	//string_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x1!="abc")) {setverdict(pass);}	//string_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x1!="ab") {setverdict(pass);}	//string_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x3[1]!=x4)) {setverdict(pass);}	//element_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x1[1]!=x4) {setverdict(pass);}	//element_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x1[1]!=x2[1])) {setverdict(pass);}	//element_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x1[1]!=x3[1]) {setverdict(pass);}	//element_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not(x3[2]!="e")) {setverdict(pass);}	//element_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (x3[2]!="F") {setverdict(pass);}	//element_value
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not("abc"!=x2)) {setverdict(pass);}	//value_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if ("abcD"!=x2) {setverdict(pass);}	//value_string
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if (not("b"!=x1[1])) {setverdict(pass);}	//value_element
-   else {setverdict(fail);}
+  else {setverdict(fail);}
   if ("d"!=x1[1]) {setverdict(pass);}	//value_element
-   else {setverdict(fail);}
-//  if (not("ef"!="ef")) {setverdict(pass);}	//value_value
-//   else {setverdict(fail);}
-//  if ("d"!="ef") {setverdict(pass);}	//value_value
-//   else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (not("ef"!="ef")) {setverdict(pass);}	//value_value
+  //   else {setverdict(fail);}
+  //  if ("d"!="ef") {setverdict(pass);}	//value_value
+  //   else {setverdict(fail);}
 }
 
+// There are no characterstring less and greater operators
 //testcase charstrCompSmall() runs on charstrOper_comptype
 //{ var charstring x1,x2,x3,x4,x5;
 //  x1:="cde";
@@ -263,124 +264,124 @@ testcase charstrCompNotEq() runs on charstrOper_comptype
 
 testcase charstrConcat() runs on charstrOper_comptype
 {var charstring x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11;
- x1:="ABCD";
- x2:="1234";
- x3:= x1 & x2;
- x4:=x1&x2[1];
- x5:=x1[1]&x2;
- x6:=x1[0]&x2[1];
- x7:=x1&"1234";
- x8:=x1[1]&"1234";
- x9:="1234"&x1;
- x10:="1234"&x1[1];
-// x11:="1234"&"ABCD";
- if ((x3=="ABCD1234")and(lengthof(x3)==8)) {setverdict(pass);}	//string&string
-   else {setverdict(fail);}
- if ((x4=="ABCD2")and(lengthof(x4)==5)) {setverdict(pass);}	//string&element
-   else {setverdict(fail);}
- if ((x7=="ABCD1234")and(lengthof(x7)==8)) {setverdict(pass);}	//string&value
-   else {setverdict(fail);}
- if ((x5=="B1234")and(lengthof(x5)==5)) {setverdict(pass);}	//element&string
-   else {setverdict(fail);}
- if ((x6=="A2")and(lengthof(x6)==2)) {setverdict(pass);}	//element&element
-   else {setverdict(fail);}
- if ((x8=="B1234")and(lengthof(x8)==5)) {setverdict(pass);}	//element&value
-   else {setverdict(fail);}
- if ((x9=="1234ABCD")and(lengthof(x9)==8)) {setverdict(pass);}	//value&string
-   else {setverdict(fail);}
- if ((x10=="1234B")and(lengthof(x10)==5)) {setverdict(pass);}	//value&element
-   else {setverdict(fail);}
-// if ((x11=="1234ABCD")and(lengthof(x11)==8)) {setverdict(pass);}	//value&value
-//   else {setverdict(fail);}
+  x1:="ABCD";
+  x2:="1234";
+  x3:= x1 & x2;
+  x4:=x1&x2[1];
+  x5:=x1[1]&x2;
+  x6:=x1[0]&x2[1];
+  x7:=x1&"1234";
+  x8:=x1[1]&"1234";
+  x9:="1234"&x1;
+  x10:="1234"&x1[1];
+  // x11:="1234"&"ABCD";
+  if ((x3=="ABCD1234")and(lengthof(x3)==8)) {setverdict(pass);}	//string&string
+  else {setverdict(fail);}
+  if ((x4=="ABCD2")and(lengthof(x4)==5)) {setverdict(pass);}	//string&element
+  else {setverdict(fail);}
+  if ((x7=="ABCD1234")and(lengthof(x7)==8)) {setverdict(pass);}	//string&value
+  else {setverdict(fail);}
+  if ((x5=="B1234")and(lengthof(x5)==5)) {setverdict(pass);}	//element&string
+  else {setverdict(fail);}
+  if ((x6=="A2")and(lengthof(x6)==2)) {setverdict(pass);}	//element&element
+  else {setverdict(fail);}
+  if ((x8=="B1234")and(lengthof(x8)==5)) {setverdict(pass);}	//element&value
+  else {setverdict(fail);}
+  if ((x9=="1234ABCD")and(lengthof(x9)==8)) {setverdict(pass);}	//value&string
+  else {setverdict(fail);}
+  if ((x10=="1234B")and(lengthof(x10)==5)) {setverdict(pass);}	//value&element
+  else {setverdict(fail);}
+  // if ((x11=="1234ABCD")and(lengthof(x11)==8)) {setverdict(pass);}	//value&value
+  //   else {setverdict(fail);}
 }
 
 testcase charstrRotateRight1() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="ABCDEF";
   x2:=x1 @> 1;
-//  x3:="FABCDE" @> 1;
+  //  x3:="FABCDE" @> 1;
   if (x2=="FABCDE") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="FABCDE") {setverdict(pass);}	//value
-//     else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="FABCDE") {setverdict(pass);}	//value
+  //     else {setverdict(fail);}
 }
 
 testcase charstrRotateRight2() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="ABCDEF";
   x2:=x1 @> 2;
-//  x3:="EFABCD" @> 2;
+  //  x3:="EFABCD" @> 2;
   if (x2=="EFABCD") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="EFABCD") {setverdict(pass);}	//value
-//     else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="EFABCD") {setverdict(pass);}	//value
+  //     else {setverdict(fail);}
 }
 
 testcase charstrRotateRightSum() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="ABCDEF";
   x2:=x1 @> (1+1);
-//  x3:="EFABCD" @> (1+1);
+  //  x3:="EFABCD" @> (1+1);
   if (x2=="EFABCD") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="EFABCD") {setverdict(pass);}	//value
-//     else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="EFABCD") {setverdict(pass);}	//value
+  //     else {setverdict(fail);}
 }
 
 testcase charstrRotateRightEmpty() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="";
   x2:=x1 @> 1;
-//  x3:="" @> 1;
+  //  x3:="" @> 1;
   if (x2=="") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="") {setverdict(pass);}	//value
-//(x3=="") {setverdict(pass);}	//value
-//          else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="") {setverdict(pass);}	//value
+  //(x3=="") {setverdict(pass);}	//value
+  //          else {setverdict(fail);}
 }
 
 testcase charstrRotateLeft1() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="ABCDEF";
   x2:=x1 <@ 1;
-//  x3:="BCDEFA" <@ 1;
+  //  x3:="BCDEFA" <@ 1;
   if (x2=="BCDEFA") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="BCDEFA") {setverdict(pass);}	//value
-//     else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="BCDEFA") {setverdict(pass);}	//value
+  //     else {setverdict(fail);}
 }
 
 testcase charstrRotateLeft2() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="ABCDEF";
   x2:=x1 <@ 2;
-//  x3:="CDEFAB" <@ 2;
+  //  x3:="CDEFAB" <@ 2;
   if (x2=="CDEFAB") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="CDEFAB") {setverdict(pass);}	//value
-//     else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="CDEFAB") {setverdict(pass);}	//value
+  //     else {setverdict(fail);}
 }
 
 testcase charstrRotateLeftSum() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="ABCDEF";
   x2:=x1 <@ (1+1);
-//  x3:="CDEFAB" <@ (1+1);
+  //  x3:="CDEFAB" <@ (1+1);
   if (x2=="CDEFAB") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="CDEFAB") {setverdict(pass);}	//value
-//     else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="CDEFAB") {setverdict(pass);}	//value
+  //     else {setverdict(fail);}
 }
 
 testcase charstrRotateLeftEmpty() runs on charstrOper_comptype
 { var charstring x1,x2,x3;
   x1:="";
   x2:=x1 <@ 1;
-//  x3:="" <@ 1;
+  //  x3:="" <@ 1;
   if (x2=="") {setverdict(pass);}	//variable
-     else {setverdict(fail);}
-//  if (x3=="") {setverdict(pass);}	//value
-//     else {setverdict(fail);}
+  else {setverdict(fail);}
+  //  if (x3=="") {setverdict(pass);}	//value
+  //     else {setverdict(fail);}
 }
 
 template integer t_mylen1 := 1
@@ -402,8 +403,8 @@ type charstring mycstr12 (pattern @nocase "abc*xyz");
 const mycstr7 c_mycstr1 := "a"
 const mycstr9 c_mycstr2 := "abcd"
 
-//template mycstr2 t_mycstr1 := pattern "ab" & "cd"
-//template mycstr9 t_mycstr2 := t_mycstr1
+template mycstr2 t_mycstr1 := pattern "ab" & "cd"
+template mycstr9 t_mycstr2 := t_mycstr1
 template mycstr8 t_mycstr3 := "a" length(1)
 template mycstr4 t_mycstr4 := ? length(1..2)
 
@@ -440,8 +441,8 @@ testcase charstrIsvalue() runs on charstrOper_comptype{
   var charstring s0, s1 := "Hello";
   var template charstring ts_char0 := "ABCD";
   var template charstring tr_char1 := "AB?D";
-//  var template charstring tr_pattern1 := pattern "ABCD";
-//  var template charstring tr_patternx := pattern "AB?D";
+  var template charstring tr_pattern1 := pattern "ABCD";
+  var template charstring tr_patternx := pattern "AB?D";
   var template charstring tr_opt := omit;
 
   if ( isvalue(s0) ) { setverdict(fail); } else { setverdict(pass); };
@@ -449,21 +450,21 @@ testcase charstrIsvalue() runs on charstrOper_comptype{
 
   if ( isvalue(ts_char0) ) {setverdict(pass); } else { setverdict(fail); }
   if ( isvalue(tr_char1) ) { setverdict(pass); } else { setverdict(fail); }
-//  if ( isvalue(tr_pattern1) ) {setverdict(fail); } else { setverdict(pass); }
-//  if ( isvalue(tr_patternx) ) {setverdict(fail); } else { setverdict(pass); }
+  if ( isvalue(tr_pattern1) ) {setverdict(fail); } else { setverdict(pass); }
+  if ( isvalue(tr_patternx) ) {setverdict(fail); } else { setverdict(pass); }
   if ( isvalue(tr_opt) ) {setverdict(fail); } else { setverdict(pass); }
 
   if ( isvalue(modifies ts_char0 := *) ) { setverdict(fail); } else { setverdict(pass); }
-//  if ( isvalue(modifies tr_pattern1 := "A?CD") ) { setverdict(pass); } else { setverdict(fail); }
-//  if ( isvalue(modifies tr_char1 := pattern "DCBA") ) { setverdict(fail); } else { setverdict(pass); }
+  if ( isvalue(modifies tr_pattern1 := "A?CD") ) { setverdict(pass); } else { setverdict(fail); }
+  if ( isvalue(modifies tr_char1 := pattern "DCBA") ) { setverdict(fail); } else { setverdict(pass); }
 }
 
 testcase charstrIsbound() runs on charstrOper_comptype{
   var charstring s0, s1 := "Hello";
   var template charstring ts_char0 := "ABCD";
   var template charstring tr_char1 := "AB?D";
-//  var template charstring tr_pattern1 := pattern "ABCD";
-//  var template charstring tr_patternx := pattern "AB?D";
+  var template charstring tr_pattern1 := pattern "ABCD";
+  var template charstring tr_patternx := pattern "AB?D";
   var template charstring tr_opt := omit;
 
   if ( isbound(s0) ) { setverdict(fail); } else { setverdict(pass); };
@@ -472,19 +473,19 @@ testcase charstrIsbound() runs on charstrOper_comptype{
 
   if ( isbound(ts_char0) ) {setverdict(pass); } else { setverdict(fail); }
   if ( isbound(tr_char1) ) { setverdict(pass); } else { setverdict(fail); }
-//  if ( isbound(tr_pattern1) ) { setverdict(pass); } else { setverdict(fail); };
-//  if ( isbound(tr_patternx) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isbound(tr_pattern1) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isbound(tr_patternx) ) { setverdict(pass); } else { setverdict(fail); };
   if ( isbound(tr_opt) ) { setverdict(pass); } else { setverdict(fail); };
 
   if ( isbound(modifies ts_char0 := *) ) { setverdict(pass); } else { setverdict(fail); };
-//  if ( isbound(modifies tr_pattern1 := "A?CD") ) { setverdict(pass); } else { setverdict(fail); }
-//  if ( isbound(modifies tr_char1 := pattern "DCBA") ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isbound(modifies tr_pattern1 := "A?CD") ) { setverdict(pass); } else { setverdict(fail); }
+  if ( isbound(modifies tr_char1 := pattern "DCBA") ) { setverdict(pass); } else { setverdict(fail); };
 }
 
 testcase tc_simple_charstring_unbound() runs on charstrOper_comptype {
   var charstring vl_ch1;
   if(ispresent(vl_ch1)){setverdict(fail)} else {setverdict(pass)}
-  var charstring vl_ch2:="honey"; 
+  var charstring vl_ch2:="honey";
   if(ispresent(vl_ch2)) { setverdict(pass)} else {setverdict(fail)}
   var template charstring vlt_ch3;
   if(ispresent(vlt_ch3)){setverdict(fail)} else {setverdict(pass)}
@@ -492,11 +493,11 @@ testcase tc_simple_charstring_unbound() runs on charstrOper_comptype {
   if(ispresent(vlt_ch4)) {setverdict(pass)} else {setverdict(fail)}
 }
 
-//testcase tc_simple_charstring_template_pattern_ispresent() runs on charstrOper_comptype {
-//  var template charstring vlt_ch;
-//  vlt_ch:= pattern "AB?D"
-//  if(ispresent(vlt_ch)) {setverdict(pass)} else {setverdict(fail)}
-//}
+testcase tc_simple_charstring_template_pattern_ispresent() runs on charstrOper_comptype {
+  var template charstring vlt_ch;
+  vlt_ch:= pattern "AB?D"
+  if(ispresent(vlt_ch)) {setverdict(pass)} else {setverdict(fail)}
+}
 
 testcase tc_simple_charstring() runs on charstrOper_comptype {
   var charstring vl_ch;
@@ -512,19 +513,182 @@ testcase tc_simple_charstring_template() runs on charstrOper_comptype {
   if(isbound(vlt_ch)) {setverdict(pass)} else {setverdict(fail)}
 }
 
-//testcase tc_simple_charstring_template_pattern() runs on charstrOper_comptype {
-//  var template charstring vlt_ch;
-//  if(isbound(vlt_ch)){setverdict(fail)} else {setverdict(pass)}
-//  vlt_ch:= pattern "AB?D"
-//  if(isbound(vlt_ch)) {setverdict(pass)} else {setverdict(fail)}
+testcase tc_simple_charstring_template_pattern() runs on charstrOper_comptype {
+  var template charstring vlt_ch;
+  if(isbound(vlt_ch)){setverdict(fail)} else {setverdict(pass)}
+  vlt_ch:= pattern "AB?D"
+  if(isbound(vlt_ch)) {setverdict(pass)} else {setverdict(fail)}
+}
+
+testcase tc_charstring_Uninit() runs on charstrOper_comptype {
+  var charstring ch1, ch2;
+  @try {
+    ch2 := ch1;
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)}
+  } 
+  @try {
+    ch2 := ch1[0];
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)}
+  } 
+  @try {
+    ch2 := ch1 @> 2;
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)}
+  } 
+  @try {
+    ch2 := ch1 <@ 2;
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)}
+  }
+  var integer i;
+  @try {
+    i := lengthof(ch1); 
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(i)) {setverdict(fail)}
+  }
+  if (isbound(ch1)) {setverdict(fail)};
+}
+
+testcase tc_charstring_IndexMistakes() runs on charstrOper_comptype {
+  var charstring ch1, ch2;
+  ch1 := "ABC";
+  @try {
+    ch2 := ch1[3];
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)};
+  }
+  var integer i := 1, j:= 2,  k;
+  @try {
+    ch2 := ch1[i-j]; //runtime negative index
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)};
+  }
+  @try {
+    ch2 := ch1[k]; //runtime uninitialized index
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)};
+  }
+  
+  @try {
+    ch2[1] := "a"; //runtime pos index of uninit charstr
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+    if (isbound(ch2)) {setverdict(fail)};
+  }
+  @try {
+    ch1[i-j] := "a"; //runtime negative index
+    setverdict(fail, "This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ", e)
+  }
+}
+
+// === String_Element tests ===
+
+type component CT{
+  port CSPort  CS
+  timer T
+}
+
+type port CSPort message {
+  inout charstring
+} with { extension "internal" }
+
+function f_cs(in charstring cs) return charstring {
+  return cs;
+}
+
+testcase tc_cs() runs on CT {
+	var charstring vl_cs1 := "Hi", vl_cs2
+	vl_cs2 := f_cs(vl_cs1[0]);
+	if( vl_cs2 == "H") {setverdict(pass)} else { setverdict(fail)}
+}
+
+//cs in altstep
+
+altstep as_cs(in charstring str) runs on CT {
+  var template charstring vl_str := ?
+  var charstring r;
+  [] CS.receive(vl_str) -> value r { if ( r == str) { setverdict(pass) } }
+  [] T.timeout { setverdict(fail, "timeout")}
+}
+
+testcase tc_altstep_cs() runs on CT {
+	var charstring vl_str := "Hi";
+	connect(self:CS, self:CS);
+	T.start(1.0);
+	CS.send(vl_str);
+	as_cs(vl_str);
+	T.stop;
+}
+// TODO: as_cs(vl_str[0]); -> wrong java code will be generated!!
+//testcase tc_altstep_cs_idx() runs on CT {
+//	var charstring vl_str := "Hi"
+//	connect(self:CS, self:CS);
+//	T.start(1.0);
+//	CS.send(vl_str[0]);
+//	as_cs(vl_str[0]);
+//	T.stop;
 //}
+
+altstep as_cs_template(in template charstring str) runs on CT {
+  var template charstring vl_str := ?;
+  var charstring r;
+  [] CS.receive(vl_str) -> value r { if ( r == valueof(str)) { setverdict(pass) } }
+  [] T.timeout { setverdict(fail, "timeout")}
+}
+
+testcase tc_altstep_cs_template() runs on CT {
+	var template charstring  vl_str := "Hi";
+	connect(self:CS, self:CS);
+	T.start(1.0);
+	CS.send(vl_str);
+	as_cs_template(vl_str);
+	T.stop;
+}
+
+// cs in value list
+testcase tc__value_list_cs() runs on CT {
+	var charstring vl_cs1 := "ABab", vl_cs2
+	var template charstring vlt_cs := (vl_cs1[0], vl_cs1[1]);
+	vl_cs2 := "A";
+	if( match(vl_cs2,vlt_cs)) {setverdict(pass)} else { setverdict(fail)}
+	vl_cs2 := "B";
+	if( match(vl_cs2,vlt_cs)) {setverdict(pass)} else { setverdict(fail)}
+}
+
+testcase tc__match_cs_idx() runs on CT {
+	var charstring vl_cs1 := "ABab";
+	var template charstring vlt_cs := ("A","B"); //ok
+	if( match(vl_cs1[0],vlt_cs)) {setverdict(pass)} else { setverdict(fail)}
+}
+
+
 
 control {
   const charstring cl_1:="asd1";
   var charstring vl_1;
-
   execute(charstrAssign());
-//  execute(charstrAssignQuote());
+  execute(charstrAssignQuote());
   execute(charstrAssignElem());
   execute(charstrLengthof());
   execute(charstrAssignElemAdd());
@@ -546,10 +710,19 @@ control {
   execute(charstrIsvalue());
   execute(charstrIsbound());
   execute(tc_simple_charstring_unbound());
-//  execute(tc_simple_charstring_template_pattern_ispresent());
+  execute(tc_simple_charstring_template_pattern_ispresent());
   execute(tc_simple_charstring());
   execute(tc_simple_charstring_template());
-//  execute(tc_simple_charstring_template_pattern());
+  execute(tc_simple_charstring_template_pattern());
+  execute(tc_charstring_Uninit());
+  execute(tc_charstring_IndexMistakes());
+
+  execute(tc_cs());
+  execute(tc_altstep_cs());
+//  execute(tc_altstep_cs_idx()); //wrong java code
+  execute(tc_altstep_cs_template());
+  execute(tc__value_list_cs());
+  execute(tc__match_cs_idx());
 }
 
 }

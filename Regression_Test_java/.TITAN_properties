@@ -33,6 +33,12 @@
         <ExcludeFromBuild>true</ExcludeFromBuild>
       </FileProperties>
     </FileResource>
+    <FileResource>
+      <FilePath>src/commProcedure/AdvancedRedirects.ttcn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
   </FileProperties>
   <FolderProperties>
     <FolderResource>
