@@ -1906,7 +1906,7 @@ public class TitanUniversalCharString extends Base_Type {
 				if(W2 != 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The word (0x%04X) shall be between 0xDC00 and 0xDFFF", W2);
 				} else {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The decoding algorythm does not expect 0x00 or EOL");
+					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The decoding algorithm does not expect 0x00 or EOL");
 				}
 			} else {
 				//Construct a 20-bit unsigned integer, taking the 10 low-order bits of W1 as its 10 high-
