@@ -34,9 +34,6 @@ testcase defaultIsvalue() runs on defaultOper_comptype
   if ( isvalue(tdf0) ) { setverdict(fail); } else { setverdict(pass); };
   if ( isvalue(tdf1) ) { setverdict(pass); } else { setverdict(fail); };
   if ( isvalue(d1) ) { setverdict(pass); } else { setverdict(fail); };
-  
-  tdf0 := d1;
-  d1 := valueof(tdf0);
 }
 
   altstep as_empty() runs on defaultOper_comptype {
@@ -67,16 +64,16 @@ testcase defaultIsvalue() runs on defaultOper_comptype
     if(ispresent(vc_myComp)){setverdict(fail)}else {setverdict(pass)};
   }
 
-//  testcase tc_special_compref_isvalue() runs on defaultOper_comptype {
-//    var defaultOper_comptype vc_myComp:= defaultOper_comptype.create("hali");
-//    if(ispresent(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
-//
-//    vc_myComp.start(f_empty());
-//    if(ispresent(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
-//
-//    vc_myComp.done;
-//    if(ispresent(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
-//  }
+  testcase tc_special_compref_isvalue() runs on defaultOper_comptype {
+    var defaultOper_comptype vc_myComp:= defaultOper_comptype.create("hali");
+    if(ispresent(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
+
+    vc_myComp.start(f_empty());
+    if(ispresent(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
+
+    vc_myComp.done;
+    if(ispresent(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
+  }
 
 testcase tc_special_default_value() runs on defaultOper_comptype {
   var default vl_default;
@@ -92,19 +89,19 @@ testcase tc_special_default_value() runs on defaultOper_comptype {
   if(isbound(vl_default)){setverdict(pass)}else {setverdict(fail)};
 }
 
-//testcase tc_special_compref() runs on defaultOper_comptype {
-//  var defaultOper_comptype vc_myComp;
-//  if(isbound(vc_myComp)){setverdict(fail)}else {setverdict(pass)};
-//
-//  vc_myComp:= defaultOper_comptype.create("hali");
-//  if(isbound(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
-//
-//  vc_myComp.start(f_empty());
-//  if(isbound(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
-//  
-//  vc_myComp.done;
-//  if(isbound(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
-//}
+testcase tc_special_compref() runs on defaultOper_comptype {
+  var defaultOper_comptype vc_myComp;
+  if(isbound(vc_myComp)){setverdict(fail)}else {setverdict(pass)};
+
+  vc_myComp:= defaultOper_comptype.create("hali");
+  if(isbound(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
+
+  vc_myComp.start(f_empty());
+  if(isbound(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
+  
+  vc_myComp.done;
+  if(isbound(vc_myComp)){setverdict(pass)}else {setverdict(fail)};
+}
 
 control {
   execute(defaultIsvalue());
@@ -112,8 +109,8 @@ control {
   execute(tc_special_default_value_null());
   execute(tc_special_default_value_isvalue());
   execute(tc_special_compref_unbound());
-//  execute(tc_special_compref_isvalue());
+  execute(tc_special_compref_isvalue());
   execute(tc_special_default_value());
-//  execute(tc_special_compref());
+  execute(tc_special_compref());
 }
 }

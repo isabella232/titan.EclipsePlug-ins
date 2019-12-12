@@ -91,6 +91,13 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
+      <FolderPath>src/done</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
       <FolderPath>src/json</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
