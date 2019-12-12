@@ -1623,8 +1623,8 @@ control {
  execute(commMessageArray());
  execute(commMessageInterPTCLocalConnection1());
  execute(commMessageInterPTCLocalConnection2());
- execute(commMessageDualFacedPorts1());
- execute(commMessageDualFacedPorts2());
+ //execute(commMessageDualFacedPorts1());
+ //execute(commMessageDualFacedPorts2());
  execute(commMessageReceiveAnyOrOmit());
  execute(commMessageBehaviorFunctionParams());
  execute(tc_bug_532060());
