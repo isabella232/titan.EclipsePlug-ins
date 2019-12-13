@@ -303,7 +303,7 @@ testcase tc_hexstrModulepar() runs on CT {
   if(  tsp_notChangedInit == '12345'H ) {setverdict(pass, tsp_notChangedInit)} else { setverdict(fail, tsp_notChangedInit) }
 
   @try {
-    if( tsp_notChangedUninit == '2F0'H ){setverdict(fail, tsp_notChangedInit)} else { setverdict(fail, tsp_notChangedUninit) } //titan pecific
+    if( tsp_notChangedUninit == '2F0'H ){setverdict(fail, tsp_notChangedInit)} else { setverdict(fail, tsp_notChangedUninit) } //titan specific
   } @catch(e){
     setverdict(pass, "Expected DTE: ",e)
   }
