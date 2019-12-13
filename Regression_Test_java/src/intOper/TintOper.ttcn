@@ -15,24 +15,30 @@
  *
  ******************************************************************************/
 module TintOper
-{const integer TintOper_const1:=2;
+{
+
+const integer TintOper_const1:=2;
+
 type component intOper_comptype { };
-/*
+
 type port PCOType message
 {
   inout integer
   inout eint1
   inout rint1
-}
+} 
+with { extension "internal"}
 
-type component bigIntOper_comptype { port PCOType comp_port }
-*/
+type component bigIntOper_comptype {
+  port PCOType comp_port
+}
 
 template integer tint1 := -12345678910111213141516
 template integer tint2 := 123456789101112131415
 template integer tint3 := -11111111111111111111111
 template integer tint4 := 111111111111111111111
 type enumerated eint1 {ec1(-1), ec2(2147483647), ec3(-2147483647)}
+
 type record rint1 {
   integer f1,
   integer f2,
@@ -59,6 +65,39 @@ testcase intAssign() runs on intOper_comptype
      else {setverdict(fail);}
   if (x3==124) {setverdict(pass);}	//later, variable
      else {setverdict(fail);}
+}
+
+testcase intAssign_big() runs on intOper_comptype {
+  var integer x1 := 2147483647;
+  if ( x1 == 2147483647 ) {setverdict(pass,x1)} else {setverdict(fail, x1)}
+  x1 := 2147483648;
+  if ( x1 == 2147483647+1 ) {setverdict(pass,x1)} else {setverdict(fail, x1)}
+  x1 := x1;
+  if ( x1 == 2147483647+1 ) {setverdict(pass,x1)} else {setverdict(fail, x1)}
+
+  var integer x2 := -2147483648;
+  if ( x2 == -2147483648 ) {setverdict(pass,x2)} else {setverdict(fail, x2)}
+  if ( x2 == -x1 ) {setverdict(pass,x2, x1)} else {setverdict(fail, x2,x1)}
+
+  x2 := x2;
+  if ( x2 == -2147483648 ) {setverdict(pass,x2)} else {setverdict(fail, x2)}
+  x2 := x2+1;
+  if ( x2 == -2147483647 ) {setverdict(pass,x2)} else {setverdict(fail, x2)}
+  x2:=0;
+  if ( x2 == 0 ) {setverdict(pass,x2)} else {setverdict(fail, x2)}
+  x2 := -x1;
+  if ( x2 == -2147483648 ) {setverdict(pass,x2)} else {setverdict(fail, x2)}
+}
+
+testcase intAssign_unbound()  runs on intOper_comptype {
+  var integer x1;
+  var integer x2;
+  @try {
+    x2 := x1;
+    setverdict(fail,"This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ",e)
+  }
 }
 
 testcase intConst() runs on intOper_comptype {
@@ -216,29 +255,29 @@ testcase intCompGreatEq() runs on intOper_comptype
   x2:=100;
   x3:=200;
   if (x3>=x1) {setverdict(pass);}	//variable_variable
-   else {setverdict(fail, "1");}
+   else {setverdict(fail);}
   if (x1>=x2) {setverdict(pass);}	//variable_variable
-   else {setverdict(fail, "2");}
+   else {setverdict(fail);}
   if (not(x1>=x3)) {setverdict(pass);}	//variable_variable
-   else {setverdict(fail, "3");}
+   else {setverdict(fail);}
   if (x1>=99) {setverdict(pass);}	//variable_value
-   else {setverdict(fail, "4");}
+   else {setverdict(fail);}
   if (x1>=100) {setverdict(pass);}	//variable_value
-   else {setverdict(fail, "5");}
+   else {setverdict(fail);}
   if (not(x2>=110)) {setverdict(pass);}	//variable_value
-   else {setverdict(fail, "6");}
+   else {setverdict(fail);}
   if (210>=x3) {setverdict(pass);}	//value_variable
-   else {setverdict(fail, "7");}
+   else {setverdict(fail);}
   if (100>=x2) {setverdict(pass);}	//value_variable
-   else {setverdict(fail, "8");}
+   else {setverdict(fail);}
   if (not(90>=x1)) {setverdict(pass);}	//value_variable
-   else {setverdict(fail, "9");}
+   else {setverdict(fail);}
   if (130>=120) {setverdict(pass);}	//value_value
-   else {setverdict(fail, "10");}
+   else {setverdict(fail);}
   if (100>=100) {setverdict(pass);}	//value_value
-   else {setverdict(fail, "11");}
+   else {setverdict(fail);}
   if (not(10>=110)) {setverdict(pass);}	//value_value
-   else {setverdict(fail, "12");}
+   else {setverdict(fail);}
 }
 
 testcase intAdd() runs on intOper_comptype
@@ -275,6 +314,60 @@ testcase intAdd() runs on intOper_comptype
    else {setverdict(fail);}
 }
 
+testcase intAdd_big1() runs on intOper_comptype {
+  var integer x1 := 2147483648;
+  var integer x2 := 1, x3, exp := 2147483649;
+  x3 := x2 + x1;
+  if (x3 == exp) { setverdict(pass)} else { setverdict(fail)}
+}
+
+testcase intAdd_big2() runs on intOper_comptype {
+  var integer x1 := 2147483648;
+  var integer x2 := 1, x3, exp := 2147483649;
+  x3 := x1 + x2;
+  if (x3 == exp) { setverdict(pass)} else { setverdict(fail)}
+}
+
+testcase intAdd_big3() runs on intOper_comptype {
+  var integer x1 := 2147483648;
+  var integer x2 := 2147483648, x3, exp := 4294967296;
+  x3 := x1 + x2;
+  if (x3 == exp) { setverdict(pass)} else { setverdict(fail)}
+}
+
+testcase intAdd_unbound1() runs on intOper_comptype {
+  var integer x1;
+  var integer x2;
+  var integer x3;
+  //Both uninit
+  @try {
+    x3 := x1 + x2;
+    setverdict(fail,"This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ",e)
+  }
+  //Second op uninit
+  x1:=1;
+  @try {
+    x3 := x1 + x2;
+    setverdict(fail,"This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ",e)
+  }
+}
+
+//First operand is uninit
+testcase intAdd_unbound2() runs on intOper_comptype {
+  var integer x1, x2, x3;
+  x2:=1;
+  @try {
+    x3 := x1 + x2;
+    setverdict(fail,"This line should not be reached");
+  } @catch(e) {
+    setverdict(pass, "Expected DTE: ",e)
+  }
+}
+
 testcase intSubs() runs on intOper_comptype
 { var integer x1,x2,x3,x4,x5,x6;
   x1:=125;
@@ -291,6 +384,20 @@ testcase intSubs() runs on intOper_comptype
    else {setverdict(fail);}
   if (x6==-134) {setverdict(pass);}	//value_value
    else {setverdict(fail);}
+}
+
+//runtime, big integer
+testcase intSubs_big() runs on intOper_comptype
+{
+  var integer x1,x2,x3, exp
+  x1 := 4294967296;
+  x2 := 4294967297;
+  exp := -1
+  if ( x1-x2 == -1) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x1 -x2;
+  if ( x3 == -1) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x2-x1;
+  if ( x3 == +1) {setverdict(pass) } else { setverdict(fail) }
 }
 
 testcase intMultipl() runs on intOper_comptype
@@ -342,6 +449,18 @@ testcase intMultipl() runs on intOper_comptype
    else {setverdict(fail);}
 }
 
+testcase intMultipl_big() runs on intOper_comptype {
+    var integer x1,x2,x3, exp
+  x1 := 4294967296;
+  x2 := 4294967297;
+  exp := 18446744078004518912;
+  if ( x1*x2 == exp) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x1*x2;
+  if ( x3 == exp) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x2*x1;
+  if ( x3 == exp) {setverdict(pass) } else { setverdict(fail) }
+}
+
 testcase intDiv() runs on intOper_comptype
 { var integer x1,x2,x3,x4,x5,x6,x7,x8;
   x1:=-125;
@@ -364,6 +483,18 @@ testcase intDiv() runs on intOper_comptype
    else {setverdict(fail);}
   if (x8==0) {setverdict(pass);}
    else {setverdict(fail);}
+}
+
+testcase intDiv_big() runs on intOper_comptype {
+    var integer x1,x2,x3, exp
+  x1 := 4294967296;
+  x2 := 4294967297;
+  exp := 18446744078004518912;
+  if ( x1/x2 == 0) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x1/x2;
+  if ( x3 == 0) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x2/x1;
+  if ( x3 == 1) {setverdict(pass) } else { setverdict(fail) }
 }
 
 testcase intMod() runs on intOper_comptype
@@ -395,6 +526,19 @@ testcase intMod() runs on intOper_comptype
    else {setverdict(fail);}
   if (x6==23) {setverdict(pass);}	//value_value
    else {setverdict(fail);}
+}
+
+testcase intMod_big() runs on intOper_comptype {
+  var integer x1,x2,x3, exp
+  x1 := 4294967296;
+  x2 := 4294967297;
+  exp := 18446744078004518912;
+  if ( (x1 mod x2) == 4294967296) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x1 mod x2;
+  if ( x3 == 4294967296 ) {setverdict(pass) } else { setverdict(fail) }
+  x3 := x2 mod x1;
+  if ( x3 == 1) {setverdict(pass) } else { setverdict(fail) }
+  //TODO: neg numbers
 }
 
 testcase intRem() runs on intOper_comptype
@@ -477,7 +621,7 @@ testcase intShiftLeftSum() runs on intOper_comptype
      else {setverdict(fail);}
 }
 */
-/*
+
 testcase bigIntConst() runs on bigIntOper_comptype
 {
   connect(self:comp_port, self:comp_port)
@@ -609,9 +753,9 @@ testcase bigIntRecord() runs on bigIntOper_comptype
   comp_port.send(vrint6); T.start; comp_port.receive(vrint6) { setverdict(pass) }; T.stop
   comp_port.send(vrint7); T.start; comp_port.receive(vrint7) { setverdict(pass) }; T.stop
   disconnect(self:comp_port, self:comp_port)
-}*/
+}
 
-testcase bigIntLogicalOps() runs on intOper_comptype
+testcase bigIntLogicalOps() runs on bigIntOper_comptype
 {
   {
   // Only Cond2/Cond4/Cond6/Cond7/Cond10/Cond11/Cond15/Cond17/Cond18 should
@@ -683,20 +827,20 @@ testcase bigIntLogicalOps() runs on intOper_comptype
   }
 }
 
-testcase bigIntBasicArithmetic() runs on intOper_comptype
+testcase bigIntBasicArithmetic() runs on bigIntOper_comptype
 {
   {
   // Basic tests for add/subtract/multiply/divide/mod/rem.  Constant literals
   // at first.  These are all handled by CP.
-  if (100000000000000000000 + 100000000000000000000 == 200000000000000000000) { setverdict(pass) } else { setverdict(fail, "1") }
-  if (100000000000000000000 + 0 == 100000000000000000000)   { setverdict(pass) } else { setverdict(fail, "2") }
-  if (0 + 100000000000000000000 == 100000000000000000000)   { setverdict(pass) } else { setverdict(fail, "3") }
-  if (100000000000000000000 - 100000000000000000000 == 0)   { setverdict(pass) } else { setverdict(fail, "4") }
-  if (100000000000000000000 - 0 == 100000000000000000000)   { setverdict(pass) } else { setverdict(fail, "5") }
-  if (0 - 100000000000000000000 == -100000000000000000000)  { setverdict(pass) } else { setverdict(fail, "6") }
-  if (100000000000000000000 * 100000000000000000000 == 10000000000000000000000000000000000000000)   { setverdict(pass) } else { setverdict(fail, "7") }
-  if (-100000000000000000000 * 100000000000000000000 == -10000000000000000000000000000000000000000) { setverdict(pass) } else { setverdict(fail, "7") }
-  if (-100000000000000000000 * -100000000000000000000 == 10000000000000000000000000000000000000000) { setverdict(pass) } else { setverdict(fail, "") }
+  if (100000000000000000000 + 100000000000000000000 == 200000000000000000000) { setverdict(pass) } else { setverdict(fail) }
+  if (100000000000000000000 + 0 == 100000000000000000000)   { setverdict(pass) } else { setverdict(fail) }
+  if (0 + 100000000000000000000 == 100000000000000000000)   { setverdict(pass) } else { setverdict(fail) }
+  if (100000000000000000000 - 100000000000000000000 == 0)   { setverdict(pass) } else { setverdict(fail) }
+  if (100000000000000000000 - 0 == 100000000000000000000)   { setverdict(pass) } else { setverdict(fail) }
+  if (0 - 100000000000000000000 == -100000000000000000000)  { setverdict(pass) } else { setverdict(fail) }
+  if (100000000000000000000 * 100000000000000000000 == 10000000000000000000000000000000000000000)   { setverdict(pass) } else { setverdict(fail) }
+  if (-100000000000000000000 * 100000000000000000000 == -10000000000000000000000000000000000000000) { setverdict(pass) } else { setverdict(fail) }
+  if (-100000000000000000000 * -100000000000000000000 == 10000000000000000000000000000000000000000) { setverdict(pass) } else { setverdict(fail) }
   if (100000000000000000000 * 0 == 0)                       { setverdict(pass) } else { setverdict(fail) }
   if (0 * 100000000000000000000 == 0)                       { setverdict(pass) } else { setverdict(fail) }
   if (100000000000000000000 / 100000000000000000000 == 1)   { setverdict(pass) } else { setverdict(fail) }
@@ -748,7 +892,7 @@ testcase bigIntBasicArithmetic() runs on intOper_comptype
   if (j / 100000000000000000000 == k)   { setverdict(pass) } else { setverdict(fail) }
   if (i / 100000000000000000000 == 0)   { setverdict(pass) } else { setverdict(fail) }
   if (j mod 100000000000000000000 == i) { setverdict(pass) } else { setverdict(fail) }  // Same as rem.
-  if (i mod 100000000000000000001 == 0) { setverdict(pass) } else { setverdict(fail) }
+  if (i mod 100000000000000000000 == 0) { setverdict(pass) } else { setverdict(fail) }
   if (100000000000000000000 rem j == i) { setverdict(pass) } else { setverdict(fail) }
   if (i rem 100000000000000000000 == 0) { setverdict(pass) } else { setverdict(fail) }
   }
@@ -772,11 +916,11 @@ testcase bigIntBasicArithmetic() runs on intOper_comptype
   }
 }
 
-//template rint1 myrint1 := { f1 := 260217910,  f2 := 1234567891011121314151617181920, f3 := 0, f4 := -260217910 }
-//template rint1 myrint2 := { f1 := 2147483648, f2 := -2147483648, f3 := 0, f4 := -1 }
-//template rint1 myrint3 := { 4294967296, -4294967296, 4294967295, -4294967295 }
-//template rint1 myrint4 := { 4294967297, -4294967297, 2147483648, -2147483648 }
-/*
+template rint1 myrint1 := { f1 := 260217910,  f2 := 1234567891011121314151617181920, f3 := 0, f4 := -260217910 }
+template rint1 myrint2 := { f1 := 2147483648, f2 := -2147483648, f3 := 0, f4 := -1 }
+template rint1 myrint3 := { 4294967296, -4294967296, 4294967295, -4294967295 }
+template rint1 myrint4 := { 4294967297, -4294967297, 2147483648, -2147483648 }
+
 testcase bigIntTemplateSendRecv() runs on bigIntOper_comptype
 {
   // Implicit `valueof' on sending with implicit matching.
@@ -787,10 +931,10 @@ testcase bigIntTemplateSendRecv() runs on bigIntOper_comptype
   comp_port.send(myrint3); T.start; comp_port.receive(myrint3) { setverdict(pass) }; T.stop
   comp_port.send(myrint4); T.start; comp_port.receive(myrint4) { setverdict(pass) }; T.stop
   disconnect(self:comp_port, self:comp_port)
-}*/
+}
 
 // For testing operator-() in compile-time/run-time on boundaries.
-testcase bigIntOnTheEdge() runs on intOper_comptype
+testcase bigIntOnTheEdge() runs on bigIntOper_comptype
 {
   const integer LLONG_MIN := -9223372036854775808
   const integer LLONG_MAX := 9223372036854775807
@@ -801,35 +945,37 @@ testcase bigIntOnTheEdge() runs on intOper_comptype
   var integer int_min_v := INT_MIN
   var integer int_max_v := INT_MAX
   // Compile-time.
-  if (-LLONG_MIN == 9223372036854775808)  { setverdict(pass) } else { setverdict(fail, "1") }
-  if (-LLONG_MAX == -9223372036854775807) { setverdict(pass) } else { setverdict(fail, "2") }
-  if (-LLONG_MIN == LLONG_MAX + 1) { setverdict(pass) } else { setverdict(fail, "3") }
-  if (-LLONG_MAX == LLONG_MIN + 1) { setverdict(pass) } else { setverdict(fail, "4") }
-  if (-INT_MIN == 2147483648)  { setverdict(pass) } else { setverdict(fail, "5") }
-  if (-INT_MAX == -2147483647) { setverdict(pass) } else { setverdict(fail, "6") }
-  if (-INT_MIN == INT_MAX + 1) { setverdict(pass) } else { setverdict(fail, "7") }
-  if (-INT_MAX == INT_MIN + 1) { setverdict(pass) } else { setverdict(fail, "8") }
-  if (9223372036854775808 - 1 == LLONG_MAX) { setverdict(pass) } else { setverdict(fail, "9") }
-  if (-LLONG_MIN - 1 == LLONG_MAX) { setverdict(pass) } else { setverdict(fail, "10") }
+  if (-LLONG_MIN == 9223372036854775808)  { setverdict(pass) } else { setverdict(fail) }
+  if (-LLONG_MAX == -9223372036854775807) { setverdict(pass) } else { setverdict(fail) }
+  if (-LLONG_MIN == LLONG_MAX + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (-LLONG_MAX == LLONG_MIN + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (-INT_MIN == 2147483648)  { setverdict(pass) } else { setverdict(fail) }
+  if (-INT_MAX == -2147483647) { setverdict(pass) } else { setverdict(fail) }
+  if (-INT_MIN == INT_MAX + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (-INT_MAX == INT_MIN + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (9223372036854775808 - 1 == LLONG_MAX) { setverdict(pass) } else { setverdict(fail) }
+  if (-LLONG_MIN - 1 == LLONG_MAX) { setverdict(pass) } else { setverdict(fail) }
   // Run-time.
-  if (-llong_min_v == 9223372036854775808)  { setverdict(pass) } else { setverdict(fail, "11") }
-  if (-llong_max_v == -9223372036854775807) { setverdict(pass) } else { setverdict(fail, "12") }
-  if (-llong_min_v == llong_max_v + 1) { setverdict(pass) } else { setverdict(fail, "13") }
-  if (-llong_max_v == llong_min_v + 1) { setverdict(pass) } else { setverdict(fail, "14") }
-  if (-int_min_v == 2147483648)  { setverdict(pass) } else { setverdict(fail, "15") }
-  if (-int_max_v == -2147483647) { setverdict(pass) } else { setverdict(fail, "16") }
-  if (-int_min_v == int_max_v + 1) { setverdict(pass) } else { setverdict(fail, "17") }
-  if (-int_max_v == int_min_v + 1) { setverdict(pass) } else { setverdict(fail, "18") }
-  if (2147483648 - 1 == int_max_v) { setverdict(pass) } else { setverdict(fail, "19") }
-  if (-int_min_v - 1 == int_max_v) { setverdict(pass) } else { setverdict(fail, "20") }
+  if (-llong_min_v == 9223372036854775808)  { setverdict(pass) } else { setverdict(fail) }
+  if (-llong_max_v == -9223372036854775807) { setverdict(pass) } else { setverdict(fail) }
+  if (-llong_min_v == llong_max_v + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (-llong_max_v == llong_min_v + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (-int_min_v == 2147483648)  { setverdict(pass) } else { setverdict(fail) }
+  if (-int_max_v == -2147483647) { setverdict(pass) } else { setverdict(fail) }
+  if (-int_min_v == int_max_v + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (-int_max_v == int_min_v + 1) { setverdict(pass) } else { setverdict(fail) }
+  if (2147483648 - 1 == int_max_v) { setverdict(pass) } else { setverdict(fail) }
+  if (-int_min_v - 1 == int_max_v) { setverdict(pass) } else { setverdict(fail) }
 }
 
 //external function MyConverter() return boolean
 //
-//testcase bigIntLongLong() runs on intOper_comptype
+//testcase bigIntLongLong() runs on bigIntOper_comptype
 //{
 //  if (MyConverter()) { setverdict(pass) } else { setverdict(fail) }
 //}
+
+//***** Subtypes *****
 
 type component intOperSubtypes_comptype { }
 
@@ -847,6 +993,7 @@ type integer myi11 (-1, -0, 1)
 type integer myi12 (myi2, myi3)
 type myi12 myi13 (myi2)
 type myi4 myi14 (0..infinity)
+type integer myi15 (1..3)
 
 const myi1 c_myi1 := 1
 const myi2 c_myi2 := 1
@@ -917,22 +1064,82 @@ testcase intSubtypes() runs on intOperSubtypes_comptype
   else { setverdict(fail) }
 }
 
+type record of integer RoI;
+
+//runtime test template checks
+testcase intSubtypes_list() runs on intOperSubtypes_comptype {
+  var template myi2 vt_i2 := ?
+  var RoI vl_goodValues := {1,2,3}
+  var RoI vl_badValues := { -1, 0, 4}
+  log("Good values:")
+  for( var integer i:=0;i<sizeof(vl_goodValues);i:=i+1) {
+    if (match ( vl_goodValues[i], vt_i2 )) {
+      setverdict(pass, "i:", i);
+    } else {
+      setverdict(fail, "i:", i);
+    }
+  }
+  log("Bad values:")
+  for( var integer i:=0;i<sizeof(vl_badValues);i:=i+1) {
+    if (match ( vl_badValues[i], vt_i2 )) {
+      setverdict(pass, "i:", i);
+    } else {
+      setverdict(fail, "i:", i);
+    }
+  }
+
+}
+
+//runtime test template checks
+testcase intSubtypes_range() runs on intOperSubtypes_comptype {
+  var template myi15 vt_i2 := ?
+  var RoI vl_goodValues := {1,2,3}
+  var RoI vl_badValues := { -1, 0, 4}
+  log("Good values:")
+  for( var integer i:=0;i<sizeof(vl_goodValues);i:=i+1) {
+    if (match ( vl_goodValues[i], vt_i2 )) {
+      setverdict(pass, "i:", i);
+    } else {
+      setverdict(fail, "i:", i);
+    }
+  }
+  log("Bad values:")
+  for( var integer i:=0;i<sizeof(vl_badValues);i:=i+1) {
+    if (match ( vl_badValues[i], vt_i2 )) {
+      setverdict(pass, "i:", i);
+    } else {
+      setverdict(fail, "i:", i);
+    }
+  }
+
+//  //Assignment for subtyped var : it is not working!
+//  var myi2 vl_i;
+//  var integer vl_i1 := 1;
+//  vl_i := vl_i1;
+//  vl_i1 := 4
+//  @try {
+//    vl_i := vl_i1;
+//    setverdict(fail,"This line should not be reached, vl_i:", vl_i);
+//  } @catch(e) {
+//    setverdict(pass, "Expected DTE: ",e)
+//  }
+}
 testcase intIsvalue() runs on intOper_comptype
 {
   var integer i0, i1 := 1;
   var template integer one_int := (13);
   var template integer two_ints := (1,2);
 
-  if ( isvalue(i0) ) { setverdict(fail, "1"); } else { setverdict(pass); };
-  if ( isvalue(i1) ) { setverdict(pass); } else { setverdict(fail, "2"); };
-  if ( isvalue(TintOper_const1) ) { setverdict(pass); } else { setverdict(fail, "3"); };
-  if ( isvalue(one_int) ) { setverdict(pass); } else { setverdict(fail, "4"); };
-  if ( isvalue(two_ints) ) { setverdict(fail, "5"); } else { setverdict(pass); };
+  if ( isvalue(i0) ) { setverdict(fail); } else { setverdict(pass); };
+  if ( isvalue(i1) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isvalue(TintOper_const1) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isvalue(one_int) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isvalue(two_ints) ) { setverdict(fail); } else { setverdict(pass); };
 
-  if ( isvalue(par_unbound) ) { setverdict(fail, "6"); } else { setverdict(pass); };
-  if ( isvalue(par_bound) ) { setverdict(pass); } else { setverdict(fail, "7"); };
+  if ( isvalue(par_unbound) ) { setverdict(fail); } else { setverdict(pass); };
+  if ( isvalue(par_bound) ) { setverdict(pass); } else { setverdict(fail); };
 
-  if ( isvalue(i1 + 1) ) { setverdict(pass); } else { setverdict(fail, "8"); };
+  if ( isvalue(i1 + 1) ) { setverdict(pass); } else { setverdict(fail); };
 }
 
 testcase intIsbound() runs on intOper_comptype
@@ -983,7 +1190,12 @@ testcase tc_runtimeExprEval() runs on intOper_comptype {
   if(isbound(vt_i)) {setverdict(pass)} else {setverdict(fail)};
   if(isbound(t_i(1,2))) {setverdict(pass)} else {setverdict(fail)};
   if(isbound(t_i(1,2*vl_i))) {setverdict(pass)} else {setverdict(fail)};
-  //if(isbound(t_i(1,2/vl_j))) {setverdict(pass)} else {setverdict(fail)}; //DTE
+  @try {
+    if(isbound(t_i(1,2/vl_j))) {setverdict(pass)} else {setverdict(fail)}; //DTE
+    setverdict(fail, "This line should not be reached")
+  } @catch(e){
+    setverdict(pass, "Expected DTE: ",e)
+  }
 }
 
   testcase tc_simple_integer_unbound() runs on intOper_comptype {
@@ -993,22 +1205,22 @@ testcase tc_runtimeExprEval() runs on intOper_comptype {
 
   testcase tc_simple_integer_value() runs on intOper_comptype {
     var integer vl_i:=5;
-    if(ispresent(vl_i)) {setverdict(pass)} else {setverdict(fail)} //pass,  
+    if(ispresent(vl_i)) {setverdict(pass)} else {setverdict(fail)} //pass,
   }
 
   testcase tc_simple_integer_templ_asterix() runs on intOper_comptype {
     var template integer vtl_i :=*;
-    if(ispresent( vtl_i )) {setverdict(fail)}else {setverdict(pass)}; 
+    if(ispresent( vtl_i )) {setverdict(fail)}else {setverdict(pass)};
   }
 
   testcase tc_simple_integer_templ_qm() runs on intOper_comptype {
     var template integer vtl_i :=?;
-    if(ispresent( vtl_i )) {setverdict(pass)}else {setverdict(fail)}; 
+    if(ispresent( vtl_i )) {setverdict(pass)}else {setverdict(fail)};
   }
 
   testcase tc_simple_integer_templ_value() runs on intOper_comptype {
     var template integer vtl_i:=5;
-    if(ispresent( vtl_i )) {setverdict(pass)}else {setverdict(fail)}; 
+    if(ispresent( vtl_i )) {setverdict(pass)}else {setverdict(fail)};
   }
 
   testcase tc_runtimeExprEval_ispresent() runs on intOper_comptype {
@@ -1021,11 +1233,12 @@ testcase tc_runtimeExprEval() runs on intOper_comptype {
   }
 
 control {
-  log("executing TintOper");
   const integer cl_1:=2;
   var integer vl_1;
 
   execute(intAssign());
+  execute(intAssign_big());
+  execute(intAssign_unbound());
   execute(intConst());
   execute(intCompEq());
   execute(intCompNotEq());
@@ -1034,12 +1247,23 @@ control {
   execute(intCompGreat());
   execute(intCompGreatEq());
   execute(intAdd());
+  execute(intAdd_big1())
+  execute(intAdd_big2())
+  execute(intAdd_big3())
+  execute(intAdd_unbound1());
+  execute(intAdd_unbound2());
   execute(intSubs());
+  execute(intSubs_big())
   execute(intMultipl());
+  execute(intMultipl_big())
   execute(intDiv());
+  execute(intDiv_big());
   execute(intMod());
+  execute(intMod_big());
   execute(intRem());
   execute(intSubtypes());
+  execute(intSubtypes_list());
+  execute(intSubtypes_range());
   /*
   execute(intShiftRight1());
   execute(intShiftRight2());
@@ -1048,24 +1272,24 @@ control {
   execute(intShiftLeft2());
   execute(intShiftLeftSum());
   */
-  /*execute(bigIntConst());
+  execute(bigIntConst());
   execute(bigIntVar());
   execute(bigIntTemplate());
   execute(bigIntVariableTemplate());
   execute(bigIntEnumerated());
-  execute(bigIntRecord());*/
+  execute(bigIntRecord());
   execute(bigIntLogicalOps());
   execute(bigIntBasicArithmetic());
-  //execute(bigIntTemplateSendRecv());
+  execute(bigIntTemplateSendRecv());
   execute(bigIntOnTheEdge());
-  //execute(bigIntLongLong());
+//  execute(bigIntLongLong());
 
   execute(intIsvalue());
   execute(intIsbound());
 
   execute(HO29687());
   execute(HO29695());
-  
+
   execute(tc_simple_integer());
   execute(tc_runtimeExprEval());
   execute(tc_simple_integer_unbound());
