@@ -767,7 +767,7 @@ testcase tc_record_withWildCard6A() runs on MTC_CT {
   var template MyRec2 vtl_rec2; 
   vtl_rec2:={
     r:= *
-  }  
+  }
   if(ispresent(vtl_rec2.r)) {setverdict(fail)}else {setverdict(pass)};
   if(ispresent(vtl_rec2.r.i)) {setverdict(fail)}else {setverdict(pass)};
   if(ispresent(vtl_rec2.r.x)) {setverdict(fail)}else {setverdict(pass)};
@@ -873,19 +873,19 @@ control {
   execute(tc_simple_integer_value());         //pass
   execute(tc_simple_integer_templ_asterix()); //pass
   execute(tc_simple_integer_templ_qm());      //pass
-  execute(tc_simple_integer_templ_value());   //pass        
+  execute(tc_simple_integer_templ_value());   //pass
   execute(tc_simple_octetstring_isvalue());   //pass
   execute(tc_simple_octetstring_unbound());   //pass
   execute(tc_special_default_value_unbound());//pass
   execute(tc_special_default_value_null());   //pass
   execute(tc_special_default_value_isvalue());//pass
   execute(tc_special_compref_unbound());      //pass
-  execute(tc_special_compref_isvalue());      //pass -only in parallel
+  //  execute(tc_special_compref_isvalue());      //pass -only in parallel
   execute(tc_unionOfRecordOfs1());            //pass
   execute(tc_unionOfRecordOfs1_2());          //pass
   execute(tc_unionOfRecordOfs2());            //pass
   //   //execute(tc_compilationerror1());
-  execute(tc_union_modify());                 //pass  
+  execute(tc_union_modify());                 //pass
   execute(tc_sideeffect1());                  //pass
   execute(tc_sideeffect2());                  //pass
   execute(tc_recordOf_omit1());               //pass
