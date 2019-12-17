@@ -284,18 +284,18 @@ testcase tc_SelectUnionMultipleBranchesAnyType() runs on EmptyCT {
 type integer Byte (-128 .. 127) with { variant "8 bit" };
 
 // Just to compile: the head of the select union is a complicated expression
-//function f_select_union_different_codegen(in anytype p_msg, out integer result) {
-//  var Messages arr[1];
-//  var Messages myMessage;
-//  myMessage.msg1 := 1;
-//  arr := { myMessage };
-//  var Byte x := 11;
-//  select union (arr[f_return_1(encvalue_unichar(x, "UTF-8"))]) {
-//    case (msg1) { result := 1; }
-//    case (msg2, msg3) { result := 2; }
-//    case (msg4) { result := 3; }
-//  }
-//}
+function f_select_union_different_codegen(in anytype p_msg, out integer result) {
+  var Messages arr[1];
+  var Messages myMessage;
+  myMessage.msg1 := 1;
+  arr := { myMessage };
+  var Byte x := 11;
+  select union (arr[f_return_1(encvalue_unichar(x, "UTF-8"))]) {
+    case (msg1) { result := 1; }
+    case (msg2, msg3) { result := 2; }
+    case (msg4) { result := 3; }
+  }
+}
 
 function f_return_1(in universal charstring str) return integer {
   return 1;

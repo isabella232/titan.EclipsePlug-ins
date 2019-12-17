@@ -1381,21 +1381,21 @@ testcase CR_TR00016681() runs on recordOper_mycomp
   if (isbound(i)) { setverdict (pass); } else { setverdict(fail); }
 }
 
-const MyRec2_2 c_myrec2_part:={ 
+const MyRec2 c_myrec2_part:={ 
   roc:={},
   roi:={10,9,8},
   u:={ r:={ /*i:=1,*/ x:=1.0, c:="one"}},
   r:={ i:=1, x:=1.0, c:="one"}
 }  
 
-const MyRec2_2 c_myrec2_1:={ 
+const MyRec2 c_myrec2_1:={ 
   roc:=omit,
   roi:={},
   u:={r:={ i:=1, x:=1.0, c:="one"}},
   r:={ i:=1, x:=1.0, c:="one"}
 }
 
-type record MyRec2_2{
+type record MyRec2{
   ROC roc optional,
   ROI roi optional,
   MyUnion1 u optional, 
@@ -1418,86 +1418,86 @@ type union MyUnion1 {
 }
 
 testcase tc_record_completlyInit() runs on recordOper_mycomp {
-  var MyRec2_2 vl_r1:=c_myrec2_1;
+  var MyRec2 vl_r1:=c_myrec2_1;
   if(isbound(vl_r1)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r2:=c_myrec2_part;
+  var MyRec2 vl_r2:=c_myrec2_part;
   if(isbound(vl_r2)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r3:=c_myrec2_part;
+  var MyRec2 vl_r3:=c_myrec2_part;
   if(isbound(vl_r3)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r4:=c_myrec2_part;
+  var MyRec2 vl_r4:=c_myrec2_part;
   if(isbound(vl_r4.roc)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r5:=c_myrec2_part;
+  var MyRec2 vl_r5:=c_myrec2_part;
   if(isbound(vl_r5.roi)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r6:=c_myrec2_part;
+  var MyRec2 vl_r6:=c_myrec2_part;
   if(isbound(vl_r6.u)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r7:=c_myrec2_part;
+  var MyRec2 vl_r7:=c_myrec2_part;
   if(isbound(vl_r7.u.r)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r8:=c_myrec2_part;
+  var MyRec2 vl_r8:=c_myrec2_part;
   if(isbound(vl_r8.u.r.i)){setverdict(fail)}else {setverdict(pass)};
-  var MyRec2_2 vl_r9:=c_myrec2_part;
+  var MyRec2 vl_r9:=c_myrec2_part;
   if(isbound(vl_r9.u.r.x)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r10:=c_myrec2_part;
+  var MyRec2 vl_r10:=c_myrec2_part;
   if(isbound(vl_r10.u.r.c)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2_2 vl_r11:=c_myrec2_part;
+  var MyRec2 vl_r11:=c_myrec2_part;
   if(isbound(vl_r11.u.i)){setverdict(fail)}else {setverdict(pass)};
 }
 
 testcase tc_record_partiallyInit12() runs on recordOper_mycomp {
-  var MyRec2_2 vl_r:={ r:={i:=5}}
+  var MyRec2 vl_r:={ r:={i:=5}}
   if(isbound(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
   if(isbound(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
 }
 
 testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
-  var MyRec2_2 vl_r:={ r:={i:=5,x:=-,c:= -}} 
+  var MyRec2 vl_r:={ r:={i:=5,x:=-,c:= -}} 
   if(isbound(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
   if(isbound(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
   if(isbound(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
 }
 
   testcase tc_record_unbound() runs on recordOper_mycomp {
-    var template MyRec2_2 vtl_rec2;
+    var template MyRec2 vtl_rec2;
     if(ispresent(vtl_rec2)) {setverdict(fail)}else {setverdict(pass)};
   }
 
   testcase tc_record_completlyInit_ispresent() runs on recordOper_mycomp {
-    var MyRec2_2 vl_r1:=c_myrec2_1;
+    var MyRec2 vl_r1:=c_myrec2_1;
     if(ispresent(vl_r1)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r2:=c_myrec2_part;
+    var MyRec2 vl_r2:=c_myrec2_part;
     if(ispresent(vl_r2)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r3:=c_myrec2_part;
+    var MyRec2 vl_r3:=c_myrec2_part;
     if(ispresent(vl_r3.roc)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r4:=c_myrec2_part;
+    var MyRec2 vl_r4:=c_myrec2_part;
     if(ispresent(vl_r4.roi)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r5:=c_myrec2_part;
+    var MyRec2 vl_r5:=c_myrec2_part;
     if(ispresent(vl_r5.u)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r6:=c_myrec2_part;
+    var MyRec2 vl_r6:=c_myrec2_part;
     if(ispresent(vl_r6.u.r)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r7:=c_myrec2_part;
+    var MyRec2 vl_r7:=c_myrec2_part;
     if(ispresent(vl_r7.u.r.i)){setverdict(fail)}else {setverdict(pass)};
-    var MyRec2_2 vl_r8:=c_myrec2_part;
+    var MyRec2 vl_r8:=c_myrec2_part;
     if(ispresent(vl_r8.u.r.x)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r9:=c_myrec2_part;
+    var MyRec2 vl_r9:=c_myrec2_part;
     if(ispresent(vl_r9.u.r.c)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2_2 vl_r10:=c_myrec2_part;
+    var MyRec2 vl_r10:=c_myrec2_part;
     if(ispresent(vl_r10.u.i)){setverdict(fail)}else {setverdict(pass)};
   }
 
   testcase tc_record_partiallyInit12_ispresent() runs on recordOper_mycomp {
-    var MyRec2_2 vl_r:={ r:={i:=5}}
+    var MyRec2 vl_r:={ r:={i:=5}}
     if(ispresent(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
     if(ispresent(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
   }
 
   testcase tc_record_partiallyInit13_ispresent() runs on recordOper_mycomp {
-    var MyRec2_2 vl_r:={ r:={i:=5,x:=-,c:= -}} 
+    var MyRec2 vl_r:={ r:={i:=5,x:=-,c:= -}} 
     if(ispresent(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
     if(ispresent(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
     if(ispresent(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
   }
 
   testcase tc_record_omit() runs on recordOper_mycomp {
-    var MyRec2_2 vl_r:={omit, omit, omit, omit} 
+    var MyRec2 vl_r:={omit, omit, omit, omit} 
     if(ispresent(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
     if(ispresent(vl_r.roc)){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roi)){setverdict(fail)}else {setverdict(pass)};
@@ -1513,7 +1513,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
   }
 
   testcase tc_record_omit2() runs on recordOper_mycomp {
-    var MyRec2_2 vl_r:={roc:=omit, roi:=omit,u:= omit,r:= omit} 
+    var MyRec2 vl_r:={roc:=omit, roi:=omit,u:= omit,r:= omit} 
     if(ispresent(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
     if(ispresent(vl_r.roc)){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roi)){setverdict(fail)}else {setverdict(pass)};
@@ -1535,7 +1535,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
   }
 
   testcase tc_recordOf_omit() runs on recordOper_mycomp {
-    var MyRec2_2 vl_r:=c_myrec2_1;
+    var MyRec2 vl_r:=c_myrec2_1;
     if(ispresent(vl_r.roc)){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roc[0])){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roi)){setverdict(pass)}else {setverdict(fail)};
@@ -2315,6 +2315,29 @@ testcase tc_anytype_rec_template() runs on recordOper_mycomp {
 
 
 //###########################################################################//
+
+testcase tc_record_equality() runs on recordOper_mycomp {
+  var recordOper_trecord vl_rec_partial1 := { x1 := 1 };
+  var recordOper_trecord vl_rec_partial2 := { x1 := 1 };
+  @try {
+    if (vl_rec_partial1 == vl_rec_partial2) {
+      setverdict(fail, "Equal.");
+    }
+    else {
+      setverdict(fail, "Not equal.");
+    }
+  }
+  @catch (vl_msg) {
+    if (match(vl_msg, pattern "*Unbound left operand of float comparison*")) {
+      setverdict(pass);
+    }
+    else {
+      setverdict(fail, "Invalid error caught: ", vl_msg);
+    }
+  }
+}
+
+//###########################################################################//
     
 control {
  const recordOper_trecord cl_temp1:={ x1:=omit, x2:=3.4 }; // can constants be declared in the control part
@@ -2398,6 +2421,8 @@ control {
  execute(tc_anytype_rec_template());
  execute(tc_anytype_rec_template_param());
  execute(tc_anytype_rec_template_param_modifies());
+ 
+ execute(tc_record_equality());
 }
 }
 with {
