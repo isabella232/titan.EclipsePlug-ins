@@ -7,7 +7,6 @@
       <incrementalDependencyRefresh>true</incrementalDependencyRefresh>
       <targetExecutable>bin/regressionTestSmall</targetExecutable>
       <addSourceLineInfo>true</addSourceLineInfo>
-      <omitInValueList>true</omitInValueList>
     </MakefileSettings>
     <LocalBuildSettings>
       <MakefileScript/>
@@ -23,6 +22,18 @@
     </FileResource>
     <FileResource>
       <FilePath>src/ASN1/enum2/enum2</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/TrecofOper.ttcn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/TtemplateRec.ttcn</FilePath>
       <FileProperties>
         <ExcludeFromBuild>true</ExcludeFromBuild>
       </FileProperties>
@@ -110,5 +121,145 @@
         <ExcludeFromBuild>true</ExcludeFromBuild>
       </FolderProperties>
     </FolderResource>
+    <FolderResource>
+      <FolderPath>src/text2ttcn</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
   </FolderProperties>
+  <Configurations>
+    <Configuration name="legacy">
+      <ProjectProperties>
+        <MakefileSettings>
+          <GNUMake>true</GNUMake>
+          <incrementalDependencyRefresh>true</incrementalDependencyRefresh>
+          <targetExecutable>bin/regressionTestSmall</targetExecutable>
+          <addSourceLineInfo>true</addSourceLineInfo>
+          <omitInValueList>true</omitInValueList>
+        </MakefileSettings>
+        <LocalBuildSettings>
+          <MakefileScript/>
+          <workingDirectory>java_src</workingDirectory>
+        </LocalBuildSettings>
+      </ProjectProperties>
+      <FolderProperties>
+        <FolderResource>
+          <FolderPath>src/ASN1/Test330</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/ASN1/Test332</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/ASN1/errorMessages</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/ASN1/errorMessages2</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/ASN1/parse</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/cfgFile/testport_parameters</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/cfg_list_concat</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/done</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/json</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+        <FolderResource>
+          <FolderPath>src/text2ttcn_nolegacy</FolderPath>
+          <FolderProperties>
+            <CentralStorage>false</CentralStorage>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FolderProperties>
+        </FolderResource>
+      </FolderProperties>
+      <FileProperties>
+        <FileResource>
+          <FilePath>src/ASN1/enum1/enum1</FilePath>
+          <FileProperties>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FileProperties>
+        </FileResource>
+        <FileResource>
+          <FilePath>src/ASN1/enum2/enum2</FilePath>
+          <FileProperties>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FileProperties>
+        </FileResource>
+        <FileResource>
+          <FilePath>src/TrecofOper.ttcn</FilePath>
+          <FileProperties>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FileProperties>
+        </FileResource>
+        <FileResource>
+          <FilePath>src/TtemplateRec.ttcn</FilePath>
+          <FileProperties>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FileProperties>
+        </FileResource>
+        <FileResource>
+          <FilePath>src/TverdictOper.ttcn</FilePath>
+          <FileProperties>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FileProperties>
+        </FileResource>
+        <FileResource>
+          <FilePath>src/commProcedure/AdvancedRedirects.ttcn</FilePath>
+          <FileProperties>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FileProperties>
+        </FileResource>
+        <FileResource>
+          <FilePath>src/functionSubref/TvalueofSubref.ttcn</FilePath>
+          <FileProperties>
+            <ExcludeFromBuild>true</ExcludeFromBuild>
+          </FileProperties>
+        </FileResource>
+      </FileProperties>
+    </Configuration>
+  </Configurations>
 </TITAN_Designer_Properties>
