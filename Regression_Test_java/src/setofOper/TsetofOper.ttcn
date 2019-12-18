@@ -1028,13 +1028,13 @@ template MySetof4 t_mysetof7 := c_mysetof7
 template MySetof2 t_mysetof8 := {"aa", c_mysetof7[0]} length(2)
 template MySetof8 t_mysetof9 := {"aa" & "aa", "aa"}
 
-//testcase setofSubtypes() runs on setofOper_mycomp {
-//  var template MySetof1 vt_mysetof1 := {"AA", "AB", "BA", "BB"}
-//  var MySetof1 v_mysetof1 := {"AA", "AB", "BA", "BB"}
-//  // TITAN compiles this.
-//  if (substr(v_mysetof1, 0, 2) == {"AA", "AB"} and {"BA", "BB"} == substr(valueof(vt_mysetof1), 2, 2)) { setverdict(pass) }
-//  else { setverdict(fail) }
-//}
+testcase setofSubtypes() runs on setofOper_mycomp {
+  var template MySetof1 vt_mysetof1 := {"AA", "AB", "BA", "BB"}
+  var MySetof1 v_mysetof1 := {"AA", "AB", "BA", "BB"}
+  // TITAN compiles this.
+  if (substr(v_mysetof1, 0, 2) == {"AA", "AB"} and {"BA", "BB"} == substr(valueof(vt_mysetof1), 2, 2)) { setverdict(pass) }
+  else { setverdict(fail) }
+}
 
 control {
   const setofOper_trecord cl_temp1:={ x1:=omit, x2:=3.4 }; //constant in control part
@@ -1090,7 +1090,7 @@ control {
   execute(setofIsbound());
 
 
-//  execute(setofSubtypes());
+  execute(setofSubtypes());
   
   
 }
