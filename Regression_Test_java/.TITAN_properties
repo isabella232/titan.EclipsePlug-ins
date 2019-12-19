@@ -50,6 +50,12 @@
         <ExcludeFromBuild>true</ExcludeFromBuild>
       </FileProperties>
     </FileResource>
+    <FileResource>
+      <FilePath>src/singlecontrol/ouch.cfg</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
   </FileProperties>
   <FolderProperties>
     <FolderResource>
@@ -110,6 +116,13 @@
     </FolderResource>
     <FolderResource>
       <FolderPath>src/json</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/singlecontrol</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
         <ExcludeFromBuild>true</ExcludeFromBuild>
