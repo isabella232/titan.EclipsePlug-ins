@@ -17,10 +17,10 @@
  ******************************************************************************/
 module TrecordOper {
 // ********** Type definitions  *********************
-type component recordOper_mycomp {};
-type enumerated recordOper_myenum {xx1,xx2,xx3};
+type component Mycomp {};
+type enumerated Myenum {xx1,xx2,xx3};
 type record recordOper_empty {};
-type record recordOper_trecord {
+type record MyRec0 {
 	integer x1 optional,
 	float x2 };
 type record of octetstring recordOper_trecof;
@@ -28,111 +28,111 @@ type set recordOper_tset {
 	integer x1,
 	float x2 optional };
 type set of charstring recordOper_tsetof;
-type union recordOper_tunion {
+type union MyUnion {
 	integer x1,
 	float x2 };
-type record recordOper_myrec1 {	// record from basic types
+type record Myrec1 {	// record from basic types
 	integer x1,
 	float x2,
-	recordOper_myenum x3 };
-type record recordOper_myrec2 {	// record from basic types, with optional field
+	Myenum x3 };
+type record Myrec2 {	// record from basic types, with optional field
 	integer x1,
 	float x2,
-	recordOper_myenum x3,
+	Myenum x3,
 	integer x4 optional };
-type record recordOper_myrec3 {	 // record from record, with optional field
-	recordOper_trecord x1,
-	recordOper_trecord x2 optional
+type record Myrec3 {	 // record from record, with optional field
+	MyRec0 x1,
+	MyRec0 x2 optional
 	};
-type record recordOper_myrec4 {	 // record from record of, with optional field
+type record Myrec4 {	 // record from record of, with optional field
 	recordOper_trecof x1,
 	recordOper_trecof x2 optional
 	};
-type record recordOper_myrec5 {	 // record from set, with optional field
+type record Myrec5 {	 // record from set, with optional field
 	recordOper_tset x1,
 	recordOper_tset x2 optional
 	};
-type record recordOper_myrec6 {	 // record from set of, with optional field
+type record Myrec6 {	 // record from set of, with optional field
 	recordOper_tsetof x1,
 	recordOper_tsetof x2 optional
 	};
-type record recordOper_myrec7 {	 // record from union, with optional field
-	recordOper_tunion x1,
-	recordOper_tunion x2 optional
+type record Myrec7 {	 // record from union, with optional field
+	MyUnion x1,
+	MyUnion x2 optional
 	};
 type record typedefrecordComp_myrec { // testing complex content
-	recordOper_trecord x1,
+	MyRec0 x1,
 	recordOper_trecof x2,
 	recordOper_tset x3,
 	recordOper_tsetof x4 optional,
-	recordOper_tunion x5,
+	MyUnion x5,
 	integer x6[3]
 };
-type record recordOper_myrec8{
+type record Myrec8{
 	integer f1 optional,
 	charstring f2 optional
 	};
-type record recordOper_myrec9 { // test for the assignment of optional fields
+type record Myrec9 { // test for the assignment of optional fields
   integer f1 optional,
   integer f2 optional
 };
 // *************** Constanst ***********************
-const recordOper_trecord recordOper_temp1:={ x1:=omit, x2:=3.4 };
+const MyRec0 recordOper_temp1:={ x1:=omit, x2:=3.4 };
 const recordOper_trecof recordOper_temp2:={ 'AF12'O };
 const recordOper_tset recordOper_temp3:={ x1:=234, x2:=1.9};
 const recordOper_tsetof recordOper_temp4:={"f","8"};
-const recordOper_tunion recordOper_temp5:={ x2:=1.3 };
-const recordOper_myrec1 recordOper_const1:={	//record with basic types
+const MyUnion recordOper_temp5:={ x2:=1.3 };
+const Myrec1 recordOper_const1:={	//record with basic types
 x1:=1,
 x2:=1.2,
 x3:=xx2 };
-const recordOper_myrec2 recordOper_const2:={	//record with basic types, with optional field
+const Myrec2 recordOper_const2:={	//record with basic types, with optional field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=2 };
-const recordOper_myrec2 recordOper_const3:={	//record with basic types, with omited field
+const Myrec2 recordOper_const3:={	//record with basic types, with omited field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=omit };
-const recordOper_myrec3 recordOper_const4:={   //record from record
+const Myrec3 recordOper_const4:={   //record from record
  x1:={ x1:=1, x2:=1.2 },
  x2:=recordOper_temp1
 };
-const recordOper_myrec3 recordOper_const5:={   //record from record, with omited field
+const Myrec3 recordOper_const5:={   //record from record, with omited field
  x1:={ x1:=1, x2:=1.2 },
  x2:=omit
 };
-const recordOper_myrec4 recordOper_const6:={   //record from record of
+const Myrec4 recordOper_const6:={   //record from record of
  x1:={ '12AB'O, 'CD12'O },
  x2:=recordOper_temp2
 };
-const recordOper_myrec4 recordOper_const7:={   //record from record of, with omited field
+const Myrec4 recordOper_const7:={   //record from record of, with omited field
  x1:={ '12AB'O, 'CD12'O },
  x2:=omit
 };
-const recordOper_myrec5 recordOper_const8:={   //record from set
+const Myrec5 recordOper_const8:={   //record from set
  x1:={ x1:=2, x2:=1.3},
  x2:=recordOper_temp3
 };
-const recordOper_myrec5 recordOper_const9:={   //record from set, with omited field
+const Myrec5 recordOper_const9:={   //record from set, with omited field
  x1:={ x1:=2, x2:=1.3},
  x2:=omit
 };
-const recordOper_myrec6 recordOper_const10:={   //record from set of
+const Myrec6 recordOper_const10:={   //record from set of
  x1:={"a","b"},
  x2:=recordOper_temp4  //{"f","8"},
 };
-const recordOper_myrec6 recordOper_const11:={   //record from set of, with omited field
+const Myrec6 recordOper_const11:={   //record from set of, with omited field
  x1:={"a","b"},
  x2:=omit
 };
-const recordOper_myrec7 recordOper_const12:={   //record from union
+const Myrec7 recordOper_const12:={   //record from union
  x1:={ x1 :=3 },
  x2:=recordOper_temp5  //{ x2:=1.3 }
 };
-const recordOper_myrec7 recordOper_const13:={   //record from union, with omited field
+const Myrec7 recordOper_const13:={   //record from union, with omited field
  x1:={ x1 :=3 },
  x2:=omit
 };
@@ -145,14 +145,14 @@ const typedefrecordComp_myrec recordOper_const14 := {  // complex record
   x6 := {1,2,3}
 }
 
-testcase recordAssign() runs on recordOper_mycomp{
-var recordOper_myrec1 x1:={	//record with basic types
+testcase tc_recordAssign() runs on Mycomp{
+var Myrec1 x1:={	//record with basic types
 x1:=1,
 x2:=1.2,
 x3:=xx2 };
-var recordOper_myrec1 x2;
+var Myrec1 x2;
   x2:={ x1:=1, x2:=1.2, x3:=xx2 };
-var recordOper_myrec1 x3 := {};
+var Myrec1 x3 := {};
 if (x1.x1==1) {setverdict(pass);}	//at declaration
      else {setverdict(fail);}
 if (x1.x2==1.2) {setverdict(pass);}
@@ -168,8 +168,8 @@ if (x2.x3==xx2) {setverdict(pass);}
 }
 
 // test some incomplete assignment cases.
-testcase recordAssignIncomplete() runs on recordOper_mycomp{
-var recordOper_myrec1 x1:={ x1:=1, x2:=1.2};
+testcase tc_recordAssignIncomplete() runs on Mycomp{
+var Myrec1 x1:={ x1:=1, x2:=1.2};
   if(x1.x1==1) {setverdict(pass);}
   else {setverdict(fail);}
   if(x1.x2==1.2) {setverdict(pass);}
@@ -202,19 +202,19 @@ x1:= { x2:=3.2};
   else {setverdict(fail);}
 }
 
-testcase recordAssignOpt() runs on recordOper_mycomp{
+testcase tc_recordAssignOpt() runs on Mycomp{
 var integer inttemp:=2;
-var recordOper_myrec2 x1:={	//record with basic types, with optional field
+var Myrec2 x1:={	//record with basic types, with optional field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=inttemp};  //2
-var recordOper_myrec2 x2:={	//record with basic types, with omited field
+var Myrec2 x2:={	//record with basic types, with omited field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=omit };
-var recordOper_myrec2 x3, x4;
+var Myrec2 x3, x4;
 x3:={	//record with basic types, with optional field
 x1:=1,
 x2:=1.2,
@@ -263,17 +263,17 @@ if (not(ispresent(x4.x4))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignRec() runs on recordOper_mycomp{
-var recordOper_trecord temp1:={ x1:=omit, x2:=3.4 };
-var recordOper_myrec3 x1:={   //record from record
+testcase tc_recordAssignRec() runs on Mycomp{
+var MyRec0 temp1:={ x1:=omit, x2:=3.4 };
+var Myrec3 x1:={   //record from record
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
 };
-var recordOper_myrec3 x2:={   //record from record, with omited field
+var Myrec3 x2:={   //record from record, with omited field
  x1:={ x1:=1, x2:=1.2 },
  x2:=omit
 };
-var recordOper_myrec3 x3,x4;
+var Myrec3 x3,x4;
 x3:={   //record from record
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
@@ -308,17 +308,17 @@ if (not(ispresent(x4.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignRecof() runs on recordOper_mycomp{
+testcase tc_recordAssignRecof() runs on Mycomp{
 var recordOper_trecof temp2:={'AF12'O};
-var recordOper_myrec4 x1:={   //record from record of
+var Myrec4 x1:={   //record from record of
  x1:={ '12AB'O, 'CD12'O },
  x2:=temp2
 };
-var recordOper_myrec4 x2:={   //record from record of, with omited field
+var Myrec4 x2:={   //record from record of, with omited field
  x1:={ '12AB'O, 'CD12'O },
  x2:=omit
 };
-var recordOper_myrec4 x3,x4
+var Myrec4 x3,x4
 x3:={   //record from record of
  x1:={ '12AB'O, 'CD12'O },
  x2:=temp2
@@ -353,17 +353,17 @@ if (not(ispresent(x4.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignSet() runs on recordOper_mycomp{
+testcase tc_recordAssignSet() runs on Mycomp{
 var recordOper_tset temp1:={ x1:=2, x2:=omit };
-var recordOper_myrec5 x1:={   //record from set
+var Myrec5 x1:={   //record from set
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
 };
-var recordOper_myrec5 x2:={   //record from set, with omited field
+var Myrec5 x2:={   //record from set, with omited field
  x1:={ x1:=1, x2:=1.2 },
  x2:=omit
 };
-var recordOper_myrec5 x3,x4;
+var Myrec5 x3,x4;
 x3:={   //record from set
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
@@ -398,17 +398,17 @@ if (not(ispresent(x4.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignSetof() runs on recordOper_mycomp{
+testcase tc_recordAssignSetof() runs on Mycomp{
 var recordOper_tsetof temp2:={"a","7"};
-var recordOper_myrec6 x1:={   //record from set of
+var Myrec6 x1:={   //record from set of
  x1:={ "1", "a" },
  x2:=temp2
 };
-var recordOper_myrec6 x2:={   //record from set of, with omited field
+var Myrec6 x2:={   //record from set of, with omited field
  x1:={ "1", "a" },
  x2:=omit
 };
-var recordOper_myrec6 x3,x4
+var Myrec6 x3,x4
 x3:={   //record from set of
  x1:={ "1", "a" },
  x2:=temp2
@@ -443,17 +443,17 @@ if (not(ispresent(x4.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignUnion() runs on recordOper_mycomp{
-var recordOper_tunion temp5 := {x2:=1.3}
-var recordOper_myrec7 x1:={   //record from union
+testcase tc_recordAssignUnion() runs on Mycomp{
+var MyUnion temp5 := {x2:=1.3}
+var Myrec7 x1:={   //record from union
  x1:={ x1 :=3 },
  x2:=temp5  //{ x2:=1.3 }
 };
-var recordOper_myrec7 x2:={   //record from union, with omited field
+var Myrec7 x2:={   //record from union, with omited field
  x1:={ x1 :=3 },
  x2:=omit
 };
-var recordOper_myrec7 x3,x4;
+var Myrec7 x3,x4;
 x3:={   //record from union
  x1:={ x1 :=3 },
  x2:=temp5  //{ x2:=1.3 }
@@ -496,8 +496,8 @@ if (not(ispresent(x4.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignElem() runs on recordOper_mycomp{
-var recordOper_myrec1 x1:={	//record with basic types
+testcase tc_recordAssignElem() runs on Mycomp{
+var Myrec1 x1:={	//record with basic types
 x1:=1,
 x2:=1.2,
 x3:=xx2 };
@@ -511,14 +511,14 @@ if (x1.x3==xx2) {setverdict(pass);}
 }
 
 
-testcase recordAssignElemOpt() runs on recordOper_mycomp{
+testcase tc_recordAssignElemOpt() runs on Mycomp{
 var integer inttemp:=2;
-var recordOper_myrec2 x1:={	//record with basic types
+var Myrec2 x1:={	//record with basic types
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=omit } ;  //2
-var recordOper_myrec2 x2, x3, x4;
+var Myrec2 x2, x3, x4;
 x2:=x1;
 x3:={x1:=1, x2:=1.2, x3:=xx2, x4:=inttemp };
 x4:=x2;
@@ -564,9 +564,9 @@ if (not(ispresent(x4.x4))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignElemRec() runs on recordOper_mycomp{
-var recordOper_trecord temp1:={ x1:=omit, x2:=3.4 };
-var recordOper_myrec3 x1;
+testcase tc_recordAssignElemRec() runs on Mycomp{
+var MyRec0 temp1:={ x1:=omit, x2:=3.4 };
+var Myrec3 x1;
 x1:={   //record from record
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
@@ -583,9 +583,9 @@ if (x1.x2==temp1) {setverdict(pass);}
 }
 
 
-testcase recordAssignElemRecof() runs on recordOper_mycomp{
+testcase tc_recordAssignElemRecof() runs on Mycomp{
 var recordOper_trecof temp2:={'AF12'O};
-var recordOper_myrec4 x1:={   //record from record of
+var Myrec4 x1:={   //record from record of
  x1:={ '12AB'O, 'CD12'O },
  x2:=temp2
 };
@@ -598,9 +598,9 @@ if (x1.x2==temp2) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignElemSet() runs on recordOper_mycomp{
+testcase tc_recordAssignElemSet() runs on Mycomp{
 var recordOper_tset temp1:={ x1:=2, x2:=omit };
-var recordOper_myrec5 x1:={   //record from set
+var Myrec5 x1:={   //record from set
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
 };
@@ -613,9 +613,9 @@ if (x1.x2==temp1) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignElemSetof() runs on recordOper_mycomp{
+testcase tc_recordAssignElemSetof() runs on Mycomp{
 var recordOper_tsetof temp2:={"a","7"};
-var recordOper_myrec6 x1:={   //record from set of
+var Myrec6 x1:={   //record from set of
  x1:={ "1", "a" },
  x2:=temp2
 };
@@ -628,9 +628,9 @@ if (x1.x2==temp2) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordAssignElemUnion() runs on recordOper_mycomp{
-var recordOper_tunion temp5 := {x2:=1.3}
-var recordOper_myrec7 x1:={   //record from union
+testcase tc_recordAssignElemUnion() runs on Mycomp{
+var MyUnion temp5 := {x2:=1.3}
+var Myrec7 x1:={   //record from union
  x1:={ x1 :=3 },
  x2:=temp5  //{ x2:=1.3 }
 };
@@ -645,19 +645,19 @@ if (x1.x2==temp5) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordSizeof() runs on recordOper_mycomp{
+testcase tc_recordSizeof() runs on Mycomp{
 var integer inttemp:=2;
-var recordOper_myrec2 x1:={	//record with basic types, with optional field
+var Myrec2 x1:={	//record with basic types, with optional field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=inttemp};  //2
-var recordOper_myrec2 x2:={	//record with basic types, with omited field
+var Myrec2 x2:={	//record with basic types, with omited field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=omit };
-var recordOper_myrec2 x3, x4;
+var Myrec2 x3, x4;
 x3:={	//record with basic types, with optional field
 x1:=1,
 x2:=1.2,
@@ -668,7 +668,7 @@ x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=omit };
-var recordOper_myrec4 x5;
+var Myrec4 x5;
 x5.x1 := { '12AB'O, '12AB'O};
 x5.x2 := { '12AB'O, '12AB'O, '12AB'O};
 if (sizeof(x1)==4) {setverdict(pass);} //at declaration, with optional field
@@ -683,8 +683,8 @@ if (sizeof(x5.x1)==2 and sizeof(x5.x2) == 3) {setverdict(pass);}	//testcase, wit
      else {setverdict(fail);}
 }
 
-testcase recordConst() runs on recordOper_mycomp{
-const recordOper_myrec1 const1:={	//record with basic types
+testcase tc_recordConst() runs on Mycomp{
+const Myrec1 const1:={	//record with basic types
 x1:=1,
 x2:=1.2,
 x3:=xx2 };
@@ -702,13 +702,13 @@ if (const1.x3==xx2) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordConstOpt() runs on recordOper_mycomp{
-const recordOper_myrec2 const2:={	//record with basic types, with optional field
+testcase tc_recordConstOpt() runs on Mycomp{
+const Myrec2 const2:={	//record with basic types, with optional field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
 x4:=2 };
-const recordOper_myrec2 const3:={	//record with basic types, with omited field
+const Myrec2 const3:={	//record with basic types, with omited field
 x1:=1,
 x2:=1.2,
 x3:=xx2,
@@ -751,12 +751,12 @@ if (not(ispresent(const3.x4))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordConstRec() runs on recordOper_mycomp{
-const recordOper_myrec3 const4:={   //record from record
+testcase tc_recordConstRec() runs on Mycomp{
+const Myrec3 const4:={   //record from record
  x1:={ x1:=1, x2:=1.2 },
  x2:=recordOper_temp1
 };
-const recordOper_myrec3 const5:={   //record from record, with omited field
+const Myrec3 const5:={   //record from record, with omited field
  x1:={ x1:=1, x2:=1.2 },
  x2:=omit
 };
@@ -786,12 +786,12 @@ if (not(ispresent(const5.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordConstRecof() runs on recordOper_mycomp{
-const recordOper_myrec4 const6:={   //record from record of
+testcase tc_recordConstRecof() runs on Mycomp{
+const Myrec4 const6:={   //record from record of
  x1:={ '12AB'O, 'CD12'O },
  x2:=recordOper_temp2
 };
-const recordOper_myrec4 const7:={   //record from record of, with omited field
+const Myrec4 const7:={   //record from record of, with omited field
  x1:={ '12AB'O, 'CD12'O },
  x2:=omit
 };
@@ -821,12 +821,12 @@ if (not(ispresent(const7.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordConstSet() runs on recordOper_mycomp{
-const recordOper_myrec5 const8:={   //record from set
+testcase tc_recordConstSet() runs on Mycomp{
+const Myrec5 const8:={   //record from set
  x1:={ x1:=2, x2:=1.3},
  x2:=recordOper_temp3
 };
-const recordOper_myrec5 const9:={   //record from set, with omited field
+const Myrec5 const9:={   //record from set, with omited field
  x1:={ x1:=2, x2:=omit},
  x2:=omit
 };
@@ -856,12 +856,12 @@ if (not(ispresent(const9.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordConstSetof() runs on recordOper_mycomp{
-const recordOper_myrec6 const10:={   //record from set of
+testcase tc_recordConstSetof() runs on Mycomp{
+const Myrec6 const10:={   //record from set of
  x1:={"a","b"},
  x2:=recordOper_temp4  //{"f","8"},
 };
-const recordOper_myrec6 const11:={   //record from set of, with omited field
+const Myrec6 const11:={   //record from set of, with omited field
  x1:={"a","b"},
  x2:=omit
 };
@@ -891,12 +891,12 @@ if (not(ispresent(const11.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordConstUnion() runs on recordOper_mycomp{
-const recordOper_myrec7 const12:={   //record from union
+testcase tc_recordConstUnion() runs on Mycomp{
+const Myrec7 const12:={   //record from union
  x1:={ x1 :=3 },
  x2:=recordOper_temp5  //{ x2:=1.3 }
 };
-const recordOper_myrec7 const13:={   //record from union, with omited field
+const Myrec7 const13:={   //record from union, with omited field
  x1:={ x1 :=3 },
  x2:=omit
 };
@@ -934,8 +934,8 @@ if (not(ispresent(const13.x2))) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordComp() runs on recordOper_mycomp{
-var recordOper_myrec1 x1,x2,x3; // record with basic types
+testcase tc_recordComp() runs on Mycomp{
+var Myrec1 x1,x2,x3; // record with basic types
 x1:={ x1:=1, x2:=1.2, x3:=xx2 };
 x2:={ x1:=1, x2:=1.2, x3:=xx2 };
 x3:={ x1:=1, x2:=1.24, x3:=xx2 }
@@ -950,9 +950,9 @@ if (not(x1!=x2)) {setverdict(pass);}
 }
 
 
-testcase recordCompOpt() runs on recordOper_mycomp{
+testcase tc_recordCompOpt() runs on Mycomp{
 var integer inttemp:=2;		// record with basic types and optional field
-var recordOper_myrec2 x1,x2,x3;
+var Myrec2 x1,x2,x3;
 x1 :={	x1:=1, x2:=1.2, x3:=xx2, x4:=inttemp };  //inntemp=2
 x2:= { x1:=1, x2:=1.2, x3:=xx2, x4:=omit };
 x3:= { x1:=1, x2:=1.2, x3:=xx2, x4:=omit };
@@ -966,12 +966,12 @@ if (not(x2!=x3)) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordCompOptField() runs on recordOper_mycomp
+testcase tc_recordCompOptField() runs on Mycomp
 {
-  const recordOper_trecord c1 := { x1 := omit, x2 := 0.0 };
-  const recordOper_trecord c2 := { x1 := 1, x2 := 0.0 };
+  const MyRec0 c1 := { x1 := omit, x2 := 0.0 };
+  const MyRec0 c2 := { x1 := 1, x2 := 0.0 };
   const integer ci := 1;
-  var recordOper_trecord v := { x1 := omit };
+  var MyRec0 v := { x1 := omit };
   var integer i := 1;
   if (c1.x1 == omit and c1.x1 != 1 and /*c1.x1 != i and*/ c1.x1 != ci and c1.x1 == c1.x1 and
       omit == c1.x1 and 1 != c1.x1 and /*i != c1.x1 and*/ ci != c1.x1 and not c1.x1 != c1.x1)
@@ -992,9 +992,9 @@ testcase recordCompOptField() runs on recordOper_mycomp
   else { setverdict(fail); }
 }
 
-testcase recordCompRec() runs on recordOper_mycomp{
-var recordOper_trecord temp1:={ x1:=omit, x2:=3.4 };  // record with record
-var recordOper_myrec3 x1,x2,x3;
+testcase tc_recordCompRec() runs on Mycomp{
+var MyRec0 temp1:={ x1:=omit, x2:=3.4 };  // record with record
+var Myrec3 x1,x2,x3;
 x1 :={
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
@@ -1018,9 +1018,9 @@ if (not(x1!=x2)) {setverdict(pass);}
 }
 
 
-testcase recordCompRecof() runs on recordOper_mycomp{
+testcase tc_recordCompRecof() runs on Mycomp{
 var recordOper_trecof temp2:={'AF12'O};
-var recordOper_myrec4 x1,x2,x3;
+var Myrec4 x1,x2,x3;
 x1:={   //record from record of
  x1:={ '12AB'O, 'CD12'O },
  x2:=temp2
@@ -1043,9 +1043,9 @@ if (not(x1!=x2)) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordCompSet() runs on recordOper_mycomp{
+testcase tc_recordCompSet() runs on Mycomp{
 var recordOper_tset temp1:={ x1:=2, x2:=omit };
-var recordOper_myrec5 x1,x2,x3; //record from set
+var Myrec5 x1,x2,x3; //record from set
 x1:={
  x1:={ x1:=1, x2:=1.2 },
  x2:=temp1
@@ -1068,9 +1068,9 @@ if (not(x1!=x2)) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordCompSetof() runs on recordOper_mycomp{
+testcase tc_recordCompSetof() runs on Mycomp{
 var recordOper_tsetof temp2:={"a","7"};
-var recordOper_myrec6 x1,x2,x3;  //record from set of
+var Myrec6 x1,x2,x3;  //record from set of
 x1:={
  x1:={ "1", "a" },
  x2:=temp2
@@ -1093,9 +1093,9 @@ if (not(x1!=x2)) {setverdict(pass);}
      else {setverdict(fail);}
 }
 
-testcase recordCompUnion() runs on recordOper_mycomp{
-var recordOper_tunion temp5 := {x2:=1.3};	//record from union
-var recordOper_myrec7 x1,x2,x3;
+testcase tc_recordCompUnion() runs on Mycomp{
+var MyUnion temp5 := {x2:=1.3};	//record from union
+var Myrec7 x1,x2,x3;
 x1:={
  x1:={ x1 :=3 },
  x2:=temp5  //{ x2:=1.3 }
@@ -1120,30 +1120,30 @@ if (not(x1!=x2)) {setverdict(pass);}
 
 // Example from CR 5262.  No need to list all fields explicitly in the further
 // restricted type: `type myrecr1 myrecr2 ({ "", "" }, { "", "" })'.
-type record myrec1 {
+type record Myrec10 {
   integer f1 (0..255),
   charstring f2,
   charstring f3 optional
 }
-type myrec1 myrec2 ({1, "", ""}, {2, "", ""}, {f1 := 3, f2 := "", f3 := omit})
+type Myrec10 Myrec11 ({1, "", ""}, {2, "", ""}, {f1 := 3, f2 := "", f3 := omit})
 type record MyRecordTypeWithSubtypedFields {
   integer field1 (1..100),
   charstring field2 length(2..255)
 }
-type myrec1 myrec3 (myrec2, {1, "", ""})
+type Myrec10 Myrec13 (Myrec11, {1, "", ""})
 
-const myrec2 c_myrec1 := {1, "", ""}
+const Myrec11 c_myrec1 := {1, "", ""}
 
-template myrec2 t_myrec1 := c_myrec1
+template Myrec11 t_myrec1 := c_myrec1
 
 function f_rec1() return MyRecordTypeWithSubtypedFields {
   return { 2, "aaa" }
 }
 
-testcase recordSubtypes() runs on recordOper_mycomp {
+testcase tc_recordSubtypes() runs on Mycomp {
   var template MyRecordTypeWithSubtypedFields vt_myrec1 := {100, "hello"}
   var MyRecordTypeWithSubtypedFields v_myrec1 := {field1 := 100, field2 := "hello"}
-  var myrec2 v_myrec2 := valueof(modifies t_myrec1 := {f1 := 2})
+  var Myrec11 v_myrec2 := valueof(modifies t_myrec1 := {f1 := 2})
   if (match(valueof(v_myrec1), vt_myrec1)) { setverdict(pass) }
   else { setverdict(fail) }
   if ({ 2, "aaa" } == f_rec1() and f_rec1() == { 2, "aaa" }) { setverdict(pass) }
@@ -1151,31 +1151,31 @@ testcase recordSubtypes() runs on recordOper_mycomp {
   // FATAL_ERROR() with R8B: `if (valueof(MyRecordTypeWithSubtypedFields:{ 1, "hello" }) == valueof(v_myrec1)) { setverdict(pass) }'.
 }
 
-testcase recordIsvalue() runs on recordOper_mycomp{
+testcase  tc_recordIsvalue() runs on Mycomp{
   var recordOper_empty v1;
-  var recordOper_trecord vs2_def;
-  var recordOper_trecord v2;
+  var MyRec0 vs2_def;
+  var MyRec0 v2;
   v2.x1 := 42;
 
   if ( isvalue(v1) ) { setverdict(fail); } else { setverdict(pass); };
   if ( isvalue(vs2_def) ) { setverdict(fail); } else { setverdict(pass); };
   if ( isvalue(v2) ) { setverdict(fail); } else { setverdict(pass); };
 
-  var recordOper_trecord vs2_part := { -, 1.0 };
+  var MyRec0 vs2_part := { -, 1.0 };
   if ( isvalue(vs2_part) ) { setverdict(fail); } else { setverdict(pass); };
   vs2_part.x1 := omit;
   if ( isvalue(vs2_part) ) { setverdict(pass); } else { setverdict(fail); };
 
-  var recordOper_trecord vs2_om := { omit, - };
+  var MyRec0 vs2_om := { omit, - };
   if ( isvalue(vs2_om) ) { setverdict(fail); } else { setverdict(pass); };
   vs2_om.x2 := 33.0;
   if ( isvalue(vs2_om) ) { setverdict(pass); } else { setverdict(fail); };
 }
 
-testcase recordIsbound() runs on recordOper_mycomp{
+testcase tc_recordIsbound() runs on Mycomp{
   var recordOper_empty v1;
-  var recordOper_trecord vs2_def;
-  var recordOper_trecord v2;
+  var MyRec0 vs2_def;
+  var MyRec0 v2;
   v2.x1 := 42;
 
   if ( isbound(v1) ) { setverdict(fail); } else { setverdict(pass); };
@@ -1184,36 +1184,36 @@ testcase recordIsbound() runs on recordOper_mycomp{
   if ( isbound(vs2_def.x2) ) { setverdict(fail); } else { setverdict(pass); };
   if ( isbound(v2) ) { setverdict(pass); } else { setverdict(fail); };
 
-  var recordOper_trecord vs2_part := { -, 1.0 };
+  var MyRec0 vs2_part := { -, 1.0 };
   if ( isbound(vs2_part) ) { setverdict(pass); } else { setverdict(fail); };
   vs2_part.x1 := omit;
   if ( isbound(vs2_part) ) { setverdict(pass); } else { setverdict(fail); };
 
-  var recordOper_trecord vs2_om := { omit, - };
+  var MyRec0 vs2_om := { omit, - };
   if ( isbound(vs2_om) ) { setverdict(pass); } else { setverdict(fail); };
   vs2_om.x2 := 33.0;
   if ( isbound(vs2_om) ) { setverdict(pass); } else { setverdict(fail); };
 }
 
 type set AllRec {
-  recordOper_myrec8 r1,
-  recordOper_myrec8 r2 optional
+  Myrec8 r1,
+  Myrec8 r2 optional
 }
-template recordOper_myrec8 t_MyRec := { f1 := *, f2 := * };
-const recordOper_myrec8 c1_MyRec := { f1 := 5, f2 := omit };
-const recordOper_myrec8 c2_MyRec := { f1 := omit, f2 := "omit" };
+template Myrec8 t_MyRec := { f1 := *, f2 := * };
+const Myrec8 c1_MyRec := { f1 := 5, f2 := omit };
+const Myrec8 c2_MyRec := { f1 := omit, f2 := "omit" };
 const AllRec c_AllRec := { r1 := c1_MyRec, r2 := c2_MyRec }
 // This function is called from testcase recordIsvalue2
-function f_isvalue_record(in recordOper_myrec8 p1_MyRec, in recordOper_myrec8 p2_MyRec, in AllRec p_AllRec, in template recordOper_myrec8 pt_MyRec) runs on recordOper_mycomp
+function f_isvalue_record(in Myrec8 p1_MyRec, in Myrec8 p2_MyRec, in AllRec p_AllRec, in template Myrec8 pt_MyRec) runs on Mycomp
 {
-  var recordOper_myrec8 v1_MyRec;
-  var recordOper_myrec8 v2_MyRec;
-  var template recordOper_myrec8 vt_MyRec;
+  var Myrec8 v1_MyRec;
+  var Myrec8 v2_MyRec;
+  var template Myrec8 vt_MyRec;
   var AllRec v_AllRec;
   template integer ti := 5 ifpresent;
-  template recordOper_myrec8 rrr1 := { 11, "true" }
-  template recordOper_myrec8 rrr2 := { 11, "true" } ifpresent;
-  template recordOper_myrec8 rrr3 := { 11, "true" ifpresent}
+  template Myrec8 rrr1 := { 11, "true" }
+  template Myrec8 rrr2 := { 11, "true" } ifpresent;
+  template Myrec8 rrr3 := { 11, "true" ifpresent}
 
   if ( isvalue(v1_MyRec) ) { setverdict(fail); } else { setverdict(pass); };
   if ( isvalue(vt_MyRec) ) { setverdict(fail); } else { setverdict(pass); };
@@ -1322,11 +1322,11 @@ function f_isvalue_record(in recordOper_myrec8 p1_MyRec, in recordOper_myrec8 p2
   if ( isvalue(rrr3) ) { setverdict(fail); } else { setverdict(pass); };
 }
 
-testcase recordIsvalue2() runs on recordOper_mycomp
+testcase tc_recordIsvalue2() runs on Mycomp
 {
-  var recordOper_myrec8 x1_MyRec := { f1 := 5, f2 := omit };
-  var recordOper_myrec8 x2_MyRec := { f1 := omit, f2 := "omit" };
-  var template recordOper_myrec8 xt_MyRec := { f1 := omit, f2 := omit };
+  var Myrec8 x1_MyRec := { f1 := 5, f2 := omit };
+  var Myrec8 x2_MyRec := { f1 := omit, f2 := "omit" };
+  var template Myrec8 xt_MyRec := { f1 := omit, f2 := omit };
   var AllRec x_AllRec := { r1 := x1_MyRec, r2 := x2_MyRec }
   f_isvalue_record(x1_MyRec, x2_MyRec, x_AllRec, xt_MyRec) ;
 }
@@ -1336,7 +1336,7 @@ testcase recordIsvalue2() runs on recordOper_mycomp
       IntegerList appData
     }
 
-testcase CR_TR00016681() runs on recordOper_mycomp
+testcase tc_CR_TR00016681() runs on Mycomp
 {
   var Ctx vu;
   // appData field: Unbound record of
@@ -1381,21 +1381,21 @@ testcase CR_TR00016681() runs on recordOper_mycomp
   if (isbound(i)) { setverdict (pass); } else { setverdict(fail); }
 }
 
-const MyRec2 c_myrec2_part:={ 
+const Myrec12 c_myrec2_part:={ 
   roc:={},
   roi:={10,9,8},
   u:={ r:={ /*i:=1,*/ x:=1.0, c:="one"}},
   r:={ i:=1, x:=1.0, c:="one"}
 }  
 
-const MyRec2 c_myrec2_1:={ 
+const Myrec12 c_myrec2_1:={ 
   roc:=omit,
   roi:={},
   u:={r:={ i:=1, x:=1.0, c:="one"}},
   r:={ i:=1, x:=1.0, c:="one"}
 }
 
-type record MyRec2{
+type record Myrec12{
   ROC roc optional,
   ROI roi optional,
   MyUnion1 u optional, 
@@ -1417,87 +1417,87 @@ type union MyUnion1 {
   MyRecord1 r
 }
 
-testcase tc_record_completlyInit() runs on recordOper_mycomp {
-  var MyRec2 vl_r1:=c_myrec2_1;
+testcase tc_record_completelyInit() runs on Mycomp {
+  var Myrec12 vl_r1:=c_myrec2_1;
   if(isbound(vl_r1)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r2:=c_myrec2_part;
+  var Myrec12 vl_r2:=c_myrec2_part;
   if(isbound(vl_r2)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r3:=c_myrec2_part;
+  var Myrec12 vl_r3:=c_myrec2_part;
   if(isbound(vl_r3)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r4:=c_myrec2_part;
+  var Myrec12 vl_r4:=c_myrec2_part;
   if(isbound(vl_r4.roc)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r5:=c_myrec2_part;
+  var Myrec12 vl_r5:=c_myrec2_part;
   if(isbound(vl_r5.roi)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r6:=c_myrec2_part;
+  var Myrec12 vl_r6:=c_myrec2_part;
   if(isbound(vl_r6.u)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r7:=c_myrec2_part;
+  var Myrec12 vl_r7:=c_myrec2_part;
   if(isbound(vl_r7.u.r)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r8:=c_myrec2_part;
+  var Myrec12 vl_r8:=c_myrec2_part;
   if(isbound(vl_r8.u.r.i)){setverdict(fail)}else {setverdict(pass)};
-  var MyRec2 vl_r9:=c_myrec2_part;
+  var Myrec12 vl_r9:=c_myrec2_part;
   if(isbound(vl_r9.u.r.x)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r10:=c_myrec2_part;
+  var Myrec12 vl_r10:=c_myrec2_part;
   if(isbound(vl_r10.u.r.c)){setverdict(pass)}else {setverdict(fail)};
-  var MyRec2 vl_r11:=c_myrec2_part;
+  var Myrec12 vl_r11:=c_myrec2_part;
   if(isbound(vl_r11.u.i)){setverdict(fail)}else {setverdict(pass)};
 }
 
-testcase tc_record_partiallyInit12() runs on recordOper_mycomp {
-  var MyRec2 vl_r:={ r:={i:=5}}
+testcase tc_record_partiallyInit12() runs on Mycomp {
+  var Myrec12 vl_r:={ r:={i:=5}}
   if(isbound(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
   if(isbound(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
 }
 
-testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
-  var MyRec2 vl_r:={ r:={i:=5,x:=-,c:= -}} 
+testcase tc_record_partiallyInit13() runs on Mycomp {
+  var Myrec12 vl_r:={ r:={i:=5,x:=-,c:= -}} 
   if(isbound(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
   if(isbound(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
   if(isbound(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
 }
 
-  testcase tc_record_unbound() runs on recordOper_mycomp {
-    var template MyRec2 vtl_rec2;
+  testcase tc_record_unbound() runs on Mycomp {
+    var template Myrec12 vtl_rec2;
     if(ispresent(vtl_rec2)) {setverdict(fail)}else {setverdict(pass)};
   }
 
-  testcase tc_record_completlyInit_ispresent() runs on recordOper_mycomp {
-    var MyRec2 vl_r1:=c_myrec2_1;
+  testcase tc_record_completelyInit_ispresent() runs on Mycomp {
+    var Myrec12 vl_r1:=c_myrec2_1;
     if(ispresent(vl_r1)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r2:=c_myrec2_part;
+    var Myrec12 vl_r2:=c_myrec2_part;
     if(ispresent(vl_r2)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r3:=c_myrec2_part;
+    var Myrec12 vl_r3:=c_myrec2_part;
     if(ispresent(vl_r3.roc)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r4:=c_myrec2_part;
+    var Myrec12 vl_r4:=c_myrec2_part;
     if(ispresent(vl_r4.roi)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r5:=c_myrec2_part;
+    var Myrec12 vl_r5:=c_myrec2_part;
     if(ispresent(vl_r5.u)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r6:=c_myrec2_part;
+    var Myrec12 vl_r6:=c_myrec2_part;
     if(ispresent(vl_r6.u.r)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r7:=c_myrec2_part;
+    var Myrec12 vl_r7:=c_myrec2_part;
     if(ispresent(vl_r7.u.r.i)){setverdict(fail)}else {setverdict(pass)};
-    var MyRec2 vl_r8:=c_myrec2_part;
+    var Myrec12 vl_r8:=c_myrec2_part;
     if(ispresent(vl_r8.u.r.x)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r9:=c_myrec2_part;
+    var Myrec12 vl_r9:=c_myrec2_part;
     if(ispresent(vl_r9.u.r.c)){setverdict(pass)}else {setverdict(fail)};
-    var MyRec2 vl_r10:=c_myrec2_part;
+    var Myrec12 vl_r10:=c_myrec2_part;
     if(ispresent(vl_r10.u.i)){setverdict(fail)}else {setverdict(pass)};
   }
 
-  testcase tc_record_partiallyInit12_ispresent() runs on recordOper_mycomp {
-    var MyRec2 vl_r:={ r:={i:=5}}
+  testcase tc_record_partiallyInit12_ispresent() runs on Mycomp {
+    var Myrec12 vl_r:={ r:={i:=5}}
     if(ispresent(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
     if(ispresent(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
   }
 
-  testcase tc_record_partiallyInit13_ispresent() runs on recordOper_mycomp {
-    var MyRec2 vl_r:={ r:={i:=5,x:=-,c:= -}} 
+  testcase tc_record_partiallyInit13_ispresent() runs on Mycomp {
+    var Myrec12 vl_r:={ r:={i:=5,x:=-,c:= -}} 
     if(ispresent(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
     if(ispresent(vl_r.r)){setverdict(pass)}else {setverdict(fail)};
     if(ispresent(vl_r.r.i)){setverdict(pass)}else {setverdict(fail)};
   }
 
-  testcase tc_record_omit() runs on recordOper_mycomp {
-    var MyRec2 vl_r:={omit, omit, omit, omit} 
+  testcase tc_record_omit() runs on Mycomp {
+    var Myrec12 vl_r:={omit, omit, omit, omit} 
     if(ispresent(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
     if(ispresent(vl_r.roc)){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roi)){setverdict(fail)}else {setverdict(pass)};
@@ -1512,8 +1512,8 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     if(ispresent(vl_r.r.c)){setverdict(fail)}else {setverdict(pass)};
   }
 
-  testcase tc_record_omit2() runs on recordOper_mycomp {
-    var MyRec2 vl_r:={roc:=omit, roi:=omit,u:= omit,r:= omit} 
+  testcase tc_record_omit2() runs on Mycomp {
+    var Myrec12 vl_r:={roc:=omit, roi:=omit,u:= omit,r:= omit} 
     if(ispresent(vl_r)){setverdict(pass)}else {setverdict(fail)}; 
     if(ispresent(vl_r.roc)){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roi)){setverdict(fail)}else {setverdict(pass)};
@@ -1528,14 +1528,14 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     if(ispresent(vl_r.r.c)){setverdict(fail)}else {setverdict(pass)};
   }
 
-  testcase tc_record_omit_HQ51693() runs on recordOper_mycomp {
-    var recordOper_myrec9 r1 := {omit, omit};
+  testcase tc_record_omit_HQ51693() runs on Mycomp {
+    var Myrec9 r1 := {omit, omit};
     r1.f1 := r1.f2;
     if(ispresent(r1.f1) or ispresent(r1.f2)){setverdict(fail)}else {setverdict(pass)}; 
   }
 
-  testcase tc_recordOf_omit() runs on recordOper_mycomp {
-    var MyRec2 vl_r:=c_myrec2_1;
+  testcase tc_recordOf_omit() runs on Mycomp {
+    var Myrec12 vl_r:=c_myrec2_1;
     if(ispresent(vl_r.roc)){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roc[0])){setverdict(fail)}else {setverdict(pass)};
     if(ispresent(vl_r.roi)){setverdict(pass)}else {setverdict(fail)};
@@ -1559,7 +1559,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     b := false
   }
 
-  testcase tc_rec_template() runs on recordOper_mycomp {
+  testcase tc_rec_template() runs on Mycomp {
 
     if (isbound(exampleTemplate1)) {
       setverdict(pass);
@@ -1593,7 +1593,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     b := MyBoolTemplate
   }
 
-  testcase tc_rec_template_param() runs on recordOper_mycomp {
+  testcase tc_rec_template_param() runs on Mycomp {
 
     if (isbound(exampleTemplate2)) {
       setverdict(pass);
@@ -1675,7 +1675,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     b := MyBoolTemplate
   }
 
-    testcase tc_rec_template_param_modifies() runs on recordOper_mycomp {
+    testcase tc_rec_template_param_modifies() runs on Mycomp {
 
     if (isbound(exampleTemplate3)) {
       setverdict(pass);
@@ -1763,7 +1763,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     t := {3, true}
   }
 
-  testcase tc_emb_rec_template() runs on recordOper_mycomp {
+  testcase tc_emb_rec_template() runs on Mycomp {
 
     if (isbound(exampleEmbTemplate1)) {
       setverdict(pass);
@@ -1809,7 +1809,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     t := {MyintTemplate, MyBoolTemplate}
   }
 
-  testcase tc_emb_rec_template_param() runs on recordOper_mycomp {
+  testcase tc_emb_rec_template_param() runs on Mycomp {
 
     if (isbound(exampleEmbTemplate2)) {
       setverdict(pass);
@@ -1927,7 +1927,7 @@ testcase tc_record_partiallyInit13() runs on recordOper_mycomp {
     t := {MyintTemplate, MyBoolTemplate}
   }
 
-  testcase tc_emb_rec_template_param_modifies() runs on recordOper_mycomp {
+  testcase tc_emb_rec_template_param_modifies() runs on Mycomp {
 
     if (isbound(exampleEmbTemplate3)) {
       setverdict(pass);
@@ -2044,7 +2044,7 @@ template anytype exampleAnyTypeTemplate1 := {
   ExampleType := {2, false}
 }
 
-testcase tc_anytype_rec_template() runs on recordOper_mycomp {
+testcase tc_anytype_rec_template() runs on Mycomp {
 
     if (isbound(exampleAnyTypeTemplate1)) {
       setverdict(pass);
@@ -2087,7 +2087,7 @@ testcase tc_anytype_rec_template() runs on recordOper_mycomp {
     ExampleType := {MyintTemplate, MyBoolTemplate}
   }
 
-  testcase tc_anytype_rec_template_param() runs on recordOper_mycomp {
+  testcase tc_anytype_rec_template_param() runs on Mycomp {
 
     if (isbound(exampleAnyTypeTemplate2)) {
       setverdict(pass);
@@ -2202,7 +2202,7 @@ testcase tc_anytype_rec_template() runs on recordOper_mycomp {
     ExampleType := {MyintTemplate, MyBoolTemplate}
   }
 
-  testcase tc_anytype_rec_template_param_modifies() runs on recordOper_mycomp {
+  testcase tc_anytype_rec_template_param_modifies() runs on Mycomp {
 
     if (isbound(exampleAnyTypeTemplate3)) {
       setverdict(pass);
@@ -2316,9 +2316,9 @@ testcase tc_anytype_rec_template() runs on recordOper_mycomp {
 
 //###########################################################################//
 
-testcase tc_record_equality() runs on recordOper_mycomp {
-  var recordOper_trecord vl_rec_partial1 := { x1 := 1 };
-  var recordOper_trecord vl_rec_partial2 := { x1 := 1 };
+testcase tc_record_equality() runs on Mycomp {
+  var MyRec0 vl_rec_partial1 := { x1 := 1 };
+  var MyRec0 vl_rec_partial2 := { x1 := 1 };
   @try {
     if (vl_rec_partial1 == vl_rec_partial2) {
       setverdict(fail, "Equal.");
@@ -2340,11 +2340,11 @@ testcase tc_record_equality() runs on recordOper_mycomp {
 //###########################################################################//
     
 control {
- const recordOper_trecord cl_temp1:={ x1:=omit, x2:=3.4 }; // can constants be declared in the control part
+ const MyRec0 cl_temp1:={ x1:=omit, x2:=3.4 }; // can constants be declared in the control part
  const recordOper_trecof cl_temp2:={ 'AF12'O };
  const recordOper_tset cl_temp3:={ x1:=234, x2:=1.9};
  const recordOper_tsetof cl_temp4:={"f","8"};
- const recordOper_tunion cl_temp5:={ x2:=1.3 };
+ const MyUnion cl_temp5:={ x2:=1.3 };
  const typedefrecordComp_myrec cl_const14 := {  // complex record
   x1 := { x1:=omit, x2:=3.4 },
   x2 := { 'AF12'O },
@@ -2353,56 +2353,56 @@ control {
   x5 := { x2:=1.3 },
   x6 := {1,2,3}
  }
- var recordOper_trecord vl_temp1; // can variables be declared in the control part
+ var MyRec0 vl_temp1; // can variables be declared in the control part
  var recordOper_trecof vl_temp2;
  var recordOper_tset vl_temp3;
  var recordOper_tsetof vl_temp4;
- var recordOper_tunion vl_temp5;
+ var MyUnion vl_temp5;
  var typedefrecordComp_myrec vl_const14;
 
- execute(recordAssign());
- execute(recordAssignIncomplete());
- execute(recordAssignOpt());
- execute(recordAssignRec());
- execute(recordAssignRecof());
- execute(recordAssignSet());
- execute(recordAssignSetof());
- execute(recordAssignUnion());
- execute(recordAssignElem());
- execute(recordAssignElemOpt());
- execute(recordAssignElemRec());
- execute(recordAssignElemRecof());
- execute(recordAssignElemSet());
- execute(recordAssignElemSetof());
- execute(recordAssignElemUnion());
- execute(recordSizeof());
- execute(recordConst());
- execute(recordConstOpt());
- execute(recordConstRec());
- execute(recordConstRecof());
- execute(recordConstSet());
- execute(recordConstSetof());
- execute(recordConstUnion());
- execute(recordComp());
- execute(recordCompOpt());
- execute(recordCompOptField());
- execute(recordCompRec());
- execute(recordCompRecof());
- execute(recordCompSet());
- execute(recordCompSetof());
- execute(recordCompUnion());
- execute(recordSubtypes());
- execute(recordIsvalue());
- execute(recordIsbound());
- execute(recordIsvalue2());
+ execute(tc_recordAssign());
+ execute(tc_recordAssignIncomplete());
+ execute(tc_recordAssignOpt());
+ execute(tc_recordAssignRec());
+ execute(tc_recordAssignRecof());
+ execute(tc_recordAssignSet());
+ execute(tc_recordAssignSetof());
+ execute(tc_recordAssignUnion());
+ execute(tc_recordAssignElem());
+ execute(tc_recordAssignElemOpt());
+ execute(tc_recordAssignElemRec());
+ execute(tc_recordAssignElemRecof());
+ execute(tc_recordAssignElemSet());
+ execute(tc_recordAssignElemSetof());
+ execute(tc_recordAssignElemUnion());
+ execute(tc_recordSizeof());
+ execute(tc_recordConst());
+ execute(tc_recordConstOpt());
+ execute(tc_recordConstRec());
+ execute(tc_recordConstRecof());
+ execute(tc_recordConstSet());
+ execute(tc_recordConstSetof());
+ execute(tc_recordConstUnion());
+ execute(tc_recordComp());
+ execute(tc_recordCompOpt());
+ execute(tc_recordCompOptField());
+ execute(tc_recordCompRec());
+ execute(tc_recordCompRecof());
+ execute(tc_recordCompSet());
+ execute(tc_recordCompSetof());
+ execute(tc_recordCompUnion());
+ execute(tc_recordSubtypes());
+ execute(tc_recordIsvalue());
+ execute(tc_recordIsbound());
+ execute(tc_recordIsvalue2());
 
- execute(CR_TR00016681());
+ execute(tc_CR_TR00016681());
  
- execute(tc_record_completlyInit());
+ execute(tc_record_completelyInit());
  execute(tc_record_partiallyInit12());
  execute(tc_record_partiallyInit13());
  execute(tc_record_unbound());
- execute(tc_record_completlyInit_ispresent());
+ execute(tc_record_completelyInit_ispresent());
  execute(tc_record_partiallyInit12_ispresent());
  execute(tc_record_partiallyInit13_ispresent());
  execute(tc_record_omit());
