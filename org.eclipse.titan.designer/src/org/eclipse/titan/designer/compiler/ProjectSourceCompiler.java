@@ -550,6 +550,20 @@ public class ProjectSourceCompiler {
 			aSb.append("\t\treturn true;\n");
 			aSb.append("\t}\n\n");
 		}
+		
+		if (aData.getLogModuleParameters().length() > 0) {
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic void log_module_param()\n");
+			aSb.append("\t{\n");
+			aSb.append("\t\t");
+			aSb.append(aData.getLogModuleParameters());
+			aSb.append("\t}\n\n");
+			
+			aSb.append("\t@Override\n");
+			aSb.append("\tpublic boolean has_log_module_param() {\n");
+			aSb.append("\t\treturn true;\n");
+			aSb.append("\t}\n\n");
+		}
 
 		if (aData.getPreInit().length() > 0) {
 			aSb.append("\tpublic void pre_init_module()\n");
