@@ -58,6 +58,9 @@ public class JavaGenData {
 	/** the contents of get_module_param */
 	private final StringBuilder getModuleParameters;
 
+	/** the contents of log_module_param */
+	private final StringBuilder logModuleParameters;
+
 	/** the contents of start_function if needed */
 	private final StringBuilder startPTCFunction;
 
@@ -152,6 +155,7 @@ public class JavaGenData {
 		postInit = new StringBuilder();
 		setModuleParameters = new StringBuilder();
 		getModuleParameters = new StringBuilder();
+		logModuleParameters = new StringBuilder();
 		startPTCFunction = new StringBuilder();
 		executeTestcase = new StringBuilder();
 		executeAllTestcases = new StringBuilder();
@@ -292,6 +296,13 @@ public class JavaGenData {
 	 */
 	public StringBuilder getGetModuleParameters () {
 		return getModuleParameters;
+	}
+
+	/**
+	 * @return the string where the module parameter logging code is written
+	 */
+	public StringBuilder getLogModuleParameters() {
+		return logModuleParameters;
 	}
 
 	/**

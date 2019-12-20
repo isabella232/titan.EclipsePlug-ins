@@ -196,7 +196,17 @@ public final class Module_List {
 		return param;
 	}
 
-	//FIXME implement log_param
+	public void log_param() {
+		for (int i = 0; i < modules.size(); i++) {
+			if (modules.get(i).has_log_module_param()) {
+				TTCN_Logger.begin_event(Severity.EXECUTOR_CONFIGDATA);
+				TTCN_Logger.log_event("Module %s has the following parameters: { ", modules.get(i).module_name);
+				modules.get(i).log_module_param();
+				TTCN_Logger.log_event_str(" }");
+				TTCN_Logger.end_event();
+			}
+		}
+	}
 
 	public static void execute_control(final String module_name) {
 		final TTCN_Module module = lookup_module(module_name);
