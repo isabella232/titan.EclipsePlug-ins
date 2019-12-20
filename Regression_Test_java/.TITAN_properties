@@ -27,12 +27,6 @@
       </FileProperties>
     </FileResource>
     <FileResource>
-      <FilePath>src/TtemplateRec.ttcn</FilePath>
-      <FileProperties>
-        <ExcludeFromBuild>true</ExcludeFromBuild>
-      </FileProperties>
-    </FileResource>
-    <FileResource>
       <FilePath>src/TverdictOper.ttcn</FilePath>
       <FileProperties>
         <ExcludeFromBuild>true</ExcludeFromBuild>
@@ -122,7 +116,7 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
-      <FolderPath>src/singlecontrol</FolderPath>
+      <FolderPath>src/templateRec</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
         <ExcludeFromBuild>true</ExcludeFromBuild>
