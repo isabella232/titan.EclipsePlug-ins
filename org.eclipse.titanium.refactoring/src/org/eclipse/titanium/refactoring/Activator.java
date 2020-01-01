@@ -23,6 +23,10 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 
+	/**
+	 * Default constructor for the activator.
+	 * Called by the system when the plug-in gets activated.
+	 * */
 	public Activator() {
 		setDefault(this);
 	}

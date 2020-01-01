@@ -24,6 +24,10 @@ public final class Activator extends AbstractUIPlugin {
 	private static Activator plugin = null;
 	private static ExecutorMonitorView mainView = null;
 
+	/**
+	 * Default constructor for the activator.
+	 * Called by the system when the plug-in gets activated.
+	 * */
 	public Activator() {
 		setDefault(this);
 	}

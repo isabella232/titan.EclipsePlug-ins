@@ -236,8 +236,9 @@ public final class Activator extends AbstractUIPlugin {
 
 
 	/**
-	 * The constructor.
-	 */
+	 * Default constructor for the activator.
+	 * Called by the system when the plug-in gets activated.
+	 * */
 	public Activator() {
 		setDefault(this);
 	}

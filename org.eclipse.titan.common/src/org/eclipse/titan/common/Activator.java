@@ -28,6 +28,10 @@ public final class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 	private WorkspaceJob usageStatSenderJob;
 
+	/**
+	 * Default constructor for the activator.
+	 * Called by the system when the plug-in gets activated.
+	 * */
 	public Activator() {
 		setDefault(this);
 	}
