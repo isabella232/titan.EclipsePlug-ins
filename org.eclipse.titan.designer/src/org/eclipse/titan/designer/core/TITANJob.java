@@ -115,11 +115,13 @@ public class TITANJob extends WorkspaceJob {
 	}
 
 	public final void addCommand(final List<String> command, final String description) {
-		commands.add(command);
-		descriptions.add(description);
 		if (command == null || description == null) {
 			ErrorReporter.INTERNAL_ERROR("Wrong parameters to a TITANJob: `" + command + "', `" + description + "'");
+			return;
 		}
+
+		commands.add(command);
+		descriptions.add(description);
 	}
 
 	/**
