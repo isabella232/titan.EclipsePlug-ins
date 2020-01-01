@@ -31,6 +31,10 @@ public class TITANCommonPreferencePage extends FieldEditorPreferencePage impleme
 	private Group mergeGroup;
 	private RadioGroupFieldEditor mergeOptions;
 
+	/**
+	 * Constructor for the preference page of features from the common
+	 * plug-in.
+	 * */
 	public TITANCommonPreferencePage() {
 		super(GRID);
 	}
