@@ -328,11 +328,11 @@ public class CfgParseTreePrinter {
 		}
 
 		// the only non-hidden token
-		if ( aResolveMode != ResolveMode.NO_RESOLVING ) {
-			resolveToken( aToken, aResolveMode, aFile );
-		} else {
+		if ( aResolveMode == ResolveMode.NO_RESOLVING ) {
 			final String tokenText = aToken.getText();
-			mSb.append( tokenText != null ? tokenText : "" );
+			mSb.append( tokenText == null ? "" : tokenText );
+		} else {
+			resolveToken( aToken, aResolveMode, aFile );
 		}
 	}
 
@@ -357,7 +357,7 @@ public class CfgParseTreePrinter {
 		for ( int i = startHiddenIndex; i < tokenIndex; i++ ) {
 			final Token t = aTokens.get( i );
 			final String tokenText = t.getText();
-			mSb.append( tokenText != null ? tokenText : "" );
+			mSb.append( tokenText == null ? "" : tokenText);
 		}
 	}
 
@@ -423,7 +423,7 @@ public class CfgParseTreePrinter {
 			resolveTokenNestedInclude( aToken, aResolveMode, aFile );
 		} else {
 			final String tokenText = aToken.getText();
-			mSb.append( tokenText != null ? tokenText : "" );
+			mSb.append( tokenText == null ? "" : tokenText );
 		}
 	}
 
@@ -445,12 +445,12 @@ public class CfgParseTreePrinter {
 		// because absolute file names are used as keys in aParseTreeRoots
 		final Path absolutePath = getAbsolutePath( aFile, filename );
 		final CfgParseResult cfgParseResult = mCfgParseResults.get( absolutePath );
-		if ( cfgParseResult != null ) {
-			printResolved( absolutePath, cfgParseResult.getParseTreeRoot(), cfgParseResult.getTokens(), aResolveMode );
-		} else {
+		if ( cfgParseResult == null ) {
 			// include file is missing from mCfgParseResults, so the included cfg file is not parsed
 			// in ConfigFileHandler.readFromFile()
 			ErrorReporter.INTERNAL_ERROR("ParseTreePrinter.resolveTokenNestedInclude(): cfgParseResult == null");
+		} else {
+			printResolved( absolutePath, cfgParseResult.getParseTreeRoot(), cfgParseResult.getTokens(), aResolveMode );
 		}
 	}
 
