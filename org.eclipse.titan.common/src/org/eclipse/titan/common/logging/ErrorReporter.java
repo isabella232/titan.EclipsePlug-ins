@@ -37,8 +37,8 @@ public final class ErrorReporter {
 	 *                The exception to be logged.
 	 */
 	public static void logExceptionStackTrace(final Exception e) {
-		final String message = e.getMessage();
-		getMyLog().log(new Status(IStatus.ERROR, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, (message != null) ? message : EMPTY, e));
+		final String message = e.getMessage() == null ? EMPTY : e.getMessage();
+		getMyLog().log(new Status(IStatus.ERROR, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, message, e));
 	}
 
 	/**
