@@ -43,21 +43,14 @@ public class LogFormatter {
 		resizeIndentation(DEFAULT_INDENTATION_SIZE);
 	}
 
-	private final IProgressMonitor internalMonitor;
-	private final FileChannel inChannel;
-	private final FileChannel outChannel;
-
 	private LastTokenTypes lastToken;
 	private int indentationLevel;
 	private boolean insideString;
 
-	public LogFormatter(final IProgressMonitor internalMonitor, final FileChannel inChannel, final FileChannel outChannel) {
-		this.internalMonitor = internalMonitor;
-		this.inChannel = inChannel;
-		this.outChannel = outChannel;
+	public LogFormatter() {
 	}
 
-	public void format() throws IOException {
+	public void format(final IProgressMonitor internalMonitor, final FileChannel sourceChannel, final FileChannel targetChannel) throws IOException {
 		long nofProcessedBytes = 0;
 		indentationLevel = 0;
 		insideString = false;
@@ -66,20 +59,20 @@ public class LogFormatter {
 		final ByteBuffer sourceBuffer = ByteBuffer.allocateDirect(IN_BUFFER_SIZE);
 		final ByteBuffer targetBuffer = ByteBuffer.allocate(OUT_BUFFER_SIZE);
 		sourceBuffer.clear();
-		while (!cancelled && inChannel.read(sourceBuffer) != -1) {
+		while (!cancelled && sourceChannel.read(sourceBuffer) != -1) {
 			if (internalMonitor.isCanceled()) {
 				cancelled = true;
 			}
 
 			sourceBuffer.flip();
 
-			processBuffer(sourceBuffer, targetBuffer);
+			processBuffer(sourceBuffer, targetBuffer, targetChannel);
 
 			nofProcessedBytes += sourceBuffer.limit();
 			sourceBuffer.flip();
 			targetBuffer.flip();
 
-			outChannel.write(targetBuffer);
+			targetChannel.write(targetBuffer);
 			targetBuffer.clear();
 
 			if (nofProcessedBytes > TICK_SIZE) {
@@ -89,20 +82,20 @@ public class LogFormatter {
 		}
 	}
 
-	private void processBuffer(final ByteBuffer source, final ByteBuffer target) throws IOException {
+	private void processBuffer(final ByteBuffer source, final ByteBuffer targetBuffer, final FileChannel targetChannel) throws IOException {
 		byte actualByte;
 		while (source.hasRemaining()) {
 			actualByte = source.get();
-			if (target.remaining() < indentationLevel * INDENTATION_SIZE + 1) {
-				target.flip();
-				outChannel.write(target);
-				target.clear();
+			if (targetBuffer.remaining() < indentationLevel * INDENTATION_SIZE + 1) {
+				targetBuffer.flip();
+				targetChannel.write(targetBuffer);
+				targetBuffer.clear();
 			}
 
 			if (insideString) {
-				processInsideString(source, target, actualByte);
+				processInsideString(source, targetBuffer, actualByte);
 			} else {
-				outsideString(source, target, actualByte);
+				outsideString(source, targetBuffer, actualByte);
 			}
 		}
 	}

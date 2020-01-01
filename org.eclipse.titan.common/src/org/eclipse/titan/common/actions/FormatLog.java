@@ -94,7 +94,7 @@ public final class FormatLog extends AbstractHandler implements IWorkbenchWindow
 
 			outChannel = openOutputFile(targetPath);
 
-			new LogFormatter(internalMonitor, inChannel, outChannel).format();
+			new LogFormatter().format(internalMonitor, inChannel, outChannel);
 
 		} catch (IOException e) {
 			ErrorReporter.logExceptionStackTrace("Error while formatting log file: " + file.getLocation().toOSString(), e);
