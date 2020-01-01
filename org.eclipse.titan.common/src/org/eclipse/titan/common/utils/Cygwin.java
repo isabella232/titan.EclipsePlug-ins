@@ -81,9 +81,10 @@ public final class Cygwin {
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream(), Charset.defaultCharset()));
 		try {
 			final StringBuilder stringBuilder = new StringBuilder();
-			String line = null;
-			while ((line = reader.readLine()) != null) {
+			String line = reader.readLine();
+			while (line != null) {
 				stringBuilder.append(line);
+				line = reader.readLine();
 			}
 			if (proc.waitFor() != 0) {
 				return null;

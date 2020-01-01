@@ -88,10 +88,11 @@ public final class IOUtils {
 		final Reader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF8_KEY));
 		final StringBuilder content = new StringBuilder();
 		final char[] buffer = new char[1024];
-		int n;
+		int n = reader.read(buffer);
 
-		while ((n = reader.read(buffer)) != -1) {
+		while (n != -1) {
 			content.append(buffer, 0, n);
+			n = reader.read(buffer);
 		}
 
 		return content.toString();
