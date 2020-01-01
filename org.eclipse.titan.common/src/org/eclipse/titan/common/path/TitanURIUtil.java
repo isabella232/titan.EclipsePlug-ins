@@ -40,6 +40,12 @@ public final class TitanURIUtil {
 		return sourcePath.isPrefixOf(otherPath);
 	}
 
+	/**
+	 * Removes the last segment of the provided URI.
+	 *
+	 * @param original the original URI.
+	 * @return the resulting URI.
+	 * */
 	public static URI removeLastSegment(final URI original) {
 		final String lastSegment = URIUtil.lastSegment(original);
 		if (lastSegment == null) {
