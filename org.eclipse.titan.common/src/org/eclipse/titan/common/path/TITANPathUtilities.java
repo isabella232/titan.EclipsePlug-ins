@@ -51,10 +51,8 @@ public final class TITANPathUtilities {
 		if (uri == null) {
 			return EnvironmentVariableResolver.eclipseStyle().replaceEnvVarsWithUnixEnvVars(pathToBeResolved);
 		} else {
-			return PathConverter.convert(URIUtil.toPath(uri).toOSString(), reportDebugInformation,
-					outputConsole);
+			return PathConverter.convert(URIUtil.toPath(uri).toOSString(), reportDebugInformation, outputConsole);
 		}
-
 	}
 
 	/**
@@ -123,8 +121,8 @@ public final class TITANPathUtilities {
 		}
 
 		final Map<?, ?> envVariables = debugPlugin.getLaunchManager().getNativeEnvironmentCasePreserved();
-		return resolvePathURI(pathToBeResolved, basePath, envVariables,
-				ResourcesPlugin.getWorkspace().getPathVariableManager());
+		final IPathVariableManager pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
+		return resolvePathURI(pathToBeResolved, basePath, envVariables, pathVariableManager);
 	}
 
 	/**
