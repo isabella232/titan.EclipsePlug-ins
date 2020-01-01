@@ -34,11 +34,11 @@ public class CharstringExtractor {
 	 * @param removeQuotes true to remove the beginning and ending '"' characters
 	 */
 	public CharstringExtractor(final String aTtcnCharstring, final boolean removeQuotes) {
-		if (aTtcnCharstring != null) {
+		if (aTtcnCharstring == null) {
+			mExtractedString = null;
+		} else {
 			final String withoutQuotes = removeQuotes ? aTtcnCharstring.replaceAll("^\"|\"$", "") : aTtcnCharstring;
 			mExtractedString = extractString(withoutQuotes);
-		} else {
-			mExtractedString = null;
 		}
 	}
 

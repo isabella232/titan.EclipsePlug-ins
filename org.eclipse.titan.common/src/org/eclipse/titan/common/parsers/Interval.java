@@ -47,11 +47,11 @@ public class Interval {
 
 	public Interval(final Interval parent, final interval_type type) {
 		this.parent = parent;
-		if (parent != null) {
+		if (parent == null) {
+			depth = 0;
+		} else {
 			parent.addSubIntervall(this);
 			depth = parent.getDepth() + 1;
-		} else {
-			depth = 0;
 		}
 		startOffset = -1;
 		startLine = -1;
