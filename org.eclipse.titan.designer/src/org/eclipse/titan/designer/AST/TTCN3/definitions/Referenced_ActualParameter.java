@@ -61,11 +61,8 @@ public final class Referenced_ActualParameter extends ActualParameter {
 		if (reference != null) {
 			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER
 					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT) {
-				boolean isTemplateParamater = false;
-				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT ||
-						formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT) {
-					isTemplateParamater = true;
-				}
+				final boolean isTemplateParamater = formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT ||
+						formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT;
 
 				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
@@ -136,10 +133,8 @@ public final class Referenced_ActualParameter extends ActualParameter {
 			boolean isTemplateParamater = false;
 			if (formalParameter != null && formalParameter.getAssignmentType() != Assignment_type.A_PAR_TIMER
 					&& formalParameter.getAssignmentType() != Assignment_type.A_PAR_PORT) {
-				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT ||
-						formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT) {
-					isTemplateParamater = true;
-				}
+				isTemplateParamater = formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_INOUT ||
+						formalParameter.getAssignmentType() == Assignment_type.A_PAR_TEMP_OUT;
 
 				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
