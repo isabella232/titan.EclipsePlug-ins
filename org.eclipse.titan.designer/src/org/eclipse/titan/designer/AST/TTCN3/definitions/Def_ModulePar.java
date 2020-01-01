@@ -435,17 +435,17 @@ public final class Def_ModulePar extends Definition {
 		moduleParamaterGetting.append(MessageFormat.format("if(par_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
 		moduleParamaterGetting.append(MessageFormat.format("\t\t\treturn {0}.get_param(param_name);\n", genName));
 		moduleParamaterGetting.append("\t\t} else ");
-		
+
 		final StringBuilder moduleParamaterLogging = aData.getLogModuleParameters();
 		if (moduleParamaterLogging.length() == 0) {
 			// this is the first modulepar
 			moduleParamaterLogging.append(MessageFormat.format("\tTTCN_Logger.log_event_str(\"{0} := \");\n", identifier.getDisplayName()));
 		} else {
 			// this is not the first modulepar
-			moduleParamaterLogging.append(MessageFormat.format("\t\t\tTTCN_Logger.log_event_str(\", {0} := \");\n", identifier.getDisplayName()));
+			moduleParamaterLogging.append(MessageFormat.format("\t\tTTCN_Logger.log_event_str(\", {0} := \");\n", identifier.getDisplayName()));
 		}
-		moduleParamaterLogging.append(MessageFormat.format("\t\t\t{0}.log();\n", genName));
-		
+		moduleParamaterLogging.append(MessageFormat.format("\t\t{0}.log();\n", genName));
+
 		final StringBuilder listModulePars = aData.getListModulePars();
 		listModulePars.append(MessageFormat.format("\t\tSystem.out.println(\"{0}.{1}\");\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
 	}

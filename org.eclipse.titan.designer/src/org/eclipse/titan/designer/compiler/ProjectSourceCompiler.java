@@ -550,7 +550,7 @@ public class ProjectSourceCompiler {
 			aSb.append("\t\treturn true;\n");
 			aSb.append("\t}\n\n");
 		}
-		
+
 		if (aData.getLogModuleParameters().length() > 0) {
 			aSb.append("\t@Override\n");
 			aSb.append("\tpublic void log_module_param()\n");
