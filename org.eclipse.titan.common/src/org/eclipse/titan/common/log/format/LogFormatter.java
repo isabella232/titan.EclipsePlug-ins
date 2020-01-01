@@ -63,24 +63,24 @@ public class LogFormatter {
 		insideString = false;
 		boolean cancelled = false;
 		lastToken = LastTokenTypes.OTHER;
-		final ByteBuffer inBuf = ByteBuffer.allocateDirect(IN_BUFFER_SIZE);
-		final ByteBuffer outBuffer = ByteBuffer.allocate(OUT_BUFFER_SIZE);
-		inBuf.clear();
-		while (!cancelled && inChannel.read(inBuf) != -1) {
+		final ByteBuffer sourceBuffer = ByteBuffer.allocateDirect(IN_BUFFER_SIZE);
+		final ByteBuffer targetBuffer = ByteBuffer.allocate(OUT_BUFFER_SIZE);
+		sourceBuffer.clear();
+		while (!cancelled && inChannel.read(sourceBuffer) != -1) {
 			if (internalMonitor.isCanceled()) {
 				cancelled = true;
 			}
 
-			inBuf.flip();
+			sourceBuffer.flip();
 
-			processBuffer(inBuf, outBuffer);
+			processBuffer(sourceBuffer, targetBuffer);
 
-			nofProcessedBytes += inBuf.limit();
-			inBuf.flip();
-			outBuffer.flip();
+			nofProcessedBytes += sourceBuffer.limit();
+			sourceBuffer.flip();
+			targetBuffer.flip();
 
-			outChannel.write(outBuffer);
-			outBuffer.clear();
+			outChannel.write(targetBuffer);
+			targetBuffer.clear();
 
 			if (nofProcessedBytes > TICK_SIZE) {
 				internalMonitor.worked((int) nofProcessedBytes / TICK_SIZE);
@@ -89,40 +89,40 @@ public class LogFormatter {
 		}
 	}
 
-	private void processBuffer(final ByteBuffer inBuf, final ByteBuffer outBuffer) throws IOException {
-		byte temp;
-		while (inBuf.hasRemaining()) {
-			temp = inBuf.get();
-			if (outBuffer.remaining() < indentationLevel * INDENTATION_SIZE + 1) {
-				outBuffer.flip();
-				outChannel.write(outBuffer);
-				outBuffer.clear();
+	private void processBuffer(final ByteBuffer source, final ByteBuffer target) throws IOException {
+		byte actualByte;
+		while (source.hasRemaining()) {
+			actualByte = source.get();
+			if (target.remaining() < indentationLevel * INDENTATION_SIZE + 1) {
+				target.flip();
+				outChannel.write(target);
+				target.clear();
 			}
 
 			if (insideString) {
-				processInsideString(inBuf, outBuffer, temp);
+				processInsideString(source, target, actualByte);
 			} else {
-				outsideString(inBuf, outBuffer, temp);
+				outsideString(source, target, actualByte);
 			}
 		}
 	}
 
-	private void outsideString(final ByteBuffer inBuf, final ByteBuffer outBuffer, final byte temp) {
-		switch (temp) {
+	private void outsideString(final ByteBuffer source, final ByteBuffer target, final byte actualByte) {
+		switch (actualByte) {
 		case '{':
 			if (indentationLevel > 0) {
 				switch (lastToken) {
 				case OPEN_BRACE:
 				case COMMA:
-					outBuffer.put(NEWLINE);
-					indent(outBuffer, indentationLevel);
+					target.put(NEWLINE);
+					indent(target, indentationLevel);
 					break;
 				default:
-					outBuffer.put((byte) ' ');
+					target.put((byte) ' ');
 					break;
 				}
 			}
-			outBuffer.put(temp);
+			target.put(actualByte);
 			indentationLevel += 1;
 			lastToken = LastTokenTypes.OPEN_BRACE;
 			break;
@@ -130,23 +130,23 @@ public class LogFormatter {
 			if (indentationLevel > 0) {
 				indentationLevel -= 1;
 				if (LastTokenTypes.OPEN_BRACE.equals(lastToken)) {
-					outBuffer.put((byte) ' ');
+					target.put((byte) ' ');
 				} else {
-					outBuffer.put(NEWLINE);
-					indent(outBuffer, indentationLevel);
+					target.put(NEWLINE);
+					indent(target, indentationLevel);
 				}
 				lastToken = LastTokenTypes.CLOSE_BRACE;
 			}
-			outBuffer.put(temp);
+			target.put(actualByte);
 			break;
 		case ',':
-			outBuffer.put(temp);
+			target.put(actualByte);
 			if (indentationLevel > 0) {
 				lastToken = LastTokenTypes.COMMA;
 			}
 			break;
 		case '\"':
-			outBuffer.put(temp);
+			target.put(actualByte);
 			insideString = true;
 			break;
 		case ' ':
@@ -156,7 +156,7 @@ public class LogFormatter {
 					lastToken = LastTokenTypes.WHITE_SPACE;
 				}
 			} else {
-				outBuffer.put(temp);
+				target.put(actualByte);
 			}
 			break;
 		case '\n':
@@ -165,25 +165,25 @@ public class LogFormatter {
 					lastToken = LastTokenTypes.WHITE_SPACE;
 				}
 			} else {
-				outBuffer.put(NEWLINE);
+				target.put(NEWLINE);
 			}
 			break;
 		case '\r':
-			if (inBuf.remaining() > 0) {
-				final byte temp2 = inBuf.get();
+			if (source.remaining() > 0) {
+				final byte temp2 = source.get();
 				if ('\n' == temp2) {
 					if (indentationLevel > 0) {
 						if (LastTokenTypes.OTHER.equals(lastToken)) {
 							lastToken = LastTokenTypes.WHITE_SPACE;
 						}
 					} else {
-						outBuffer.put(NEWLINE);
+						target.put(NEWLINE);
 					}
 				} else {
-					outBuffer.put(NEWLINE);
+					target.put(NEWLINE);
 				}
 			} else {
-				outBuffer.put(temp);
+				target.put(actualByte);
 			}
 			break;
 		default:
@@ -191,33 +191,33 @@ public class LogFormatter {
 				switch (lastToken) {
 				case OPEN_BRACE:
 				case COMMA:
-					outBuffer.put(NEWLINE);
-					indent(outBuffer, indentationLevel);
+					target.put(NEWLINE);
+					indent(target, indentationLevel);
 					break;
 				case CLOSE_BRACE:
 				case WHITE_SPACE:
-					outBuffer.put((byte) ' ');
+					target.put((byte) ' ');
 					break;
 				default:
 					break;
 				}
 				lastToken = LastTokenTypes.OTHER;
 			}
-			outBuffer.put(temp);
+			target.put(actualByte);
 			break;
 		}
 	}
 
-	private void processInsideString(final ByteBuffer inBuf, final ByteBuffer outBuffer, final byte temp) {
-		outBuffer.put(temp);
-		switch (temp) {
+	private void processInsideString(final ByteBuffer source, final ByteBuffer target, final byte actualByte) {
+		target.put(actualByte);
+		switch (actualByte) {
 		case '\"':
 			insideString = false;
 			break;
 		case '\\':
-			if (inBuf.hasRemaining()) {
-				final byte temp2 = inBuf.get();
-				outBuffer.put(temp2);
+			if (source.hasRemaining()) {
+				final byte temp = source.get();
+				target.put(temp);
 			}
 			break;
 		default:
@@ -225,13 +225,13 @@ public class LogFormatter {
 		}
 	}
 
-	private void indent(final ByteBuffer outBuffer, final int amount) {
+	private void indent(final ByteBuffer target, final int amount) {
 		final int temp = amount * INDENTATION_SIZE;
 		if (temp > indentation.length) {
 			resizeIndentation(temp);
 		}
 
-		outBuffer.put(indentation, 0, temp);
+		target.put(indentation, 0, temp);
 	}
 
 	private static void resizeIndentation(final int newSize) {
