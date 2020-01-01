@@ -34,6 +34,10 @@ public class LogFormatter {
 
 	private static final byte[] NEWLINE = StringUtils.lineSeparator().getBytes(StandardCharsets.UTF8);
 
+	/**
+	 * This enumeration is used store what was the last token that might
+	 * affect indentation.
+	 * */
 	private enum LastTokenTypes {
 		OPEN_BRACE, CLOSE_BRACE, COMMA, WHITE_SPACE, OTHER
 	}
@@ -47,9 +51,20 @@ public class LogFormatter {
 	private int indentationLevel;
 	private boolean insideString;
 
+	/**
+	 * default constructor.
+	 * */
 	public LogFormatter() {
+		// does not need to do anything.
 	}
 
+	/**
+	 * The actual formatting function.
+	 *
+	 * @param internalMonitor the monitor to report progress on.
+	 * @param sourceChannel the channel providing the source to format.
+	 * @param targetChannel the channel to write the formatted output to.
+	 * */
 	public void format(final IProgressMonitor internalMonitor, final FileChannel sourceChannel, final FileChannel targetChannel) throws IOException {
 		long nofProcessedBytes = 0;
 		indentationLevel = 0;
