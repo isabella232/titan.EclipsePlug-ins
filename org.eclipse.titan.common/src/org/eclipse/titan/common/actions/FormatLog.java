@@ -146,6 +146,12 @@ public final class FormatLog extends AbstractHandler implements IWorkbenchWindow
 		return null;
 	}
 
+	/**
+	 * Formats the provided list of files.
+	 * Only meant to be used for testing!
+	 * 
+	 * @param files the list of files to format.
+	 * */
 	public void formatFiles(final List<IFile> files) {
 		for (final IFile file : files) {
 			final URI targetPath = getTargetPath(file.getLocationURI());
