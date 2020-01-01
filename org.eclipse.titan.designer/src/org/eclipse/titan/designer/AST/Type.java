@@ -3191,7 +3191,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * JSON encoding attribute.
 	 */
 	public boolean hasEncodeAttribute(final String encoding_name) {
-		if (encoding_name == "JSON" &&  isAsn()) {
+		if ("JSON".equals(encoding_name) &&  isAsn()) {
 			// ASN.1 types automatically support JSON encoding
 			return true;
 		}
@@ -3203,7 +3203,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			for (int i = 0; i < realAttributes.size(); i++) {
 				final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 				if (SingleWithAttribute.Attribute_Type.Encode_Attribute.equals(singleWithAttribute.getAttributeType())) {
-					if (singleWithAttribute.getAttributeSpecification().getSpecification() == encoding_name) {
+					if (singleWithAttribute.getAttributeSpecification().getSpecification().equals(encoding_name)) {
 						return true;
 					}
 				}
@@ -3238,7 +3238,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			for (int i = 0; i < multiWithAttributes.getNofElements(); i++) {
 				final SingleWithAttribute singleWithAttribute = multiWithAttributes.getAttribute(i);
 				if (SingleWithAttribute.Attribute_Type.Encode_Attribute.equals(singleWithAttribute.getAttributeType())
-						&& singleWithAttribute.getAttributeSpecification().getSpecification() == encoding_name) {
+						&& singleWithAttribute.getAttributeSpecification().getSpecification().equals(encoding_name)) {
 					// search the attribute's qualifiers for one that refers to the
 					// target type
 					final Qualifiers qualifiers = singleWithAttribute.getQualifiers();
