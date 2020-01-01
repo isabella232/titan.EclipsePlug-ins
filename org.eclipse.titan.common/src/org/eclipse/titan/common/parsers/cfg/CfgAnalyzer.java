@@ -149,8 +149,8 @@ public final class CfgAnalyzer {
 	 * @param code the contents of an editor, or null.
 	 */
 	public void directParse(final IFile file, final String fileName, final String code) {
-		final Reader reader;
-		final int fileLength;
+		Reader reader;
+		int fileLength;
 		if (null != code) {
 			reader = new StringReader(code);
 			fileLength = code.length();
