@@ -24,7 +24,7 @@ public class UsageStatSender {
 	private static final String PAGE = "/download/usage_stats/usage_stats.php";
 	private static final int PORT = 80;
 
-	private UsageStatInfoCollector infoCollector;
+	private final UsageStatInfoCollector infoCollector;
 
 	public UsageStatSender(final UsageStatInfoCollector infoCollector) {
 		this.infoCollector = infoCollector;

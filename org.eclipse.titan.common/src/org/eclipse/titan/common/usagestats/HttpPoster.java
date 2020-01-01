@@ -21,9 +21,9 @@ import org.eclipse.titan.common.utils.MapJoiner;
  */
 public class HttpPoster {
 
-	private String host;
-	private String page;
-	private int port;
+	private final String host;
+	private final String page;
+	private final int port;
 
 	public HttpPoster(final String host, final String page, final int port) {
 		this.host = host;
