@@ -14,5 +14,11 @@ import java.util.Map;
  * for usage data sending
  */
 public interface UsageStatInfoCollector {
+
+	/**
+	 * Collects usage statistics related information.
+	 *
+	 * @return the collected information in a key-value map.
+	 * */
 	Map<String, String> collect();
 }
