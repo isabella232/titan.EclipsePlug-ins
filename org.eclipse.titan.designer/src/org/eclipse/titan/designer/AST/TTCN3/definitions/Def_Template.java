@@ -1059,7 +1059,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					}
 				}
 			} else {
-				if (body.get_needs_conversion()) {
+				if (body != null && body.get_needs_conversion()) {
 					final ExpressionStruct tempExpr = new ExpressionStruct();
 					final String tempId2 = type.generateConversion(aData, baseTemplate.getType(CompilationTimeStamp.getBaseTimestamp()), baseTemplate.getGenNameFromScope(aData, source, ""), false, tempExpr);
 					tempExpr.openMergeExpression(source);
