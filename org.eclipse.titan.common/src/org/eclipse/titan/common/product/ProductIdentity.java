@@ -33,6 +33,9 @@ public final class ProductIdentity implements Comparable<ProductIdentity> {
 		this.magicString = false;
 	}
 
+	/**
+	 * Creates the product identity that represents the magic string RnXnn.
+	 * */
 	public ProductIdentity() {
 		this.magicString = true;
 	}
