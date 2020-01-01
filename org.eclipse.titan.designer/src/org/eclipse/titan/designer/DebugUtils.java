@@ -9,6 +9,13 @@ package org.eclipse.titan.designer;
 
 public final class DebugUtils {
 
+	/**
+	 * Returns the first "depth" number of elements of the call chain,
+	 * e.g.  (internalDoAnalyzeWithReferences -> markAllMarkersForRemoval -> markMarkersForRemoval)
+	 *
+	 * @param the depth
+	 * @return the first "depth" number of elements of the call chain
+	 * */
 	// Returns the first "depth" number of elements of the call chain,
 	// e.g.  (internalDoAnalyzeWithReferences -> markAllMarkersForRemoval -> markMarkersForRemoval)
 	public static String getStackTrace(final int depth) {
@@ -32,7 +39,9 @@ public final class DebugUtils {
 		return builder.toString();
 	}
 
-	//Returns a String representation of the current unix-style timestamp on the system
+	/**
+	 * @return a String representation of the current unix-style timestamp on the system
+	 */
 	public static String getTimestamp() {
 		return String.valueOf(System.currentTimeMillis());
 	}
