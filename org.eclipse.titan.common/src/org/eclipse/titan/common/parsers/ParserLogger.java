@@ -281,12 +281,14 @@ public final class ParserLogger {
 			println( "ERROR: ParseLogger.getEscapedRuleText() startToken == null" );
 			return "";
 		}
-		final int startIndex = startToken.getTokenIndex();
+
 		final Token stopToken = aRule.stop;
 		if ( stopToken == null ) {
 			println( "ERROR: ParseLogger.getEscapedRuleText() stopToken == null" );
 			return "";
 		}
+
+		final int startIndex = startToken.getTokenIndex();
 		final int stopIndex = stopToken.getTokenIndex();
 		final StringBuilder sb = new StringBuilder();
 		for ( int i = startIndex; i <= stopIndex; i++ ) {
@@ -313,12 +315,14 @@ public final class ParserLogger {
 			println( "ERROR: ParseLogger.getEscapedRuleText() startToken == null" );
 			return "";
 		}
-		final int startIndex = startToken.getTokenIndex();
+
 		final Token stopToken = aRule.stop;
 		if ( stopToken == null ) {
 			println( "ERROR: ParseLogger.getEscapedRuleText() stopToken == null" );
 			return "";
 		}
+
+		final int startIndex = startToken.getTokenIndex();
 		final int stopIndex = stopToken.getTokenIndex();
 		final StringBuilder sb = new StringBuilder();
 		for ( int i = startIndex; i <= stopIndex; i++ ) {
