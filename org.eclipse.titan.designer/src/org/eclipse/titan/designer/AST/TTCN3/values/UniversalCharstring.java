@@ -54,7 +54,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 		// Check for UTF8 encoding and decode it
 		// in case the editor encoded the TTCN-3 file with UTF-8
 		final StringBuilder octet_str = new StringBuilder();
-		int len = string.length();
+		int len = string == null ? 0 : string.length();
 		for (int i = 0; i < len; ++i) {
 			try {
 				octet_str.append(PredefFunc.hexdigit_to_char((char) (string.charAt(i) / 16)));
