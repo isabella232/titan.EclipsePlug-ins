@@ -48,11 +48,11 @@ public final class TITANPathUtilities {
 	public static String resolvePathURIForMakefile(final String pathToBeResolved, final String basePath,
 			final boolean reportDebugInformation, final MessageConsole outputConsole) {
 		final URI uri = resolvePathURI(pathToBeResolved, basePath);
-		if (uri != null) {
+		if (uri == null) {
+			return EnvironmentVariableResolver.eclipseStyle().replaceEnvVarsWithUnixEnvVars(pathToBeResolved);
+		} else {
 			return PathConverter.convert(URIUtil.toPath(uri).toOSString(), reportDebugInformation,
 					outputConsole);
-		} else {
-			return EnvironmentVariableResolver.eclipseStyle().replaceEnvVarsWithUnixEnvVars(pathToBeResolved);
 		}
 
 	}
@@ -72,10 +72,10 @@ public final class TITANPathUtilities {
 	// TODO: call resolvePathURI, it is the same functionality!!!
 	public static URI resolvePath(final String pathToBeResolved, final URI basePath) {
 		Map<?, ?> envVariables;
-		if (DebugPlugin.getDefault() != null) {
-			envVariables = DebugPlugin.getDefault().getLaunchManager().getNativeEnvironmentCasePreserved();
-		} else {
+		if (DebugPlugin.getDefault() == null) {
 			envVariables = null;
+		} else {
+			envVariables = DebugPlugin.getDefault().getLaunchManager().getNativeEnvironmentCasePreserved();
 		}
 
 		String tmp2 = null;
