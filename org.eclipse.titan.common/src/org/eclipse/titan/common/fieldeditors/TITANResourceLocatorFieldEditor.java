@@ -286,10 +286,10 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		final URI path = URIUtil.toURI(target);
 		final URI resolvedPath = TITANPathUtilities.resolvePathURI(target, rootPath);
 		String message = null;
-		if(resolvedPath != null) {
-			message = "Resolved location: " + URIUtil.toPath(resolvedPath);
-		} else {
+		if(resolvedPath == null) {
 			message = "Resolved location: cannot be calculated from " + target;
+		} else {
+			message = "Resolved location: " + URIUtil.toPath(resolvedPath);
 		}
 		resolvedPathLabelText.setText(message);
 
