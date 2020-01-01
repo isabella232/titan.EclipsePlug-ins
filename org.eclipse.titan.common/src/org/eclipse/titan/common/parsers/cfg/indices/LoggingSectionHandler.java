@@ -576,12 +576,12 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 	}
 
 	public Object[] getPluginsTreeElementArray(final String componentName) {
-		final List<LoggerTreeElement> rv = new ArrayList<LoggerTreeElement>();
 		final Map<String,LogParamEntry> pluginsMap = loggerTree.get(componentName);
 		if (pluginsMap==null) {
 			return new Object[] {};
 		}
 
+		final List<LoggerTreeElement> rv = new ArrayList<LoggerTreeElement>();
 		for (final String s : pluginsMap.keySet()) {
 			rv.add(new LoggerTreeElement(this,componentName,s));
 		}
