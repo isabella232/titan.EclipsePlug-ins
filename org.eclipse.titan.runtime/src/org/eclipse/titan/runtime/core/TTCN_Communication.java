@@ -1099,6 +1099,7 @@ public final class TTCN_Communication {
 		TTCN_Logger.open_file();
 		if (success) {
 			try {
+				Module_List.log_param();
 				Module_List.post_init_modules();
 			} catch (TtcnError error) {
 				TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.initialization__of__modules__failed);

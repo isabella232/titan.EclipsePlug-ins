@@ -86,6 +86,7 @@ public final class Runtime_Single_main {
 				TTCN_Logger.open_file();
 				TTCN_Logger.write_logger_settings();
 
+				Module_List.log_param();
 				Module_List.post_init_modules();
 
 				for (final TTCN_Module module : Module_List.modules) {
