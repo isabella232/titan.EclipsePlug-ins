@@ -74,8 +74,8 @@ public final class TableConstraint extends Constraint {
 	private final Block mObjectSetBlock;
 	private final Block mAtNotationsBlock;
 
-	protected ObjectSet objectSet;
-	protected AtNotations atNotationList;
+	private ObjectSet objectSet;
+	private AtNotations atNotationList;
 	private Identifier objectClassFieldname;
 
 	private IType constrainedType;

@@ -58,7 +58,7 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	private int index = 0;
 
 	/** How to create token objects */
-	protected TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
+	private TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
 
 	private Block( final Location aLocation ) {
 		this.mLocation = aLocation;
