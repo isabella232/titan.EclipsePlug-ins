@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -297,7 +298,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		for (final ASN1Assignment assignment : assignments) {
 			if (assignment instanceof Type_Assignment) {
 				final String assignmentName = assignment.getIdentifier().getName();
-				final String lowerCaseName = assignmentName.toLowerCase();
+				final String lowerCaseName = assignmentName.toLowerCase(Locale.ENGLISH);
 				if (similarityMap.containsKey(lowerCaseName)) {
 					final Type_Assignment similarDef = similarityMap.get(lowerCaseName);
 					((Type_Assignment)similarDef).setHasSimilarName(true);

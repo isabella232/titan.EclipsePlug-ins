@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.resources.IFile;
@@ -431,7 +432,7 @@ public final class TableConstraint extends Constraint {
 			sb.append(tmpId2.getTtcnName());
 		}
 		// conversion to lower case initial:
-		sb.replace(0, 1, sb.substring(0, 1).toLowerCase());
+		sb.replace(0, 1, sb.substring(0, 1).toLowerCase(Locale.ENGLISH));
 		// trick:
 		final Identifier tmpId = new Identifier(Identifier_type.ID_NAME, sb.toString());
 		return new Identifier(Identifier_type.ID_ASN, tmpId.getAsnName());

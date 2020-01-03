@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.ASN1;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -124,7 +125,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 			return;
 		}
 
-		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
+		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase(Locale.ENGLISH).startsWith(subrefs.get(index).getId().getName().toLowerCase(Locale.ENGLISH))) {
 			propCollector.addProposal(identifier, " - " + UNKNOWNASSIGNMENT, ImageCache.getImage(getOutlineIcon()), UNKNOWNASSIGNMENT);
 		} else if (subrefs.size() > index + 1 && null != type && identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match

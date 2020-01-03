@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.editors;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Region;
@@ -157,11 +158,11 @@ public final class ProposalCollector {
 			final Location location = subreferences.get(subreferences.size() - 1).getLocation();
 			replacementOffset -= location.getEndOffset() - location.getOffset();
 
-			lastPrefix = subreferences.get(subreferences.size() - 1).getId().getDisplayName().toLowerCase();
+			lastPrefix = subreferences.get(subreferences.size() - 1).getId().getDisplayName().toLowerCase(Locale.ENGLISH);
 		} else {
 			replacementOffset = offset;
 
-			lastPrefix = reference.getModuleIdentifier().getDisplayName().toLowerCase();
+			lastPrefix = reference.getModuleIdentifier().getDisplayName().toLowerCase(Locale.ENGLISH);
 		}
 
 		templatecontext = new TITANTemplateContext(contextType, doc, replacementOffset, 0);
@@ -289,14 +290,14 @@ public final class ProposalCollector {
 
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.isEmpty()) {
-			if (reference.getModuleIdentifier() != null && string.toLowerCase().startsWith(lastPrefix)) {
+			if (reference.getModuleIdentifier() != null && string.toLowerCase(Locale.ENGLISH).startsWith(lastPrefix)) {
 				return lastPrefix.length();
 			}
 
 			return 0;
 		}
 
-		if (string.toLowerCase().startsWith(lastPrefix)) {
+		if (string.toLowerCase(Locale.ENGLISH).startsWith(lastPrefix)) {
 			return lastPrefix.length();
 		}
 

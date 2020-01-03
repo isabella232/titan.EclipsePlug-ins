@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
@@ -319,7 +320,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		for (final Definition definition : definitions) {
 			if (definition instanceof Def_Type) {
 				final String definitionName = definition.getIdentifier().getName();
-				final String lowerCaseName = definitionName.toLowerCase();
+				final String lowerCaseName = definitionName.toLowerCase(Locale.ENGLISH);
 				if (similarityMap.containsKey(lowerCaseName)) {
 					final Def_Type similarDef = similarityMap.get(lowerCaseName);
 					((Def_Type)similarDef).setHasSimilarName(true);

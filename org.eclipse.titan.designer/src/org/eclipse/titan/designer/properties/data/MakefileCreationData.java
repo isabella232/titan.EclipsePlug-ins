@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.properties.data;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.TreeMap;
 
 import org.eclipse.core.resources.IProject;
@@ -76,7 +77,7 @@ public final class MakefileCreationData {
 
 		@Override
 		public String toString() {
-			return name().toLowerCase();
+			return name().toLowerCase(Locale.ENGLISH);
 		}
 
 		/**

@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
@@ -333,7 +334,7 @@ public final class Def_Var extends Definition {
 			return;
 		}
 
-		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
+		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase(Locale.ENGLISH).startsWith(subrefs.get(index).getId().getName().toLowerCase(Locale.ENGLISH))) {
 			super.addProposal(propCollector, index);
 		} else if (subrefs.size() > index + 1 && type != null && identifier.getName().equals(subrefs.get(index).getId().getName())) {
 			// perfect match

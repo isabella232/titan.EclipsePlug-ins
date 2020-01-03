@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -336,7 +337,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			// perfect match, but the chain of references ends here,
 			// as testcases can not return with a type
 			return;
-		} else if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
+		} else if (subrefs.size() == index + 1 && identifier.getName().toLowerCase(Locale.ENGLISH).startsWith(subrefs.get(index).getId().getName().toLowerCase(Locale.ENGLISH))) {
 			// prefix
 			final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 			patternBuilder.append('(');

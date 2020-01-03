@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.ASN1.types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
@@ -172,7 +173,7 @@ public final class Open_Type extends ASN1Type {
 	public CompField getComponentByName(final Identifier identifier) {
 		//convert the first letter to upper case:
 		String name = identifier.getName();
-		name = name.substring(0,1).toLowerCase()+name.substring(1);
+		name = name.substring(0,1).toLowerCase(Locale.ENGLISH)+name.substring(1);
 		if (null != compFieldMap) {
 			return compFieldMap.getCompWithName(name);
 		}

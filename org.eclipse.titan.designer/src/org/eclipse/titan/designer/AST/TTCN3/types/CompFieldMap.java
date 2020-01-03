@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.titan.designer.AST.ASTNode;
@@ -365,7 +366,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		final List<CompField> compFields = new ArrayList<CompField>();
 		for (int i = 0; i < fields.size(); i++) {
 			final String componentName = fields.get(i).getIdentifier().getName();
-			if (componentName.toLowerCase().startsWith(prefix.toLowerCase())) {
+			if (componentName.toLowerCase(Locale.ENGLISH).startsWith(prefix.toLowerCase(Locale.ENGLISH))) {
 				compFields.add(fields.get(i));
 			}
 		}

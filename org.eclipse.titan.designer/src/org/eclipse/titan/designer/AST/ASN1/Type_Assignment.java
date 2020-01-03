@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.ASN1;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IOutlineElement;
@@ -178,7 +179,7 @@ public final class Type_Assignment extends ASN1Assignment {
 			return;
 		}
 
-		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(index).getId().getName().toLowerCase())) {
+		if (subrefs.size() == index + 1 && identifier.getName().toLowerCase(Locale.ENGLISH).startsWith(subrefs.get(index).getId().getName().toLowerCase(Locale.ENGLISH))) {
 			String proposalKind;
 			if (null == type) {
 				proposalKind = UNKNOWNTYPE;
