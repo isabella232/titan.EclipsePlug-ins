@@ -68,7 +68,7 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 	@Override
 	/** {@inheritDoc} */
 	public void visitRoot(final ObjectClassSyntax_root parameter) {
-		if (parameter.getIsBuilded()) {
+		if (parameter.getIsBuilt()) {
 			return;
 		}
 
@@ -134,11 +134,11 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 			parameter.getSequence().accept(this);
 		}
 
-		parameter.setIsBuilded(true);
+		parameter.setIsBuilt(true);
 	}
 
 	public void visitSequence(final ObjectClassSyntax_sequence parameter) {
-		if (parameter.getIsBuilded()) {
+		if (parameter.getIsBuilt()) {
 			return;
 		}
 
@@ -164,7 +164,7 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 			parameter.getLocation().reportSemanticError("Empty optional group is not allowed");
 		}
 
-		parameter.setIsBuilded(true);
+		parameter.setIsBuilt(true);
 		parameter.trimToSize();
 	}
 

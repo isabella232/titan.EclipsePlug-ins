@@ -112,7 +112,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 	/** {@inheritDoc} */
 	public void visitRoot(final ObjectClassSyntax_root parameter) {
 		if (mBlock != null) {
-			if (!success || !parameter.getIsBuilded() || (mBlock.getTokenList().isEmpty())) {
+			if (!success || !parameter.getIsBuilt() || (mBlock.getTokenList().isEmpty())) {
 				// FATAL ERROR, but now OK
 				return;
 			}

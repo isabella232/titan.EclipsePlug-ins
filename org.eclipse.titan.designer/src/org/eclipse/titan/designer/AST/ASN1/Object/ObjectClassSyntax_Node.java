@@ -23,11 +23,11 @@ public abstract class ObjectClassSyntax_Node implements ILocateableNode {
 	 **/
 	private Location location;
 
-	/** Stores whether this syntax was already builded or not. */
-	protected boolean isBuilded;
+	/** Stores whether this syntax was already built or not. */
+	protected boolean isBuilt;
 
 	public ObjectClassSyntax_Node() {
-		isBuilded = false;
+		isBuilt = false;
 	}
 
 	@Override
@@ -49,12 +49,12 @@ public abstract class ObjectClassSyntax_Node implements ILocateableNode {
 	 */
 	public abstract void accept(final ObjectClassSyntax_Visitor visitor);
 
-	public final boolean getIsBuilded() {
-		return isBuilded;
+	public final boolean getIsBuilt() {
+		return isBuilt;
 	}
 
-	public final void setIsBuilded(final boolean isBuilded) {
-		this.isBuilded = isBuilded;
+	public final void setIsBuilt(final boolean isBuilded) {
+		this.isBuilt = isBuilded;
 	}
 
 	/** @return the display name according to its origin. */
