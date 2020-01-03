@@ -13,11 +13,31 @@ package org.eclipse.titan.designer.AST.ASN1.Object;
  * @author Kristof Szabados
  */
 public abstract class ObjectClassSyntax_Visitor {
+	/**
+	 * Visit the provided syntax root parameter.
+	 *
+	 * @param parameter the root syntax node to visit.
+	 * */
 	public abstract void visitRoot(ObjectClassSyntax_root parameter);
 
+	/**
+	 * Visit the provided sequence parameter.
+	 *
+	 * @param parameter the sequence node to visit.
+	 * */
 	public abstract void visitSequence(ObjectClassSyntax_sequence parameter);
 
+	/**
+	 * Visit the provided syntax literal parameter.
+	 *
+	 * @param parameter the syntax liter node to visit.
+	 * */
 	public abstract void visitLiteral(ObjectClassSyntax_literal parameter);
 
+	/**
+	 * Visit the provided setting syntax parameter.
+	 *
+	 * @param parameter the setting syntax node to visit.
+	 * */
 	public abstract void visitSetting(ObjectClassSyntax_setting parameter);
 }
