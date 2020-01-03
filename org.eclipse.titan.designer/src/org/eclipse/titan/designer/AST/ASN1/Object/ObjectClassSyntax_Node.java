@@ -42,7 +42,12 @@ public abstract class ObjectClassSyntax_Node implements ILocateableNode {
 		return location;
 	}
 
-	public abstract void accept(ObjectClassSyntax_Visitor visitor);
+	/**
+	 * Accept a visitor on this node.
+	 *
+	 * @param visitor the visitor
+	 */
+	public abstract void accept(final ObjectClassSyntax_Visitor visitor);
 
 	public final boolean getIsBuilded() {
 		return isBuilded;
@@ -52,5 +57,6 @@ public abstract class ObjectClassSyntax_Node implements ILocateableNode {
 		this.isBuilded = isBuilded;
 	}
 
+	/** @return the display name according to its origin. */
 	public abstract String getDisplayName();
 }
