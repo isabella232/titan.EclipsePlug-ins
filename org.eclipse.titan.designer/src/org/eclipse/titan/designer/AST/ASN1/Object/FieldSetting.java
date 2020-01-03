@@ -59,6 +59,9 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 		return location;
 	}
 
+	/**
+	 * @return the setting of this FieldSetting.
+	 * */
 	public abstract ISetting getSetting();
 
 	@Override
@@ -80,6 +83,14 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 		getSetting().setGenName(prefix, suffix);
 	}
 
+	/**
+	 * Check the field setting.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param fieldSpecification
+	 *                the field specification to check against.
+	 * */
 	public abstract void check(final CompilationTimeStamp timestamp, FieldSpecification fieldSpecification);
 
 	/**

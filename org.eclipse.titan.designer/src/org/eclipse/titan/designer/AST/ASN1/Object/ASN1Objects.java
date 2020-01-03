@@ -23,18 +23,37 @@ public final class ASN1Objects extends ASTNode {
 
 	private final ArrayList<Object_Definition> objects = new ArrayList<Object_Definition>();
 
+	/**
+	 * Add a new object to the object list.
+	 *
+	 * @param object the object to add.
+	 * */
 	public void addObject(final Object_Definition object) {
 		objects.add(object);
 	}
 
+	/**
+	 * Returns the number of objects.
+	 *
+	 * @return the number of objects.
+	 */
 	public int getNofObjects() {
 		return objects.size();
 	}
 
+	/**
+	 * Returns the object at a given index.
+	 *
+	 * @param index the index of the element to return.
+	 * @return the object at a given index.
+	 */
 	public Object_Definition getObjectByIndex(final int index) {
 		return objects.get(index);
 	}
 
+	/**
+	 * Trim the data list to the current size.
+	 */
 	public void trimToSize() {
 		objects.trimToSize();
 	}

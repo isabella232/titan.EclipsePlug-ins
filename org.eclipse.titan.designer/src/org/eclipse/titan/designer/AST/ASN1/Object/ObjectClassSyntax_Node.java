@@ -26,6 +26,9 @@ public abstract class ObjectClassSyntax_Node implements ILocateableNode {
 	/** Stores whether this syntax was already built or not. */
 	protected boolean isBuilt;
 
+	/**
+	 * Constructor.
+	 * */
 	public ObjectClassSyntax_Node() {
 		isBuilt = false;
 	}

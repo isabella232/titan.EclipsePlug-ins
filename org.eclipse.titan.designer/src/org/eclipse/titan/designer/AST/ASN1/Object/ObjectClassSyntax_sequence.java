@@ -43,18 +43,34 @@ public final class ObjectClassSyntax_sequence extends ObjectClassSyntax_Node {
 		}
 	}
 
+	/**
+	 * Trim the internal storage to the current number of elements.
+	 * */
 	public void trimToSize() {
 		objectClassSyntaxes.trimToSize();
 	}
 
+	/**
+	 * @return the number of nodes in this sequence.
+	 * */
 	public int getNofNodes() {
 		return objectClassSyntaxes.size();
 	}
 
+	/**
+	 * Returns the node at the provided index.
+	 *
+	 * @param index the index of the element to return.
+	 * @return the node at the provided index.
+	 * */
 	public ObjectClassSyntax_Node getNthNode(final int index) {
 		return objectClassSyntaxes.get(index);
 	}
 
+	/**
+	 * @return {@code true} if the sequence is optional, {@code false}
+	 *         otherwise.
+	 * */
 	public boolean getIsOptional() {
 		return isOptional;
 	}

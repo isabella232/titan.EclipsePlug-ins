@@ -35,6 +35,9 @@ public final class ObjectClassSyntax_literal extends ObjectClassSyntax_Node {
 		visitor.visitLiteral(this);
 	}
 
+	/**
+	 * @return the literal of this object class syntax literal.
+	 * */
 	public String getLiteral() {
 		if (null == word) {
 			return text;

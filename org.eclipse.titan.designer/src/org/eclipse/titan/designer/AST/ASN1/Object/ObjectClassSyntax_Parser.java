@@ -47,6 +47,12 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 	/** the actual index till which the tokens are already parsed. */
 	private int internalIndex;
 
+	/**
+	 * Constructor of the parser.
+	 *
+	 * @param aBlock the block to be parsed.
+	 * @param myObject the object definition to receive the parsed field settings.
+	 * */
 	public ObjectClassSyntax_Parser(final Block aBlock, final Object_Definition myObject) {
 		this.myObject = myObject;
 		final List<Token> tempTokens = aBlock.getTokenList();
