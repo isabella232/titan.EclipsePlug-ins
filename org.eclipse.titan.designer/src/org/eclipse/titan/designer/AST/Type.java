@@ -2889,7 +2889,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			String enum_texts_name = null;
 			JSON_value.append(jsonAttribute.omit_as_null).append(',');
 			if (jsonAttribute.alias != null) {
-				JSON_value.append("\"").append(jsonAttribute.alias).append("\"").append(',');
+				JSON_value.append('\"').append(jsonAttribute.alias).append('\"').append(',');
 			} else {
 				JSON_value.append("null").append(',');
 			}
@@ -2898,7 +2898,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			if (jsonAttribute.default_value == null) {
 				JSON_value.append("null").append(',');
 			} else {
-				JSON_value.append("\"").append(jsonAttribute.default_value).append("\"").append(',');
+				JSON_value.append('\"').append(jsonAttribute.default_value).append('\"').append(',');
 			}
 
 			JSON_value.append(jsonAttribute.metainfo_unbound).append(',');
@@ -3665,7 +3665,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final String fromName = from.getGenNameValue( aData, source );
 		final String toName = to.getGenNameValue( aData, source );
 		final StringBuilder returnValue = new StringBuilder();
-		returnValue.append("conv_").append(fromName.replace('.', '_')).append("_").append(toName.replace('.', '_'));
+		returnValue.append("conv_").append(fromName.replace('.', '_')).append('_').append(toName.replace('.', '_'));
 		if (!forValue) {
 			returnValue.append("_t");
 		}
