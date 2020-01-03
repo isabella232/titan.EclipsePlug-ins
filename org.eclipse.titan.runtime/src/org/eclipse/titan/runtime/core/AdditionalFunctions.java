@@ -5224,7 +5224,7 @@ public final class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The third argument (groupno) of function regexp() is a negative integer value: {0}.", groupno));
 		}
 
-		final Pattern posix_str;
+		Pattern posix_str;
 		if (expression_val != null) {
 			posix_str = TTCN_Pattern.convert_pattern(expression_val.get_stringRepr_for_pattern().toString(), nocase);
 		} else {
