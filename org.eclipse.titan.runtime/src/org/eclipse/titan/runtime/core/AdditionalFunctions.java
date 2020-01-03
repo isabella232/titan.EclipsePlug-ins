@@ -129,6 +129,8 @@ public final class AdditionalFunctions {
 		    41, 42, 43, 44, 45, 46, 47, 48,   49, 50, 51, 80, 80, 80, 80, 80
 		};
 
+	private final static char base64padding = '=';
+
 	private AdditionalFunctions() {
 		//intentionally private to disable instantiation
 	}
@@ -5381,7 +5383,6 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
-		final char pad = '=';
 		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = p_msg.length;
@@ -5407,14 +5408,14 @@ public final class AdditionalFunctions {
 		case 1:
 			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
 			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] & 0xFF) << 4) & 0x3f);
-			output[outpotPos++] = pad;
-			output[outpotPos++] = pad;
+			output[outpotPos++] = base64padding;
+			output[outpotPos++] = base64padding;
 			break;
 		case 2:
 			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
 			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 0] & 0xFF) << 4) | ((p_msg[msgPos + 1] & 0xFF) >> 4)) & 0x3f);
 			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] & 0xFF) << 2) & 0x3f);
-			output[outpotPos++] = pad;
+			output[outpotPos++] = base64padding;
 			break;
 		default:
 			break;
@@ -5424,7 +5425,6 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString encode_base64(final TitanOctetString msg) {
-		final char pad = '=';
 		final byte[] p_msg = msg.get_value();
 		int msgPos = 0;
 		int octets_left = p_msg.length;
@@ -5442,14 +5442,14 @@ public final class AdditionalFunctions {
 		case 1:
 			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
 			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] & 0xFF) << 4) & 0x3f);
-			output[outpotPos++] = pad;
-			output[outpotPos++] = pad;
+			output[outpotPos++] = base64padding;
+			output[outpotPos++] = base64padding;
 			break;
 		case 2:
 			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] & 0xFF) >> 2);
 			output[outpotPos++] = code_table.charAt((((p_msg[msgPos + 0] & 0xFF) << 4) | ((p_msg[msgPos + 1] & 0xFF) >> 4)) & 0x3f);
 			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] & 0xFF) << 2) & 0x3f);
-			output[outpotPos++] = pad;
+			output[outpotPos++] = base64padding;
 			break;
 		default:
 			break;
