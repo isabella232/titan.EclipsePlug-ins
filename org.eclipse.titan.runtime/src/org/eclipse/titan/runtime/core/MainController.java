@@ -489,7 +489,7 @@ public class MainController {
 		System.out.println(String.format("Entering batch mode. Waiting for %d HC%s to connect...", n_hosts.get(),
 				n_hosts.get().compareTo(BigInteger.ONE) > 0 ? "s" : ""));
 
-		if (executeItems.size() <= 0) {
+		if (executeItems.isEmpty()) {
 			// TODO return
 			return -1;
 		}
