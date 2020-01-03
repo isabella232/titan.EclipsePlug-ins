@@ -85,6 +85,18 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 		return getLocation();
 	}
 
+	/**
+	 * Find and return the ASN.1 object referenced.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle
+	 * @param refChain
+	 *                the reference chain used to detect circular
+	 *                references.
+	 *
+	 * @return the referenced ASN.1 object, or the actual type in case of an
+	 *         error
+	 * */
 	public ASN1Object getRefd(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (reference == null) {
 			return null;
@@ -113,6 +125,14 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 		return objectReferenced;
 	}
 
+	/**
+	 * Returns the ASN.1 object referred last on the chain of references.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 *
+	 * @return the ASN.1 object referred last on the chain of references.
+	 * */
 	public Object_Definition getRefdLast(final CompilationTimeStamp timestamp) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(CIRCULAROBJECTREFERENCE, true);
 
