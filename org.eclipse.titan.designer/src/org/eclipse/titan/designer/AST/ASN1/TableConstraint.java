@@ -70,8 +70,8 @@ public final class TableConstraint extends Constraint {
 	private static final String SAMECONSTRAINTEXPECTED = "The referenced components must be value (set) fields"
 			+ " constrained by the same objectset as the referencing component";
 
-	private Block mObjectSetBlock;
-	private Block mAtNotationsBlock;
+	private final Block mObjectSetBlock;
+	private final Block mAtNotationsBlock;
 
 	protected ObjectSet objectSet;
 	protected AtNotations atNotationList;

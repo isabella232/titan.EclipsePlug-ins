@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 public class PermittedAlphabetConstraint extends Constraint {
 	private static final String FULLNAMEPART = ".<permitted alphabet constraint>";
 
-	private Constraint constraint;
+	private final Constraint constraint;
 
 	public PermittedAlphabetConstraint(final Constraint constraint) {
 		super(Constraint_type.CT_PERMITTEDALPHABET);
