@@ -137,6 +137,8 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 		parameter.setIsBuilt(true);
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public void visitSequence(final ObjectClassSyntax_sequence parameter) {
 		if (parameter.getIsBuilt()) {
 			return;
