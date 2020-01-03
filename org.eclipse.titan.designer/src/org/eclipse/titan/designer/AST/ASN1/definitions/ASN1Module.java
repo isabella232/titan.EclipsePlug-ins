@@ -177,6 +177,16 @@ public final class ASN1Module extends Module {
 		return "asn.gif";
 	}
 
+	/**
+	 * Checks if there is a symbol imported from anywhere with the provided
+	 * identifier.
+	 *
+	 * @param identifier
+	 *                the identifier used to search for a symbol.
+	 *
+	 * @return true if a symbol with the provided name is imported, false
+	 *         otherwise.
+	 * */
 	public boolean hasImportedAssignmentWithId(final Identifier identifier) {
 		return imports.hasImportedSymbolWithId(identifier);
 	}
