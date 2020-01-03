@@ -225,7 +225,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 			// Is the source already in an excluded folder ?
 			if (!processExludedOnes) {
 				IContainer parent = resource.getParent();
-				while (parent != null && parent instanceof IFolder) {
+				while (parent instanceof IFolder) {
 					if (ResourceExclusionHelper.isDirectlyExcluded((IFolder) parent)) {
 						return;
 					}
