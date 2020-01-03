@@ -45,7 +45,7 @@ public final class Object_Definition extends ASN1Object {
 	private HashMap<String, FieldSetting> fieldSettingMap;
 
 	/** the time when code for this type was generated. */
-	protected BuildTimestamp lastTimeGenerated = null;
+	private BuildTimestamp lastTimeGenerated = null;
 
 	public Object_Definition(final Block aBlock) {
 		this.mBlock = aBlock;

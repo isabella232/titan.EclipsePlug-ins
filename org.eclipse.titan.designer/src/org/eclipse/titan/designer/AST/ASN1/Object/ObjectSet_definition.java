@@ -49,7 +49,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	private ASN1Objects objects;
 
 	/** the time when code for this type was generated. */
-	protected BuildTimestamp lastTimeGenerated = null;
+	private BuildTimestamp lastTimeGenerated = null;
 
 	public ObjectSet_definition() {
 		objectSetElements = new ArrayList<IObjectSet_Element>();
