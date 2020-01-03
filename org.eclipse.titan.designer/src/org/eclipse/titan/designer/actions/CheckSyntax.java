@@ -96,7 +96,7 @@ public final class CheckSyntax extends ExternalTitanAction {
 		final List<String> command = new ArrayList<String>();
 		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
 		command.add('-' + SYNTAX_CHECK_FLAG + getTITANActionFlags());
-		for (String filePath : files.keySet()) {
+		for (final String filePath : files.keySet()) {
 			command.add('\'' + filePath + '\'');
 		}
 		titanJob.addCommand(command, JOB_TITLE);
