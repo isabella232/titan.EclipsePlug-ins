@@ -266,6 +266,17 @@ public final class ASN1Module extends Module {
 		return assignments;
 	}
 
+	/**
+	 * Checks if there is a symbol exported with the provided identifier.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param identifier
+	 *                the identifier used to search for a symbol.
+	 *
+	 * @return true if a symbol with the provided name is exported, false
+	 *         otherwise.
+	 * */
 	public boolean exportsSymbol(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		return exports.exportsSymbol(timestamp, identifier);
 	}
