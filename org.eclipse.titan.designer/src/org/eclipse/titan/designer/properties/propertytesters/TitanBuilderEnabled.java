@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.core.TITANJavaBuilder;
 public class TitanBuilderEnabled extends PropertyTester {
 
 	@Override
-	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+	public boolean test(final Object receiver, final String property, final Object[] args, final Object expectedValue) {
 		final IProject project = ((IResource)receiver).getProject();
 		if (!project.isAccessible()) {
 			return false;
