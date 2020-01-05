@@ -734,7 +734,7 @@ public class TpdImporter {
 
 	// Perhaps variableValue is not in a form of URI (with optional file
 	// scheme) or Path and it shall be converted in more steps:
-	private URI convertPathOrUriStringToURI(String pathOrUriString) throws URISyntaxException {
+	private URI convertPathOrUriStringToURI(final String pathOrUriString) throws URISyntaxException {
 		final URI uri = new URI(pathOrUriString);
 		if (uri.getScheme() == null || "file".equals(uri.getScheme())) {
 			return uri;
