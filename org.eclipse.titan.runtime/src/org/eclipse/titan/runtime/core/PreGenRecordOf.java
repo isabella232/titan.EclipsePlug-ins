@@ -2396,10 +2396,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
-			TitanUniversalCharString temp_left = left_ptr.valueElements.get(left_index);
-			TitanUniversalCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+			}
+			final TitanUniversalCharString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanUniversalCharString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -23700,10 +23704,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			TitanUniversalCharString temp_left = left_ptr.valueElements.get(left_index);
-			TitanUniversalCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+			}
+			final TitanUniversalCharString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanUniversalCharString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -25915,10 +25923,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
-			TitanBoolean temp_left = left_ptr.valueElements.get(left_index);
-			TitanBoolean temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+			}
+			final TitanBoolean temp_left = left_ptr.valueElements.get(left_index);
+			final TitanBoolean temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -28130,10 +28142,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
-			TitanFloat temp_left = left_ptr.valueElements.get(left_index);
-			TitanFloat temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+			}
+			final TitanFloat temp_left = left_ptr.valueElements.get(left_index);
+			final TitanFloat temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -30345,10 +30361,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
-			TitanInteger temp_left = left_ptr.valueElements.get(left_index);
-			TitanInteger temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+			}
+			final TitanInteger temp_left = left_ptr.valueElements.get(left_index);
+			final TitanInteger temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -32560,10 +32580,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
-			TitanCharString temp_left = left_ptr.valueElements.get(left_index);
-			TitanCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+			}
+			final TitanCharString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanCharString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -36896,10 +36920,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
-			TitanHexString temp_left = left_ptr.valueElements.get(left_index);
-			TitanHexString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+			}
+			final TitanHexString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanHexString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -39111,10 +39139,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
-			TitanHexString temp_left = left_ptr.valueElements.get(left_index);
-			TitanHexString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+			}
+			final TitanHexString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanHexString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -41326,10 +41358,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
-			TitanOctetString temp_left = left_ptr.valueElements.get(left_index);
-			TitanOctetString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+			}
+			final TitanOctetString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanOctetString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -43541,10 +43577,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
-			TitanFloat temp_left = left_ptr.valueElements.get(left_index);
-			TitanFloat temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+			}
+			final TitanFloat temp_left = left_ptr.valueElements.get(left_index);
+			final TitanFloat temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -45756,10 +45796,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
-			TitanInteger temp_left = left_ptr.valueElements.get(left_index);
-			TitanInteger temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+			}
+			final TitanInteger temp_left = left_ptr.valueElements.get(left_index);
+			final TitanInteger temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -47971,10 +48015,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
-			TitanOctetString temp_left = left_ptr.valueElements.get(left_index);
-			TitanOctetString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+			}
+			final TitanOctetString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanOctetString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -54428,10 +54476,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
-			TitanCharString temp_left = left_ptr.valueElements.get(left_index);
-			TitanCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+			}
+			final TitanCharString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanCharString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -56643,10 +56695,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
-			TitanBitString temp_left = left_ptr.valueElements.get(left_index);
-			TitanBitString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+			}
+			final TitanBitString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanBitString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -58858,10 +58914,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
-			TitanBoolean temp_left = left_ptr.valueElements.get(left_index);
-			TitanBoolean temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+			}
+			final TitanBoolean temp_left = left_ptr.valueElements.get(left_index);
+			final TitanBoolean temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
@@ -65315,10 +65375,14 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING__OPTIMIZED right_ptr, final int right_index) {
-			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
-			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
-			TitanBitString temp_left = left_ptr.valueElements.get(left_index);
-			TitanBitString temp_right = right_ptr.valueElements.get(right_index);
+			if (left_ptr.valueElements == null) {
+				throw new TtcnError( "The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			}
+			if (right_ptr.valueElements == null) {
+				throw new TtcnError( "The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+			}
+			final TitanBitString temp_left = left_ptr.valueElements.get(left_index);
+			final TitanBitString temp_right = right_ptr.valueElements.get(right_index);
 			if (temp_left.is_bound()) {
 				if (temp_right.is_bound()){
 					return temp_left.operator_equals( temp_right );
