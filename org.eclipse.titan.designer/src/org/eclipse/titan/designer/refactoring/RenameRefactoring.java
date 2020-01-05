@@ -95,12 +95,12 @@ public class RenameRefactoring extends Refactoring {
 	private static final String ONTHEFLYANALAYSISDISABLED = "On-the-fly analysis is disabled,"
 			+ " there is no reliable semantic information present for the refactoring to work on";
 
-	final IFile file;
-	final Module module;
-	Map<Module, List<Hit>> idsMap = null;
+	private final IFile file;
+	private final Module module;
+	private Map<Module, List<Hit>> idsMap = null;
 	// found identifiers will be renamed to this
-	String newIdentifierName;
-	ReferenceFinder referenceFinder;
+	private String newIdentifierName;
+	private ReferenceFinder referenceFinder;
 
 	public RenameRefactoring(final IFile file, final Module module, final ReferenceFinder referenceFinder) {
 		super();
