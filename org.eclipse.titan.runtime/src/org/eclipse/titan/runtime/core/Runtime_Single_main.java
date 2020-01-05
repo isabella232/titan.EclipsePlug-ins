@@ -66,7 +66,7 @@ public final class Runtime_Single_main {
 					// EXECUTE section
 					final List<ExecuteItem> executeItems = cfgAnalyzer.getExecuteSectionHandler().getExecuteitems();
 
-					//FIXME implement Module_List.log_param();
+					Module_List.log_param();
 					Module_List.post_init_modules();
 					// run testcases
 					for (final ExecuteItem executeItem : executeItems) {

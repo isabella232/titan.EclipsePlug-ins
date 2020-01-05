@@ -196,7 +196,7 @@ public final class Module_List {
 		return param;
 	}
 
-	public void log_param() {
+	public static void log_param() {
 		for (int i = 0; i < modules.size(); i++) {
 			if (modules.get(i).has_log_module_param()) {
 				TTCN_Logger.begin_event(Severity.EXECUTOR_CONFIGDATA);

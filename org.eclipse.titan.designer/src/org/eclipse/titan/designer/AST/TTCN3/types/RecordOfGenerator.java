@@ -1207,7 +1207,10 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tif ( i > 0 ) {\n");
 		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tvalueElements.get(i).log();\n");
+		//Temporal fix for empty record in a record
+		source.append("\t\t\t\tif (valueElements.get(i) != null) {\n");
+		source.append("\t\t\t\t\tvalueElements.get(i).log();\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		source.append("\t\t}\n\n");

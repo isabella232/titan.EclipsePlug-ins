@@ -1645,7 +1645,7 @@ public final class AdditionalFunctions {
 			if ( (octets_ptr[i] & 0xFF) > 127) {
 				throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains octet {0} at index {1}, which is outside the allowed range 00 .. 7F.", (int) value.get_nibble(i), i));
 			}
-			sb.append(octets_ptr[i] & 0xFF);
+			sb.append((char)(octets_ptr[i] & 0xFF));
 		}
 		return new TitanCharString(sb);
 	}
