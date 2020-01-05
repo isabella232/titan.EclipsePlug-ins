@@ -205,9 +205,11 @@ public class RenameRefactoring extends Refactoring {
 		if (rf.fieldId == null) {
 			// check that in all affected scopes there is no
 			// definition with the new name
-			Identifier.Identifier_type idType = Identifier_type.ID_TTCN;
+			Identifier.Identifier_type idType;
 			if (rf.scope.getModuleScope() instanceof ASN1Module) {
 				idType = Identifier_type.ID_ASN;
+			} else {
+				idType = Identifier_type.ID_TTCN;
 			}
 
 			final Identifier newId = new Identifier(idType, newIdentifierName);
@@ -243,7 +245,7 @@ public class RenameRefactoring extends Refactoring {
 				}
 			}
 		} else {
-			boolean alreadyExists = false;
+			boolean alreadyExists;
 			// check if the type has already a field with the new
 			// name
 			if (rf.type instanceof TTCN3_Set_Seq_Choice_BaseType) {
@@ -263,6 +265,8 @@ public class RenameRefactoring extends Refactoring {
 			} else if (rf.type instanceof ASN1_Set_Type) {
 				alreadyExists = ((ASN1_Set_Type) rf.type).hasComponentWithName(new Identifier(Identifier_type.ID_ASN,
 						newIdentifierName));
+			} else {
+				alreadyExists = false;
 			}
 			if (alreadyExists) {
 				result.addError(MessageFormat.format(FIELDALREADYEXISTS, newIdentifierName, rf.type.getTypename()));
@@ -277,9 +281,11 @@ public class RenameRefactoring extends Refactoring {
 		final CompositeChange result = new CompositeChange(getName());
 		// add the change of all found identifiers grouped by module
 		final boolean isAsnRename = module.getModuletype() == Module.module_type.ASN_MODULE;
-		String newTtcnIdentifierName = newIdentifierName;
+		String newTtcnIdentifierName;
 		if (isAsnRename) {
 			newTtcnIdentifierName = Identifier.getTtcnNameFromAsnName(newIdentifierName);
+		} else {
+			newTtcnIdentifierName = newIdentifierName;
 		}
 
 		final List<IFile> filesToProcess = new ArrayList<IFile>(idsMap.size());
