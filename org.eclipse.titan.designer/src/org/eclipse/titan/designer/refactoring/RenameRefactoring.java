@@ -134,7 +134,7 @@ public class RenameRefactoring extends Refactoring {
 		// module.accept(v);
 		// TITANDebugConsole.getConsole().newMessageStream().println(v.getScopeTreeAsHTMLPage());
 
-		RefactoringStatus result = new RefactoringStatus();
+		final RefactoringStatus result = new RefactoringStatus();
 		try {
 			pm.beginTask("Checking preconditions...", 2);
 
@@ -150,7 +150,7 @@ public class RenameRefactoring extends Refactoring {
 			pm.worked(1);
 			
 			//Check that there are no syntactic, semantic or mixed error markers in the project. Compilation error does not matter
-			IProject project = file.getProject();
+			final IProject project = file.getProject();
 			if (projectHasOnTheFlyError (project)) {
 				result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
 			}
@@ -166,14 +166,14 @@ public class RenameRefactoring extends Refactoring {
 	
 	// Returns true if the project has on-the-fly error (syntactic, semantic or mixed error)
 	private boolean projectHasOnTheFlyError(final IProject project) throws CoreException {
-		String[] onTheFlyMarkerTypes = {
+		final String[] onTheFlyMarkerTypes = {
 				GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER,
 				GeneralConstants.ONTHEFLY_SEMANTIC_MARKER,
 				GeneralConstants.ONTHEFLY_MIXED_MARKER
 		};
-		for( String markerType : onTheFlyMarkerTypes){
-			IMarker[] markers = project.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
+		for(final String markerType : onTheFlyMarkerTypes){
+			final IMarker[] markers = project.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
+			for (final IMarker marker : markers) {
 				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
 					return true;
 				}
@@ -184,18 +184,18 @@ public class RenameRefactoring extends Refactoring {
 
 	@Override
 	public RefactoringStatus checkFinalConditions(final IProgressMonitor pm) throws CoreException {
-		RefactoringStatus result = new RefactoringStatus();
+		final RefactoringStatus result = new RefactoringStatus();
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 		// search
 		idsMap = rf.findAllReferences(module, file.getProject(), pm, reportDebugInformation);
 		// add the referred identifier to the map of found identifiers
-		Identifier refdIdentifier = rf.getReferredIdentifier();
-		Module refdModule = rf.assignment.getMyScope().getModuleScope();
+		final Identifier refdIdentifier = rf.getReferredIdentifier();
+		final Module refdModule = rf.assignment.getMyScope().getModuleScope();
 		if (idsMap.containsKey(refdModule)) {
 			idsMap.get(refdModule).add(new Hit(refdIdentifier));
 		} else {
-			ArrayList<Hit> identifierList = new ArrayList<Hit>();
+			final ArrayList<Hit> identifierList = new ArrayList<Hit>();
 			identifierList.add(new Hit(refdIdentifier));
 			idsMap.put(refdModule, identifierList);
 		}
@@ -209,7 +209,8 @@ public class RenameRefactoring extends Refactoring {
 			if (rf.scope.getModuleScope() instanceof ASN1Module) {
 				idType = Identifier_type.ID_ASN;
 			}
-			Identifier newId = new Identifier(idType, newIdentifierName);
+
+			final Identifier newId = new Identifier(idType, newIdentifierName);
 			// check for assignment with given id in all sub-scopes
 			// of the assignment's scope
 			// TODO: this does not detect runs on <-> component
@@ -220,16 +221,17 @@ public class RenameRefactoring extends Refactoring {
 			if (rootScope instanceof NamedBridgeScope && rootScope.getParentScope() != null) {
 				rootScope = rootScope.getParentScope();
 			}
-			SubScopeVisitor subScopeVisitor = new SubScopeVisitor(rootScope);
+
+			final SubScopeVisitor subScopeVisitor = new SubScopeVisitor(rootScope);
 			module.accept(subScopeVisitor);
-			List<Scope> subScopes = subScopeVisitor.getSubScopes();
+			final List<Scope> subScopes = subScopeVisitor.getSubScopes();
 			subScopes.add(rootScope);
-			for (Scope ss : subScopes) {
+			for (final Scope ss : subScopes) {
 				if (ss.hasAssignmentWithId(CompilationTimeStamp.getBaseTimestamp(), newId)) {
-					List<ISubReference> subReferences = new ArrayList<ISubReference>();
+					final List<ISubReference> subReferences = new ArrayList<ISubReference>();
 					subReferences.add(new FieldSubReference(newId));
-					Reference reference = new Reference(null, subReferences);
-					Assignment assignment = ss.getAssBySRef(CompilationTimeStamp.getBaseTimestamp(), reference);
+					final Reference reference = new Reference(null, subReferences);
+					final Assignment assignment = ss.getAssBySRef(CompilationTimeStamp.getBaseTimestamp(), reference);
 					if (assignment != null && assignment.getLocation() != null) {
 						result.addError(MessageFormat.format(DEFINITIONALREADYEXISTS2, newId.getDisplayName(),
 								module.getName(), assignment.getLocation().getLine()));
@@ -272,27 +274,27 @@ public class RenameRefactoring extends Refactoring {
 
 	@Override
 	public Change createChange(final IProgressMonitor pm) throws CoreException {
-		CompositeChange result = new CompositeChange(getName());
+		final CompositeChange result = new CompositeChange(getName());
 		// add the change of all found identifiers grouped by module
-		boolean isAsnRename = module.getModuletype() == Module.module_type.ASN_MODULE;
+		final boolean isAsnRename = module.getModuletype() == Module.module_type.ASN_MODULE;
 		String newTtcnIdentifierName = newIdentifierName;
 		if (isAsnRename) {
 			newTtcnIdentifierName = Identifier.getTtcnNameFromAsnName(newIdentifierName);
 		}
 
-		List<IFile> filesToProcess = new ArrayList<IFile>(idsMap.size());
+		final List<IFile> filesToProcess = new ArrayList<IFile>(idsMap.size());
 
-		for (Module m : idsMap.keySet()) {
-			List<Hit> hitList = idsMap.get(m);
-			boolean isTtcnModule = m.getModuletype() == Module.module_type.TTCN3_MODULE;
-			IFile file = (IFile) hitList.get(0).identifier.getLocation().getFile();
-			TextFileChange tfc = new TextFileChange(file.getName(), file);
+		for (final Module m : idsMap.keySet()) {
+			final List<Hit> hitList = idsMap.get(m);
+			final boolean isTtcnModule = m.getModuletype() == Module.module_type.TTCN3_MODULE;
+			final IFile file = (IFile) hitList.get(0).identifier.getLocation().getFile();
+			final TextFileChange tfc = new TextFileChange(file.getName(), file);
 			result.add(tfc);
-			MultiTextEdit rootEdit = new MultiTextEdit();
+			final MultiTextEdit rootEdit = new MultiTextEdit();
 			tfc.setEdit(rootEdit);
-			for (Hit hit : hitList) {
-				int offset = hit.identifier.getLocation().getOffset();
-				int length = hit.identifier.getLocation().getEndOffset() - offset;
+			for (final Hit hit : hitList) {
+				final int offset = hit.identifier.getLocation().getOffset();
+				final int length = hit.identifier.getLocation().getEndOffset() - offset;
 				String newName = isTtcnModule ? newTtcnIdentifierName : newIdentifierName;
 				// special case: referencing the definition from
 				// another module without a module name prefix
@@ -347,7 +349,7 @@ public class RenameRefactoring extends Refactoring {
 			if (reportDebugInformation) {
 				TITANDebugConsole.getConsole().newMessageStream().println("text selected: " + ((TextSelection) selection).getText());
 			}
-			TextSelection tSelection = (TextSelection) selection;
+			final TextSelection tSelection = (TextSelection) selection;
 			offset = tSelection.getOffset() + tSelection.getLength();
 		} else {
 			offset = ((IEditorWithCarretOffset) targetEditor).getCarretOffset();
@@ -388,15 +390,15 @@ public class RenameRefactoring extends Refactoring {
 
 		if (rf == null) {
 			rf = new ReferenceFinder();
-			boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation, null);
+			final boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation, null);
 			if (!isDetected) {
 				return;
 			}
 		}
 
-		RenameRefactoring renameRefactoring = new RenameRefactoring(file, module, rf);
-		RenameRefactoringWizard renameWizard = new RenameRefactoringWizard(renameRefactoring);
-		RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(renameWizard);
+		final RenameRefactoring renameRefactoring = new RenameRefactoring(file, module, rf);
+		final RenameRefactoringWizard renameWizard = new RenameRefactoringWizard(renameRefactoring);
+		final RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(renameWizard);
 		try {
 			operation.run(targetEditor.getEditorSite().getShell(), "");
 		} catch (InterruptedException irex) {
@@ -409,7 +411,7 @@ public class RenameRefactoring extends Refactoring {
 			//===================================
 			//=== Re-analysis after renaming ====
 			//===================================
-			Map<Module, List<Hit>> changed = rf.findAllReferences(module, file.getProject(), null, reportDebugInformation);
+			final Map<Module, List<Hit>> changed = rf.findAllReferences(module, file.getProject(), null, reportDebugInformation);
 
 			final Set<Module> modules = new HashSet<Module>();
 			modules.add(module);
@@ -428,10 +430,8 @@ public class RenameRefactoring extends Refactoring {
 	 * @param modules The modules containing renaming
 	 */
 	public static void reanalyseAstAfterRefactoring(final IProject project, final Set<Module> modules ){
-
-
 		final ConcurrentLinkedQueue<WorkspaceJob> reportOutdatingJobs = new ConcurrentLinkedQueue<WorkspaceJob>();
-		for(Module tempModule : modules) {
+		for(final Module tempModule : modules) {
 			final IFile f = (IFile)tempModule.getLocation().getFile();
 			final WorkspaceJob op = new WorkspaceJob("Reports outdating for file: " + f.getName()) {
 				@Override
