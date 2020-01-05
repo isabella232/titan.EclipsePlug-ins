@@ -520,14 +520,16 @@ public final class RecordOfGenerator {
 			source.append( MessageFormat.format( "\t\tprivate boolean compare_set(final {0} left_ptr, final int left_index, final {0} right_ptr, final int right_index) '{'\n", genName ) );
 			source.append( MessageFormat.format( "\t\t\tleft_ptr.must_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 			source.append( MessageFormat.format( "\t\t\tright_ptr.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-			source.append("\t\t\tif (left_ptr.valueElements.get(left_index).is_bound()) {\n");
-			source.append("\t\t\t\tif (right_ptr.valueElements.get(right_index).is_bound()){\n");
-			source.append("\t\t\t\t\treturn left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );\n");
+			source.append( MessageFormat.format( "\t\t\tfinal {0} temp_left = left_ptr.valueElements.get(left_index);\n", ofTypeName ) );
+			source.append( MessageFormat.format( "\t\t\tfinal {0} temp_right = right_ptr.valueElements.get(right_index);\n", ofTypeName ) );
+			source.append("\t\t\tif (temp_left.is_bound()) {\n");
+			source.append("\t\t\t\tif (temp_right.is_bound()){\n");
+			source.append("\t\t\t\t\treturn temp_left.operator_equals( temp_right );\n");
 			source.append("\t\t\t\t} else  {\n");
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t} else {\n");
-			source.append("\t\t\t\treturn !right_ptr.valueElements.get(right_index).is_bound();\n");
+			source.append("\t\t\t\treturn !temp_right.is_bound();\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t}\n\n");
 		}
