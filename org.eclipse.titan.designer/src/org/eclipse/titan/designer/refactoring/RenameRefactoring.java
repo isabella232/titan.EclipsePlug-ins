@@ -100,18 +100,18 @@ public class RenameRefactoring extends Refactoring {
 	Map<Module, List<Hit>> idsMap = null;
 	// found identifiers will be renamed to this
 	String newIdentifierName;
-	ReferenceFinder rf;
+	ReferenceFinder referenceFinder;
 
-	public RenameRefactoring(final IFile file, final Module module, final ReferenceFinder rf) {
+	public RenameRefactoring(final IFile file, final Module module, final ReferenceFinder referenceFinder) {
 		super();
 		this.file = file;
 		this.module = module;
-		this.rf = rf;
+		this.referenceFinder = referenceFinder;
 	}
 
 	@Override
 	public String getName() {
-		return "Rename " + rf.getSearchName();
+		return "Rename " + referenceFinder.getSearchName();
 	}
 
 	public Module getModule() {
@@ -119,7 +119,7 @@ public class RenameRefactoring extends Refactoring {
 	}
 
 	public Identifier getRefdIdentifier() {
-		return rf.getReferredIdentifier();
+		return referenceFinder.getReferredIdentifier();
 	}
 
 	public void setNewIdentifierName(final String newIdentifierName) {
@@ -127,7 +127,7 @@ public class RenameRefactoring extends Refactoring {
 	}
 
 	@Override
-	public RefactoringStatus checkInitialConditions(final IProgressMonitor pm) throws CoreException {
+	public RefactoringStatus checkInitialConditions(final IProgressMonitor monitor) throws CoreException {
 
 		// for debugging
 		// ScopeHierarchyVisitor v = new ScopeHierarchyVisitor();
@@ -136,7 +136,7 @@ public class RenameRefactoring extends Refactoring {
 
 		final RefactoringStatus result = new RefactoringStatus();
 		try {
-			pm.beginTask("Checking preconditions...", 2);
+			monitor.beginTask("Checking preconditions...", 2);
 
 			final IPreferencesService prefs = Platform.getPreferencesService();//PreferenceConstants.USEONTHEFLYPARSING
 			if (! prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, false, null)) {
@@ -147,19 +147,19 @@ public class RenameRefactoring extends Refactoring {
 			if (GlobalParser.hasTtcnppFiles(file.getProject())) {//FIXME actually all referencing and referenced projects need to be checked too !
 				result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, file.getProject()));
 			}
-			pm.worked(1);
+			monitor.worked(1);
 			
 			//Check that there are no syntactic, semantic or mixed error markers in the project. Compilation error does not matter
 			final IProject project = file.getProject();
 			if (projectHasOnTheFlyError (project)) {
 				result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
 			}
-			pm.worked(1);
+			monitor.worked(1);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			result.addFatalError(e.getMessage());
 		} finally {
-			pm.done();
+			monitor.done();
 		}
 		return result;
 	}
@@ -183,15 +183,15 @@ public class RenameRefactoring extends Refactoring {
 	}
 
 	@Override
-	public RefactoringStatus checkFinalConditions(final IProgressMonitor pm) throws CoreException {
+	public RefactoringStatus checkFinalConditions(final IProgressMonitor monitor) throws CoreException {
 		final RefactoringStatus result = new RefactoringStatus();
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 		// search
-		idsMap = rf.findAllReferences(module, file.getProject(), pm, reportDebugInformation);
+		idsMap = referenceFinder.findAllReferences(module, file.getProject(), monitor, reportDebugInformation);
 		// add the referred identifier to the map of found identifiers
-		final Identifier refdIdentifier = rf.getReferredIdentifier();
-		final Module refdModule = rf.assignment.getMyScope().getModuleScope();
+		final Identifier refdIdentifier = referenceFinder.getReferredIdentifier();
+		final Module refdModule = referenceFinder.assignment.getMyScope().getModuleScope();
 		if (idsMap.containsKey(refdModule)) {
 			idsMap.get(refdModule).add(new Hit(refdIdentifier));
 		} else {
@@ -202,11 +202,11 @@ public class RenameRefactoring extends Refactoring {
 
 		// check if there are name collisions in any of the affected
 		// scopes
-		if (rf.fieldId == null) {
+		if (referenceFinder.fieldId == null) {
 			// check that in all affected scopes there is no
 			// definition with the new name
 			Identifier.Identifier_type idType;
-			if (rf.scope.getModuleScope() instanceof ASN1Module) {
+			if (referenceFinder.scope.getModuleScope() instanceof ASN1Module) {
 				idType = Identifier_type.ID_ASN;
 			} else {
 				idType = Identifier_type.ID_TTCN;
@@ -219,7 +219,7 @@ public class RenameRefactoring extends Refactoring {
 			// member conflicts because the RunsOnScope is not a
 			// sub-scope of the ComponentTypeBody scope,
 			// also it does not go into other modules
-			Scope rootScope = rf.assignment.getMyScope();
+			Scope rootScope = referenceFinder.assignment.getMyScope();
 			if (rootScope instanceof NamedBridgeScope && rootScope.getParentScope() != null) {
 				rootScope = rootScope.getParentScope();
 			}
@@ -248,28 +248,28 @@ public class RenameRefactoring extends Refactoring {
 			boolean alreadyExists;
 			// check if the type has already a field with the new
 			// name
-			if (rf.type instanceof TTCN3_Set_Seq_Choice_BaseType) {
-				alreadyExists = ((TTCN3_Set_Seq_Choice_BaseType) rf.type).hasComponentWithName(newIdentifierName);
-			} else if (rf.type instanceof TTCN3_Enumerated_Type) {
-				alreadyExists = ((TTCN3_Enumerated_Type) rf.type).hasEnumItemWithName(new Identifier(Identifier_type.ID_TTCN,
+			if (referenceFinder.type instanceof TTCN3_Set_Seq_Choice_BaseType) {
+				alreadyExists = ((TTCN3_Set_Seq_Choice_BaseType) referenceFinder.type).hasComponentWithName(newIdentifierName);
+			} else if (referenceFinder.type instanceof TTCN3_Enumerated_Type) {
+				alreadyExists = ((TTCN3_Enumerated_Type) referenceFinder.type).hasEnumItemWithName(new Identifier(Identifier_type.ID_TTCN,
 						newIdentifierName));
-			} else if (rf.type instanceof ASN1_Choice_Type) {
-				alreadyExists = ((ASN1_Choice_Type) rf.type).hasComponentWithName(new Identifier(Identifier_type.ID_ASN,
+			} else if (referenceFinder.type instanceof ASN1_Choice_Type) {
+				alreadyExists = ((ASN1_Choice_Type) referenceFinder.type).hasComponentWithName(new Identifier(Identifier_type.ID_ASN,
 						newIdentifierName));
-			} else if (rf.type instanceof ASN1_Enumerated_Type) {
-				alreadyExists = ((ASN1_Enumerated_Type) rf.type).hasEnumItemWithName(new Identifier(Identifier_type.ID_ASN,
+			} else if (referenceFinder.type instanceof ASN1_Enumerated_Type) {
+				alreadyExists = ((ASN1_Enumerated_Type) referenceFinder.type).hasEnumItemWithName(new Identifier(Identifier_type.ID_ASN,
 						newIdentifierName));
-			} else if (rf.type instanceof ASN1_Sequence_Type) {
-				alreadyExists = ((ASN1_Sequence_Type) rf.type).hasComponentWithName(new Identifier(Identifier_type.ID_ASN,
+			} else if (referenceFinder.type instanceof ASN1_Sequence_Type) {
+				alreadyExists = ((ASN1_Sequence_Type) referenceFinder.type).hasComponentWithName(new Identifier(Identifier_type.ID_ASN,
 						newIdentifierName));
-			} else if (rf.type instanceof ASN1_Set_Type) {
-				alreadyExists = ((ASN1_Set_Type) rf.type).hasComponentWithName(new Identifier(Identifier_type.ID_ASN,
+			} else if (referenceFinder.type instanceof ASN1_Set_Type) {
+				alreadyExists = ((ASN1_Set_Type) referenceFinder.type).hasComponentWithName(new Identifier(Identifier_type.ID_ASN,
 						newIdentifierName));
 			} else {
 				alreadyExists = false;
 			}
 			if (alreadyExists) {
-				result.addError(MessageFormat.format(FIELDALREADYEXISTS, newIdentifierName, rf.type.getTypename()));
+				result.addError(MessageFormat.format(FIELDALREADYEXISTS, newIdentifierName, referenceFinder.type.getTypename()));
 			}
 		}
 
@@ -277,7 +277,7 @@ public class RenameRefactoring extends Refactoring {
 	}
 
 	@Override
-	public Change createChange(final IProgressMonitor pm) throws CoreException {
+	public Change createChange(final IProgressMonitor monitor) throws CoreException {
 		final CompositeChange result = new CompositeChange(getName());
 		// add the change of all found identifiers grouped by module
 		final boolean isAsnRename = module.getModuletype() == Module.module_type.ASN_MODULE;
@@ -308,15 +308,15 @@ public class RenameRefactoring extends Refactoring {
 				// in the scope of the reference.
 				// The module name must be added to the
 				// reference.
-				if (rf.fieldId == null
+				if (referenceFinder.fieldId == null
 						&& hit.reference != null
 						&& hit.reference.getModuleIdentifier() == null
-						&& rf.assignment.getMyScope().getModuleScope() != hit.reference.getMyScope().getModuleScope()
+						&& referenceFinder.assignment.getMyScope().getModuleScope() != hit.reference.getMyScope().getModuleScope()
 						&& hit.reference.getMyScope().hasAssignmentWithId(
 								CompilationTimeStamp.getBaseTimestamp(),
 								new Identifier(isTtcnModule ? Identifier_type.ID_TTCN : Identifier_type.ID_ASN,
 										newIdentifierName))) {
-					newName = rf.assignment.getMyScope().getModuleScope().getName() + "." + newName;
+					newName = referenceFinder.assignment.getMyScope().getModuleScope().getName() + "." + newName;
 				}
 				rootEdit.addChild(new ReplaceEdit(offset, length, newName));
 			}
@@ -392,17 +392,17 @@ public class RenameRefactoring extends Refactoring {
 			return;
 		}
 
-		ReferenceFinder rf = findOccurrencesLocationBased(module, offset);
+		ReferenceFinder referenceFinder = findOccurrencesLocationBased(module, offset);
 
-		if (rf == null) {
-			rf = new ReferenceFinder();
-			final boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation, null);
+		if (referenceFinder == null) {
+			referenceFinder = new ReferenceFinder();
+			final boolean isDetected = referenceFinder.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation, null);
 			if (!isDetected) {
 				return;
 			}
 		}
 
-		final RenameRefactoring renameRefactoring = new RenameRefactoring(file, module, rf);
+		final RenameRefactoring renameRefactoring = new RenameRefactoring(file, module, referenceFinder);
 		final RenameRefactoringWizard renameWizard = new RenameRefactoringWizard(renameRefactoring);
 		final RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(renameWizard);
 		try {
@@ -417,7 +417,7 @@ public class RenameRefactoring extends Refactoring {
 			//===================================
 			//=== Re-analysis after renaming ====
 			//===================================
-			final Map<Module, List<Hit>> changed = rf.findAllReferences(module, file.getProject(), null, reportDebugInformation);
+			final Map<Module, List<Hit>> changed = referenceFinder.findAllReferences(module, file.getProject(), null, reportDebugInformation);
 
 			final Set<Module> modules = new HashSet<Module>();
 			modules.add(module);
@@ -438,26 +438,26 @@ public class RenameRefactoring extends Refactoring {
 	public static void reanalyseAstAfterRefactoring(final IProject project, final Set<Module> modules ){
 		final ConcurrentLinkedQueue<WorkspaceJob> reportOutdatingJobs = new ConcurrentLinkedQueue<WorkspaceJob>();
 		for(final Module tempModule : modules) {
-			final IFile f = (IFile)tempModule.getLocation().getFile();
-			final WorkspaceJob op = new WorkspaceJob("Reports outdating for file: " + f.getName()) {
+			final IFile file = (IFile)tempModule.getLocation().getFile();
+			final WorkspaceJob operation = new WorkspaceJob("Reports outdating for file: " + file.getName()) {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
-					IProject proj = f.getProject();
-					reportOutdatingJobs.add(GlobalParser.getProjectSourceParser(proj).reportOutdating(f));
+					IProject proj = file.getProject();
+					reportOutdatingJobs.add(GlobalParser.getProjectSourceParser(proj).reportOutdating(file));
 					return Status.OK_STATUS;
 				}
 			};
-			op.setPriority(Job.LONG);
-			op.setSystem(true);
-			op.setUser(false);
-			op.setRule(f); //waiting for f to be released
-			op.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
-			reportOutdatingJobs.add(op);
-			op.schedule();
+			operation.setPriority(Job.LONG);
+			operation.setSystem(true);
+			operation.setUser(false);
+			operation.setRule(file); //waiting for f to be released
+			operation.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
+			reportOutdatingJobs.add(operation);
+			operation.schedule();
 		}
 
 		//Waits for finishing update then analyzes all projects related to this change
-		final WorkspaceJob op = new WorkspaceJob("Analyzes all projects related to this change") {
+		final WorkspaceJob operation = new WorkspaceJob("Analyzes all projects related to this change") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				while (!reportOutdatingJobs.isEmpty()) {
@@ -478,12 +478,12 @@ public class RenameRefactoring extends Refactoring {
 				return Status.OK_STATUS;
 			}
 		};
-		op.setPriority(Job.LONG);
-		op.setSystem(true);
-		op.setUser(false);
+		operation.setPriority(Job.LONG);
+		operation.setSystem(true);
+		operation.setUser(false);
 //		op.setRule(file); //waiting for file to be released << Don't apply, it will wait forever!!!
-		op.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
-		op.schedule();
+		operation.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
+		operation.schedule();
 	}
 
 	/**
