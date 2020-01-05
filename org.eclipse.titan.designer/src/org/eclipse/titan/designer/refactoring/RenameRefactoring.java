@@ -330,6 +330,11 @@ public class RenameRefactoring extends Refactoring {
 	/**
 	 * Helper function used by RenameRefactoringAction classes for TTCN-3,
 	 * ASN.1 and TTCNPP editors
+	 * 
+	 * @param targetEditor
+	 *                the editor the user is working in.
+	 * @param selection
+	 *                the selection in the editor.
 	 */
 	public static void runAction(final IEditorPart targetEditor, final ISelection selection) {
 		final IStatusLineManager statusLineManager = targetEditor.getEditorSite().getActionBars().getStatusLineManager();
@@ -428,11 +433,15 @@ public class RenameRefactoring extends Refactoring {
 	}
 
 	/**
-	 * Re-analyzes AST after a rename-refactoring finished
-	 * At first reports outdating for the projects containing file has been refactored.
-	 * Then analyzes the project where the reanalysis started from (and its dependencies)
-	 * @param project  The project where the renaming started from
-	 * @param modules The modules containing renaming
+	 * Re-analyzes AST after a rename-refactoring finished At first reports
+	 * outdating for the projects containing file has been refactored. Then
+	 * analyzes the project where the reanalysis started from (and its
+	 * dependencies)
+	 * 
+	 * @param project
+	 *                The project where the renaming started from
+	 * @param modules
+	 *                The modules containing renaming
 	 */
 	public static void reanalyseAstAfterRefactoring(final IProject project, final Set<Module> modules ){
 		final ConcurrentLinkedQueue<WorkspaceJob> reportOutdatingJobs = new ConcurrentLinkedQueue<WorkspaceJob>();
