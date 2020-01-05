@@ -58,6 +58,7 @@ public class RenameRefactoringInputPage extends UserInputWizardPage {
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR();
+			break;
 		}
 		newNameText.setText(oldName);
 		newNameText.setFocus();
