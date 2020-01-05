@@ -35,7 +35,6 @@ final class EmptyProjectSample extends SampleProject {
 	@Override
 	public void setupProject(final IProject project, final IFolder sourceFolder) {
 		// Do nothing
-		return;
 	}
 
 	@Override
