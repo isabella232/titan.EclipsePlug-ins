@@ -518,8 +518,12 @@ public final class RecordOfGenerator {
 
 		if ( isSetOf ) {
 			source.append( MessageFormat.format( "\t\tprivate boolean compare_set(final {0} left_ptr, final int left_index, final {0} right_ptr, final int right_index) '{'\n", genName ) );
-			source.append( MessageFormat.format( "\t\t\tleft_ptr.must_bound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
-			source.append( MessageFormat.format( "\t\t\tright_ptr.must_bound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+			source.append("\t\t\tif (left_ptr.valueElements == null) {\n");
+			source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError( \"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tif (right_ptr.valueElements == null) {\n");
+			source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError( \"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+			source.append("\t\t\t}\n");
 			source.append( MessageFormat.format( "\t\t\tfinal {0} temp_left = left_ptr.valueElements.get(left_index);\n", ofTypeName ) );
 			source.append( MessageFormat.format( "\t\t\tfinal {0} temp_right = right_ptr.valueElements.get(right_index);\n", ofTypeName ) );
 			source.append("\t\t\tif (temp_left.is_bound()) {\n");
