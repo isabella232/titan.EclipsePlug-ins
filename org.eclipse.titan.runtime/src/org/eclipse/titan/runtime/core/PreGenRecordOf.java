@@ -836,7 +836,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -1009,7 +1011,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -2396,14 +2398,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanUniversalCharString temp_left = left_ptr.valueElements.get(left_index);
+			TitanUniversalCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -2934,7 +2938,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -3107,7 +3113,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -5166,7 +5172,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -5339,7 +5347,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -7285,7 +7293,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -7458,7 +7468,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -9404,7 +9414,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -9577,7 +9589,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -11523,7 +11535,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -11696,7 +11710,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -13642,7 +13656,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -13815,7 +13831,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -15761,7 +15777,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -15934,7 +15952,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -17880,7 +17898,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -18053,7 +18073,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -19999,7 +20019,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -20172,7 +20194,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -22118,7 +22140,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -22291,7 +22315,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -23678,14 +23702,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanUniversalCharString temp_left = left_ptr.valueElements.get(left_index);
+			TitanUniversalCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -24216,7 +24242,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -24389,7 +24417,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -25889,14 +25917,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanBoolean temp_left = left_ptr.valueElements.get(left_index);
+			TitanBoolean temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -26427,7 +26457,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -26600,7 +26632,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -28100,14 +28132,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanFloat temp_left = left_ptr.valueElements.get(left_index);
+			TitanFloat temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -28638,7 +28672,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -28811,7 +28847,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -30311,14 +30347,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanInteger temp_left = left_ptr.valueElements.get(left_index);
+			TitanInteger temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -30849,7 +30887,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -31022,7 +31062,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -32522,14 +32562,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanCharString temp_left = left_ptr.valueElements.get(left_index);
+			TitanCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -33060,7 +33102,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -33233,7 +33277,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -35292,7 +35336,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -35465,7 +35511,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -36852,14 +36898,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanHexString temp_left = left_ptr.valueElements.get(left_index);
+			TitanHexString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -37390,7 +37438,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -37563,7 +37613,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -39063,14 +39113,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanHexString temp_left = left_ptr.valueElements.get(left_index);
+			TitanHexString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -39601,7 +39653,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -39774,7 +39828,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -41274,14 +41328,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanOctetString temp_left = left_ptr.valueElements.get(left_index);
+			TitanOctetString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -41812,7 +41868,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -41985,7 +42043,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -43485,14 +43543,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanFloat temp_left = left_ptr.valueElements.get(left_index);
+			TitanFloat temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -44023,7 +44083,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -44196,7 +44258,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -45696,14 +45758,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanInteger temp_left = left_ptr.valueElements.get(left_index);
+			TitanInteger temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -46234,7 +46298,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -46407,7 +46473,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -47907,14 +47973,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanOctetString temp_left = left_ptr.valueElements.get(left_index);
+			TitanOctetString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -48445,7 +48513,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -48618,7 +48688,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -50677,7 +50747,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -50850,7 +50922,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -52796,7 +52868,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -52969,7 +53043,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -54356,14 +54430,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanCharString temp_left = left_ptr.valueElements.get(left_index);
+			TitanCharString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -54894,7 +54970,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -55067,7 +55145,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -56567,14 +56645,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanBitString temp_left = left_ptr.valueElements.get(left_index);
+			TitanBitString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -57105,7 +57185,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -57278,7 +57360,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -58778,14 +58860,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanBoolean temp_left = left_ptr.valueElements.get(left_index);
+			TitanBoolean temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -59316,7 +59400,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -59489,7 +59575,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -61548,7 +61634,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -61721,7 +61809,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -63667,7 +63755,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -63840,7 +63930,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -65227,14 +65317,16 @@ public final class PreGenRecordOf extends TTCN_Module {
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING__OPTIMIZED right_ptr, final int right_index) {
 			left_ptr.must_bound("The left operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 			right_ptr.must_bound("The right operand of comparison is an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
-			if (left_ptr.valueElements.get(left_index).is_bound()) {
-				if (right_ptr.valueElements.get(right_index).is_bound()){
-					return left_ptr.valueElements.get(left_index).operator_equals( right_ptr.valueElements.get(right_index) );
+			TitanBitString temp_left = left_ptr.valueElements.get(left_index);
+			TitanBitString temp_right = right_ptr.valueElements.get(right_index);
+			if (temp_left.is_bound()) {
+				if (temp_right.is_bound()){
+					return temp_left.operator_equals( temp_right );
 				} else  {
 					return false;
 				}
 			} else {
-				return !right_ptr.valueElements.get(right_index).is_bound();
+				return !temp_right.is_bound();
 			}
 		}
 
@@ -65765,7 +65857,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -65938,7 +66032,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
@@ -67997,7 +68091,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if ( i > 0 ) {
 					TTCN_Logger.log_event_str(", ");
 				}
-				valueElements.get(i).log();
+				if (valueElements.get(i) != null) {
+					valueElements.get(i).log();
+				}
 			}
 			TTCN_Logger.log_event_str(" }");
 		}
@@ -68170,7 +68266,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			myleaf.nodes = new RAW_enc_tree[encoded_num_of_records];
 			for (int a = 0; a < encoded_num_of_records; a++) {
 				myleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);
-				encoded_length += constGet_at(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
+				encoded_length += valueElements.get(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);
 			}
 			return myleaf.length = encoded_length;
 		}
