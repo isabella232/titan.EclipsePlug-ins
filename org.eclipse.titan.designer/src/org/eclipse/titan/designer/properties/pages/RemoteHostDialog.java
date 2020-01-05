@@ -122,14 +122,14 @@ public final class RemoteHostDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		createActiveArea(container);
 
-		Composite panel = new Composite(container, SWT.NONE);
-		GridLayout layout = new GridLayout(3, false);
+		final Composite panel = new Composite(container, SWT.NONE);
+		final GridLayout layout = new GridLayout(3, false);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -142,12 +142,12 @@ public final class RemoteHostDialog extends Dialog {
 	}
 
 	protected void createActiveArea(final Composite parent) {
-		Composite panel = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
+		final Composite panel = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(2, false);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label label = new Label(panel, SWT.NONE);
+		final Label label = new Label(panel, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		label.setImage(images[0]);
 		label.setToolTipText(ACTIVE_TOOLTIP);
@@ -159,7 +159,7 @@ public final class RemoteHostDialog extends Dialog {
 	}
 
 	protected void createNameArea(final Composite parent) {
-		Label label = new Label(parent, SWT.NONE);
+		final Label label = new Label(parent, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		label.setImage(images[1]);
 		label.setToolTipText(NAME_TOOLTIP);
@@ -177,7 +177,7 @@ public final class RemoteHostDialog extends Dialog {
 	}
 
 	protected void createCommandArea(final Composite parent) {
-		Label label = new Label(parent, SWT.NONE);
+		final Label label = new Label(parent, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		label.setImage(images[2]);
 		label.setToolTipText(COMMAND_TOOLTIP);

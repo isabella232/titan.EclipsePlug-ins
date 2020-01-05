@@ -77,9 +77,9 @@ public final class PreprocessorSymbolsOptionsPage implements IOptionsPage {
 
 	@Override
 	public void copyPropertyStore(final IProject project, final PreferenceStore tempStorage) {
-		String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
+		final String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_DEFINES_PROPERTY;
-		String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
+		final String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_UNDEFINES_PROPERTY;
 		String temp = null;
 		try {
@@ -100,9 +100,9 @@ public final class PreprocessorSymbolsOptionsPage implements IOptionsPage {
 
 	@Override
 	public boolean evaluatePropertyStore(final IProject project, final PreferenceStore tempStorage) {
-		String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
+		final String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_DEFINES_PROPERTY;
-		String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
+		final String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_UNDEFINES_PROPERTY;
 		boolean result = false;
 		String actualValue = null;
@@ -150,9 +150,9 @@ public final class PreprocessorSymbolsOptionsPage implements IOptionsPage {
 
 	@Override
 	public void loadProperties(final IProject project) {
-		String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
+		final String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_DEFINES_PROPERTY;
-		String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
+		final String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_UNDEFINES_PROPERTY;
 
 		try {
@@ -169,9 +169,9 @@ public final class PreprocessorSymbolsOptionsPage implements IOptionsPage {
 
 	@Override
 	public boolean saveProperties(final IProject project) {
-		String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
+		final String definesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_DEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_DEFINES_PROPERTY;
-		String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
+		final String undefinesProperty = ttcn3symbols ? PreprocessorSymbolsOptionsData.TTCN3_PREPROCESSOR_UNDEFINES_PROPERTY
 				: PreprocessorSymbolsOptionsData.PREPROCESSOR_UNDEFINES_PROPERTY;
 
 		try {

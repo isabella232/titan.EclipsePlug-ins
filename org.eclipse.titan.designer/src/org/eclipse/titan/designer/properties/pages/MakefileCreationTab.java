@@ -467,7 +467,7 @@ public final class MakefileCreationTab {
 			singleModeButton.setSelection("true".equals(temp) ? true : false);
 
 			//Code Splitting:
-			String codeSplittingType = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+			final String codeSplittingType = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.CODE_SPLITTING_PROPERTY));
 			if (codeSplittingType == null || codeSplittingType.length() == 0) {
 				codeSplitting.setSelectedValue(GeneralConstants.NONE);
@@ -538,7 +538,7 @@ public final class MakefileCreationTab {
 					: "false");
 			setProperty(project, MakefileCreationData.SINGLEMODE_PROPERTY, singleModeButton.getSelection() ? "true" : "false");
 
-			String codeSplittingActualValue = codeSplitting.getActualValue();
+			final String codeSplittingActualValue = codeSplitting.getActualValue();
 
 			if (codeSplittingActualValue.equals(GeneralConstants.NONE) || codeSplittingActualValue.equals(GeneralConstants.TYPE)) {
 				setProperty(project, MakefileCreationData.CODE_SPLITTING_PROPERTY, codeSplittingActualValue);
@@ -556,8 +556,8 @@ public final class MakefileCreationTab {
 
 			setProperty(project, MakefileCreationData.DEFAULT_TARGET_PROPERTY, defaultTarget.getActualValue());
 			String temp = temporalTargetExecutableFileFieldEditor.getStringValue();
-			URI path = URIUtil.toURI(temp);
-			URI resolvedPath = TITANPathUtilities.resolvePathURI(temp, project.getLocation().toOSString());
+			final URI path = URIUtil.toURI(temp);
+			final URI resolvedPath = TITANPathUtilities.resolvePathURI(temp, project.getLocation().toOSString());
 			if (path.equals(resolvedPath)) {
 				temp = PathUtil.getRelativePath(project.getLocation().toOSString(), temp);
 			}

@@ -93,7 +93,7 @@ public class ProjectNamingConventionPropertyPage extends BaseNamingConventionPro
 		});
 		firstConfiguration = configurationManager.getActualSelection();
 
-		BooleanFieldEditor booleanedit = new BooleanFieldEditor(PreferenceConstants.ENABLEPROJECTSPECIFICNAMINGCONVENTIONS,
+		final BooleanFieldEditor booleanedit = new BooleanFieldEditor(PreferenceConstants.ENABLEPROJECTSPECIFICNAMINGCONVENTIONS,
 				ENABLEPROJECTSPECIFIC, tempParent);
 		booleanedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
@@ -124,9 +124,9 @@ public class ProjectNamingConventionPropertyPage extends BaseNamingConventionPro
 
 	@Override
 	public boolean performOk() {
-		IProject project = (IProject) getElement();
-		boolean result = super.performOk();
-		IPreferenceStore store = getPreferenceStore();
+		final IProject project = (IProject) getElement();
+		final boolean result = super.performOk();
+		final IPreferenceStore store = getPreferenceStore();
 		if (store instanceof PropertyStore) {
 			try {
 				((PropertyStore) store).save();

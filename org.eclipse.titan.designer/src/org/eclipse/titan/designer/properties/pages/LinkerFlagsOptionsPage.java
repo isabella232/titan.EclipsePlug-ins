@@ -187,8 +187,8 @@ public final class LinkerFlagsOptionsPage implements IOptionsPage {
 	 *                    </ul>
 	 * */
 	private void setProperty(final IProject project, final String name, final String value) throws CoreException {
-		QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
-		String oldValue = project.getPersistentProperty(qualifiedName);
+		final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
+		final String oldValue = project.getPersistentProperty(qualifiedName);
 		if (value != null && !value.equals(oldValue)) {
 			project.setPersistentProperty(qualifiedName, value);
 		}

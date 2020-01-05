@@ -77,7 +77,7 @@ public final class FileBuildPropertyPage extends PropertyPage {
 	protected Control createContents(final Composite parent) {
 		fileResource = (IFile) getElement();
 		try {
-			String temp = fileResource.getPersistentProperty(new QualifiedName(FileBuildPropertyData.QUALIFIER,
+			final String temp = fileResource.getPersistentProperty(new QualifiedName(FileBuildPropertyData.QUALIFIER,
 					FileBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY));
 			tempStore.setValue(FileBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY,
 					FileBuildPropertyData.TRUE_STRING.equals(temp) ? FileBuildPropertyData.TRUE_STRING
@@ -87,9 +87,9 @@ public final class FileBuildPropertyPage extends PropertyPage {
 		}
 
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		pageComposite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL);
+		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 		if (TITANBuilder.isBuilderEnabled(fileResource.getProject())) {
@@ -115,7 +115,7 @@ public final class FileBuildPropertyPage extends PropertyPage {
 		excludeFromBuildButton.setText(EXCLUDE_DISPLAY_TEXT);
 		excludeFromBuildButton.setEnabled(true);
 		try {
-			String mode = fileResource.getPersistentProperty(new QualifiedName(FileBuildPropertyData.QUALIFIER,
+			final String mode = fileResource.getPersistentProperty(new QualifiedName(FileBuildPropertyData.QUALIFIER,
 					FileBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY));
 			excludeFromBuildButton.setSelection(FileBuildPropertyData.TRUE_STRING.equals(mode));
 			if (mode == null) {
@@ -162,7 +162,7 @@ public final class FileBuildPropertyPage extends PropertyPage {
 		final IProject project = fileResource.getProject();
 
 		try {
-			String tempString = excludeFromBuildButton.getSelection() ? FileBuildPropertyData.TRUE_STRING
+			final String tempString = excludeFromBuildButton.getSelection() ? FileBuildPropertyData.TRUE_STRING
 					: FileBuildPropertyData.FALSE_STRING;
 			fileResource.setPersistentProperty(new QualifiedName(FileBuildPropertyData.QUALIFIER,
 					FileBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY), tempString);
@@ -193,7 +193,7 @@ public final class FileBuildPropertyPage extends PropertyPage {
 	 * */
 	private void loadProperties() {
 		try {
-			String temp = fileResource.getPersistentProperty(new QualifiedName(FileBuildPropertyData.QUALIFIER,
+			final String temp = fileResource.getPersistentProperty(new QualifiedName(FileBuildPropertyData.QUALIFIER,
 					FileBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY));
 			excludeFromBuildButton.setSelection(FileBuildPropertyData.TRUE_STRING.equals(temp));
 		} catch (CoreException ce) {

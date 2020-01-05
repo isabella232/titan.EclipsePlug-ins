@@ -23,20 +23,19 @@ public class MyFileListControl extends MyListControl {
 
 	@Override
 	protected void addNewItem() {
-		FileListItemDialog dialog = new FileListItemDialog(list.getShell(), basePath, "Add new " + itemDescription, itemDescription, "");
+		final FileListItemDialog dialog = new FileListItemDialog(list.getShell(), basePath, "Add new " + itemDescription, itemDescription, "");
 		if (dialog.open() != Window.OK) {
 			return;
 		}
 
-		String newItem = dialog.getItem();
-
+		final String newItem = dialog.getItem();
 		if (newItem != null && newItem.length() > 0) {
-			int index = list.getSelectionIndex();
+			final int index = list.getSelectionIndex();
 			if (index >= 0) {
 				list.add(newItem, index + 1);
 				list.setSelection(index + 1);
 			} else {
-				int size = list.getItemCount();
+				final int size = list.getItemCount();
 				list.add(newItem, size);
 				list.setSelection(size);
 			}
@@ -47,18 +46,17 @@ public class MyFileListControl extends MyListControl {
 
 	@Override
 	protected void editSelectedItem() {
-		int index = list.getSelectionIndex();
+		final int index = list.getSelectionIndex();
 
 		if (index != -1) {
-			String item = list.getItem(index);
-
-			FileListItemDialog dialog = new FileListItemDialog(list.getShell(), basePath, "Edit " + itemDescription, itemDescription,
+			final String item = list.getItem(index);
+			final FileListItemDialog dialog = new FileListItemDialog(list.getShell(), basePath, "Edit " + itemDescription, itemDescription,
 					item);
 			if (dialog.open() != Window.OK) {
 				return;
 			}
 
-			String newItem = dialog.getItem();
+			final String newItem = dialog.getItem();
 			if (newItem != null && newItem.length() > 0 && !newItem.equals(item)) {
 				list.setItem(index, newItem);
 				selectionChanged();

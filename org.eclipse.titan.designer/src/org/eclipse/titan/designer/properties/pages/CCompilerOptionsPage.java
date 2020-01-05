@@ -101,8 +101,7 @@ public final class CCompilerOptionsPage implements IOptionsPage {
 
 	@Override
 	public boolean checkProperties(final ProjectBuildPropertyPage page) {
-		String temp = tool.getStringValue();
-
+		final String temp = tool.getStringValue();
 		if (temp == null || "".equals(temp)) {
 			page.setErrorMessage("The C/C++ compiler must be set.");
 			return false;
@@ -128,10 +127,10 @@ public final class CCompilerOptionsPage implements IOptionsPage {
 	@Override
 	public boolean saveProperties(final IProject project) {
 		try {
-			QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+			final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					CCompilerOptionsData.CXX_COMPILER_PROPERTY);
-			String newValue = tool.getStringValue();
-			String oldValue = project.getPersistentProperty(qualifiedName);
+			final String newValue = tool.getStringValue();
+			final String oldValue = project.getPersistentProperty(qualifiedName);
 			if (newValue != null && !newValue.equals(oldValue)) {
 				project.setPersistentProperty(qualifiedName, newValue);
 			}

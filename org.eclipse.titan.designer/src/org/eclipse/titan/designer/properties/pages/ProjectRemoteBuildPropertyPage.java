@@ -93,11 +93,12 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 		@Override
 		public Object[] getElements(final Object inputElement) {
 			if (inputElement instanceof String[]) {
-				String[] tempInput = (String[]) inputElement;
-				BuildLocation[] result = new BuildLocation[tempInput.length];
+				final String[] tempInput = (String[]) inputElement;
+				final BuildLocation[] result = new BuildLocation[tempInput.length];
 				for (int i = 0; i < tempInput.length; i++) {
 					result[i] = new BuildLocation(tempInput[i]);
 				}
+
 				return result;
 			}
 			return new BuildLocation[] {};
@@ -125,7 +126,7 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 		@Override
 		public String getColumnText(final Object element, final int columnIndex) {
 			if (element instanceof BuildLocation) {
-				BuildLocation location = (BuildLocation) element;
+				final BuildLocation location = (BuildLocation) element;
 				switch (columnIndex) {
 				case 0:
 					return location.getActive() ? TRUE : FALSE;
@@ -209,10 +210,10 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 		projectResource = (IProject) getElement();
 
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout pageCompositeLayout = new GridLayout();
+		final GridLayout pageCompositeLayout = new GridLayout();
 		pageCompositeLayout.numColumns = 1;
 		pageComposite.setLayout(pageCompositeLayout);
-		GridData pageCompositeGridData = new GridData();
+		final GridData pageCompositeGridData = new GridData();
 		pageCompositeGridData.horizontalAlignment = GridData.FILL;
 		pageCompositeGridData.verticalAlignment = GridData.FILL;
 		pageCompositeGridData.grabExcessHorizontalSpace = true;
@@ -239,15 +240,15 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 
 		executeInParallel = new Button(pageComposite, SWT.CHECK);
 		executeInParallel.setText(EXECUTE_TEXT);
-		GridData gd = new GridData();
+		final GridData gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		executeInParallel.setLayoutData(gd);
 
 		remoteHostEditComposite = new Composite(pageComposite, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.verticalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -266,13 +267,13 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 
 	private void createHostControllersTable(final Composite parent) {
 		hostViewer = new TableViewer(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION);
-		Table table = hostViewer.getTable();
-		TableLayout tableLayout = new TableLayout();
+		final Table table = hostViewer.getTable();
+		final TableLayout tableLayout = new TableLayout();
 		table.setLayout(tableLayout);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.setFont(parent.getFont());
-		GridData data = new GridData();
+		final GridData data = new GridData();
 		data.horizontalAlignment = SWT.FILL;
 		data.verticalAlignment = SWT.FILL;
 		data.grabExcessHorizontalSpace = true;
@@ -283,7 +284,7 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 
 		for (int i = 0; i < hostTableColumnHeaders.length; i++) {
 			tableLayout.addColumnData(hostTableColumnLayouts[i]);
-			TableColumn tc = new TableColumn(table, SWT.NONE, i);
+			final TableColumn tc = new TableColumn(table, SWT.NONE, i);
 			tc.setResizable(true);
 			tc.setMoveable(true);
 			tc.setText(hostTableColumnHeaders[i]);
@@ -292,20 +293,20 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 	}
 
 	private void createTableButtons(final Composite parent) {
-		Composite buttonComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final Composite buttonComposite = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.numColumns = 1;
-		GridData data = new GridData();
+		final GridData data = new GridData();
 		data.verticalAlignment = SWT.BEGINNING;
 		data.horizontalAlignment = SWT.BEGINNING;
 		buttonComposite.setLayout(layout);
 		buttonComposite.setLayoutData(data);
 		buttonComposite.setFont(parent.getFont());
 
-		Label label = new Label(buttonComposite, SWT.NONE);
-		GridData gd = new GridData();
+		final Label label = new Label(buttonComposite, SWT.NONE);
+		final GridData gd = new GridData();
 		gd.horizontalSpan = 1;
 		label.setLayoutData(gd);
 		label.setFont(buttonComposite.getFont());
@@ -341,7 +342,7 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 	}
 
 	public static Button createPushButton(final Composite parent, final String label, final Image image) {
-		Button button = new Button(parent, SWT.PUSH);
+		final Button button = new Button(parent, SWT.PUSH);
 		button.setFont(parent.getFont());
 		if (image != null) {
 			button.setImage(image);
@@ -349,7 +350,8 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 		if (label != null) {
 			button.setText(label);
 		}
-		GridData gd = new GridData();
+
+		final GridData gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		button.setLayoutData(gd);
@@ -376,12 +378,13 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 		} catch (CoreException ce) {
 			ErrorReporter.logExceptionStackTrace(ce);
 		}
-		List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
+
+		final List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
 		hostViewer.setInput(splittedList.toArray(new String[splittedList.size()]));
 	}
 
 	protected void handleNewButtonSelected() {
-		RemoteHostDialog dialog = new RemoteHostDialog(getShell());
+		final RemoteHostDialog dialog = new RemoteHostDialog(getShell());
 		dialog.setActive(false);
 
 		if (dialog.open() == Window.OK) {
@@ -390,13 +393,13 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 	}
 
 	protected void handleEditButtonSelected() {
-		IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
-		BuildLocation host = (BuildLocation) sel.getFirstElement();
+		final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+		final BuildLocation host = (BuildLocation) sel.getFirstElement();
 		if (host == null) {
 			return;
 		}
 
-		RemoteHostDialog dialog = new RemoteHostDialog(getShell());
+		final RemoteHostDialog dialog = new RemoteHostDialog(getShell());
 		dialog.setActive(host.getActive());
 		dialog.setName(host.getName());
 		dialog.setCommand(host.getCommand());
@@ -410,8 +413,8 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 	}
 
 	protected void handleCopySelected() {
-		IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
-		BuildLocation host = (BuildLocation) sel.getFirstElement();
+		final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+		final BuildLocation host = (BuildLocation) sel.getFirstElement();
 		if (host == null) {
 			return;
 		}
@@ -419,9 +422,9 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 	}
 
 	protected void handleRemoveSelected() {
-		IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+		final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
 		hostViewer.getControl().setRedraw(false);
-		for (Iterator<?> i = sel.iterator(); i.hasNext();) {
+		for (final Iterator<?> i = sel.iterator(); i.hasNext();) {
 			hostViewer.remove(i.next());
 		}
 		hostViewer.getControl().setRedraw(true);
@@ -449,7 +452,7 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 			ErrorReporter.logExceptionStackTrace(ce);
 		}
 
-		TableItem[] items = hostViewer.getTable().getItems();
+		final TableItem[] items = hostViewer.getTable().getItems();
 		BuildLocation location;
 
 		final StringBuilder builder = new StringBuilder();
@@ -493,7 +496,8 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 			ErrorReporter.logExceptionStackTrace(ce);
 			temp = null;
 		}
-		List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
+
+		final List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
 		hostViewer.setInput(splittedList.toArray(new String[splittedList.size()]));
 		return super.performCancel();
 	}

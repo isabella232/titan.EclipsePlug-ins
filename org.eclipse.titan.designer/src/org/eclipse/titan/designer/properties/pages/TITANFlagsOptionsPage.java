@@ -369,8 +369,8 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 	@Override
 	public boolean checkProperties(final ProjectBuildPropertyPage page) {
-		boolean xerDisabled = disableXER.getSelection();
-		boolean xerOnASN1Forced = forceXER.getSelection();
+		final boolean xerDisabled = disableXER.getSelection();
+		final boolean xerOnASN1Forced = forceXER.getSelection();
 
 		if (xerDisabled && xerOnASN1Forced) {
 			page.setErrorMessage("Forcing XER in ASN.1 files and disabling XER are incompatible options.");
@@ -589,8 +589,8 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	 *                    </ul>
 	 * */
 	private void setProperty(final IProject project, final String name, final String value) throws CoreException {
-		QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
-		String oldValue = project.getPersistentProperty(qualifiedName);
+		final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
+		final String oldValue = project.getPersistentProperty(qualifiedName);
 		if (value != null && !value.equals(oldValue)) {
 			project.setPersistentProperty(qualifiedName, value);
 		}

@@ -96,9 +96,9 @@ public final class FolderBuildPropertyPage extends PropertyPage {
 		}
 
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		pageComposite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL);
+		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 		if (TITANBuilder.isBuilderEnabled(folderResource.getProject())) {
@@ -124,7 +124,7 @@ public final class FolderBuildPropertyPage extends PropertyPage {
 		centralStorageButton.setText(CENTRAL_STORAGE_DISPLAY_TEXT);
 		centralStorageButton.setEnabled(true);
 		try {
-			String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
+			final String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
 					FolderBuildPropertyData.CENTRAL_STORAGE_PROPERTY));
 			centralStorageButton.setSelection(FolderBuildPropertyData.TRUE_STRING.equals(mode) ? true : false);
 			if (mode == null) {
@@ -139,7 +139,7 @@ public final class FolderBuildPropertyPage extends PropertyPage {
 		excludeFromBuildButton.setText(EXCLUDE_DISPLAY_TEXT);
 		excludeFromBuildButton.setEnabled(true);
 		try {
-			String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
+			final String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
 					FolderBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY));
 			excludeFromBuildButton.setSelection(FolderBuildPropertyData.TRUE_STRING.equals(mode));
 			if (mode == null) {
@@ -226,7 +226,7 @@ public final class FolderBuildPropertyPage extends PropertyPage {
 	 * */
 	private void loadProperties() {
 		try {
-			String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
+			final String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
 					FolderBuildPropertyData.CENTRAL_STORAGE_PROPERTY));
 			centralStorageButton.setSelection(FolderBuildPropertyData.TRUE_STRING.equals(mode) ? true : false);
 		} catch (CoreException ce) {
@@ -234,7 +234,7 @@ public final class FolderBuildPropertyPage extends PropertyPage {
 		}
 
 		try {
-			String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
+			final String mode = folderResource.getPersistentProperty(new QualifiedName(FolderBuildPropertyData.QUALIFIER,
 					FolderBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY));
 			excludeFromBuildButton.setSelection(FolderBuildPropertyData.TRUE_STRING.equals(mode));
 		} catch (CoreException ce) {

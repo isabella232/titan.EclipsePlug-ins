@@ -71,7 +71,7 @@ public final class PreprocessorIncludedOptionsPage implements IOptionsPage {
 
 	@Override
 	public void copyPropertyStore(final IProject project, final PreferenceStore tempStorage) {
-		String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
+		final String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
 				: PreprocessorIncludedOptionsData.PREPROCESSOR_INCLUDES_PROPERTY;
 		String temp = null;
 		try {
@@ -86,7 +86,7 @@ public final class PreprocessorIncludedOptionsPage implements IOptionsPage {
 
 	@Override
 	public boolean evaluatePropertyStore(final IProject project, final PreferenceStore tempStorage) {
-		String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
+		final String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
 				: PreprocessorIncludedOptionsData.PREPROCESSOR_INCLUDES_PROPERTY;
 		String actualValue = null;
 		String copyValue = null;
@@ -117,11 +117,11 @@ public final class PreprocessorIncludedOptionsPage implements IOptionsPage {
 
 	@Override
 	public void loadProperties(final IProject project) {
-		String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
+		final String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
 				: PreprocessorIncludedOptionsData.PREPROCESSOR_INCLUDES_PROPERTY;
 
 		try {
-			String temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, property));
+			final String temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, property));
 			includes.setValues(ListConverter.convertToList(temp));
 		} catch (CoreException e) {
 			includes.setValues(new String[] {});
@@ -130,13 +130,13 @@ public final class PreprocessorIncludedOptionsPage implements IOptionsPage {
 
 	@Override
 	public boolean saveProperties(final IProject project) {
-		String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
+		final String property = preprocessor ? PreprocessorIncludedOptionsData.TTCN3_PREPROCESSOR_INCLUDES_PROPERTY
 				: PreprocessorIncludedOptionsData.PREPROCESSOR_INCLUDES_PROPERTY;
 
 		try {
-			QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, property);
-			String newValue = ListConverter.convertFromList(includes.getValues());
-			String oldValue = project.getPersistentProperty(qualifiedName);
+			final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, property);
+			final String newValue = ListConverter.convertFromList(includes.getValues());
+			final String oldValue = project.getPersistentProperty(qualifiedName);
 			if (newValue != null && !newValue.equals(oldValue)) {
 				project.setPersistentProperty(qualifiedName, newValue);
 			}

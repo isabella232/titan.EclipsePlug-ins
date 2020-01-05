@@ -144,14 +144,14 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	}
 
 	@Override
-	protected Control createContents(Composite parent) {
+	protected Control createContents(final Composite parent) {
 		projectResource = (IProject) getElement();
 
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout pageCompositeLayout = new GridLayout();
+		final GridLayout pageCompositeLayout = new GridLayout();
 		pageCompositeLayout.numColumns = 1;
 		pageComposite.setLayout(pageCompositeLayout);
-		GridData pageCompositeGridData = new GridData();
+		final GridData pageCompositeGridData = new GridData();
 		pageCompositeGridData.horizontalAlignment = GridData.FILL;
 		pageCompositeGridData.verticalAlignment = GridData.FILL;
 		pageCompositeGridData.grabExcessHorizontalSpace = true;
@@ -167,7 +167,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 		}
 
 		try {
-			String loadLocation = projectResource.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+			final String loadLocation = projectResource.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					ProjectBuildPropertyData.LOAD_LOCATION));
 			if (loadLocation == null) {
 				headLabel.setText(headLabel.getText() + "\nWas not yet saved ");
@@ -191,7 +191,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 
 		makefileOperationsTabFolder = new TabFolder(pageComposite, SWT.BORDER);
 		
-		GridData makefileOperationsTabFolderGridData = new GridData();
+		final GridData makefileOperationsTabFolderGridData = new GridData();
 		makefileOperationsTabFolderGridData.horizontalAlignment = GridData.FILL;
 		makefileOperationsTabFolderGridData.verticalAlignment = GridData.FILL;
 		makefileOperationsTabFolderGridData.grabExcessHorizontalSpace = true;
@@ -289,7 +289,7 @@ public class ProjectJavaBuildPropertyPage extends PropertyPage {
 	 * @return whether the operation was successful or not
 	 */
 	public boolean saveProperty(final String propertyName, final Button button) {
-		String temp = button.getSelection() ? ProjectBuildPropertyData.TRUE_STRING : ProjectBuildPropertyData.FALSE_STRING;
+		final String temp = button.getSelection() ? ProjectBuildPropertyData.TRUE_STRING : ProjectBuildPropertyData.FALSE_STRING;
 		try {
 			projectResource.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, propertyName), temp);
 		} catch (CoreException ce) {

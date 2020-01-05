@@ -112,7 +112,7 @@ public class ConfigurationManagerControl {
 			@Override
 			public String getColumnText(final Object element, final int columnIndex) {
 				if (element instanceof String) {
-					String temp = (String) element;
+					final String temp = (String) element;
 					switch (columnIndex) {
 					case 0:
 						return temp;
@@ -144,11 +144,11 @@ public class ConfigurationManagerControl {
 
 		@Override
 		protected Control createDialogArea(final Composite parent) {
-			Composite container = (Composite) super.createDialogArea(parent);
+			final Composite container = (Composite) super.createDialogArea(parent);
 
 			hostViewer = new TableViewer(container, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
-			Table table = hostViewer.getTable();
-			TableLayout tableLayout = new TableLayout();
+			final Table table = hostViewer.getTable();
+			final TableLayout tableLayout = new TableLayout();
 			table.setLayout(tableLayout);
 			table.setHeaderVisible(true);
 			table.setLinesVisible(true);
@@ -164,17 +164,17 @@ public class ConfigurationManagerControl {
 
 			for (int i = 0; i < hostTableColumnHeaders.length; i++) {
 				tableLayout.addColumnData(hostTableColumnLayouts[i]);
-				TableColumn tc = new TableColumn(table, SWT.NONE, i);
+				final TableColumn tc = new TableColumn(table, SWT.NONE, i);
 				tc.setResizable(true);
 				tc.setMoveable(true);
 				tc.setText(hostTableColumnHeaders[i]);
 			}
 
-			List<String> tempConfigurations = ProjectFileHandler.getConfigurations(ProjectDocumentHandlingUtility.getDocument(project));
+			final List<String> tempConfigurations = ProjectFileHandler.getConfigurations(ProjectDocumentHandlingUtility.getDocument(project));
 			hostViewer.setInput(tempConfigurations.toArray(new String[tempConfigurations.size()]));
 
-			Composite composite = new Composite(container, SWT.NONE);
-			GridLayout layout = new GridLayout(3, true);
+			final Composite composite = new Composite(container, SWT.NONE);
+			final GridLayout layout = new GridLayout(3, true);
 			composite.setLayout(layout);
 			data = new GridData();
 			data.horizontalAlignment = SWT.FILL;
@@ -183,16 +183,16 @@ public class ConfigurationManagerControl {
 			data.grabExcessVerticalSpace = true;
 			composite.setLayoutData(data);
 
-			Button addButton = new Button(composite, SWT.PUSH);
+			final Button addButton = new Button(composite, SWT.PUSH);
 			addButton.setText("New...");
 			addButton.setFont(parent.getFont());
 			addButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(final SelectionEvent evt) {
-					ConfigurationDialog dialog = new ConfigurationDialog(getShell(), "", "Create new configuration");
+					final ConfigurationDialog dialog = new ConfigurationDialog(getShell(), "", "Create new configuration");
 					if (dialog.open() == Window.OK) {
-						String newName = dialog.getName();
-						Document document = ProjectDocumentHandlingUtility.getDocument(project);
+						final String newName = dialog.getName();
+						final Document document = ProjectDocumentHandlingUtility.getDocument(project);
 						List<String> configurations = ProjectFileHandler.getConfigurations(document);
 						if (configurations.contains(newName)) {
 							errorText.setText("It is not possible to create a new configuration with name `" + newName
@@ -213,7 +213,7 @@ public class ConfigurationManagerControl {
 						Node configurationRoot = ProjectFileHandler.findConfigurationNode(document.getDocumentElement(),
 								newName);
 						if (configurationRoot == null) {
-							Element newConfiguration = document.createElement("Configuration");
+							final Element newConfiguration = document.createElement("Configuration");
 
 							newConfiguration.setAttribute("name", newName);
 							configurationsRoot.appendChild(newConfiguration);
@@ -229,14 +229,14 @@ public class ConfigurationManagerControl {
 				}
 			});
 
-			Button deleteButton = new Button(composite, SWT.PUSH);
+			final Button deleteButton = new Button(composite, SWT.PUSH);
 			deleteButton.setText("Delete");
 			deleteButton.setFont(parent.getFont());
 			deleteButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(final SelectionEvent evt) {
-					IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
-					String configuration = (String) sel.getFirstElement();
+					final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+					final String configuration = (String) sel.getFirstElement();
 					if ("Default".equals(configuration)) {
 						errorText.setText("The `Default' configuration can not be deleted.");
 						errorText.setEnabled(true);
@@ -245,15 +245,15 @@ public class ConfigurationManagerControl {
 
 					errorText.setEnabled(false);
 
-					Document document = ProjectDocumentHandlingUtility.getDocument(project);
-					ProjectFileHandler fileHandler = new ProjectFileHandler(project);
+					final Document document = ProjectDocumentHandlingUtility.getDocument(project);
+					final ProjectFileHandler fileHandler = new ProjectFileHandler(project);
 					fileHandler.removeConfigurationNode(document.getDocumentElement(), configuration);
 
-					List<String> tempConfigurations = ProjectFileHandler.getConfigurations(ProjectDocumentHandlingUtility
+					final List<String> tempConfigurations = ProjectFileHandler.getConfigurations(ProjectDocumentHandlingUtility
 							.getDocument(project));
 					hostViewer.setInput(tempConfigurations.toArray(new String[tempConfigurations.size()]));
 
-					String tempActualConfiguration = getActualSelection();
+					final String tempActualConfiguration = getActualSelection();
 					if (configuration.equals(tempActualConfiguration)) {
 						ConfigurationManagerControl.this.configurations.setText("Default");
 						changeActualConfiguration();
@@ -261,24 +261,24 @@ public class ConfigurationManagerControl {
 				}
 			});
 
-			Button renameButton = new Button(composite, SWT.PUSH);
+			final Button renameButton = new Button(composite, SWT.PUSH);
 			renameButton.setText("Rename");
 			renameButton.setFont(parent.getFont());
 			renameButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(final SelectionEvent evt) {
-					IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
-					String configuration = (String) sel.getFirstElement();
+					final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+					final String configuration = (String) sel.getFirstElement();
 					if ("Default".equals(configuration)) {
 						errorText.setText("The `Default' configuration can not be renamed.");
 						errorText.setEnabled(true);
 						return;
 					}
 
-					ConfigurationDialog dialog = new ConfigurationDialog(getShell(), configuration, "Rename configuration");
+					final ConfigurationDialog dialog = new ConfigurationDialog(getShell(), configuration, "Rename configuration");
 					if (dialog.open() == Window.OK) {
 
-						String newName = dialog.getName();
+						final String newName = dialog.getName();
 						List<String> newConfigurations = ProjectFileHandler.getConfigurations(ProjectDocumentHandlingUtility
 								.getDocument(project));
 						if (newConfigurations.contains(newName)) {
@@ -288,14 +288,15 @@ public class ConfigurationManagerControl {
 							return;
 						}
 
-						Document document = ProjectDocumentHandlingUtility.getDocument(project);
+						final Document document = ProjectDocumentHandlingUtility.getDocument(project);
 						Node configurationsRoot = ProjectFileHandler.getNodebyName(document.getDocumentElement()
 								.getChildNodes(), "Configurations");
 						if (configurationsRoot == null) {
 							configurationsRoot = document.createElement("Configurations");
 							document.getDocumentElement().appendChild(configurationsRoot);
 						}
-						Node configurationRoot = ProjectFileHandler.findConfigurationNode(document.getDocumentElement(),
+
+						final Node configurationRoot = ProjectFileHandler.findConfigurationNode(document.getDocumentElement(),
 								configuration);
 						((Element) configurationRoot).setAttribute("name", newName);
 
@@ -330,7 +331,7 @@ public class ConfigurationManagerControl {
 			this.name = name;
 			this.windowHeader = windowHeader;
 
-			int style = this.getShellStyle();
+			final int style = this.getShellStyle();
 			setShellStyle(style | SWT.RESIZE);
 		}
 
@@ -348,7 +349,7 @@ public class ConfigurationManagerControl {
 		protected void createButtonsForButtonBar(final Composite parent) {
 			super.createButtonsForButtonBar(parent);
 
-			Button ok = getButton(IDialogConstants.OK_ID);
+			final Button ok = getButton(IDialogConstants.OK_ID);
 			if (ok != null) {
 				ok.setEnabled(name.length() > 0);
 			}
@@ -356,17 +357,17 @@ public class ConfigurationManagerControl {
 
 		@Override
 		protected Control createDialogArea(final Composite parent) {
-			Composite composite = new Composite(parent, SWT.NONE);
-			GridLayout layout = new GridLayout(2, false);
+			final Composite composite = new Composite(parent, SWT.NONE);
+			final GridLayout layout = new GridLayout(2, false);
 			composite.setLayout(layout);
-			GridData data = new GridData();
+			final GridData data = new GridData();
 			data.horizontalAlignment = SWT.FILL;
 			data.verticalAlignment = SWT.FILL;
 			data.grabExcessHorizontalSpace = true;
 			data.grabExcessVerticalSpace = true;
 			composite.setLayoutData(data);
 
-			Label label = new Label(composite, SWT.NONE);
+			final Label label = new Label(composite, SWT.NONE);
 			label.setText("The name of the configuration: ");
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 
@@ -377,14 +378,13 @@ public class ConfigurationManagerControl {
 
 				@Override
 				public void modifyText(final ModifyEvent e) {
-					String tempName = nameText.getText();
-					Button ok = getButton(IDialogConstants.OK_ID);
+					final String tempName = nameText.getText();
+					final Button ok = getButton(IDialogConstants.OK_ID);
 					ok.setEnabled(tempName.length() > 0);
 				}
 			});
 
-			Control result = super.createDialogArea(parent);
-
+			final Control result = super.createDialogArea(parent);
 			return result;
 		}
 
@@ -399,15 +399,15 @@ public class ConfigurationManagerControl {
 	public ConfigurationManagerControl(final Composite parent, final IProject project) {
 		this.project = project;
 
-		Group group = new Group(parent, SWT.NONE);
+		final Group group = new Group(parent, SWT.NONE);
 		group.setText("Build Configurations");
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
 		group.setLayout(layout);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
+		final GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		group.setLayoutData(gridData);
 
-		Label label = new Label(group, SWT.NONE);
+		final Label label = new Label(group, SWT.NONE);
 		label.setText("The actual build configuration:");
 
 		configurations = new Combo(group, SWT.READ_ONLY);
@@ -419,14 +419,14 @@ public class ConfigurationManagerControl {
 		manageButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent evt) {
-				ConfigurationListDialog dialog = new ConfigurationListDialog(null);
+				final ConfigurationListDialog dialog = new ConfigurationListDialog(null);
 				if (dialog.open() == Window.OK) {
 					loadConfigurations();
 				}
 			}
 		});
 
-		GridData gd = new GridData();
+		final GridData gd = new GridData();
 		gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_END;
 		manageButton.setLayoutData(gd);
 
@@ -447,8 +447,8 @@ public class ConfigurationManagerControl {
 			document = ProjectDocumentHandlingUtility.createDocument(project);
 		}
 
-		List<String> configurationNames = ProjectFileHandler.getConfigurations(document);
-		for (String name : configurationNames) {
+		final List<String> configurationNames = ProjectFileHandler.getConfigurations(document);
+		for (final String name : configurationNames) {
 			configurations.add(name);
 		}
 
@@ -468,20 +468,20 @@ public class ConfigurationManagerControl {
 	 * configuration into the project.
 	 * */
 	public void changeActualConfiguration() {
-		IResourceRuleFactory ruleFactory = ResourcesPlugin.getWorkspace().getRuleFactory();
-		ISchedulingRule rule = ruleFactory.createRule(project);
+		final IResourceRuleFactory ruleFactory = ResourcesPlugin.getWorkspace().getRuleFactory();
+		final ISchedulingRule rule = ruleFactory.createRule(project);
 		try {
 			Job.getJobManager().beginRule(rule, new NullProgressMonitor());
 			actualConfiguration = configurations.getText();
 
 			final HashSet<IResource> changedResources = new HashSet<IResource>();
 			final Document document = ProjectDocumentHandlingUtility.getDocument(project);
-			Node configurationNode = ProjectFileHandler.findConfigurationNode(document.getDocumentElement(), actualConfiguration);
+			final Node configurationNode = ProjectFileHandler.findConfigurationNode(document.getDocumentElement(), actualConfiguration);
 			if (actualConfiguration == null) {
 				ErrorReporter.logError("The configuration `" + actualConfiguration + "' for project `" + project.getName()
 						+ "' does not exist.");
 			} else {
-				ProjectFileHandler fileHandler = new ProjectFileHandler(project);
+				final ProjectFileHandler fileHandler = new ProjectFileHandler(project);
 				fileHandler.loadProjectInfoFromNode(configurationNode, changedResources);
 			}
 		} finally {
@@ -503,7 +503,7 @@ public class ConfigurationManagerControl {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		Document document = ProjectDocumentHandlingUtility.getDocument(project);
+		final Document document = ProjectDocumentHandlingUtility.getDocument(project);
 		if (document == null) {
 			return;
 		}

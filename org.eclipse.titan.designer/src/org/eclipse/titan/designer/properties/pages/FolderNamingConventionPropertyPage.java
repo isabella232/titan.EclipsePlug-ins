@@ -69,7 +69,7 @@ public class FolderNamingConventionPropertyPage extends BaseNamingConventionProp
 	@Override
 	protected void createFieldEditors() {
 		final Composite tempParent = getFieldEditorParent();
-		IFolder folder = (IFolder) getElement();
+		final IFolder folder = (IFolder) getElement();
 
 		configurationManager = new ConfigurationManagerControl(tempParent, folder.getProject());
 		configurationManager.addSelectionListener(new SelectionAdapter() {
@@ -82,7 +82,7 @@ public class FolderNamingConventionPropertyPage extends BaseNamingConventionProp
 		});
 		firstConfiguration = configurationManager.getActualSelection();
 
-		BooleanFieldEditor booleanedit = new BooleanFieldEditor(PreferenceConstants.ENABLEFOLDERSPECIFICNAMINGCONVENTIONS,
+		final BooleanFieldEditor booleanedit = new BooleanFieldEditor(PreferenceConstants.ENABLEFOLDERSPECIFICNAMINGCONVENTIONS,
 				ENABLEFOLDERSPECIFIC, tempParent);
 		booleanedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
@@ -126,9 +126,9 @@ public class FolderNamingConventionPropertyPage extends BaseNamingConventionProp
 
 	@Override
 	public boolean performOk() {
-		IFolder folder = (IFolder) getElement();
-		boolean result = super.performOk();
-		IPreferenceStore store = getPreferenceStore();
+		final IFolder folder = (IFolder) getElement();
+		final boolean result = super.performOk();
+		final IPreferenceStore store = getPreferenceStore();
 		if (store instanceof PropertyStore) {
 			try {
 				((PropertyStore) store).save();
@@ -137,7 +137,7 @@ public class FolderNamingConventionPropertyPage extends BaseNamingConventionProp
 			}
 		}
 
-		IProject project = folder.getProject();
+		final IProject project = folder.getProject();
 		configurationManager.saveActualConfiguration();
 		ProjectDocumentHandlingUtility.saveDocument(project);
 		TITANAutomaticProjectExporter.saveAllAutomatically(project);

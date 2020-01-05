@@ -95,9 +95,10 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 		@Override
 		public ConfigurationRequirement[] getElements(final Object inputElement) {
 			if (inputElement instanceof ArrayList<?>) {
-				ArrayList<?> temp = (ArrayList<?>) inputElement;
+				final ArrayList<?> temp = (ArrayList<?>) inputElement;
 				return ((ArrayList<?>) inputElement).toArray(new ConfigurationRequirement[temp.size()]);
 			}
+
 			return new ConfigurationRequirement[] {};
 		}
 
@@ -123,12 +124,12 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 		@Override
 		public String getColumnText(final Object element, final int columnIndex) {
 			if (element instanceof ConfigurationRequirement) {
-				ConfigurationRequirement requirement = (ConfigurationRequirement) element;
+				final ConfigurationRequirement requirement = (ConfigurationRequirement) element;
 				switch (columnIndex) {
 				case 0:
 					return requirement.getProjectName();
 				case 1: {
-					String configuration = requirement.getConfiguration();
+					final String configuration = requirement.getConfiguration();
 					if (configuration != null && !"".equals(configuration)) {
 						return configuration;
 					}
@@ -138,6 +139,7 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 					break;
 				}
 			}
+
 			return null;
 		}
 
@@ -172,22 +174,22 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 
 		@Override
 		protected Control createDialogArea(final Composite parent) {
-			Composite container = (Composite) super.createDialogArea(parent);
+			final Composite container = (Composite) super.createDialogArea(parent);
 			container.setLayout(new GridLayout(2, false));
 			container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-			Label label = new Label(container, SWT.NONE);
+			final Label label = new Label(container, SWT.NONE);
 			label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 			label.setText("Required configuration: ");
 			label.setToolTipText("If a project is required to have a specific configuration, having a different one will be reported as a semantic error.");
 
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-			Document document = ProjectDocumentHandlingUtility.getDocument(project);
-			List<String> availableConfigurations = ProjectFileHandler.getConfigurations(document);
+			final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			final Document document = ProjectDocumentHandlingUtility.getDocument(project);
+			final List<String> availableConfigurations = ProjectFileHandler.getConfigurations(document);
 			availableConfigurations.add(0, "<No requirement>");
 
 			combo = new Combo(container, SWT.READ_ONLY);
-			for (String temp : availableConfigurations) {
+			for (final String temp : availableConfigurations) {
 				combo.add(temp);
 			}
 			if (availableConfigurations.contains(configuration)) {
@@ -232,10 +234,10 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 		projectResource = (IProject) getElement();
 
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout pageCompositeLayout = new GridLayout();
+		final GridLayout pageCompositeLayout = new GridLayout();
 		pageCompositeLayout.numColumns = 1;
 		pageComposite.setLayout(pageCompositeLayout);
-		GridData pageCompositeGridData = new GridData();
+		final GridData pageCompositeGridData = new GridData();
 		pageCompositeGridData.horizontalAlignment = GridData.FILL;
 		pageCompositeGridData.verticalAlignment = GridData.FILL;
 		pageCompositeGridData.grabExcessHorizontalSpace = true;
@@ -261,9 +263,9 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 		});
 
 		remoteHostEditComposite = new Composite(pageComposite, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.verticalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -282,13 +284,13 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 
 	private void createHostControllersTable(final Composite parent) {
 		hostViewer = new TableViewer(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE | SWT.FULL_SELECTION);
-		Table table = hostViewer.getTable();
-		TableLayout tableLayout = new TableLayout();
+		final Table table = hostViewer.getTable();
+		final TableLayout tableLayout = new TableLayout();
 		table.setLayout(tableLayout);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.setFont(parent.getFont());
-		GridData data = new GridData();
+		final GridData data = new GridData();
 		data.horizontalAlignment = SWT.FILL;
 		data.verticalAlignment = SWT.FILL;
 		data.grabExcessHorizontalSpace = true;
@@ -299,7 +301,7 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 
 		for (int i = 0; i < hostTableColumnHeaders.length; i++) {
 			tableLayout.addColumnData(hostTableColumnLayouts[i]);
-			TableColumn tc = new TableColumn(table, SWT.NONE, i);
+			final TableColumn tc = new TableColumn(table, SWT.NONE, i);
 			tc.setResizable(true);
 			tc.setMoveable(true);
 			tc.setText(hostTableColumnHeaders[i]);
@@ -315,20 +317,20 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 	}
 
 	private void createTableButtons(final Composite parent) {
-		Composite buttonComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final Composite buttonComposite = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.numColumns = 1;
-		GridData data = new GridData();
+		final GridData data = new GridData();
 		data.verticalAlignment = SWT.BEGINNING;
 		data.horizontalAlignment = SWT.BEGINNING;
 		buttonComposite.setLayout(layout);
 		buttonComposite.setLayoutData(data);
 		buttonComposite.setFont(parent.getFont());
 
-		Label label = new Label(buttonComposite, SWT.NONE);
-		GridData gd = new GridData();
+		final Label label = new Label(buttonComposite, SWT.NONE);
+		final GridData gd = new GridData();
 		gd.horizontalSpan = 1;
 		label.setLayoutData(gd);
 		label.setFont(buttonComposite.getFont());
@@ -343,7 +345,7 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 	}
 
 	public static Button createPushButton(final Composite parent, final String label, final Image image) {
-		Button button = new Button(parent, SWT.PUSH);
+		final Button button = new Button(parent, SWT.PUSH);
 		button.setFont(parent.getFont());
 		if (image != null) {
 			button.setImage(image);
@@ -351,7 +353,8 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 		if (label != null) {
 			button.setText(label);
 		}
-		GridData gd = new GridData();
+
+		final GridData gd = new GridData();
 		gd.horizontalAlignment = SWT.FILL;
 		gd.grabExcessHorizontalSpace = true;
 		button.setLayoutData(gd);
@@ -359,14 +362,13 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 	}
 
 	protected void handleEditButtonSelected() {
-		IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
-		ConfigurationRequirement host = (ConfigurationRequirement) sel.getFirstElement();
+		final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+		final ConfigurationRequirement host = (ConfigurationRequirement) sel.getFirstElement();
 		if (host == null) {
 			return;
 		}
 
-		ConfigurationSelectionDialog dialog = new ConfigurationSelectionDialog(getShell(), host.getProjectName(), host.getConfiguration());
-
+		final ConfigurationSelectionDialog dialog = new ConfigurationSelectionDialog(getShell(), host.getProjectName(), host.getConfiguration());
 		if (dialog.open() != Window.OK) {
 			return;
 		}
@@ -398,12 +400,12 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 
 	@Override
 	public boolean performOk() {
-		TableItem[] items = hostViewer.getTable().getItems();
-		List<ConfigurationRequirement> requirements = new ArrayList<ConfigurationRequirement>();
+		final TableItem[] items = hostViewer.getTable().getItems();
+		final List<ConfigurationRequirement> requirements = new ArrayList<ConfigurationRequirement>();
 
 		for (int i = 0; i < items.length; i++) {
-			ConfigurationRequirement requirement = (ConfigurationRequirement) items[i].getData();
-			String configuration = requirement.getConfiguration();
+			final ConfigurationRequirement requirement = (ConfigurationRequirement) items[i].getData();
+			final String configuration = requirement.getConfiguration();
 			if (configuration != null && !"".equals(configuration)) {
 				requirements.add(requirement);
 			}

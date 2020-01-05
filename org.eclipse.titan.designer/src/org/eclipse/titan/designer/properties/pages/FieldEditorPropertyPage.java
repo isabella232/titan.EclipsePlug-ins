@@ -64,7 +64,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	protected Control createContents(final Composite parent) {
 		overlayStore = new PropertyStore((IResource) getElement(), Activator.getDefault().getPreferenceStore(), getPageId());
 
-		Control result = super.createContents(parent);
+		final Control result = super.createContents(parent);
 
 		return result;
 	}
@@ -81,9 +81,9 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 
 		boolean valid = true;
 		if (editors != null) {
-			int size = editors.size();
+			final int size = editors.size();
 			for (int i = 0; i < size; i++) {
-				FieldEditor editor = editors.get(i);
+				final FieldEditor editor = editors.get(i);
 				valid = valid && editor.isValid();
 				if (!valid) {
 					break;
@@ -101,9 +101,9 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	@Override
 	protected void performDefaults() {
 		if (editors != null) {
-			Iterator<FieldEditor> e = editors.iterator();
+			final Iterator<FieldEditor> e = editors.iterator();
 			while (e.hasNext()) {
-				FieldEditor pe = e.next();
+				final FieldEditor pe = e.next();
 				pe.loadDefault();
 			}
 		}
@@ -124,9 +124,9 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	@Override
 	public boolean performOk() {
 		if (editors != null) {
-			Iterator<FieldEditor> e = editors.iterator();
+			final Iterator<FieldEditor> e = editors.iterator();
 			while (e.hasNext()) {
-				FieldEditor pe = e.next();
+				final FieldEditor pe = e.next();
 				pe.store();
 				pe.getPreferenceStore().setToDefault(pe.getPreferenceName());
 			}
@@ -146,9 +146,8 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	 */
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
-
 		if (event.getProperty().equals(FieldEditor.IS_VALID)) {
-			boolean newValue = ((Boolean) event.getNewValue()).booleanValue();
+			final boolean newValue = ((Boolean) event.getNewValue()).booleanValue();
 			if (newValue) {
 				checkState();
 			} else {
@@ -158,10 +157,10 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	}
 
 	protected void updateFieldEditors(final boolean enabled) {
-		Composite parent = getFieldEditorParent();
-		Iterator<FieldEditor> it = editors.iterator();
+		final Composite parent = getFieldEditorParent();
+		final Iterator<FieldEditor> it = editors.iterator();
 		while (it.hasNext()) {
-			FieldEditor editor = it.next();
+			final FieldEditor editor = it.next();
 			editor.setEnabled(enabled, parent);
 		}
 	}

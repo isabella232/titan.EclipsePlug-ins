@@ -70,7 +70,7 @@ public final class PlatformSpecificLibrariesOptionsPage implements IOptionsPage 
 
 	@Override
 	public void copyPropertyStore(final IProject project, final PreferenceStore tempStorage) {
-		String temp = ResourceUtils.getPersistentProperty(project, ProjectBuildPropertyData.QUALIFIER, platform
+		final String temp = ResourceUtils.getPersistentProperty(project, ProjectBuildPropertyData.QUALIFIER, platform
 					+ PlatformSpecificLibrariesOptionsData.SPECIFIC_LIBRARIES_PROPERTY);
 		if (temp != null) {
 			tempStorage.setValue(platform + PlatformSpecificLibrariesOptionsData.SPECIFIC_LIBRARIES_PROPERTY, temp);
@@ -79,9 +79,9 @@ public final class PlatformSpecificLibrariesOptionsPage implements IOptionsPage 
 
 	@Override
 	public boolean evaluatePropertyStore(final IProject project, final PreferenceStore tempStorage) {
-		String actualValue = ResourceUtils.getPersistentProperty(project, ProjectBuildPropertyData.QUALIFIER, platform
+		final String actualValue = ResourceUtils.getPersistentProperty(project, ProjectBuildPropertyData.QUALIFIER, platform
 				+ PlatformSpecificLibrariesOptionsData.SPECIFIC_LIBRARIES_PROPERTY);
-		String copyValue = tempStorage.getString(platform + PlatformSpecificLibrariesOptionsData.SPECIFIC_LIBRARIES_PROPERTY);
+		final String copyValue = tempStorage.getString(platform + PlatformSpecificLibrariesOptionsData.SPECIFIC_LIBRARIES_PROPERTY);
 		return (actualValue != null && !actualValue.equals(copyValue)) || (actualValue == null && copyValue == null);
 
 	}
@@ -104,7 +104,7 @@ public final class PlatformSpecificLibrariesOptionsPage implements IOptionsPage 
 	@Override
 	public void loadProperties(final IProject project) {
 		try {
-			String temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, platform
+			final String temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, platform
 					+ PlatformSpecificLibrariesOptionsData.SPECIFIC_LIBRARIES_PROPERTY));
 			libraries.setValues(ListConverter.convertToList(temp));
 		} catch (CoreException e) {
@@ -115,10 +115,10 @@ public final class PlatformSpecificLibrariesOptionsPage implements IOptionsPage 
 	@Override
 	public boolean saveProperties(final IProject project) {
 		try {
-			QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, platform
+			final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, platform
 					+ PlatformSpecificLibrariesOptionsData.SPECIFIC_LIBRARIES_PROPERTY);
-			String newValue = ListConverter.convertFromList(libraries.getValues());
-			String oldValue = project.getPersistentProperty(qualifiedName);
+			final String newValue = ListConverter.convertFromList(libraries.getValues());
+			final String oldValue = project.getPersistentProperty(qualifiedName);
 			if (newValue != null && !newValue.equals(oldValue)) {
 				project.setPersistentProperty(qualifiedName, newValue);
 			}

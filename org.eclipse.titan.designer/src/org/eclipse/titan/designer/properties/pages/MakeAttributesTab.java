@@ -110,9 +110,9 @@ public final class MakeAttributesTab {
 		// encapsulated
 		// it into a new Composite that has the missing method.
 		makefileScriptComposite = new Composite(makeAttributesComposite, SWT.NONE);
-		GridLayout makefileScriptLayout = new GridLayout();
+		final GridLayout makefileScriptLayout = new GridLayout();
 		makefileScriptComposite.setLayout(makefileScriptLayout);
-		GridData makefileScriptData = new GridData(GridData.FILL);
+		final GridData makefileScriptData = new GridData(GridData.FILL);
 		makefileScriptData.grabExcessHorizontalSpace = true;
 		makefileScriptData.horizontalAlignment = SWT.FILL;
 		makefileScriptData.horizontalSpan = 2;
@@ -126,7 +126,7 @@ public final class MakeAttributesTab {
 						+ "This field is optional.");
 
 		buildLevelComposite = new Composite(makeAttributesComposite, SWT.NONE);
-		GridLayout buildLevelLayout = new GridLayout(2, false);
+		final GridLayout buildLevelLayout = new GridLayout(2, false);
 		buildLevelComposite.setLayout(buildLevelLayout);
 		buildLevelComposite.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 
@@ -154,9 +154,9 @@ public final class MakeAttributesTab {
 		});
 
 		makeFlagsComposite = new Composite(makeAttributesComposite, SWT.NONE);
-		GridLayout makeFlagsLayout = new GridLayout();
+		final GridLayout makeFlagsLayout = new GridLayout();
 		makeFlagsComposite.setLayout(makeFlagsLayout);
-		GridData makeFlagsData = new GridData(GridData.FILL);
+		final GridData makeFlagsData = new GridData(GridData.FILL);
 		makeFlagsData.grabExcessHorizontalSpace = true;
 		makeFlagsData.horizontalAlignment = SWT.FILL;
 		makeFlagsData.horizontalSpan = 2;
@@ -170,9 +170,9 @@ public final class MakeAttributesTab {
 		temporalMakefileFlagsStringFieldEditor.setPage(page);
 
 		workingDirComposite = new Composite(makeAttributesComposite, SWT.NONE);
-		GridLayout workingDirLayout2 = new GridLayout();
+		final GridLayout workingDirLayout2 = new GridLayout();
 		workingDirComposite.setLayout(workingDirLayout2);
-		GridData workingDirData2 = new GridData(GridData.FILL);
+		final GridData workingDirData2 = new GridData(GridData.FILL);
 		workingDirData2.grabExcessHorizontalSpace = true;
 		workingDirData2.horizontalAlignment = SWT.FILL;
 		workingDirData2.horizontalSpan = 2;
@@ -198,7 +198,7 @@ public final class MakeAttributesTab {
 	 * original label.
 	 */
 	protected void updateBuildLevelDependecies() {
-		int level = buildLevel.getSelectionIndex();
+		final int level = buildLevel.getSelectionIndex();
 		switch (level) {
 		case 0: //Level0
 			temporalMakefileFlagsStringFieldEditor.setLabelText(MAKEFLAGS_STRINGFIELDEDITOR_LABEL + " check");
@@ -371,10 +371,10 @@ public final class MakeAttributesTab {
 				return false;
 			}
 
-			URI uri = TITANPathUtilities.resolvePathURI(temporalMakefileScriptFileFieldEditor.getStringValue(), project.getLocation()
+			final URI uri = TITANPathUtilities.resolvePathURI(temporalMakefileScriptFileFieldEditor.getStringValue(), project.getLocation()
 					.toOSString());
 
-			File file = URIUtil.toPath(uri).toFile();
+			final File file = URIUtil.toPath(uri).toFile();
 			if (!file.exists()) {
 				page.setErrorMessage("Makefile updater script must exist !");
 				return false;
@@ -501,8 +501,8 @@ public final class MakeAttributesTab {
 	 *                    </ul>
 	 * */
 	private void setProperty(final IProject project, final String name, final String value) throws CoreException {
-		QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
-		String oldValue = project.getPersistentProperty(qualifiedName);
+		final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
+		final String oldValue = project.getPersistentProperty(qualifiedName);
 		if (value != null && !value.equals(oldValue)) {
 			project.setPersistentProperty(qualifiedName, value);
 		}

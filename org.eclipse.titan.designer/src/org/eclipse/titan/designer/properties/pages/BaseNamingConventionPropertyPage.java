@@ -59,8 +59,7 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 				result = false;
 			}
 
-			String txt = getTextControl().getText();
-
+			final String txt = getTextControl().getText();
 			result = !txt.trim().isEmpty() || isEmptyStringAllowed();
 
 			// call hook for subclasses
@@ -75,7 +74,7 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 
 		@Override
 		protected boolean doCheckState() {
-			String newValue = getStringValue();
+			final String newValue = getStringValue();
 			try {
 				Pattern.compile(newValue);
 			} catch (PatternSyntaxException e) {
@@ -106,7 +105,7 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 		pagecomp.setLayout(new GridLayout(1, false));
 		pagecomp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Control result = super.createContents(pagecomp);
+		final Control result = super.createContents(pagecomp);
 		initilizing = false;
 		return result;
 	}
@@ -152,13 +151,13 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 	 * @return the new field editor.
 	 * */
 	private RegexpFieldEditor createFieldEditor(final Composite parent, final String preference, final String namepart) {
-		RegexpFieldEditor stringEditor = new RegexpFieldEditor(preference, "Format of " + namepart + " names", parent, namepart);
+		final RegexpFieldEditor stringEditor = new RegexpFieldEditor(preference, "Format of " + namepart + " names", parent, namepart);
 		stringEditor.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent event) {
 				changed = true;
 				setErrorMessage(null);
-				String newValue = ((StringFieldEditor) event.getSource()).getStringValue();
+				final String newValue = ((StringFieldEditor) event.getSource()).getStringValue();
 				try {
 					Pattern.compile(newValue);
 				} catch (PatternSyntaxException e) {
@@ -184,7 +183,7 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 				| ExpandableComposite.CLIENT_INDENT | ExpandableComposite.COMPACT);
 		ex.setText(title);
 		ex.setExpanded(false);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		ex.setLayoutData(data);
 		ex.addExpansionListener(new ExpansionAdapter() {
@@ -196,7 +195,7 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 				}
 
 				if (temp != null) {
-					Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+					final Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 					((ScrolledComposite) temp).setMinSize(point);
 					((ScrolledComposite) temp).layout(true, true);
 				}
@@ -214,8 +213,8 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 	 *                the parent composite to put the section under.
 	 * */
 	private void createModuleSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "module names");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "module names");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -232,8 +231,8 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 	 *                the parent composite to put the section under.
 	 * */
 	private void createTTCN3GlobalSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "global TTCN-3 definitions");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "global TTCN-3 definitions");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -260,8 +259,8 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 	 *                the parent composite to put the section under.
 	 * */
 	private void createTTCN3LocalSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "local TTCN-3 definitions");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "local TTCN-3 definitions");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -283,8 +282,8 @@ abstract class BaseNamingConventionPropertyPage extends FieldEditorPropertyPage 
 	 *                the parent composite to put the section under.
 	 * */
 	private void createTTCN3ComponentSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "component internal TTCN-3 definitions");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "component internal TTCN-3 definitions");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);

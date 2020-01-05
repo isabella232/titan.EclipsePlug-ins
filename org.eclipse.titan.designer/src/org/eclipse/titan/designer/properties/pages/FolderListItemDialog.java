@@ -51,7 +51,7 @@ public class FolderListItemDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true, true));
 

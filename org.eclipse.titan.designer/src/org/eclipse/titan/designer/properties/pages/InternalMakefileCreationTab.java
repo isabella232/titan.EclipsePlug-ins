@@ -77,7 +77,7 @@ public final class InternalMakefileCreationTab {
 		settingsPageContainer.dispose();
 		containerSC.dispose();
 
-		for (IOptionsPage page : pages) {
+		for (final IOptionsPage page : pages) {
 			page.dispose();
 		}
 	}
@@ -91,7 +91,7 @@ public final class InternalMakefileCreationTab {
 		newBuildPropertiesComposite.setEnabled(true);
 		newBuildPropertiesComposite.setLayout(new GridLayout());
 
-		SashForm sashForm = new SashForm(newBuildPropertiesComposite, SWT.NONE);
+		final SashForm sashForm = new SashForm(newBuildPropertiesComposite, SWT.NONE);
 		sashForm.setOrientation(SWT.HORIZONTAL);
 		sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -105,27 +105,27 @@ public final class InternalMakefileCreationTab {
 			}
 		});
 
-		OptionElement root = new OptionElement("root");
+		final OptionElement root = new OptionElement("root");
 
-		OptionElement ttcn3preprocessor = new OptionElement("TTCN-3 Preprocessor", ttcn3PreprocessorPage);
+		final OptionElement ttcn3preprocessor = new OptionElement("TTCN-3 Preprocessor", ttcn3PreprocessorPage);
 		root.addChild(ttcn3preprocessor);
 		ttcn3preprocessor.addChild(new OptionElement("Symbols (define, undefine)", ttcn3PreprocessorSymbolsPage));
 		ttcn3preprocessor.addChild(new OptionElement("Included directories", ttcn3PreprocessorIncludesPage));
 
-		OptionElement titan = new OptionElement("TITAN");
+		final OptionElement titan = new OptionElement("TITAN");
 		root.addChild(titan);
 		titan.addChild(new OptionElement("Flags", titanFlagsPage));
 
-		OptionElement preprocessor = new OptionElement("Preprocessor", preprocessorPage);
+		final OptionElement preprocessor = new OptionElement("Preprocessor", preprocessorPage);
 		root.addChild(preprocessor);
 		preprocessor.addChild(new OptionElement("Symbols (define, undefine)", preprocessorSymbolsPage));
 		preprocessor.addChild(new OptionElement("Included directories", preprocessorIncludesPage));
 
-		OptionElement compiler = new OptionElement("C++ compiler", cCompilerPage);
+		final OptionElement compiler = new OptionElement("C++ compiler", cCompilerPage);
 		root.addChild(compiler);
 		compiler.addChild(new OptionElement("Optimization", optimizationPage));
 
-		OptionElement platform = new OptionElement("Platform specific libraries");
+		final OptionElement platform = new OptionElement("Platform specific libraries");
 		root.addChild(platform);
 		platform.addChild(new OptionElement("Solaris", solarisLibrariesPage));
 		platform.addChild(new OptionElement("Solaris8", solaris8LibrariesPage));
@@ -133,7 +133,7 @@ public final class InternalMakefileCreationTab {
 		platform.addChild(new OptionElement("Linux", linuxLibrariesPage));
 		platform.addChild(new OptionElement("Win32", win32LibrariesPage));
 
-		OptionElement linker = new OptionElement("Linker", linkerPage);
+		final OptionElement linker = new OptionElement("Linker", linkerPage);
 		root.addChild(linker);
 		linker.addChild(new OptionElement("Libraries", linkerLibrariesPage));
 		linker.addChild(new OptionElement("Options", linkerFlagsOptionsPage ));
@@ -146,7 +146,7 @@ public final class InternalMakefileCreationTab {
 
 		settingsPageContainer = new Composite(containerSC, SWT.NULL);
 		settingsPageContainer.setLayout(new GridLayout());
-		GridData data = new GridData();
+		final GridData data = new GridData();
 		data.exclude = true;
 		settingsPageContainer.setLayoutData(data);
 
@@ -154,7 +154,7 @@ public final class InternalMakefileCreationTab {
 		containerSC.setMinSize(settingsPageContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		Composite comp;
-		for (IOptionsPage page : pages) {
+		for (final IOptionsPage page : pages) {
 			comp = page.createContents(settingsPageContainer);
 			comp.setVisible(false);
 			((GridData) comp.getLayoutData()).exclude = true;
@@ -171,10 +171,10 @@ public final class InternalMakefileCreationTab {
 			return;
 		}
 
-		IStructuredSelection selection = (IStructuredSelection) optionList.getSelection();
-		OptionElement element = (OptionElement) selection.getFirstElement();
+		final IStructuredSelection selection = (IStructuredSelection) optionList.getSelection();
+		final OptionElement element = (OptionElement) selection.getFirstElement();
 		if (element != null) {
-			IOptionsPage next = element.page;
+			final IOptionsPage next = element.page;
 
 			if (next != null) {
 				Composite comp;
@@ -234,7 +234,7 @@ public final class InternalMakefileCreationTab {
 	 *                the temporal store to copy the values to.
 	 * */
 	public void copyPropertyStore(final IProject project, final PreferenceStore tempStorage) {
-		for (IOptionsPage page : pages) {
+		for (final IOptionsPage page : pages) {
 			page.copyPropertyStore(project, tempStorage);
 		}
 	}
@@ -254,7 +254,7 @@ public final class InternalMakefileCreationTab {
 	public boolean evaluatePropertyStore(final IProject project, final PreferenceStore tempStorage) {
 		boolean result = false;
 
-		for (IOptionsPage page : pages) {
+		for (final IOptionsPage page : pages) {
 			result |= page.evaluatePropertyStore(project, tempStorage);
 		}
 
@@ -266,7 +266,7 @@ public final class InternalMakefileCreationTab {
 	 * Defaults button has been pressed.
 	 */
 	protected void performDefaults() {
-		for (IOptionsPage page : pages) {
+		for (final IOptionsPage page : pages) {
 			page.performDefaults();
 		}
 		setMakefileGenerationEnabled(true);
@@ -297,7 +297,7 @@ public final class InternalMakefileCreationTab {
 	 *                the project to load the properties from.
 	 * */
 	public void loadProperties(final IProject project) {
-		for (IOptionsPage page : pages) {
+		for (final IOptionsPage page : pages) {
 			page.loadProperties(project);
 		}
 	}
@@ -313,7 +313,7 @@ public final class InternalMakefileCreationTab {
 	public boolean saveProperties(final IProject project) {
 		boolean result = true;
 
-		for (IOptionsPage page : pages) {
+		for (final IOptionsPage page : pages) {
 			result &= page.saveProperties(project);
 		}
 

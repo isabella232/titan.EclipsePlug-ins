@@ -52,11 +52,11 @@ public final class ListItemDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(2, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Label nameLabel = new Label(container, SWT.NONE);
+		final Label nameLabel = new Label(container, SWT.NONE);
 		nameLabel.setText(itemKind + ":");
 		nameLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 

@@ -61,8 +61,8 @@ public class MyListControl {
 	 *                it should be displayed in the add/edit dialog.
 	 * */
 	public MyListControl(final Composite parent, final String title, final String itemDescription) {
-		Composite mainComposite = new Composite(parent, SWT.NONE);
-		GridLayout form1 = new GridLayout();
+		final Composite mainComposite = new Composite(parent, SWT.NONE);
+		final GridLayout form1 = new GridLayout();
 		form1.numColumns = 1;
 		form1.horizontalSpacing = 0;
 		form1.verticalSpacing = 0;
@@ -72,25 +72,25 @@ public class MyListControl {
 		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// title composite
-		Composite titleComposite = new Composite(mainComposite, SWT.BORDER);
-		GridLayout titleform = new GridLayout(2, false);
+		final Composite titleComposite = new Composite(mainComposite, SWT.BORDER);
+		final GridLayout titleform = new GridLayout(2, false);
 		titleform.horizontalSpacing = 0;
 		titleform.verticalSpacing = 0;
 		titleform.marginHeight = 0;
 		titleform.marginWidth = 0;
 		titleComposite.setLayout(titleform);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.heightHint = IDialogConstants.BUTTON_BAR_HEIGHT;
 		titleComposite.setLayoutData(data);
 
 		this.title = new Label(titleComposite, SWT.NONE | SWT.BOLD);
 		this.title.setText(title);
-		GridData titleGrid = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData titleGrid = new GridData(GridData.FILL_HORIZONTAL);
 		this.title.setLayoutData(titleGrid);
 
 		// button panel
-		Composite buttonPanel = new Composite(titleComposite, SWT.NONE);
-		GridLayout form2 = new GridLayout();
+		final Composite buttonPanel = new Composite(titleComposite, SWT.NONE);
+		final GridLayout form2 = new GridLayout();
 		form2.numColumns = 5;
 		form2.horizontalSpacing = 0;
 		form2.verticalSpacing = 0;
@@ -98,7 +98,7 @@ public class MyListControl {
 		form2.marginHeight = 0;
 		buttonPanel.setLayout(form2);
 
-		GridData buttonGrid = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
+		final GridData buttonGrid = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END);
 		buttonPanel.setLayoutData(buttonGrid);
 
 		// toolbar
@@ -161,9 +161,9 @@ public class MyListControl {
 
 		// list control
 		list = new List(mainComposite, SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
-		GridData listGrid = new GridData(GridData.FILL_BOTH);
+		final GridData listGrid = new GridData(GridData.FILL_BOTH);
 		// force the list to be no wider than the title bar
-		Point preferredSize = titleComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		final Point preferredSize = titleComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		listGrid.widthHint = preferredSize.x;
 		listGrid.heightHint = preferredSize.y * 3;
 		listGrid.horizontalSpan = 2;
@@ -236,7 +236,7 @@ public class MyListControl {
 			return;
 		}
 
-		String[] items = list.getItems();
+		final String[] items = list.getItems();
 		boolean same = items.length == values.length;
 		if (same) {
 			for (int i = 0; same && i < items.length; i++) {
@@ -263,8 +263,8 @@ public class MyListControl {
 	 * enable/disable the toolbar items.
 	 * */
 	protected final void selectionChanged() {
-		int size = list.getItemCount();
-		int index = list.getSelectionIndex();
+		final int size = list.getItemCount();
+		final int index = list.getSelectionIndex();
 		addItem.setEnabled(true);
 		editItem.setEnabled(size > 0 && index != -1);
 		deleteItem.setEnabled(size > 0 && index != -1);
@@ -276,20 +276,19 @@ public class MyListControl {
 	 * Add a new item to the list.
 	 * */
 	protected void addNewItem() {
-		ListItemDialog dialog = new ListItemDialog(list.getShell(), "Add new " + itemDescription, itemDescription, "");
+		final ListItemDialog dialog = new ListItemDialog(list.getShell(), "Add new " + itemDescription, itemDescription, "");
 		if (dialog.open() != Window.OK) {
 			return;
 		}
 
-		String newItem = dialog.getItem();
-
+		final String newItem = dialog.getItem();
 		if (newItem != null && newItem.length() > 0) {
-			int index = list.getSelectionIndex();
+			final int index = list.getSelectionIndex();
 			if (index >= 0) {
 				list.add(newItem, index + 1);
 				list.setSelection(index + 1);
 			} else {
-				int size = list.getItemCount();
+				final int size = list.getItemCount();
 				list.add(newItem, size);
 				list.setSelection(size);
 			}
@@ -302,8 +301,7 @@ public class MyListControl {
 	 * Remove the item selected in the list.
 	 * */
 	private void removeSelectedItem() {
-		int index = list.getSelectionIndex();
-
+		final int index = list.getSelectionIndex();
 		if (index != -1) {
 			list.remove(index);
 		}
@@ -315,17 +313,15 @@ public class MyListControl {
 	 * Edit the item selected in the list.
 	 * */
 	protected void editSelectedItem() {
-		int index = list.getSelectionIndex();
-
+		final int index = list.getSelectionIndex();
 		if (index != -1) {
-			String item = list.getItem(index);
-
-			ListItemDialog dialog = new ListItemDialog(list.getShell(), "Edit " + itemDescription, itemDescription, item);
+			final String item = list.getItem(index);
+			final ListItemDialog dialog = new ListItemDialog(list.getShell(), "Edit " + itemDescription, itemDescription, item);
 			if (dialog.open() != Window.OK) {
 				return;
 			}
 
-			String newItem = dialog.getItem();
+			final String newItem = dialog.getItem();
 			if (newItem != null && newItem.length() > 0 && !newItem.equals(item)) {
 				list.setItem(index, newItem);
 				selectionChanged();
@@ -337,9 +333,9 @@ public class MyListControl {
 	 * Move up one place in the list the item that is selected.
 	 * */
 	private final void moveUpSelectedItem() {
-		int index = list.getSelectionIndex();
-		String item = list.getItem(index);
-		String previous = list.getItem(index - 1);
+		final int index = list.getSelectionIndex();
+		final String item = list.getItem(index);
+		final String previous = list.getItem(index - 1);
 		list.setItem(index - 1, item);
 		list.setItem(index, previous);
 		list.setSelection(index - 1);
@@ -351,9 +347,9 @@ public class MyListControl {
 	 * Move down one place in the list the item that is selected.
 	 * */
 	private final void moveDownSelectedItem() {
-		int index = list.getSelectionIndex();
-		String item = list.getItem(index);
-		String previous = list.getItem(index + 1);
+		final int index = list.getSelectionIndex();
+		final String item = list.getItem(index);
+		final String previous = list.getItem(index + 1);
 		list.setItem(index + 1, item);
 		list.setItem(index, previous);
 		list.setSelection(index + 1);

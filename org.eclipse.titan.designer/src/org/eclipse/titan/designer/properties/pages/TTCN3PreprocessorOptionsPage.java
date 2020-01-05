@@ -119,8 +119,7 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 	@Override
 	public boolean checkProperties(final ProjectBuildPropertyPage page) {
 		if (CBuild) {
-			String temp = tool.getStringValue();
-
+			final String temp = tool.getStringValue();
 			if (temp == null || "".equals(temp)) {
 				page.setErrorMessage("The TTCN-3 preprocessor must be set.");
 				return false;
@@ -152,10 +151,10 @@ public final class TTCN3PreprocessorOptionsPage implements IOptionsPage {
 	public boolean saveProperties(final IProject project) {
 		if (CBuild) {
 			try {
-				QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+				final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						TTCN3PreprocessorOptionsData.TTCN3_PREPROCESSOR_PROPERTY);
-				String newValue = tool.getStringValue();
-				String oldValue = project.getPersistentProperty(qualifiedName);
+				final String newValue = tool.getStringValue();
+				final String oldValue = project.getPersistentProperty(qualifiedName);
 				if (newValue != null && !newValue.equals(oldValue)) {
 					project.setPersistentProperty(qualifiedName, newValue);
 				}

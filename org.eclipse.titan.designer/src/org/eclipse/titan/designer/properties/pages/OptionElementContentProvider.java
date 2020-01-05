@@ -35,7 +35,7 @@ public class OptionElementContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(final Object parentElement) {
 		if (parentElement instanceof OptionElement) {
-			List<OptionElement> children = ((OptionElement) parentElement).children;
+			final List<OptionElement> children = ((OptionElement) parentElement).children;
 			if (children == null) {
 				return new Object[0];
 			}
