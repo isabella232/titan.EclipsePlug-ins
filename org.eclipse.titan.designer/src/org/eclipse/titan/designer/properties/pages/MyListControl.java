@@ -31,9 +31,9 @@ import org.eclipse.titan.designer.graphics.ImageCache;
  * @author Kristof Szabados
  * */
 public class MyListControl {
-	private ToolBar toolBar;
-	private ToolItem addItem, deleteItem, editItem, moveUpItem, moveDownItem;
-	private Label title;
+	private final ToolBar toolBar;
+	private final ToolItem addItem, deleteItem, editItem, moveUpItem, moveDownItem;
+	private final Label title;
 	protected List list;
 	protected String itemDescription;
 
