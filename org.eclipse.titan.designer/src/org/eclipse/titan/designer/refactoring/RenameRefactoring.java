@@ -353,7 +353,7 @@ public class RenameRefactoring extends Refactoring {
 		int offset;
 		if (selection instanceof TextSelection && !selection.isEmpty() && !"".equals(((TextSelection) selection).getText())) {
 			if (reportDebugInformation) {
-				TITANDebugConsole.getConsole().newMessageStream().println("text selected: " + ((TextSelection) selection).getText());
+				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
 			}
 			final TextSelection tSelection = (TextSelection) selection;
 			offset = tSelection.getOffset() + tSelection.getLength();
@@ -367,8 +367,7 @@ public class RenameRefactoring extends Refactoring {
 		final WorkspaceJob job = projectSourceParser.analyzeAll();
 		if (job == null) {
 			if (reportDebugInformation) {
-				TITANDebugConsole.getConsole().newMessageStream()
-				.println("Rename refactoring: WorkspaceJob to analyze project could not be created.");
+				TITANDebugConsole.println("Rename refactoring: WorkspaceJob to analyze project could not be created.");
 			}
 			return;
 		}
@@ -410,7 +409,7 @@ public class RenameRefactoring extends Refactoring {
 		} catch (InterruptedException irex) {
 			// operation was canceled
 			if (reportDebugInformation) {
-				TITANDebugConsole.getConsole().newMessageStream().println("Rename refactoring has been cancelled");
+				TITANDebugConsole.println("Rename refactoring has been cancelled");
 			}
 		} finally {
 
