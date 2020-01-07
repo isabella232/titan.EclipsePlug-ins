@@ -501,8 +501,6 @@ public class TitanComponent extends Base_Type {
 		componentNames.get().clear();
 	}
 
-	//FIXME implement set_param
-
 	/**
 	 * Checks if the first value is equivalent to the second one.
 	 *
