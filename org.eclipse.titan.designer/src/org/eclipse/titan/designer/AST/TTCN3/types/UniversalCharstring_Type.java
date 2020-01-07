@@ -280,8 +280,10 @@ public final class UniversalCharstring_Type extends Type {
 			final CharString_Pattern_Template cstrpt = (CharString_Pattern_Template) template;
 			ps = cstrpt.getPatternstring();
 			ps.setPatterntype(PatternType.UNIVCHARSTRING_PATTERN);
-
-			//FIXME might need some implementation
+			ps.check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, timestamp);
+			if (!ps.has_refs()) {
+				//check pattern
+			}
 			break;
 		}
 		case USTR_PATTERN:
