@@ -380,7 +380,7 @@ public final class Float_Type extends ASN1Type {
 			}
 			++i;
 		}
-		//FIXME: err = !first_digit && !zero
+
 		if (!first_digit && !zero) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 		}

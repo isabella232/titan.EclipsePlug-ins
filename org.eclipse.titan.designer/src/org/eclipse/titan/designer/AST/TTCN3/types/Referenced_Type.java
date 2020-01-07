@@ -694,7 +694,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				}
 				++i;
 			}
-			//FIXME: err = !first_digit && !zero
+
 			if (!first_digit && !zero) {
 				getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 			}
