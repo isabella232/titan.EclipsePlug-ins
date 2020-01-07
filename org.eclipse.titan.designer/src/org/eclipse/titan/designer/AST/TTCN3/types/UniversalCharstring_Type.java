@@ -282,13 +282,16 @@ public final class UniversalCharstring_Type extends Type {
 			ps.setPatterntype(PatternType.UNIVCHARSTRING_PATTERN);
 			ps.check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, timestamp);
 			if (!ps.has_refs()) {
-				//check pattern
+				//FIXME check pattern
 			}
 			break;
 		}
 		case USTR_PATTERN:
-			// FIXME implement as soon as charstring pattern templates become handled
 			ps = ((UnivCharString_Pattern_Template) template).getPatternstring();
+			ps.check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, timestamp);
+			if (!ps.has_refs()) {
+				//FIXME check pattern
+			}
 			break;
 		case DECODE_MATCH:
 			selfReference = ((DecodeMatch_template)template).checkThisTemplateString(timestamp, type, implicitOmit, lhs);
