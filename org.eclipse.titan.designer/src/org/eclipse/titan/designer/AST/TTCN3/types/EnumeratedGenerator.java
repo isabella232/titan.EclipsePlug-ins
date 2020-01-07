@@ -691,8 +691,6 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\t}\n");
 			source.append("\t\t\treturn dec_len;\n");
 			source.append("\t\t}\n\n");
-			//TODO
-			//, enum_type, enum_type
 		}
 
 	}
