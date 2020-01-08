@@ -47,10 +47,10 @@ testcase tc_integer() runs on EmptyCT {
   }
 
   var template integer tmp;
-//  string2ttcn(ttcn2string(positive_templ), tmp);
-//  if (log2str(positive_templ) != log2str(tmp)) {
-//    setverdict(fail, "Expected: ", positive_templ, " Got: ", tmp);
-//  }
+  string2ttcn(ttcn2string(positive_templ), tmp);
+  if (log2str(positive_templ) != log2str(tmp)) {
+    setverdict(fail, "Expected: ", positive_templ, " Got: ", tmp);
+  }
 
   template integer negative_templ:= (!-10 .. !-1);
   f := -10;
@@ -126,10 +126,10 @@ testcase tc_float() runs on EmptyCT {
   }
 
   var template float tmp;
-//  string2ttcn(ttcn2string(positive_templ), tmp);
-//  if (log2str(positive_templ) != log2str(tmp)) {
-//    setverdict(fail, "Expected: ", positive_templ, " Got: ", tmp);
-//  }
+  string2ttcn(ttcn2string(positive_templ), tmp);
+  if (log2str(positive_templ) != log2str(tmp)) {
+    setverdict(fail, "Expected: ", positive_templ, " Got: ", tmp);
+  }
 
   template float negative_templ := (!-10.0 .. !-1.0);
   f := -10.0;
@@ -169,10 +169,10 @@ testcase tc_float() runs on EmptyCT {
     setverdict(fail, match(log2str(negative_templ), log2str(copy_negative_templ)));
   }
 
-//  string2ttcn(ttcn2string(negative_templ), tmp);
-//  if (log2str(negative_templ) != log2str(tmp)) {
-//    setverdict(fail, "Expected: ", negative_templ, " Got: ", tmp);
-//  }
+  string2ttcn(ttcn2string(negative_templ), tmp);
+  if (log2str(negative_templ) != log2str(tmp)) {
+    setverdict(fail, "Expected: ", negative_templ, " Got: ", tmp);
+  }
 
   template float infinity_templ := (!-infinity .. !infinity);
   if (match(f, infinity_templ) == false) {
@@ -239,11 +239,11 @@ testcase tc_charstring() runs on EmptyCT {
     setverdict(fail, match(log2str(templ), log2str(copy_templ)));
   }
 
-//  var template charstring tmp;
-//  string2ttcn(ttcn2string(templ), tmp);
-//  if (log2str(templ) != log2str(tmp)) {
-//    setverdict(fail, "Expected: ", templ, " Got: ", tmp);
-//  }
+  var template charstring tmp;
+  string2ttcn(ttcn2string(templ), tmp);
+  if (log2str(templ) != log2str(tmp)) {
+    setverdict(fail, "Expected: ", templ, " Got: ", tmp);
+  }
 
   setverdict(pass);
 }
@@ -291,10 +291,10 @@ testcase tc_universal_charstring() runs on EmptyCT {
   }
 
   var template universal charstring tmp;
-//  string2ttcn(ttcn2string(charstr_templ), tmp);
-//  if (log2str(charstr_templ) != log2str(tmp)) {
-//    setverdict(fail, "Expected: ", charstr_templ, " Got: ", tmp);
-//  }
+  string2ttcn(ttcn2string(charstr_templ), tmp);
+  if (log2str(charstr_templ) != log2str(tmp)) {
+    setverdict(fail, "Expected: ", charstr_templ, " Got: ", tmp);
+  }
 
   template universal charstring unicharstr_templ:= (!char(1,2,3,4) .. !char(1,2,4,5));
   f := char(1,2,3,4);
@@ -322,10 +322,10 @@ testcase tc_universal_charstring() runs on EmptyCT {
     setverdict(fail, match(log2str(unicharstr_templ), log2str(copy_unicharstr_templ)));
   }
 
-//  string2ttcn(ttcn2string(unicharstr_templ), tmp);
-//  if (log2str(unicharstr_templ) != log2str(tmp)) {
-//    setverdict(fail, "Expected: ", unicharstr_templ, " Got: ", tmp);
-//  }
+  string2ttcn(ttcn2string(unicharstr_templ), tmp);
+  if (log2str(unicharstr_templ) != log2str(tmp)) {
+    setverdict(fail, "Expected: ", unicharstr_templ, " Got: ", tmp);
+  }
 
   setverdict(pass);
 }
