@@ -1106,7 +1106,7 @@ public class TitanCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			}
 			if ((bl + align_length) < val_ptr.length() * 8) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: '%s'", p_td.name);
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode '%s':", p_td.name);
 				bl = p_td.raw.fieldlength;
 				align_length = 0;
 			}

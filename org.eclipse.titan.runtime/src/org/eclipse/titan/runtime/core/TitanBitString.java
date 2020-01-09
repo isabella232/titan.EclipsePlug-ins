@@ -1246,7 +1246,7 @@ public class TitanBitString extends Base_Type {
 			int bl = n_bits;
 			int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
 			if ((bl + align_length) < n_bits) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: '%s'", p_td.name);
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode '%s':", p_td.name);
 				bl = p_td.raw.fieldlength;
 				align_length = 0;
 			}
