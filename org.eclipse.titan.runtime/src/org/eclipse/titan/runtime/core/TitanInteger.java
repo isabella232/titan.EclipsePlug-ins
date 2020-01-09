@@ -1905,7 +1905,7 @@ public class TitanInteger extends Base_Type {
 				length = (p_td.raw.fieldlength + 7) / 8;
 				final int min_bits = RAW.min_bits(D);
 				if (min_bits > p_td.raw.fieldlength) {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode '%s'", p_td.name);
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode '%s':", p_td.name);
 					// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
 					// at all for negative values.  Just simply clear the value.
 					neg_sgbit = false;
