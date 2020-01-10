@@ -32,25 +32,20 @@ module UIDCharsTest
         var universal charstring v_d  :=  char(U171,U+00000041);  //USI notation for character "ű" and "A"  without leading zeroes and + sign notation
 	    var universal charstring v_e := char (U4E2d, U56fD);
         var universal charstring v_f  :=  char(U171,U+00000041) & "a" & char(0, 0, 0 , 63) & char(U+003F);
-	    var universal charstring a_exp := "A";
-        var universal charstring b_exp := "ű";
+	    var universal charstring a_exp := "A";// x41
+        var universal charstring b_exp := "ű"; //xC5B1
 	    var universal charstring c_exp := "A";
 	    var universal charstring d_exp := "űA";
 	    var universal charstring e_exp := "中国";
 	    var universal charstring f_exp := "űAa??";
 
-    	if (match(v_a,a_exp) and 
-            match(v_b,b_exp) and
-            match(v_c,c_exp) and
-            match(v_d,d_exp) and
-	        match(v_e,e_exp) and
-	        match(v_f,f_exp))
-        {
-    		setverdict(pass,"v_a:",v_a, "v_b:",v_b, "v_c:",v_c,"v_d:",v_d,"v_e:",v_e,"v_f:",v_f);
-    	}
-    	else {
-    		setverdict(fail,"v_a:",v_a, "v_b:",v_b, "v_c:",v_c,"v_d:",v_d,"v_e:",v_e,"v_f:",v_f);
-    	}
+		if (not match(v_a,a_exp)) { setverdict(fail, match(v_a,a_exp) )}
+		if (not match(v_b,b_exp)) { setverdict(fail, match(v_b,b_exp) )}
+		if (not match(v_c,c_exp)) { setverdict(fail, match(v_c,c_exp) )}
+		if (not match(v_d,d_exp)) { setverdict(fail, match(v_d,d_exp) )}
+		if (not match(v_e,e_exp)) { setverdict(fail, match(v_e,e_exp) )}
+		if (not match(v_f,f_exp)) { setverdict(fail, match(v_f,f_exp) )}
+		setverdict(pass)
     }
 
 	testcase tc_pattern() runs on EmptyCT {
