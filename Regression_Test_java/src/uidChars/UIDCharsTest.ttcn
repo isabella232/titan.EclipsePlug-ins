@@ -34,10 +34,10 @@ module UIDCharsTest
         var universal charstring v_f  :=  char(U171,U+00000041) & "a" & char(0, 0, 0 , 63) & char(U+003F);
 	    var universal charstring a_exp := "A";// x41
         var universal charstring b_exp := "ű"; //xC5B1
-	    var universal charstring c_exp := "A";
-	    var universal charstring d_exp := "űA";
-	    var universal charstring e_exp := "中国";
-	    var universal charstring f_exp := "űAa??";
+	    var universal charstring c_exp := "A"; //x41
+	    var universal charstring d_exp := "űA"; //xC5B141
+	    var universal charstring e_exp := "中国"; // xE4B8ADE59BBD
+	    var universal charstring f_exp := "űAa??"; //xC5B141613F3F
 
 		if (not match(v_a,a_exp)) { setverdict(fail, match(v_a,a_exp) )}
 		if (not match(v_b,b_exp)) { setverdict(fail, match(v_b,b_exp) )}
