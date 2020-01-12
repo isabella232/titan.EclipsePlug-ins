@@ -277,6 +277,19 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		ownerIsAltguard = true;
 	}
 
+	/**
+	 * Adds a statement to the list of statements stored in this statement
+	 * block.
+	 * <p>
+	 * Statements of null value are not added to keep the semantic checks at
+	 * a relatively low complexity (such statements are syntactically
+	 * erroneous)
+	 * <p>
+	 * The modification happens during initial parsing.
+	 *
+	 * @param statement
+	 *                the statement to be added.
+	 * */
 	public void addStatement(final Statement statement) {
 		addStatement(statement, true);
 	}
@@ -288,9 +301,12 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * Statements of null value are not added to keep the semantic checks at
 	 * a relatively low complexity (such statements are syntactically
 	 * erroneous)
+	 * <p>
+	 * The modification happens during initial parsing.
 	 *
 	 * @param statement
 	 *                the statement to be added.
+	 * @param append should the new statement added to the end of the list or to front.
 	 * */
 	public void addStatement(final Statement statement, final boolean append) {
 		if (statement != null) {
