@@ -454,7 +454,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append('\n');
 		if ( isSetOf ) {
-			source.append("\t\t\treturn RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);\n");
+			source.append("\t\t\treturn RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);\n");
 		} else {
 			source.append("\t\t\tfinal int size = valueElements.size();\n");
 			source.append("\t\t\tif ( size != other_value.valueElements.size() ) {\n");
@@ -489,7 +489,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\treturn true;\n");
 		source.append("\t\t\t}\n\n");
 		if ( isSetOf ) {
-			source.append("\t\t\treturn RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);\n");
+			source.append("\t\t\treturn RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);\n");
 		} else {
 			source.append("\t\t\tfinal int size = valueElements.size();\n");
 			source.append("\t\t\tif ( size != other_value.n_elem() ) {\n");
