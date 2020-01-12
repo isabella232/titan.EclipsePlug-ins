@@ -326,18 +326,18 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * Adds a list of new statements into the actual list of statement in an
 	 * ordered fashion.
 	 *
-	 * @param statements
+	 * @param newStatements
 	 *                the new list of statements to be merged with the
 	 *                original.
 	 * */
-	void addStatementsOrdered(final List<Statement> statements) {
-		if (statements == null || statements.isEmpty()) {
+	void addStatementsOrdered(final List<Statement> newStatements) {
+		if (newStatements == null || newStatements.isEmpty()) {
 			return;
 		}
 
 		Statement statement;
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			statement = statements.get(i);
+		for (int i = 0, size = newStatements.size(); i < size; i++) {
+			statement = newStatements.get(i);
 
 			final int position = Collections.binarySearch(this.statements, statement, STATEMENT_INSERTION_COMPARATOR);
 
