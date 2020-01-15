@@ -25,6 +25,9 @@
 				<feature url="features/Titanium_{$version}.jar" id="Titanium" version="{$version}">
 					<category name="TITAN_on_Eclipse"/>
 				</feature>
+				<feature url="features/Titanium.Refactoring_{$version}.jar" id="Titanium.Refactoring" version="{$version}">
+					<category name="TITAN_on_Eclipse"/>
+				</feature>
 				<feature url="features/Titan_external_dependencies_{$version}.jar" id="Titan_external_dependencies" version="{$version}">
 				  <category name="TITAN_on_Eclipse"/>
 				</feature>
