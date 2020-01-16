@@ -70,16 +70,16 @@ EOF
 pr_ExtensionAttribute returns[ExtensionAttribute attribute]:
 (	pr_PrototypeAttribute		{$attribute = $pr_PrototypeAttribute.attribute;}
 |	pr_TransparentAttribute		{$attribute = $pr_TransparentAttribute.attribute;}
-|	pr_EncodeAttribute			{$attribute = $pr_EncodeAttribute.attribute;}
-|	pr_DecodeAttribute			{$attribute = $pr_DecodeAttribute.attribute;}
+|	pr_EncodeAttribute		{$attribute = $pr_EncodeAttribute.attribute;}
+|	pr_DecodeAttribute		{$attribute = $pr_DecodeAttribute.attribute;}
 |	pr_ErrorBehaviorAttribute	{$attribute = $pr_ErrorBehaviorAttribute.attribute;}
 |	pr_PrintingAttribute		{$attribute = $pr_PrintingAttribute.attribute;}
 |	pr_PortTypeAttribute		{$attribute = $pr_PortTypeAttribute.attribute;}
-|	pr_ExtendsAttribute			{$attribute = $pr_ExtendsAttribute.attribute;}
-|	pr_AnyTypeAttribute			{$attribute = $pr_AnyTypeAttribute.attribute;}
+|	pr_ExtendsAttribute		{$attribute = $pr_ExtendsAttribute.attribute;}
+|	pr_AnyTypeAttribute		{$attribute = $pr_AnyTypeAttribute.attribute;}
 |	pr_EncDecValueAttribute		{$attribute = $pr_EncDecValueAttribute.attribute;}
-|	pr_DoneAttribute			{$attribute = $pr_DoneAttribute.attribute;}
-|	pr_VersionAttribute			{$attribute = $pr_VersionAttribute.attribute;}
+|	pr_DoneAttribute		{$attribute = $pr_DoneAttribute.attribute;}
+|	pr_VersionAttribute		{$attribute = $pr_VersionAttribute.attribute;}
 |	pr_RequiresAttribute		{$attribute = $pr_RequiresAttribute.attribute;}
 |	pr_TitanVersionAttribute	{$attribute = $pr_TitanVersionAttribute.attribute;}
 );
@@ -138,14 +138,14 @@ pr_Version returns [Identifier identifier]
 (
 	a = IDENTIFIER	{$temp = $a.getText(); $endCol = $a;}
 	(
-   		b = NUMBER	{$temp += " " + $b.getText();}
-      	c = NUMBER	{$temp += " " + $c.getText();}
-    	(
-      		SLASH
-        	d = NUMBER	{$temp += "/" + $d.getText();}
-      	)?
-    	e = IDENTIFIER	{$temp += " " + $e.getText(); $endCol = $e;} // CNL 113 200 R9A
-   	)?
+		b = NUMBER	{$temp += " " + $b.getText();}
+		c = NUMBER	{$temp += " " + $c.getText();}
+	(
+		SLASH
+		d = NUMBER	{$temp += "/" + $d.getText();}
+	)?
+	e = IDENTIFIER	{$temp += " " + $e.getText(); $endCol = $e;} // CNL 113 200 R9A
+	)?
 )
 {
 	$identifier = new Identifier(Identifier_type.ID_TTCN, $temp, getLocation($start, $endCol));
@@ -220,10 +220,10 @@ pr_DecodeAttribute returns[DecodeAttribute attribute]:
 
 pr_EncodingType returns[MessageEncoding_type type]:
 (
-	BER		{$type = MessageEncoding_type.BER;}
-|	PER		{$type = MessageEncoding_type.PER;}
-|	XER		{$type = MessageEncoding_type.XER;}
-|	RAW		{$type = MessageEncoding_type.RAW;}
+	BER	{$type = MessageEncoding_type.BER;}
+|	PER	{$type = MessageEncoding_type.PER;}
+|	XER	{$type = MessageEncoding_type.XER;}
+|	RAW	{$type = MessageEncoding_type.RAW;}
 |	TEXT	{$type = MessageEncoding_type.TEXT;}
 |	JSON	{$type = MessageEncoding_type.JSON;}
 |	OER	{$type = MessageEncoding_type.OER;}
@@ -575,7 +575,7 @@ pr_PredefinedType returns[Type type]
 	BITSTRING	{ $type = new BitString_Type(); $endCol = $BITSTRING; }
 |	BOOLEAN		{ $type = new Boolean_Type(); $endCol = $BOOLEAN; }
 |	CHARSTRING	{ $type = new CharString_Type(); $endCol = $CHARSTRING; }
-|	UNIVERSAL	{ }
+|	UNIVERSAL
 	CHARSTRING	{ $type = new UniversalCharstring_Type(); $endCol = $CHARSTRING; }
 |	INTEGER		{ $type = new Integer_Type(); $endCol = $INTEGER; }
 |	OCTETSTRING	{ $type = new OctetString_Type(); $endCol = $OCTETSTRING; }
