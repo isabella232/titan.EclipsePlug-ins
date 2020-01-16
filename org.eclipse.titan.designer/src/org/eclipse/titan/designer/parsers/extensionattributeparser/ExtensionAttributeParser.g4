@@ -92,9 +92,9 @@ pr_VersionAttribute returns[ModuleVersionAttribute attribute]
 	VERSION
 	(
 		LANGLE
-		pr_Identifier	{$attribute  = new ModuleVersionAttribute($pr_Identifier.identifier, true);}
-		RANGLE  		{$endCol = $RANGLE;}
-	|	pr_Version		{$attribute  = new ModuleVersionAttribute($pr_Version.identifier, false); $endCol =  $pr_Version.stop;}
+		pr_Identifier	{if($pr_Identifier.identifier != null) {$attribute  = new ModuleVersionAttribute($pr_Identifier.identifier, true);}}
+		RANGLE  	{$endCol = $RANGLE;}
+	|	pr_Version	{if($pr_Version.identifier != null) {$attribute  = new ModuleVersionAttribute($pr_Version.identifier, false); $endCol =  $pr_Version.stop;}}
 	)
 )
 {
