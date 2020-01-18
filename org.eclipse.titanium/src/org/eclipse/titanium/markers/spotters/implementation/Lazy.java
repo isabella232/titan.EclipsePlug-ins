@@ -239,32 +239,33 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 			final Set<FormalParameter> shouldBeEvaluated = new HashSet<FormalParameter>();
 			if (nodes.isEmpty()) {
 				return referencedFormalParameters;
-			} else {
-				final Set<FormalParameter> tempStricts = new HashSet<FormalParameter>();
-				for (int index = 0, nodeSize = nodes.size(); index < nodeSize; ++index) {
-					if (haveToContinue) {
-						tempStricts.addAll(nodes.get(index).strictFormalParameters);
-						final Set<FormalParameter> temp = nodes.get(index).collectRelevantReferences();
-						if (root instanceof StatementBlock || root instanceof Definition || root instanceof AltGuard || root instanceof Function_Instance_Statement) {
+			}
+
+			final Set<FormalParameter> tempStricts = new HashSet<FormalParameter>();
+			for (int index = 0, nodeSize = nodes.size(); index < nodeSize; ++index) {
+				if (haveToContinue) {
+					tempStricts.addAll(nodes.get(index).strictFormalParameters);
+					final Set<FormalParameter> temp = nodes.get(index).collectRelevantReferences();
+					if (root instanceof StatementBlock || root instanceof Definition || root instanceof AltGuard || root instanceof Function_Instance_Statement) {
+						shouldBeEvaluated.addAll(temp);
+					} else {
+						if (((root instanceof If_Statement || root instanceof SelectCase_Statement) && nodeSize == 1)) {
+							break;
+						}
+						// We have to branching because of intersections of empty and non empty set.
+						// Have to check index too!
+						// If index==0 and shouldBeEvaluated.size()==0 then we have to initialize set with addAll() method.
+						if (shouldBeEvaluated.isEmpty() && index == 0) {
 							shouldBeEvaluated.addAll(temp);
 						} else {
-							if (((root instanceof If_Statement || root instanceof SelectCase_Statement) && nodeSize == 1)) {
-								break;
-							}
-							// We have to branching because of intersections of empty and non empty set.
-							// Have to check index too!
-							// If index==0 and shouldBeEvaluated.size()==0 then we have to initialize set with addAll() method.
-							if (shouldBeEvaluated.isEmpty() && index == 0) {
-								shouldBeEvaluated.addAll(temp);
-							} else {
-								shouldBeEvaluated.retainAll(temp);
-							}
+							shouldBeEvaluated.retainAll(temp);
 						}
 					}
 				}
-				shouldBeEvaluated.addAll(tempStricts);
-				shouldBeEvaluated.addAll(referencedFormalParameters);
 			}
+			shouldBeEvaluated.addAll(tempStricts);
+			shouldBeEvaluated.addAll(referencedFormalParameters);
+
 			return shouldBeEvaluated;
 		}
 	}
