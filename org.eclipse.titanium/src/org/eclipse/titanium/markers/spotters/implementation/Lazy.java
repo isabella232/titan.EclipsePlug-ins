@@ -59,8 +59,6 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 public class Lazy extends BaseModuleCodeSmellSpotter {
 	private static final String ERROR_MESSAGE = "The {0} parameter should {1}be @lazy";
 
-	private RelevantFormalParameterCollector formalParameterCollector;
-
 	private boolean haveToContinue;
 
 	public Lazy() {
@@ -73,11 +71,11 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 		haveToContinue = true;
 
 		// Collect and store FormalParameters.
-		formalParameterCollector = new RelevantFormalParameterCollector();
+		final RelevantFormalParameterCollector formalParameterCollector = new RelevantFormalParameterCollector();
 		node.accept(formalParameterCollector);
 
 		// Build structure.
-		final RelevantNodeBuilder relevantNodeBuilder = new RelevantNodeBuilder(node);
+		final RelevantNodeBuilder relevantNodeBuilder = new RelevantNodeBuilder(node, formalParameterCollector);
 		node.accept(relevantNodeBuilder);
 
 		// Evaluate tree and return with FormalParameters which have to be evaluated.
@@ -133,18 +131,21 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 		// Contains possible FormalParameters of StatementBloc and Statement and AltGuard.
 		private Set<FormalParameter> referencedFormalParameters;
 
+		final RelevantFormalParameterCollector formalParameterCollector;
+
 		// If this is a lazy formal parameter transmission, then the formal parameter is not relevant unless it is in some expression
 		private boolean nextFormalParameterIsNotRelevant = false;
 
-		public RelevantNodeBuilder(final IVisitableNode node) {
+		public RelevantNodeBuilder(final IVisitableNode node, final RelevantFormalParameterCollector formalParameterCollector) {
 			root = node;
+			this.formalParameterCollector = formalParameterCollector;
 			referencedFormalParameters = new HashSet<FormalParameter>();
 			strictFormalParameters = new HashSet<FormalParameter>();
 			nodes = new ArrayList<RelevantNodeBuilder>();
 		}
 
-		public RelevantNodeBuilder(final IVisitableNode node, final boolean skipNextFormalParameter) {
-			this(node);
+		public RelevantNodeBuilder(final IVisitableNode node, final RelevantFormalParameterCollector formalParameterCollector, final boolean skipNextFormalParameter) {
+			this(node, formalParameterCollector);
 			this.nextFormalParameterIsNotRelevant = skipNextFormalParameter;
 		}
 
@@ -160,7 +161,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 			}
 
 			if ((node instanceof StatementBlock || node instanceof Statement || node instanceof AltGuard) && !node.equals(root)) {
-				final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(node,nextFormalParameterIsNotRelevant);
+				final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(node, formalParameterCollector, nextFormalParameterIsNotRelevant);
 
 				// Handle separately the expression block of If_Statement and SelectCase_Statement.
 				// Store the possible FormalParameters in strictFormalParameters collection.
@@ -194,14 +195,14 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 					formalParameterList.collateLazyAndNonLazyActualParameters(CompilationTimeStamp.getBaseTimestamp(),parsedActualParameters, lazyActualParameters, nonLazyActualParameters);
 
 					if (nonLazyActualParameters.getNofParameters() != 0) {
-						final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root);
+						final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root, formalParameterCollector);
 						nodes.add(statementBlockCollector);
 						nonLazyActualParameters.accept(statementBlockCollector);
 					}
 					for (int i = 0, size = lazyActualParameters.getNofParameters(); i < size; ++i) {
 						final ActualParameter lazyActualParameter = lazyActualParameters.getParameter(i);
 						if(lazyActualParameter instanceof Value_ActualParameter) {
-							final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root,true);
+							final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(root, formalParameterCollector, true);
 							nodes.add(statementBlockCollector);
 							lazyActualParameter.accept(statementBlockCollector);
 						}
