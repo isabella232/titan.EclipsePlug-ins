@@ -236,11 +236,11 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 				return referencedFormalParameters;
 			}
 
-			final Set<FormalParameter> shouldBeEvaluated = new HashSet<FormalParameter>();
 			if (nodes.isEmpty()) {
 				return referencedFormalParameters;
 			}
 
+			final Set<FormalParameter> shouldBeEvaluated = new HashSet<FormalParameter>();
 			final Set<FormalParameter> tempStricts = new HashSet<FormalParameter>();
 			for (int index = 0, nodeSize = nodes.size(); index < nodeSize; ++index) {
 				if (haveToContinue) {
