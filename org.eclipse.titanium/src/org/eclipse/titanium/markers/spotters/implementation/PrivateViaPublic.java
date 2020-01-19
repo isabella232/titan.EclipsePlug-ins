@@ -49,29 +49,7 @@ public class PrivateViaPublic {
 		throw new AssertionError("Noninstantiable");
 	}
 
-	private abstract static class Base extends BaseModuleCodeSmellSpotter {
-
-		protected Module actualModule;
-
-		public Base(final CodeSmellType codeSmellType) {
-			super(codeSmellType);
-		}
-
-		protected boolean isVisibleInActualModule(final Assignment assignment) {
-			final Module assignmentModule = assignment.getMyScope().getModuleScope();
-			return assignmentModule.equals(actualModule) ||
-				assignmentModule.isVisible(CompilationTimeStamp.getBaseTimestamp(), actualModule.getIdentifier(), assignment);
-		}
-
-		@Override
-		public List<Class<? extends IVisitableNode>> getStartNode() {
-			final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(1);
-			ret.add(Module.class);
-			return ret;
-		}
-	}
-
-	public static class Field extends Base {
+	public static class Field extends BaseModuleCodeSmellSpotter {
 
 		private static final String ERROR_MESSAGE = "The {0} field is private but it is accessible because of wrapping into public type.";
 
@@ -80,15 +58,21 @@ public class PrivateViaPublic {
 		}
 
 		@Override
+		public List<Class<? extends IVisitableNode>> getStartNode() {
+			final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(1);
+			ret.add(Module.class);
+			return ret;
+		}
+
+		@Override
 		protected void process(final IVisitableNode node, final Problems problems) {
-			actualModule = (Module) node;
+			final Module actualModule = (Module) node;
 			final FieldCollector fieldCollector = new FieldCollector();
 			actualModule.accept(fieldCollector);
-			check(fieldCollector, problems);
+			check(actualModule, fieldCollector, problems);
 		}
 
 		private class FieldCollector extends ASTVisitor {
-
 			private final List<Reference> references;
 
 			private final List<NamedValue> namedValues;
@@ -112,12 +96,12 @@ public class PrivateViaPublic {
 			}
 		}
 
-		protected void check(final FieldCollector fieldCollector, final Problems problems) {
-			checkReferences(fieldCollector, problems);
-			checkNamedValues(fieldCollector, problems);
+		protected void check(final Module actualModule, final FieldCollector fieldCollector, final Problems problems) {
+			checkReferences(actualModule, fieldCollector, problems);
+			checkNamedValues(actualModule, fieldCollector, problems);
 		}
 
-		private void checkReferences(final FieldCollector fieldCollector, final Problems problems) {
+		private void checkReferences(final Module actualModule, final FieldCollector fieldCollector, final Problems problems) {
 
 			final Iterator<Reference> referenceIterator = fieldCollector.references.iterator();
 
@@ -147,7 +131,7 @@ public class PrivateViaPublic {
 
 							if (!assignment.getIdentifier().equals(identifier) && (assignment instanceof Def_Type)) {
 
-								final IdentifierToDefType identifierToDefType = new IdentifierToDefType(identifier);
+								final IdentifierToDefType identifierToDefType = new IdentifierToDefType(actualModule, identifier);
 								assignment.accept(identifierToDefType);
 
 								if (identifierToDefType.getIsPrivate()) {
@@ -161,7 +145,7 @@ public class PrivateViaPublic {
 			}
 		}
 
-		private void checkNamedValues(final FieldCollector fieldCollector, final Problems problems) {
+		private void checkNamedValues(final Module actualModule, final FieldCollector fieldCollector, final Problems problems) {
 			final Iterator<NamedValue> namedValueIterator = fieldCollector.namedValues.iterator();
 
 			while (namedValueIterator.hasNext()) {
@@ -191,7 +175,7 @@ public class PrivateViaPublic {
 
 					if (namedValueAssignment instanceof Def_Type) {
 
-						if (!isVisibleInActualModule((Assignment) namedValueAssignment)) {
+						if (!isVisibleInActualModule(actualModule, (Assignment) namedValueAssignment)) {
 							final Identifier namedValueIdentifier = namedValue.getName();
 							final String msg = MessageFormat.format(ERROR_MESSAGE, namedValueIdentifier.getDisplayName());
 							problems.report(namedValueIdentifier.getLocation(), msg);
@@ -202,6 +186,7 @@ public class PrivateViaPublic {
 		}
 
 		private class IdentifierToDefType extends ASTVisitor {
+			private final Module actualModule;
 
 			private final Identifier identifierToFind;
 
@@ -211,7 +196,8 @@ public class PrivateViaPublic {
 				return isPrivate;
 			}
 
-			public IdentifierToDefType(final Identifier identifier) {
+			public IdentifierToDefType(final Module actualModule, final Identifier identifier) {
+				this.actualModule = actualModule;
 				identifierToFind = identifier;
 				isPrivate = false;
 			}
@@ -231,7 +217,7 @@ public class PrivateViaPublic {
 
 							if (compFieldReferencedType instanceof Def_Type) {
 
-								if (!isVisibleInActualModule((Assignment) compFieldReferencedType)) {
+								if (!isVisibleInActualModule(actualModule, (Assignment) compFieldReferencedType)) {
 									isPrivate = true;
 									return V_ABORT;
 								}
@@ -244,7 +230,7 @@ public class PrivateViaPublic {
 		}
 	}
 
-	public static class Value extends Base {
+	public static class Value extends BaseModuleCodeSmellSpotter {
 
 		private static final String ERROR_MESSAGE = "The parametrization of {0} field is private but it is accessible because of wrapping into public type.";
 
@@ -253,11 +239,18 @@ public class PrivateViaPublic {
 		}
 
 		@Override
+		public List<Class<? extends IVisitableNode>> getStartNode() {
+			final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(1);
+			ret.add(Module.class);
+			return ret;
+		}
+
+		@Override
 		protected void process(final IVisitableNode node, final Problems problems) {
-			actualModule = (Module) node;
+			final Module actualModule = (Module) node;
 			final ValueCollector valueCollector = new ValueCollector();
 			actualModule.accept(valueCollector);
-			check(valueCollector, problems);
+			check(actualModule, valueCollector, problems);
 		}
 
 		private class ValueCollector extends ASTVisitor {
@@ -277,11 +270,11 @@ public class PrivateViaPublic {
 			}
 		}
 
-		public void check(final ValueCollector valueCollector, final Problems problems) {
-			checkSequenceOfValues(valueCollector, problems);
+		public void check(final Module actualModule, final ValueCollector valueCollector, final Problems problems) {
+			checkSequenceOfValues(actualModule, valueCollector, problems);
 		}
 
-		private void checkSequenceOfValues(final ValueCollector valueCollector, final Problems problems) {
+		private void checkSequenceOfValues(final Module actualModule, final ValueCollector valueCollector, final Problems problems) {
 			final Iterator<SequenceOf_Value> valueIterator = valueCollector.sequenceOfValues.iterator();
 
 			while (valueIterator.hasNext()) {
@@ -302,7 +295,7 @@ public class PrivateViaPublic {
 					}
 
 					if (valueReferencedType instanceof Def_Type) {
-						if (!isVisibleInActualModule((Assignment) valueReferencedType)) {
+						if (!isVisibleInActualModule(actualModule, (Assignment) valueReferencedType)) {
 							final String msg = MessageFormat.format(ERROR_MESSAGE, fieldName);
 							problems.report(actualValue.getLocation(), msg);
 						}
@@ -310,5 +303,11 @@ public class PrivateViaPublic {
 				}
 			}
 		}
+	}
+
+	private static boolean isVisibleInActualModule(final Module actualModule, final Assignment assignment) {
+		final Module assignmentModule = assignment.getMyScope().getModuleScope();
+		return assignmentModule.equals(actualModule) ||
+				assignmentModule.isVisible(CompilationTimeStamp.getBaseTimestamp(), actualModule.getIdentifier(), assignment);
 	}
 }
