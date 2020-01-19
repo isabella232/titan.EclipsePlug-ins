@@ -44,27 +44,24 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 
 	private static final String ERR_MSG = "The out parameter `{0}'' is read before it is written.";
 
-	private Definition toFind;
-	private Problems problems;
-
 	public ReadingOutParBeforeWritten() {
 		super(CodeSmellType.READING_OUT_PAR_BEFORE_WRITTEN);
 	}
 
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
-		this.problems = problems;
 		if (!(node instanceof FormalParameter)) {
 			return;
 		}
+
 		final FormalParameter fp = (FormalParameter)node;
-		this.toFind = fp;
 		final Assignment_type at = fp.getAssignmentType();
 		if (at != Assignment_type.A_PAR_VAL_OUT && at != Assignment_type.A_PAR_TEMP_OUT) {
 			return;
 		}
+
 		final Definition d = fp.getMyParameterList().getMyDefinition();
-		final NewFuncVisitor visitor = new NewFuncVisitor();
+		final NewFuncVisitor visitor = new NewFuncVisitor(fp, problems);
 		//call visitor on function in which the out parameter was found
 		d.accept(visitor);
 
@@ -81,11 +78,18 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 
 	//call on Def_Function -> finds the StatementBlock of the function and starts a StatementBlockVisitor on it
 	private final class NewFuncVisitor extends ASTVisitor {
+		private Definition toFind;
+		private Problems problems;
+
+		public NewFuncVisitor(final Definition toFind, final Problems problems) {
+			this.toFind = toFind;
+			this.problems = problems;
+		}
 
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof StatementBlock) {
-				final StatementBlockVisitor visitor = new StatementBlockVisitor();
+				final StatementBlockVisitor visitor = new StatementBlockVisitor(toFind, problems);
 				node.accept(visitor);
 				return V_SKIP;
 			}
@@ -96,8 +100,15 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 
 	//call on StatementBlocks (recursive with StatementVisitor)
 	private final class StatementBlockVisitor extends ASTVisitor {
+		private Definition toFind;
+		private Problems problems;
 
 		private boolean written = false;
+
+		public StatementBlockVisitor(final Definition toFind, final Problems problems) {
+			this.toFind = toFind;
+			this.problems = problems;
+		}
 
 		public boolean isWritten() {
 			return written;
@@ -112,7 +123,7 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 				if (node instanceof Log_Statement) {
 					return V_SKIP;
 				}
-				final StatementVisitor visitor = new StatementVisitor();
+				final StatementVisitor visitor = new StatementVisitor(toFind, problems);
 				node.accept(visitor);
 				final boolean visWritten = visitor.isWritten();
 				//special statements
@@ -158,12 +169,19 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 
 	//call on Statements (recursive with StatementBlockVisitor)
 	private final class StatementVisitor extends ASTVisitor {
+		private Definition toFind;
+		private Problems problems;
 
 		private boolean written = false;
 		private boolean allBlocksWritten = true;
 		private boolean continueOne = false;
 		private boolean refFoundInsideIsBound = false;
 		private boolean isInsideIsBound = false;
+
+		public StatementVisitor(final Definition toFind, final Problems problems) {
+			this.toFind = toFind;
+			this.problems = problems;
+		}
 
 		public boolean isWritten() {
 			return written;
@@ -179,7 +197,7 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 				return V_CONTINUE;
 			}
 			if (node instanceof StatementBlock) {
-				final StatementBlockVisitor visitor = new StatementBlockVisitor();
+				final StatementBlockVisitor visitor = new StatementBlockVisitor(toFind, problems);
 				node.accept(visitor);
 				final boolean visWritten = visitor.isWritten();
 				allBlocksWritten &= visWritten;
