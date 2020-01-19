@@ -59,17 +59,12 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 public class Lazy extends BaseModuleCodeSmellSpotter {
 	private static final String ERROR_MESSAGE = "The {0} parameter should {1}be @lazy";
 
-	private boolean haveToContinue;
-
 	public Lazy() {
 		super(CodeSmellType.LAZY);
 	}
 
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
-		// This variable indicates occurrence of Return_Statement.
-		haveToContinue = true;
-
 		// Collect and store FormalParameters.
 		final RelevantFormalParameterCollector formalParameterCollector = new RelevantFormalParameterCollector();
 		node.accept(formalParameterCollector);
@@ -135,6 +130,8 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 
 		// If this is a lazy formal parameter transmission, then the formal parameter is not relevant unless it is in some expression
 		private boolean nextFormalParameterIsNotRelevant = false;
+
+		public boolean haveToContinue = true;
 
 		public RelevantNodeBuilder(final IVisitableNode node, final RelevantFormalParameterCollector formalParameterCollector) {
 			root = node;
@@ -243,8 +240,10 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 			final Set<FormalParameter> tempStricts = new HashSet<FormalParameter>();
 			for (int index = 0, nodeSize = nodes.size(); index < nodeSize; ++index) {
 				if (haveToContinue) {
-					tempStricts.addAll(nodes.get(index).strictFormalParameters);
-					final Set<FormalParameter> temp = nodes.get(index).collectRelevantReferences();
+					RelevantNodeBuilder tempNodeBuilder = nodes.get(index);
+					tempStricts.addAll(tempNodeBuilder.strictFormalParameters);
+					final Set<FormalParameter> temp = tempNodeBuilder.collectRelevantReferences();
+					haveToContinue = tempNodeBuilder.haveToContinue;
 					if (root instanceof StatementBlock || root instanceof Definition || root instanceof AltGuard || root instanceof Function_Instance_Statement) {
 						shouldBeEvaluated.addAll(temp);
 					} else {
