@@ -38,6 +38,9 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 import org.eclipse.titanium.markers.types.TaskType;
 import org.eclipse.titanium.markers.utils.AnalyzerCache;
 import org.eclipse.titanium.markers.utils.RiskFactorCalculator;
+import org.eclipse.titanium.metrics.MetricData;
+import org.eclipse.titanium.metrics.ModuleMetric;
+import org.eclipse.titanium.metrics.StatColumn;
 
 /**
  * Export problem markers of a project to an xls.
@@ -114,7 +117,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			createTimeSheet(workbook);
 
 			final Map<String, Integer> smellCount = new HashMap<String, Integer>();
-			int summaryRow = 4;
+			int summaryRow = 5;
 
 			Cell label = null;
 			Cell numberCell = null;
@@ -185,6 +188,14 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			row2.createCell(0).setCellValue("Commulative Project Risk Factor");
 			final int riskFactor = new RiskFactorCalculator().measure(project, smellCount);
 			row2.createCell(1).setCellValue(riskFactor);
+
+			final MetricData data = MetricData.measure(project);
+			final Number n = data.getStatistics(ModuleMetric.LINES_OF_CODE).get(StatColumn.TOTAL);
+			final int loc = n.intValue();
+
+			final Row row3 = summarySheet.createRow(3);
+			row3.createCell(0).setCellValue("Lines of code");
+			row3.createCell(1).setCellValue(loc);
 
 			summarySheet.autoSizeColumn(0);
 			summarySheet.autoSizeColumn(1);
