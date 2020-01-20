@@ -7,7 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titanium.markers.spotters;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
@@ -19,8 +19,8 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titanium.Activator;
 import org.eclipse.titanium.markers.handler.Marker;
 import org.eclipse.titanium.markers.types.CodeSmellType;
-import org.eclipse.titanium.preferences.ProblemTypePreference;
 import org.eclipse.titanium.preferences.CodeSmellTypeToPreferenceTypeMapper;
+import org.eclipse.titanium.preferences.ProblemTypePreference;
 
 /**
  * Abstract base class of code smell spotters.
@@ -83,7 +83,7 @@ abstract class BaseCodeSmellSpotter {
 	 *
 	 */
 	protected class Problems {
-		private final List<Marker> reports = new ArrayList<Marker>();
+		private final List<Marker> reports = new LinkedList<Marker>();
 
 		/**
 		 * Create a problem marker at a specific location.
