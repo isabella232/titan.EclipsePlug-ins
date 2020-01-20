@@ -12,15 +12,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titanium.markers.handler.Marker;
@@ -50,6 +58,8 @@ public class Analyzer {
 	private final Map<Class<? extends IVisitableNode>, Set<BaseModuleCodeSmellSpotter>> actions;
 	private final Set<BaseProjectCodeSmellSpotter> projectActions;
 
+	private static final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
+
 	Analyzer(final Map<Class<? extends IVisitableNode>, Set<BaseModuleCodeSmellSpotter>> actions, final Set<BaseProjectCodeSmellSpotter> projectActions) {
 		this.actions = actions;
 		this.projectActions = projectActions;
@@ -77,9 +87,9 @@ public class Analyzer {
 
 	private List<Marker> internalAnalyzeModule(final Module module) {
 		final CodeSmellVisitor v = new CodeSmellVisitor();
-		synchronized (module.getProject()) {
+//		synchronized (module) {
 			module.accept(v);
-		}
+//		}
 		return v.markers;
 	}
 
@@ -145,19 +155,55 @@ public class Analyzer {
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 		final SubMonitor progress = SubMonitor.convert(monitor, 1 + knownModuleNames.size());
 		progress.subTask("Project level analysis");
-		final Map<IResource, List<Marker>> markers = new HashMap<IResource, List<Marker>>();
+		final Map<IResource, List<Marker>> markers = new ConcurrentHashMap<IResource, List<Marker>>();
 		markers.put(project, internalAnalyzeProject(project));
 		progress.worked(1);
-		for (final String moduleName : knownModuleNames) {
-			if (progress.isCanceled()) {
-				throw new OperationCanceledException();
+
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
+				new LinkedBlockingQueue<Runnable>());
+		executor.setThreadFactory(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
 			}
-			final Module mod = projectSourceParser.getModuleByName(moduleName);
-			progress.subTask("Analyzing module " + mod.getName());
-			final IResource moduleResource = mod.getLocation().getFile();
-			markers.put(moduleResource, internalAnalyzeModule(mod));
-			progress.worked(1);
+		});
+		final CountDownLatch latch = new CountDownLatch(knownModuleNames.size());
+		for (final String moduleName : knownModuleNames) {
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (progress.isCanceled()) {
+						latch.countDown();
+						throw new OperationCanceledException();
+					}
+
+					try {
+						final Module mod = projectSourceParser.getModuleByName(moduleName);
+						progress.subTask("Analyzing module " + mod.getName());
+						final IResource moduleResource = mod.getLocation().getFile();
+						markers.put(moduleResource, internalAnalyzeModule(mod));
+						progress.worked(1);
+					} finally {
+						latch.countDown();
+					}
+				}
+			});
 		}
+
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdownNow();
 
 		return new MarkerHandler(markers);
 	}
