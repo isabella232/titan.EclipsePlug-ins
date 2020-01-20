@@ -197,8 +197,8 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			row3.createCell(0).setCellValue("Lines of code");
 			row3.createCell(1).setCellValue(loc);
 
-			summarySheet.autoSizeColumn(0);
-			summarySheet.autoSizeColumn(1);
+			summarySheet.setColumnWidth(0, 50 * 256);//256 is the character width TODO find named constant
+			summarySheet.setColumnWidth(1, 10 * 256);
 
 			progress.worked(1);
 		} catch (Exception e) {
@@ -276,11 +276,6 @@ public class XlsProblemExporter extends BaseProblemExporter {
 		final Cell cell3 = totalRow.createCell(3);
 		cell3.setCellType(HSSFCell.CELL_TYPE_FORMULA);
 		cell3.setCellFormula("SUM($D4:$D" + summaryRow + ")");
-
-		timeSheet.autoSizeColumn(0);
-		timeSheet.autoSizeColumn(1);
-		timeSheet.autoSizeColumn(2);
-		timeSheet.autoSizeColumn(3);
 	}
 
 	/**
@@ -332,9 +327,6 @@ public class XlsProblemExporter extends BaseProblemExporter {
 
 			++currentRow;
 		}
-
-		sheet.autoSizeColumn(0);
-		sheet.autoSizeColumn(1);
 	}
 
 	/**
@@ -386,9 +378,5 @@ public class XlsProblemExporter extends BaseProblemExporter {
 				break;
 			}
 		}
-
-		sheet.autoSizeColumn(0);
-		sheet.autoSizeColumn(1);
-		sheet.autoSizeColumn(2);
 	}
 }
