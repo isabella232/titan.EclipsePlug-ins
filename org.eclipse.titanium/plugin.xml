@@ -211,10 +211,6 @@
       description="List what is running on this component"
       id="org.eclipse.titanium.commands.ListRunningonDefinitionsCommand" name="List Running on Definitions" />
     <command categoryId="org.eclipse.titanium.commands.Commands"
-      description="Check a module for code smells" id="org.eclipse.titanium.commands.CheckCodeSmellsCommand"
-      defaultHandler="org.eclipse.titanium.actions.CheckCodeSmells"
-      name="Check code smells" />
-    <command categoryId="org.eclipse.titanium.commands.Commands"
       description="Search for graph node" id="org.eclipse.titanium.commands.GraphSearch"
       name="Graph Search">
     </command>
@@ -232,6 +228,9 @@
     <command defaultHandler="org.eclipse.titanium.actions.ComponentGraphAction"
       id="org.eclipse.titanium.actions.ComponentGraphAction" name="GenerateComponentGraph">
     </command>
+    <command defaultHandler="org.eclipse.titanium.actions.CheckCodeSmells"
+      id="org.eclipse.titanium.actions.CheckCodeSmells"
+      name="Check code for code smells" />
     <command defaultHandler="org.eclipse.titanium.actions.ExportProblems"
       id="org.eclipse.titanium.actions.ExportProblems" name="ExportMarkers">
     </command>
@@ -389,6 +388,20 @@
         </command>
         <separator name="marker" visible="true">
         </separator>
+        <command commandId="org.eclipse.titanium.actions.CheckCodeSmells"
+          label="Check code for code smells" mode="FORCE_TEXT">
+          <visibleWhen checkEnabled="false">
+            <with variable="selection">
+              <iterate operator="or">
+                <adapt type="org.eclipse.core.resources.IProject">
+                  <test property="org.eclipse.core.resources.projectNature"
+                    value="org.eclipse.titan.designer.core.TITANNature">
+                  </test>
+                </adapt>
+              </iterate>
+            </with>
+          </visibleWhen>
+        </command>
         <command commandId="org.eclipse.titanium.actions.ExportProblems"
           label="Export problem markers to xls" mode="FORCE_TEXT">
           <visibleWhen checkEnabled="false">
