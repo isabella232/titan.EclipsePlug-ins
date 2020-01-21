@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.parsers.GlobalParser;
-import org.eclipse.titan.designer.parsers.ProjectConfigurationParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titanium.markers.utils.AnalyzerCache;
 
