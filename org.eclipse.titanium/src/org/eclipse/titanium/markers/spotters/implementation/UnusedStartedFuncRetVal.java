@@ -17,9 +17,15 @@ import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Port_Utility;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Start_Component_Statement;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Start_Referenced_Component_Statement;
+import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
@@ -92,6 +98,82 @@ public class UnusedStartedFuncRetVal extends BaseModuleCodeSmellSpotter {
 			default:
 				break;
 			}
+		} else if (node instanceof Start_Referenced_Component_Statement) {
+			final Start_Referenced_Component_Statement s = (Start_Referenced_Component_Statement) node;
+
+			final Value dereferredValue = s.getDereferredValue();
+			if (dereferredValue == null) {
+				return;
+			}
+
+			switch (dereferredValue.getValuetype()) {
+			case EXPRESSION_VALUE:
+				if (Operation_type.REFERS_OPERATION.equals(((Expression_Value) dereferredValue).getOperationType())) {
+					return;
+				}
+				break;
+			case TTCN3_NULL_VALUE:
+			case FAT_NULL_VALUE:
+				return;
+			default:
+				break;
+			}
+
+			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
+			IType type = dereferredValue.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+			if (type != null) {
+				type = type.getTypeRefdLast(timestamp);
+			}
+			if (type == null || type.getIsErroneous(timestamp)) {
+				return;
+			}
+
+			if (!(type instanceof Function_Type)) {
+				return;
+			}
+
+			final Function_Type functionType = (Function_Type) type;
+			if (functionType.isRunsOnSelf()) {
+				return;
+			}
+			if (!functionType.isStartable(timestamp)) {
+				return;
+			}
+
+			final IType returnType = functionType.getReturnType();
+			if (returnType == null) {
+				return;
+			}
+
+			if (functionType.returnsTemplate()) {
+				return;
+			}
+
+			IType lastType = returnType;
+			boolean returnTypeCorrect = false;
+			while (!returnTypeCorrect) {
+				if (lastType.hasDoneAttribute()) {
+					returnTypeCorrect = true;
+					break;
+				}
+				if (lastType instanceof IReferencingType) {
+					final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+					final IType refd = ((IReferencingType) lastType).getTypeRefd(timestamp, refChain);
+					refChain.release();
+					if (lastType != refd) {
+						lastType = refd;
+					} else {
+						break;
+					}
+				} else {
+					break;
+				}
+			}
+
+			if (!returnTypeCorrect) {
+				final String msg = MessageFormat.format(PROBLEM, functionType.getTypename(), returnType.getTypename());
+				problems.report(dereferredValue.getLocation(), msg);
+			}
 		}
 	}
 
@@ -99,6 +181,7 @@ public class UnusedStartedFuncRetVal extends BaseModuleCodeSmellSpotter {
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(1);
 		ret.add(Start_Component_Statement.class);
+		ret.add(Start_Referenced_Component_Statement.class);
 		return ret;
 	}
 }
