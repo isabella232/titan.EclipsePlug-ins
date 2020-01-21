@@ -100,10 +100,10 @@ class Expectation {
 		// analyze the modules, and collect the related markers
 		IProject project = WorkspaceHandlingLibrary.getWorkspace().getRoot().getProject(CustomConfigurable.PROJECT_TO_USE);
 		ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
+		MarkerHandler mh = Analyzer.builder().addProblem(type).build().analyzeProject(new NullProgressMonitor(), project);
 		for (String modName : expectedMarkers.keySet()) {
 			Module mod = parser.getModuleByName(modName);
 			IResource file = mod.getLocation().getFile();
-			MarkerHandler mh = Analyzer.builder().addProblem(type).build().analyzeModule(new NullProgressMonitor(), mod);
 			List<Integer> lines = new ArrayList<Integer>();
 			for (Marker m : mh.get(file)) {
 				if (m.getProblemType() == type && m.getLine() != -1) {
