@@ -129,11 +129,11 @@ public final class UnionGenerator {
 	 * @param hasOptional
 	 *                {@code true} if the type has an optional field.
 	 * @param hasRaw
-	 *                {@code true} it the type has raw attributes.
+	 *                {@code true} if the type has raw attributes.
 	 * @param raw
 	 *                the raw coding related settings if applicable.
 	 * @param hasJson 
-	 *                {@code true} it the type has JSON attributes.
+	 *                {@code true} if the type has JSON attributes.
 	 * @param isAnytypeKind
 	 *                true if anytype kind
 	 * @param jsonAsValue
