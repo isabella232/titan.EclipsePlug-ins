@@ -8,7 +8,6 @@
 package org.eclipse.titanium.markers.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -87,9 +86,7 @@ public class Analyzer {
 
 	private List<Marker> internalAnalyzeModule(final Module module) {
 		final CodeSmellVisitor v = new CodeSmellVisitor();
-//		synchronized (module) {
-			module.accept(v);
-//		}
+		module.accept(v);
 		return v.markers;
 	}
 
@@ -103,38 +100,6 @@ public class Analyzer {
 			markers.addAll(ms);
 		}
 		return markers;
-	}
-
-	/**
-	 * Analyze a single module.
-	 * <p>
-	 * Executes the configured code smell spotters on the given module (and if
-	 * the <code>Analyzer</code> uses project-scoped code smell spotters, then
-	 * those are executed, too, on the project of the module). Locking the
-	 * project to prevent modification of the AST is handled internally.
-	 *
-	 * @param monitor
-	 *            shows progress and makes it interruptable
-	 * @param module
-	 *            the ttcn3 module to analyze
-	 *
-	 * @return the code smells found in the given module
-	 */
-	public MarkerHandler analyzeModule(final IProgressMonitor monitor, final Module module) {
-		final SubMonitor progress = SubMonitor.convert(monitor, 100);
-		final IResource res = module.getLocation().getFile();
-
-		final Map<IResource, List<Marker>> markers = new HashMap<IResource, List<Marker>>();
-		markers.put(res, internalAnalyzeModule(module));
-		progress.worked(80);
-		if (progress.isCanceled()) {
-			throw new OperationCanceledException();
-		}
-
-		final IProject project = module.getProject();
-		markers.put(project, internalAnalyzeProject(project));
-		progress.worked(20);
-		return new MarkerHandler(markers);
 	}
 
 	/**
