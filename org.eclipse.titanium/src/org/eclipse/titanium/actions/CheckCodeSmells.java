@@ -77,9 +77,6 @@ public class CheckCodeSmells extends AbstractHandler {
 		// check projects
 		checkProjects(projects, onTheFlyEnabled, analyzer);
 
-		// check separate files of project
-		checkSeparateFiles(files, onTheFlyEnabled, analyzer);
-
 		return null;
 	}
 
