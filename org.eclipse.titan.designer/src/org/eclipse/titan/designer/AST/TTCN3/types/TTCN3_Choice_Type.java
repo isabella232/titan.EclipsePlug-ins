@@ -55,6 +55,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  * */
 public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	private static final String UNSUPPERTED_FIELDNAME =
@@ -675,10 +676,11 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final IType cfType = compField.getType();
+			final String jsonAlias = cfType.getJsonAttribute() != null ? cfType.getJsonAttribute().alias : null;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source));
+					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, cfType.getJsonValueType());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -803,7 +805,9 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, raw);
+		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, raw, hasJson, false, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {

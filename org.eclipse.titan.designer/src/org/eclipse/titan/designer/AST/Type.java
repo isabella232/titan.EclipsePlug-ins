@@ -88,12 +88,22 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * The Type class is the base class for types.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  * */
 public abstract class Type extends Governor implements IType, IIncrementallyUpdateable, IOutlineElement {
 	private static final String INCOMPATIBLEVALUE = "Incompatible value: `{0}'' was expected";
 	public static final String REFTOVALUEEXPECTED = "Reference to a value was expected instead of {0}";
 	public static final String REFTOVALUEEXPECTED_INSTEADOFCALL = "Reference to a value was expected instead of a call of {0}, which return a template";
 	private static final String TYPECOMPATWARNING = "Type compatibility between `{0}'' and `{1}''";
+
+	public final static int JSON_NONE       = 0x00; // no value type set (default)
+	public final static int JSON_NUMBER     = 0x01; // integer and float
+	public final static int JSON_STRING     = 0x02; // all string types, the objid type, the verdict type and enumerated values
+	public final static int JSON_BOOLEAN    = 0x04; // boolean (true or false)
+	public final static int JSON_OBJECT     = 0x08; // records, sets, unions and the anytype
+	public final static int JSON_ARRAY      = 0x10; // record of, set of and array
+	public final static int JSON_NULL       = 0x20; // ASN.1 null type
+	public final static int JSON_ANY_VALUE  = 0x3F; // unions with the "as value" coding instruction
 
 	/** the parent type of this type */
 	private IType parentType;
@@ -3497,6 +3507,84 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			source.append("\t\treturn result;\n");
 			source.append("\t}\n");
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int getJsonValueType() {
+		final IType t = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final Type_type tt = t.getTypetype();
+		switch(tt) {
+		case TYPE_INTEGER:
+		case TYPE_INTEGER_A:
+			return JSON_NUMBER;
+		case TYPE_REAL:
+			return JSON_NUMBER | JSON_STRING;
+		case TYPE_BOOL:
+			return JSON_BOOLEAN;
+		case TYPE_NULL:
+			return JSON_NULL;
+		case TYPE_BITSTRING:
+		case TYPE_BITSTRING_A:
+		case TYPE_HEXSTRING:
+		case TYPE_OCTETSTRING:
+		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
+		case TYPE_UTF8STRING:
+		case TYPE_NUMERICSTRING:
+		case TYPE_PRINTABLESTRING:
+		case TYPE_TELETEXSTRING:
+		case TYPE_VIDEOTEXSTRING:
+		case TYPE_IA5STRING:
+		case TYPE_GRAPHICSTRING:
+		case TYPE_VISIBLESTRING:
+		case TYPE_GENERALSTRING:  
+		case TYPE_UNIVERSALSTRING:
+		case TYPE_BMPSTRING:
+		case TYPE_VERDICT:
+		case TYPE_TTCN3_ENUMERATED:
+		case TYPE_ASN1_ENUMERATED:
+		case TYPE_OBJECTID:
+		case TYPE_ROID:
+		case TYPE_ANY:
+			return JSON_STRING;
+		case TYPE_TTCN3_SEQUENCE:
+		case TYPE_TTCN3_SET:
+			if (t instanceof TTCN3_Set_Seq_Choice_BaseType) {
+				TTCN3_Set_Seq_Choice_BaseType bt = (TTCN3_Set_Seq_Choice_BaseType)t;
+				if (bt.getNofComponents() > 1) {
+					return JSON_OBJECT;
+				} else {
+					return JSON_ANY_VALUE;
+				}
+			} else {
+				ErrorReporter.INTERNAL_ERROR("getJsonValueType(): invalid TTCN3 set or sequence type " + tt.name());
+			}
+		case TYPE_ASN1_SEQUENCE:
+		case TYPE_ASN1_SET:
+			if (t instanceof ASN1_Set_Seq_Choice_BaseType) {
+				ASN1_Set_Seq_Choice_BaseType bt = (ASN1_Set_Seq_Choice_BaseType)t;
+				if (bt.getNofComponents() > 1) {
+					return JSON_OBJECT;
+				} else {
+					return JSON_ANY_VALUE;
+				}
+			} else {
+				ErrorReporter.INTERNAL_ERROR("getJsonValueType(): invalid ASN1 set or sequence type " + tt.name());
+			}
+		case TYPE_TTCN3_CHOICE:
+		case TYPE_ASN1_CHOICE:
+		case TYPE_ANYTYPE:
+		case TYPE_OPENTYPE:
+			return JSON_ANY_VALUE;
+		case TYPE_SEQUENCE_OF:
+		case TYPE_SET_OF:
+		case TYPE_ARRAY:
+			return JSON_ARRAY | JSON_OBJECT;
+		default:
+			ErrorReporter.INTERNAL_ERROR("getJsonValueType(): invalid field type " + tt.name());
+		}
+		return 0;
 	}
 
 	/**

@@ -671,10 +671,11 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		for ( int i = 0 ; i < components.getNofComps(); i++ ) {
 			final CompField compField = components.getCompByIndex(i);
 			final IType cfType = compField.getType();
+			final String jsonAlias = cfType.getJsonAttribute() != null ? cfType.getJsonAttribute().alias : null;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source));
+					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, cfType.getJsonValueType());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -685,7 +686,10 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW), null);
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
+				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, getGenerateCoderFunctions(MessageEncoding_type.JSON),
+				false, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);

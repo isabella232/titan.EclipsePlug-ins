@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
@@ -31,6 +32,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * @author Arpad Lovassy
  * */
 public final class UnionGenerator {
+
 	/**
 	 * Data structure to store sequence field variable and type names.
 	 * Used for java code generation.
@@ -53,6 +55,10 @@ public final class UnionGenerator {
 
 		private final String mTypeDescriptorName;
 
+		private final String jsonAlias;
+
+		private final int jsonValueType;
+
 		/**
 		 * @param fieldType
 		 *                the string representing the value type of this
@@ -70,13 +76,16 @@ public final class UnionGenerator {
 		 * @param typeDescriptorName
 		 *                the name of the type descriptor.
 		 * */
-		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName, final String displayName, final String typeDescriptorName) {
+		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName, final String displayName,
+						 final String typeDescriptorName, final String jsonAlias, final int jsonValueType) {
 			mJavaTypeName = fieldType;
 			mJavaTemplateName = fieldTemplate;
 			mVarName = fieldName;
 			mJavaVarName = FieldSubReference.getJavaGetterName( mVarName );
 			mDisplayName = displayName;
 			mTypeDescriptorName = typeDescriptorName;
+			this.jsonAlias = jsonAlias;
+			this.jsonValueType = jsonValueType;
 		}
 	}
 
@@ -123,13 +132,19 @@ public final class UnionGenerator {
 	 *                {@code true} it the type has raw attributes.
 	 * @param raw
 	 *                the raw coding related settings if applicable.
+	 * @param hasJson 
+	 *                {@code true} it the type has JSON attributes.
 	 * @param isAnytypeKind
 	 *                true if anytype kind
+	 * @param jsonAsValue
+	 *                true if this type is a field of a union with the "as value" coding instruction
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
-			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw) {
+			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw, boolean hasJson,
+			final boolean isAnytypeKind, final boolean jsonAsValue) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Type");
+		aData.addBuiltinTypeImport("JSON_Tokenizer");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TTCN_Logger");
@@ -145,6 +160,7 @@ public final class UnionGenerator {
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
+		final boolean jsonNeeded = hasJson; //TODO can be forced optionally if needed
 		if (rawNeeded) {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		}
@@ -171,6 +187,13 @@ public final class UnionGenerator {
 		}
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
 		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded, hasRaw, raw);
+		if (jsonNeeded) {
+			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+			aData.addImport("java.util.concurrent.atomic.AtomicReference");
+			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
+			generateValueJsonEncodeDecode(source, genName, displayName, fieldInfos, isAnytypeKind, jsonAsValue);
+		}
+
 		source.append("\t}\n");
 	}
 
@@ -1056,7 +1079,8 @@ public final class UnionGenerator {
 	 * @param raw
 	 *                the raw attributes or null.
 	 * */
-	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean rawNeeded, final boolean hasRaw, final RawASTStruct raw) {
+	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName,
+			final List<FieldInfo> fieldInfos, final boolean rawNeeded, final boolean hasRaw, final RawASTStruct raw) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("\t\t\tswitch (p_coding) {\n");
@@ -1075,6 +1099,17 @@ public final class UnionGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
+		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -1109,6 +1144,19 @@ public final class UnionGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -1487,6 +1535,337 @@ public final class UnionGenerator {
 			source.append("}\n");
 			source.append("clean_up();\n");
 			source.append("return -1;\n");
+			source.append("}\n\n");
+		}
+	}
+
+	/**
+	 * Generate JSON encode/decode
+	 *
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param isAnytypeKind
+	 *                true if anytype kind
+	 * @param jsonAsValue
+	 *                true if this type is a field of a union with the "as value" coding instruction
+	 */
+	private static void generateValueJsonEncodeDecode(final StringBuilder source, final String genName, final String displayName,
+			final List<FieldInfo> fieldInfos, boolean isAnytypeKind, final boolean jsonAsValue) {
+
+		//TODO: implement RT2
+		final boolean use_runtime_2 = false;
+		
+		final String at_field = isAnytypeKind ? "AT_" : "";
+		
+		// JSON encode
+		source.append("\t\t@Override\n");
+		source.append("\t\t/** {@inheritDoc} *"+"/\n");
+		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
+		if ( fieldInfos.size() > 0 ) {
+			if (use_runtime_2) {
+				source.append("\t\t\tif (err_descr) {\n");
+				source.append("\t\t\t\treturn JSON_encode_negtest(err_descr, p_td, p_tok);\n");
+				source.append("\t\t\t}\n");
+			}
+			if (!jsonAsValue) {
+				// 'as value' is not set for the base type, but it might still be set in
+				// the type descriptor
+				source.append("  boolean as_value = null != p_td.json && p_td.json.isAs_value();\n");
+				source.append("  int enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
+			} else {
+				source.append("  int enc_len = 0;\n");
+			}
+			source.append("  switch(union_selection) {\n");
+
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("  case ALT_{0}:\n", fieldInfo.mJavaVarName));
+				if (!jsonAsValue) {
+					source.append("    if (!as_value) {\n");
+					source.append(MessageFormat.format("      enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
+					source.append("    }\n");
+
+				}
+				source.append(MessageFormat.format("    enc_len += get_field_{0}().JSON_encode({1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append("    break;\n");
+			}
+			source.append("  default:\n");
+			source.append(MessageFormat.format("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
+			source.append("    return -1;\n");
+			source.append("  }\n\n");
+
+			if (!jsonAsValue) {
+				source.append("  if (!as_value) {\n");
+				source.append("    enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
+				source.append("  }\n");
+			}
+			source.append("  return enc_len;\n");
+			source.append("}\n\n");
+		}
+		else {
+			source.append("  TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+			source.append(MessageFormat.format("    \"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
+			source.append("  return -1;\n");
+			source.append("}\n\n");   
+		}
+
+		if (use_runtime_2) {
+			// JSON encode for negative testing
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} *"+"/\n");
+			source.append("public int JSON_encode_negtest(final Erroneous_descriptor ed, final TTCN_Typedescriptor td, JSON_Tokenizer jt) {\n");
+			if (fieldInfos.size() > 0) {
+				if (!jsonAsValue) {
+					// 'as value' is not set for the base type, but it might still be set in
+					// the type descriptor
+					source.append("  boolean as_value = null != p_td.json && p_td.json.as_value;\n");
+					source.append("  int enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
+				} else {
+					source.append("  int enc_len = 0;\n\n");
+				}
+				source.append("  const Erroneous_values_t* err_vals = null;\n");
+				source.append("  const Erroneous_descriptor_t* emb_descr = null;\n");
+				source.append("  switch(union_selection) {\n");
+
+				for (int i = 0; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					source.append(MessageFormat.format("  case ALT_{0}:\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("    err_vals = p_err_descr.get_field_err_values({0});\n", i));
+					source.append(MessageFormat.format("    emb_descr = p_err_descr.get_field_emb_descr({0});\n", i));
+					source.append("    if (null != err_vals && null != err_vals.value) {\n");
+					source.append("      if (null != err_vals.value.errval) {\n");
+					source.append("        if(err_vals.value.raw){\n");
+					source.append("          enc_len += err_vals.value.errval.JSON_encode_negtest_raw(p_tok);\n");
+					source.append("        } else {\n");
+					source.append("          if (null == err_vals.value.type_descr) {\n");
+					source.append("            TTCN_error(\"internal error: erroneous value typedescriptor missing\");\n");
+					source.append("          }\n");
+					if (!jsonAsValue) {
+						source.append("          if (!as_value) {\n");
+						source.append(MessageFormat.format("            enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
+						source.append("          }\n");
+					}
+					source.append("          enc_len += err_vals.value.errval.JSON_encode(*err_vals.value.type_descr, p_tok);\n");
+					source.append("        }\n");
+					source.append("      }\n");
+					source.append("    } else {\n");
+					if (!jsonAsValue) {
+						source.append("      if (!as_value) {\n");
+						source.append(MessageFormat.format("        enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
+						source.append("      }\n");
+					}
+					source.append("      if (null != emb_descr) {\n");
+					source.append(MessageFormat.format("        enc_len += get_field_{0}().JSON_encode_negtest(emb_descr, {1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("      } else {\n");
+					source.append(MessageFormat.format("        enc_len += get_field_{0}().JSON_encode({1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("      }\n");
+					source.append("    }\n");
+					source.append("    break;\n");
+				}
+				source.append("  default:\n");
+				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+				source.append(MessageFormat.format("      \"Encoding an unbound value of type {0}.\");\n", displayName));
+				source.append("    return -1;\n");
+				source.append("  }\n\n");
+				if (!jsonAsValue) {
+					source.append("  if (!as_value) {\n");
+					source.append("    enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
+					source.append("}\n");
+				}
+				source.append("  return enc_len;\n");
+				source.append("}\n\n");
+			}
+			else {
+				source.append("  TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+				source.append(MessageFormat.format("    \"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
+				source.append("  return -1;\n");
+				source.append("}\n\n");
+			}
+		}
+
+		// JSON decode
+		source.append("\t\t@Override\n");
+		source.append("\t\t/** {@inheritDoc} *"+"/\n");
+		source.append("public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+		if (fieldInfos.size() > 0) {
+			source.append(MessageFormat.format("  if (0 <= p_chosen_field && {0,number,#} > p_chosen_field) '{'\n", fieldInfos.size()));
+			source.append("    switch (p_chosen_field) {\n");
+
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("    case {0,number,#}:\n", i));
+				source.append(MessageFormat.format("      return get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+			}
+			source.append("    }\n");
+			source.append("  }\n");
+			source.append("  AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+			if (!jsonAsValue) {
+				source.append(" if (null != p_td.json && p_td.json.isAs_value()) {\n");
+			}
+			source.append("  int buf_pos = p_tok.get_buf_pos();\n");
+			source.append("  p_tok.get_next_token(j_token, null, null);\n");
+			source.append("  int ret_val = 0;\n");
+			source.append("  switch(j_token.get()) {\n");
+			source.append("  case JSON_TOKEN_NUMBER: {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				if ((Type.JSON_NUMBER & fieldInfo.jsonValueType) != 0) {
+					source.append("    p_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("    if (0 <= ret_val) {\n");
+					source.append("      return ret_val;\n");
+					source.append("    }\n");
+				}
+			}
+			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"number\");\n");
+			source.append("    clean_up();\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  }\n");
+			source.append("  case JSON_TOKEN_STRING: {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				if ((Type.JSON_STRING & fieldInfo.jsonValueType) != 0) {
+					source.append("    p_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("    if (0 <= ret_val) {\n");
+					source.append("      return ret_val;\n");
+					source.append("    }\n");
+				}
+			}
+			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"string\");\n");
+			source.append("    clean_up();\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  }\n");
+			source.append("  case JSON_TOKEN_LITERAL_TRUE:\n");
+			source.append("  case JSON_TOKEN_LITERAL_FALSE: {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				if ((Type.JSON_BOOLEAN & fieldInfo.jsonValueType) != 0) {
+					source.append("    p_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("    if (0 <= ret_val) {\n");
+					source.append("      return ret_val;\n");
+					source.append("    }\n");
+				}
+			}
+			source.append("    final String literal_str = \"literal (\" + ((json_token_t.JSON_TOKEN_LITERAL_TRUE == j_token.get()) ? \"true\" : \"false\") + \")\";\n");
+			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, literal_str);\n");
+			source.append("    clean_up();\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  }\n");
+			source.append("  case JSON_TOKEN_ARRAY_START: {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				if ((Type.JSON_ARRAY & fieldInfo.jsonValueType) != 0) {
+					source.append("    p_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("    if (0 <= ret_val) {\n");
+					source.append("      return ret_val;\n");
+					source.append("    }\n");
+				}
+			}
+			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"array\");\n");
+			source.append("    clean_up();\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  }\n");
+			source.append("  case JSON_TOKEN_OBJECT_START: {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				if ((Type.JSON_OBJECT & fieldInfo.jsonValueType) != 0) {
+					source.append("    p_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("    if (0 <= ret_val) {\n");
+					source.append("      return ret_val;\n");
+					source.append("    }\n");
+				}
+			}
+			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"object\");\n");
+			source.append("    clean_up();\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  }\n");
+			source.append("  case JSON_TOKEN_LITERAL_NULL: {\n");
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				if ((Type.JSON_NULL & fieldInfo.jsonValueType) != 0) {
+					source.append("    p_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("    if (0 <= ret_val) {\n");
+					source.append("      return ret_val;\n");
+					source.append("    }\n");
+				}
+			}
+			source.append("    clean_up();\n");
+			// the caller might be able to decode the null value if it's an optional field
+			// only return an invalid token error, not a fatal error
+			source.append("    return JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("  }\n");
+			source.append("  case JSON_TOKEN_ERROR:\n");
+			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  default:\n");
+			source.append("    return JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("  }\n");
+			if (!jsonAsValue) {
+				source.append(" }\n");
+				source.append(" else {\n"); // if there is no 'as value' set in the type descriptor
+				source.append("  int dec_len = p_tok.get_next_token(j_token, null, null);\n");
+				source.append("  if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
+				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+				source.append("    return JSON.JSON_ERROR_FATAL;\n");
+				source.append("  }\n");
+				source.append("  else if (json_token_t.JSON_TOKEN_OBJECT_START != j_token.get()) {\n");
+				source.append("    return JSON.JSON_ERROR_INVALID_TOKEN;\n");
+				source.append("  }\n\n");
+				source.append("  StringBuilder fld_name = new StringBuilder();\n");
+				source.append("  AtomicInteger name_len = new AtomicInteger(0);\n");
+				source.append("  dec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
+				source.append("  if (json_token_t.JSON_TOKEN_NAME != j_token.get()) {\n");
+				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
+				source.append("    return JSON.JSON_ERROR_FATAL;\n");
+				source.append("  } else {\n");
+				for (int i = 0; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					final String fieldName = fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName; 
+					source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.toString())) '{'\n",
+							fieldName.length(), fieldName));
+					source.append(MessageFormat.format("      int ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("      if (0 > ret_val) {\n");
+					source.append("        if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
+					source.append(MessageFormat.format("          TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
+							(long) fieldInfo.mDisplayName.length(), fieldInfo.mDisplayName));
+					source.append("        }\n");
+					source.append("        return JSON.JSON_ERROR_FATAL;\n");
+					source.append("      } else {\n");
+					source.append("        dec_len += ret_val;\n");
+					source.append("      }\n");
+					source.append("    } else ");
+				}
+				source.append("{\n");
+				source.append("      TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n");
+				source.append("      return JSON.JSON_ERROR_FATAL;\n");
+				source.append("    }\n");
+				source.append("  }\n\n");
+				source.append("  dec_len += p_tok.get_next_token(j_token, null, null);\n");
+				source.append("  if (json_token_t.JSON_TOKEN_OBJECT_END != j_token.get()) {\n");
+				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_STATIC_OBJECT_END_TOKEN_ERROR, \"\");\n");
+				source.append("    return JSON.JSON_ERROR_FATAL;\n");
+				source.append("  }\n\n");
+				source.append("  return dec_len;\n");
+				source.append(" }\n");
+			}
+			source.append("}\n\n");
+		}
+		else { // no fields
+			source.append("  TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, \n");
+			source.append(MessageFormat.format("    \"Cannot decode union of type {0}, because it has zero alternatives.\");\n", displayName));
+			source.append("  return JSON.JSON_ERROR_FATAL;\n");
 			source.append("}\n\n");
 		}
 	}

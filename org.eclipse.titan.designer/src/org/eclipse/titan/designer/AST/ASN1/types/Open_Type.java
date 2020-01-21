@@ -737,10 +737,11 @@ public final class Open_Type extends ASN1Type {
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
 		for ( final CompField compField : map.values() ) {
 			final IType cfType = compField.getType();
+			final String jsonAlias = cfType.getJsonAttribute() != null ? cfType.getJsonAttribute().alias : null;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source));
+					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, cfType.getJsonValueType());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -754,7 +755,10 @@ public final class Open_Type extends ASN1Type {
 			}
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW), null);
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
+				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, getGenerateCoderFunctions(MessageEncoding_type.JSON),
+				false, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);

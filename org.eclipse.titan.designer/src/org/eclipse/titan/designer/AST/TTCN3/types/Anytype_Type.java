@@ -923,10 +923,11 @@ public final class Anytype_Type extends Type {
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final IType cfType = compField.getType();
+			final String jsonAlias = cfType.getJsonAttribute() != null ? cfType.getJsonAttribute().alias : null; 
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source));
+					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, cfType.getJsonValueType());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -936,8 +937,11 @@ public final class Anytype_Type extends Type {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
 		//FIXME can have raw attributes
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW), null);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
+				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, getGenerateCoderFunctions(MessageEncoding_type.JSON),
+				true, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {

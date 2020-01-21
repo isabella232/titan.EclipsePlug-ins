@@ -1303,4 +1303,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *         expression converting the value.
 	 * */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression);
+
+	/**
+	 * @return the JSON type of the type
+	 */
+	public int getJsonValueType();
 }
