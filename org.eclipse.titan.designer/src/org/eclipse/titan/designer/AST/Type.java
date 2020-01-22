@@ -869,7 +869,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			final AtomicBoolean jsonFound = new AtomicBoolean(false);
 			if (rawAttribute == null) {
 				IType t_refd = this;
-				while (t_refd.getRawAttribute() == null && t_refd instanceof Referenced_Type) {
+				while (!t_refd.getIsErroneous(timestamp) && t_refd.getRawAttribute() == null && t_refd instanceof Referenced_Type) {
 					final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 					t_refd = ((Referenced_Type)t_refd).getTypeRefd(timestamp, referenceChain);
 					referenceChain.release();
@@ -880,7 +880,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 			if (jsonAttribute == null) {
 				IType t_refd = this;
-				while (t_refd.getJsonAttribute() == null && t_refd instanceof Referenced_Type) {
+				while (!t_refd.getIsErroneous(timestamp) && t_refd.getJsonAttribute() == null && t_refd instanceof Referenced_Type) {
 					final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 					t_refd = ((Referenced_Type)t_refd).getTypeRefd(timestamp, referenceChain);
 					referenceChain.release();
