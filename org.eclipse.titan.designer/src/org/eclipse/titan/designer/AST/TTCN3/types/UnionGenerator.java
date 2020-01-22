@@ -1151,7 +1151,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
 		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
 		source.append("\t\t\t\tbreak;\n");
