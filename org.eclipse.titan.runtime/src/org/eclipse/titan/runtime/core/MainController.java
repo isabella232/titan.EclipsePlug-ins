@@ -121,7 +121,7 @@ public class MainController {
 	private static final int MSG_STOP_REQ = 4;
 	private static final int MSG_KILL_REQ = 5;
 	private static final int MSG_IS_RUNNING = 6;
-	private static final int MSG_IS_ALIVE = 7;
+ 	private static final int MSG_IS_ALIVE = 7;
 	private static final int MSG_DONE_REQ = 8;
 	private static final int MSG_KILLED_REQ = 9;
 	private static final int MSG_CANCEL_DONE_ACK = 10;
@@ -393,23 +393,27 @@ public class MainController {
 	private static ComponentStruct system;
 
 	public static void main(final String[] args) {
-		if (args.length != 1) {
+		if (args.length > 1) {
 			//System.out.println("For now only 1 arguments can be passed, the config file.");
 			printUsage();
 			return;
 		}
 
 		printWelcome();
-
+		
+		if(args.length == 1) {
+			
+		}
 		mc_state = mcStateEnum.MC_INACTIVE;
 		final File config_file = new File(args[0]);
 		System.out.println("Using configuration file: "+config_file.getName());
 
 		cfgAnalyzer.set(new CfgAnalyzer());
 
-		//TODO: perhaps TtcnError for not existing file
+		//TODO: TtcnError for not existing file before the analyzer gets the file.
 		final boolean config_file_failure = cfgAnalyzer.get().parse(config_file);
 		if (config_file_failure) {
+			//TODO: Catch TtcnError
 			System.out.println("Error was found in the configuration file. Exiting");
 			//cleanup?
 			return;
@@ -417,6 +421,7 @@ public class MainController {
 
 		//This block is necessary?
 		try {
+			//TODO: handle the leak
 			config_str.set(new Scanner(config_file).useDelimiter("\\Z").next());
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
@@ -524,7 +529,7 @@ public class MainController {
 
 	private static void create_mtc(final Host host) {
 		if (mc_state != mcStateEnum.MC_ACTIVE) {
-			// TODO error
+			// TODO: error, message in MainController::create_mtc
 			return;
 		}
 
@@ -534,7 +539,7 @@ public class MainController {
 		case HC_ACTIVE:
 			break;
 		default:
-			// TODO error
+			// TODO error, message in MainController::create_mtc
 			return;
 		}
 
@@ -626,7 +631,7 @@ public class MainController {
 				process_ptc_created(mtc);
 				break;
 			default:
-				// TODO error
+				// TODO error, message in MainController::handle_unknown_data
 			}
 			if (process_more_messages) {
 				local_incoming_buf.cut_message();
@@ -643,7 +648,7 @@ public class MainController {
 		final String reason = text_buf.pull_string();
 		text_buf.cut_message();
 		if (tc.equals(mtc)) {
-			// TODO error
+			// TODO error, message in MainController::process_error
 		} else {
 			System.out.println(MessageFormat.format("Error message was received from PTC {0} at {1} [{2}]: {3}",
 					tc.comp_ref, tc.comp_location.hostname, tc.comp_location.address, reason));
@@ -654,7 +659,7 @@ public class MainController {
 		final Text_Buf text_buf = incoming_buf.get();
 		final String reason = text_buf.pull_string();
 		text_buf.cut_message();
-		// TODO error
+		// TODO error, message in MainController::process_error
 	}
 
 	private static void connect_ptc() {
@@ -745,7 +750,7 @@ public class MainController {
 				// TODO
 				break;
 			default:
-				// TODO error
+				// TODO error, message in MainController::handle_hc_data
 				error_flag = true;
 			}
 			if (error_flag) {
@@ -950,13 +955,13 @@ public class MainController {
 
 		if (is_hc_in_state(hcStateEnum.HC_IDLE)) {
 			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_HC_CONNECTED;
-			// TODO error
+			// TODO error , message in MainController::check_all_hc_configured
 		} else if (is_hc_in_state(hcStateEnum.HC_ACTIVE) || is_hc_in_state(hcStateEnum.HC_OVERLOADED)) {
 			System.out.println("Configuration file was processed on all HCs.");
 			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_ACTIVE;
 		} else {
 			mc_state = mcStateEnum.MC_LISTENING;
-			//TODO error
+			//TODO error , message in MainController::check_all_hc_configured
 		}
 
 	}
@@ -1075,7 +1080,7 @@ public class MainController {
 		case MC_RECONFIGURING:
 			break;
 		default:
-			//TODO error
+			//TODO error, message in MainController::configure
 			return;
 		}
 
@@ -1095,10 +1100,10 @@ public class MainController {
 
 	private static void configure_mtc() {
 		if (config_str.get() == null) {
-			//TODO error
+			//TODO error, MainController::configure_mtc
 		}
 		if (mtc.tc_state == tcStateEnum.TC_IDLE) {
-			//TODO error
+			//TODO error, MainController::configure_mtc
 		} else {
 			mtc.tc_state = tcStateEnum.MTC_CONFIGURING;
 			send_configure_mtc(config_str.get());
@@ -1119,7 +1124,7 @@ public class MainController {
 		case HC_CONFIGURING:
 		case HC_CONFIGURING_OVERLOADED:
 		case HC_EXITING:
-			//TODO error
+			//TODO error, message in MainController::configure_host
 			break;
 		case HC_DOWN:
 			break;
@@ -1172,7 +1177,7 @@ public class MainController {
 			return;
 		}
 		if (mtc == null || mtc.tc_state != tcStateEnum.TC_INITIAL ) {
-			//TODO error
+			//TODO error, message in MainController::process_mtc_created
 			return;
 		}
 
@@ -1321,7 +1326,7 @@ public class MainController {
 						process_configure_nak_mtc();
 						break;
 					default:
-						// TODO error
+						// TODO error, message in MainController::handle_tc_data
 						close_connection = true;
 					}
 				} else {
@@ -1424,7 +1429,7 @@ public class MainController {
 		case MC_TERMINATING_TESTCASE:
 			return;
 		default:
-			//TODO error
+			//TODO error, message in MainController::component_stopped
 			return;
 		}
 		if (!tc.is_alive) {
@@ -2339,7 +2344,7 @@ public class MainController {
 		case MC_TERMINATING_TESTCASE:
 			return;
 		default:
-			// TODO error
+			// TODO error, message in MainController::component_terminated
 			return;
 		}
 
@@ -2483,7 +2488,7 @@ public class MainController {
 			send_disconnect_ack_to_requestors(conn);
 			break;
 		default:
-			// TODO error
+			// TODO error, message in MainController::destroy_connection
 		}
 		it.remove();
 	}
@@ -2673,7 +2678,7 @@ public class MainController {
 					break;
 				}
 			default:
-				//TODO error
+				//TODO error, message in MainController::check_all_component_stop
 			}
 			if (!ready_for_ack) {
 				break;
@@ -2699,7 +2704,7 @@ public class MainController {
 			case PTC_STALE:
 				break;
 			default:
-				// TODO error
+				// TODO error, message in MainController::check_all_component_kill
 			}
 			if (!ready_for_ack) {
 				break;
@@ -2773,7 +2778,7 @@ public class MainController {
 		case TC_EXITED:
 			return false;
 		default:
-			// TODO error
+			// TODO error, message in MainController::component_is_alive
 			return false;
 		}
 	}
@@ -2811,7 +2816,7 @@ public class MainController {
 		case PTC_KILLING:
 			return false;
 		default:
-			// TODO error
+			// TODO error, message in MainController::component_is_running
 			return false;
 		}
 	}
@@ -2845,7 +2850,7 @@ public class MainController {
 			// the PTC requestor is not interested in the component status anymore
 			break;
 		default:
-			// TODO error
+			// TODO error, message in MainController::send_component_status_to_requestor
 		}
 	}
 
@@ -3140,7 +3145,7 @@ public class MainController {
 			case PTC_STALE:
 				break;
 			default:
-				// TODO error
+				// TODO error, message in MainController::kill_all_components
 			}
 			if (testcase_ends) {
 				tc.done_requestors = new RequestorStruct();
@@ -3219,7 +3224,7 @@ public class MainController {
 				remove_connection(conn);
 				break;
 			default:
-				// TODO error
+				// TODO error, message in MainController::process_disconnected
 			}
 		}
 	}
@@ -3280,7 +3285,7 @@ public class MainController {
 				send_error(tc.comp_location, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot "
 						+ "be destroyed due to an internal error in the MC.", sourceComponent,
 						sourcePort, destinationComponent, destinationPort));
-				// TODO error
+				// TODO error, message in MainController::process_disconnect_req
 			}
 		} else {
 			send_disconnect_ack(tc);
@@ -3434,7 +3439,7 @@ public class MainController {
 				case PTC_STOPPING_KILLING:
 					break;
 				default:
-					// TODO error
+					// TODO error, message in MainController::process_start_req
 				}
 			}
 
@@ -3538,7 +3543,7 @@ public class MainController {
 		case PTC_STOPPING_KILLING:
 			return false;
 		default:
-			// TODO error
+			// TODO error, message in MainController::component_is_done
 			return false;
 		}
 	}
@@ -3852,7 +3857,7 @@ public class MainController {
 				send_error(tc.comp_location, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot "
 						+ "be established due to an internal error in the MC.",
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
-				// TODO error
+				// TODO error, message in MainController::process_connect_req
 			}
 		}
 	}
@@ -4124,7 +4129,7 @@ public class MainController {
 			perform_shutdown();
 			break;
 		default:
-			// TODO error
+			// TODO error, message in MainController::shutdown_session
 		}
 
 	}
@@ -4394,7 +4399,7 @@ public class MainController {
 
 	private static void execute_testcase(final Host hc, final String moduleName, final String testcaseName) {
 		if (mc_state != mcStateEnum.MC_READY) {
-			// TODO error
+			// TODO error, message in MainController::execute_testcase
 			return;
 		}
 		send_execute_testcase(hc, moduleName, testcaseName);
@@ -4412,7 +4417,7 @@ public class MainController {
 
 	private static void execute_control(final Host hc, final String module_name) {
 		if (mc_state != mcStateEnum.MC_READY) {
-			// TODO error
+			// TODO error, message in MainController::execute_control
 			return;
 		}
 		send_execute_control(hc, module_name);
@@ -4497,7 +4502,7 @@ public class MainController {
 			}
 			break;
 		default:
-			// TODO error
+			// TODO error, message in MainController::perform_shutdown
 		}
 	}
 
