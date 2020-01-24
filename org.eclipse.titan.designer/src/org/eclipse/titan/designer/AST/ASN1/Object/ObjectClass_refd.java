@@ -114,8 +114,9 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 		}
 
 		final ObjectClass objectClass = getRefd(timestamp, temporalReferenceChain);
-		referencedLast = null;
-		if (null != objectClass) {
+		if (null == objectClass) {
+			referencedLast = null;
+		} else {
 			referencedLast = objectClass.getRefdLast(timestamp, temporalReferenceChain);
 		}
 
