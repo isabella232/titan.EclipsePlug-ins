@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
+import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -160,7 +161,8 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 
 		final ObjectClass_Definition myClass = myGovernor.getRefdLast(timestamp, null);
 		final Object_Definition refdLast = getRefdLast(timestamp, null);
-		final ObjectClass_Definition refdClass = refdLast.getMyGovernor().getRefdLast(timestamp, null);
+		final ObjectClass refdLastGovernor = refdLast.getMyGovernor();
+		final ObjectClass_Definition refdClass = refdLastGovernor.getRefdLast(timestamp, null);
 		if (myClass != refdClass) {
 			location.reportSemanticError(MessageFormat.format(Referenced_ObjectSet.MISMATCH, myClass.getFullName(),
 					refdClass.getFullName()));
