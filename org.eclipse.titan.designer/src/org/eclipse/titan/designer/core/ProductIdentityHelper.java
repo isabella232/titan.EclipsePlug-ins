@@ -46,7 +46,7 @@ public final class ProductIdentityHelper {
 	 *                if set the possible errors will be reported here.
 	 * @return the new version number, or null if the input is not correct.
 	 * */
-	public static ProductIdentity getProductIdentity(final String versionString, final Location location) {
+	public static synchronized ProductIdentity getProductIdentity(final String versionString, final Location location) {
 		if (versionString == null) {
 			return null;
 		}
