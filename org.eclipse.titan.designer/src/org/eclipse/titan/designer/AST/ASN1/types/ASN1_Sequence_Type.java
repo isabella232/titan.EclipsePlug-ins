@@ -453,7 +453,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 
 		if (referenceChain.add(this)) {
-			for (int i = 0, size = components.getNofComps(); i < size; i++) {
+			for (int i = 0; i < components.getNofComps(); i++) {
 				final CompField field = components.getCompByIndex(i);
 				final IType type = field.getType();
 				if (!field.isOptional() && type != null) {
