@@ -63,7 +63,9 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 */
 	public CallHierarchyAction() {
 		selection 		= TextSelection.emptySelection();
-		targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		if (PlatformUI.isWorkbenchRunning()) {
+			targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		}
 	}
 
 	/**
