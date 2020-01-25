@@ -52,9 +52,9 @@ public final class CTs_EE_CTs extends ASTNode {
 	private CompilationTimeStamp lastTimeChecked;
 
 	//calculated field, holding the component fields in a single list, to easy processing.
-	private final ArrayList<CompField> components = new ArrayList<CompField>();
+	private ArrayList<CompField> components = new ArrayList<CompField>();
 	//calculated field, holding the component fields in hashmap for fast search.
-	private final HashMap<String, CompField> componentsMap = new HashMap<String, CompField>();
+	private HashMap<String, CompField> componentsMap = new HashMap<String, CompField>();
 
 	public CTs_EE_CTs(final ComponentTypeList componentTypeList1, final ExtensionAndException extensionAndException,
 			final ComponentTypeList componentTypeList2) {
@@ -170,8 +170,8 @@ public final class CTs_EE_CTs extends ASTNode {
 
 		lastTimeChecked = timestamp;
 
-		components.clear();
-		componentsMap.clear();
+		ArrayList<CompField> newComponents = new ArrayList<CompField>();
+		HashMap<String, CompField> newComponentsMap = new HashMap<String, CompField>();
 
 		String typeName;
 		String componentName;
@@ -197,13 +197,13 @@ public final class CTs_EE_CTs extends ASTNode {
 
 		for (int i = 0; i < componentTypeList1.getNofComps(); i++) {
 			final CompField componentField = componentTypeList1.getCompByIndex(i);
-			checkComponentField(componentField, typeName, componentName);
+			checkComponentField(newComponents, newComponentsMap, componentField, typeName, componentName);
 		}
 
 		if (null != extensionAndException) {
 			for (int i = 0; i < extensionAndException.getNofComps(); i++) {
 				final CompField componentField = extensionAndException.getCompByIndex(i);
-				checkComponentField(componentField, typeName, componentName);
+				checkComponentField(newComponents, newComponentsMap, componentField, typeName, componentName);
 			}
 
 			final ExceptionSpecification es = extensionAndException.getExceptionSpecification();
@@ -214,10 +214,13 @@ public final class CTs_EE_CTs extends ASTNode {
 
 		for (int i = 0; i < componentTypeList2.getNofComps(); i++) {
 			final CompField componentField = componentTypeList2.getCompByIndex(i);
-			checkComponentField(componentField, typeName, componentName);
+			checkComponentField(newComponents, newComponentsMap, componentField, typeName, componentName);
 		}
 
-		components.trimToSize();
+		newComponents.trimToSize();
+		components = newComponents;
+		componentsMap = newComponentsMap;
+
 		IType type;
 		for (final CompField componentField : components) {
 			type = componentField.getType();
@@ -237,19 +240,20 @@ public final class CTs_EE_CTs extends ASTNode {
 			}
 		}
 	}
+
 	//This function checks only name uniqueness and fill in  structures "componentsMap" and "components"
-	protected void checkComponentField(final CompField componentField, final String typeName, final String componentName) {
+	private void checkComponentField(final ArrayList<CompField> newComponents, final HashMap<String, CompField> newComponentMap, final CompField componentField, final String typeName, final String componentName) {
 		final Identifier identifier = componentField.getIdentifier();
 		final String name = identifier.getName();
-		if (componentsMap.containsKey(name)) {
-			final Location tempLocation = componentsMap.get(name).getIdentifier().getLocation();
+		if (newComponentMap.containsKey(name)) {
+			final Location tempLocation = newComponentMap.get(name).getIdentifier().getLocation();
 			tempLocation.reportSingularSemanticError(MessageFormat.format(DUPLICATECOMPONENTFIRST, componentName,
 					identifier.getDisplayName()));
 			identifier.getLocation().reportSingularSemanticError(
 					MessageFormat.format(DUPLICATECOMPONENTREPEATED, componentName, typeName, identifier.getDisplayName()));
 		} else {
-			componentsMap.put(name, componentField);
-			components.add(componentField);
+			newComponentMap.put(name, componentField);
+			newComponents.add(componentField);
 			if (!identifier.getHasValid(Identifier_type.ID_TTCN)) {
 				identifier.getLocation().reportSingularSemanticWarning(
 						MessageFormat.format(ASN1Assignment.UNREACHABLE, identifier.getDisplayName()));
