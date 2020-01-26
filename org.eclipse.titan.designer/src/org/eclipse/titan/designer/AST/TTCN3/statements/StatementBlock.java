@@ -102,7 +102,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	private Location location = NULL_Location.INSTANCE;
 
-	private final List<Statement> statements;
+	private List<Statement> statements;
 
 	/** The definitions stored in the scope. */
 	private Map<String, Definition> definitionMap;
@@ -335,16 +335,17 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			return;
 		}
 
+		List<Statement> localStatements = new ArrayList<Statement>(this.statements);
 		Statement statement;
 		for (int i = 0, size = newStatements.size(); i < size; i++) {
 			statement = newStatements.get(i);
 
-			final int position = Collections.binarySearch(this.statements, statement, STATEMENT_INSERTION_COMPARATOR);
+			final int position = Collections.binarySearch(localStatements, statement, STATEMENT_INSERTION_COMPARATOR);
 
 			if (position < 0) {
-				this.statements.add((position + 1) * -1, statement);
+				localStatements.add((position + 1) * -1, statement);
 			} else {
-				this.statements.add(position + 1, statement);
+				localStatements.add(position + 1, statement);
 			}
 
 			statement.setMyScope(this);
@@ -352,11 +353,13 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			statement.setMyDefinition(myDefinition);
 		}
 		// refresh indices
-		for (int i = 0, size = this.statements.size(); i < size; i++) {
-			statement = this.statements.get(i);
+		for (int i = 0, size = localStatements.size(); i < size; i++) {
+			statement = localStatements.get(i);
 
 			statement.setMyStatementBlock(this, i);
 		}
+
+		statements = localStatements;
 	}
 
 	/**
@@ -986,7 +989,9 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			removeStuffInRange(reparser);
 		}
 
-		for (final Iterator<Statement> iterator = statements.iterator(); iterator.hasNext();) {
+		final List<Statement> tempList = new ArrayList<Statement>(statements);
+		boolean modified = false;
+		for (final Iterator<Statement> iterator = tempList.iterator(); iterator.hasNext();) {
 			final Statement statement = iterator.next();
 			final Location temporalLocation = statement.getLocation();
 			Location cumulativeLocation;
@@ -1004,6 +1009,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 					if (e.getDepth() == 1) {
 						enveloped = false;
 						iterator.remove();
+						modified = true;
 						reparser.extendDamagedRegion(cumulativeLocation);
 					} else {
 						e.decreaseDepth();
@@ -1011,6 +1017,10 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 					}
 				}
 			}
+		}
+
+		if (modified) {
+			statements = tempList;
 		}
 
 		if (!enveloped) {
@@ -1039,8 +1049,10 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	private void removeStuffInRange(final TTCN3ReparseUpdater reparser) {
-		for (int i = statements.size() - 1; i >= 0; i--) {
-			final Statement statement = statements.get(i);
+		final List<Statement> tempList = new ArrayList<Statement>(statements);
+		boolean modified = false;
+		for (int i = tempList.size() - 1; i >= 0; i--) {
+			final Statement statement = tempList.get(i);
 			Location cumulativeLocation;
 			if(statement instanceof Definition_Statement) {
 				cumulativeLocation = ((Definition_Statement) statement).getDefinition().getCumulativeDefinitionLocation();
@@ -1049,8 +1061,13 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			}
 			if (reparser.isDamaged(cumulativeLocation)) {
 				reparser.extendDamagedRegion(cumulativeLocation);
-				statements.remove(i);
+				tempList.remove(i);
+				modified = true;
 			}
+		}
+
+		if (modified) {
+			statements = tempList;
 		}
 	}
 
