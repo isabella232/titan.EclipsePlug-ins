@@ -42,6 +42,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.CHECKFORLOWMEMORY, true);
 		preferenceStore.setDefault(PreferenceConstants.USEONTHEFLYPARSING, true);
 		preferenceStore.setDefault(PreferenceConstants.USEINCREMENTALPARSING, false);
+		preferenceStore.setDefault(PreferenceConstants.USEPARALLELSEMATICCHECKING, true);
 		preferenceStore.setDefault(PreferenceConstants.DELAYSEMANTICCHECKINGTILLSAVE, true);
 		preferenceStore.setDefault(PreferenceConstants.RECONCILERTIMEOUT, 1);
 		preferenceStore.setDefault(PreferenceConstants.ENABLEREALTIMEEXTENSION, false);

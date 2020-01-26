@@ -32,6 +32,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	private static final String CHECK_MEMORY = "Warn and disable parsing before the system runs out of memory";
 	private static final String ENABLE_PARSING = "Enable parsing of TTCN-3, ASN.1 and Runtime Configuration files";
 	private static final String ENABLE_INCREMENTAL_PARSING = "Enable the incremental parsing of TTCN-3 files (EXPERIMENTAL)";
+	private static final String ENABLE_PARALLEL_CHECKING = "Enable the parallel semantic checking of modules (EXPERIMENTAL)";
 	private static final String DELAY_SEMANTIC_CHECKING = "Delay the on-the-fly semantic check till the file is saved";
 	private static final String RECONCILER_TIMEOUT = "Timeout in seconds before on-the-fly check starts";
 	private static final String ENABLE_REALTIME = "Enable support for the realtime extension";
@@ -40,6 +41,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	private BooleanFieldEditor checkForLowMemory;
 	private BooleanFieldEditor useOnTheFlyParsing;
 	private BooleanFieldEditor useIncrementalParsing;
+	private BooleanFieldEditor useParallelSemanticChecking;
 	private BooleanFieldEditor delaySemanticCheckTillSave;
 	private IntegerFieldEditor reconcilerTimeout;
 	private BooleanFieldEditor enableRealtimeSupport;
@@ -62,6 +64,9 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 
 		useIncrementalParsing = new BooleanFieldEditor(PreferenceConstants.USEINCREMENTALPARSING, ENABLE_INCREMENTAL_PARSING, tempParent);
 		addField(useIncrementalParsing);
+
+		useParallelSemanticChecking = new BooleanFieldEditor(PreferenceConstants.USEPARALLELSEMATICCHECKING, ENABLE_PARALLEL_CHECKING, tempParent);
+		addField(useParallelSemanticChecking);
 
 		composite = new Composite(tempParent, SWT.NONE);
 		final GridLayout compositeLayout = new GridLayout();
@@ -101,6 +106,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		}
 		useOnTheFlyParsing.dispose();
 		useIncrementalParsing.dispose();
+		useParallelSemanticChecking.dispose();
 		delaySemanticCheckTillSave.dispose();
 		reconcilerTimeout.dispose();
 		enableRealtimeSupport.dispose();
