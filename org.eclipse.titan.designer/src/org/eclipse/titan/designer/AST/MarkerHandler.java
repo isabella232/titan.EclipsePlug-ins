@@ -168,7 +168,6 @@ public final class MarkerHandler {
 			}
 
 			Set<Long> markerIdstobeRemoved;
-
 			if (typeSpecificRemovable.containsKey(file)) {
 				markerIdstobeRemoved = typeSpecificRemovable.get(file);
 			} else {
@@ -206,7 +205,6 @@ public final class MarkerHandler {
 			}
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
-
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
 			}
@@ -220,7 +218,6 @@ public final class MarkerHandler {
 			}
 
 			Set<Long> markerIds;
-
 			if (typeSpecificRemovable.containsKey(file)) {
 				markerIds = typeSpecificRemovable.get(file);
 			} else {
@@ -247,9 +244,6 @@ public final class MarkerHandler {
 			return;
 		}
 
-		final List<Long> markersTobeDeleted = new ArrayList<Long>();
-		List<InternalMarker> fileSpecificMarkers = null;
-
 		synchronized (MARKERS) {
 			final Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(markerTypeID);
 
@@ -266,13 +260,12 @@ public final class MarkerHandler {
 				return;
 			}
 
-			fileSpecificMarkers = typeSpecificMarkers.get(file);
-
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 			if (fileSpecificMarkers == null) {
 				return;
 			}
 
-			markersTobeDeleted.addAll(typeSpecificRemovable.get(file));
+			final List<Long> markersTobeDeleted = new ArrayList<Long>(typeSpecificRemovable.get(file));
 
 			typeSpecificRemovable.remove(file);
 
@@ -372,9 +365,8 @@ public final class MarkerHandler {
 	 * */
 	public static void addMarker(final String markerTypeID, final IResource file, final int lineNumber, final int offset, final int endoffset,
 			final long markerId) {
-		Map<IResource, List<InternalMarker>> typeSpecificMarkers;
-
 		synchronized (MARKERS) {
+			Map<IResource, List<InternalMarker>> typeSpecificMarkers;
 			if (MARKERS.containsKey(markerTypeID)) {
 				typeSpecificMarkers = MARKERS.get(markerTypeID);
 			} else {
@@ -422,13 +414,11 @@ public final class MarkerHandler {
 
 		synchronized (MARKERS) {
 			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
-
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return null;
 			}
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
-
 			for (final InternalMarker internalMarker : fileSpecificMarkers) {
 				if (internalMarker.row == lineNumber && internalMarker.offset == offset && internalMarker.endoffset == endoffset) {
 					try {
@@ -464,13 +454,11 @@ public final class MarkerHandler {
 
 		synchronized (MARKERS) {
 			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
-
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return false;
 			}
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
-
 			for (final InternalMarker internalMarker : fileSpecificMarkers) {
 				try {
 					final IMarker externalMarker = file.findMarker(internalMarker.markerID);
@@ -521,13 +509,11 @@ public final class MarkerHandler {
 
 		synchronized (MARKERS) {
 			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
-
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
-
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
 			}
@@ -583,13 +569,11 @@ public final class MarkerHandler {
 
 		synchronized (MARKERS) {
 			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
-
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
-
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
 			}
@@ -660,13 +644,11 @@ public final class MarkerHandler {
 
 		synchronized (MARKERS) {
 			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
-
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
 			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
-
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
 			}
@@ -899,7 +881,6 @@ public final class MarkerHandler {
 	 *
 	 * */
 	public static void reEnableAllSemanticMarkers(final IFile file, final int startOffset, final int endOffset) {
-		//
 		synchronized (MARKERS) {
 			if (!MARKERS_TO_BE_REMOVED.containsKey(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER)) {
 				return;
