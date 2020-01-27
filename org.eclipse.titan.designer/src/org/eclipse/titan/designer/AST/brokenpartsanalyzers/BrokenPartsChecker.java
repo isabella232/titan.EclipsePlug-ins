@@ -78,13 +78,15 @@ public final class BrokenPartsChecker {
 	}
 
 	private void generalChecker() {
+		final List<Module> modulesToCheck = selectionMethod.getModulesToCheck();
+
 		progress.setTaskName("Semantic check");
-		progress.setWorkRemaining(selectionMethod.getModulesToCheck().size());
+		progress.setWorkRemaining(modulesToCheck.size());
 
 		for (final Module module : selectionMethod.getModulesToSkip()) {
 			module.setSkippedFromSemanticChecking(true);
 		}
-		for (final Module module : selectionMethod.getModulesToCheck()) {
+		for (final Module module : modulesToCheck) {
 			module.setSkippedFromSemanticChecking(false);
 		}
 
@@ -112,8 +114,6 @@ public final class BrokenPartsChecker {
 					return t;
 				}
 			});
-
-			final List<Module> modulesToCheck = selectionMethod.getModulesToCheck();
 
 			final List<Module> modulesToCheckCopy = new ArrayList<Module>(modulesToCheck);
 			// iterate until parallel processing is still possible
@@ -173,7 +173,7 @@ public final class BrokenPartsChecker {
 			executor.shutdownNow();
 		}
 
-		for (final Module module : selectionMethod.getModulesToCheck()) {
+		for (final Module module : modulesToCheck) {
 			progress.subTask("Semantically checking module: " + module.getName());
 
 			module.check(compilationCounter);
