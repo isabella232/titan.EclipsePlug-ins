@@ -190,6 +190,7 @@ public final class UnionGenerator {
 		if (jsonNeeded) {
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 			aData.addImport("java.util.concurrent.atomic.AtomicReference");
+			aData.addBuiltinTypeImport("JSON");
 			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
 			generateValueJsonEncodeDecode(source, genName, displayName, fieldInfos, isAnytypeKind, jsonAsValue);
 		}
@@ -1577,42 +1578,42 @@ public final class UnionGenerator {
 			if (!jsonAsValue) {
 				// 'as value' is not set for the base type, but it might still be set in
 				// the type descriptor
-				source.append("  boolean as_value = null != p_td.json && p_td.json.isAs_value();\n");
-				source.append("  int enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
+				source.append("\t\t\tboolean as_value = null != p_td.json && p_td.json.isAs_value();\n");
+				source.append("\t\t\tint enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
 			} else {
-				source.append("  int enc_len = 0;\n");
+				source.append("\t\t\tint enc_len = 0;\n");
 			}
-			source.append("  switch(union_selection) {\n");
+			source.append("\t\t\tswitch(union_selection) {\n");
 
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("  case ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
 				if (!jsonAsValue) {
-					source.append("    if (!as_value) {\n");
-					source.append(MessageFormat.format("      enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
-					source.append("    }\n");
+					source.append("\t\t\t\tif (!as_value) {\n");
+					source.append(MessageFormat.format("\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
+					source.append("\t\t\t\t}\n");
 
 				}
-				source.append(MessageFormat.format("    enc_len += get_field_{0}().JSON_encode({1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-				source.append("    break;\n");
+				source.append(MessageFormat.format("\t\t\t\tenc_len += get_field_{0}().JSON_encode({1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append("\t\t\t\tbreak;\n");
 			}
-			source.append("  default:\n");
-			source.append(MessageFormat.format("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
-			source.append("    return -1;\n");
-			source.append("  }\n\n");
+			source.append("\t\t\tdefault:\n");
+			source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
+			source.append("\t\t\t\treturn -1;\n");
+			source.append("\t\t\t}\n\n");
 
 			if (!jsonAsValue) {
-				source.append("  if (!as_value) {\n");
-				source.append("    enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
-				source.append("  }\n");
+				source.append("\t\t\tif (!as_value) {\n");
+				source.append("\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
+				source.append("\t\t\t}\n");
 			}
-			source.append("  return enc_len;\n");
+			source.append("\t\t\treturn enc_len;\n");
 			source.append("}\n\n");
 		}
 		else {
-			source.append("  TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
-			source.append(MessageFormat.format("    \"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
-			source.append("  return -1;\n");
+			source.append("\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+			source.append(MessageFormat.format("\t\t\t\t\"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
+			source.append("\t\t\treturn -1;\n");
 			source.append("}\n\n");   
 		}
 
@@ -1620,253 +1621,267 @@ public final class UnionGenerator {
 			// JSON encode for negative testing
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} *"+"/\n");
-			source.append("public int JSON_encode_negtest(final Erroneous_descriptor ed, final TTCN_Typedescriptor td, JSON_Tokenizer jt) {\n");
+			source.append("\t\tpublic int JSON_encode_negtest(final Erroneous_descriptor ed, final TTCN_Typedescriptor td, JSON_Tokenizer jt) {\n");
 			if (fieldInfos.size() > 0) {
 				if (!jsonAsValue) {
 					// 'as value' is not set for the base type, but it might still be set in
 					// the type descriptor
-					source.append("  boolean as_value = null != p_td.json && p_td.json.as_value;\n");
-					source.append("  int enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
+					source.append("\t\t\tboolean as_value = null != p_td.json && p_td.json.as_value;\n");
+					source.append("\t\t\tint enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
 				} else {
-					source.append("  int enc_len = 0;\n\n");
+					source.append("\t\t\tint enc_len = 0;\n\n");
 				}
-				source.append("  const Erroneous_values_t* err_vals = null;\n");
-				source.append("  const Erroneous_descriptor_t* emb_descr = null;\n");
-				source.append("  switch(union_selection) {\n");
+				source.append("\t\t\tconst Erroneous_values_t* err_vals = null;\n");
+				source.append("\t\t\tconst Erroneous_descriptor_t* emb_descr = null;\n");
+				source.append("\t\t\tswitch(union_selection) {\n");
 
 				for (int i = 0; i < fieldInfos.size(); i++) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
-					source.append(MessageFormat.format("  case ALT_{0}:\n", fieldInfo.mJavaVarName));
-					source.append(MessageFormat.format("    err_vals = p_err_descr.get_field_err_values({0});\n", i));
-					source.append(MessageFormat.format("    emb_descr = p_err_descr.get_field_emb_descr({0});\n", i));
-					source.append("    if (null != err_vals && null != err_vals.value) {\n");
-					source.append("      if (null != err_vals.value.errval) {\n");
-					source.append("        if(err_vals.value.raw){\n");
-					source.append("          enc_len += err_vals.value.errval.JSON_encode_negtest_raw(p_tok);\n");
-					source.append("        } else {\n");
-					source.append("          if (null == err_vals.value.type_descr) {\n");
-					source.append("            TTCN_error(\"internal error: erroneous value typedescriptor missing\");\n");
-					source.append("          }\n");
+					source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\terr_vals = p_err_descr.get_field_err_values({0});\n", i));
+					source.append(MessageFormat.format("\t\t\t\temb_descr = p_err_descr.get_field_emb_descr({0});\n", i));
+					source.append("\t\t\t\tif (null != err_vals && null != err_vals.value) {\n");
+					source.append("\t\t\t\t\tif (null != err_vals.value.errval) {\n");
+					source.append("\t\t\t\t\t\tif(err_vals.value.raw){\n");
+					source.append("\t\t\t\t\t\t\tenc_len += err_vals.value.errval.JSON_encode_negtest_raw(p_tok);\n");
+					source.append("\t\t\t\t\t\t} else {\n");
+					source.append("\t\t\t\t\t\t\tif (null == err_vals.value.type_descr) {\n");
+					source.append("\t\t\t\t\t\t\t\tTTCN_error(\"internal error: erroneous value typedescriptor missing\");\n");
+					source.append("\t\t\t\t\t\t\t}\n");
 					if (!jsonAsValue) {
-						source.append("          if (!as_value) {\n");
-						source.append(MessageFormat.format("            enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
-						source.append("          }\n");
+						source.append("\t\t\t\t\t\t\tif (!as_value) {\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
+						source.append("\t\t\t\t\t\t\t}\n");
 					}
-					source.append("          enc_len += err_vals.value.errval.JSON_encode(*err_vals.value.type_descr, p_tok);\n");
-					source.append("        }\n");
-					source.append("      }\n");
-					source.append("    } else {\n");
+					source.append("\t\t\t\t\t\t\tenc_len += err_vals.value.errval.JSON_encode(*err_vals.value.type_descr, p_tok);\n");
+					source.append("\t\t\t\t\t\t}\n");
+					source.append("\t\t\t\t\t}\n");
+					source.append("\t\t\t\t} else {\n");
 					if (!jsonAsValue) {
-						source.append("      if (!as_value) {\n");
-						source.append(MessageFormat.format("        enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
-						source.append("      }\n");
+						source.append("\t\t\t\t\tif (!as_value) {\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n", fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName));
+						source.append("\t\t\t\t\t}\n");
 					}
-					source.append("      if (null != emb_descr) {\n");
-					source.append(MessageFormat.format("        enc_len += get_field_{0}().JSON_encode_negtest(emb_descr, {1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("      } else {\n");
-					source.append(MessageFormat.format("        enc_len += get_field_{0}().JSON_encode({1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("      }\n");
-					source.append("    }\n");
-					source.append("    break;\n");
+					source.append("\t\t\t\t\tif (null != emb_descr) {\n");
+					source.append(MessageFormat.format("\t\t\t\t\t\tenc_len += get_field_{0}().JSON_encode_negtest(emb_descr, {1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\t} else {\n");
+					source.append(MessageFormat.format("\t\t\t\t\t\tenc_len += get_field_{0}().JSON_encode({1}_descr_, p_tok);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\t}\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t\tbreak;\n");
 				}
-				source.append("  default:\n");
-				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
-				source.append(MessageFormat.format("      \"Encoding an unbound value of type {0}.\");\n", displayName));
-				source.append("    return -1;\n");
-				source.append("  }\n\n");
+				source.append("\t\t\tdefault:\n");
+				source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+				source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of type {0}.\");\n", displayName));
+				source.append("\t\t\t\treturn -1;\n");
+				source.append("\t\t\t}\n\n");
 				if (!jsonAsValue) {
-					source.append("  if (!as_value) {\n");
-					source.append("    enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
+					source.append("\t\t\tif (!as_value) {\n");
+					source.append("\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
 					source.append("}\n");
 				}
-				source.append("  return enc_len;\n");
+				source.append("\t\t\treturn enc_len;\n");
 				source.append("}\n\n");
 			}
 			else {
-				source.append("  TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
-				source.append(MessageFormat.format("    \"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
-				source.append("  return -1;\n");
-				source.append("}\n\n");
+				source.append("\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+				source.append(MessageFormat.format("\t\t\t\t\"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
+				source.append("\t\t\treturn -1;\n");
+				source.append("\t\t}\n\n");
 			}
 		}
 
 		// JSON decode
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
 		if (fieldInfos.size() > 0) {
-			source.append(MessageFormat.format("  if (0 <= p_chosen_field && {0,number,#} > p_chosen_field) '{'\n", fieldInfos.size()));
-			source.append("    switch (p_chosen_field) {\n");
+			source.append(MessageFormat.format("\t\t\tif (0 <= p_chosen_field && {0,number,#} > p_chosen_field) '{'\n", fieldInfos.size()));
+			source.append("\t\t\t\tswitch (p_chosen_field) {\n");
 
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("    case {0,number,#}:\n", i));
-				source.append(MessageFormat.format("      return get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("\t\t\t\tcase {0,number,#}:\n", i));
+				source.append(MessageFormat.format("\t\t\t\t\treturn get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 			}
-			source.append("    }\n");
-			source.append("  }\n");
-			source.append("  AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tAtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 			if (!jsonAsValue) {
-				source.append(" if (null != p_td.json && p_td.json.isAs_value()) {\n");
+				source.append("\t\t\tif (null != p_td.json && p_td.json.isAs_value()) {\n");
 			}
-			source.append("  int buf_pos = p_tok.get_buf_pos();\n");
-			source.append("  p_tok.get_next_token(j_token, null, null);\n");
-			source.append("  int ret_val = 0;\n");
-			source.append("  switch(j_token.get()) {\n");
-			source.append("  case JSON_TOKEN_NUMBER: {\n");
+			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tp_tok.get_next_token(j_token, null, null);\n");
+			source.append("\t\t\t\tint ret_val = 0;\n");
+			source.append("\t\t\t\tswitch(j_token.get()) {\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_NUMBER: {\n");
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_NUMBER & fieldInfo.jsonValueType) != 0) {
-					source.append("    p_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("    if (0 <= ret_val) {\n");
-					source.append("      return ret_val;\n");
-					source.append("    }\n");
+					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
+					source.append("\t\t\t\t\t\treturn ret_val;\n");
+					source.append("\t\t\t\t\t}\n");
 				}
 			}
-			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"number\");\n");
-			source.append("    clean_up();\n");
-			source.append("    return JSON.JSON_ERROR_FATAL;\n");
-			source.append("  }\n");
-			source.append("  case JSON_TOKEN_STRING: {\n");
+			source.append("\t\t\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"number\");\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_STRING: {\n");
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_STRING & fieldInfo.jsonValueType) != 0) {
-					source.append("    p_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("    if (0 <= ret_val) {\n");
-					source.append("      return ret_val;\n");
-					source.append("    }\n");
+					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
+					source.append("\t\t\t\t\t\treturn ret_val;\n");
+					source.append("\t\t\t\t\t}\n");
 				}
 			}
-			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"string\");\n");
-			source.append("    clean_up();\n");
-			source.append("    return JSON.JSON_ERROR_FATAL;\n");
-			source.append("  }\n");
-			source.append("  case JSON_TOKEN_LITERAL_TRUE:\n");
-			source.append("  case JSON_TOKEN_LITERAL_FALSE: {\n");
+			source.append("\t\t\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"string\");\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_LITERAL_TRUE:\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_LITERAL_FALSE: {\n");
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_BOOLEAN & fieldInfo.jsonValueType) != 0) {
-					source.append("    p_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("    if (0 <= ret_val) {\n");
-					source.append("      return ret_val;\n");
-					source.append("    }\n");
+					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
+					source.append("\t\t\t\t\t\treturn ret_val;\n");
+					source.append("\t\t\t\t\t}\n");
 				}
 			}
-			source.append("    final String literal_str = \"literal (\" + ((json_token_t.JSON_TOKEN_LITERAL_TRUE == j_token.get()) ? \"true\" : \"false\") + \")\";\n");
-			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, literal_str);\n");
-			source.append("    clean_up();\n");
-			source.append("    return JSON.JSON_ERROR_FATAL;\n");
-			source.append("  }\n");
-			source.append("  case JSON_TOKEN_ARRAY_START: {\n");
+			source.append("\t\t\t\t\tfinal String literal_str = \"literal (\" + ((json_token_t.JSON_TOKEN_LITERAL_TRUE == j_token.get()) ? \"true\" : \"false\") + \")\";\n");
+			source.append("\t\t\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, literal_str);\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_ARRAY_START: {\n");
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_ARRAY & fieldInfo.jsonValueType) != 0) {
-					source.append("    p_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("    if (0 <= ret_val) {\n");
-					source.append("      return ret_val;\n");
-					source.append("    }\n");
+					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
+					source.append("\t\t\t\t\t\treturn ret_val;\n");
+					source.append("\t\t\t\t\t}\n");
 				}
 			}
-			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"array\");\n");
-			source.append("    clean_up();\n");
-			source.append("    return JSON.JSON_ERROR_FATAL;\n");
-			source.append("  }\n");
-			source.append("  case JSON_TOKEN_OBJECT_START: {\n");
+			source.append("\t\t\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"array\");\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_OBJECT_START: {\n");
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_OBJECT & fieldInfo.jsonValueType) != 0) {
-					source.append("    p_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("    if (0 <= ret_val) {\n");
-					source.append("      return ret_val;\n");
-					source.append("    }\n");
+					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
+					source.append("\t\t\t\t\t\treturn ret_val;\n");
+					source.append("\t\t\t\t\t}\n");
 				}
 			}
-			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"object\");\n");
-			source.append("    clean_up();\n");
-			source.append("    return JSON.JSON_ERROR_FATAL;\n");
-			source.append("  }\n");
-			source.append("  case JSON_TOKEN_LITERAL_NULL: {\n");
+			source.append("\t\t\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"object\");\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tclean_up();\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_LITERAL_NULL: {\n");
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_NULL & fieldInfo.jsonValueType) != 0) {
-					source.append("    p_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("    ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("    if (0 <= ret_val) {\n");
-					source.append("      return ret_val;\n");
-					source.append("    }\n");
+					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
+					source.append("\t\t\t\t\t\treturn ret_val;\n");
+					source.append("\t\t\t\t\t}\n");
 				}
 			}
-			source.append("    clean_up();\n");
+			source.append("\t\t\t\t\tclean_up();\n");
 			// the caller might be able to decode the null value if it's an optional field
 			// only return an invalid token error, not a fatal error
-			source.append("    return JSON.JSON_ERROR_INVALID_TOKEN;\n");
-			source.append("  }\n");
-			source.append("  case JSON_TOKEN_ERROR:\n");
-			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
-			source.append("    return JSON.JSON_ERROR_FATAL;\n");
-			source.append("  default:\n");
-			source.append("    return JSON.JSON_ERROR_INVALID_TOKEN;\n");
-			source.append("  }\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tcase JSON_TOKEN_ERROR:\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\tdefault:\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("\t\t\t\t}\n");
 			if (!jsonAsValue) {
-				source.append(" }\n");
-				source.append(" else {\n"); // if there is no 'as value' set in the type descriptor
-				source.append("  int dec_len = p_tok.get_next_token(j_token, null, null);\n");
-				source.append("  if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
-				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
-				source.append("    return JSON.JSON_ERROR_FATAL;\n");
-				source.append("  }\n");
-				source.append("  else if (json_token_t.JSON_TOKEN_OBJECT_START != j_token.get()) {\n");
-				source.append("    return JSON.JSON_ERROR_INVALID_TOKEN;\n");
-				source.append("  }\n\n");
-				source.append("  StringBuilder fld_name = new StringBuilder();\n");
-				source.append("  AtomicInteger name_len = new AtomicInteger(0);\n");
-				source.append("  dec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
-				source.append("  if (json_token_t.JSON_TOKEN_NAME != j_token.get()) {\n");
-				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
-				source.append("    return JSON.JSON_ERROR_FATAL;\n");
-				source.append("  } else {\n");
+				source.append("\t\t\t\t}\n");
+				source.append("\t\t\t\telse {\n"); // if there is no 'as value' set in the type descriptor
+				source.append("\t\t\t\tint dec_len = p_tok.get_next_token(j_token, null, null);\n");
+				source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
+				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+				source.append("\t\t\t\t}\n");
+				source.append("\t\t\t\telse if (json_token_t.JSON_TOKEN_OBJECT_START != j_token.get()) {\n");
+				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
+				source.append("\t\t\t\t}\n\n");
+				source.append("\t\t\t\tStringBuilder fld_name = new StringBuilder();\n");
+				source.append("\t\t\t\tAtomicInteger name_len = new AtomicInteger(0);\n");
+				source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
+				source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_NAME != j_token.get()) {\n");
+				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
+				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+				source.append("\t\t\t\t} else {\n");
 				for (int i = 0; i < fieldInfos.size(); i++) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 					final String fieldName = fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName; 
-					source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.toString())) '{'\n",
+					source.append(MessageFormat.format("\t\t\t\t\tif ({0} == name_len.get() && \"{1}\".equals(fld_name.toString())) '{'\n",
 							fieldName.length(), fieldName));
-					source.append(MessageFormat.format("      int ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-					source.append("      if (0 > ret_val) {\n");
-					source.append("        if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
-					source.append(MessageFormat.format("          TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
+					source.append(MessageFormat.format("\t\t\t\t\t\tint ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("\t\t\t\t\t\tif (0 > ret_val) {\n");
+					source.append("\t\t\t\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
+					source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
 							(long) fieldInfo.mDisplayName.length(), fieldInfo.mDisplayName));
-					source.append("        }\n");
-					source.append("        return JSON.JSON_ERROR_FATAL;\n");
-					source.append("      } else {\n");
-					source.append("        dec_len += ret_val;\n");
-					source.append("      }\n");
-					source.append("    } else ");
+					source.append("\t\t\t\t\t\t\t}\n");
+					source.append("\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+					source.append("\t\t\t\t\t\t} else {\n");
+					source.append("\t\t\t\t\t\t\tdec_len += ret_val;\n");
+					source.append("\t\t\t\t\t\t}\n");
+					source.append("\t\t\t\t\t} else ");
 				}
 				source.append("{\n");
-				source.append("      TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n");
-				source.append("      return JSON.JSON_ERROR_FATAL;\n");
-				source.append("    }\n");
-				source.append("  }\n\n");
-				source.append("  dec_len += p_tok.get_next_token(j_token, null, null);\n");
-				source.append("  if (json_token_t.JSON_TOKEN_OBJECT_END != j_token.get()) {\n");
-				source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_STATIC_OBJECT_END_TOKEN_ERROR, \"\");\n");
-				source.append("    return JSON.JSON_ERROR_FATAL;\n");
-				source.append("  }\n\n");
-				source.append("  return dec_len;\n");
-				source.append(" }\n");
+				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n");
+				source.append("\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+				source.append("\t\t\t\t\t}\n");
+				source.append("\t\t\t\t}\n\n");
+				source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, null, null);\n");
+				source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_OBJECT_END != j_token.get()) {\n");
+				source.append("\t\t\t\t\tif (!p_silent) {\n");
+				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_STATIC_OBJECT_END_TOKEN_ERROR, \"\");\n");
+				source.append("\t\t\t\t\t}\n");
+				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+				source.append("\t\t\t\t}\n\n");
+				source.append("\t\t\t\treturn dec_len;\n");
+				source.append("\t\t\t}\n");
 			}
-			source.append("}\n\n");
+			source.append("\t\t}\n\n");
 		}
 		else { // no fields
-			source.append("  TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, \n");
-			source.append(MessageFormat.format("    \"Cannot decode union of type {0}, because it has zero alternatives.\");\n", displayName));
-			source.append("  return JSON.JSON_ERROR_FATAL;\n");
-			source.append("}\n\n");
+			source.append("\t\t\tif (!p_silent) {\n");
+			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, \n");
+			source.append(MessageFormat.format("\t\t\t\t\"Cannot decode union of type {0}, because it has zero alternatives.\");\n", displayName));
+			source.append("\t\t\t}\n");
+			source.append("\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t}\n\n");
 		}
 	}
 
