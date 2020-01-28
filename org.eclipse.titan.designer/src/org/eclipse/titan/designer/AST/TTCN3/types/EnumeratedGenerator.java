@@ -588,6 +588,7 @@ public final class EnumeratedGenerator {
 		if (jsonNeeded) {
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 			aData.addImport("java.util.concurrent.atomic.AtomicReference");
+			aData.addBuiltinTypeImport("JSON");
 			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
 
 			// JSON encode
