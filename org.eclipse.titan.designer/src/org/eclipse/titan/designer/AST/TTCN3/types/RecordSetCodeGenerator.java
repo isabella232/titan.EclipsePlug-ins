@@ -54,8 +54,10 @@ public final class RecordSetCodeGenerator {
 		/** The user readable name of the field, typically used in error messages */
 		private final String mDisplayName;
 
+		/** {@code true} if the field is optional */
 		private final boolean isOptional;
 
+		/** {@code true} if the field is recordof/setof */
 		private final boolean ofType;
 
 		/** Field variable name in java getter/setter function names and parameters */
@@ -69,6 +71,48 @@ public final class RecordSetCodeGenerator {
 		public boolean hasRaw;
 		public RawASTStruct raw;
 
+		/**
+		 * If set, encodes unbound fields of records and sets as null and inserts a
+		 * meta info field into the JSON object specifying that the field is unbound.
+		 * The decoder sets the field to unbound if the meta info field is present and
+		 * the field's value in the JSON code is either null or a valid value for that
+		 * field.
+		 * Example: { "field1" : null, "metainfo field1" : "unbound" }
+		 *
+		 * Also usable on record of/set of/array types to indicate that an element is
+		 * unbound. Unbound elements are encoded as a JSON object containing one
+		 * metainfo member. The decoder sets the element to unbound if the object
+		 * with the meta information is found.
+		 * Example: [ value1, value2, { "metainfo []" : "unbound" }, value3 ]
+		 */
+		public final boolean jsonMetainfoUnbound;
+
+		/**
+		 * Decoding only.
+		 * Fields that don't appear in the JSON code will decode this value instead.
+		 */
+		public final String jsonDefaultValue;
+
+		public final List<rawAST_coding_taglist> jsonChosen;
+
+		/**
+		 * An alias for the name of the field (in a record, set or union). 
+		 * Encoding: this alias will appear instead of the name of the field
+		 * Decoding: the decoder will look for this alias instead of the field's real name
+		 */
+		public final String jsonAlias;
+
+		/**
+		 * Encoding only.
+		 * true  : use the null literal to encode omitted fields in records or sets
+		 *         example: { "field1" : value1, "field2" : null, "field3" : value3 } 
+		 * false : skip both the field name and the value if a field is omitted
+		 *         example: { "field1" : value1, "field3" : value3 }
+		 * The decoder will always accept both variants.
+		 */
+		public final boolean jsonOmitAsNull;
+
+		//TODO: comment JSON params
 		/**
 		 * @param fieldType
 		 *                the string representing the type of this field
@@ -84,14 +128,24 @@ public final class RecordSetCodeGenerator {
 		 *                used in error messages
 		 * @param isOptional
 		 *                {@code true} if the field is optional.
+		 * @param ofType
+		 *                {@code true} if the field is recordof/setof
 		 * @param debugName
 		 *                additional text printed out in a comment after
 		 *                the generated local variables.
 		 * @param typeDescriptorName
 		 *                the name of the type descriptor.
+		 * @param jsonMetainfoUnbound
+		 * @param jsonDefaultValue
+		 * @param jsonChosen
+		 * @param jsonAlias
+		 * @param jsonOmitAsNull
 		 * */
 		public FieldInfo( final String fieldType, final String fieldTemplateType, final String fieldName,
-						  final String displayName, final boolean isOptional, final boolean ofType, final String debugName, final String typeDescriptorName) {
+						  final String displayName, final boolean isOptional, final boolean ofType,
+						  final String debugName, final String typeDescriptorName,
+						  final boolean jsonMetainfoUnbound, final String jsonDefaultValue,
+						  final List<rawAST_coding_taglist> jsonChosen, final String jsonAlias, final boolean jsonOmitAsNull) {
 			mJavaTypeName = fieldType;
 			mJavaTemplateTypeName = fieldTemplateType;
 			mVarName = fieldName;
@@ -101,6 +155,11 @@ public final class RecordSetCodeGenerator {
 			this.ofType = ofType;
 			mTTCN3TypeName = debugName;
 			mTypeDescriptorName = typeDescriptorName;
+			this.jsonMetainfoUnbound = jsonMetainfoUnbound;
+			this.jsonDefaultValue = jsonDefaultValue;
+			this.jsonChosen = jsonChosen;
+			this.jsonAlias = jsonAlias;
+			this.jsonOmitAsNull = jsonOmitAsNull;
 		}
 	}
 
@@ -128,6 +187,7 @@ public final class RecordSetCodeGenerator {
 		// private to disable instantiation
 	}
 
+	//TODO: comment JSON params
 	/**
 	 * This function can be used to generate the value class of record and
 	 * set types
@@ -156,8 +216,10 @@ public final class RecordSetCodeGenerator {
 	 *                the raw coding related settings if applicable.
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
-			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw) {
+			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw,
+			final boolean hasJson, final boolean jsonAsValue, final boolean jsonAsMapPossible) {
 		aData.addBuiltinTypeImport("Base_Type");
+		aData.addBuiltinTypeImport("JSON_Tokenizer");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("TTCN_Logger");
@@ -178,6 +240,11 @@ public final class RecordSetCodeGenerator {
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
 		if (rawNeeded) {
+			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
+		}
+
+		final boolean jsonNeeded = hasJson; //TODO can be forced optionally if needed
+		if (jsonNeeded) {
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		}
 
@@ -209,6 +276,13 @@ public final class RecordSetCodeGenerator {
 		generateValueSetImplicitOmit(source, fieldInfos);
 		generateValueEncodeDecodeText(source, fieldInfos);
 		generateValueEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
+		if (jsonNeeded) {
+			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+			aData.addImport("java.util.concurrent.atomic.AtomicReference");
+			aData.addBuiltinTypeImport("JSON");
+			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
+			generateValueJsonEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, jsonAsValue, jsonAsMapPossible);
+		}
 
 		source.append( "\t}\n\n" );
 	}
@@ -826,6 +900,17 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
+		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -870,6 +955,19 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -1754,6 +1852,370 @@ public final class RecordSetCodeGenerator {
 
 			source.append("}\n\n");
 		}
+	}
+	/**
+	 * Generate encode/decode
+	 *
+	 * @param aData
+	 *                used to access build settings.
+	 * @param source
+	 *                where the source code is to be generated.
+	 * @param genName
+	 *                the name of the generated class representing the
+	 *                union/choice type.
+	 * @param displayName
+	 *                the user readable name of the type to be generated.
+	 * @param fieldInfos
+	 *                the list of information about the fields.
+	 * @param isSet
+	 *                {@code true} if a set, {@code false} if a record
+	 * @param jsonAsValue
+	 *                true if this type is a field with the "as value" coding instruction
+	 * @param jsonAsMapPossible
+	 *                true if this type is a field with the "as map" coding instruction
+	 * */
+	private static void generateValueJsonEncodeDecode(final JavaGenData aData, final StringBuilder source, final String genName,
+			final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet,
+			final boolean jsonAsValue, final boolean jsonAsMapPossible) {
+		// JSON encode, RT1
+		source.append("\t\t@Override\n");
+		source.append("\t\t/** {@inheritDoc} *"+"/\n");
+		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {\n");
+		source.append("\t\t\tif (!is_bound()) {\n");
+		source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
+		source.append("\t\t\t\treturn -1;\n");
+		source.append("\t\t\t}\n\n");
+		if (fieldInfos.size() == 1) {
+			if (!jsonAsValue) {
+				source.append("\t\t\tif (null != p_td.json && p_td.json.as_value) {\n");
+			}
+			source.append(MessageFormat.format("\t\t{0}return field_{1}.JSON_encode({2}_descr_, p_tok);\n",
+					jsonAsValue ? "" : "\t", fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
+			if (!jsonAsValue) {
+				source.append("\t\t\t}\n");
+			}
+		}
+		if (jsonAsMapPossible) {
+			source.append("\t\t\tif (p_td.json.as_map) {\n");
+			source.append("\t\t\t\tTTCN_Buffer key_buf;\n");
+			source.append(MessageFormat.format("\t\t\t\tfield_{0}.encode_utf8(key_buf);\n", fieldInfos.get(0).mJavaVarName));
+			source.append("\t\t\t\tTitanCharString key_str = new TitanCharString();\n");
+			source.append("\t\t\t\tkey_buf.get_string(key_str);\n");
+			source.append("\t\t\t\treturn p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, key_str) + ");
+			source.append(MessageFormat.format("get_field_{0}().JSON_encode({1}_descr_, p_tok);\n",
+					fieldInfos.get(1).mJavaVarName, fieldInfos.get(1).mTypeDescriptorName));
+			source.append("\t\t\t}\n");
+		}
+		if (!jsonAsValue) {
+			source.append("\t\t\tint enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n\n");
+			for (int i = 0; i < fieldInfos.size(); ++i) {
+				if (fieldInfos.get(i).isOptional && !fieldInfos.get(i).jsonOmitAsNull && !fieldInfos.get(i).jsonMetainfoUnbound) {
+					source.append(MessageFormat.format("\t\t\tif (get_field_{0}().is_present())\n", fieldInfos.get(i).mJavaVarName));
+				}
+				source.append("\t\t\t{\n");
+				source.append(MessageFormat.format("\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"{0}\");\n\t\t\t\t",
+						fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias : fieldInfos.get(i).mDisplayName));
+				if (fieldInfos.get(i).jsonMetainfoUnbound) {
+					source.append(MessageFormat.format("if (!field_{0}.is_bound()) '{'\n", fieldInfos.get(i).mJavaVarName));
+					source.append("\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_LITERAL_NULL);\n");
+					source.append(MessageFormat.format("\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"metainfo {0}\");\n",
+							fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias : fieldInfos.get(i).mDisplayName));
+					source.append("\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, \"\\\"unbound\\\"\");\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t\telse ");
+				}
+				source.append(MessageFormat.format("enc_len += get_field_{0}().JSON_encode({1}_descr_, p_tok);\n", fieldInfos.get(i).mJavaVarName, fieldInfos.get(i).mTypeDescriptorName));
+				source.append("\t\t\t}\n\n");
+			}
+			source.append("\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
+			source.append("\t\t\treturn enc_len;\n");
+		}
+		source.append("\t\t}\n\n");
+
+		// JSON decode, RT1
+		source.append("\t\t@Override\n");
+		source.append("\t\t/** {@inheritDoc} *"+"/\n");
+		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+
+		if (fieldInfos.size() == 1) {
+			if (!jsonAsValue) {
+				source.append("\t\t\tif (null != p_td.json && p_td.json.as_value) {\n");
+			}
+			source.append(MessageFormat.format("\t\t\t{0}return get_field_{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n",
+					jsonAsValue ? "" : "\t", fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
+			if (!jsonAsValue) {
+				source.append("\t\t\t}\n");
+			}
+		}
+		if (!jsonAsValue) {
+			source.append("\t\t\tAtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+		}
+		if (jsonAsMapPossible) {
+			source.append("\t\t\tif (p_td.json.as_map) {\n");
+			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
+			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
+			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tint dec_len = p_tok.get_next_token(j_token, fld_name, name_len);\n");
+			source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
+			source.append("\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\telse if (json_token_t.JSON_TOKEN_NAME != j_token.get()) {\n");
+			source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("\t\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_utf8(name_len, fld_name);\n", fieldInfos.get(0).mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\treturn get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent) + dec_len;\n",
+					fieldInfos.get(1).mJavaVarName, fieldInfos.get(1).mTypeDescriptorName));
+			source.append("\t\t\t}\n");
+		}
+		if (!jsonAsValue) {
+			source.append("\t\t\tint dec_len = p_tok.get_next_token(j_token, null, null);\n");
+			source.append("\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
+			source.append("\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\telse if (json_token_t.JSON_TOKEN_OBJECT_START != j_token.get()) {\n");
+			source.append("\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("\t\t\t}\n");
+
+			boolean has_metainfo_enabled = false;
+			for (int i = 0; i < fieldInfos.size(); ++i) {
+				if (fieldInfos.get(i).jsonDefaultValue != null) {
+					// initialize fields with their default values (they will be overwritten
+					// later, if the JSON document contains data for these fields)
+					source.append(MessageFormat.format("\t\t\tget_field_{0}().JSON_decode({1}_descr_, DUMMY_BUFFER, p_silent);\n", fieldInfos.get(i).mJavaVarName, fieldInfos.get(i).mTypeDescriptorName));
+				}
+				else {
+					source.append(MessageFormat.format("\t\t\tboolean {0}_found = false;\n", fieldInfos.get(i).mJavaVarName));
+				}
+				if (fieldInfos.get(i).jsonMetainfoUnbound) {
+					// initialize meta info states
+					source.append(MessageFormat.format("\t\t\tint metainfo_{0} = JSON_METAINFO_NONE;\n", fieldInfos.get(i).mJavaVarName));
+					has_metainfo_enabled = true;
+				}
+			}
+			// Read name - value token pairs until we reach some other token
+			source.append("\n\t\t\twhile (true) {\n");
+			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
+			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
+			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
+			source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
+			source.append("\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
+			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t}\n");
+			// undo the last action on the buffer
+			source.append("\t\t\t\telse if (json_token_t.JSON_TOKEN_NAME != j_token.get()) {\n");
+			source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+			source.append("\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\telse {\n\t\t\t\t\t");
+			if (has_metainfo_enabled) {
+				// check for meta info
+				source.append("boolean is_metainfo = false;\n");
+				source.append("\t\t\t\t\tif (name_len > 9 && \"metainfo \".equals(fld_name.toString())) {\n");
+				source.append("\t\t\t\t\t\tfld_name += 9;\n");
+				source.append("\t\t\t\t\t\tname_len -= 9;\n");
+				source.append("\t\t\t\t\t\tis_metainfo = true;\n");
+				source.append("\t\t\t\t\t}\n\t\t\t\t\t");
+			}
+			for (int i = 0; i < fieldInfos.size(); ++i) {
+				// check field name
+				source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.toString())) '{'\n",
+						fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias.length() : fieldInfos.get(i).mDisplayName.length(),
+						fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias : fieldInfos.get(i).mDisplayName));
+				if (fieldInfos.get(i).jsonDefaultValue == null) {
+					source.append(MessageFormat.format("\t\t\t\t\t\t{0}_found = true;\n", fieldInfos.get(i).mJavaVarName));
+				}
+				if (has_metainfo_enabled) {
+					source.append("\t\t\t\t\t\tif (is_metainfo) {\n");
+					if (fieldInfos.get(i).jsonMetainfoUnbound) {
+						// check meta info
+						source.append("\t\t\t\t\t\t\tString info_value = null;\n");
+						source.append("\t\t\t\t\t\t\tint info_len = 0;\n");
+						source.append("\t\t\t\t\t\t\tdec_len += p_tok.get_next_token(j_token, info_value, info_len);\n");
+						source.append("\t\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_STRING == j_token && 9 == info_len && \"\\\"unbound\\\"\".equals(info_value)) {\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\t\t\tmetainfo_{0} = JSON_METAINFO_UNBOUND;\n", fieldInfos.get(i).mJavaVarName));
+						source.append("\t\t\t\t\t\t\t}\n");
+						source.append("\t\t\t\t\t\t\telse {\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_METAINFO_VALUE_ERROR, \"{0}\");\n", fieldInfos.get(i).mDisplayName));
+						source.append("\t\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+						source.append("\t\t\t\t\t\t\t}\n");
+					}
+					else {
+						source.append(MessageFormat.format("\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_METAINFO_NOT_APPLICABLE, \"{0}\");\n", fieldInfos.get(i).mDisplayName));
+						source.append("\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+					}
+					source.append("\t\t\t\t\t\t}\n");
+					source.append("\t\t\t\t\t\telse {\n");
+					if (fieldInfos.get(i).jsonMetainfoUnbound) {
+						source.append("\t\t\t\t\t\t\tbuf_pos = p_tok.get_buf_pos();\n");
+					}
+				}
+				if (fieldInfos.get(i).jsonChosen != null) {
+					/* field index of the otherwise rule */
+					String otherwise_str = null;
+					boolean first_value = true;
+					source.append("\t\t\t\t\t\t\tint chosen_field = CHOSEN_FIELD_UNSET;\n");
+					int j;
+					for (j = 0; j < fieldInfos.get(i).jsonChosen.size(); j++) {
+						rawAST_coding_taglist cur_choice =	fieldInfos.get(i).jsonChosen.get(j);
+						if (cur_choice.fields.size() > 0) {
+							/* this is a normal rule */
+							if (first_value) {
+								source.append("\t\t\t\t\t\t\tif (");
+								first_value = false;
+							}
+							else {
+								source.append("\t\t\t\t\t\t\telse if (");
+							}
+							genRawFieldChecker(source, cur_choice, true);
+							/* set chosen_field in the if's body */
+							source.append(") {\n");
+							source.append("\t\t\t\t\t\t\t\tchosen_field = ");
+							if (cur_choice.fieldnum != -2) {
+								source.append(cur_choice.fieldnum);
+							} else {
+								source.append("CHOSEN_FIELD_OMITTED");
+							}
+							source.append(";\n");
+							source.append("\t\t\t\t\t\t\t}\n");
+						}
+						else {
+							/* this is an otherwise rule */
+							otherwise_str = cur_choice.fieldnum != -2 ?	"" + cur_choice.fieldnum : "CHOSEN_FIELD_OMITTED";
+						}
+					}
+					if (otherwise_str != null) {
+						/* set chosen_field to the field index of the otherwise rule or -1 */
+						source.append("\t\t\t\t\t\t\telse {\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\t\t\tchosen_field = {0};\n", otherwise_str));
+						source.append("\t\t\t\t\t\t\t}\n");
+					}
+				}
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tint ret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent{2});\n",
+					fieldInfos.get(i).mJavaVarName, fieldInfos.get(i).mTypeDescriptorName,
+					fieldInfos.get(i).jsonChosen != null ? ", chosen_field" : ""));
+				source.append("\t\t\t\t\t\t\tif (0 > ret_val) {\n");
+				source.append("\t\t\t\t\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
+				if (fieldInfos.get(i).jsonMetainfoUnbound) {
+					// undo the last action on the buffer, check if the invalid token was a null token 
+					source.append("\t\t\t\t\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+					source.append("\t\t\t\t\t\t\t\t\tp_tok.get_next_token(j_token, null, null);\n");
+					source.append("\t\t\t\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_LITERAL_NULL == j_token.get()) {\n");
+					source.append(MessageFormat.format("\t\t\t\t\t\t\t\t\t\tif (JSON_METAINFO_NONE == metainfo_{0}) '{'\n", fieldInfos.get(i).mDisplayName));
+					// delay reporting an error for now, there might be meta info later
+					source.append(MessageFormat.format("\t\t\t\t\t\t\t\t\t\t\tmetainfo_{0} = JSON_METAINFO_NEEDED;\n", fieldInfos.get(i).mDisplayName));
+					source.append("\t\t\t\t\t\t\t\t\t\t\tcontinue;\n");
+					source.append("\t\t\t\t\t\t\t\t\t\t}\n");
+					source.append(MessageFormat.format("\t\t\t\t\t\t\t\t\t\telse if (JSON_METAINFO_UNBOUND == metainfo_{0}) '{'\n", fieldInfos.get(i).mDisplayName));
+					// meta info already found
+					source.append("\t\t\t\t\t\t\t\t\t\t\tcontinue;\n");
+					source.append("\t\t\t\t\t\t\t\t\t\t}\n");
+					source.append("\t\t\t\t\t\t\t\t\t}\n");
+				}
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n", fieldInfos.get(i).mDisplayName.length(), fieldInfos.get(i).mDisplayName));
+				source.append("\t\t\t\t\t\t\t\t}\n");
+				source.append("\t\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+				source.append("\t\t\t\t\t\t\t}\n");
+				source.append("\t\t\t\t\t\t\tdec_len += ret_val;\n");
+				if (has_metainfo_enabled) {
+					source.append("\t\t\t\t\t\t}\n");
+				}
+				source.append("\t\t\t\t\t}\n");
+				source.append("\t\t\t\t\telse ");
+			}
+			source.append("{\n");
+			// invalid field name
+			source.append(MessageFormat.format("\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, {0}JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n",
+					has_metainfo_enabled ? "is_metainfo ? JSON.JSON_DEC_METAINFO_NAME_ERROR : " : ""));
+			// if this is set to a warning, skip the value of the field
+			source.append("\t\t\t\t\t\tdec_len += p_tok.get_next_token(j_token, null, null);\n");
+			source.append("\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_NUMBER != j_token.get() && json_token_t.JSON_TOKEN_STRING != j_token.get() &&\n");
+			source.append("\t\t\t\t\t\t\t\tjson_token_t.JSON_TOKEN_LITERAL_TRUE != j_token.get() && json_token_t.JSON_TOKEN_LITERAL_FALSE != j_token.get() &&\n");
+			source.append("\t\t\t\t\t\t\t\tjson_token_t.JSON_TOKEN_LITERAL_NULL != j_token.get()) {\n");
+			source.append("\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, name_len, fld_name);\n");
+			source.append("\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t}\n\n");
+			source.append("\t\t\tdec_len += p_tok.get_next_token(j_token, null, null);\n");
+			source.append("\t\t\tif (json_token_t.JSON_TOKEN_OBJECT_END != j_token.get()) {\n");
+			source.append("\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_OBJECT_END_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+			source.append("\t\t\t}\n\n\t\t\t");
+			// Check if every field has been set and handle meta info
+			for (int i = 0; i < fieldInfos.size(); ++i) {
+				if (fieldInfos.get(i).jsonMetainfoUnbound) {
+					source.append(MessageFormat.format("if (JSON_METAINFO_UNBOUND == metainfo_{0}) '{'\n", fieldInfos.get(i).mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\tget_field_{0}().clean_up();\n", fieldInfos.get(i).mJavaVarName));
+					source.append("\t\t\t}\n");
+					source.append(MessageFormat.format("\t\t\telse if (JSON_METAINFO_NEEDED == metainfo_{0}) '{'\n", fieldInfos.get(i).mJavaVarName));
+					// no meta info was found for this field, report the delayed error
+					source.append(MessageFormat.format("\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
+							fieldInfos.get(i).mDisplayName.length(), fieldInfos.get(i).mDisplayName));
+					source.append("\t\t\t}\n");
+					source.append("\t\t\telse ");
+				}
+				if (fieldInfos.get(i).jsonDefaultValue == null) {
+					source.append(MessageFormat.format("if (!{0}_found) '{'\n", fieldInfos.get(i).mJavaVarName));
+					if (fieldInfos.get(i).isOptional) {
+						// if the conditions in attribute 'choice' indicate that this field is
+						// mandatory, then display an error
+						if (fieldInfos.get(i).jsonChosen != null) {
+							int j;
+							boolean has_otherwise = false;
+							boolean omit_otherwise = false;
+							for (j = 0; j < fieldInfos.get(i).jsonChosen.size(); j++) {
+								if (fieldInfos.get(i).jsonChosen.get(j).fields.size() == 0) {
+									has_otherwise = true;
+									if (fieldInfos.get(i).jsonChosen.get(j).fieldnum == -2) {
+										omit_otherwise = true;
+									}
+									break;
+								}
+							}
+							boolean first_found = false;
+							for (j = 0; j < fieldInfos.get(i).jsonChosen.size(); j++) {
+								if (((!has_otherwise || omit_otherwise) && fieldInfos.get(i).jsonChosen.get(j).fieldnum != -2) ||
+										(has_otherwise && !omit_otherwise && fieldInfos.get(i).jsonChosen.get(j).fieldnum == -2)) {
+									if (!first_found) {
+										source.append("\t\t\t\tif (");
+										first_found = true;
+									}
+									else {
+										source.append("\n\t\t\t\t\t\t|| ");
+									}
+									genRawFieldChecker(source, fieldInfos.get(i).jsonChosen.get(j), !has_otherwise || omit_otherwise);
+								}
+							}
+							if (first_found) {
+								source.append(") {\n");
+								source.append(MessageFormat.format("\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_CHOSEN_FIELD_OMITTED, \"{0}\");\n", fieldInfos.get(i).mDisplayName));
+								source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+								source.append("\t\t\t\t}\n");
+							}
+						}
+						source.append(MessageFormat.format("\t\t\t\tthis.{0} = OMIT_VALUE;\n", fieldInfos.get(i).mJavaVarName));
+					} else {
+						source.append(MessageFormat.format("\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_MISSING_FIELD_ERROR, \"{0}\");\n", fieldInfos.get(i).mDisplayName));
+						source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+					}
+					source.append("\t\t\t}\n\t\t\t");
+				} // if there's no default value
+			}
+			source.append("\n\t\t\treturn dec_len;\n");
+		}
+		source.append("\t\t}\n\n");
+
+		source.append("\t\tprivate static void JSON_ERROR(final boolean p_silent, final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {\n");
+		source.append("\t\t\tif (!p_silent) {\n");
+		source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(p_et, fmt, args);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		
 	}
 
 	/**

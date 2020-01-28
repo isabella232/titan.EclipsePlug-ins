@@ -37,6 +37,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
@@ -1045,10 +1046,17 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				ofType = false;
 				break;
 			}
+			final JsonAST jsonAttribute = cfType.getJsonAttribute();
+			final List<rawAST_coding_taglist> jsonChosen = jsonAttribute != null && jsonAttribute.tag_list != null ? new ArrayList<rawAST_coding_taglist>(jsonAttribute.tag_list) : null;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate( aData, source ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
-					ofType, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source));
+					ofType, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source),
+					jsonAttribute != null ? jsonAttribute.metainfo_unbound : false,
+					jsonAttribute != null ? jsonAttribute.default_value : null,
+					jsonChosen,
+					jsonAttribute != null ? jsonAttribute.alias : null,
+					jsonAttribute != null ? jsonAttribute.omit_as_null : false);
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}
@@ -1060,8 +1068,11 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		final RawASTStruct raw = convertRAWCodingAttributes(aData, source, hasRaw, namesList);
+		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
+		final boolean jsonAsMapPossible = jsonAttribute != null ? jsonAttribute.as_map : false;
 
-		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false, hasRaw, raw);
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false, hasRaw, raw, hasJson, jsonAsValue, jsonAsMapPossible);
 		RecordSetCodeGenerator.generateTemplateClass(aData, source, className, classReadableName, namesList, hasOptional, false);
 
 		if (hasDoneAttribute()) {
