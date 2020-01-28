@@ -607,6 +607,7 @@ public final class SetOf_Type extends AbstractOfType {
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
 
 			final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+			final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 			int extension_bit = RawASTStruct.XDEFDEFAULT;
 			if (hasRaw) {
 				RawAST dummy_raw;
@@ -619,7 +620,7 @@ public final class SetOf_Type extends AbstractOfType {
 				extension_bit = dummy_raw.extension_bit;
 			}
 
-			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit);
+			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit, hasJson);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 		} else {
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
@@ -650,6 +651,7 @@ public final class SetOf_Type extends AbstractOfType {
 			}
 			default: {
 				final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+				final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 				int extension_bit = RawASTStruct.XDEFDEFAULT;
 				if (hasRaw) {
 					RawAST dummy_raw;
@@ -662,7 +664,7 @@ public final class SetOf_Type extends AbstractOfType {
 					extension_bit = dummy_raw.extension_bit;
 				}
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit);
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 				break;
 			}

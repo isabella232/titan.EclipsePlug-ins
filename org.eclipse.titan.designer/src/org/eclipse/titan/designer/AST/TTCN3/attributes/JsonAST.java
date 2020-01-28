@@ -8,11 +8,15 @@
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 
 /**
  * Represents the JSON encoding related setting extracted from variant attributes.
  *
  * @author Farkas Izabella Ingrid
+ * @author Arpad Lovassy
  * */
 public class JsonAST {
 	public class JsonSchemaExtension {
@@ -44,16 +48,76 @@ public class JsonAST {
 		}
 	}
 
+	/**
+	 * Encoding only.
+	 * true  : use the null literal to encode omitted fields in records or sets
+	 *         example: { "field1" : value1, "field2" : null, "field3" : value3 } 
+	 * false : skip both the field name and the value if a field is omitted
+	 *         example: { "field1" : value1, "field3" : value3 }
+	 * The decoder will always accept both variants.
+	 */
 	public boolean omit_as_null;
+
+	/**
+	 * An alias for the name of the field (in a record, set or union).
+	 * Encoding: this alias will appear instead of the name of the field
+	 * Decoding: the decoder will look for this alias instead of the field's real name
+	 */
 	public String alias;
+
+	/**
+	 * true if this type is a field of a union with the "as value" coding instruction.
+	 * If set, the union will be encoded as a JSON value instead of a JSON object
+	 * with one name-value pair. 
+	 * Since the field name is no longer present, the decoder will determine the
+	 * selected field based on the type of the value. The first field (in the order
+	 * of declaration) that can successfully decode the value will be the selected one.
+	 */
 	public boolean as_value;
+
+	/**
+	 * Decoding only.
+	 * Fields that don't appear in the JSON code will decode this value instead.
+	 */
 	public String default_value;
-	public ArrayList<JsonSchemaExtension> schema_extensions;
+
+	public List<JsonSchemaExtension> schema_extensions;
+
+	/**
+	 * If set, encodes unbound fields of records and sets as null and inserts a
+	 * meta info field into the JSON object specifying that the field is unbound.
+	 * The decoder sets the field to unbound if the meta info field is present and
+	 * the field's value in the JSON code is either null or a valid value for that
+	 * field.
+	 * Example: { "field1" : null, "metainfo field1" : "unbound" }
+	 *
+	 * Also usable on record of/set of/array types to indicate that an element is
+	 * unbound. Unbound elements are encoded as a JSON object containing one
+	 * metainfo member. The decoder sets the element to unbound if the object
+	 * with the meta information is found.
+	 * Example: [ value1, value2, { "metainfo []" : "unbound" }, value3 ]
+	 */
 	public boolean metainfo_unbound;
+
+	/**
+	 * If set, the enumerated value's numeric form will be encoded as a JSON
+	 * number, instead of its name form as a JSON string (affects both encoding
+	 * and decoding).
+	 */
 	public boolean as_number;
-	//rawAST_tag_list[] tag_list;
+
+	public List<rawAST_coding_taglist> tag_list;
+
+	/** If set, encodes the value into a map of key-value pairs (i.e. a fully 
+	 * customizable JSON object). The encoded type has to be a record of/set of
+	 * with a record/set element type, which has 2 fields, the first of which is
+	 * a non-optional universal charstring.
+	 * Example: { "key1" : value1, "key2" : value2 }
+	 */
 	public boolean as_map;
-	public ArrayList<JsonEnumText> enum_texts;
+
+	/** List of enumerated values whose texts are changed. */
+	public List<JsonEnumText> enum_texts;
 
 
 	public JsonAST() {
@@ -68,7 +132,7 @@ public class JsonAST {
 			default_value = value.default_value;
 			metainfo_unbound = value.metainfo_unbound;
 			as_number = value.as_number;
-			//tag_list = NULL;
+			tag_list = new ArrayList<rawAST_coding_taglist>(value.tag_list);
 			as_map = value.as_map;
 			enum_texts = new ArrayList<JsonEnumText>(value.enum_texts);
 			schema_extensions = new ArrayList<JsonSchemaExtension>(value.schema_extensions);
@@ -84,7 +148,7 @@ public class JsonAST {
 		default_value = null;
 		metainfo_unbound = false;
 		as_number = false;
-		//tag_list = NULL;
+		tag_list = null;
 		as_map = false;
 		enum_texts = new ArrayList<JsonEnumText>();
 		schema_extensions = new ArrayList<JsonSchemaExtension>();
@@ -93,7 +157,7 @@ public class JsonAST {
 	public boolean empty() {
 		return omit_as_null == false && alias == null && as_value == false &&
 				default_value == null && metainfo_unbound == false && as_number == false &&
-				/*tag_list == null &&*/ as_map == false && enum_texts.size() == 0;
+				tag_list == null && as_map == false && enum_texts.size() == 0;
 
 	}
 }

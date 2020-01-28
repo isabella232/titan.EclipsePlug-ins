@@ -925,6 +925,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
 
 			final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+			final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 			int extension_bit = RawASTStruct.XDEFDEFAULT;
 			if (hasRaw) {
 				RawAST dummy_raw;
@@ -937,7 +938,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				extension_bit = dummy_raw.extension_bit;
 			}
 
-			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit);
+			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit, hasJson);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 		} else {
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
@@ -969,6 +970,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
 
 				final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+				final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 				int extension_bit = RawASTStruct.XDEFDEFAULT;
 				if (hasRaw) {
 					RawAST dummy_raw;
@@ -981,7 +983,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					extension_bit = dummy_raw.extension_bit;
 				}
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit);
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 				break;
 			}

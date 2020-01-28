@@ -44,8 +44,11 @@ public final class RecordOfGenerator {
 	 *                {@code true}: if the type has RAW coding attributes.
 	 * @param forceGenSeof
 	 *                {@code true}: if code generation is forced.
-	 * @Param extension_bit the raw extension bit to be used if RAW coding
-	 *        is to be generated.
+	 * @param extension_bit
+	 *                the raw extension bit to be used if RAW coding
+	 *                is to be generated.
+	 * @param hasJson
+	 *                {@code true}: if the type has JSON coding attributes.
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
@@ -55,10 +58,12 @@ public final class RecordOfGenerator {
 										   final boolean isSetOf,
 										   final boolean hasRaw,
 										   final boolean forceGenSeof,
-										   final int extension_bit) {
+										   final int extension_bit,
+										   final boolean hasJson) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
+		aData.addBuiltinTypeImport("JSON_Tokenizer");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TitanInteger");
@@ -81,9 +86,17 @@ public final class RecordOfGenerator {
 		}
 
 		final boolean rawNeeded = forceGenSeof || hasRaw; //TODO can be forced optionally if needed
+		final boolean jsonNeeded = forceGenSeof || hasJson; //TODO can be forced optionally if needed
 		if (rawNeeded) {
 			aData.addBuiltinTypeImport("RAW.ext_bit_t");
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
+		}
+		
+		if  (jsonNeeded) {
+			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+			aData.addImport("java.util.concurrent.atomic.AtomicReference");
+			aData.addBuiltinTypeImport("JSON");
+			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
 		}
 
 		source.append(MessageFormat.format("\tpublic static class {0} extends Record_Of_Type '{'\n", genName));
@@ -107,7 +120,7 @@ public final class RecordOfGenerator {
 		generateValueSetParam(source, displayName, isSetOf);
 		generateValueSetImplicitOmit(source, ofTypeName);
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
-		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded, forceGenSeof, extension_bit);
+		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded, forceGenSeof, extension_bit, jsonNeeded);
 
 		source.append("\t}\n");
 	}
@@ -1373,8 +1386,12 @@ public final class RecordOfGenerator {
 	 * @param extension_bit
 	 *                the raw extension bit to be used if RAW coding is to
 	 *                be generated.
+	 * @param jsonNeeded
+	 *                true if encoding/decoding for JSON is to be generated
 	 */
-	private static void generateValueEncodeDecode(final StringBuilder source, final String ofTypeName, final String displayName, final boolean rawNeeded, final boolean forceGenSeof, final int extension_bit) {
+	private static void generateValueEncodeDecode(final StringBuilder source, final String ofTypeName, final String displayName,
+			final boolean rawNeeded, final boolean forceGenSeof, final int extension_bit,
+			final boolean jsonNeeded) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("\t\t\tswitch (p_coding) {\n");
@@ -1393,6 +1410,17 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
+		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -1427,6 +1455,19 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tcase CT_JSON: {\n");
+		source.append("\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
@@ -1521,6 +1562,109 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t}\n");
 			source.append("\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 			source.append("\t\t}\n\n");
+		}
+		if (jsonNeeded) {
+			// JSON encode, RT1
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} */\n");
+			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {\n");
+			source.append("  if (!is_bound()) {\n");
+			source.append("    TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,\n");
+			source.append(MessageFormat.format("      \"Encoding an unbound value of type {0}.\");\n", displayName));
+			source.append("    return -1;\n");
+			source.append("  }\n\n");
+			source.append("  int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);\n");
+			source.append("  for (int i = 0; i < valueElements.size(); ++i) {\n");
+			source.append("    if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {\n");
+			// unbound elements are encoded as { "metainfo []" : "unbound" }
+			source.append("      enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
+			source.append("      enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"metainfo []\");\n");
+			source.append("      enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, \"\\\"unbound\\\"\");\n");
+			source.append("      enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
+			source.append("    }\n");
+			source.append("    else {\n");
+			source.append("      int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);\n");
+			source.append("      if (0 > ret_val) break;\n");
+			source.append("      enc_len += ret_val;\n");
+			source.append("    }\n");
+			source.append("  }\n");
+			source.append("  enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);\n");
+			source.append("  return enc_len;\n");
+			source.append("}\n\n");
+
+			// JSON decode, RT1
+			source.append("public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+			source.append("  if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {\n");
+			// use the default value (currently only the empty array can be set as
+			// default value for this type)
+			source.append("    set_size(0);\n");
+			source.append("    return p_td.json.getDefault_value().length();\n");
+			source.append("  }\n");
+			source.append("  final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+			source.append("  int dec_len = p_tok.get_next_token(token, null, null);\n");
+			source.append("  if (json_token_t.JSON_TOKEN_ERROR == token.get()) {\n");
+			source.append("    if (!p_silent) {\n");
+			source.append("      TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("    }\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  }\n");
+			source.append("  else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||\n");
+			source.append("           (p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {\n");
+			source.append("    return JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("  }\n\n");
+			source.append("  set_size(0);\n");
+			source.append("  for (int nof_elements = 0; true; ++nof_elements) {\n");
+			source.append("    int buf_pos = p_tok.get_buf_pos();\n");
+			source.append("    int ret_val;\n");
+			source.append("    if (null != p_td.json && p_td.json.isMetainfo_unbound()) {\n");
+			// check for metainfo object
+			source.append("      ret_val = p_tok.get_next_token(token, null, null);\n");
+			source.append("      if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {\n");
+			source.append("        StringBuilder value = new StringBuilder();\n");
+			source.append("        AtomicInteger value_len = new AtomicInteger(0);\n");
+			source.append("        ret_val += p_tok.get_next_token(token, value, value_len);\n");
+			source.append("        if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && \"metainfo []\".equals(value.toString())) {\n");
+			source.append("          ret_val += p_tok.get_next_token(token, value, value_len);\n");
+			source.append("          if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && \"\\\"unbound\\\"\".equals(value.toString())) {\n");
+			source.append("            ret_val = p_tok.get_next_token(token, null, null);\n");
+			source.append("            if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {\n");
+			source.append("              dec_len += ret_val;\n");
+			source.append("              continue;\n");
+			source.append("            }\n");
+			source.append("          }\n");
+			source.append("        }\n");
+			source.append("      }\n");
+			// metainfo object not found, jump back and let the element type decode it
+			source.append("      p_tok.set_buf_pos(buf_pos);\n");
+			source.append("    }\n");
+			source.append(MessageFormat.format("    {0} val = new {0}();\n", ofTypeName));
+			source.append("    int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);\n");
+			source.append("    if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {\n");
+			source.append("      p_tok.set_buf_pos(buf_pos);\n");
+			source.append("      break;\n");
+			source.append("    }\n");
+			source.append("    else if (JSON.JSON_ERROR_FATAL == ret_val2) {\n");
+			source.append("      if (p_silent) {\n");
+			source.append("        clean_up();\n");
+			source.append("      }\n");
+			source.append("      return JSON.JSON_ERROR_FATAL;\n");
+			source.append("    }\n");
+			source.append("    valueElements.add(val);\n");
+			source.append("    dec_len += ret_val2;\n");
+			source.append("  }\n\n");
+			source.append("  dec_len += p_tok.get_next_token(token, null, null);\n");
+			source.append("  if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||\n");
+			source.append("      (p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {\n");
+			source.append("    if (!p_silent) {\n");
+			source.append("      TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, \"\");\n");
+			source.append("    }\n");
+			source.append("    if (p_silent) {\n");
+			source.append("      clean_up();\n");
+			source.append("    }\n");
+			source.append("    return JSON.JSON_ERROR_FATAL;\n");
+			source.append("  }\n\n");
+			source.append("  return dec_len;\n");
+			source.append("}\n\n");
 		}
 	}
 

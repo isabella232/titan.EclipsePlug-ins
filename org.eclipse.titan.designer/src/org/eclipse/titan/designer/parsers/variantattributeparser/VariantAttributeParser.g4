@@ -1159,7 +1159,12 @@ pr_JMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword
 
 pr_JAsNumber: ASKeyword NUMBERKeyword {jsonstruct.as_number = true;};
 
-// FIXME: missing rawAST_tag_list
-pr_JChosen: CHOSENKeyword LPAREN pr_XAssocList SEMICOLON? RPAREN;
+pr_JChosen:
+	CHOSENKeyword
+	LPAREN
+	taglist = pr_XAssocList	{rawstruct.taglist = $taglist.taglist;}
+	SEMICOLON?
+	RPAREN
+;
 
 pr_JAsMap: ASKeyword JSONMAPKeyword { jsonstruct.as_map = true; };
