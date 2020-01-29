@@ -8,7 +8,10 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -308,6 +311,15 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 			}
 			break;
 		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
@@ -342,9 +354,131 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 			}
 			break;
 		}
+		case CT_JSON: {
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
+			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value of type EXTERNAL.identification.context-negotiation.");
+			return -1;
+		}
+
+		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+
+		{
+			enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "presentation-context-id");
+			enc_len += get_field_presentation__context__id().JSON_encode(Base_Type.TitanInteger_descr_, p_tok);
+		}
+
+		{
+			enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "transfer-syntax");
+			enc_len += get_field_transfer__syntax().JSON_encode(Base_Type.TitanObjectid_descr_, p_tok);
+		}
+
+		enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+		return enc_len;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		int dec_len = p_tok.get_next_token(j_token, null, null);
+		if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {
+			JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_OBJECT_START != j_token.get()) {
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+		boolean presentation__context__id_found = false;
+		boolean transfer__syntax_found = false;
+
+		while (true) {
+			final StringBuilder fld_name = new StringBuilder();
+			final AtomicInteger name_len = new AtomicInteger(0);
+			int buf_pos = p_tok.get_buf_pos();
+			dec_len += p_tok.get_next_token(j_token, fld_name, name_len);
+			if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {
+				JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if (json_token_t.JSON_TOKEN_NAME != j_token.get()) {
+				p_tok.set_buf_pos(buf_pos);
+				break;
+			}
+			else {
+				if (23 == name_len.get() && "presentation-context-id".equals(fld_name.toString())) {
+					presentation__context__id_found = true;
+					int ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, p_silent);
+					if (0 > ret_val) {
+						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
+							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 23, "presentation-context-id");
+						}
+						return JSON.JSON_ERROR_FATAL;
+					}
+					dec_len += ret_val;
+				}
+				else if (15 == name_len.get() && "transfer-syntax".equals(fld_name.toString())) {
+					transfer__syntax_found = true;
+					int ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
+					if (0 > ret_val) {
+						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
+							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 15, "transfer-syntax");
+						}
+						return JSON.JSON_ERROR_FATAL;
+					}
+					dec_len += ret_val;
+				}
+				else {
+					JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);
+					dec_len += p_tok.get_next_token(j_token, null, null);
+					if (json_token_t.JSON_TOKEN_NUMBER != j_token.get() && json_token_t.JSON_TOKEN_STRING != j_token.get() &&
+							json_token_t.JSON_TOKEN_LITERAL_TRUE != j_token.get() && json_token_t.JSON_TOKEN_LITERAL_FALSE != j_token.get() &&
+							json_token_t.JSON_TOKEN_LITERAL_NULL != j_token.get()) {
+						JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, name_len, fld_name);
+						return JSON.JSON_ERROR_FATAL;
+					}
+				}
+			}
+		}
+
+		dec_len += p_tok.get_next_token(j_token, null, null);
+		if (json_token_t.JSON_TOKEN_OBJECT_END != j_token.get()) {
+			JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_OBJECT_END_TOKEN_ERROR, "");
+			return JSON.JSON_ERROR_FATAL;
+		}
+
+		if (!presentation__context__id_found) {
+			JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_MISSING_FIELD_ERROR, "presentation-context-id");
+			return JSON.JSON_ERROR_FATAL;
+		}
+		if (!transfer__syntax_found) {
+			JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_MISSING_FIELD_ERROR, "transfer-syntax");
+			return JSON.JSON_ERROR_FATAL;
+		}
+
+		return dec_len;
+	}
+
+	private static void JSON_ERROR(final boolean p_silent, final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
+		if (!p_silent) {
+			TTCN_EncDec_ErrorContext.error(p_et, fmt, args);
+		}
+	}
 }
