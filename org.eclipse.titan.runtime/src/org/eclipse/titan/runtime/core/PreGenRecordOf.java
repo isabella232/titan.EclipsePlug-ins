@@ -10,8 +10,11 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
@@ -42,71 +45,71 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location.entity_type_t;
  */
 public final class PreGenRecordOf extends TTCN_Module {
 
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__INTEGER__OPTIMIZED_0", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__FLOAT__OPTIMIZED_0", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__BITSTRING__OPTIMIZED_0", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED", null, null, null);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
-	public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("anytype", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.oftype", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.oftype", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.oftype", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.oftype", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.oftype", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.oftype", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.oftype", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.oftype", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.oftype", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.oftype", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.oftype", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.oftype", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.oftype", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.oftype", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.oftype", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.oftype", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.oftype", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER.oftype", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT.oftype", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING.oftype", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.oftype", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.oftype", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.oftype", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.oftype", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.oftype", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.oftype", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.oftype", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.oftype", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.oftype", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.oftype", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.oftype", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED", null, null, null);
+	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.oftype", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
+	public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.anytype", null, null, null);
 
 	public PreGenRecordOf() {
 		super("PreGenRecordOf", module_type_enum.TTCN3_MODULE, new byte[] {(byte)2, (byte)172, (byte)107, (byte)74, (byte)67, (byte)37, (byte)48, (byte)47, (byte)113, (byte)216, (byte)134, (byte)12, (byte)12, (byte)157, (byte)70, (byte)204});
@@ -961,6 +964,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -993,6 +1005,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -1081,6 +1104,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanInteger val = new TitanInteger();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -2381,7 +2503,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -2392,7 +2514,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING right_ptr, final int right_index) {
@@ -3067,6 +3189,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -3099,6 +3230,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -3187,6 +3329,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanUniversalCharString val = new TitanUniversalCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -5301,6 +5542,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -5333,6 +5583,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -5421,6 +5682,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanOctetString val = new TitanOctetString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -7422,6 +7782,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -7454,6 +7823,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -7542,6 +7922,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanFloat val = new TitanFloat();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -9543,6 +10022,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -9575,6 +10063,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -9663,6 +10162,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanUniversalCharString val = new TitanUniversalCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -11664,6 +12262,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -11696,6 +12303,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -11784,6 +12402,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBitString val = new TitanBitString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -13785,6 +14502,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -13817,6 +14543,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -13905,6 +14642,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBoolean val = new TitanBoolean();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -15906,6 +16742,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -15938,6 +16783,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -16026,6 +16882,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanCharString val = new TitanCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -18027,6 +18982,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -18059,6 +19023,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -18147,6 +19122,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBoolean val = new TitanBoolean();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -20148,6 +21222,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -20180,6 +21263,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -20268,6 +21362,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBitString val = new TitanBitString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -22269,6 +23462,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -22301,6 +23503,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -22389,6 +23602,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanInteger val = new TitanInteger();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -23689,7 +25001,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -23700,7 +25012,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -24375,6 +25687,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -24407,6 +25728,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -24495,6 +25827,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanUniversalCharString val = new TitanUniversalCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -25908,7 +27339,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -25919,7 +27350,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN right_ptr, final int right_index) {
@@ -26594,6 +28025,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -26626,6 +28066,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -26714,6 +28165,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBoolean val = new TitanBoolean();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -28127,7 +29677,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -28138,7 +29688,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT__OPTIMIZED right_ptr, final int right_index) {
@@ -28813,6 +30363,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -28845,6 +30404,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -28933,6 +30503,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanFloat val = new TitanFloat();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -30346,7 +32015,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -30357,7 +32026,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER right_ptr, final int right_index) {
@@ -31032,6 +32701,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -31064,6 +32742,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -31152,6 +32841,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanInteger val = new TitanInteger();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -32565,7 +34353,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -32576,7 +34364,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING right_ptr, final int right_index) {
@@ -33251,6 +35039,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -33283,6 +35080,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -33371,6 +35179,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanCharString val = new TitanCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -35485,6 +37392,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -35517,6 +37433,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -35605,6 +37532,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanUniversalCharString val = new TitanUniversalCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -36905,7 +38931,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -36916,7 +38942,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING right_ptr, final int right_index) {
@@ -37591,6 +39617,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -37623,6 +39658,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -37711,6 +39757,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanHexString val = new TitanHexString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -39124,7 +41269,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -39135,7 +41280,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__HEXSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__HEXSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -39810,6 +41955,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -39842,6 +41996,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -39930,6 +42095,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanHexString val = new TitanHexString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -41343,7 +43607,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -41354,7 +43618,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING right_ptr, final int right_index) {
@@ -42029,6 +44293,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -42061,6 +44334,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -42149,6 +44433,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanOctetString val = new TitanOctetString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -43562,7 +45945,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -43573,7 +45956,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__FLOAT left_ptr, final int left_index, final PREGEN__SET__OF__FLOAT right_ptr, final int right_index) {
@@ -44248,6 +46631,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -44280,6 +46672,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -44368,6 +46771,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanFloat val = new TitanFloat();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -45781,7 +48283,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -45792,7 +48294,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__INTEGER__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__INTEGER__OPTIMIZED right_ptr, final int right_index) {
@@ -46467,6 +48969,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -46499,6 +49010,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -46587,6 +49109,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanInteger val = new TitanInteger();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -48000,7 +50621,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -48011,7 +50632,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -48686,6 +51307,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -48718,6 +51348,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -48806,6 +51447,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanOctetString val = new TitanOctetString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -50920,6 +53660,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -50952,6 +53701,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -51040,6 +53800,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanOctetString val = new TitanOctetString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -53041,6 +55900,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -53073,6 +55941,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -53161,6 +56040,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanHexString val = new TitanHexString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -54461,7 +57439,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -54472,7 +57450,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__CHARSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__CHARSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -55147,6 +58125,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -55179,6 +58166,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -55267,6 +58265,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanCharString val = new TitanCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -56680,7 +59777,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -56691,7 +59788,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING right_ptr, final int right_index) {
@@ -57366,6 +60463,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -57398,6 +60504,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -57486,6 +60603,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBitString val = new TitanBitString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -58899,7 +62115,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -58910,7 +62126,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BOOLEAN__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BOOLEAN__OPTIMIZED right_ptr, final int right_index) {
@@ -59585,6 +62801,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -59617,6 +62842,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -59705,6 +62941,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBoolean val = new TitanBoolean();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -61819,6 +65154,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -61851,6 +65195,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -61939,6 +65294,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanCharString val = new TitanCharString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -63940,6 +67394,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -63972,6 +67435,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -64060,6 +67534,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanFloat val = new TitanFloat();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -65360,7 +68933,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.valueElements.size(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.valueElements.size(), compare_function_set);
 		}
 
 		@Override
@@ -65371,7 +68944,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				return true;
 			}
 
-			return RecordOf_Match.compare_set_of(other_value, other_value.n_elem(), this, valueElements.size(), compare_function_set);
+			return RecordOf_Match.compare_set_of(this, valueElements.size(), other_value, other_value.n_elem(), compare_function_set);
 		}
 
 		private boolean compare_set(final PREGEN__SET__OF__BITSTRING__OPTIMIZED left_ptr, final int left_index, final PREGEN__SET__OF__BITSTRING__OPTIMIZED right_ptr, final int right_index) {
@@ -66046,6 +69619,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -66078,6 +69660,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -66166,6 +69759,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanBitString val = new TitanBitString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -68280,6 +71972,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -68312,6 +72013,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
@@ -68400,6 +72112,105 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 			}
 			return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;
+		}
+
+		@Override
+		/** {@inheritDoc} */
+		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+			if (!is_bound()) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,
+						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+				return -1;
+			}
+
+			int enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);
+			for (int i = 0; i < valueElements.size(); ++i) {
+				if (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+				}
+				else {
+					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					if (0 > ret_val) break;
+					enc_len += ret_val;
+				}
+			}
+			enc_len += p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_END : json_token_t.JSON_TOKEN_ARRAY_END, null);
+			return enc_len;
+		}
+
+		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+				set_size(0);
+				return p_td.json.getDefault_value().length();
+			}
+			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+			int dec_len = p_tok.get_next_token(token, null, null);
+			if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			else if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_START != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_START != token.get())) {
+				return JSON.JSON_ERROR_INVALID_TOKEN;
+			}
+
+			set_size(0);
+			for (int nof_elements = 0; true; ++nof_elements) {
+				int buf_pos = p_tok.get_buf_pos();
+				int ret_val;
+				if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+					ret_val = p_tok.get_next_token(token, null, null);
+					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+						StringBuilder value = new StringBuilder();
+						AtomicInteger value_len = new AtomicInteger(0);
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
+							ret_val += p_tok.get_next_token(token, value, value_len);
+							if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && "\"unbound\"".equals(value.toString())) {
+								ret_val = p_tok.get_next_token(token, null, null);
+								if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+									dec_len += ret_val;
+									continue;
+								}
+							}
+						}
+					}
+					p_tok.set_buf_pos(buf_pos);
+				}
+				TitanHexString val = new TitanHexString();
+				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+					p_tok.set_buf_pos(buf_pos);
+					break;
+				}
+				else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+					if (p_silent) {
+						clean_up();
+					}
+					return JSON.JSON_ERROR_FATAL;
+				}
+				valueElements.add(val);
+				dec_len += ret_val2;
+			}
+
+			dec_len += p_tok.get_next_token(token, null, null);
+			if ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||
+					(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {
+				if (!p_silent) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, "");
+				}
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+
+			return dec_len;
 		}
 
 	}
@@ -69805,6 +73616,15 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				break;
 			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				break;
+			}
 			default:
 				throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 			}
@@ -69837,6 +73657,17 @@ public final class PreGenRecordOf extends TTCN_Module {
 				} finally {
 					errorContext.leave_context();
 				}
+				break;
+			}
+			case CT_JSON: {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
 				break;
 			}
 			default:
