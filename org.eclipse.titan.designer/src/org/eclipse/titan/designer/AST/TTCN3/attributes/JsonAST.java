@@ -51,7 +51,7 @@ public class JsonAST {
 	/**
 	 * Encoding only.
 	 * true  : use the null literal to encode omitted fields in records or sets
-	 *         example: { "field1" : value1, "field2" : null, "field3" : value3 } 
+	 *         example: { "field1" : value1, "field2" : null, "field3" : value3 }
 	 * false : skip both the field name and the value if a field is omitted
 	 *         example: { "field1" : value1, "field3" : value3 }
 	 * The decoder will always accept both variants.
@@ -68,7 +68,7 @@ public class JsonAST {
 	/**
 	 * true if this type is a field of a union with the "as value" coding instruction.
 	 * If set, the union will be encoded as a JSON value instead of a JSON object
-	 * with one name-value pair. 
+	 * with one name-value pair.
 	 * Since the field name is no longer present, the decoder will determine the
 	 * selected field based on the type of the value. The first field (in the order
 	 * of declaration) that can successfully decode the value will be the selected one.
@@ -106,9 +106,11 @@ public class JsonAST {
 	 */
 	public boolean as_number;
 
+	/** chosen fields for JSON encoding */
 	public List<rawAST_coding_taglist> tag_list;
 
-	/** If set, encodes the value into a map of key-value pairs (i.e. a fully 
+	/**
+	 * If set, encodes the value into a map of key-value pairs (i.e. a fully
 	 * customizable JSON object). The encoded type has to be a record of/set of
 	 * with a record/set element type, which has 2 fields, the first of which is
 	 * a non-optional universal charstring.
@@ -132,7 +134,7 @@ public class JsonAST {
 			default_value = value.default_value;
 			metainfo_unbound = value.metainfo_unbound;
 			as_number = value.as_number;
-//			tag_list = new ArrayList<rawAST_coding_taglist>(value.tag_list);
+			tag_list = value.tag_list != null ? new ArrayList<rawAST_coding_taglist>(value.tag_list) : null;
 			as_map = value.as_map;
 			enum_texts = new ArrayList<JsonEnumText>(value.enum_texts);
 			schema_extensions = new ArrayList<JsonSchemaExtension>(value.schema_extensions);
