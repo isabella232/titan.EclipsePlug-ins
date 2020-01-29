@@ -471,8 +471,9 @@ public class TitanObjectid extends Base_Type {
 			if (use_default || (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
 				if (!use_default) {
 					// The default value doesn't have quotes around it
+					final String valueWithoutQuotes = value.substring(1, value.length() - 1);
 					value.setLength(0);
-					value.append( value.substring(1, value.length() - 1) );
+					value.append( valueWithoutQuotes );
 					value_len.set(value.length());
 				}
 				// need a null-terminated string
