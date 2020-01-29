@@ -132,7 +132,7 @@ public class JsonAST {
 			default_value = value.default_value;
 			metainfo_unbound = value.metainfo_unbound;
 			as_number = value.as_number;
-			tag_list = new ArrayList<rawAST_coding_taglist>(value.tag_list);
+//			tag_list = new ArrayList<rawAST_coding_taglist>(value.tag_list);
 			as_map = value.as_map;
 			enum_texts = new ArrayList<JsonEnumText>(value.enum_texts);
 			schema_extensions = new ArrayList<JsonSchemaExtension>(value.schema_extensions);
