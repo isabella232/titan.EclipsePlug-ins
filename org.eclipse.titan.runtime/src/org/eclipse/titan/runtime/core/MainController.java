@@ -394,87 +394,81 @@ public class MainController {
 
 	public static void main(final String[] args) {
 		if (args.length > 1) {
-			//System.out.println("For now only 1 arguments can be passed, the config file.");
 			printUsage();
 			return;
 		}
 
 		printWelcome();
 		
+		String localAddress = null;
+		int TCPPort = 0; //don't need BigInteger
+		
 		if(args.length == 1) {
-			
-		}
-		mc_state = mcStateEnum.MC_INACTIVE;
-		final File config_file = new File(args[0]);
-		System.out.println("Using configuration file: "+config_file.getName());
+			mc_state = mcStateEnum.MC_INACTIVE;
+			final File config_file = new File(args[0]);
+			System.out.println("Using configuration file: "+ config_file.getName());
 
-		cfgAnalyzer.set(new CfgAnalyzer());
+			cfgAnalyzer.set(new CfgAnalyzer());
 
-		//TODO: TtcnError for not existing file before the analyzer gets the file.
-		final boolean config_file_failure = cfgAnalyzer.get().parse(config_file);
-		if (config_file_failure) {
-			//TODO: Catch TtcnError
-			System.out.println("Error was found in the configuration file. Exiting");
-			//cleanup?
-			return;
-		}
-
-		//This block is necessary?
-		try {
-			//TODO: handle the leak
-			config_str.set(new Scanner(config_file).useDelimiter("\\Z").next());
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		final MCSectionHandler mcSectionHandler = cfgAnalyzer.get().getMcSectionHandler();
-		//Check mcSectionHandler and executeItems
-		//Temporary solution because only the batch mode is supported
-		//Requirements:
-		//1. LocalAddress is a valid ip address
-		//2. TcpPort ?
-		//3. NumHCs:= 1 <<<<Temporarily
-		//4. [EXECUTE] is not empty
-		boolean errorFound = false;
-		String localAddress = mcSectionHandler.getLocalAddress();
-		if ( localAddress == null || localAddress.equals("")) {
-			errorFound = true;
-			System.out.println("LocalAddress not found in section [MAIN_CONTROLLER]");
-		}
-
-		BigInteger TCPPort = mcSectionHandler.getTcpPort();
-
-		if ( TCPPort == null) {
-			errorFound = true;
-			System.out.println("TCPPort not found in section [MAIN_CONTROLLER]");
-		}
-
-		n_hosts.set(mcSectionHandler.getNumHCsText());
-		if ( n_hosts.get() == null ) {
-			errorFound = true;
-			System.out.println("NumHCs not found in section [MAIN_CONTROLLER]");
-		} else if ( n_hosts.get().intValue() != 1 ){
-			errorFound = true;
-			System.out.println("NumHCs shall be set for 1 in section [MAIN_CONTROLLER]");
-		}
-
-		executeItems = cfgAnalyzer.get().getExecuteSectionHandler().getExecuteitems();
-		if (executeItems.isEmpty()) {
-			errorFound = true;
-			System.out.println("No item in in section [EXECUTE]");
-		}
-
-		if (errorFound) {
-			System.out.println("Error was found in the configuration file. Exits. Bye");
-			return;
+			//TODO: TtcnError for not existing file before the analyzer gets the file.
+			final boolean config_file_failure = cfgAnalyzer.get().parse(config_file);
+			if (config_file_failure) {
+				//TODO: Catch TtcnError
+				System.out.println("Error was found in the configuration file. Exiting");
+				//cleanup?
+				return;
+			}
+			//This block is necessary?
+			try {
+				Scanner sc = new Scanner(config_file);
+				config_str.set(sc.useDelimiter("\\Z").next());
+				sc.close();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			final MCSectionHandler mcSectionHandler = cfgAnalyzer.get().getMcSectionHandler();
+			boolean errorFound = false;
+			localAddress = mcSectionHandler.getLocalAddress();
+			if ( localAddress == null || localAddress.isEmpty()) {
+				//By default set the host's address
+				try {
+					localAddress = InetAddress.getLocalHost().getHostAddress();
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if (mcSectionHandler.getTcpPort() != null) {
+				TCPPort = mcSectionHandler.getTcpPort().intValue();
+				if (TCPPort < 0 || TCPPort > 65535) {
+					TCPPort = 0;
+				}
+			} else {
+				TCPPort = 0;
+			}
+			n_hosts.set(mcSectionHandler.getNumHCsText());
+			if ( n_hosts.get() == null ) {
+				n_hosts.set(BigInteger.valueOf(-1));
+			}
+			executeItems = cfgAnalyzer.get().getExecuteSectionHandler().getExecuteitems();
+			if (errorFound) {
+				System.out.println("Error was found in the configuration file. Exits. Bye");
+				return;
+			}
+		} else {
+			try {
+				localAddress = InetAddress.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			TCPPort = 0;
 		}
 
 		try {
 			serverSocketChannel = ServerSocketChannel.open();
-			serverSocketChannel.socket().bind(new InetSocketAddress(mcSectionHandler.getLocalAddress(),
-					mcSectionHandler.getTcpPort().intValue()));
-			// FIXME BigInteger to int
+			serverSocketChannel.socket().bind(new InetSocketAddress(localAddress,TCPPort));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -496,13 +490,14 @@ public class MainController {
 
 		if (executeItems.isEmpty()) {
 			// TODO return
+			System.out.println("No [EXECUTE] section was given in the configuration file. Exiting.");
 			return -1;
 		}
 		mc_state = mcStateEnum.MC_LISTENING;
 		try {
 			hosts = new ArrayList<Host>();
 			System.out.println(MessageFormat.format("Listening on IP address {0} and TCP port {1}.",
-					cfgAnalyzer.get().getMcSectionHandler().getLocalAddress(), cfgAnalyzer.get().getMcSectionHandler().getTcpPort().toString()));
+					((InetSocketAddress)serverSocketChannel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort()));
 			while (n_hosts.get().compareTo(BigInteger.valueOf(hosts.size())) > 0) {
 				final SocketChannel sc = serverSocketChannel.accept();
 				final Host host = new Host(sc);
