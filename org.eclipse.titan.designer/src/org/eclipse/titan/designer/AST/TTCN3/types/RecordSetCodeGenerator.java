@@ -36,6 +36,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * @author Arpad Lovassy
  */
 public final class RecordSetCodeGenerator {
+
 	/**
 	 * Data structure to store sequence field variable and type names.
 	 * Used for java code generation.
@@ -93,10 +94,11 @@ public final class RecordSetCodeGenerator {
 		 */
 		public final String jsonDefaultValue;
 
+		/** chosen fields for JSON encoding */
 		public final List<rawAST_coding_taglist> jsonChosen;
 
 		/**
-		 * An alias for the name of the field (in a record, set or union). 
+		 * An alias for the name of the field (in a record, set or union).
 		 * Encoding: this alias will appear instead of the name of the field
 		 * Decoding: the decoder will look for this alias instead of the field's real name
 		 */
@@ -105,14 +107,13 @@ public final class RecordSetCodeGenerator {
 		/**
 		 * Encoding only.
 		 * true  : use the null literal to encode omitted fields in records or sets
-		 *         example: { "field1" : value1, "field2" : null, "field3" : value3 } 
+		 *         example: { "field1" : value1, "field2" : null, "field3" : value3 }
 		 * false : skip both the field name and the value if a field is omitted
 		 *         example: { "field1" : value1, "field3" : value3 }
 		 * The decoder will always accept both variants.
 		 */
 		public final boolean jsonOmitAsNull;
 
-		//TODO: comment JSON params
 		/**
 		 * @param fieldType
 		 *                the string representing the type of this field
@@ -136,10 +137,16 @@ public final class RecordSetCodeGenerator {
 		 * @param typeDescriptorName
 		 *                the name of the type descriptor.
 		 * @param jsonMetainfoUnbound
+		 *                If set, encodes unbound fields of records and sets as null and inserts a
+		 *                meta info field into the JSON object specifying that the field is unbound.
 		 * @param jsonDefaultValue
+		 *                Fields that don't appear in the JSON code will decode this value instead
 		 * @param jsonChosen
+		 *                chosen fields for JSON encoding
 		 * @param jsonAlias
+		 *                An alias for the name of the field
 		 * @param jsonOmitAsNull
+		 *                {@code true} to use the null literal to encode omitted fields in records or sets
 		 * */
 		public FieldInfo( final String fieldType, final String fieldTemplateType, final String fieldName,
 						  final String displayName, final boolean isOptional, final boolean ofType,
@@ -187,7 +194,6 @@ public final class RecordSetCodeGenerator {
 		// private to disable instantiation
 	}
 
-	//TODO: comment JSON params
 	/**
 	 * This function can be used to generate the value class of record and
 	 * set types
@@ -214,6 +220,12 @@ public final class RecordSetCodeGenerator {
 	 *                {@code true} if the type has raw attributes.
 	 * @param raw
 	 *                the raw coding related settings if applicable.
+	 * @param hasJson
+	 *                {@code true} if the type has JSON attributes.
+	 * @param jsonAsValue
+	 *                true if this type is a field with the "as value" coding instruction
+	 * @param jsonAsMapPossible
+	 *                true if this type is a field with the "as map" coding instruction
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw,
@@ -2100,7 +2112,7 @@ public final class RecordSetCodeGenerator {
 				source.append("\t\t\t\t\t\t\tif (0 > ret_val) {\n");
 				source.append("\t\t\t\t\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
 				if (fieldInfos.get(i).jsonMetainfoUnbound) {
-					// undo the last action on the buffer, check if the invalid token was a null token 
+					// undo the last action on the buffer, check if the invalid token was a null token
 					source.append("\t\t\t\t\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
 					source.append("\t\t\t\t\t\t\t\t\tp_tok.get_next_token(j_token, null, null);\n");
 					source.append("\t\t\t\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_LITERAL_NULL == j_token.get()) {\n");
@@ -2215,7 +2227,6 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(p_et, fmt, args);\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
-		
 	}
 
 	/**
