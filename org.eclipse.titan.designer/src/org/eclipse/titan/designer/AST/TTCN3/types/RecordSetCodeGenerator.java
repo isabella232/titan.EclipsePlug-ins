@@ -2034,7 +2034,7 @@ public final class RecordSetCodeGenerator {
 			}
 			for (int i = 0; i < fieldInfos.size(); ++i) {
 				// check field name
-				source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.toString())) '{'\n",
+				source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.substring(0,name_len.get()))) '{'\n",
 						fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias.length() : fieldInfos.get(i).mDisplayName.length(),
 						fieldInfos.get(i).jsonAlias != null ? fieldInfos.get(i).jsonAlias : fieldInfos.get(i).mDisplayName));
 				if (fieldInfos.get(i).jsonDefaultValue == null) {
@@ -2210,7 +2210,7 @@ public final class RecordSetCodeGenerator {
 								source.append("\t\t\t\t}\n");
 							}
 						}
-						source.append(MessageFormat.format("\t\t\t\tthis.{0} = OMIT_VALUE;\n", fieldInfos.get(i).mJavaVarName));
+						source.append(MessageFormat.format("\t\t\t\tthis.{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfos.get(i).mJavaVarName));
 					} else {
 						source.append(MessageFormat.format("\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_MISSING_FIELD_ERROR, \"{0}\");\n", fieldInfos.get(i).mDisplayName));
 						source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
