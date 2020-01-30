@@ -1750,7 +1750,7 @@ public final class RecordSetCodeGenerator {
 
 				if (mand_num > 0) {
 					source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", mand_num));
-					source.append("return limit > 0 ? -1 : -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();\n");
+					source.append("return limit > 0 ? -1 : -error_type.ET_INCOMPL_MSG.ordinal();\n");
 					source.append("}\n");
 				}
 				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
@@ -1824,7 +1824,7 @@ public final class RecordSetCodeGenerator {
 						source.append("if (");
 						source.append(expression.expression);
 						source.append(MessageFormat.format(" < {0}) '{'\n", fieldInfo.raw.length));
-						source.append("return -1 * TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();\n");
+						source.append("return -1 * error_type.ET_LEN_ERR.ordinal();\n");
 						source.append("}\n");
 						source.append(MessageFormat.format("int start_of_field{0} = buff.get_pos_bit();\n", i));
 						source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0} + {1});\n", i, fieldInfo.raw.length));
@@ -1894,7 +1894,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
 		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {\n");
 		source.append("\t\t\tif (!is_bound()) {\n");
-		source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
+		source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
 		source.append("\t\t\t\treturn -1;\n");
 		source.append("\t\t\t}\n\n");
 		if (fieldInfos.size() == 1) {

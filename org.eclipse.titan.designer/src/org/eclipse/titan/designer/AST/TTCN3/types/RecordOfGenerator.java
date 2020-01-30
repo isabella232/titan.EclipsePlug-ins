@@ -1462,7 +1462,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
 		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -1569,7 +1569,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t/** {@inheritDoc} */\n");
 			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {\n");
 			source.append("\t\t\tif (!is_bound()) {\n");
-			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,\n");
+			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,\n");
 			source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of type {0}.\");\n", displayName));
 			source.append("\t\t\t\treturn -1;\n");
 			source.append("\t\t\t}\n\n");
@@ -1606,7 +1606,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\tint dec_len = p_tok.get_next_token(token, null, null);\n");
 			source.append("\t\t\tif (json_token_t.JSON_TOKEN_ERROR == token.get()) {\n");
 			source.append("\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 			source.append("\t\t\t}\n");
@@ -1658,7 +1658,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\tif ((!p_td.json.isAs_map() && json_token_t.JSON_TOKEN_ARRAY_END != token.get()) ||\n");
 			source.append("\t\t\t\t\t(p_td.json.isAs_map() && json_token_t.JSON_TOKEN_OBJECT_END != token.get())) {\n");
 			source.append("\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_REC_OF_END_TOKEN_ERROR, \"\");\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tif (p_silent) {\n");
 			source.append("\t\t\t\t\tclean_up();\n");

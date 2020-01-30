@@ -1598,7 +1598,7 @@ public final class UnionGenerator {
 				source.append("\t\t\t\tbreak;\n");
 			}
 			source.append("\t\t\tdefault:\n");
-			source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
+			source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
 			source.append("\t\t\t\treturn -1;\n");
 			source.append("\t\t\t}\n\n");
 
@@ -1611,7 +1611,7 @@ public final class UnionGenerator {
 			source.append("}\n\n");
 		}
 		else {
-			source.append("\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+			source.append("\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \n");
 			source.append(MessageFormat.format("\t\t\t\t\"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
 			source.append("\t\t\treturn -1;\n");
 			source.append("}\n\n");   
@@ -1671,7 +1671,7 @@ public final class UnionGenerator {
 					source.append("\t\t\t\tbreak;\n");
 				}
 				source.append("\t\t\tdefault:\n");
-				source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+				source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \n");
 				source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of type {0}.\");\n", displayName));
 				source.append("\t\t\t\treturn -1;\n");
 				source.append("\t\t\t}\n\n");
@@ -1684,7 +1684,7 @@ public final class UnionGenerator {
 				source.append("}\n\n");
 			}
 			else {
-				source.append("\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, \n");
+				source.append("\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \n");
 				source.append(MessageFormat.format("\t\t\t\t\"Cannot encode union of type {0}, because it has zero alternatives.\");\n", displayName));
 				source.append("\t\t\treturn -1;\n");
 				source.append("\t\t}\n\n");
@@ -1726,7 +1726,7 @@ public final class UnionGenerator {
 				}
 			}
 			source.append("\t\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"number\");\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"number\");\n");
 			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\tclean_up();\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
@@ -1743,7 +1743,7 @@ public final class UnionGenerator {
 				}
 			}
 			source.append("\t\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"string\");\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"string\");\n");
 			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\tclean_up();\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
@@ -1762,7 +1762,7 @@ public final class UnionGenerator {
 			}
 			source.append("\t\t\t\t\tfinal String literal_str = \"literal (\" + ((json_token_t.JSON_TOKEN_LITERAL_TRUE == j_token.get()) ? \"true\" : \"false\") + \")\";\n");
 			source.append("\t\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, literal_str);\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, literal_str);\n");
 			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\tclean_up();\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
@@ -1779,7 +1779,7 @@ public final class UnionGenerator {
 				}
 			}
 			source.append("\t\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"array\");\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"array\");\n");
 			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\tclean_up();\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
@@ -1796,7 +1796,7 @@ public final class UnionGenerator {
 				}
 			}
 			source.append("\t\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"object\");\n");
+			source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_AS_VALUE_ERROR, \"object\");\n");
 			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\tclean_up();\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
@@ -1818,7 +1818,7 @@ public final class UnionGenerator {
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tcase JSON_TOKEN_ERROR:\n");
-			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 			source.append("\t\t\t\tdefault:\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
@@ -1828,7 +1828,7 @@ public final class UnionGenerator {
 				source.append("\t\t\t\telse {\n"); // if there is no 'as value' set in the type descriptor
 				source.append("\t\t\t\tint dec_len = p_tok.get_next_token(j_token, null, null);\n");
 				source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
-				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
 				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 				source.append("\t\t\t\t}\n");
 				source.append("\t\t\t\telse if (json_token_t.JSON_TOKEN_OBJECT_START != j_token.get()) {\n");
@@ -1838,7 +1838,7 @@ public final class UnionGenerator {
 				source.append("\t\t\t\tAtomicInteger name_len = new AtomicInteger(0);\n");
 				source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
 				source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_NAME != j_token.get()) {\n");
-				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
+				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
 				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 				source.append("\t\t\t\t} else {\n");
 				source.append("\t\t\t\t\t");
@@ -1850,7 +1850,7 @@ public final class UnionGenerator {
 					source.append(MessageFormat.format("\t\t\t\t\t\tint ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\t\tif (0 > ret_val) {\n");
 					source.append("\t\t\t\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
-					source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
+					source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
 							(long) fieldInfo.mDisplayName.length(), fieldInfo.mDisplayName));
 					source.append("\t\t\t\t\t\t\t}\n");
 					source.append("\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
@@ -1860,14 +1860,14 @@ public final class UnionGenerator {
 					source.append("\t\t\t\t\t} else ");
 				}
 				source.append("{\n");
-				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n");
+				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n");
 				source.append("\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 				source.append("\t\t\t\t\t}\n");
 				source.append("\t\t\t\t}\n\n");
 				source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, null, null);\n");
 				source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_OBJECT_END != j_token.get()) {\n");
 				source.append("\t\t\t\t\tif (!p_silent) {\n");
-				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_STATIC_OBJECT_END_TOKEN_ERROR, \"\");\n");
+				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_STATIC_OBJECT_END_TOKEN_ERROR, \"\");\n");
 				source.append("\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 				source.append("\t\t\t\t}\n\n");
@@ -1878,7 +1878,7 @@ public final class UnionGenerator {
 		}
 		else { // no fields
 			source.append("\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, \n");
+			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \n");
 			source.append(MessageFormat.format("\t\t\t\t\"Cannot decode union of type {0}, because it has zero alternatives.\");\n", displayName));
 			source.append("\t\t\t}\n");
 			source.append("\t\t\treturn JSON.JSON_ERROR_FATAL;\n");

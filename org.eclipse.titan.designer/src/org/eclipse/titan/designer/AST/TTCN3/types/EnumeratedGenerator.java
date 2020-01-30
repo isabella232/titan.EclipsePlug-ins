@@ -596,7 +596,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t/** {@inheritDoc} */\n");
 			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
 			source.append("\t\t\tif (enum_value == enum_type.UNBOUND_VALUE) {\n");
-			source.append("\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,\n");
+			source.append("\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,\n");
 			source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of enumerated type {0}.\");\n", e_defs.displayName));
 			source.append("\t\t\t\treturn -1;\n");
 			source.append("\t\t\t}\n\n");
@@ -639,7 +639,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\t}\n");
 			source.append("\t\t\tif (json_token_t.JSON_TOKEN_ERROR == token.get()) {\n");
 			source.append("\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 			source.append("\t\t\t} else if ((json_token_t.JSON_TOKEN_STRING == token.get() && !p_td.json.isAs_number()) || use_default) {\n");
@@ -685,7 +685,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\t}\n\n");
 			source.append("\t\t\tif (error) {\n");
 			source.append("\t\t\t\tif (!p_silent) {\n");
-			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, p_td.json.isAs_number() ? \"number\" : \"string\", \"enumerated\");\n");
+			source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, p_td.json.isAs_number() ? \"number\" : \"string\", \"enumerated\");\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tenum_value = enum_type.UNBOUND_VALUE;\n");
 			source.append("\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
