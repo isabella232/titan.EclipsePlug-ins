@@ -1841,10 +1841,11 @@ public final class UnionGenerator {
 				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
 				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 				source.append("\t\t\t\t} else {\n");
+				source.append("\t\t\t\t\t");
 				for (int i = 0; i < fieldInfos.size(); i++) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 					final String fieldName = fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName; 
-					source.append(MessageFormat.format("\t\t\t\t\tif ({0} == name_len.get() && \"{1}\".equals(fld_name.toString())) '{'\n",
+					source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.substring(0,name_len.get()))) '{'\n",
 							fieldName.length(), fieldName));
 					source.append(MessageFormat.format("\t\t\t\t\t\tint ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\t\tif (0 > ret_val) {\n");

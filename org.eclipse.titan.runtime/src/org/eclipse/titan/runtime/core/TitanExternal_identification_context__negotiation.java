@@ -423,7 +423,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 				break;
 			}
 			else {
-				if (23 == name_len.get() && "presentation-context-id".equals(fld_name.toString())) {
+				if (23 == name_len.get() && "presentation-context-id".equals(fld_name.substring(0,name_len.get()))) {
 					presentation__context__id_found = true;
 					int ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
@@ -434,7 +434,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 					}
 					dec_len += ret_val;
 				}
-				else if (15 == name_len.get() && "transfer-syntax".equals(fld_name.toString())) {
+				else if (15 == name_len.get() && "transfer-syntax".equals(fld_name.substring(0,name_len.get()))) {
 					transfer__syntax_found = true;
 					int ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {

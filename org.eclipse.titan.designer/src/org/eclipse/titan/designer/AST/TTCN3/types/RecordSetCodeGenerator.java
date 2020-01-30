@@ -2026,9 +2026,11 @@ public final class RecordSetCodeGenerator {
 			if (has_metainfo_enabled) {
 				// check for meta info
 				source.append("boolean is_metainfo = false;\n");
-				source.append("\t\t\t\t\tif (name_len > 9 && \"metainfo \".equals(fld_name.toString())) {\n");
-				source.append("\t\t\t\t\t\tfld_name += 9;\n");
-				source.append("\t\t\t\t\t\tname_len -= 9;\n");
+				source.append("\t\t\t\t\tif (name_len.get() > 9 && \"metainfo \".equals(fld_name.substring(0,name_len.get()))) {\n");
+				source.append("\t\t\t\t\t\tfinal String s = fld_name.substring(9);\n");
+				source.append("\t\t\t\t\t\tfld_name.setLength(0);\n");
+				source.append("\t\t\t\t\t\tfld_name.append(s);\n");
+				source.append("\t\t\t\t\t\tname_len.addAndGet(-9);\n");
 				source.append("\t\t\t\t\t\tis_metainfo = true;\n");
 				source.append("\t\t\t\t\t}\n\t\t\t\t\t");
 			}

@@ -424,7 +424,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 				break;
 			}
 			else {
-				if (8 == name_len.get() && "abstract".equals(fld_name.toString())) {
+				if (8 == name_len.get() && "abstract".equals(fld_name.substring(0,name_len.get()))) {
 					abstract__found = true;
 					int ret_val = get_field_abstract_().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
@@ -435,7 +435,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 					}
 					dec_len += ret_val;
 				}
-				else if (8 == name_len.get() && "transfer".equals(fld_name.toString())) {
+				else if (8 == name_len.get() && "transfer".equals(fld_name.substring(0,name_len.get()))) {
 					transfer_found = true;
 					int ret_val = get_field_transfer().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
