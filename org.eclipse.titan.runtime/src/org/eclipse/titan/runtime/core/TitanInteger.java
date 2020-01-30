@@ -1332,7 +1332,7 @@ public class TitanInteger extends Base_Type {
 			}
 			return JSON.JSON_ERROR_FATAL;
 		} else if (json_token_t.JSON_TOKEN_NUMBER == token.get() || use_default) {
-			if (from_string(value.toString()) && value_len.get() == get_nof_digits() + ('-' == value.charAt(0) ? 1 : 0)) {
+			if (from_string(value.substring(0,value_len.get())) && value_len.get() == get_nof_digits() + ('-' == value.charAt(0) ? 1 : 0)) {
 				boundFlag = true;
 			} else {
 				if(!p_silent) {
