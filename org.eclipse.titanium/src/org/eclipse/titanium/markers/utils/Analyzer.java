@@ -8,6 +8,8 @@
 package org.eclipse.titanium.markers.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,6 +126,18 @@ public class Analyzer {
 		markers.put(project, internalAnalyzeProject(project));
 		progress.worked(1);
 
+		final List<Module> knownModules = new ArrayList<Module>(knownModuleNames.size());
+		for (final String moduleName : knownModuleNames) {
+			final Module mod = projectSourceParser.getModuleByName(moduleName);
+			knownModules.add(mod);
+		}
+		Collections.sort(knownModules, new Comparator<Module>() {
+			@Override
+			public int compare(final Module o1, final Module o2) {
+				return o2.getAssignments().getNofAssignments() - o1.getAssignments().getNofAssignments();
+			}
+		});
+
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		executor.setThreadFactory(new ThreadFactory() {
@@ -135,7 +149,7 @@ public class Analyzer {
 			}
 		});
 		final CountDownLatch latch = new CountDownLatch(knownModuleNames.size());
-		for (final String moduleName : knownModuleNames) {
+		for (final Module module : knownModules) {
 			executor.execute(new Runnable() {
 				@Override
 				public void run() {
@@ -145,10 +159,9 @@ public class Analyzer {
 					}
 
 					try {
-						final Module mod = projectSourceParser.getModuleByName(moduleName);
-						progress.subTask("Analyzing module " + mod.getName());
-						final IResource moduleResource = mod.getLocation().getFile();
-						markers.put(moduleResource, internalAnalyzeModule(mod));
+						progress.subTask("Analyzing module " + module.getName());
+						final IResource moduleResource = module.getLocation().getFile();
+						markers.put(moduleResource, internalAnalyzeModule(module));
 						progress.worked(1);
 					} finally {
 						latch.countDown();
