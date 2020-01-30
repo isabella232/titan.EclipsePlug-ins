@@ -8,6 +8,8 @@
 package org.eclipse.titan.designer.AST.brokenpartsanalyzers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -136,6 +138,12 @@ public final class BrokenPartsChecker {
 				modulesToCheckCopy.removeAll(modulesToCheckParallely);
 				TITANDebugConsole.println("  **can check " + modulesToCheckParallely.size() + " modules " + modulesToCheckCopy.size() + " remains");
 				mightStillProcessElements = modulesToCheckParallely.size() > 0;
+				Collections.sort(modulesToCheckParallely, new Comparator<Module>() {
+					@Override
+					public int compare(final Module o1, final Module o2) {
+						return o2.getAssignments().getNofAssignments() - o1.getAssignments().getNofAssignments();
+					}
+				});
 				// do the parallel checking
 				final CountDownLatch latch = new CountDownLatch(modulesToCheckParallely.size());
 				for (final Module module : modulesToCheckParallely) {
