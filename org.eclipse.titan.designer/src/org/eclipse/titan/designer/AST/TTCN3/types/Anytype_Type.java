@@ -35,8 +35,8 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.AnytypeAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.AttributeSpecification;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
@@ -919,15 +919,17 @@ public final class Anytype_Type extends Type {
 
 		generateCodeTypedescriptor(aData, source);
 
+		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final IType cfType = compField.getType();
 			final String jsonAlias = cfType.getJsonAttribute() != null ? cfType.getJsonAttribute().alias : null; 
+			final int JsonValueType = hasJson ? cfType.getJsonValueType() : 0;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, cfType.getJsonValueType());
+					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, JsonValueType);
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -940,8 +942,7 @@ public final class Anytype_Type extends Type {
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
 		//FIXME can have raw attributes
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
-				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, getGenerateCoderFunctions(MessageEncoding_type.JSON),
-				true, jsonAsValue);
+				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, hasJson, true, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {

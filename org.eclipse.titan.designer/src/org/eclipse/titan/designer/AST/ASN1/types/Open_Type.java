@@ -20,12 +20,12 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
-import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -732,16 +732,18 @@ public final class Open_Type extends ASN1Type {
 
 		generateCodeTypedescriptor(aData, source);
 
+		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
 		for ( final CompField compField : map.values() ) {
 			final IType cfType = compField.getType();
 			final String jsonAlias = cfType.getJsonAttribute() != null ? cfType.getJsonAttribute().alias : null;
+			final int JsonValueType = hasJson ? cfType.getJsonValueType() : 0;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
 					cfType.getGenNameTemplate(aData, source),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
-					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, cfType.getJsonValueType());
+					cfType.getGenNameTypeDescriptor(aData, source), jsonAlias, JsonValueType);
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -757,8 +759,7 @@ public final class Open_Type extends ASN1Type {
 
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
-				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, getGenerateCoderFunctions(MessageEncoding_type.JSON),
-				false, jsonAsValue);
+				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, hasJson, false, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);
