@@ -31,17 +31,6 @@ type union anytypeOper_tunion {
 type integer int;
 
 
-
-
-
-
-
-
-
-
-
-
-
 // *************** Constanst ***********************
 //const anytypeOper_trecord anytypeOper_temp1:={ x1:=omit, x2:=3.4 };
 //const anytypeOper_trecof anytypeOper_temp2:={ 'AF12'O };
