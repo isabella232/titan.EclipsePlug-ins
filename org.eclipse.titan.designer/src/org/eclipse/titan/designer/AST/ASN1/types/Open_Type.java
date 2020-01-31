@@ -757,9 +757,9 @@ public final class Open_Type extends ASN1Type {
 			}
 		}
 
-		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
-				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, hasJson, false, jsonAsValue);
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
+		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, false, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);

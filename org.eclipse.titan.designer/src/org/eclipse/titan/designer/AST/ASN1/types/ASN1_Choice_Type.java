@@ -688,9 +688,9 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
-				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, hasJson, false, jsonAsValue);
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
+		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, false, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);

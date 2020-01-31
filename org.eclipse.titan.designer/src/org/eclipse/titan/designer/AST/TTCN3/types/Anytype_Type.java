@@ -939,10 +939,10 @@ public final class Anytype_Type extends Type {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
+		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
+		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		//FIXME can have raw attributes
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional,
-				getGenerateCoderFunctions(MessageEncoding_type.RAW), null, hasJson, true, jsonAsValue);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, true, jsonAsValue);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {
