@@ -316,7 +316,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 			JSON_encode(p_td, tok);
 			p_buf.put_s(tok.get_buffer().toString().getBytes());
 			break;
@@ -359,7 +359,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 			if(JSON_decode(p_td, tok, false) < 0) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
@@ -373,9 +373,9 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 		if (!is_bound()) {
-			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value of type CHARACTER STRING.identification.context-negotiation.");
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value of type CHARACTER STRING.identification.context-negotiation.");
 			return -1;
 		}
 
@@ -397,8 +397,8 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
-		AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		final AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		int dec_len = p_tok.get_next_token(j_token, null, null);
 		if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {
 			JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
@@ -413,7 +413,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 		while (true) {
 			final StringBuilder fld_name = new StringBuilder();
 			final AtomicInteger name_len = new AtomicInteger(0);
-			int buf_pos = p_tok.get_buf_pos();
+			final int buf_pos = p_tok.get_buf_pos();
 			dec_len += p_tok.get_next_token(j_token, fld_name, name_len);
 			if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {
 				JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);
@@ -426,7 +426,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 			else {
 				if (23 == name_len.get() && "presentation-context-id".equals(fld_name.substring(0,name_len.get()))) {
 					presentation__context__id_found = true;
-					int ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, p_silent);
+					final int ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 23, "presentation-context-id");
@@ -437,7 +437,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 				}
 				else if (15 == name_len.get() && "transfer-syntax".equals(fld_name.substring(0,name_len.get()))) {
 					transfer__syntax_found = true;
-					int ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
+					final int ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 15, "transfer-syntax");
