@@ -65,6 +65,9 @@ public final class FunctionReferenceGenerator {
 		aData.addCommonLibraryImport("Module_List");
 		aData.addImport("java.lang.reflect.Method");
 		aData.addImport("java.lang.reflect.InvocationTargetException");
+		if (def.type == fatType.ALTSTEP) {
+			aData.addCommonLibraryImport("TitanAlt_Status");
+		}
 
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", def.genName));
 		switch (def.type) {
