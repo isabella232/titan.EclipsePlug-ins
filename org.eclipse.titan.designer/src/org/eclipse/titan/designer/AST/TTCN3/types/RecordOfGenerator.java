@@ -1583,7 +1583,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\telse {\n");
-			source.append("\t\t\t\t\tint ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);\n");
+			source.append("\t\t\t\t\tfinal int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);\n");
 			source.append("\t\t\t\t\tif (0 > ret_val) break;\n");
 			source.append("\t\t\t\t\tenc_len += ret_val;\n");
 			source.append("\t\t\t\t}\n");
@@ -1640,7 +1640,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
 			source.append("\t\t\t\t}\n");
 			source.append(MessageFormat.format("\t\t\t\tfinal {0} val = new {0}();\n", ofTypeName));
-			source.append("\t\t\t\tint ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);\n");
+			source.append("\t\t\t\tfinal int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);\n");
 			source.append("\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {\n");
 			source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
 			source.append("\t\t\t\t\tbreak;\n");

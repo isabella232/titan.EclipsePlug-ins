@@ -1124,7 +1124,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -1177,7 +1177,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -3351,7 +3351,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -3404,7 +3404,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -5706,7 +5706,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -5759,7 +5759,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -7948,7 +7948,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -8001,7 +8001,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -10190,7 +10190,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -10243,7 +10243,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -12432,7 +12432,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -12485,7 +12485,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -14674,7 +14674,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -14727,7 +14727,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -16916,7 +16916,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -16969,7 +16969,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -19158,7 +19158,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -19211,7 +19211,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -21400,7 +21400,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -21453,7 +21453,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -23642,7 +23642,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -23695,7 +23695,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -25869,7 +25869,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -25922,7 +25922,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -28209,7 +28209,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -28262,7 +28262,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -30549,7 +30549,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -30602,7 +30602,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -32889,7 +32889,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -32942,7 +32942,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -35229,7 +35229,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -35282,7 +35282,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -37584,7 +37584,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -37637,7 +37637,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -39811,7 +39811,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -39864,7 +39864,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -42151,7 +42151,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -42204,7 +42204,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -44491,7 +44491,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -44544,7 +44544,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -46831,7 +46831,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -46884,7 +46884,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -49171,7 +49171,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -49224,7 +49224,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -51511,7 +51511,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -51564,7 +51564,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -53866,7 +53866,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -53919,7 +53919,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -56108,7 +56108,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -56161,7 +56161,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -58335,7 +58335,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -58388,7 +58388,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -60675,7 +60675,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -60728,7 +60728,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -63015,7 +63015,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -63068,7 +63068,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -65370,7 +65370,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -65423,7 +65423,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -67612,7 +67612,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -67665,7 +67665,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -69839,7 +69839,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -69892,7 +69892,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -72194,7 +72194,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -72247,7 +72247,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
