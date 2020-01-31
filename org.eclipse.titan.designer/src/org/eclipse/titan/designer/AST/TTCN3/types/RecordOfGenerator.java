@@ -1415,7 +1415,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
 		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
 		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -1460,7 +1460,7 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
 		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -1567,7 +1567,7 @@ public final class RecordOfGenerator {
 			// JSON encode, RT1
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
-			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {\n");
+			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
 			source.append("\t\t\tif (!is_bound()) {\n");
 			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,\n");
 			source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of type {0}.\");\n", displayName));
@@ -1575,7 +1575,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t}\n\n");
 			source.append("\t\t\tint enc_len = p_tok.put_next_token(p_td.json.isAs_map() ? json_token_t.JSON_TOKEN_OBJECT_START : json_token_t.JSON_TOKEN_ARRAY_START, null);\n");
 			source.append("\t\t\tfor (int i = 0; i < valueElements.size(); ++i) {\n");
-			source.append("\t\t\t\tif (null != p_td.json && p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {\n");
+			source.append("\t\t\t\tif (p_td.json.isMetainfo_unbound() && !(get_at(i).is_bound())) {\n");
 			// unbound elements are encoded as { "metainfo []" : "unbound" }
 			source.append("\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
 			source.append("\t\t\t\t\tenc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, \"metainfo []\");\n");
@@ -1595,7 +1595,7 @@ public final class RecordOfGenerator {
 			// JSON decode, RT1
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
-			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
 			source.append("\t\t\tif (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {\n");
 			// use the default value (currently only the empty array can be set as
 			// default value for this type)
@@ -1616,14 +1616,14 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t}\n\n");
 			source.append("\t\t\tset_size(0);\n");
 			source.append("\t\t\tfor (int nof_elements = 0; true; ++nof_elements) {\n");
-			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
 			source.append("\t\t\t\tint ret_val;\n");
-			source.append("\t\t\t\tif (null != p_td.json && p_td.json.isMetainfo_unbound()) {\n");
+			source.append("\t\t\t\tif (p_td.json.isMetainfo_unbound()) {\n");
 			// check for metainfo object
 			source.append("\t\t\t\t\tret_val = p_tok.get_next_token(token, null, null);\n");
 			source.append("\t\t\t\t\tif (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {\n");
-			source.append("\t\t\t\t\t\tStringBuilder value = new StringBuilder();\n");
-			source.append("\t\t\t\t\t\tAtomicInteger value_len = new AtomicInteger(0);\n");
+			source.append("\t\t\t\t\t\tfinal StringBuilder value = new StringBuilder();\n");
+			source.append("\t\t\t\t\t\tfinal AtomicInteger value_len = new AtomicInteger(0);\n");
 			source.append("\t\t\t\t\t\tret_val += p_tok.get_next_token(token, value, value_len);\n");
 			source.append("\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && \"metainfo []\".equals(value.toString())) {\n");
 			source.append("\t\t\t\t\t\t\tret_val += p_tok.get_next_token(token, value, value_len);\n");
@@ -1639,7 +1639,7 @@ public final class RecordOfGenerator {
 			// metainfo object not found, jump back and let the element type decode it
 			source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
 			source.append("\t\t\t\t}\n");
-			source.append(MessageFormat.format("\t\t\t\t{0} val = new {0}();\n", ofTypeName));
+			source.append(MessageFormat.format("\t\t\t\tfinal {0} val = new {0}();\n", ofTypeName));
 			source.append("\t\t\t\tint ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);\n");
 			source.append("\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {\n");
 			source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");

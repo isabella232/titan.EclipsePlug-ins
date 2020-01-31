@@ -1105,7 +1105,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
 		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
 		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -1150,7 +1150,7 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
 		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -1578,7 +1578,7 @@ public final class UnionGenerator {
 			if (!jsonAsValue) {
 				// 'as value' is not set for the base type, but it might still be set in
 				// the type descriptor
-				source.append("\t\t\tboolean as_value = null != p_td.json && p_td.json.isAs_value();\n");
+				source.append("\t\t\tboolean as_value = p_td.json.isAs_value();\n");
 				source.append("\t\t\tint enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
 			} else {
 				source.append("\t\t\tint enc_len = 0;\n");
@@ -1621,12 +1621,12 @@ public final class UnionGenerator {
 			// JSON encode for negative testing
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} *"+"/\n");
-			source.append("\t\tpublic int JSON_encode_negtest(final Erroneous_descriptor ed, final TTCN_Typedescriptor td, JSON_Tokenizer jt) {\n");
+			source.append("\t\tpublic int JSON_encode_negtest(final Erroneous_descriptor ed, final TTCN_Typedescriptor td, final JSON_Tokenizer jt) {\n");
 			if (fieldInfos.size() > 0) {
 				if (!jsonAsValue) {
 					// 'as value' is not set for the base type, but it might still be set in
 					// the type descriptor
-					source.append("\t\t\tboolean as_value = null != p_td.json && p_td.json.as_value;\n");
+					source.append("\t\t\tboolean as_value = p_td.json.as_value;\n");
 					source.append("\t\t\tint enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
 				} else {
 					source.append("\t\t\tint enc_len = 0;\n\n");
@@ -1694,7 +1694,7 @@ public final class UnionGenerator {
 		// JSON decode
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
 		if (fieldInfos.size() > 0) {
 			source.append(MessageFormat.format("\t\t\tif (0 <= p_chosen_field && {0,number,#} > p_chosen_field) '{'\n", fieldInfos.size()));
 			source.append("\t\t\t\tswitch (p_chosen_field) {\n");
@@ -1706,11 +1706,11 @@ public final class UnionGenerator {
 			}
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t}\n");
-			source.append("\t\t\tAtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+			source.append("\t\t\tfinal AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 			if (!jsonAsValue) {
-				source.append("\t\t\tif (null != p_td.json && p_td.json.isAs_value()) {\n");
+				source.append("\t\t\tif (p_td.json.isAs_value()) {\n");
 			}
-			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
 			source.append("\t\t\t\tp_tok.get_next_token(j_token, null, null);\n");
 			source.append("\t\t\t\tint ret_val = 0;\n");
 			source.append("\t\t\t\tswitch(j_token.get()) {\n");
@@ -1847,7 +1847,7 @@ public final class UnionGenerator {
 					final String fieldName = fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName; 
 					source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.substring(0,name_len.get()))) '{'\n",
 							fieldName.length(), fieldName));
-					source.append(MessageFormat.format("\t\t\t\t\t\tint ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\t\t\tfinal int ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\t\tif (0 > ret_val) {\n");
 					source.append("\t\t\t\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
 					source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",

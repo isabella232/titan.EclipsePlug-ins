@@ -476,7 +476,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
 		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
 		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -521,7 +521,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
 		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -623,7 +623,7 @@ public final class EnumeratedGenerator {
 			// JSON decode
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
-			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
 			source.append("\t\t\tfinal AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 			source.append("\t\t\tfinal StringBuilder value = new StringBuilder();\n");
 			source.append("\t\t\tfinal AtomicInteger value_len = new AtomicInteger(0);\n");

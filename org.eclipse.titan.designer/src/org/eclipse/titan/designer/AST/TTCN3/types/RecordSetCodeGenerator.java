@@ -917,7 +917,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
 		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
 		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
 		source.append("\t\t\t\tbreak;\n");
@@ -972,7 +972,7 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t\tif(p_td.json == null) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tJSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
 		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
 		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
 		source.append("\t\t\t\t}\n");
@@ -1892,14 +1892,14 @@ public final class RecordSetCodeGenerator {
 		// JSON encode, RT1
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {\n");
+		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
 		source.append("\t\t\tif (!is_bound()) {\n");
 		source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
 		source.append("\t\t\t\treturn -1;\n");
 		source.append("\t\t\t}\n\n");
 		if (fieldInfos.size() == 1) {
 			if (!jsonAsValue) {
-				source.append("\t\t\tif (null != p_td.json && p_td.json.as_value) {\n");
+				source.append("\t\t\tif (p_td.json.as_value) {\n");
 			}
 			source.append(MessageFormat.format("\t\t{0}return field_{1}.JSON_encode({2}_descr_, p_tok);\n",
 					jsonAsValue ? "" : "\t", fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
@@ -1947,11 +1947,11 @@ public final class RecordSetCodeGenerator {
 		// JSON decode, RT1
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {\n");
+		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
 
 		if (fieldInfos.size() == 1) {
 			if (!jsonAsValue) {
-				source.append("\t\t\tif (null != p_td.json && p_td.json.as_value) {\n");
+				source.append("\t\t\tif (p_td.json.as_value) {\n");
 			}
 			source.append(MessageFormat.format("\t\t\t{0}return get_field_{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n",
 					jsonAsValue ? "" : "\t", fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
@@ -1960,13 +1960,13 @@ public final class RecordSetCodeGenerator {
 			}
 		}
 		if (!jsonAsValue) {
-			source.append("\t\t\tAtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+			source.append("\t\t\tfinal AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 		}
 		if (jsonAsMapPossible) {
 			source.append("\t\t\tif (p_td.json.as_map) {\n");
 			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
 			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
-			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
 			source.append("\t\t\t\tint dec_len = p_tok.get_next_token(j_token, fld_name, name_len);\n");
 			source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
 			source.append("\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
@@ -2011,7 +2011,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\n\t\t\twhile (true) {\n");
 			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
 			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
-			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
 			source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
 			source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
 			source.append("\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
@@ -2108,7 +2108,7 @@ public final class RecordSetCodeGenerator {
 						source.append("\t\t\t\t\t\t\t}\n");
 					}
 				}
-				source.append(MessageFormat.format("\t\t\t\t\t\t\tint ret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent{2});\n",
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tfinal int ret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent{2});\n",
 					fieldInfos.get(i).mJavaVarName, fieldInfos.get(i).mTypeDescriptorName,
 					fieldInfos.get(i).jsonChosen != null ? ", chosen_field" : ""));
 				source.append("\t\t\t\t\t\t\tif (0 > ret_val) {\n");

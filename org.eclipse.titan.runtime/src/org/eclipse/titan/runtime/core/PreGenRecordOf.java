@@ -968,7 +968,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -1011,7 +1011,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -1108,7 +1108,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -1135,7 +1135,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -1155,13 +1155,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -1176,7 +1176,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanInteger val = new TitanInteger();
+				final TitanInteger val = new TitanInteger();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -3195,7 +3195,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -3238,7 +3238,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -3335,7 +3335,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -3362,7 +3362,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -3382,13 +3382,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -3403,7 +3403,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanUniversalCharString val = new TitanUniversalCharString();
+				final TitanUniversalCharString val = new TitanUniversalCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -5550,7 +5550,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -5593,7 +5593,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -5690,7 +5690,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -5717,7 +5717,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -5737,13 +5737,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -5758,7 +5758,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanOctetString val = new TitanOctetString();
+				final TitanOctetString val = new TitanOctetString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -7792,7 +7792,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -7835,7 +7835,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -7932,7 +7932,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -7959,7 +7959,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -7979,13 +7979,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -8000,7 +8000,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanFloat val = new TitanFloat();
+				final TitanFloat val = new TitanFloat();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -10034,7 +10034,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -10077,7 +10077,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -10174,7 +10174,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -10201,7 +10201,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -10221,13 +10221,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -10242,7 +10242,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanUniversalCharString val = new TitanUniversalCharString();
+				final TitanUniversalCharString val = new TitanUniversalCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -12276,7 +12276,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -12319,7 +12319,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -12416,7 +12416,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -12443,7 +12443,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -12463,13 +12463,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -12484,7 +12484,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBitString val = new TitanBitString();
+				final TitanBitString val = new TitanBitString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -14518,7 +14518,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -14561,7 +14561,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -14658,7 +14658,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -14685,7 +14685,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -14705,13 +14705,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -14726,7 +14726,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBoolean val = new TitanBoolean();
+				final TitanBoolean val = new TitanBoolean();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -16760,7 +16760,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -16803,7 +16803,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -16900,7 +16900,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -16927,7 +16927,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -16947,13 +16947,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -16968,7 +16968,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanCharString val = new TitanCharString();
+				final TitanCharString val = new TitanCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -19002,7 +19002,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -19045,7 +19045,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -19142,7 +19142,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -19169,7 +19169,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -19189,13 +19189,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -19210,7 +19210,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBoolean val = new TitanBoolean();
+				final TitanBoolean val = new TitanBoolean();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -21244,7 +21244,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -21287,7 +21287,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -21384,7 +21384,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -21411,7 +21411,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -21431,13 +21431,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -21452,7 +21452,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBitString val = new TitanBitString();
+				final TitanBitString val = new TitanBitString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -23486,7 +23486,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -23529,7 +23529,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -23626,7 +23626,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -23653,7 +23653,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -23673,13 +23673,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -23694,7 +23694,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanInteger val = new TitanInteger();
+				final TitanInteger val = new TitanInteger();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -25713,7 +25713,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -25756,7 +25756,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -25853,7 +25853,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -25880,7 +25880,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -25900,13 +25900,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -25921,7 +25921,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanUniversalCharString val = new TitanUniversalCharString();
+				final TitanUniversalCharString val = new TitanUniversalCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -28053,7 +28053,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -28096,7 +28096,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -28193,7 +28193,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -28220,7 +28220,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -28240,13 +28240,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -28261,7 +28261,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBoolean val = new TitanBoolean();
+				final TitanBoolean val = new TitanBoolean();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -30393,7 +30393,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -30436,7 +30436,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -30533,7 +30533,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -30560,7 +30560,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -30580,13 +30580,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -30601,7 +30601,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanFloat val = new TitanFloat();
+				final TitanFloat val = new TitanFloat();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -32733,7 +32733,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -32776,7 +32776,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -32873,7 +32873,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -32900,7 +32900,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -32920,13 +32920,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -32941,7 +32941,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanInteger val = new TitanInteger();
+				final TitanInteger val = new TitanInteger();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -35073,7 +35073,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -35116,7 +35116,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -35213,7 +35213,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -35240,7 +35240,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -35260,13 +35260,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -35281,7 +35281,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanCharString val = new TitanCharString();
+				final TitanCharString val = new TitanCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -37428,7 +37428,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -37471,7 +37471,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -37568,7 +37568,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -37595,7 +37595,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -37615,13 +37615,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -37636,7 +37636,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanUniversalCharString val = new TitanUniversalCharString();
+				final TitanUniversalCharString val = new TitanUniversalCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -39655,7 +39655,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -39698,7 +39698,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -39795,7 +39795,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -39822,7 +39822,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -39842,13 +39842,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -39863,7 +39863,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanHexString val = new TitanHexString();
+				final TitanHexString val = new TitanHexString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -41995,7 +41995,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -42038,7 +42038,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -42135,7 +42135,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -42162,7 +42162,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -42182,13 +42182,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -42203,7 +42203,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanHexString val = new TitanHexString();
+				final TitanHexString val = new TitanHexString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -44335,7 +44335,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -44378,7 +44378,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -44475,7 +44475,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -44502,7 +44502,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -44522,13 +44522,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -44543,7 +44543,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanOctetString val = new TitanOctetString();
+				final TitanOctetString val = new TitanOctetString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -46675,7 +46675,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -46718,7 +46718,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -46815,7 +46815,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -46842,7 +46842,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -46862,13 +46862,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -46883,7 +46883,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanFloat val = new TitanFloat();
+				final TitanFloat val = new TitanFloat();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -49015,7 +49015,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -49058,7 +49058,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -49155,7 +49155,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -49182,7 +49182,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -49202,13 +49202,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -49223,7 +49223,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanInteger val = new TitanInteger();
+				final TitanInteger val = new TitanInteger();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -51355,7 +51355,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -51398,7 +51398,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -51495,7 +51495,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -51522,7 +51522,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -51542,13 +51542,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -51563,7 +51563,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanOctetString val = new TitanOctetString();
+				final TitanOctetString val = new TitanOctetString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -53710,7 +53710,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -53753,7 +53753,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -53850,7 +53850,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -53877,7 +53877,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -53897,13 +53897,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -53918,7 +53918,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanOctetString val = new TitanOctetString();
+				final TitanOctetString val = new TitanOctetString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -55952,7 +55952,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -55995,7 +55995,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -56092,7 +56092,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -56119,7 +56119,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -56139,13 +56139,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -56160,7 +56160,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanHexString val = new TitanHexString();
+				final TitanHexString val = new TitanHexString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -58179,7 +58179,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -58222,7 +58222,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -58319,7 +58319,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -58346,7 +58346,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -58366,13 +58366,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -58387,7 +58387,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanCharString val = new TitanCharString();
+				final TitanCharString val = new TitanCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -60519,7 +60519,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -60562,7 +60562,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -60659,7 +60659,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -60686,7 +60686,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -60706,13 +60706,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -60727,7 +60727,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBitString val = new TitanBitString();
+				final TitanBitString val = new TitanBitString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -62859,7 +62859,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -62902,7 +62902,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -62999,7 +62999,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -63026,7 +63026,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -63046,13 +63046,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -63067,7 +63067,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBoolean val = new TitanBoolean();
+				final TitanBoolean val = new TitanBoolean();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -65214,7 +65214,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -65257,7 +65257,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -65354,7 +65354,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -65381,7 +65381,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -65401,13 +65401,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -65422,7 +65422,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanCharString val = new TitanCharString();
+				final TitanCharString val = new TitanCharString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -67456,7 +67456,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -67499,7 +67499,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -67596,7 +67596,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -67623,7 +67623,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -67643,13 +67643,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -67664,7 +67664,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanFloat val = new TitanFloat();
+				final TitanFloat val = new TitanFloat();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -69683,7 +69683,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -69726,7 +69726,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -69823,7 +69823,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -69850,7 +69850,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -69870,13 +69870,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -69891,7 +69891,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanBitString val = new TitanBitString();
+				final TitanBitString val = new TitanBitString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -72038,7 +72038,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -72081,7 +72081,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
@@ -72178,7 +72178,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
@@ -72205,7 +72205,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, JSON_Tokenizer p_tok, boolean p_silent, int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -72225,13 +72225,13 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 			set_size(0);
 			for (int nof_elements = 0; true; ++nof_elements) {
-				int buf_pos = p_tok.get_buf_pos();
+				final int buf_pos = p_tok.get_buf_pos();
 				int ret_val;
 				if (p_td.json.isMetainfo_unbound()) {
 					ret_val = p_tok.get_next_token(token, null, null);
 					if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
-						StringBuilder value = new StringBuilder();
-						AtomicInteger value_len = new AtomicInteger(0);
+						final StringBuilder value = new StringBuilder();
+						final AtomicInteger value_len = new AtomicInteger(0);
 						ret_val += p_tok.get_next_token(token, value, value_len);
 						if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() && "metainfo []".equals(value.toString())) {
 							ret_val += p_tok.get_next_token(token, value, value_len);
@@ -72246,7 +72246,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					}
 					p_tok.set_buf_pos(buf_pos);
 				}
-				TitanHexString val = new TitanHexString();
+				final TitanHexString val = new TitanHexString();
 				int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
@@ -73684,7 +73684,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 				break;
@@ -73727,7 +73727,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 				}
