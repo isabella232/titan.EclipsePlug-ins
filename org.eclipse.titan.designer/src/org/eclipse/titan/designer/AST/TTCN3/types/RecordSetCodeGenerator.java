@@ -1899,9 +1899,9 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n\n");
 		if (fieldInfos.size() == 1) {
 			if (!jsonAsValue) {
-				source.append("\t\t\tif (p_td.json.as_value) {\n");
+				source.append("\t\t\tif (p_td.json.isAs_value()) {\n");
 			}
-			source.append(MessageFormat.format("\t\t{0}return field_{1}.JSON_encode({2}_descr_, p_tok);\n",
+			source.append(MessageFormat.format("\t\t{0}return get_field_{1}().JSON_encode({2}_descr_, p_tok);\n",
 					jsonAsValue ? "" : "\t", fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
 			if (!jsonAsValue) {
 				source.append("\t\t\t}\n");
@@ -1951,7 +1951,7 @@ public final class RecordSetCodeGenerator {
 
 		if (fieldInfos.size() == 1) {
 			if (!jsonAsValue) {
-				source.append("\t\t\tif (p_td.json.as_value) {\n");
+				source.append("\t\t\tif (p_td.json.isAs_value()) {\n");
 			}
 			source.append(MessageFormat.format("\t\t\t{0}return get_field_{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n",
 					jsonAsValue ? "" : "\t", fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
