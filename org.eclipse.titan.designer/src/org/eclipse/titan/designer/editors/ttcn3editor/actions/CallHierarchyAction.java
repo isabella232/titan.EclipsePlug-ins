@@ -186,18 +186,6 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 
 	/**
 	 * Show message on the target editors status bar.<br>
-	 * The message level is automatically STATUS_LINE_LEVEL_MESSAGE.
-	 * 
-	 * @see #showStatusLineMessage(String, int)
-	 * @param message
-	 * 			The string of the message.
-	 */
-	public void showStatusLineMessage(final String message) {
-		showStatusLineMessage(message, STATUS_LINE_LEVEL_MESSAGE);
-	}
-
-	/**
-	 * Show message on the target editors status bar.<br>
 	 * The message level possible ERROR OR MESSAGE. The level define by the level parameter.<br>
 	 * With the STATUS_LINE_CLEAR parameter, the method clear the status line.
 	 * 
