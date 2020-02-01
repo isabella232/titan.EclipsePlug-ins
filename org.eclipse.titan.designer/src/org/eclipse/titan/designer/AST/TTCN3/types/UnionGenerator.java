@@ -1834,8 +1834,8 @@ public final class UnionGenerator {
 				source.append("\t\t\t\telse if (json_token_t.JSON_TOKEN_OBJECT_START != j_token.get()) {\n");
 				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
 				source.append("\t\t\t\t}\n\n");
-				source.append("\t\t\t\tStringBuilder fld_name = new StringBuilder();\n");
-				source.append("\t\t\t\tAtomicInteger name_len = new AtomicInteger(0);\n");
+				source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
+				source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
 				source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
 				source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_NAME != j_token.get()) {\n");
 				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
