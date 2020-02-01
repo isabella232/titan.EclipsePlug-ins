@@ -207,7 +207,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 * 			The level of message.<br>
 	 * 			Possible: STATUS_LINE_LEVEL_MESSAGE or STATUS_LINE_LEVEL_ERROR or STATUS_LINE_CLEAR
 	 */
-	public void showStatusLineMessage(final String message, final int level) {
+	private void showStatusLineMessage(final String message, final int level) {
 		if(targetEditor == null) {
 			targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		}
@@ -234,7 +234,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 * Use: {@link #showStatusLineMessage()}
 	 * @see {@link #showStatusLineMessage()}
 	 */
-	public void clearStatusLineMessage() {
+	private void clearStatusLineMessage() {
 		showStatusLineMessage("", STATUS_LINE_CLEAR);
 	}
 }
