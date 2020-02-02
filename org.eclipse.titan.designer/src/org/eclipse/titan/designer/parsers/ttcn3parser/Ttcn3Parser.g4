@@ -2288,7 +2288,7 @@ pr_SingleValueOrAttrib returns[TTCN3Template template]
 (		v = pr_SingleExpression {
 		if( $v.value != null ) { $template = new SpecificValue_Template($v.value); }
 	}
-|   t = pr_MatchingSymbol { $template = $t.template; }
+|	t = pr_MatchingSymbol { $template = $t.template; }
 |	pr_NotUsedSymbol { $template = new NotUsed_Template(); }
 )
 {
@@ -2383,7 +2383,7 @@ pr_ExtraMatchingAttributes [TTCN3Template template]:
 (	l = pr_LengthMatch
 	d = pr_IfPresentMatch	{ if($template != null) { $template.setLengthRestriction($l.restriction); $template.setIfpresent(); } }
 |	l = pr_LengthMatch		{ if($template != null) { $template.setLengthRestriction($l.restriction); } }
-|   b = pr_IfPresentMatch	{ if($template != null) { $template.setIfpresent(); }}
+|	b = pr_IfPresentMatch	{ if($template != null) { $template.setIfpresent(); }}
 );
 
 pr_BitString returns[String string]:
@@ -2539,13 +2539,13 @@ pr_PatternChunk[StringBuilder builder, boolean[] uni, boolean noCase]:
 			UniversalChar uc = null;
 			for (int i = 0; i < $ustring_value.string.length(); i++) {
 				uc = $ustring_value.string.get(i);
-	    		if (uc.group() != 0 || uc.plane() != 0 || uc.row() != 0 || uc.cell() > 127) {
-	      			uni[0] = true;
-	      		}
-	    		$builder.append("\\q{");
-	    		$builder.append(uc.group()).append(',').append(uc.plane()).append(',').append(uc.row()).append(',').append(uc.cell());
-	    		$builder.append('}');
-	  		}
+				if (uc.group() != 0 || uc.plane() != 0 || uc.row() != 0 || uc.cell() > 127) {
+		 			uni[0] = true;
+				}
+				$builder.append("\\q{");
+				$builder.append(uc.group()).append(',').append(uc.plane()).append(',').append(uc.row()).append(',').append(uc.cell());
+				$builder.append('}');
+			}
 		}
 );
 
@@ -3656,12 +3656,12 @@ pr_ImportDef [Group parent_group]
 			loc.setEndOffset(offset + getLastVisibleToken().getStopIndex() + 1);
 		}
 		if(parent_group == null) {
-	  		impmod.setAttributeParentPath(act_ttcn3_module.getAttributePath());
+			impmod.setAttributeParentPath(act_ttcn3_module.getAttributePath());
 		} else {
-	  		parent_group.addImportedModule(impmod);
-	  		impmod.setAttributeParentPath(parent_group.getAttributePath());
-	    }
-	    act_ttcn3_module.addImportedModule(impmod);
+			parent_group.addImportedModule(impmod);
+			impmod.setAttributeParentPath(parent_group.getAttributePath());
+		}
+		act_ttcn3_module.addImportedModule(impmod);
 	}
 };
 
@@ -4151,10 +4151,10 @@ pr_FriendModuleDef[Group parent_group]
 		if($parent_group == null) {
 			friend.setAttributeParentPath(act_ttcn3_module.getAttributePath());
 		} else {
-	  		$parent_group.addFriendModule(friend);
-	  		friend.setAttributeParentPath(parent_group.getAttributePath());
-	    }
-	    act_ttcn3_module.addFriendModule(friend);
+			$parent_group.addFriendModule(friend);
+			friend.setAttributeParentPath(parent_group.getAttributePath());
+		}
+		act_ttcn3_module.addFriendModule(friend);
 	}
 };
 
@@ -4604,7 +4604,7 @@ pr_SingleTimerInstance returns[Def_Timer def_timer]
 	ArrayDimensions dimensions = null;
 	Value value = null;
 }:
-(   i = pr_Identifier
+(	i = pr_Identifier
 	(	d = pr_ArrayDef { dimensions = $d.dimensions; } )?
 	(	pr_AssignmentChar
 		v = pr_TimerValue { value = $v.value; }
@@ -6013,7 +6013,7 @@ pr_TimerStatements returns[Statement statement]
 	$statement = null;
 	Value timerValue = null;
 	Value dereferredValue = null;
-    ParsedActualParameters parameters = null;
+	ParsedActualParameters parameters = null;
 }:
 (	r = pr_TimerRef
 	pr_Dot
@@ -6023,23 +6023,23 @@ pr_TimerStatements returns[Statement statement]
 		(	pr_LParen
 			(	tv = pr_TimerValue { timerValue = $tv.value; }
 			| 	dv = pr_DereferOp { dereferredValue = $dv.value; }
-                a1=pr_LParen
-                	( p = pr_FunctionActualParList { parameters = $p.parsedParameters; } )?
-                a2=pr_RParen
-                {   if(parameters == null) { parameters = new ParsedActualParameters();  }
-                    parameters.setLocation(getLocation( $a1.start, $a2.stop));
-                }
+				a1=pr_LParen
+				( p = pr_FunctionActualParList { parameters = $p.parsedParameters; } )?
+				a2=pr_RParen
+ 				{	if(parameters == null) { parameters = new ParsedActualParameters();  }
+					parameters.setLocation(getLocation( $a1.start, $a2.stop));
+				}
 			)
 			pr_RParen
 		)?
-		{      if(dereferredValue != null) {
-                           Value component = new Referenced_Value( $r.reference );
-                           component.setLocation( getLocation( $r.start, $r.stop ) );
-                           $statement = new Start_Referenced_Component_Statement( component, dereferredValue, parameters );
-                     } else {
-                           $statement = new Unknown_Start_Statement( $r.reference, timerValue );
-                     }
-        }
+		{	if(dereferredValue != null) {
+				Value component = new Referenced_Value( $r.reference );
+				component.setLocation( getLocation( $r.start, $r.stop ) );
+				$statement = new Start_Referenced_Component_Statement( component, dereferredValue, parameters );
+			} else {
+				$statement = new Unknown_Start_Statement( $r.reference, timerValue );
+			}
+		}
 		//pr_StartTimerStatement
 	)
 |	pr_AllKeyword
@@ -6268,9 +6268,9 @@ pr_FloatValue returns[Real_Value value]
 @init {
 	$value = null;
 }:
-(   FLOATVALUE		{ $value = new Real_Value( Double.parseDouble( $FLOATVALUE.getText() ) ); }
-|   INFINITY		{ $value = new Real_Value( Float.POSITIVE_INFINITY ); }
-|   NOT_A_NUMBER	{ $value = new Real_Value( Float.NaN ); }
+(	FLOATVALUE	{ $value = new Real_Value( Double.parseDouble( $FLOATVALUE.getText() ) ); }
+|	INFINITY	{ $value = new Real_Value( Float.POSITIVE_INFINITY ); }
+|	NOT_A_NUMBER	{ $value = new Real_Value( Float.NaN ); }
 )
 {
 	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
@@ -6475,15 +6475,15 @@ pr_FormalValuePar returns[FormalParameter parameter]
 	)
 	t = pr_Type
 	i = pr_Identifier
-	(   pr_AssignmentChar
-	    (   n = pr_NotUsedSymbol
-	    		{
-	    			TTCN3Template template = new NotUsed_Template();
-	    			template.setLocation(getLocation( $n.start, $n.stop));
-	    			default_value = new TemplateInstance(null, null, template);
-	    			default_value.setLocation(getLocation( $n.start, $n.stop));
-	    		}
-		|   dv = pr_TemplateInstance { default_value = $dv.templateInstance; }
+	(	pr_AssignmentChar
+		(	n = pr_NotUsedSymbol
+			{
+				TTCN3Template template = new NotUsed_Template();
+				template.setLocation(getLocation( $n.start, $n.stop));
+				default_value = new TemplateInstance(null, null, template);
+				default_value.setLocation(getLocation( $n.start, $n.stop));
+			}
+		|	dv = pr_TemplateInstance { default_value = $dv.templateInstance; }
 		)
 	)?
 )
@@ -6529,16 +6529,16 @@ pr_FormalTemplatePar returns[FormalParameter parameter]
 	lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
 	t = pr_Type
 	i = pr_Identifier
-	(   pr_AssignmentChar
-	    (   n = pr_NotUsedSymbol
-	    		{
+	(	pr_AssignmentChar
+		(	n = pr_NotUsedSymbol
+			{
 					TTCN3Template template = new NotUsed_Template();
 					template.setLocation(getLocation( $n.start, $n.stop));
 					default_value = new TemplateInstance(null, null, template);
 					default_value.setLocation(getLocation( $n.start, $n.stop));
 				}
 		|	ti = pr_TemplateInstance { default_value = $ti.templateInstance; }
-	    )
+		)
 	)?
 )
 {
@@ -7484,7 +7484,7 @@ pr_RelExpression returns[Value value]
 @init {
 	$value = null;
 }:
-(   v = pr_ShiftExpression	{ $value = $v.value; }
+(	v = pr_ShiftExpression	{ $value = $v.value; }
 	(	LESSTHAN	v1 = pr_ShiftExpression	{	$value = new LessThanExpression($value, $v1.value);
 												$value.setLocation(getLocation( $v.start, $v1.stop)); }
 	|	MORETHAN	v2 = pr_ShiftExpression {	$value = new GreaterThanExpression($value, $v2.value);
@@ -7612,8 +7612,8 @@ pr_Primary returns[Value value]
 	boolean applyFound = false;
 }:
 (	t = pr_ValueReference { temporalReference = $t.reference; }
-	(  (    a11 = pr_LParen
-		    	(p1 = pr_FunctionActualParList { parameters = $p1.parsedParameters; } )?
+	(	(	a11 = pr_LParen
+			(p1 = pr_FunctionActualParList { parameters = $p1.parsedParameters; } )?
 			a12 = pr_RParen
 			{	ISubReference temp = temporalReference.removeLastSubReference();
 				Identifier id = temp.getId();
@@ -7654,7 +7654,7 @@ pr_Primary returns[Value value]
 						}
 				)
 			)?
-	   )
+		)
 	|	(	sr = pr_ExtendedFieldReference
 				{	subReferences = $sr.subReferences;
 					if(subReferences != null) {
@@ -7707,8 +7707,8 @@ pr_Primary returns[Value value]
 	)
 |	pr_AnyKeyword pr_FromKeyword
 	t = pr_ValueReference { temporalReference = $t.reference; }
-	(  (    a11 = pr_LParen
-		    	(p1 = pr_FunctionActualParList { parameters = $p1.parsedParameters; } )?
+	(	(	a11 = pr_LParen
+			(p1 = pr_FunctionActualParList { parameters = $p1.parsedParameters; } )?
 			a12 = pr_RParen
 			{	ISubReference temp = temporalReference.removeLastSubReference();
 				Identifier id = temp.getId();
@@ -7757,7 +7757,7 @@ pr_Primary returns[Value value]
 						}
 				)
 			)?
-	   )
+		)
 	|	(	sr = pr_ExtendedFieldReference
 				{	subReferences = $sr.subReferences;
 					if(subReferences != null) {
@@ -7964,7 +7964,7 @@ pr_PredefinedOps returns[Value value]
 	pr_LParen
 	t = pr_TemplateInstance
 	pr_RParen	{ $value = new IsValueExpression($t.templateInstance); }
-|   ISBOUND
+|	ISBOUND
 	pr_LParen
 	t = pr_TemplateInstance
 	pr_RParen  { $value = new IsBoundExpression($t.templateInstance); }
@@ -8011,7 +8011,7 @@ pr_PredefinedOps returns[Value value]
 		)?
 	)?
 	pr_RParen	{	$value = new DecodeExpression($r1.reference, $r2.reference, encodingInfo, dynamicEncoding); }
-|   TESTCASENAME
+|	TESTCASENAME
 	pr_LParen
 	pr_RParen	{	$value = new TestcasenameExpression(); }
 |	TTCN2STRING
@@ -8216,16 +8216,16 @@ pr_PredefinedOps1 returns[Value value]
 				arguments.add(logArgument);
 				LogArguments logArguments = new LogArguments(arguments);
 				$value = new Any2UnistrExpression(logArguments); }
-|   JSON2BSON
+|	JSON2BSON
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new Json2BsonExpression($v.value); }
-|   JSON2CBOR
+|	JSON2CBOR
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new Json2CborExpression($v.value); }
-|   BSON2JSON
+|	BSON2JSON
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new Bson2JsonExpression($v.value); }
-|   CBOR2JSON
+|	CBOR2JSON
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new Cbor2JsonExpression($v.value); }
 )
