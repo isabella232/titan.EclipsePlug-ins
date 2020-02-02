@@ -62,10 +62,7 @@ public final class CallHierarchyAction extends AbstractHandler implements IEdito
 	 * Set the current selection empty and set the target editor.
 	 */
 	public CallHierarchyAction() {
-		selection 		= TextSelection.emptySelection();
-		if (PlatformUI.isWorkbenchRunning()) {
-			targetEditor 	= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		}
+		selection = TextSelection.emptySelection();
 	}
 
 	/**
