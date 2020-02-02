@@ -39,6 +39,19 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		arguments = new ArrayList<LogArgument>();
 	}
 
+	public LogArguments(final ArrayList<LogArgument> arguments) {
+		super();
+
+		if (arguments == null) {
+			this.arguments = new ArrayList<LogArgument>();
+		} else {
+			for (final LogArgument logArgument : arguments) {
+				logArgument.setFullNameParent(this);
+			}
+			this.arguments = arguments;
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
@@ -78,13 +91,6 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		return arguments.size();
 	}
 
-	public void add(final LogArgument logArgument) {
-		if (logArgument != null) {
-			arguments.add(logArgument);
-			logArgument.setFullNameParent(this);
-		}
-	}
-
 	public LogArgument getLogArgumentByIndex(final int index) {
 		return arguments.get(index);
 	}
@@ -96,7 +102,6 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
 	public void check(final CompilationTimeStamp timestamp) {
-		arguments.trimToSize();
 		for (int i = 0, size = arguments.size(); i < size; i++) {
 			arguments.get(i).check(timestamp);
 		}
@@ -136,12 +141,7 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (arguments == null) {
-			return;
-		}
-
-		final List<LogArgument> tempList = new ArrayList<LogArgument>(arguments);
-		for (final LogArgument logArgument : tempList) {
+		for (final LogArgument logArgument : arguments) {
 			logArgument.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -149,13 +149,12 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (arguments != null) {
-			for (final LogArgument la : arguments) {
-				if (!la.accept(v)) {
-					return false;
-				}
+		for (final LogArgument la : arguments) {
+			if (!la.accept(v)) {
+				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -165,10 +164,6 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 * @param source the source code generated
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		if ( arguments == null ) {
-			return;
-		}
-
 		//This will be the final implementation
 		for ( int i = 0; i < arguments.size(); i++ ) {
 			arguments.get(i).generateCode(aData, source);
@@ -184,10 +179,6 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 * @param expression the expression to generate source code into
 	 * */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		if ( arguments == null ) {
-			return;
-		}
-
 		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("TitanCharString");
 

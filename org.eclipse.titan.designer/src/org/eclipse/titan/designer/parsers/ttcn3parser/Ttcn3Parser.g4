@@ -8212,8 +8212,9 @@ pr_PredefinedOps1 returns[Value value]
 |	ANY2UNISTR
 	pr_LParen	t = pr_TemplateInstance
 	pr_RParen	{	LogArgument logArgument = new LogArgument($t.templateInstance);
-				LogArguments logArguments = new LogArguments();
-				logArguments.add(logArgument);
+				ArrayList<LogArgument> arguments = new ArrayList<LogArgument>();
+				arguments.add(logArgument);
+				LogArguments logArguments = new LogArguments(arguments);
 				$value = new Any2UnistrExpression(logArguments); }
 |   JSON2BSON
 	pr_LParen	v = pr_SingleExpression
@@ -8345,13 +8346,15 @@ pr_Int2EnumStatement returns[Int2Enum_Statement statement]
 
 pr_LogArguments returns[LogArguments logArguments]
 @init {
-	$logArguments = new LogArguments();
+	ArrayList<LogArgument> arguments = new ArrayList<LogArgument>();
 }:
-(	l = pr_LogItem	{ if($l.item != null) { $logArguments.add($l.item); }}
+(	l = pr_LogItem	{ if($l.item != null) { arguments.add($l.item); }}
 	(	pr_Comma
-		l = pr_LogItem	{ if($l.item != null) { $logArguments.add($l.item); }}
+		l = pr_LogItem	{ if($l.item != null) { arguments.add($l.item); }}
 	)*
-);
+) {
+	$logArguments = new LogArguments(arguments);
+};
 
 pr_LogItem returns[LogArgument item]
 @init {
