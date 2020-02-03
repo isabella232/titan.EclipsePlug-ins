@@ -1111,7 +1111,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
 				return -1;
 			}
 
@@ -3338,7 +3338,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
 				return -1;
 			}
 
@@ -5693,7 +5693,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -7935,7 +7935,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
 				return -1;
 			}
 
@@ -10177,7 +10177,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
 				return -1;
 			}
 
@@ -12419,7 +12419,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
 				return -1;
 			}
 
@@ -14661,7 +14661,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
 				return -1;
 			}
 
@@ -16903,7 +16903,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
 				return -1;
 			}
 
@@ -19145,7 +19145,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
 				return -1;
 			}
 
@@ -21387,7 +21387,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -23629,7 +23629,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
 				return -1;
 			}
 
@@ -25856,7 +25856,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -28196,7 +28196,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
 				return -1;
 			}
 
@@ -30536,7 +30536,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
 				return -1;
 			}
 
@@ -32876,7 +32876,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
 				return -1;
 			}
 
@@ -35216,7 +35216,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
 				return -1;
 			}
 
@@ -37571,7 +37571,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -39798,7 +39798,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
 				return -1;
 			}
 
@@ -42138,7 +42138,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -44478,7 +44478,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
 				return -1;
 			}
 
@@ -46818,7 +46818,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
 				return -1;
 			}
 
@@ -49158,7 +49158,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
 				return -1;
 			}
 
@@ -51498,7 +51498,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -53853,7 +53853,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
 				return -1;
 			}
 
@@ -56095,7 +56095,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
 				return -1;
 			}
 
@@ -58322,7 +58322,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -60662,7 +60662,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
 				return -1;
 			}
 
@@ -63002,7 +63002,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
 				return -1;
 			}
 
@@ -65357,7 +65357,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -67599,7 +67599,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
 				return -1;
 			}
 
@@ -69826,7 +69826,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -72181,7 +72181,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
-						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
+					"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
 				return -1;
 			}
 
@@ -73602,7 +73602,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
 					param.error("Unexpected array index in module parameter, expected a valid field name for union type `@PreGenRecordOf.anytype'");
 				}
-				else {
+ else {
 					param.error(MessageFormat.format("Field `{0}' not found in union template type `@PreGenRecordOf.anytype'", param_field));
 				}
 			}
@@ -74219,7 +74219,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {
 					param.error("Unexpected array index in module parameter, expected a valid field name for union template type `@PreGenRecordOf.anytype'");
 				}
-				else {
+ else {
 					param.error(MessageFormat.format("Field `{0}' not found in union template type `@PreGenRecordOf.anytype'", param_field));
 				}
 			}
@@ -74356,38 +74356,38 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 		pre_init_called = true;
 		final TTCN_Location current_location = TTCN_Location.enter("PreGenRecordOf.ttcn", 0, entity_type_t.LOCATION_UNKNOWN, "PreGenRecordOf");
-		PREGEN__RECORD__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__RECORD__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__RECORD__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__RECORD__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__RECORD__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__RECORD__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__RECORD__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
-		PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
-		PREGEN__SET__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__SET__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__SET__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__SET__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__SET__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__SET__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__SET__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
-		PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+PREGEN__RECORD__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+PREGEN__RECORD__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+PREGEN__RECORD__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+PREGEN__RECORD__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+PREGEN__RECORD__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+PREGEN__RECORD__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+PREGEN__RECORD__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+PREGEN__SET__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+PREGEN__SET__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+PREGEN__SET__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+PREGEN__SET__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+PREGEN__SET__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+PREGEN__SET__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+PREGEN__SET__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
 		current_location.leave();
 	}
 
