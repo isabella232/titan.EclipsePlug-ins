@@ -2224,7 +2224,7 @@ public final class RecordSetCodeGenerator {
 		}
 		source.append("\t\t}\n\n");
 
-		source.append("\t\tprivate static void JSON_ERROR(final boolean p_silent, final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {\n");
+		source.append("\t\tprivate static void JSON_ERROR(final boolean p_silent, final TTCN_EncDec.error_type p_et, final String fmt, final java.lang.Object... args) {\n");
 		source.append("\t\t\tif (!p_silent) {\n");
 		source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(p_et, fmt, args);\n");
 		source.append("\t\t\t}\n");
