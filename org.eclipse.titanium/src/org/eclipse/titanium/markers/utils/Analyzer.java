@@ -15,9 +15,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.resources.IProject;
@@ -58,8 +58,6 @@ import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
 public class Analyzer {
 	private final Map<Class<? extends IVisitableNode>, Set<BaseModuleCodeSmellSpotter>> actions;
 	private final Set<BaseProjectCodeSmellSpotter> projectActions;
-
-	private static final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
 	Analyzer(final Map<Class<? extends IVisitableNode>, Set<BaseModuleCodeSmellSpotter>> actions, final Set<BaseProjectCodeSmellSpotter> projectActions) {
 		this.actions = actions;
@@ -138,9 +136,7 @@ public class Analyzer {
 			}
 		});
 
-		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>());
-		executor.setThreadFactory(new ThreadFactory() {
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
 			@Override
 			public Thread newThread(final Runnable r) {
 				final Thread t = new Thread(r);

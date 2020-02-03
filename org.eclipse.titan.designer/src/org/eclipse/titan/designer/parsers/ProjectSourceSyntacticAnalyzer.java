@@ -18,9 +18,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.resources.IContainer;
@@ -87,8 +87,6 @@ public final class ProjectSourceSyntacticAnalyzer {
 	Map<IFile, List<TITANMarker>> unsupportedConstructMap;
 
 	private volatile boolean syntacticallyOutdated = true;
-
-	private static final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
 
 	/**
 	 * A helper class to store parsed data, which was generated in parse
@@ -409,9 +407,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			final SubMonitor parseProgress = SubMonitor.convert(progress, ttcn3FilesToCheck.size() + asn1FilesToCheck.size());
 			parseProgress.setTaskName("Parse");
 
-			final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
-					new LinkedBlockingQueue<Runnable>());
-			executor.setThreadFactory(new ThreadFactory() {
+			final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
 				@Override
 				public Thread newThread(final Runnable r) {
 					final Thread t = new Thread(r);
@@ -648,7 +644,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			allCheckedFiles.addAll(asn1FilesToCheck);
 
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("  **Syntax check to be done on  " + (ttcn3FilesToCheck.size() + asn1FilesToCheck.size()) + " files.",stream);
+				TITANDebugConsole.println("  **Syntax check to be done on  " + (ttcn3FilesToCheck.size() + asn1FilesToCheck.size()) + " files in project " + project.getName() + ".",stream);
 			}
 
 			// parsing the files
@@ -656,9 +652,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			parseProgress.setTaskName("Syntactically analyzing");
 
 
-			final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
-					new LinkedBlockingQueue<Runnable>());
-			executor.setThreadFactory(new ThreadFactory() {
+			final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
 				@Override
 				public Thread newThread(final Runnable r) {
 					final Thread t = new Thread(r);

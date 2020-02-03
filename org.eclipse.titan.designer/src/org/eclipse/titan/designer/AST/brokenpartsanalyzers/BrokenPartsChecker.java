@@ -13,9 +13,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -40,8 +40,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  */
 public final class BrokenPartsChecker {
-	private static final int NUMBER_OF_PROCESSORS = Runtime.getRuntime().availableProcessors();
-
 	private final SubMonitor progress;
 
 	private final IProgressMonitor monitor;
@@ -106,9 +104,7 @@ public final class BrokenPartsChecker {
 			// Each iteration builds up a new layer/set, and checks its elements in parallel.
 			// Please note, that this will not let all modules be processed in parallel,
 			//  modules in import loops (and all modules depending on them) have to be checked in the single threaded way.
-			final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
-					new LinkedBlockingQueue<Runnable>());
-			executor.setThreadFactory(new ThreadFactory() {
+			final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
 				@Override
 				public Thread newThread(final Runnable r) {
 					final Thread t = new Thread(r);
@@ -156,7 +152,10 @@ public final class BrokenPartsChecker {
 							}
 
 							try {
+								final long absoluteStart2 = System.nanoTime();
 								module.check(compilationCounter);
+								final long now = System.nanoTime();
+								TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to check " + module.getName());
 								progress.worked(1);
 							} finally {
 								latch.countDown();
@@ -184,7 +183,11 @@ public final class BrokenPartsChecker {
 		for (final Module module : modulesToCheck) {
 			progress.subTask("Semantically checking module: " + module.getName());
 
+			final long absoluteStart2 = System.nanoTime();
 			module.check(compilationCounter);
+			final long now = System.nanoTime();
+			TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to check " + module.getName());
+
 
 			progress.worked(1);
 		}
