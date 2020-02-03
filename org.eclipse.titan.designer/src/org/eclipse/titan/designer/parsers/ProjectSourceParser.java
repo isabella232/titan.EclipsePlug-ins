@@ -753,26 +753,26 @@ public final class ProjectSourceParser {
 		final List<IProject> tobeSemanticallyAnalyzed = new ArrayList<IProject>();
 
 		try {
-			for (int i = 0; i < tobeAnalyzed.size(); i++) {
-				progress.subTask("Analyzing project " + tobeAnalyzed.get(i).getName());
-				GlobalParser.getProjectSourceParser(tobeAnalyzed.get(i)).analyzesRunning = true;
+			for (final IProject tempProject : tobeAnalyzed) {
+				progress.subTask("Analyzing project " + tempProject.getName());
+				GlobalParser.getProjectSourceParser(tempProject).analyzesRunning = true;
 
-				if (tobeAnalyzed.get(i).isAccessible()) {
-					if (TITANNature.hasTITANNature(tobeAnalyzed.get(i))) {
-						GlobalParser.getProjectSourceParser(tobeAnalyzed.get(i)).syntacticAnalyzer
+				if (tempProject.isAccessible()) {
+					if (TITANNature.hasTITANNature(tempProject)) {
+						GlobalParser.getProjectSourceParser(tempProject).syntacticAnalyzer
 								.internalDoAnalyzeSyntactically(progress.newChild(1));
-						tobeSemanticallyAnalyzed.add(tobeAnalyzed.get(i));
+						tobeSemanticallyAnalyzed.add(tempProject);
 					} else {
 						final Location location = new Location(project, 0, 0, 0);
 						location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTTITANPROJECT,
-								tobeAnalyzed.get(i).getName(), project.getName()), IMarker.SEVERITY_ERROR,
+								tempProject.getName(), project.getName()), IMarker.SEVERITY_ERROR,
 								GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 						progress.worked(1);
 					}
 				} else {
 					final Location location = new Location(project);
 					location.reportExternalProblem(
-							MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tobeAnalyzed.get(i).getName(),
+							MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tempProject.getName(),
 									project.getName()), IMarker.SEVERITY_ERROR,
 							GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 					progress.worked(1);
