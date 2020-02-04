@@ -1309,11 +1309,11 @@ public class TitanCharString extends Base_Type {
 	/**
 	 *
 	 * @param p_value (in) JSON string
-	 * @param check_quotes
-	 * @param cstr (out) result
+	 * @param check_quotes (in) true if quotes are expected as the first and last character
+	 * @param str (out) result
 	 * @return true on success, false otherwise
 	 */
-	static boolean from_JSON_string(final String p_value, final boolean check_quotes, final StringBuilder cstr) {
+	static boolean from_JSON_string(final String p_value, final boolean check_quotes, final StringBuilder str) {
 		int start = 0;
 		final int p_value_len = p_value.length();
 		int end = p_value_len;
@@ -1326,7 +1326,6 @@ public class TitanCharString extends Base_Type {
 		}
 
 		// The resulting string (its length is less than or equal to end - start)
-		final StringBuilder str = new StringBuilder();
 		boolean error = false;
 
 		for (int i = start; i < end; ++i) {
@@ -1458,7 +1457,8 @@ public class TitanCharString extends Base_Type {
 						operator_assign(new_cs);
 					}
 				}
-				break; }
+				break;
+			}
 			default:
 				throw new TtcnError("Internal error: TitanCharString.set_param()");
 			}

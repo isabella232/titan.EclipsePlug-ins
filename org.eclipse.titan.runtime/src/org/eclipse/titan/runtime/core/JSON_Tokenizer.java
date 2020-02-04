@@ -334,6 +334,12 @@ public class JSON_Tokenizer {
 				}
 			} // switch (current char)
 		} // if (skip_white_spaces())
+		
+		if (null != p_token_str && null != p_str_len) {
+			final String shortValue = p_token_str.substring(0, p_str_len.get());
+			p_token_str.setLength(0);
+			p_token_str.append( shortValue );
+		}
 
 		return buf_pos - start_pos;
 	}
