@@ -247,6 +247,15 @@ public final class Bitstring_Value extends Value {
 			result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", octetValue));
 			return result;
 		}
+		case TYPE_ANY: {
+			aData.addBuiltinTypeImport("TitanAsn_Any");
+			aData.addBuiltinTypeImport("TitanOctetString");
+
+			final StringBuilder result = new StringBuilder();
+			final String octetValue = Bit2OctExpression.bit2oct(value);
+			result.append(MessageFormat.format("new TitanAsn_Any(new TitanOctetString(\"{0}\"))", octetValue));
+			return result;
+		}
 		default:
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 			return new StringBuilder("FATAL ERROR while generating code for value `" + getFullName() + "''");

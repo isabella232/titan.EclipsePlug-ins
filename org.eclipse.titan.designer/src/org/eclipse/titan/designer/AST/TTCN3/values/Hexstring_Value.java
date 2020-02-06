@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.HexString_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2OctExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2BitExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2OctExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -231,6 +232,13 @@ public final class Hexstring_Value extends Value {
 				aData.addBuiltinTypeImport("TitanOctetString");
 				final String octetValue = Hex2OctExpression.hex2oct(value);
 				result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", octetValue));
+				return result;
+			}
+			case TYPE_ANY: {
+				aData.addBuiltinTypeImport("TitanAsn_Any");
+				aData.addBuiltinTypeImport("TitanOctetString");
+				final String octetValue = Hex2OctExpression.hex2oct(value);
+				result.append(MessageFormat.format("new TitanAsn_Any(new TitanOctetString(\"{0}\"))", octetValue));
 				return result;
 			}
 			default:

@@ -196,17 +196,24 @@ public final class Bit2HexExpression extends Expression_Value {
 		return lastValue;
 	}
 
+	/**
+	 * Converts bitstring to hexstring
+	 * @param bitString input bitstring without ''B, it can contain only '0', '1' and space
+	 * @return coverted hexstring without ''H
+	 */
 	public static String bit2hex(final String bitString) {
 		final byte[] zeros = new byte[] { '0', '0', '0', '0' };
 		final char[] digits = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-		final int hexLength = (bitString.length() + 3) / 4;
+		// bitstring without spaces
+		final String bitString1 = bitString.replaceAll(" ", "");
+		final int hexLength = (bitString1.length() + 3) / 4;
 		final StringBuilder builder = new StringBuilder(hexLength);
 		int index;
-		final byte[] bytes = bitString.getBytes();
+		final byte[] bytes = bitString1.getBytes();
 		int subindex = 0;
 		final byte[] bytes4 = new byte[hexLength * 4];
-		System.arraycopy(zeros, 0, bytes4, 0, hexLength * 4 - bitString.length());
-		System.arraycopy(bytes, 0, bytes4, hexLength * 4 - bitString.length(), bytes.length);
+		System.arraycopy(zeros, 0, bytes4, 0, hexLength * 4 - bitString1.length());
+		System.arraycopy(bytes, 0, bytes4, hexLength * 4 - bitString1.length(), bytes.length);
 		for (int i = 0; i < hexLength; i++) {
 			index = 0;
 			if (bytes4.length > subindex) {
