@@ -198,6 +198,7 @@ public final class Bit2HexExpression extends Expression_Value {
 
 	/**
 	 * Converts bitstring to hexstring
+	 * NOTE: padding with zeros is done at the end of the string
 	 * @param bitString input bitstring without ''B, it can contain only '0', '1' and space
 	 * @return coverted hexstring without ''H
 	 */
@@ -212,8 +213,8 @@ public final class Bit2HexExpression extends Expression_Value {
 		final byte[] bytes = bitString1.getBytes();
 		int subindex = 0;
 		final byte[] bytes4 = new byte[hexLength * 4];
-		System.arraycopy(zeros, 0, bytes4, 0, hexLength * 4 - bitString1.length());
-		System.arraycopy(bytes, 0, bytes4, hexLength * 4 - bitString1.length(), bytes.length);
+		System.arraycopy(bytes, 0, bytes4, 0, bytes.length);
+		System.arraycopy(zeros, 0, bytes4, bytes.length, hexLength * 4 - bitString1.length());
 		for (int i = 0; i < hexLength; i++) {
 			index = 0;
 			if (bytes4.length > subindex) {

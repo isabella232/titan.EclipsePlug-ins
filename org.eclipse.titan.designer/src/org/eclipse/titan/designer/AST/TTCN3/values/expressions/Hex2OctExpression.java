@@ -196,12 +196,18 @@ public final class Hex2OctExpression extends Expression_Value {
 		return lastValue;
 	}
 
+	/**
+	 * Converts hexstring to octstring
+	 * NOTE: padding with zeros is done at the end of the string
+	 * @param bitString input hexstring without ''H, it can contain only hexadecimal digits and space
+	 * @return coverted octstring without ''O
+	 */
 	public static String hex2oct(final String hexString) {
 		if (hexString.length() % 2 == 0) {
 			return hexString;
 		}
 
-		return new StringBuilder(hexString.length() + 1).append('0').append(hexString).toString();
+		return new StringBuilder(hexString.length() + 1).append(hexString).append('0').toString();
 	}
 
 	@Override

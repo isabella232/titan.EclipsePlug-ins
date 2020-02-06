@@ -117,8 +117,10 @@ public class TitanBitString extends Base_Type {
 	 * NOTE: this is the way bitstring value is stored in Bitstring_Value
 	 */
 	public TitanBitString(final String value) {
-		bits_ptr = bitstr2intlist(value);
-		n_bits = value.length();
+		// bitstring without spaces
+		final String bitString = value.replaceAll(" ", "");
+		bits_ptr = bitstr2intlist(bitString);
+		n_bits = bitString.length();
 	}
 
 	/**
