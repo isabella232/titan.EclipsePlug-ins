@@ -198,7 +198,10 @@ public final class Bit2HexExpression extends Expression_Value {
 
 	/**
 	 * Converts bitstring to hexstring
-	 * NOTE: padding with zeros is done at the end of the string
+	 * NOTE: padding with zeros is done at the end of the string. This method corresponds to titan.core/PredefFunc.cc/bit2hex(),
+	 *       where padding is also done at the end of the string.
+	 *       runtime/AdditionalFuncions.bit2hex() corresponds to titan.core/AddFunc.cc/bit2hex(),
+	 *       where padding is done at the beginning of the string.
 	 * @param bitString input bitstring without ''B, it can contain only '0', '1' and space
 	 * @return coverted hexstring without ''H
 	 */
