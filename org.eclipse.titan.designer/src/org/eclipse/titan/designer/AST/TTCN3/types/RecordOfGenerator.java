@@ -1615,7 +1615,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
 			source.append("\t\t\t}\n\n");
 			source.append("\t\t\tset_size(0);\n");
-			source.append("\t\t\tfor (int nof_elements = 0; true; ++nof_elements) {\n");
+			source.append("\t\t\twhile (true) {\n");
 			source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
 			source.append("\t\t\t\tint ret_val;\n");
 			source.append("\t\t\t\tif (p_td.json.isMetainfo_unbound()) {\n");
