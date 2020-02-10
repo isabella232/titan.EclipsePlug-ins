@@ -493,12 +493,45 @@ public class MainController {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
 			throw new TtcnError("MainController.add_host: called in wrong state.");
 		}
+		
+		HostGroupStruct group = add_host_group(group_name);
+		if (host_name != null) {
+			if (group.has_all_hosts) {
+				throw new TtcnError(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.", host_name, group_name));
+			} else {
+				//TODO: implement
+			}
+		}
+			
 		//TODO: implement
 	}
 	
 	private static HostGroupStruct add_host_group(final String group_name) {
-		//TODO: implement
-		return null;
+		if (host_groups == null) {
+			host_groups = new ArrayList<HostGroupStruct>();
+			HostGroupStruct new_group = new HostGroupStruct();
+			
+			new_group.group_name = group_name;
+			new_group.has_all_hosts = false;
+			new_group.has_all_components = false;
+			
+			host_groups.add(new_group);
+			return new_group;
+		} else {
+			for (int i = 0; i < host_groups.size(); i++) {
+				if (host_groups.get(i).group_name.equals(group_name)) {
+					return host_groups.get(i);
+				}
+			}
+			HostGroupStruct new_group = new HostGroupStruct();
+			
+			new_group.group_name = group_name;
+			new_group.has_all_hosts = false;
+			new_group.has_all_components = false;
+			
+			host_groups.add(new_group);
+			return new_group;
+		}
 	}
 	
 
@@ -542,6 +575,7 @@ public class MainController {
 	}
 	
 	private static int interactiveMode() {
+		//TODO: implement in cli
 		boolean exitFlag = true;
 		
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
@@ -569,15 +603,6 @@ public class MainController {
 		//TODO: history
 		hosts = new ArrayList<Host>();
 		BufferedReader line_read = new BufferedReader(new InputStreamReader(System.in));
-		do {
-			System.out.print(MainControllerCommand.PROMPT);
-			try {
-				line_read.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} while (exitFlag);
 		return 0;
 	}
 
