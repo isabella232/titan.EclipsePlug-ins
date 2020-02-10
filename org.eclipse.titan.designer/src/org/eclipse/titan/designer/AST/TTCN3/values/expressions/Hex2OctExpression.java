@@ -198,7 +198,7 @@ public final class Hex2OctExpression extends Expression_Value {
 
 	/**
 	 * Converts hexstring to octstring
-	 * NOTE: padding with zeros is done at the end of the string
+	 * NOTE: padding with zeros is done at the left
 	 * @param bitString input hexstring without ''H, it can contain only hexadecimal digits and space
 	 * @return coverted octstring without ''O
 	 */
@@ -207,7 +207,7 @@ public final class Hex2OctExpression extends Expression_Value {
 			return hexString;
 		}
 
-		return new StringBuilder(hexString.length() + 1).append(hexString).append('0').toString();
+		return new StringBuilder(hexString.length() + 1).append('0').append(hexString).toString();
 	}
 
 	@Override
