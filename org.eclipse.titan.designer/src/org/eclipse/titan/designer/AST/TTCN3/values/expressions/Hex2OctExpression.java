@@ -196,18 +196,27 @@ public final class Hex2OctExpression extends Expression_Value {
 		return lastValue;
 	}
 
+	public static String hex2oct(final String hexString) {
+		return hex2oct(hexString, false);
+	}
+
 	/**
 	 * Converts hexstring to octstring
-	 * NOTE: padding with zeros is done at the left
 	 * @param bitString input hexstring without ''H, it can contain only hexadecimal digits and space
 	 * @return coverted octstring without ''O
 	 */
-	public static String hex2oct(final String hexString) {
+	public static String hex2oct(final String hexString, final boolean isAsn) {
 		if (hexString.length() % 2 == 0) {
 			return hexString;
 		}
 
-		return new StringBuilder(hexString.length() + 1).append('0').append(hexString).toString();
+		if (isAsn ) {
+			// padding 0s from the right
+			return new StringBuilder(hexString.length() + 1).append(hexString).append('0').toString();
+		} else {
+			// padding 0s from the left
+			return new StringBuilder(hexString.length() + 1).append('0').append(hexString).toString();
+		}
 	}
 
 	@Override

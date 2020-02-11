@@ -197,8 +197,12 @@ public final class Bit2OctExpression extends Expression_Value {
 	}
 
 	public static String bit2oct(final String bitString) {
-		final String string1 = Bit2HexExpression.bit2hex(bitString);
-		return Hex2OctExpression.hex2oct(string1);
+		return bit2oct(bitString, false);
+	}
+
+	public static String bit2oct(final String bitString, final boolean isAsn) {
+		final String string1 = Bit2HexExpression.bit2hex(bitString, isAsn);
+		return Hex2OctExpression.hex2oct(string1, isAsn);
 	}
 
 	@Override

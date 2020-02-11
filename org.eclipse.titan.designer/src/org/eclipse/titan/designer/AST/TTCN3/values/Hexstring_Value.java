@@ -230,14 +230,14 @@ public final class Hexstring_Value extends Value {
 			}
 			case TYPE_OCTETSTRING: {
 				aData.addBuiltinTypeImport("TitanOctetString");
-				final String octetValue = Hex2OctExpression.hex2oct(value);
+				final String octetValue = Hex2OctExpression.hex2oct(value, isAsn());
 				result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", octetValue));
 				return result;
 			}
 			case TYPE_ANY: {
 				aData.addBuiltinTypeImport("TitanAsn_Any");
 				aData.addBuiltinTypeImport("TitanOctetString");
-				final String octetValue = Hex2OctExpression.hex2oct(value);
+				final String octetValue = Hex2OctExpression.hex2oct(value, isAsn());
 				result.append(MessageFormat.format("new TitanAsn_Any(new TitanOctetString(\"{0}\"))", octetValue));
 				return result;
 			}
