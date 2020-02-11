@@ -192,7 +192,7 @@ public final class UnionGenerator {
 			aData.addImport("java.util.concurrent.atomic.AtomicReference");
 			aData.addBuiltinTypeImport("JSON");
 			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
-			generateValueJsonEncodeDecode(source, genName, displayName, fieldInfos, isAnytypeKind, jsonAsValue);
+			generateValueJsonEncodeDecode(source, genName, displayName, fieldInfos, jsonAsValue);
 		}
 
 		source.append("\t}\n");
@@ -1552,18 +1552,14 @@ public final class UnionGenerator {
 	 *                the user readable name of the type to be generated.
 	 * @param fieldInfos
 	 *                the list of information about the fields.
-	 * @param isAnytypeKind
-	 *                true if anytype kind
 	 * @param jsonAsValue
 	 *                true if this type is a field of a union with the "as value" coding instruction
 	 */
 	private static void generateValueJsonEncodeDecode(final StringBuilder source, final String genName, final String displayName,
-			final List<FieldInfo> fieldInfos, boolean isAnytypeKind, final boolean jsonAsValue) {
+			final List<FieldInfo> fieldInfos, final boolean jsonAsValue) {
 
 		//TODO: implement RT2
 		final boolean use_runtime_2 = false;
-		
-		final String at_field = isAnytypeKind ? "AT_" : "";
 		
 		// JSON encode
 		source.append("\t\t@Override\n");
@@ -1702,7 +1698,7 @@ public final class UnionGenerator {
 			for (int i = 0; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("\t\t\t\tcase {0,number,#}:\n", i));
-				source.append(MessageFormat.format("\t\t\t\t\treturn get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("\t\t\t\t\treturn get_field_{0}().JSON_decode({1}_descr_, p_tok, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 			}
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t}\n");
@@ -1719,7 +1715,7 @@ public final class UnionGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_NUMBER & fieldInfo.jsonValueType) != 0) {
 					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
 					source.append("\t\t\t\t\t\treturn ret_val;\n");
 					source.append("\t\t\t\t\t}\n");
@@ -1736,7 +1732,7 @@ public final class UnionGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_STRING & fieldInfo.jsonValueType) != 0) {
 					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
 					source.append("\t\t\t\t\t\treturn ret_val;\n");
 					source.append("\t\t\t\t\t}\n");
@@ -1754,7 +1750,7 @@ public final class UnionGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_BOOLEAN & fieldInfo.jsonValueType) != 0) {
 					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\tret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
 					source.append("\t\t\t\t\t\treturn ret_val;\n");
 					source.append("\t\t\t\t\t}\n");
@@ -1772,7 +1768,7 @@ public final class UnionGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_ARRAY & fieldInfo.jsonValueType) != 0) {
 					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\tret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
 					source.append("\t\t\t\t\t\treturn ret_val;\n");
 					source.append("\t\t\t\t\t}\n");
@@ -1789,7 +1785,7 @@ public final class UnionGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_OBJECT & fieldInfo.jsonValueType) != 0) {
 					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
 					source.append("\t\t\t\t\t\treturn ret_val;\n");
 					source.append("\t\t\t\t\t}\n");
@@ -1806,7 +1802,7 @@ public final class UnionGenerator {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if ((Type.JSON_NULL & fieldInfo.jsonValueType) != 0) {
 					source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
-					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, true);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\t\tret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\tif (0 <= ret_val) {\n");
 					source.append("\t\t\t\t\t\treturn ret_val;\n");
 					source.append("\t\t\t\t\t}\n");
@@ -1847,7 +1843,7 @@ public final class UnionGenerator {
 					final String fieldName = fieldInfo.jsonAlias != null ? fieldInfo.jsonAlias : fieldInfo.mDisplayName; 
 					source.append(MessageFormat.format("if ({0} == name_len.get() && \"{1}\".equals(fld_name.substring(0,name_len.get()))) '{'\n",
 							fieldName.length(), fieldName));
-					source.append(MessageFormat.format("\t\t\t\t\t\tfinal int ret_val = get_field_{0}{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n", at_field, fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("\t\t\t\t\t\tfinal int ret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\t\tif (0 > ret_val) {\n");
 					source.append("\t\t\t\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
 					source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
