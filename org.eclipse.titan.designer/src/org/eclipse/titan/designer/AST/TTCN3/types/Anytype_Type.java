@@ -521,7 +521,7 @@ public final class Anytype_Type extends Type {
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {
-			if (!compField.getType().canHaveCoding(timestamp, coding)) {
+			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding)) {
 				insideCanHaveCoding = false;
 				return false;
 			}
