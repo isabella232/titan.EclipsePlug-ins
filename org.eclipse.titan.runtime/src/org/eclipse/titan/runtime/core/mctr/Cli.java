@@ -228,49 +228,50 @@ public class Cli extends UserInterface {
 		if (splitted_line.length == 2) {
 			argument = splitted_line[1];
 		}
-		
-		switch (command) {
-		case MainControllerCommand.CMTC_TEXT:
-			cmtcCallback(argument);
-			break;
-		case MainControllerCommand.SMTC_TEXT:
-			smtcCallback(argument);
-			break;
-		case MainControllerCommand.STOP_TEXT:
-			stopCallback(argument);
-			break;
-		case MainControllerCommand.PAUSE_TEXT:
-			pauseCallback(argument);
-			break;
-		case MainControllerCommand.CONTINUE_TEXT:
-			continueCallback(argument);
-			break;
-		case MainControllerCommand.EMTC_TEXT:
-			emtcCallback(argument);
-			break;
-		case MainControllerCommand.LOG_TEXT:
-			logCallback(argument);
-			break;
-		case MainControllerCommand.RECONF_TEXT:
-			reconfCallback(argument);
-			break;
-		case MainControllerCommand.HELP_TEXT:
-			helpCallback(argument);
-		case MainControllerCommand.SHELL_TEXT:
-			shellCallback(argument);
-		case MainControllerCommand.EXIT_TEXT:
-		case MainControllerCommand.EXIT_TEXT2:
-			exitCallback(argument);
-			break;
-		case MainControllerCommand.BATCH_TEXT:
-			executeBatchFile(argument);
-			break;
-		case MainControllerCommand.INFO_TEXT:
-			infoCallback(argument);
-			break;
-		default:
-			break;
-		}
-		
+
+		//FIXME commented as using 1.7 feature.
+//		switch (command) {
+//		case MainControllerCommand.CMTC_TEXT:
+//			cmtcCallback(argument);
+//			break;
+//		case MainControllerCommand.SMTC_TEXT:
+//			smtcCallback(argument);
+//			break;
+//		case MainControllerCommand.STOP_TEXT:
+//			stopCallback(argument);
+//			break;
+//		case MainControllerCommand.PAUSE_TEXT:
+//			pauseCallback(argument);
+//			break;
+//		case MainControllerCommand.CONTINUE_TEXT:
+//			continueCallback(argument);
+//			break;
+//		case MainControllerCommand.EMTC_TEXT:
+//			emtcCallback(argument);
+//			break;
+//		case MainControllerCommand.LOG_TEXT:
+//			logCallback(argument);
+//			break;
+//		case MainControllerCommand.RECONF_TEXT:
+//			reconfCallback(argument);
+//			break;
+//		case MainControllerCommand.HELP_TEXT:
+//			helpCallback(argument);
+//		case MainControllerCommand.SHELL_TEXT:
+//			shellCallback(argument);
+//		case MainControllerCommand.EXIT_TEXT:
+//		case MainControllerCommand.EXIT_TEXT2:
+//			exitCallback(argument);
+//			break;
+//		case MainControllerCommand.BATCH_TEXT:
+//			executeBatchFile(argument);
+//			break;
+//		case MainControllerCommand.INFO_TEXT:
+//			infoCallback(argument);
+//			break;
+//		default:
+//			break;
+//		}
+//		
  	}
 }
