@@ -7,9 +7,11 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigInteger;
@@ -18,6 +20,7 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.StandardSocketOptions;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
@@ -38,6 +41,7 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.cfgparser.MCSectionHandler;
+import org.eclipse.titan.runtime.core.mctr.MainControllerCommand;
 
 
 /**
@@ -258,6 +262,7 @@ public class MainController {
 	private static int next_comp_ref;
 	private static int tc_first_comp_ref;
 	private static List<Host> hosts;
+	private static List<HostGroupStruct> host_groups;
 	private static List<ExecuteItem> executeItems;
 	private static ServerSocketChannel serverSocketChannel;
 
@@ -457,6 +462,7 @@ public class MainController {
 				return;
 			}
 		} else {
+			mc_state = mcStateEnum.MC_INACTIVE;
 			try {
 				localAddress = InetAddress.getLocalHost().getHostAddress();
 			} catch (UnknownHostException e) {
@@ -475,13 +481,59 @@ public class MainController {
 		}
 
 		if (n_hosts.get().compareTo(BigInteger.ZERO) <= 0) {
-			// TODO interactiveMode
+			interactiveMode();
 		} else {
 			batchMode();
 		}
 		// TODO cleanUp()
 
 	}
+	
+	public static void add_host(final String group_name, final String host_name) {
+		if (mc_state != mcStateEnum.MC_INACTIVE) {
+			throw new TtcnError("MainController.add_host: called in wrong state.");
+		}
+		
+		HostGroupStruct group = add_host_group(group_name);
+		if (host_name != null) {
+			if (group.has_all_hosts) {
+				throw new TtcnError(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.", host_name, group_name));
+			} else {
+				//TODO: implement
+			}
+		}
+			
+		//TODO: implement
+	}
+	
+	private static HostGroupStruct add_host_group(final String group_name) {
+		if (host_groups == null) {
+			host_groups = new ArrayList<HostGroupStruct>();
+			HostGroupStruct new_group = new HostGroupStruct();
+			
+			new_group.group_name = group_name;
+			new_group.has_all_hosts = false;
+			new_group.has_all_components = false;
+			
+			host_groups.add(new_group);
+			return new_group;
+		} else {
+			for (int i = 0; i < host_groups.size(); i++) {
+				if (host_groups.get(i).group_name.equals(group_name)) {
+					return host_groups.get(i);
+				}
+			}
+			HostGroupStruct new_group = new HostGroupStruct();
+			
+			new_group.group_name = group_name;
+			new_group.has_all_hosts = false;
+			new_group.has_all_components = false;
+			
+			host_groups.add(new_group);
+			return new_group;
+		}
+	}
+	
 
 	private static int batchMode() {
 		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
@@ -519,6 +571,38 @@ public class MainController {
 			e.printStackTrace();
 		}
 
+		return 0;
+	}
+	
+	private static int interactiveMode() {
+		//TODO: implement in cli
+		boolean exitFlag = true;
+		
+		if (mc_state != mcStateEnum.MC_INACTIVE) {
+			System.err.println("MainController.start_session: called in wrong state.");
+			return 0;
+		}
+		
+		try {
+			serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+		} catch (Exception e) {
+			System.err.println("System call setsockopt (SO_REUSEADDR) failed on server socket.");
+			return 0;
+		}
+		//serverSocketChannel doesn't support TCP_NODELAY option
+		
+		mc_state = mcStateEnum.MC_LISTENING;
+		try {
+			if (serverSocketChannel.getLocalAddress() != null) {
+				System.out.printf("Listening on IP address %s and TCP port %d.\n", ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//TODO: history
+		hosts = new ArrayList<Host>();
+		BufferedReader line_read = new BufferedReader(new InputStreamReader(System.in));
 		return 0;
 	}
 
