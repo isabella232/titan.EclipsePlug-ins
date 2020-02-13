@@ -201,19 +201,18 @@ public class JSON {
 	 */
 	public static final int JSON_ERROR_FATAL = -2;
 
-	/** JSON meta info states during decoding */
-	enum json_metainfo_t {
-		/** The field does not have meta info enabled */
-		JSON_METAINFO_NOT_APPLICABLE,
-		/** Initial state if meta info is enabled for the field */
-		JSON_METAINFO_NONE,
-		/** The field's value is set to null, but no meta info was received for the field yet */
-		JSON_METAINFO_NEEDED,
-		/** Meta info received: the field is unbound */
-		JSON_METAINFO_UNBOUND
-	}
+	// JSON meta info states during decoding
+	// originally enum json_metainfo_t
+	/** The field does not have meta info enabled */
+	public static final int JSON_METAINFO_NOT_APPLICABLE = 0;
+	/** Initial state if meta info is enabled for the field */
+	public static final int JSON_METAINFO_NONE = 1;
+	/** The field's value is set to null, but no meta info was received for the field yet */
+	public static final int JSON_METAINFO_NEEDED = 2;
+	/** Meta info received: the field is unbound */
+	public static final int JSON_METAINFO_UNBOUND = 3;
 
-	//originally enum json_chosen_field_t
+	// originally enum json_chosen_field_t
 	public static final int CHOSEN_FIELD_UNSET = -1;
 	public static final int CHOSEN_FIELD_OMITTED = -2;
 

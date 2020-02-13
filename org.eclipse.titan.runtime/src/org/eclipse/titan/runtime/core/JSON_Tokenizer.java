@@ -35,6 +35,9 @@ public class JSON_Tokenizer {
 		JSON_TOKEN_LITERAL_FALSE, // "false" value
 		JSON_TOKEN_LITERAL_NULL   // "null" value
 	};
+	
+	/** A dummy JSON tokenizer, use when there is no actual JSON document */
+	public static JSON_Tokenizer DUMMY_BUFFER = new JSON_Tokenizer();
 
 	/** The buffer that stores the JSON document
 	 * This is a buffer with exponential allocation (expstring), only uses expstring
