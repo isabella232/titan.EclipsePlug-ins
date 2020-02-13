@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.editors.configeditor.pages.testportpar.Testpor
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -109,7 +110,11 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 		if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
 			final IEditorInput input = editor.getEditorInput();
 			if (input instanceof FileEditorInput && ((FileEditorInput) input).getFile().getProject().equals(event.getResource())) {
-				final IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
+				final IWorkbenchWindow workbenchWindow = getSite().getWorkbenchWindow();
+				if (workbenchWindow == null) {
+					return;
+				}
+				final IWorkbenchPage[] pages = workbenchWindow.getPages();
 
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
