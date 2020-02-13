@@ -1,0 +1,263 @@
+/******************************************************************************
+* Copyright (c) 2000-2020 Ericsson Telecom AB
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v2.0
+* which accompanies this distribution, and is available at
+* https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+*
+* Contributors:
+*   Balasko, Jeno
+*   Beres, Szabolcs
+*   Forstner, Matyas
+*   Koppany, Csaba
+*   Kovacs, Ferenc
+*   Szabados, Kristof
+*   Szabo, Janos Zoltan – initial implementation
+*
+******************************************************************************/
+module BERTest
+{
+import from BER1 language "ASN.1:1997" all
+with {encode "DER:1997"};
+import from BER2 language "ASN.1:1997" all
+with {encode "DER:1997"};
+
+//=== encoding functions ====
+external function enc_ber_T0(in T0 r) return octetstring
+with { extension "encode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" };
+
+external function enc_ber_T1(in T1 r) return octetstring
+with { extension "encode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" };
+
+external function enc_ber_T2(in T2 r) return octetstring
+with { extension "encode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" };
+
+external function enc_ber_T3(in T3 r) return octetstring
+with { extension "encode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" };
+
+external function enc_ber_T4(in T4 r) return octetstring
+with { extension "encode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" };
+
+external function enc_ber_T5(in T5 r) return octetstring
+with { extension "encode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" };
+
+//=== decoding functions ====
+external function dec_ber_T0(in octetstring r) return T0
+with { extension "decode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" }
+
+external function dec_ber_T1(in octetstring r) return T1
+with { extension "decode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" }
+
+external function dec_ber_T2(in octetstring r) return T2
+with { extension "decode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" }
+
+external function dec_ber_T3(in octetstring r) return T3
+with { extension "decode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" }
+
+external function dec_ber_T4(in octetstring r) return T4
+with { extension "decode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" }
+
+external function dec_ber_T5(in octetstring r) return T5
+with { extension "decode(BER:BER_ENCODE_DER) prototype(convert) errorbehavior(ALL:WARNING)" }
+
+//=== functions ====
+function f_compare_octetstring(in octetstring pl_val, in octetstring pl_expected) {
+  if ( pl_val == pl_expected ){
+    setverdict(pass);
+  } else {
+    setverdict( fail, "expected:", pl_expected, " got: ", pl_val)
+  }
+} with { extension "transparent"}
+//==== types
+type component CT { }
+
+//==== Testcases =====
+testcase TC0a() runs on CT {
+  var octetstring encoded, expected;
+  encoded := enc_ber_T0(c0a);
+  log(encoded);
+  f_compare_octetstring(encoded,d0a);
+
+  var T0 decoded := dec_ber_T0(encoded);
+  log(decoded);
+  if ( decoded == c0a ) {
+    setverdict(pass)
+  } else {
+    setverdict(fail, "Expected: ", c0a, " got: ",decoded);
+  }
+}
+
+testcase TC1a() runs on CT {
+  var octetstring encoded, expected;
+  encoded := enc_ber_T1(c1a); 
+  log(encoded);
+  f_compare_octetstring(encoded,d1a);
+
+  var T1 decoded := dec_ber_T1(encoded);
+  log(decoded);
+  if ( decoded == c1a ) {
+    setverdict(pass)
+  } else {
+    setverdict(fail, "Expected: ", c1a, " got: ",decoded);
+  }
+}
+testcase TC2a() runs on CT {
+  var octetstring encoded, expected;
+  encoded := enc_ber_T2(c2a); 
+  log(encoded);
+  f_compare_octetstring(encoded,d2a);
+
+  var T2 decoded := dec_ber_T2(encoded);
+  log(decoded);
+  if ( decoded == c2a ) {
+    setverdict(pass)
+  } else {
+    setverdict(fail, "Expected: ", c2a, " got: ",decoded);
+  }
+}
+
+testcase TC2b() runs on CT {
+  var octetstring encoded, expected;
+  encoded := enc_ber_T2(c2b); 
+  log(encoded);
+  f_compare_octetstring(encoded,d2b);
+
+  var T2 decoded := dec_ber_T2(encoded);
+  log(decoded);
+  if ( decoded == c2b ) {
+    setverdict(pass)
+  } else {
+    setverdict(fail, "Expected: ", c2b, " got: ",decoded);
+  }
+}
+
+testcase TC3a() runs on CT {
+  var octetstring encoded, expected;
+  encoded := enc_ber_T3(c3a); 
+  log(encoded);
+  f_compare_octetstring(encoded,d3a);
+
+  var T3 decoded := dec_ber_T3(encoded);
+  log(decoded);
+  if ( decoded == c3a ) {
+    setverdict(pass)
+  } else {
+    setverdict(fail, "Expected: ", c3a, " got: ",decoded);
+  }
+}
+
+testcase TC3b() runs on CT {
+  var octetstring encoded, expected;
+  encoded := enc_ber_T3(c3b); 
+  log(encoded);
+  f_compare_octetstring(encoded,d3b);
+
+  var T3 decoded := dec_ber_T3(encoded);
+  log(decoded);
+  if ( decoded == c3b ) {
+    setverdict(pass)
+  } else {
+    setverdict(fail, "Expected: ", c3b, " got: ",decoded);
+  }
+}
+
+
+type record of T3 RoT3;
+type record of octetstring RoOS;
+
+testcase TC3c() runs on CT {
+  var octetstring encoded, expected;
+  var T3 decoded;
+  const RoT3 c3list := { c3c, c3d, c3e, c3f, c3g, c3h, c3i, c3j, c3k, c3l, c3m, c3n, c3o, c3p, c3q }
+  const RoOS d3list := { d3c, d3d, d3e, d3f, d3g, d3h, d3i, d3j, d3k, d3l, d3m, d3n, d3o, d3p, d3q }
+  const integer N := sizeof(c3list);
+  for( var integer i := 0; i<N; i:=i+1){
+    encoded := enc_ber_T3(c3list[i]);
+    log(encoded);
+    f_compare_octetstring(encoded,d3list[i]);
+
+    decoded := dec_ber_T3(encoded);
+    log(decoded);
+    if ( decoded == c3list[i] ) {
+      setverdict(pass)
+    } else {
+      setverdict(fail, "Expected: ", c3list[i], " got: ",decoded);
+    }
+  }
+}
+
+type record of T4 RoT4;
+testcase TC4() runs on CT {
+  var octetstring encoded, expected;
+  var T4 decoded;
+  const RoT4 c4list := { c4a, c4b, c4c, c4d }
+  const RoOS d4list := { d4a, d4b, d4c, d4d }
+  const integer N := sizeof(c4list);
+  for( var integer i := 0; i<N; i:=i+1){
+    encoded := enc_ber_T4(c4list[i]);
+    log(encoded);
+    f_compare_octetstring(encoded,d4list[i]);
+
+    decoded := dec_ber_T4(encoded);
+    log(decoded);
+    if ( decoded == c4list[i] ) {
+      setverdict(pass)
+    } else {
+      setverdict(fail, "Expected: ", c4list[i], " got: ",decoded);
+    }
+  }
+}
+
+type record of T5 RoT5;
+testcase TC5() runs on CT {
+  var octetstring encoded, expected;
+  var T5 decoded;
+  const RoT5 c5list := { c5a, c5b, c5c, c5d, c5e, c5f }
+  const RoOS d5list := { d5a, d5b, d5c, d5d, d5e, d5f }
+  const integer N := sizeof(c5list);
+  for( var integer i := 0; i<N; i:=i+1){
+    encoded := enc_ber_T5(c5list[i]);
+    log(encoded);
+    f_compare_octetstring(encoded,d5list[i]);
+
+    decoded := dec_ber_T5(encoded);
+    log(decoded);
+    if ( decoded == c5list[i] ) {
+      setverdict(pass)
+    } else {
+      setverdict(fail, "Expected: ", c5list[i], " got: ",decoded);
+    }
+  }
+}
+
+
+control
+{
+  execute(TC0a());
+  execute(TC1a());
+  execute(TC2a());
+  execute(TC2b());
+  execute(TC3a());
+  execute(TC3b());
+  execute(TC3c());
+  execute(TC4());
+  execute(TC5());
+  //    execute(TC6());
+  //    execute(TC7());
+  //    execute(TC8());
+  //    execute(TC10());
+  //    execute(TC11_12());
+  //    execute(TC11_13());
+  //    execute(TC11_14());
+  //    execute(TC11_15());
+  //    execute(TC11_16());
+  //    execute(TC11_17());
+  //    execute(TC11_18());
+  //    execute(TC11_19());
+  //    execute(TC11_20());
+  //    execute(TC11_21());
+  //    execute(TC11_22());
+  //    execute(tc_int_enc_dec());
+}
+
+}

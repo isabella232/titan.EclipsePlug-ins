@@ -88,6 +88,13 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
+      <FolderPath>src/EncodeDecode/BER</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
       <FolderPath>src/cfgFile/testport_parameters</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
@@ -96,13 +103,6 @@
     </FolderResource>
     <FolderResource>
       <FolderPath>src/done</FolderPath>
-      <FolderProperties>
-        <CentralStorage>false</CentralStorage>
-        <ExcludeFromBuild>true</ExcludeFromBuild>
-      </FolderProperties>
-    </FolderResource>
-    <FolderResource>
-      <FolderPath>src/json</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
         <ExcludeFromBuild>true</ExcludeFromBuild>
