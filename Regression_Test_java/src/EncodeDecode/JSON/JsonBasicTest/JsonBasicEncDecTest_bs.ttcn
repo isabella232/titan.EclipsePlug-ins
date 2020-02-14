@@ -782,8 +782,8 @@ control {
   execute( tc_jsonBasic_encdec_hexstring() );
   execute( tc_jsonBasic_encdec_octetstring() );
   execute( tc_jsonBasic_encdec_ucharstring() );
-//  execute( tc_jsonBasic_encdec_AI3()); //error in java
-//  execute( tc_jsonBasic_encdec_verdict()); //error in java
+//  execute( tc_jsonBasic_encdec_AI3()); //TODO: error in java
+//  execute( tc_jsonBasic_encdec_verdict()); //TODO: error in java
   execute( tc_jsonBasic_encdec_record() );
   execute( tc_jsonBasic_encdec_roi() );
   execute( tc_jsonBasic_encdec_set() );
