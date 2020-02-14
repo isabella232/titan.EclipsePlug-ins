@@ -1,6 +1,0 @@
-module JsonBasicAttributes {
-
-type component CT {}
-
-
-}
