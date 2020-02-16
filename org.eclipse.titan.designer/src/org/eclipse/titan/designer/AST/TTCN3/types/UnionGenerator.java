@@ -1233,19 +1233,20 @@ public final class UnionGenerator {
 			source.append(MessageFormat.format("myleaf.num_of_nodes = {0,number,#};\n", fieldInfos.size()));
 			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0,number,#}];\n", fieldInfos.size()));
 			if (fieldInfos.size() > maxFieldsLength) {
-				source.append("\t\t\t\tif (union_selection.ordinal() == 0 ) {\n");
-				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
 				final int fullSize = fieldInfos.size();
+				source.append("final int temp = union_selection.ordinal();\n");
+				source.append(MessageFormat.format("if (temp == 0 || temp > {0,number,#}) '{'\n", fullSize)); //1689 meg jo, fullSize
+				source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
+				source.append("}\n");
+				source.append(MessageFormat.format("switch (temp / {0,number,#}) '{'\n", maxFieldsLength));
 				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
 					final int start = iteration * maxFieldsLength;
 					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-					source.append(MessageFormat.format("\t\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
-					source.append(MessageFormat.format("\t\t\t\t\tencoded_length = RAW_encode_helper_{0,number,#}_{1,number,#}(myleaf);\n", start, end));
+					source.append(MessageFormat.format("case {0,number,#}:\n", iteration));
+					source.append(MessageFormat.format("return RAW_encode_helper_{0,number,#}_{1,number,#}(myleaf);\n", start, end));
 				}
-				source.append("\t\t\t\t} else {\n");
-				source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
-				source.append("\t\t\t\t}\n");
+				source.append("}\n");
 			} else {
 				source.append("switch (union_selection) {\n");
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -1329,22 +1330,17 @@ public final class UnionGenerator {
 			source.append("final int starting_pos = buff.get_pos_bit();\n");
 			source.append("if (sel_field != -1) {\n");
 			if (fieldInfos.size() > maxFieldsLength) {
-				boolean first = true;
+				source.append(MessageFormat.format("switch (sel_field / {0,number,#}) '{'\n", maxFieldsLength));
 				final int fullSize = fieldInfos.size();
 				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
 					final int start = iteration * maxFieldsLength;
 					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-					if (first) {
-						first = false;
-						source.append("\t\t\t\t");
-					} else {
-						source.append("\t\t\t\t} else ");
-					}
-					source.append(MessageFormat.format("if (sel_field <= {0,number,#}) '{'\n", end + 1));
-					source.append(MessageFormat.format("\t\t\t\t\tdecoded_length = RAW_decode_helper_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit);\n", start, end));
+					source.append(MessageFormat.format("case {0,number,#}:\n", iteration));
+					source.append(MessageFormat.format("decoded_length = RAW_decode_helper_{0,number,#}_{1,number,#}(buff, limit, top_bit_ord, no_err, sel_field, first_call, force_omit);\n", start, end));
+					source.append("break;\n");
 				}
-				source.append("\t\t\t\t}\n");
+				source.append("}\n");
 			} else {
 				source.append("switch (sel_field) {\n");
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
