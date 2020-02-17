@@ -46,8 +46,10 @@ testcase tc_name_as_omit_as_null() runs on MTC {
   }
 
   var octetstring os := char2oct("{\"name\":\"Bob\",\"phone\":{\"CountryPrefix\":6,\"NetworkPrefix\":1,\"LocalNumber\":3377760},\"meetings\":null}");
-  f_check_encoding(encoded:= f_enc_profile(p), expected := os);
-  f_bool2verdict( match(f_dec_profile(f_enc_profile(p)), p) );
+  var octetstring e := f_enc_profile(p);
+  f_check_encoding(encoded:= e, expected := os);
+  var Profile pd := f_dec_profile(e); //DTE
+  f_bool2verdict( match(pd, p) );
 }
 
 testcase tc_name_as() runs on MTC {
