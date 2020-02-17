@@ -24,6 +24,8 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.PredefFunc;
+import org.eclipse.titan.designer.AST.TTCN3.values.PredefFunc.DecodeException;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -197,12 +199,50 @@ public final class Bit2OctExpression extends Expression_Value {
 	}
 
 	public static String bit2oct(final String bitString) {
-		return bit2oct(bitString, false);
+		final String string1 = Bit2HexExpression.bit2hex(bitString);
+		return Hex2OctExpression.hex2oct(string1);
 	}
 
-	public static String bit2oct(final String bitString, final boolean isAsn) {
-		final String string1 = Bit2HexExpression.bit2hex(bitString, isAsn);
-		return Hex2OctExpression.hex2oct(string1, isAsn);
+	public static String asn_bit2oct(final String bitString) {
+		final String bitString1 = bitString.replaceAll(" ", "");
+		int size = bitString1.length();
+		final StringBuilder octatstringBuilder = new StringBuilder(size);
+
+		for (int i = 0; i < size; ) {
+			int digit1 = 0;
+			int digit2 = 0;
+			digit1 += bitString1.charAt(i++) == '0' ? 0 : 8;
+			if ( i < size) {
+				digit1 += bitString1.charAt(i++) == '0' ? 0 : 4;
+				if ( i < size) {
+					digit1 += bitString1.charAt(i++) == '0' ? 0 : 2;
+					if ( i < size) {
+						digit1 += bitString1.charAt(i++) == '0' ? 0 : 1;
+						if ( i < size) {
+							digit2 += bitString1.charAt(i++) == '0' ? 0 : 8;
+							if ( i < size) {
+								digit2 += bitString1.charAt(i++) == '0' ? 0 : 4;
+								if ( i < size) {
+									digit2 += bitString1.charAt(i++) == '0' ? 0 : 2;
+									if ( i < size) {
+										digit2 += bitString1.charAt(i++) == '0' ? 0 : 1;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			try {
+				octatstringBuilder.append(PredefFunc.hexdigit_to_char((char)digit1));
+				octatstringBuilder.append(PredefFunc.hexdigit_to_char((char)digit2));
+			} catch (DecodeException e) {
+				// cannot happen
+			}
+		}
+
+		return octatstringBuilder.toString();
 	}
 
 	@Override

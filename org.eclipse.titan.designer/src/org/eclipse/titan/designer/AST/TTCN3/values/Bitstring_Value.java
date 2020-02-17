@@ -243,7 +243,13 @@ public final class Bitstring_Value extends Value {
 			aData.addBuiltinTypeImport("TitanOctetString");
 
 			final StringBuilder result = new StringBuilder();
-			final String octetValue = Bit2OctExpression.bit2oct(value, isAsn());
+			String octetValue;
+			if (isAsn()) {
+				octetValue = Bit2OctExpression.asn_bit2oct(value);
+			} else {
+				octetValue = Bit2OctExpression.bit2oct(value);
+			}
+
 			result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", octetValue));
 			return result;
 		}
@@ -252,7 +258,14 @@ public final class Bitstring_Value extends Value {
 			aData.addBuiltinTypeImport("TitanOctetString");
 
 			final StringBuilder result = new StringBuilder();
-			final String octetValue = Bit2OctExpression.bit2oct(value, isAsn());
+			String octetValue;
+			if (isAsn()) {
+				octetValue = Bit2OctExpression.asn_bit2oct(value);
+				
+			} else {
+				octetValue = Bit2OctExpression.bit2oct(value);
+			}
+
 			result.append(MessageFormat.format("new TitanAsn_Any(new TitanOctetString(\"{0}\"))", octetValue));
 			return result;
 		}
