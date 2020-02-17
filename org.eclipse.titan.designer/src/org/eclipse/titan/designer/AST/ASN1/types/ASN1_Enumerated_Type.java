@@ -285,14 +285,14 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	private final void checkEnumItem(final CompilationTimeStamp timestamp, final EnumItem item, final boolean afterEllipsis,
 			final Map<Integer, EnumItem> valueMap) {
 		final Identifier itemID = item.getId();
-		if (nameMap.containsKey(itemID.getName())) {
-			nameMap.get(itemID.getName())
-			.getLocation()
-			.reportSingularSemanticError(
-					MessageFormat.format(Assignments.DUPLICATEDEFINITIONFIRST, itemID.getDisplayName()));
-			itemID.getLocation().reportSemanticError(MessageFormat.format(DUPLICATEENUMERATEDREPEATED, itemID.getDisplayName()));
+		final String itemIDName = itemID.getName();
+		if (nameMap.containsKey(itemIDName)) {
+			final String displayName = itemID.getDisplayName();
+			nameMap.get(itemIDName).getLocation()
+					.reportSingularSemanticError(MessageFormat.format(Assignments.DUPLICATEDEFINITIONFIRST, displayName));
+			itemID.getLocation().reportSemanticError(MessageFormat.format(DUPLICATEENUMERATEDREPEATED, displayName));
 		} else {
-			nameMap.put(itemID.getName(), item);
+			nameMap.put(itemIDName, item);
 		}
 
 		if (!itemID.getHasValid(Identifier_type.ID_TTCN)) {
