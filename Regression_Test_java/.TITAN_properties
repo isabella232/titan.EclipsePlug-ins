@@ -27,6 +27,36 @@
       </FileProperties>
     </FileResource>
     <FileResource>
+      <FilePath>src/EncodeDecode/BER/BER1.asn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/EncodeDecode/BER/BER2.asn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/EncodeDecode/BER/BERTest.ttcn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/EncodeDecode/BER/X682.asn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
+      <FilePath>src/EncodeDecode/BER/X682_Test.ttcn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
       <FilePath>src/TverdictOper.ttcn</FilePath>
       <FileProperties>
         <ExcludeFromBuild>true</ExcludeFromBuild>
@@ -82,13 +112,6 @@
     </FolderResource>
     <FolderResource>
       <FolderPath>src/ASN1/parse</FolderPath>
-      <FolderProperties>
-        <CentralStorage>false</CentralStorage>
-        <ExcludeFromBuild>true</ExcludeFromBuild>
-      </FolderProperties>
-    </FolderResource>
-    <FolderResource>
-      <FolderPath>src/EncodeDecode/BER</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
         <ExcludeFromBuild>true</ExcludeFromBuild>

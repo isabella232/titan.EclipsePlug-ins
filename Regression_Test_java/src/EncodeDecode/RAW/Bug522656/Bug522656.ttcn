@@ -12,6 +12,9 @@
 
 // RAW decoding strings with an empty buffer changes the length of the static 'empty
 // string' values to the length restriction, if a length restriction is set.
+//The TITAN runtime uses a static value for all empty bitstrings (''B). 
+//This can be altered in some cases by the RAW decoder. 
+//The attached example test cases change the empty bitstring to '0'B.
 module Bug522656 {
 
 type bitstring Bit2 length (2)
