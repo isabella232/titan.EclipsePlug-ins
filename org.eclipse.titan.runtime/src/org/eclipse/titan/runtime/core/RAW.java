@@ -478,10 +478,6 @@ public class RAW {
 			this.forceomit = forceomit;
 			this.csn1lh = csn1lh;
 		}
-
-		public TTCN_RAWdescriptor() {
-
-		}
 	}
 
 	public static class RAW_enc_tr_pos {
@@ -603,22 +599,12 @@ public class RAW {
 
 	public static int RAW_encode_enum_type(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf, final int integer_value, final int min_bits_enum) {
 		final int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
-		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
-		my_raw.fieldlength = fl;
-		my_raw.comp = p_td.raw.comp;
-		my_raw.byteorder = p_td.raw.byteorder;
-		my_raw.endianness = p_td.raw.endianness;
-		my_raw.bitorderinfield = p_td.raw.bitorderinfield;
-		my_raw.bitorderinoctet = p_td.raw.bitorderinoctet;
-		my_raw.extension_bit = p_td.raw.extension_bit;
-		my_raw.hexorder = p_td.raw.hexorder;
-		my_raw.fieldorder = p_td.raw.fieldorder;
-		my_raw.top_bit_order = p_td.raw.top_bit_order;
-		my_raw.padding = p_td.raw.padding;
-		my_raw.prepadding = p_td.raw.prepadding;
-		my_raw.ptroffset = p_td.raw.ptroffset;
-		my_raw.unit = p_td.raw.unit;
-		my_raw.csn1lh = p_td.raw.csn1lh;
+		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor(fl, p_td.raw.comp, p_td.raw.byteorder, p_td.raw.endianness,
+				p_td.raw.bitorderinfield, p_td.raw.bitorderinoctet, p_td.raw.extension_bit, p_td.raw.hexorder, p_td.raw.fieldorder,
+				p_td.raw.top_bit_order, p_td.raw.padding, p_td.raw.prepadding, p_td.raw.ptroffset, p_td.raw.unit,
+				p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
+				p_td.raw.forceomit, p_td.raw.csn1lh);
+
 		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null, null);
 		final TitanInteger i = new TitanInteger(integer_value);
 		i.RAW_encode(my_descr, myleaf);
@@ -628,22 +614,12 @@ public class RAW {
 
 	public static int RAW_decode_enum_type(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final AtomicInteger value, final int min_bits_enum, final boolean no_err) {
 		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
-		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
-		my_raw.fieldlength = fl;
-		my_raw.comp = p_td.raw.comp;
-		my_raw.byteorder = p_td.raw.byteorder;
-		my_raw.endianness = p_td.raw.endianness;
-		my_raw.bitorderinfield = p_td.raw.bitorderinfield;
-		my_raw.bitorderinoctet = p_td.raw.bitorderinoctet;
-		my_raw.extension_bit = p_td.raw.extension_bit;
-		my_raw.hexorder = p_td.raw.hexorder;
-		my_raw.fieldorder = p_td.raw.fieldorder;
-		my_raw.top_bit_order = p_td.raw.top_bit_order;
-		my_raw.padding = p_td.raw.padding;
-		my_raw.prepadding = p_td.raw.prepadding;
-		my_raw.ptroffset = p_td.raw.ptroffset;
-		my_raw.unit = p_td.raw.unit;
-		my_raw.csn1lh = p_td.raw.csn1lh;
+		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor(fl, p_td.raw.comp, p_td.raw.byteorder, p_td.raw.endianness,
+				p_td.raw.bitorderinfield, p_td.raw.bitorderinoctet, p_td.raw.extension_bit, p_td.raw.hexorder, p_td.raw.fieldorder,
+				p_td.raw.top_bit_order, p_td.raw.padding, p_td.raw.prepadding, p_td.raw.ptroffset, p_td.raw.unit,
+				p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
+				p_td.raw.forceomit, p_td.raw.csn1lh);
+
 		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null, null);
 		final TitanInteger i = new TitanInteger();
 		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord, no_err, -1, true, null);
