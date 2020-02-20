@@ -44,9 +44,6 @@ public class JSON_Tokenizer {
 	 * memory operations from memory.h (ex.: mputstr, mputprintf) */
 	private StringBuilder buf_ptr;
 
-	/** Number of bytes currently in the buffer */
-	private int buf_len;
-
 	/** Current position in the buffer */
 	private int buf_pos;
 
@@ -64,13 +61,12 @@ public class JSON_Tokenizer {
 
 	/** Initializes the properties of the tokenizer.
 	 * The buffer is initialized with the parameter data (unless it's empty). */
-	private void init(final String p_buf, final int p_buf_len) {
-		if (p_buf != null && p_buf_len != 0) {
+	private void init(final String p_buf) {
+		if (p_buf != null) {
 			buf_ptr = new StringBuilder(p_buf);
 		} else {
 			buf_ptr = new StringBuilder();
 		}
-		buf_len = p_buf_len;
 		buf_pos = 0;
 		depth = 0;
 		previous_token = json_token_t.JSON_TOKEN_NONE;
@@ -79,13 +75,11 @@ public class JSON_Tokenizer {
 	/** Inserts a character to the end of the buffer */
 	private void put_c(final char c) {
 		buf_ptr.append(c);
-		++buf_len;
 	}
 
 	/** Inserts a null-terminated string to the end of the buffer */
 	private void put_s(final String s) {
 		buf_ptr.append(s);
-		buf_len += s.length();
 	}
 
 	/** Indents a new line in JSON code depending on the current depth.
@@ -99,7 +93,7 @@ public class JSON_Tokenizer {
 	 * Returns false if the end of the buffer is reached before a non-white-space
 	 * character is found, otherwise returns true. */
 	private boolean skip_white_spaces() {
-		while(buf_pos < buf_len) {
+		while(buf_pos < buf_ptr.length()) {
 			switch(buf_ptr.charAt(buf_pos)) {
 			case ' ':
 			case '\r':
@@ -124,7 +118,7 @@ public class JSON_Tokenizer {
 		} else {
 			return false;
 		}
-		while (buf_pos < buf_len) {
+		while (buf_pos < buf_ptr.length()) {
 			if ('\"' == buf_ptr.charAt(buf_pos)) {
 				return true;
 			} else if ('\\' == buf_ptr.charAt(buf_pos)) {
@@ -142,7 +136,7 @@ public class JSON_Tokenizer {
 	 * This function also steps over the separator if it's a comma.
 	 * Returns true if a separator is found, otherwise returns false. */
 	private boolean check_for_separator() {
-		if (buf_pos < buf_len) {
+		if (buf_pos < buf_ptr.length()) {
 			switch(buf_ptr.charAt(buf_pos)) {
 			case ',':
 				++buf_pos;
@@ -165,7 +159,7 @@ public class JSON_Tokenizer {
 	 * @param p_literal [in] Literal value to find */
 	private boolean check_for_literal(final String p_literal) {
 		final int len = p_literal.length();
-		if (buf_len - buf_pos >= len &&
+		if (buf_ptr.length() - buf_pos >= len &&
 				buf_ptr.substring(buf_pos).equals(p_literal)) {
 			final int start_pos = buf_pos;
 			buf_pos += len;
@@ -202,19 +196,19 @@ public class JSON_Tokenizer {
 	 * Use put_next_token() to build a JSON document and get_buffer()/get_buffer_length() to retrieve it */
 	public JSON_Tokenizer(final boolean p_pretty) {
 		pretty = p_pretty;
-		init(null, 0);
+		init(null);
 	}
 
 	/** Constructs a tokenizer with the buffer parameter.
 	 * Use get_next_token() to read JSON tokens and get_pos()/set_pos() to move around in the buffer */
 	public JSON_Tokenizer(final String p_buf, final int p_buf_len) {
 		pretty = false;
-		init(p_buf, p_buf_len);
+		init(p_buf);
 	}
 
 	/** Reinitializes the tokenizer with a new buffer. */
 	public void set_buffer(final String p_buf, final int p_buf_len) {
-		init(p_buf, p_buf_len);
+		init(p_buf);
 	}
 
 	/** Retrieves the buffer containing the JSON document. */
@@ -224,7 +218,7 @@ public class JSON_Tokenizer {
 
 	/** Retrieves the length of the buffer containing the JSON document. */
 	public int get_buffer_length() {
-		return buf_len;
+		return buf_ptr.length();
 	}
 
 	/** Extracts a JSON token from the current buffer position.
@@ -370,7 +364,7 @@ public class JSON_Tokenizer {
 	 * and double-escaped). For all the other tokens this parameter will be ignored.
 	 * @return The number of characters added to the JSON document */
 	public int put_next_token(final json_token_t p_token, final String p_token_str) {
-		final int start_len = buf_len;
+		final int start_len = buf_ptr.length();
 		switch(p_token) {
 		case JSON_TOKEN_OBJECT_START:
 		case JSON_TOKEN_ARRAY_START: {
@@ -393,8 +387,7 @@ public class JSON_Tokenizer {
 				} else if (MAX_TABS >= depth) {
 					// empty object or array -> remove the extra tab added at the start token
 					--depth;
-					--buf_len;
-					buf_ptr.setCharAt(buf_len, (char) 0);
+					buf_ptr.deleteCharAt(buf_ptr.length()-1);
 				}
 			}
 			put_c( (json_token_t.JSON_TOKEN_OBJECT_END == p_token) ? '}' : ']' );
@@ -432,15 +425,14 @@ public class JSON_Tokenizer {
 		}
 
 		previous_token = p_token;
-		return buf_len - start_len;
+		return buf_ptr.length() - start_len;
 	}
 
 	/** Adds raw data to the end of the buffer.
 	 * @param p_data [in] Pointer to the beginning of the data
 	 * @param p_len [in] Length of the data in bytes */
-	public void put_raw_data(final String p_data, final int p_len) {
+	public void put_raw_data(final String p_data) {
 		buf_ptr.append(p_data);
-		buf_len += p_len;
 	}
 
 	public boolean check_for_number() {
@@ -464,7 +456,7 @@ public class JSON_Tokenizer {
 			++buf_pos;
 		}
 
-		while (buf_pos < buf_len) {
+		while (buf_pos < buf_ptr.length()) {
 			switch(buf_ptr.charAt(buf_pos)) {
 			case '.':
 				if (decimal_point || exponent_mark || (!first_digit && !zero)) {
