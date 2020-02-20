@@ -21,7 +21,10 @@ function f_compare_octetstring(in octetstring pl_val, in octetstring pl_expected
 //========================
 //===== Testcases ========
 //========================
+//JSON can represent four primitive types (strings, numbers, booleans, and null) 
+//and two structured types (objects and arrays).
 
+//==== Numbers====
 testcase tc_jsonBasic_encdec_os_integer() runs on CT {
   const I_json x := 234;
   var I_json y := 234, z;
@@ -41,6 +44,17 @@ testcase tc_jsonBasic_encdec_os_integer() runs on CT {
   } else {
     setverdict(fail);
   }
+//  //Whitespace test
+//  expected := char2oct("  2 3  4 ");
+//  log(expected);
+//  
+//  //decode test:
+//  z := f_json_dec_os2i(expected);
+//  if ( y ==z ) {
+//    setverdict(pass);
+//  } else {
+//    setverdict(fail);
+//  }
 }
 
 testcase tc_jsonBasic_encdec_os_float() runs on CT {
@@ -89,6 +103,8 @@ testcase tc_jsonBasic_encdec_os_enum() runs on CT {
   }
 }
 
+//=== Strings ====
+//"A string is a sequence of zero or more Unicode characters" RFC 7159
 
 testcase tc_jsonBasic_encdec_os_bitstring() runs on CT {
   const BS_json x := '1'B;
@@ -176,6 +192,8 @@ testcase tc_jsonBasic_encdec_os_octetstring() runs on CT {
   }
 }
 
+
+
 testcase tc_jsonBasic_encdec_os_ucharstring() runs on CT {
   const UCS_json x := char(0,0,0,1);
   var UCS_json y := char(0,0,0,1), z;
@@ -200,30 +218,7 @@ testcase tc_jsonBasic_encdec_os_ucharstring() runs on CT {
   }
 }
 
-//AI3
-testcase tc_jsonBasic_encdec_os_AI3() runs on CT {
-  const AI3_json x := { 0,1,-1234 };
-  var   AI3_json y :=  { 0,1,-1234 };
-  var octetstring bs;
-  var octetstring expected :=   unichar2oct("[0,1,-1234]");// ???
-  log("expected:",expected);
-  bs := f_json_enc_ai3toos(x);
-  log(bs);
-  log(oct2char(bs));
-  f_compare_octetstring(bs, expected);
-  
-  bs := f_json_enc_ai3toos(y);
-  log(bs);  
-  f_compare_octetstring(bs, expected);
-
-  //decode test:
-  var AI3_json z := f_json_dec_ostoai3(expected);
-  if ( y ==z ) {
-    setverdict(pass);
-  } else {
-    setverdict(fail);
-  }
-}
+//===== Verdict ====
 
 //V (verdict)
 testcase tc_jsonBasic_encdec_os_verdict() runs on CT {
@@ -246,6 +241,13 @@ testcase tc_jsonBasic_encdec_os_verdict() runs on CT {
     setverdict(fail);
   }
 }
+
+
+
+
+//====  JSON objects : record, set
+//"An object is an unordered collection of zero or more name/value   pairs, 
+// where a name is a string and a value is a string, number,   boolean, null, object, or array."
 
 testcase tc_jsonBasic_encdec_os_record() runs on CT {
   const R_json x := {
@@ -288,32 +290,6 @@ testcase tc_jsonBasic_encdec_os_record() runs on CT {
   }
 }
 
-testcase tc_jsonBasic_encdec_os_roi() runs on CT {
-  const RoI_json x := { 0,1,9,10,123456789, -1, -1234567890123 };
-  var RoI_json y := { 0,1,9,10,123456789, -1, -1234567890123 };
-  var octetstring os;
-  var octetstring expected :=  unichar2oct("[0,1,9,10,123456789,-1,-1234567890123]");// ???
-  log("expected:",expected);
-  os := f_json_enc_roi2os(x);
-  log(os);
-  log( (os));  
-  f_compare_octetstring(os,expected);
-  
-  os := f_json_enc_roi2os(y);
-  log(os);  
-  f_compare_octetstring(os,expected);
-
-//  //encvalue - retval is bitstring
-
-  //decode test:
-  var RoI_json z := f_json_dec_os2roi(expected);
-  if ( y==z ) {
-    setverdict(pass);
-  } else {
-    setverdict(fail);
-  }
-
-}
 
 testcase tc_jsonBasic_encdec_os_set() runs on CT {
   const S_json x := {
@@ -350,6 +326,114 @@ testcase tc_jsonBasic_encdec_os_set() runs on CT {
   //decode test:
   var S_json z := f_json_dec_os2s(expected);
   if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+}
+
+//==== JSON arrays: ttcn arrays, record of, set of
+//"An array is an ordered sequence of zero or more values"
+
+
+//AI3
+testcase tc_jsonBasic_encdec_os_AI3() runs on CT {
+  const AI3_json x := { 0,1,-1234 };
+  var   AI3_json y :=  { 0,1,-1234 };
+  var octetstring bs;
+  var octetstring expected :=   unichar2oct("[0,1,-1234]");// ???
+  log("expected:",expected);
+  bs := f_json_enc_ai3toos(x);
+  log(bs);
+  log(oct2char(bs));
+  f_compare_octetstring(bs, expected);
+  
+  bs := f_json_enc_ai3toos(y);
+  log(bs);  
+  f_compare_octetstring(bs, expected);
+
+  //decode test:
+  var AI3_json z := f_json_dec_ostoai3(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
+testcase tc_jsonBasic_encdec_os_roi1() runs on CT {
+  const RoI_json x := {};
+  var RoI_json y := {} ;
+  var octetstring os;
+  var octetstring expected :=  unichar2oct("[]");// ???
+  log("expected:",expected);
+  os := f_json_enc_roi2os(x);
+  log(os);
+  log( (os));  
+  f_compare_octetstring(os,expected);
+  
+  os := f_json_enc_roi2os(y);
+  log(os);  
+  f_compare_octetstring(os,expected);
+
+//  //encvalue - retval is bitstring
+
+  //decode test:
+  var RoI_json z := f_json_dec_os2roi(expected);
+  if ( y==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+}
+testcase tc_jsonBasic_encdec_os_roi2() runs on CT {
+  const RoI_json x := { 100 };
+  var RoI_json y := { 100 };
+  var octetstring os;
+  var octetstring expected :=  unichar2oct("[100]");// ???
+  log("expected:",expected);
+  os := f_json_enc_roi2os(x);
+  log(os);
+  log( (os));  
+  f_compare_octetstring(os,expected);
+  
+  os := f_json_enc_roi2os(y);
+  log(os);  
+  f_compare_octetstring(os,expected);
+
+//  //encvalue - retval is bitstring
+
+  //decode test:
+  var RoI_json z := f_json_dec_os2roi(expected);
+  if ( y==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+}
+testcase tc_jsonBasic_encdec_os_roi3() runs on CT {
+  const RoI_json x := { 0,1,9,10,123456789, -1, -1234567890123 };
+  var RoI_json y := { 0,1,9,10,123456789, -1, -1234567890123 };
+  var octetstring os;
+  var octetstring expected :=  unichar2oct("[0,1,9,10,123456789,-1,-1234567890123]");// ???
+  log("expected:",expected);
+  os := f_json_enc_roi2os(x);
+  log(os);
+  log( (os));  
+  f_compare_octetstring(os,expected);
+  
+  os := f_json_enc_roi2os(y);
+  log(os);  
+  f_compare_octetstring(os,expected);
+
+//  //encvalue - retval is bitstring
+
+  //decode test:
+  var RoI_json z := f_json_dec_os2roi(expected);
+  if ( y==z ) {
     setverdict(pass);
   } else {
     setverdict(fail);
@@ -460,7 +544,9 @@ control {
 //  execute( tc_jsonBasic_encdec_os_AI3() );  //TODO:bugfix this!
 //  execute( tc_jsonBasic_encdec_os_verdict() ); //TODO:bugfix this!
   execute( tc_jsonBasic_encdec_os_record() );
-  execute( tc_jsonBasic_encdec_os_roi() );
+  execute( tc_jsonBasic_encdec_os_roi1() );
+  execute( tc_jsonBasic_encdec_os_roi2() );
+  execute( tc_jsonBasic_encdec_os_roi3() );
   execute( tc_jsonBasic_encdec_os_set() );
   execute( tc_jsonBasic_encdec_os_soi() );
   execute( tc_jsonBasic_encdec_os_union_const() );

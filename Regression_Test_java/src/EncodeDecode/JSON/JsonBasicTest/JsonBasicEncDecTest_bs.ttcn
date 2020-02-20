@@ -3,6 +3,7 @@
 // Anytype is out of scope
 //Status: cpp: compiled and run with 21 pass
 //       java: 19 pass, 2 errors if any is commented out
+
 module JsonBasicEncDecTest_bs {
 
 import from JsonBasicTypes all;
@@ -21,6 +22,9 @@ function f_compare_bitstring(in bitstring pl_val, in bitstring pl_expected) {
 //========================
 //===== Testcases ========
 //========================
+//JSON can represent four primitive types (strings, numbers, booleans,   and null) 
+//and two structured types (objects and arrays).
+
 testcase tc_jsonBasic_encdec_integer() runs on CT {
   const I_json x := 2;
   var I_json y := 2;
@@ -220,7 +224,7 @@ testcase tc_jsonBasic_encdec_enum() runs on CT {
 
 }
 
-testcase tc_jsonBasic_encdec_bool() runs on CT {
+testcase tc_jsonBasic_encdec_bool1() runs on CT {
   const B_json x := true;
   var B_json y := true;
   var bitstring bs;
@@ -257,7 +261,42 @@ testcase tc_jsonBasic_encdec_bool() runs on CT {
 
 }
 
+testcase tc_jsonBasic_encdec_bool2() runs on CT {
+  const B_json x := false;
+  var B_json y := false;
+  var bitstring bs;
+  var bitstring expected := oct2bit(char2oct("false"));
+  log("expected:",expected);
+  bs := f_json_enc_b2bs(x);
+  f_compare_bitstring(bs, expected);
+  
+  bs := f_json_enc_b2bs(y);
+  if ( bs == expected ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
 
+  //encvalue
+  bs := encvalue(y);
+  f_compare_bitstring(bs, expected);
+
+  //decode test:
+  var B_json z := f_json_dec_bs2b(expected);
+  if ( y == z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+  var integer r := decvalue(expected, z);
+  if (r==0 and y==z){
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+}
 testcase tc_jsonBasic_encdec_bitstring() runs on CT {
   const BS_json x := '1'B;
   var BS_json y := '1'B;
@@ -424,42 +463,7 @@ testcase tc_jsonBasic_encdec_ucharstring() runs on CT {
   }
 }
 
-//AI3
-testcase tc_jsonBasic_encdec_AI3() runs on CT {
-  const AI3_json x := { 0,1,-1234 };
-  var   AI3_json y :=  { 0,1,-1234 };
-  var bitstring bs;
-  var bitstring expected :=  oct2bit(unichar2oct("[0,1,-1234]"));// ???
-  log("expected:",expected);
-  bs := f_json_enc_ai3tobs(x);
-  log(bs);
-  log(bit2oct(bs));  
-  log(oct2char(bit2oct(bs)));
-  f_compare_bitstring(bs, expected);
-  
-  bs := f_json_enc_ai3tobs(y);
-  log(bit2oct(bs));  
-  f_compare_bitstring(bs, expected);
-
-  //encvalue
-  bs := encvalue(y);
-  f_compare_bitstring(bs, expected);
-
-  //decode test:
-  var AI3_json z := f_json_dec_bstoai3(expected);
-  if ( y ==z ) {
-    setverdict(pass);
-  } else {
-    setverdict(fail);
-  }
-
-  var integer r := decvalue(expected, z);
-  if (r==0 and y==z){
-    setverdict(pass);
-  } else {
-    setverdict(fail);
-  }
-}
+//===== Verdict ====
 
 //V (verdict)
 testcase tc_jsonBasic_encdec_verdict() runs on CT {
@@ -495,6 +499,12 @@ testcase tc_jsonBasic_encdec_verdict() runs on CT {
 //  }
 
 }
+
+
+
+//====  JSON objects : record, set
+//"An object is an unordered collection of zero or more name/value   pairs, 
+// where a name is a string and a value is a string, number,   boolean, null, object, or array."
 //R
 testcase tc_jsonBasic_encdec_record() runs on CT {
   const R_json x := {
@@ -538,42 +548,6 @@ testcase tc_jsonBasic_encdec_record() runs on CT {
 
   //decode test:
   var R_json z := f_json_dec_bs2r(expected);
-  if ( y ==z ) {
-    setverdict(pass);
-  } else {
-    setverdict(fail);
-  }
-
-  var integer r := decvalue(expected, z);
-  if (r==0 and y==z){
-    setverdict(pass);
-  } else {
-    setverdict(fail);
-  }
-}
-
-testcase tc_jsonBasic_encdec_roi() runs on CT {
-  const RoI_json x := { 0,1,9,10,123456789, -1, -1234567890123 };
-  var RoI_json y := { 0,1,9,10,123456789, -1, -1234567890123 };
-  var bitstring bs;
-  var bitstring expected :=  oct2bit(unichar2oct("[0,1,9,10,123456789,-1,-1234567890123]"));// ???
-  log("expected:",expected);
-  bs := f_json_enc_roi2bs(x);
-  log(bs);
-  log(bit2oct(bs));  
-  log(oct2char(bit2oct(bs)));
-  f_compare_bitstring(bs, expected);
-  
-  bs := f_json_enc_roi2bs(y);
-  log(bit2oct(bs));  
-  f_compare_bitstring(bs, expected);
-
-  //encvalue
-  bs := encvalue(y);
-  f_compare_bitstring(bs, expected);
-
-  //decode test:
-  var RoI_json z := f_json_dec_bs2roi(expected);
   if ( y ==z ) {
     setverdict(pass);
   } else {
@@ -640,7 +614,193 @@ testcase tc_jsonBasic_encdec_set() runs on CT {
   }
 }
 
-testcase tc_jsonBasic_encdec_soi() runs on CT {
+//==== JSON arrays: ttcn arrays, record of, set of
+//"An array is an ordered sequence of zero or more values"
+
+//AI3
+testcase tc_jsonBasic_encdec_AI3() runs on CT {
+  const AI3_json x := { 0,1,-1234 };
+  var   AI3_json y :=  { 0,1,-1234 };
+  var bitstring bs;
+  var bitstring expected :=  oct2bit(unichar2oct("[0,1,-1234]"));// ???
+  log("expected:",expected);
+  bs := f_json_enc_ai3tobs(x);
+  log(bs);
+  log(bit2oct(bs));  
+  log(oct2char(bit2oct(bs)));
+  f_compare_bitstring(bs, expected);
+  
+  bs := f_json_enc_ai3tobs(y);
+  log(bit2oct(bs));  
+  f_compare_bitstring(bs, expected);
+
+  //encvalue
+  bs := encvalue(y);
+  f_compare_bitstring(bs, expected);
+
+  //decode test:
+  var AI3_json z := f_json_dec_bstoai3(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+  var integer r := decvalue(expected, z);
+  if (r==0 and y==z){
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
+testcase tc_jsonBasic_encdec_roi1() runs on CT {
+  const RoI_json x := {};
+  var RoI_json y := {};
+  var bitstring bs;
+  var bitstring expected :=  oct2bit(unichar2oct("[]"));
+  log("expected:",expected);
+  bs := f_json_enc_roi2bs(x);
+  log(bs);
+  log(bit2oct(bs));  
+  log(oct2char(bit2oct(bs)));
+  f_compare_bitstring(bs, expected);
+  
+  bs := f_json_enc_roi2bs(y);
+  log(bit2oct(bs));  
+  f_compare_bitstring(bs, expected);
+
+  //encvalue
+  bs := encvalue(y);
+  f_compare_bitstring(bs, expected);
+
+  //decode test:
+  var RoI_json z := f_json_dec_bs2roi(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+  var integer r := decvalue(expected, z);
+  if (r==0 and y==z){
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
+testcase tc_jsonBasic_encdec_roi2() runs on CT {
+  const RoI_json x := { 0,1,9,10,123456789, -1, -1234567890123 };
+  var RoI_json y := { 0,1,9,10,123456789, -1, -1234567890123 };
+  var bitstring bs;
+  var bitstring expected :=  oct2bit(unichar2oct("[0,1,9,10,123456789,-1,-1234567890123]"));// ???
+  log("expected:",expected);
+  bs := f_json_enc_roi2bs(x);
+  log(bs);
+  log(bit2oct(bs));  
+  log(oct2char(bit2oct(bs)));
+  f_compare_bitstring(bs, expected);
+  
+  bs := f_json_enc_roi2bs(y);
+  log(bit2oct(bs));  
+  f_compare_bitstring(bs, expected);
+
+  //encvalue
+  bs := encvalue(y);
+  f_compare_bitstring(bs, expected);
+
+  //decode test:
+  var RoI_json z := f_json_dec_bs2roi(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+  var integer r := decvalue(expected, z);
+  if (r==0 and y==z){
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
+
+testcase tc_jsonBasic_encdec_soi1() runs on CT {
+  const SoI_json x := { };
+  var SoI_json y := {};
+  var bitstring bs;
+  var bitstring expected :=  oct2bit(unichar2oct("[]"));// ???
+  log("expected:",expected);
+  bs := f_json_enc_soi2bs(x);
+  log(bs);
+  log(bit2oct(bs));  
+  log(oct2char(bit2oct(bs)));
+  f_compare_bitstring(bs, expected);
+  
+  bs := f_json_enc_soi2bs(y);
+  log(bit2oct(bs));  
+  f_compare_bitstring(bs, expected);
+
+  //encvalue
+  bs := encvalue(y);
+  f_compare_bitstring(bs, expected);
+  
+  //decode test:
+  var SoI_json z := f_json_dec_bs2soi(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+  var integer r := decvalue(expected, z);
+  if (r==0 and y==z){
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
+testcase tc_jsonBasic_encdec_soi2() runs on CT {
+  const SoI_json x := { 0 };
+  var SoI_json y := { 0 };
+  var bitstring bs;
+  var bitstring expected :=  oct2bit(unichar2oct("[0]"));// ???
+  log("expected:",expected);
+  bs := f_json_enc_soi2bs(x);
+  log(bs);
+  log(bit2oct(bs));  
+  log(oct2char(bit2oct(bs)));
+  f_compare_bitstring(bs, expected);
+  
+  bs := f_json_enc_soi2bs(y);
+  log(bit2oct(bs));  
+  f_compare_bitstring(bs, expected);
+
+  //encvalue
+  bs := encvalue(y);
+  f_compare_bitstring(bs, expected);
+  
+  //decode test:
+  var SoI_json z := f_json_dec_bs2soi(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+
+  var integer r := decvalue(expected, z);
+  if (r==0 and y==z){
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
+
+testcase tc_jsonBasic_encdec_soi3() runs on CT {
   const SoI_json x := { 0,1,9,10,123456789, -1, -1234567890123 };
   var SoI_json y := { 0,1,9,10,123456789, -1, -1234567890123 };
   var bitstring bs;
@@ -675,6 +835,8 @@ testcase tc_jsonBasic_encdec_soi() runs on CT {
     setverdict(fail);
   }
 }
+
+//============ Union =======
 
 testcase tc_jsonBasic_encdec_union_const() runs on CT {
   const U_json x := { i := 1 };
@@ -776,18 +938,23 @@ control {
   execute( tc_jsonBasic_encdec_float3() );
   execute( tc_jsonBasic_encdec_float4() );
   execute( tc_jsonBasic_encdec_enum() );
-  execute( tc_jsonBasic_encdec_bool() );
+  execute( tc_jsonBasic_encdec_bool1() );
+  execute( tc_jsonBasic_encdec_bool2() );
   execute( tc_jsonBasic_encdec_bitstring() );
   execute( tc_jsonBasic_encdec_charstring() );
   execute( tc_jsonBasic_encdec_hexstring() );
   execute( tc_jsonBasic_encdec_octetstring() );
   execute( tc_jsonBasic_encdec_ucharstring() );
-//  execute( tc_jsonBasic_encdec_AI3()); //TODO: error in java
 //  execute( tc_jsonBasic_encdec_verdict()); //TODO: error in java
+  //JSON objects:
   execute( tc_jsonBasic_encdec_record() );
-  execute( tc_jsonBasic_encdec_roi() );
   execute( tc_jsonBasic_encdec_set() );
-  execute( tc_jsonBasic_encdec_soi() );
+  execute( tc_jsonBasic_encdec_roi1() );
+  execute( tc_jsonBasic_encdec_roi2() );
+  //  execute( tc_jsonBasic_encdec_AI3()); //TODO: error in java
+  execute( tc_jsonBasic_encdec_soi1() );
+  execute( tc_jsonBasic_encdec_soi2() );
+  execute( tc_jsonBasic_encdec_soi3() );
   execute( tc_jsonBasic_encdec_union_const() );
   execute( tc_jsonBasic_encdec_union() );
   execute( tc_jsonBasic_encdec_anytype_i());
