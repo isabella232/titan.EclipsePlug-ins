@@ -671,11 +671,7 @@ public class TitanHexString extends Base_Type {
 		final StringBuilder tmp_str = new StringBuilder();
 		tmp_str.append('\"');
 		for (int i = 0; i < nibbles_ptr.length; ++i) {
-			if (i % 2 != 0) {
-				tmp_str.append( AdditionalFunctions.hexdigit_to_char(nibbles_ptr[i / 2] >> 4) );
-			} else {
-				tmp_str.append( AdditionalFunctions.hexdigit_to_char(nibbles_ptr[i / 2] & 0x0F) );
-			}
+			tmp_str.append( AdditionalFunctions.hexdigit_to_char(nibbles_ptr[i]) );
 		}
 		tmp_str.append('\"');
 		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str.toString());
