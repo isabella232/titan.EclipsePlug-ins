@@ -1842,8 +1842,8 @@ public final class UnionGenerator {
 					source.append(MessageFormat.format("\t\t\t\t\t\tfinal int ret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 					source.append("\t\t\t\t\t\tif (0 > ret_val) {\n");
 					source.append("\t\t\t\t\t\t\tif (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {\n");
-					source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
-							(long) fieldInfo.mDisplayName.length(), fieldInfo.mDisplayName));
+					source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, \"{0}\");\n",
+							fieldInfo.mDisplayName));
 					source.append("\t\t\t\t\t\t\t}\n");
 					source.append("\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 					source.append("\t\t\t\t\t\t} else {\n");
@@ -1852,7 +1852,7 @@ public final class UnionGenerator {
 					source.append("\t\t\t\t\t} else ");
 				}
 				source.append("{\n");
-				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n");
+				source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, fld_name);\n");
 				source.append("\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 				source.append("\t\t\t\t\t}\n");
 				source.append("\t\t\t\t}\n\n");

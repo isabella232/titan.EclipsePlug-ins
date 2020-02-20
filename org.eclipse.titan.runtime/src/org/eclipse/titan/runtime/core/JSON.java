@@ -224,12 +224,12 @@ public class JSON {
 	public static final String JSON_DEC_REC_OF_END_TOKEN_ERROR = "Invalid JSON token, expecting JSON value or array end mark%s";
 	public static final String JSON_DEC_ARRAY_ELEM_TOKEN_ERROR = "Invalid JSON token, expecting %d more JSON value%s";
 	public static final String JSON_DEC_ARRAY_END_TOKEN_ERROR = "Invalid JSON token, expecting JSON array end mark%s";
-	public static final String JSON_DEC_FIELD_TOKEN_ERROR = "Invalid JSON token found while decoding field '%.*s'";
-	public static final String JSON_DEC_INVALID_NAME_ERROR = "Invalid field name '%.*s'";
+	public static final String JSON_DEC_FIELD_TOKEN_ERROR = "Invalid JSON token found while decoding field '%s'";
+	public static final String JSON_DEC_INVALID_NAME_ERROR = "Invalid field name '%s'";
 	public static final String JSON_DEC_MISSING_FIELD_ERROR = "No JSON data found for field '%s'";
 	public static final String JSON_DEC_STATIC_OBJECT_END_TOKEN_ERROR = "Invalid JSON token, expecting JSON object end mark%s";
 	public static final String JSON_DEC_AS_VALUE_ERROR = "Extracted JSON %s could not be decoded by any field of the union";
-	public static final String JSON_DEC_METAINFO_NAME_ERROR = "Meta info provided for non-existent field '%.*s'";
+	public static final String JSON_DEC_METAINFO_NAME_ERROR = "Meta info provided for non-existent field '%s'";
 	public static final String JSON_DEC_METAINFO_VALUE_ERROR = "Invalid meta info for field '%s'";
 	public static final String JSON_DEC_METAINFO_NOT_APPLICABLE = "Meta info not applicable to field '%s'";
 	public static final String JSON_DEC_CHOSEN_FIELD_NOT_NULL = "Invalid JSON token, expecting 'null' (as indicated by a condition in attribute 'chosen')%s";

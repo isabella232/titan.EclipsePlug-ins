@@ -2129,7 +2129,7 @@ public final class RecordSetCodeGenerator {
 					source.append("\t\t\t\t\t\t\t\t\t\t}\n");
 					source.append("\t\t\t\t\t\t\t\t\t}\n");
 				}
-				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n", fieldInfos.get(i).mDisplayName.length(), fieldInfos.get(i).mDisplayName));
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, \"{0}\");\n", fieldInfos.get(i).mDisplayName));
 				source.append("\t\t\t\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 				source.append("\t\t\t\t\t\t\t}\n");
@@ -2142,14 +2142,14 @@ public final class RecordSetCodeGenerator {
 			}
 			source.append("{\n");
 			// invalid field name
-			source.append(MessageFormat.format("\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, {0}JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);\n",
+			source.append(MessageFormat.format("\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, {0}JSON.JSON_DEC_INVALID_NAME_ERROR, fld_name);\n",
 					has_metainfo_enabled ? "is_metainfo ? JSON.JSON_DEC_METAINFO_NAME_ERROR : " : ""));
 			// if this is set to a warning, skip the value of the field
 			source.append("\t\t\t\t\t\tdec_len += p_tok.get_next_token(j_token, null, null);\n");
 			source.append("\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_NUMBER != j_token.get() && json_token_t.JSON_TOKEN_STRING != j_token.get() &&\n");
 			source.append("\t\t\t\t\t\t\t\tjson_token_t.JSON_TOKEN_LITERAL_TRUE != j_token.get() && json_token_t.JSON_TOKEN_LITERAL_FALSE != j_token.get() &&\n");
 			source.append("\t\t\t\t\t\t\t\tjson_token_t.JSON_TOKEN_LITERAL_NULL != j_token.get()) {\n");
-			source.append("\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, name_len, fld_name);\n");
+			source.append("\t\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, fld_name);\n");
 			source.append("\t\t\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
 			source.append("\t\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\t}\n");
@@ -2168,8 +2168,8 @@ public final class RecordSetCodeGenerator {
 					source.append("\t\t\t}\n");
 					source.append(MessageFormat.format("\t\t\telse if (JSON.JSON_METAINFO_NEEDED == metainfo_{0}) '{'\n", fieldInfos.get(i).mJavaVarName));
 					// no meta info was found for this field, report the delayed error
-					source.append(MessageFormat.format("\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, {0}, \"{1}\");\n",
-							fieldInfos.get(i).mDisplayName.length(), fieldInfos.get(i).mDisplayName));
+					source.append(MessageFormat.format("\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, \"{0}\");\n",
+							fieldInfos.get(i).mDisplayName));
 					source.append("\t\t\t}\n");
 					source.append("\t\t\telse ");
 				}

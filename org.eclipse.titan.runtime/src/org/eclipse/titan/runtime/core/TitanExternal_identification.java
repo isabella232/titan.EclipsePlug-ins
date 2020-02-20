@@ -927,7 +927,7 @@ public class TitanExternal_identification extends Base_Type {
 					final int ret_val = get_field_syntaxes().JSON_decode(TitanExternal_identification_syntaxes_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
-							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 8, "syntaxes");
+							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "syntaxes");
 						}
 						return JSON.JSON_ERROR_FATAL;
 					} else {
@@ -937,7 +937,7 @@ public class TitanExternal_identification extends Base_Type {
 					final int ret_val = get_field_syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
-							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 6, "syntax");
+							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "syntax");
 						}
 						return JSON.JSON_ERROR_FATAL;
 					} else {
@@ -947,7 +947,7 @@ public class TitanExternal_identification extends Base_Type {
 					final int ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
-							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 23, "presentation-context-id");
+							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "presentation-context-id");
 						}
 						return JSON.JSON_ERROR_FATAL;
 					} else {
@@ -957,7 +957,7 @@ public class TitanExternal_identification extends Base_Type {
 					final int ret_val = get_field_context__negotiation().JSON_decode(TitanExternal_identification_context__negotiation_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
-							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 19, "context-negotiation");
+							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "context-negotiation");
 						}
 						return JSON.JSON_ERROR_FATAL;
 					} else {
@@ -967,7 +967,7 @@ public class TitanExternal_identification extends Base_Type {
 					final int ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
-							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 15, "transfer-syntax");
+							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "transfer-syntax");
 						}
 						return JSON.JSON_ERROR_FATAL;
 					} else {
@@ -977,14 +977,14 @@ public class TitanExternal_identification extends Base_Type {
 					final int ret_val = get_field_fixed().JSON_decode(Base_Type.TitanAsn_Null_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
-							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, 5, "fixed");
+							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "fixed");
 						}
 						return JSON.JSON_ERROR_FATAL;
 					} else {
 						dec_len += ret_val;
 					}
 				} else {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, name_len, fld_name);
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_INVALID_NAME_ERROR, fld_name);
 					return JSON.JSON_ERROR_FATAL;
 				}
 			}
