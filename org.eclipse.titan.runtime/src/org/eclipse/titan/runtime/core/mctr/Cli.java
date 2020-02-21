@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core.mctr;
 
 import java.io.File;
+import java.math.BigInteger;
 
 import org.eclipse.titan.runtime.core.MainController;
 import org.eclipse.titan.runtime.core.TTCN_Runtime;
@@ -48,6 +49,7 @@ public class Cli extends UserInterface {
 	private boolean exitFlag;
 	private String cfg_file_name;
 	private waitStateEnum waitState;
+	private BigInteger n_host = new BigInteger("-1");
 
 	public Cli() {
 		loggingEnabled = true;
@@ -81,12 +83,29 @@ public class Cli extends UserInterface {
 				return 1;
 			} else {
 				final MCSectionHandler mcSectionHandler = cfgAnalyzer.getMcSectionHandler();
+				
+				if (mcSectionHandler.getKillTimer() != null) {
+					MainController.set_kill_timer(mcSectionHandler.getKillTimer());
+				}
+				
+				if (mcSectionHandler.getNumHCsText() != null) {
+					n_host = mcSectionHandler.getNumHCsText();
+				}
+				
+				//TODO: assign groups, components and host
 			}
-			
-
-			
 		}
-		return 0;
+		int ret_val = 0;
+		
+		if (n_host.compareTo(BigInteger.ZERO) <= 0) {
+			ret_val = interactiveMode();
+		} else {
+			ret_val = batchMode();
+		}
+		
+		//cleanUp ?
+		
+		return ret_val;
 	}
 
 	@Override

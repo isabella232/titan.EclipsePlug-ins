@@ -41,7 +41,7 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.cfgparser.MCSectionHandler;
-import org.eclipse.titan.runtime.core.mctr.MainControllerCommand;
+import org.eclipse.titan.runtime.core.mctr.UserInterface;
 
 
 /**
@@ -275,6 +275,10 @@ public class MainController {
 
 	private static Map<Integer, ComponentStruct> components;
 
+	private static UserInterface ui;
+	private static NetworkHandler nh = new NetworkHandler();
+	private static double kill_timer = 0.0;
+
 	static class Host {
 		SocketChannel socket;
 		SocketAddress address;
@@ -404,10 +408,12 @@ public class MainController {
 		}
 
 		printWelcome();
-		
+
 		String localAddress = null;
 		int TCPPort = 0; //don't need BigInteger
-		
+		mc_state = mcStateEnum.MC_INACTIVE;
+
+
 		if(args.length == 1) {
 			mc_state = mcStateEnum.MC_INACTIVE;
 			final File config_file = new File(args[0]);
@@ -472,28 +478,30 @@ public class MainController {
 			TCPPort = 0;
 		}
 
-		try {
-			serverSocketChannel = ServerSocketChannel.open();
-			serverSocketChannel.socket().bind(new InetSocketAddress(localAddress,TCPPort));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		start_session(localAddress, TCPPort);
+
+		//try {
+		//serverSocketChannel = ServerSocketChannel.open();
+		//serverSocketChannel.socket().bind(new InetSocketAddress(localAddress,TCPPort));
+		//} catch (IOException e) {
+		// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
 
 		if (n_hosts.get().compareTo(BigInteger.ZERO) <= 0) {
-			interactiveMode();
+			//interactiveMode();
 		} else {
 			batchMode();
 		}
 		// TODO cleanUp()
 
 	}
-	
+
 	public static void add_host(final String group_name, final String host_name) {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
 			throw new TtcnError("MainController.add_host: called in wrong state.");
 		}
-		
+
 		HostGroupStruct group = add_host_group(group_name);
 		if (host_name != null) {
 			if (group.has_all_hosts) {
@@ -502,19 +510,19 @@ public class MainController {
 				//TODO: implement
 			}
 		}
-			
+
 		//TODO: implement
 	}
-	
+
 	private static HostGroupStruct add_host_group(final String group_name) {
 		if (host_groups == null) {
 			host_groups = new ArrayList<HostGroupStruct>();
 			HostGroupStruct new_group = new HostGroupStruct();
-			
+
 			new_group.group_name = group_name;
 			new_group.has_all_hosts = false;
 			new_group.has_all_components = false;
-			
+
 			host_groups.add(new_group);
 			return new_group;
 		} else {
@@ -524,16 +532,108 @@ public class MainController {
 				}
 			}
 			HostGroupStruct new_group = new HostGroupStruct();
-			
+
 			new_group.group_name = group_name;
 			new_group.has_all_hosts = false;
 			new_group.has_all_components = false;
-			
+
 			host_groups.add(new_group);
 			return new_group;
 		}
 	}
-	
+
+	public static int start_session(final String local_address, int tcp_port) {
+		if (mc_state != mcStateEnum.MC_INACTIVE) {
+			System.err.println("MainController.start_session: called in wrong state.");
+			return 0;
+		}
+		nh.set_family(new InetSocketAddress(local_address, tcp_port));
+
+		try {
+			serverSocketChannel = serverSocketChannel.open();
+		} catch (IOException e) {
+			System.err.printf("Server socket creation failed: %s\n", e.getMessage());
+			//clean up?
+			return 0;
+		}
+
+		try {
+			serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+		} catch (IOException e) {
+			System.err.printf("SO_REUSEADDR failed on server socket: %s", e.getMessage());
+			//clean up?
+			return 0;
+		}
+
+		//TCP_NODELAY not supported for server sockets in Java
+
+		try {
+			serverSocketChannel.bind(nh.get_addr(), 10);
+		} catch (IOException e) {
+			if (local_address == null || local_address.isEmpty()) {
+				System.err.printf("Binding server socket to TCP port %d failed: %s\n", tcp_port, e.getMessage());
+				//clean up?
+				return 0;
+			} else {
+				System.err.printf("Binding server socket to IP address %s and TCP port %d failed: %s\n", local_address, tcp_port, e.getMessage());
+				//clean up?
+				return 0;
+			}
+		}
+		//declare hosts list?
+
+		hosts = new ArrayList<Host>();
+		try {
+			mc_state = mcStateEnum.MC_LISTENING;
+			System.out.printf("Listening on IP address %s and TCP port %d.\n",
+					((InetSocketAddress)serverSocketChannel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort());
+			tcp_port = ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort();
+			SocketChannel sc = serverSocketChannel.accept();
+			Host host = new Host(sc);
+			hosts.add(host);
+			host.address = sc.getRemoteAddress();
+			host.hc_state = hcStateEnum.HC_IDLE;
+
+			process_version(host);
+			System.out.println(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
+					host.machine_type));
+
+			mc_state = mcStateEnum.MC_ACTIVE;
+			configure();
+			create_mtc(hosts.get(0));
+
+		} catch (IOException e) {
+			if (local_address == null || local_address.isEmpty()) {
+				System.err.printf("Listening on TCP port %d failed: %s\n", tcp_port, e.getMessage());
+				//clean up?
+				return 0;
+			} else {
+				System.err.printf("Listening on IP address %s and TCP port %d failed: %s\n", local_address, tcp_port, e.getMessage());
+				//clean up?
+				return 0;
+			}
+		}
+
+		return tcp_port;
+	}
+
+	public static void set_kill_timer(final Double timer_val) {
+		switch (mc_state) {
+		case MC_INACTIVE:
+		case MC_LISTENING:
+		case MC_HC_CONNECTED:
+		case MC_RECONFIGURING:
+			if (timer_val < 0.0) {
+				System.err.println("MainController.set_kill_timer: setting a negative kill timer value.");
+			} else {
+				kill_timer = timer_val;
+			}
+			break;
+		default:
+			System.err.println("MainController.set_kill_timer: called in wrong state.");
+			break;
+		}
+	}
 
 	private static int batchMode() {
 		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
@@ -573,16 +673,18 @@ public class MainController {
 
 		return 0;
 	}
-	
+
+
+
 	private static int interactiveMode() {
 		//TODO: implement in cli
 		boolean exitFlag = true;
-		
+
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
 			System.err.println("MainController.start_session: called in wrong state.");
 			return 0;
 		}
-		
+
 		try {
 			serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
 		} catch (Exception e) {
@@ -590,7 +692,7 @@ public class MainController {
 			return 0;
 		}
 		//serverSocketChannel doesn't support TCP_NODELAY option
-		
+
 		mc_state = mcStateEnum.MC_LISTENING;
 		try {
 			if (serverSocketChannel.getLocalAddress() != null) {
@@ -792,11 +894,11 @@ public class MainController {
 	//This is the temporal solution:
 	public static void printUsage() {
 		System.err.printf(
-			"TTCN-3 Test Executor - Main Controller 2\n"+
-			"Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
-			"usage: mctr_cli configuration_file\n" +
-			"where: the 'configuration_file' parameter specifies the name and \n"+
-			"location of the main controller configuration file\n");
+				"TTCN-3 Test Executor - Main Controller 2\n"+
+						"Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
+						"usage: mctr_cli configuration_file\n" +
+						"where: the 'configuration_file' parameter specifies the name and \n"+
+				"location of the main controller configuration file\n");
 	}
 
 	private static void handle_hc_data(final Host hc) {
