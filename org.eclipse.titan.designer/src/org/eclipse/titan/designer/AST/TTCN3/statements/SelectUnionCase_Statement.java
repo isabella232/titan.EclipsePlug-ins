@@ -302,7 +302,7 @@ public final class SelectUnionCase_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expressionStruct = new ExpressionStruct();
-		expression.generateCodeExpression(aData, expressionStruct, true);
+		expression.generateCodeExpressionMandatory(aData, expressionStruct, true);
 		source.append(expressionStruct.preamble);
 		source.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", expressionStruct.expression));
 		selectUnionCases.generateCode(aData, source);
