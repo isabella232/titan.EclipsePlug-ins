@@ -429,25 +429,25 @@ public class RAW {
 
 	public static final class TTCN_RAWdescriptor {
 		public int fieldlength; /**< length of field in \a unit s */
-		public raw_sign_t comp; /**< the method used for storing negative numbers */
-		public raw_order_t byteorder;
-		public raw_order_t endianness;
-		public raw_order_t bitorderinfield;
-		public raw_order_t bitorderinoctet;
-		public ext_bit_t extension_bit; /**< MSB mangling */
-		public raw_order_t hexorder;
-		public raw_order_t fieldorder;
-		public top_bit_order_t top_bit_order;
-		public int padding;
-		public int prepadding;
-		public int ptroffset;
-		public int unit; /**< number of bits per unit */
-		public int padding_pattern_length;
-		public byte[] padding_pattern;
-		public int length_restrition;
-		public CharCoding stringformat;
-		public RAW_Force_Omit forceomit;
-		public boolean csn1lh;
+		public final raw_sign_t comp; /**< the method used for storing negative numbers */
+		public final raw_order_t byteorder;
+		public final raw_order_t endianness;
+		public final raw_order_t bitorderinfield;
+		public final raw_order_t bitorderinoctet;
+		public final ext_bit_t extension_bit; /**< MSB mangling */
+		public final raw_order_t hexorder;
+		public final raw_order_t fieldorder;
+		public final top_bit_order_t top_bit_order;
+		public final int padding;
+		public final int prepadding;
+		public final int ptroffset;
+		public final int unit; /**< number of bits per unit */
+		public final int padding_pattern_length;
+		public final byte[] padding_pattern;
+		public final int length_restrition;
+		public final CharCoding stringformat;
+		public final RAW_Force_Omit forceomit;
+		public final boolean csn1lh;
 
 		public TTCN_RAWdescriptor(final int fieldlength, final raw_sign_t comp,
 				final raw_order_t byteorder, final raw_order_t endianness,
