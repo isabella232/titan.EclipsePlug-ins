@@ -401,7 +401,7 @@ public class MainController {
 	private static ComponentStruct ptc;
 	private static ComponentStruct system;
 
-	public static void main(final String[] args) {
+	/*public static void main(final String[] args) {
 		if (args.length > 1) {
 			printUsage();
 			return;
@@ -495,7 +495,7 @@ public class MainController {
 		}
 		// TODO cleanUp()
 
-	}
+	}*/
 
 	public static void add_host(final String group_name, final String host_name) {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
@@ -505,9 +505,12 @@ public class MainController {
 		HostGroupStruct group = add_host_group(group_name);
 		if (host_name != null) {
 			if (group.has_all_hosts) {
+				//System.err ?
 				throw new TtcnError(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.", host_name, group_name));
 			} else {
-				//TODO: implement
+				/*if (group.host_members.contains()) {
+					
+				}*/
 			}
 		}
 
@@ -522,6 +525,7 @@ public class MainController {
 			new_group.group_name = group_name;
 			new_group.has_all_hosts = false;
 			new_group.has_all_components = false;
+			new_group.host_members = new ArrayList<Host>();
 
 			host_groups.add(new_group);
 			return new_group;
