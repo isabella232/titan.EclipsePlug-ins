@@ -68,6 +68,38 @@ testcase tc_jsonBasic_encdec_os_integer() runs on CT {
 //  }
 }
 
+testcase tc_jsonBasic_encdec_os_integer_big() runs on CT {
+  const I_json x := 2222222222222222222222222222222222;
+  var I_json y := 2222222222222222222222222222222222, z;
+  var octetstring os;
+  var octetstring expected :=  char2oct("2222222222222222222222222222222222");
+  log("expected:",expected);
+  os := f_json_enc_i2os(x);
+  f_compare_octetstring(os,expected);
+  
+  os := f_json_enc_i2os(y);
+  f_compare_octetstring(os,expected);
+
+  //decode test:
+  z := f_json_dec_os2i(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+//  //Whitespace test
+//  expected := char2oct("  2 3  4 ");
+//  log(expected);
+//  
+//  //decode test:
+//  z := f_json_dec_os2i(expected);
+//  if ( y ==z ) {
+//    setverdict(pass);
+//  } else {
+//    setverdict(fail);
+//  }
+}
+
 testcase tc_jsonBasic_encdec_os_float() runs on CT {
   const F_json x := 2.0;
   var F_json y := 2.0, z;
@@ -545,6 +577,7 @@ testcase tc_jsonBasic_encdec_os_anytype_i() runs on CT {
 
 control {
   execute( tc_jsonBasic_encdec_os_integer() );
+  execute( tc_jsonBasic_encdec_os_integer_big() );
   execute( tc_jsonBasic_encdec_os_float() );
   execute( tc_jsonBasic_encdec_os_enum() );
   execute( tc_jsonBasic_encdec_os_bitstring() );
