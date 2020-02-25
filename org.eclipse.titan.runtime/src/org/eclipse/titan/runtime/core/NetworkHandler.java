@@ -52,13 +52,16 @@ public class NetworkHandler {
 	public void set_family(final InetSocketAddress p_addr) {
 		if (p_addr.getAddress() instanceof Inet4Address) {
 			m_family = NetworkFamily.ipv4;
+			m_addr = p_addr;
 			return;
 		}
 		if (p_addr.getAddress() instanceof Inet6Address) {
 			m_family = NetworkFamily.ipv6;
+			m_addr = p_addr;
 			return;
 		} else {
 			m_family = NetworkFamily.ipv0;
+			m_addr = p_addr;
 		}
 	}
 
