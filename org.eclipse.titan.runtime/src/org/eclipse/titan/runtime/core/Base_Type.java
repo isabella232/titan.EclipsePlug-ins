@@ -64,7 +64,7 @@ public abstract class Base_Type {
 		 *                type descriptor of the of type, {@code false}
 		 *                otherwise.
 		 * */
-		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json, final TTCN_Typedescriptor oftype_descr) {
+		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json, final TTCN_Typedescriptor oftype_descr) {
 			this.name = name;
 			this.raw = raw;
 			this.json = json;
@@ -84,7 +84,7 @@ public abstract class Base_Type {
 		 *                the JSON descriptor if the type has one,
 		 *                {@code null} otherwise.
 		 * */
-		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json) {
+		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json) {
 			this.name = name;
 			this.raw = raw;
 			this.json = json;
@@ -101,7 +101,7 @@ public abstract class Base_Type {
 		 *                the RAW descriptor if the type has one,
 		 *                {@code null} otherwise.
 		 * */
-		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw) {
+		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw) {
 			this.name = name;
 			this.raw = raw;
 			this.json = null;
@@ -118,7 +118,7 @@ public abstract class Base_Type {
 		 *                the JSON descriptor if the type has one,
 		 *                {@code null} otherwise.
 		 * */
-		public TTCN_Typedescriptor(final String name,  final TTCN_JSONdescriptor json) {
+		public TTCN_Typedescriptor(final String name, final TTCN_JSONdescriptor json) {
 			this.name = name;
 			this.raw = null;
 			this.json = json;
