@@ -56,6 +56,9 @@ public abstract class Base_Type {
 		 * @param raw
 		 *                the RAW descriptor if the type has one,
 		 *                {@code null} otherwise.
+		 * @param json
+		 *                the JSON descriptor if the type has one,
+		 *                {@code null} otherwise.
 		 * @param oftype_descr
 		 *                in case of record of and set of types, the
 		 *                type descriptor of the of type, {@code false}
@@ -76,6 +79,9 @@ public abstract class Base_Type {
 		 *                form.
 		 * @param raw
 		 *                the RAW descriptor if the type has one,
+		 *                {@code null} otherwise.
+		 *  @param json
+		 *                the JSON descriptor if the type has one,
 		 *                {@code null} otherwise.
 		 * */
 		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json) {
