@@ -68,12 +68,21 @@ public abstract class Base_Type {
 			this.oftype_descr = oftype_descr;
 		}
 
-//		//FIXME: this is the old version, possibly remove
-		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_Typedescriptor oftype_descr) {
+		/**
+		 * Initializes the type descriptor.
+		 *
+		 * @param name
+		 *                the name of the type in its generated, unique
+		 *                form.
+		 * @param raw
+		 *                the RAW descriptor if the type has one,
+		 *                {@code null} otherwise.
+		 * */
+		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json) {
 			this.name = name;
 			this.raw = raw;
-			this.json = null;
-			this.oftype_descr = oftype_descr;
+			this.json = json;
+			this.oftype_descr = null;
 		}
 	}
 

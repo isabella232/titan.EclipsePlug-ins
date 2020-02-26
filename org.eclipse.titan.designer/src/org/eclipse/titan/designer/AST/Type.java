@@ -2647,7 +2647,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			globalVariable.append(", null");
 		}
 
-		globalVariable.append(", null");//the descriptor of the oftype is set in the preinit part.
 		switch (last.getTypetype()) {
 		case TYPE_SEQUENCE_OF: {
 			final StringBuilder preInit = aData.getPreInit();
