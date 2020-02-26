@@ -2608,12 +2608,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		 */
 
 		final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		int codingsSupported = 0;
 		//check and generate the needed type descriptors
 		//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
 		final boolean generate_raw = aData.getEnableRaw() && last.getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		String gennameRawDescriptor;
 		if (generate_raw) {
 			gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
+			codingsSupported++;
 		} else {
 			gennameRawDescriptor = "null";
 		}
@@ -2622,6 +2624,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		String gennameJsonDescriptor;
 		if (generate_json) {
 			gennameJsonDescriptor = getGenNameJsonDescriptor(aData, source);
+			codingsSupported++;
 		} else {
 			gennameJsonDescriptor = "null";
 		}
@@ -2637,13 +2640,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{1}\"", genname, getFullName()));
 		if (generate_raw) {
 			globalVariable.append(MessageFormat.format(", {0}", gennameRawDescriptor));
-		} else {
+		} else if (codingsSupported > 1) {
 			globalVariable.append(", null");
 		}
 
 		if (generate_json) {
 			globalVariable.append(MessageFormat.format(", {0}", gennameJsonDescriptor));
-		} else {
+		} else if (codingsSupported > 1) {
 			globalVariable.append(", null");
 		}
 

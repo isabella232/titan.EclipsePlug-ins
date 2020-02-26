@@ -90,6 +90,54 @@ public abstract class Base_Type {
 			this.json = json;
 			this.oftype_descr = null;
 		}
+
+		/**
+		 * Initializes the type descriptor.
+		 *
+		 * @param name
+		 *                the name of the type in its generated, unique
+		 *                form.
+		 * @param raw
+		 *                the RAW descriptor if the type has one,
+		 *                {@code null} otherwise.
+		 * */
+		public TTCN_Typedescriptor(final String name,  final TTCN_RAWdescriptor raw) {
+			this.name = name;
+			this.raw = raw;
+			this.json = null;
+			this.oftype_descr = null;
+		}
+
+		/**
+		 * Initializes the type descriptor.
+		 *
+		 * @param name
+		 *                the name of the type in its generated, unique
+		 *                form.
+		 *  @param json
+		 *                the JSON descriptor if the type has one,
+		 *                {@code null} otherwise.
+		 * */
+		public TTCN_Typedescriptor(final String name,  final TTCN_JSONdescriptor json) {
+			this.name = name;
+			this.raw = null;
+			this.json = json;
+			this.oftype_descr = null;
+		}
+
+		/**
+		 * Initializes the type descriptor.
+		 *
+		 * @param name
+		 *                the name of the type in its generated, unique
+		 *                form.
+		 * */
+		public TTCN_Typedescriptor(final String name) {
+			this.name = name;
+			this.raw = null;
+			this.json = null;
+			this.oftype_descr = null;
+		}
 	}
 
 	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
