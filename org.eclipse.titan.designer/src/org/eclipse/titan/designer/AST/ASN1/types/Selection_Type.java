@@ -382,6 +382,29 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (this == referencedLast || referencedLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+		}
+
+		if (needsOwnJsonDescriptor(aData)) {
+			return getGenNameOwn(aData) + "_json_";
+		}
+
+		return referencedLast.getGenNameJsonDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
