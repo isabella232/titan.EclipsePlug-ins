@@ -405,6 +405,11 @@ public final class OctetString_Type extends ASN1Type {
 		return "Base_Type.TitanOctetString";
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return rawAttribute != null;
+	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -414,10 +419,15 @@ public final class OctetString_Type extends ASN1Type {
 
 			return "RAW.TitanOctetString_raw_";
 		} else {
-			generateCodeRawDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_raw_";
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
 	}
 
 	@Override
@@ -429,8 +439,6 @@ public final class OctetString_Type extends ASN1Type {
 
 			return "JSON.TitanOctetString_json_";
 		} else {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 	}

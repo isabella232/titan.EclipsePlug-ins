@@ -50,9 +50,9 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumItem;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator;
-import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_Defs;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_field;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Enumerated_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
@@ -854,14 +854,19 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
+	}
+
+	@Override
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.ENUMERATED_json_";
 		} else {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 	}

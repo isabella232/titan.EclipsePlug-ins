@@ -21,8 +21,8 @@ import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -1055,17 +1055,25 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeRawDescriptor(aData, source);
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_raw_";
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeJsonDescriptor(aData, source);
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_json_";
 	}
 

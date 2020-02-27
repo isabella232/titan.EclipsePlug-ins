@@ -426,17 +426,25 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeRawDescriptor(aData, source);
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_raw_";
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeJsonDescriptor(aData, source);
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_json_";
 	}
 

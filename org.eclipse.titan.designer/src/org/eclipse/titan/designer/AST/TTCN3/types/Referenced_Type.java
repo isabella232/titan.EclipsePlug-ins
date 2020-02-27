@@ -21,8 +21,8 @@ import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
@@ -43,8 +43,8 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -1188,6 +1188,12 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return rawAttribute != null;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
@@ -1196,12 +1202,17 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		if (rawAttribute != null) {
-			generateCodeRawDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_raw_";
 		}
 
 		return refd.getGenNameRawDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
 	}
 
 	@Override
@@ -1215,8 +1226,6 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null
 				&& getParentType().getJsonAttribute().as_map)) {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 

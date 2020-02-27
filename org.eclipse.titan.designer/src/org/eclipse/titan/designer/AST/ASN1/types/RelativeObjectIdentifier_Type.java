@@ -264,14 +264,19 @@ public final class RelativeObjectIdentifier_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
+	}
+
+	@Override
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.TitanAsn_Roid_json_";
 		} else {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 	}

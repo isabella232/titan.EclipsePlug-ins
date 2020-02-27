@@ -554,6 +554,13 @@ public final class ASN1_BitString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map)) {
@@ -561,8 +568,6 @@ public final class ASN1_BitString_Type extends ASN1Type {
 
 			return "JSON.TitanBitString_json_";
 		} else {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 	}

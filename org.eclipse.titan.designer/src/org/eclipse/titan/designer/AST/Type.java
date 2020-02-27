@@ -2613,6 +2613,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
 		final boolean generate_raw = aData.getEnableRaw() && last.getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		String gennameRawDescriptor;
+		if (generate_raw && needsOwnRawDescriptor(aData)) {
+			generateCodeRawDescriptor(aData, source);
+		}
 		if (generate_raw) {
 			gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
 			codingsSupported++;
@@ -2622,6 +2625,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final boolean generate_json = aData.getEnableJson() && last.getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		String gennameJsonDescriptor;
+		if (generate_json && needsOwnJsonDescriptor(aData)) {
+			generateCodeJsonDescriptor(aData, source);
+		}
 		if (generate_json) {
 			gennameJsonDescriptor = getGenNameJsonDescriptor(aData, source);
 			codingsSupported++;
@@ -2675,7 +2681,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 * */
-	protected void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
@@ -3383,6 +3389,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
+	 * Checks if the type needs its own RAW descriptor.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @return {@code true} if the type needs its own RAW descriptor, {@code false} otherwise.
+	 */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
+
+		return false;
+	}
+
+	/**
 	 * Returns the name of the RAW descriptor (- the _raw_ postfix).
 	 *
 	 * get_genname_rawdescriptor in titan.core
@@ -3395,6 +3413,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
 
 		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+	}
+
+	/**
+	 * Checks if the type needs its own JSON descriptor.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @return {@code true} if the type needs its own JSON descriptor, {@code false} otherwise.
+	 */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		ErrorReporter.INTERNAL_ERROR("Trying to generate JSON for type `" + getFullName() + "'' that has no JSON attributes");
+
+		return false;
 	}
 
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {

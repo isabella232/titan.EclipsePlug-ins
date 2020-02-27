@@ -1179,6 +1179,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public String getGenNameDefaultCoding(final JavaGenData aData, final StringBuilder source, final Scope scope);
 
 	/**
+	 * Checks if the type needs its own RAW descriptor.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @return {@code true} if the type needs its own RAW descriptor, {@code false} otherwise.
+	 */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData);
+
+	/**
 	 * Returns the name of the RAW type descriptor (- the _descr_ postfix).
 	 *
 	 * get_genname_rawdescriptor in titan.core
@@ -1188,6 +1196,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source);
+
+	/**
+	 * Checks if the type needs its own JSON descriptor.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @return {@code true} if the type needs its own JSON descriptor, {@code false} otherwise.
+	 */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData);
 
 	/**
 	 * get_genname_jsondescriptor in titan.core

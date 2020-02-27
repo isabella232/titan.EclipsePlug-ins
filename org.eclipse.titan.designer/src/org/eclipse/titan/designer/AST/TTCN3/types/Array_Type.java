@@ -1249,9 +1249,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeJsonDescriptor(aData, source);
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_json_";
 	}
 

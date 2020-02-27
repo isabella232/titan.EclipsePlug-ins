@@ -41,7 +41,6 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
-import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
@@ -1252,9 +1251,13 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeJsonDescriptor(aData, source);
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_json_";
 	}
 

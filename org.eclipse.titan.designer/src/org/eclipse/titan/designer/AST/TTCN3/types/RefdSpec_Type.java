@@ -17,8 +17,8 @@ import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -340,6 +340,12 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return rawAttribute != null;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (this == refdType || refdType == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
@@ -348,12 +354,17 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 		}
 
 		if (rawAttribute != null) {
-			generateCodeRawDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_raw_";
 		}
 
 		return refdType.getGenNameRawDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
 	}
 
 	@Override
@@ -367,8 +378,6 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null
 				&& getParentType().getJsonAttribute().as_map)) {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 

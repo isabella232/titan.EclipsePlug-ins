@@ -336,6 +336,11 @@ public final class Boolean_Type extends ASN1Type {
 		return "Base_Type.TitanBoolean";
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return rawAttribute != null;
+	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -345,10 +350,15 @@ public final class Boolean_Type extends ASN1Type {
 
 			return "RAW.TitanBoolean_raw_";
 		} else {
-			generateCodeRawDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_raw_";
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
 	}
 
 	@Override
@@ -360,8 +370,6 @@ public final class Boolean_Type extends ASN1Type {
 
 			return "JSON.TitanBoolean_json_";
 		} else {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 	}

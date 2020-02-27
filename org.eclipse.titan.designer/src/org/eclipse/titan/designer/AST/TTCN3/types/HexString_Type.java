@@ -366,6 +366,11 @@ public final class HexString_Type extends Type {
 		return "Base_Type.TitanHexString";
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return rawAttribute != null;
+	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -375,10 +380,15 @@ public final class HexString_Type extends Type {
 
 			return "RAW.TitanHexString_raw_";
 		} else {
-			generateCodeRawDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_raw_";
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
+				|| !getParentType().getJsonAttribute().as_map));
 	}
 
 	@Override
@@ -390,8 +400,6 @@ public final class HexString_Type extends Type {
 
 			return "JSON.TitanHexString_json_";
 		} else {
-			generateCodeJsonDescriptor(aData, source);
-
 			return getGenNameOwn(aData) + "_json_";
 		}
 	}

@@ -16,11 +16,11 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
-import org.eclipse.titan.designer.AST.Type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
@@ -736,17 +736,25 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeRawDescriptor(aData, source);
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_raw_";
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeJsonDescriptor(aData, source);
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_json_";
 	}
 

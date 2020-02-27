@@ -767,9 +767,13 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		generateCodeRawDescriptor(aData, source);
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		return getGenNameOwn(aData) + "_raw_";
 	}
 
