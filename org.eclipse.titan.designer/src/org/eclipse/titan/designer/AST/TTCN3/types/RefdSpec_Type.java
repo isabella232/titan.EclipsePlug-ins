@@ -376,7 +376,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		if (!needsOwnJsonDescriptor(aData)) {
+		if (needsOwnJsonDescriptor(aData)) {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
