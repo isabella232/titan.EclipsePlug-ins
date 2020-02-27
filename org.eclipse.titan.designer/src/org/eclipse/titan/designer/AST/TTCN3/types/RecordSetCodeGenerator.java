@@ -1908,12 +1908,12 @@ public final class RecordSetCodeGenerator {
 			}
 		}
 		if (jsonAsMapPossible) {
-			source.append("\t\t\tif (p_td.json.as_map) {\n");
-			source.append("\t\t\t\tTTCN_Buffer key_buf;\n");
-			source.append(MessageFormat.format("\t\t\t\tfield_{0}.encode_utf8(key_buf);\n", fieldInfos.get(0).mJavaVarName));
-			source.append("\t\t\t\tTitanCharString key_str = new TitanCharString();\n");
+			source.append("\t\t\tif (p_td.json.isAs_map()) {\n");
+			source.append("\t\t\t\tfinal TTCN_Buffer key_buf = new TTCN_Buffer();\n");
+			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().encode_utf8(key_buf);\n", fieldInfos.get(0).mJavaVarName));
+			source.append("\t\t\t\tfinal TitanCharString key_str = new TitanCharString();\n");
 			source.append("\t\t\t\tkey_buf.get_string(key_str);\n");
-			source.append("\t\t\t\treturn p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, key_str) + ");
+			source.append("\t\t\t\treturn p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, key_str.get_value().toString()) + ");
 			source.append(MessageFormat.format("get_field_{0}().JSON_encode({1}_descr_, p_tok);\n",
 					fieldInfos.get(1).mJavaVarName, fieldInfos.get(1).mTypeDescriptorName));
 			source.append("\t\t\t}\n");
@@ -1963,7 +1963,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\tfinal AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 		}
 		if (jsonAsMapPossible) {
-			source.append("\t\t\tif (p_td.json.as_map) {\n");
+			source.append("\t\t\tif (p_td.json.isAs_map()) {\n");
 			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
 			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
 			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
@@ -1976,7 +1976,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
 			source.append("\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
 			source.append("\t\t\t\t}\n");
-			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_utf8(name_len, fld_name);\n", fieldInfos.get(0).mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tget_field_{0}().decode_utf8(fld_name.toString().getBytes(), CharCoding.UTF_8, false);\n", fieldInfos.get(0).mJavaVarName));
 			source.append(MessageFormat.format("\t\t\t\treturn get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent) + dec_len;\n",
 					fieldInfos.get(1).mJavaVarName, fieldInfos.get(1).mTypeDescriptorName));
 			source.append("\t\t\t}\n");
