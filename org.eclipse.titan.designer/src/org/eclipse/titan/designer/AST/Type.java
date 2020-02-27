@@ -3422,7 +3422,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return {@code true} if the type needs its own JSON descriptor, {@code false} otherwise.
 	 */
 	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
-		ErrorReporter.INTERNAL_ERROR("Trying to generate JSON for type `" + getFullName() + "'' that has no JSON attributes");
+		//FIXME: temporally version
+		//ErrorReporter.INTERNAL_ERROR("Trying to generate JSON for type `" + getFullName() + "'' that has no JSON attributes");
 
 		return false;
 	}
