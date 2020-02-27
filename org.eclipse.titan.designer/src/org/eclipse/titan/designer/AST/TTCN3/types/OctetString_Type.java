@@ -433,12 +433,12 @@ public final class OctetString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if (!needsOwnJsonDescriptor(aData)) {
+		if (needsOwnJsonDescriptor(aData)) {
+			return getGenNameOwn(aData) + "_json_";
+		} else {
 			aData.addBuiltinTypeImport( "JSON" );
 
 			return "JSON.TitanOctetString_json_";
-		} else {
-			return getGenNameOwn(aData) + "_json_";
 		}
 	}
 

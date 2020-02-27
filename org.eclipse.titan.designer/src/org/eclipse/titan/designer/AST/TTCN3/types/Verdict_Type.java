@@ -297,11 +297,11 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if (!needsOwnJsonDescriptor(aData)) {
+		if (needsOwnJsonDescriptor(aData)) {
+			return getGenNameOwn(aData) + "_json_";
+		} else {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.TitanVerdictType_json_";
-		} else {
-			return getGenNameOwn(aData) + "_json_";
 		}
 	}
 }

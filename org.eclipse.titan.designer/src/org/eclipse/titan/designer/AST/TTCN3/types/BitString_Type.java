@@ -390,12 +390,12 @@ public final class BitString_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if (!needsOwnJsonDescriptor(aData)) {
+		if (needsOwnJsonDescriptor(aData)) {
+			return getGenNameOwn(aData) + "_json_";
+		} else {
 			aData.addBuiltinTypeImport( "JSON" );
 
 			return "JSON.TitanBitString_json_";
-		} else {
-			return getGenNameOwn(aData) + "_json_";
 		}
 	}
 

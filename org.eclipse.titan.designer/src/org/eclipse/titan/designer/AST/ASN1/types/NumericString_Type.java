@@ -294,11 +294,11 @@ public final class NumericString_Type extends ASN1Type {
 
 	@Override
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if (!needsOwnJsonDescriptor(aData)) {
+		if (needsOwnJsonDescriptor(aData)) {
+			return getGenNameOwn(aData) + "_json_";
+		} else {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.TitanNumericString_json_";
-		} else {
-			return getGenNameOwn(aData) + "_json_";
 		}
 	}
 }

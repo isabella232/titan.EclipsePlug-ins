@@ -862,11 +862,11 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 	@Override
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if (!needsOwnJsonDescriptor(aData)) {
+		if (needsOwnJsonDescriptor(aData)) {
+			return getGenNameOwn(aData) + "_json_";
+		} else {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.ENUMERATED_json_";
-		} else {
-			return getGenNameOwn(aData) + "_json_";
 		}
 	}
 }
