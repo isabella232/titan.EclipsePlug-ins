@@ -376,8 +376,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		if ((jsonAttribute != null && !jsonAttribute.empty()) || (getOwnertype() == TypeOwner_type.OT_RECORD_OF && getParentType().getJsonAttribute() != null
-				&& getParentType().getJsonAttribute().as_map)) {
+		if (!needsOwnJsonDescriptor(aData)) {
 			return getGenNameOwn(aData) + "_json_";
 		}
 

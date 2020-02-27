@@ -290,8 +290,7 @@ public final class PrintableString_Type extends ASN1Type {
 
 	@Override
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if ((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
-				|| !getParentType().getJsonAttribute().as_map)) {
+		if (!needsOwnJsonDescriptor(aData)) {
 			aData.addBuiltinTypeImport( "JSON" );
 			return "JSON.TitanPrintableString_json_";
 		} else {
