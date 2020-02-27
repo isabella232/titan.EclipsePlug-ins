@@ -907,9 +907,9 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (needsOwnJsonDescriptor(aData)) {
 			return getGenNameOwn(aData) + "_json_";
-		} else {
-			aData.addBuiltinTypeImport( "JSON" );
-			return "JSON.ENUMERATED_json_";
 		}
+
+		aData.addBuiltinTypeImport( "JSON" );
+		return "JSON.ENUMERATED_json_";
 	}
 }

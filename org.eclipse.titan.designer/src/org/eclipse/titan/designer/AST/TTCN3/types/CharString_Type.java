@@ -564,11 +564,11 @@ public final class CharString_Type extends Type {
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (needsOwnJsonDescriptor(aData)) {
 			return getGenNameOwn(aData) + "_json_";
-		} else {
-			aData.addBuiltinTypeImport( "JSON" );
-
-			return "JSON.TitanCharString_json_";
 		}
+
+		aData.addBuiltinTypeImport( "JSON" );
+
+		return "JSON.TitanCharString_json_";
 	}
 
 

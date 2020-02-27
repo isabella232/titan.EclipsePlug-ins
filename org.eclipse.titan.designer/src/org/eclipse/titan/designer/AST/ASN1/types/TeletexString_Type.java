@@ -306,9 +306,9 @@ public final class TeletexString_Type extends ASN1Type {
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (needsOwnJsonDescriptor(aData)) {
 			return getGenNameOwn(aData) + "_json_";
-		} else {
-			aData.addBuiltinTypeImport( "JSON" );
-			return "JSON.TitanTeletexString_json_";
 		}
+
+		aData.addBuiltinTypeImport( "JSON" );
+		return "JSON.TitanTeletexString_json_";
 	}
 }

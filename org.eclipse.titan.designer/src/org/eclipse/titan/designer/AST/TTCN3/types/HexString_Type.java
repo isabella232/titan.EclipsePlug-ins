@@ -396,11 +396,11 @@ public final class HexString_Type extends Type {
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (needsOwnJsonDescriptor(aData)) {
 			return getGenNameOwn(aData) + "_json_";
-		} else {
-			aData.addBuiltinTypeImport( "JSON" );
-
-			return "JSON.TitanHexString_json_";
 		}
+
+		aData.addBuiltinTypeImport( "JSON" );
+
+		return "JSON.TitanHexString_json_";
 	}
 
 	@Override
