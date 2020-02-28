@@ -256,9 +256,6 @@ public final class RecordSetCodeGenerator {
 		}
 
 		final boolean jsonNeeded = hasJson; //TODO can be forced optionally if needed
-		if (jsonNeeded) {
-			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
-		}
 
 		if (fieldInfos.isEmpty()) {
 			generateEmptyValueClass(aData, source, className, classDisplayname, rawNeeded);
