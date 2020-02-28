@@ -110,4 +110,20 @@ public class ConfigData {
 	public Double getKill_timer() {
 		return kill_timer;
 	}
+
+	public void setLocal_addr(String local_addr) {
+		this.local_addr = local_addr;
+	}
+
+	public void setTcp_listen_port(int tcp_listen_port) {
+		this.tcp_listen_port = tcp_listen_port;
+	}
+
+	public void setNum_hcs(BigInteger num_hcs) {
+		this.num_hcs = num_hcs;
+	}
+
+	public void setKill_timer(Double kill_timer) {
+		this.kill_timer = kill_timer;
+	}
 }
