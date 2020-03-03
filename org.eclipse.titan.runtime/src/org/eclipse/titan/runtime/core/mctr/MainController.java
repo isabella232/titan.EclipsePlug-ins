@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
-package org.eclipse.titan.runtime.core;
+package org.eclipse.titan.runtime.core.mctr;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,6 +20,7 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.SocketOption;
 import java.net.StandardSocketOptions;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -35,13 +36,21 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.titan.runtime.core.NetworkHandler;
+import org.eclipse.titan.runtime.core.TTCN_Communication;
+import org.eclipse.titan.runtime.core.TTCN_Runtime;
+import org.eclipse.titan.runtime.core.Text_Buf;
+import org.eclipse.titan.runtime.core.TitanCharString;
+import org.eclipse.titan.runtime.core.TitanComponent;
+import org.eclipse.titan.runtime.core.TitanPort;
+import org.eclipse.titan.runtime.core.TitanVerdictType;
+import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 import org.eclipse.titan.runtime.core.TitanPort.Map_Params;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.cfgparser.MCSectionHandler;
-import org.eclipse.titan.runtime.core.mctr.UserInterface;
 
 
 /**
@@ -172,7 +181,7 @@ public class MainController {
 	private static final int MSG_CONFIGURE_ACK = 200;
 	private static final int MSG_CONFIGURE_NAK = 201;
 
-	private enum mcStateEnum{ MC_INACTIVE, MC_LISTENING, MC_LISTENING_CONFIGURED, MC_HC_CONNECTED,
+	static enum mcStateEnum{ MC_INACTIVE, MC_LISTENING, MC_LISTENING_CONFIGURED, MC_HC_CONNECTED,
 		MC_CONFIGURING, MC_ACTIVE, MC_SHUTDOWN, MC_CREATING_MTC, MC_READY,
 		MC_TERMINATING_MTC, MC_EXECUTING_CONTROL, MC_EXECUTING_TESTCASE,
 		MC_TERMINATING_TESTCASE, MC_PAUSED, MC_RECONFIGURING
@@ -187,6 +196,7 @@ public class MainController {
 	}
 
 	private static mcStateEnum mc_state;
+	private static String mc_hostname;
 
 	private static ThreadLocal<Text_Buf> incoming_buf = new ThreadLocal<Text_Buf>() {
 		@Override
@@ -206,8 +216,8 @@ public class MainController {
 	private static ThreadLocal<String> config_str = new ThreadLocal<String>() {
 		@Override
 		protected String initialValue() {
-			return null;
-		}
+			return "";
+		};
 	};
 
 	private static ThreadLocal<Boolean> any_component_done_requested = new ThreadLocal<Boolean>() {
@@ -262,7 +272,7 @@ public class MainController {
 	private static int next_comp_ref;
 	private static int tc_first_comp_ref;
 	private static List<Host> hosts;
-	private static List<HostGroupStruct> host_groups;
+	private static List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
 	private static List<ExecuteItem> executeItems;
 	private static ServerSocketChannel serverSocketChannel;
 
@@ -401,101 +411,47 @@ public class MainController {
 	private static ComponentStruct ptc;
 	private static ComponentStruct system;
 
-	/*public static void main(final String[] args) {
-		if (args.length > 1) {
-			printUsage();
-			return;
-		}
+	public static void initialize(final UserInterface par_ui, final int par_max_ptcs) {
+		ui = par_ui;
 
-		printWelcome();
+		//max_ptcs = par_max_ptcs;
 
-		String localAddress = null;
-		int TCPPort = 0; //don't need BigInteger
 		mc_state = mcStateEnum.MC_INACTIVE;
 
-
-		if(args.length == 1) {
-			mc_state = mcStateEnum.MC_INACTIVE;
-			final File config_file = new File(args[0]);
-			System.out.println("Using configuration file: "+ config_file.getName());
-
-			cfgAnalyzer.set(new CfgAnalyzer());
-
-			//TODO: TtcnError for not existing file before the analyzer gets the file.
-			final boolean config_file_failure = cfgAnalyzer.get().parse(config_file);
-			if (config_file_failure) {
-				//TODO: Catch TtcnError
-				System.out.println("Error was found in the configuration file. Exiting");
-				//cleanup?
-				return;
-			}
-			//This block is necessary?
-			try {
-				Scanner sc = new Scanner(config_file);
-				config_str.set(sc.useDelimiter("\\Z").next());
-				sc.close();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			final MCSectionHandler mcSectionHandler = cfgAnalyzer.get().getMcSectionHandler();
-			boolean errorFound = false;
-			localAddress = mcSectionHandler.getLocalAddress();
-			if ( localAddress == null || localAddress.isEmpty()) {
-				//By default set the host's address
-				try {
-					localAddress = InetAddress.getLocalHost().getHostAddress();
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			if (mcSectionHandler.getTcpPort() != null) {
-				TCPPort = mcSectionHandler.getTcpPort().intValue();
-				if (TCPPort < 0 || TCPPort > 65535) {
-					TCPPort = 0;
-				}
-			} else {
-				TCPPort = 0;
-			}
-			n_hosts.set(mcSectionHandler.getNumHCsText());
-			if ( n_hosts.get() == null ) {
-				n_hosts.set(BigInteger.valueOf(-1));
-			}
-			executeItems = cfgAnalyzer.get().getExecuteSectionHandler().getExecuteitems();
-			if (errorFound) {
-				System.out.println("Error was found in the configuration file. Exits. Bye");
-				return;
-			}
-		} else {
-			mc_state = mcStateEnum.MC_INACTIVE;
-			try {
-				localAddress = InetAddress.getLocalHost().getHostAddress();
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			TCPPort = 0;
+		try {
+			mc_hostname = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			throw new TtcnError(e);
 		}
+		mc_hostname = String.format("MC@%s", mc_hostname);
+		
+		host_groups = null;
+		//all_components_assigned = false;
 
-		start_session(localAddress, TCPPort);
+		hosts = null;
+		config_str.set(null);
 
-		//try {
-		//serverSocketChannel = ServerSocketChannel.open();
-		//serverSocketChannel.socket().bind(new InetSocketAddress(localAddress,TCPPort));
-		//} catch (IOException e) {
-		// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
+		//version_known = FALSE;
+		//modules = NULL;
 
-		if (n_hosts.get().compareTo(BigInteger.ZERO) <= 0) {
-			//interactiveMode();
-		} else {
-			batchMode();
-		}
-		// TODO cleanUp()
+		//n_components = 0;
+		//n_active_ptcs = 0;
+		components = null;
+		mtc = null;
+		system = null;
+		//debugger_active_tc = NULL;
+		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
 
-	}*/
+		stop_after_tc.set(false);
+		stop_requested.set(false);
+
+		kill_timer = 10.0;
+	}
+	
+	public static void terminate() {
+		
+		
+	}
 
 	public static void add_host(final String group_name, final String host_name) {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
@@ -597,14 +553,12 @@ public class MainController {
 			hosts.add(host);
 			host.address = sc.getRemoteAddress();
 			host.hc_state = hcStateEnum.HC_IDLE;
-
+			
 			process_version(host);
 			System.out.println(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
 					host.machine_type));
 
 			mc_state = mcStateEnum.MC_ACTIVE;
-			configure();
-			create_mtc(hosts.get(0));
 
 		} catch (IOException e) {
 			if (local_address == null || local_address.isEmpty()) {
@@ -638,81 +592,60 @@ public class MainController {
 			break;
 		}
 	}
-
-	private static int batchMode() {
-		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
-		System.out.println(String.format("Entering batch mode. Waiting for %d HC%s to connect...", n_hosts.get(),
-				n_hosts.get().compareTo(BigInteger.ONE) > 0 ? "s" : ""));
-
-		if (executeItems.isEmpty()) {
-			// TODO return
-			System.out.println("No [EXECUTE] section was given in the configuration file. Exiting.");
-			return -1;
-		}
-		mc_state = mcStateEnum.MC_LISTENING;
-		try {
-			hosts = new ArrayList<Host>();
-			System.out.println(MessageFormat.format("Listening on IP address {0} and TCP port {1}.",
-					((InetSocketAddress)serverSocketChannel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort()));
-			while (n_hosts.get().compareTo(BigInteger.valueOf(hosts.size())) > 0) {
-				final SocketChannel sc = serverSocketChannel.accept();
-				final Host host = new Host(sc);
-				hosts.add(host);
-				host.address = sc.getRemoteAddress();
-				host.hc_state = hcStateEnum.HC_IDLE;
-
-				// TODO receive USAGE_STAT
-				process_version(host);
-				System.out.println(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
-						host.machine_type));
-			}
-
-			mc_state = mcStateEnum.MC_ACTIVE;
-			configure();
-			create_mtc(hosts.get(0));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return 0;
+	
+	public static mcStateEnum get_state() {
+		return mc_state;
+	}
+	
+	public static BigInteger get_nof_hosts() {
+		return n_hosts.get();
+	}
+	
+	//Temporary
+	public static List<Host> get_hosts() {
+		return hosts;
 	}
 
+//	private static int batchMode() {
+//		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
+//		System.out.println(String.format("Entering batch mode. Waiting for %d HC%s to connect...", n_hosts.get(),
+//				n_hosts.get().compareTo(BigInteger.ONE) > 0 ? "s" : ""));
+//
+//		if (executeItems.isEmpty()) {
+//			// TODO return
+//			System.out.println("No [EXECUTE] section was given in the configuration file. Exiting.");
+//			return -1;
+//		}
+//		mc_state = mcStateEnum.MC_LISTENING;
+//		try {
+//			hosts = new ArrayList<Host>();
+//			System.out.println(MessageFormat.format("Listening on IP address {0} and TCP port {1}.",
+//					((InetSocketAddress)serverSocketChannel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort()));
+//			while (n_hosts.get().compareTo(BigInteger.valueOf(hosts.size())) > 0) {
+//				final SocketChannel sc = serverSocketChannel.accept();
+//				final Host host = new Host(sc);
+//				hosts.add(host);
+//				host.address = sc.getRemoteAddress();
+//				host.hc_state = hcStateEnum.HC_IDLE;
+//
+//				// TODO receive USAGE_STAT
+//				process_version(host);
+//				System.out.println(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
+//						host.machine_type));
+//			}
+//
+//			mc_state = mcStateEnum.MC_ACTIVE;
+//			configure();
+//			create_mtc(hosts.get(0));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		return 0;
+//	}
 
-
-	private static int interactiveMode() {
-		//TODO: implement in cli
-		boolean exitFlag = true;
-
-		if (mc_state != mcStateEnum.MC_INACTIVE) {
-			System.err.println("MainController.start_session: called in wrong state.");
-			return 0;
-		}
-
-		try {
-			serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
-		} catch (Exception e) {
-			System.err.println("System call setsockopt (SO_REUSEADDR) failed on server socket.");
-			return 0;
-		}
-		//serverSocketChannel doesn't support TCP_NODELAY option
-
-		mc_state = mcStateEnum.MC_LISTENING;
-		try {
-			if (serverSocketChannel.getLocalAddress() != null) {
-				System.out.printf("Listening on IP address %s and TCP port %d.\n", ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//TODO: history
-		hosts = new ArrayList<Host>();
-		BufferedReader line_read = new BufferedReader(new InputStreamReader(System.in));
-		return 0;
-	}
-
-	private static void create_mtc(final Host host) {
+	public static synchronized void create_mtc(final Host host) {
 		if (mc_state != mcStateEnum.MC_ACTIVE) {
 			// TODO: error, message in MainController::create_mtc
 			return;
@@ -772,7 +705,7 @@ public class MainController {
 		MTC.start();
 	}
 
-	private static void connect_mtc() {
+	private synchronized static void connect_mtc() {
 		SocketChannel sc;
 		try {
 			sc = serverSocketChannel.accept();
@@ -1252,7 +1185,7 @@ public class MainController {
 
 	}
 
-	private static void configure() {
+	public static void configure(final String config_file) {
 		switch(mc_state) {
 		case MC_HC_CONNECTED:
 		case MC_ACTIVE:
@@ -1267,6 +1200,15 @@ public class MainController {
 		default:
 			//TODO error, message in MainController::configure
 			return;
+		}
+		
+		try {
+			Scanner sc = new Scanner(new File(config_file));
+			config_str.set(sc.useDelimiter("\\Z").next());
+			sc.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
@@ -1284,7 +1226,7 @@ public class MainController {
 	}
 
 	private static void configure_mtc() {
-		if (config_str.get() == null) {
+		if (config_str == null) {
 			//TODO error, MainController::configure_mtc
 		}
 		if (mtc.tc_state == tcStateEnum.TC_IDLE) {
@@ -1370,18 +1312,18 @@ public class MainController {
 		mtc.tc_state = tcStateEnum.TC_IDLE;
 
 		System.out.println("MTC is created.");
-		for (final ExecuteItem item : executeItems) {
+		/*for (final ExecuteItem item : executeItems) {
 			if (item.getTestcaseName() == null) {
 				execute_control(hc, item.getModuleName());
 			} else if (!"*".equals(item.getTestcaseName())) {
 				execute_testcase(hc, item.getModuleName(), null);
 			} else {
 				execute_testcase(hc, item.getModuleName(), item.getTestcaseName());
-			}
+			}*/
 
 			handle_tc_data(mtc);
-		}
-
+		//}
+		ui.status_change();
 		incoming_buf.get().cut_message();
 		exit_mtc();
 
@@ -1406,7 +1348,7 @@ public class MainController {
 	}
 
 
-	private static void handle_tc_data(final ComponentStruct tc) {
+	private static synchronized void handle_tc_data(final ComponentStruct tc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
 		receiveMessage(tc.comp_location);
@@ -4300,7 +4242,7 @@ public class MainController {
 	}
 
 
-	private static void shutdown_session() {
+	public static void shutdown_session() {
 		switch(mc_state) {
 		case MC_INACTIVE:
 			break;
@@ -4582,39 +4524,39 @@ public class MainController {
 		text_buf.cut_message();
 	}
 
-	private static void execute_testcase(final Host hc, final String moduleName, final String testcaseName) {
+	public static void execute_testcase(final String moduleName, final String testcaseName) {
 		if (mc_state != mcStateEnum.MC_READY) {
 			// TODO error, message in MainController::execute_testcase
 			return;
 		}
-		send_execute_testcase(hc, moduleName, testcaseName);
+		send_execute_testcase(moduleName, testcaseName);
 		mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		mtc.tc_state = tcStateEnum.MTC_CONTROLPART;
 	}
 
-	private static void send_execute_testcase(final Host hc, final String moduleName, final String testcaseName) {
+	private static void send_execute_testcase(final String moduleName, final String testcaseName) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXECUTE_TESTCASE);
 		text_buf.push_string(moduleName);
 		text_buf.push_string(testcaseName);
-		send_message(hc, text_buf);
+		send_message(mtc.comp_location, text_buf);
 	}
 
-	private static void execute_control(final Host hc, final String module_name) {
+	public static void execute_control(final String module_name) {
 		if (mc_state != mcStateEnum.MC_READY) {
 			// TODO error, message in MainController::execute_control
 			return;
 		}
-		send_execute_control(hc, module_name);
+		send_execute_control(module_name);
 		mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		mtc.tc_state = tcStateEnum.MTC_CONTROLPART;
 	}
 
-	private static void send_execute_control(final Host hc, final String module_name) {
+	private static void send_execute_control(final String module_name) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXECUTE_CONTROL);
 		text_buf.push_string(module_name);
-		send_message(hc, text_buf);
+		send_message(mtc.comp_location, text_buf);
 	}
 
 	private static RequestorStruct init_requestors(final ComponentStruct tc) {
@@ -4629,7 +4571,7 @@ public class MainController {
 	}
 
 
-	private static void exit_mtc() {
+	public static void exit_mtc() {
 		if (mc_state != mcStateEnum.MC_READY && mc_state != mcStateEnum.MC_RECONFIGURING) {
 			// TODO error
 			return;

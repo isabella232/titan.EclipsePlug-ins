@@ -9,11 +9,14 @@ package org.eclipse.titan.runtime.core.mctr;
 
 import java.io.File;
 import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-import org.eclipse.titan.runtime.core.MainController;
 import org.eclipse.titan.runtime.core.TTCN_Runtime;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
+import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler;
 import org.eclipse.titan.runtime.core.cfgparser.MCSectionHandler;
+import org.eclipse.titan.runtime.core.mctr.MainController.mcStateEnum;
 
 /**
  * User interface cli implementation.
@@ -29,7 +32,7 @@ public class Cli extends UserInterface {
 		WAIT_MTC_TERMINATED, WAIT_SHUTDOWN_COMPLETE,
 		WAIT_EXECUTE_LIST
 	}
-	
+
 	private static final MainControllerCommand cmtc_command = new MainControllerCommand(MainControllerCommand.CMTC_TEXT, " [hostname]", "Create the MTC.");
 	private static final MainControllerCommand smtc_command = new MainControllerCommand(MainControllerCommand.SMTC_TEXT, " [module_name[[.control]|.testcase_name|.*]", "Start MTC with control part, test case or all test cases.");
 	private static final MainControllerCommand stop_command = new MainControllerCommand(MainControllerCommand.STOP_TEXT, null,"Stop test execution.");
@@ -49,12 +52,14 @@ public class Cli extends UserInterface {
 	private boolean exitFlag;
 	private String cfg_file_name;
 	private waitStateEnum waitState;
-	private BigInteger n_host = new BigInteger("-1");
+	private ConfigData mycfg = new ConfigData();
+	private int executeListIndex;
 
 	public Cli() {
 		loggingEnabled = true;
 		exitFlag = false;
 		waitState = waitStateEnum.WAIT_NOTHING;
+		executeListIndex = 0;
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public class Cli extends UserInterface {
 		if (args.length == 1) {
 			final File config_file = new File(args[0]);
 			System.out.printf("Using configuration file: %s\n", config_file.getName());
-			
+
 			CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 			final boolean config_file_failure = cfgAnalyzer.parse(config_file);
 			if (config_file_failure) {
@@ -82,36 +87,59 @@ public class Cli extends UserInterface {
 				//cleanup?
 				return 1;
 			} else {
+				mycfg.set_log_file(args[0]);
 				final MCSectionHandler mcSectionHandler = cfgAnalyzer.getMcSectionHandler();
-				
+				final ExecuteSectionHandler executeSectionHandler = cfgAnalyzer.getExecuteSectionHandler();
+
 				if (mcSectionHandler.getKillTimer() != null) {
 					MainController.set_kill_timer(mcSectionHandler.getKillTimer());
 				}
-				
+
 				if (mcSectionHandler.getNumHCsText() != null) {
-					n_host = mcSectionHandler.getNumHCsText();
+					mycfg.setNum_hcs(mcSectionHandler.getNumHCsText());
+				}
+
+				mycfg.setLocal_addr(mcSectionHandler.getLocalAddress()); 
+				if ( mycfg.getLocal_addr() == null || mycfg.getLocal_addr().isEmpty()) {
+					//By default set the host's address
+					try {
+						mycfg.setLocal_addr(InetAddress.getLocalHost().getHostAddress());
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (mcSectionHandler.getTcpPort() != null) {
+					mycfg.setTcp_listen_port(mcSectionHandler.getTcpPort().intValue());
+					if (mycfg.getTcp_listen_port() < 0 || mycfg.getTcp_listen_port() > 65535) {
+						mycfg.setTcp_listen_port(0);
+					}
+				} else {
+					mycfg.setTcp_listen_port(0);
 				}
 				
+				mycfg.add_exec(executeSectionHandler.getExecuteitems());
 				//TODO: assign groups, components and host
 			}
 		}
 		int ret_val = 0;
-		
-		if (n_host.compareTo(BigInteger.ZERO) <= 0) {
+
+		if (mycfg.getNum_hcs().compareTo(BigInteger.ZERO) <= 0) {
 			ret_val = interactiveMode();
 		} else {
 			ret_val = batchMode();
 		}
-		
+
 		//cleanUp ?
-		
+
 		return ret_val;
 	}
 
 	@Override
 	public void status_change() {
-		// TODO Auto-generated method stub
-
+		if (waitState != waitStateEnum.WAIT_NOTHING && conditionHolds(waitState)) {
+			waitState = waitStateEnum.WAIT_NOTHING;
+		}
 	}
 
 	@Override
@@ -208,7 +236,7 @@ public class Cli extends UserInterface {
 						"Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
 						"usage: %s configuration_file\n" +
 						"where: the 'configuration_file' parameter specifies the name and \n"+
-				"location of the main controller configuration file\n", prg_name);
+						"location of the main controller configuration file\n", prg_name);
 	}
 
 	/**
@@ -222,17 +250,128 @@ public class Cli extends UserInterface {
 	 * Execution in batch mode.
 	 */
 	private int batchMode() {
-		return 0;
+		System.out.println(String.format("Entering batch mode. Waiting for %d HC%s to connect...", mycfg.getNum_hcs(), mycfg.getNum_hcs().compareTo(BigInteger.ONE) > 0 ? "s" : ""));
+		if (mycfg.getExecuteItems() == null || mycfg.getExecuteItems().isEmpty()) {
+			System.out.println("No [EXECUTE] section was given in the configuration file. Exiting.");
+			return 1; //EXIT_FAILURE
+		}
+		boolean error_flag = false;
+		// start to listen on TCP port
+		if (MainController.start_session(mycfg.getLocal_addr(), mycfg.getTcp_listen_port()) == 0 ) {
+			System.out.println("Initialization of TCP server failed. Exiting.");
+			return 1;
+		}
+		waitMCState(waitStateEnum.WAIT_HC_CONNECTED);
+		// download config file
+		MainController.configure(mycfg.getLog_file_name());
+		waitMCState(waitStateEnum.WAIT_ACTIVE);
+		if (MainController.get_state() != mcStateEnum.MC_ACTIVE) {
+			System.out.println("Error during initialization. Cannot continue in batch mode.");
+			error_flag = true;
+		}
+
+		if (!error_flag) {
+			// create MTC on firstly connected HC
+			MainController.create_mtc(MainController.get_hosts().get(0));
+			waitMCState(waitStateEnum.WAIT_MTC_CREATED);
+			if (MainController.get_state() != mcStateEnum.MC_READY) {
+				System.out.println("Creation of MTC failed. Cannot continue in batch mode.");
+				error_flag = true;
+			}
+		}
+		if (!error_flag) {
+			// execute each item of the list
+			for (int i = 0; i < mycfg.getExecuteItems().size(); i++) {
+				executeFromList(i);
+				waitMCState(waitStateEnum.WAIT_MTC_READY);
+				if (MainController.get_state() != mcStateEnum.MC_READY) {
+					System.out.println("MTC terminated unexpectedly. Cannot continue in batch mode.");
+					error_flag = true;
+					break;
+				}
+			}
+		}
+		if(!error_flag) {
+			// terminate the MTC
+			MainController.exit_mtc();
+			waitMCState(waitStateEnum.WAIT_MTC_TERMINATED);
+		}
+		// now MC must be in state MC_ACTIVE anyway
+		// shutdown MC
+		MainController.shutdown_session();
+		waitMCState(waitStateEnum.WAIT_SHUTDOWN_COMPLETE);
+		if (error_flag) {
+			return 1; //EXIT_FAILURE
+		} else {
+			return 0; //EXIT_SUCCESS
+		}
 	}
 
 	private boolean conditionHolds(waitStateEnum askedState) {
-		return false;
+		switch (askedState) {
+		case WAIT_HC_CONNECTED:
+			if (MainController.get_state() == mcStateEnum.MC_HC_CONNECTED) {
+				if (mycfg.getNum_hcs().compareTo(BigInteger.ZERO) == 1) {
+					return MainController.get_nof_hosts().compareTo(mycfg.getNum_hcs()) == 0 || MainController.get_nof_hosts().compareTo(mycfg.getNum_hcs()) == 1;
+				} else {
+					return true;
+				}
+			} else {
+				return false;
+			}
+		case WAIT_ACTIVE:
+			switch (MainController.get_state()) {
+			case MC_ACTIVE: // normal case
+			case MC_HC_CONNECTED: // error happened with config file
+			case MC_LISTENING: // even more strange situations
+				return true;
+			default:
+				return false;
+			}
+		case WAIT_MTC_CREATED:
+		case WAIT_MTC_READY:
+			switch (MainController.get_state()) {
+			case MC_READY: // normal case
+			case MC_ACTIVE: // MTC crashed unexpectedly
+			case MC_LISTENING_CONFIGURED: // MTC and all HCs are crashed at the same time
+			case MC_HC_CONNECTED: // even more strange situations
+				return true;
+			default:
+				return false;
+			}
+		case WAIT_MTC_TERMINATED:
+			return MainController.get_state() == mcStateEnum.MC_ACTIVE;
+		case WAIT_SHUTDOWN_COMPLETE:
+			return MainController.get_state() == mcStateEnum.MC_INACTIVE;
+		case WAIT_EXECUTE_LIST:
+			if (MainController.get_state() == mcStateEnum.MC_READY) {
+				if (++executeListIndex < mycfg.getExecuteItems().size()) {
+					executeFromList(executeListIndex);
+				} else {
+					System.out.println("Execution of [EXECUTE] section finished.");
+					waitState = waitStateEnum.WAIT_NOTHING;
+				}
+			}
+			return false;
+		default:
+			return false;
+		}
 	}
-	
-	private void waitMCState(waitStateEnum newWaitState) {
 
+	private void waitMCState(waitStateEnum newWaitState) {
+		if (newWaitState != waitStateEnum.WAIT_NOTHING) {
+			if (conditionHolds(newWaitState) == true) {
+				waitState = waitStateEnum.WAIT_NOTHING;
+			} else {
+				waitState = newWaitState;
+				//wait?
+			}
+		} else {
+			System.err.println("Cli.waitMCState: invalid argument");
+			return;
+		}
 	}
-	
+
 	/**
 	 * Process the command to perform the action accordingly.
 	 */
@@ -249,48 +388,65 @@ public class Cli extends UserInterface {
 		}
 
 		//FIXME commented as using 1.7 feature.
-//		switch (command) {
-//		case MainControllerCommand.CMTC_TEXT:
-//			cmtcCallback(argument);
-//			break;
-//		case MainControllerCommand.SMTC_TEXT:
-//			smtcCallback(argument);
-//			break;
-//		case MainControllerCommand.STOP_TEXT:
-//			stopCallback(argument);
-//			break;
-//		case MainControllerCommand.PAUSE_TEXT:
-//			pauseCallback(argument);
-//			break;
-//		case MainControllerCommand.CONTINUE_TEXT:
-//			continueCallback(argument);
-//			break;
-//		case MainControllerCommand.EMTC_TEXT:
-//			emtcCallback(argument);
-//			break;
-//		case MainControllerCommand.LOG_TEXT:
-//			logCallback(argument);
-//			break;
-//		case MainControllerCommand.RECONF_TEXT:
-//			reconfCallback(argument);
-//			break;
-//		case MainControllerCommand.HELP_TEXT:
-//			helpCallback(argument);
-//		case MainControllerCommand.SHELL_TEXT:
-//			shellCallback(argument);
-//		case MainControllerCommand.EXIT_TEXT:
-//		case MainControllerCommand.EXIT_TEXT2:
-//			exitCallback(argument);
-//			break;
-//		case MainControllerCommand.BATCH_TEXT:
-//			executeBatchFile(argument);
-//			break;
-//		case MainControllerCommand.INFO_TEXT:
-//			infoCallback(argument);
-//			break;
-//		default:
-//			break;
-//		}
-//		
- 	}
+		//		switch (command) {
+		//		case MainControllerCommand.CMTC_TEXT:
+		//			cmtcCallback(argument);
+		//			break;
+		//		case MainControllerCommand.SMTC_TEXT:
+		//			smtcCallback(argument);
+		//			break;
+		//		case MainControllerCommand.STOP_TEXT:
+		//			stopCallback(argument);
+		//			break;
+		//		case MainControllerCommand.PAUSE_TEXT:
+		//			pauseCallback(argument);
+		//			break;
+		//		case MainControllerCommand.CONTINUE_TEXT:
+		//			continueCallback(argument);
+		//			break;
+		//		case MainControllerCommand.EMTC_TEXT:
+		//			emtcCallback(argument);
+		//			break;
+		//		case MainControllerCommand.LOG_TEXT:
+		//			logCallback(argument);
+		//			break;
+		//		case MainControllerCommand.RECONF_TEXT:
+		//			reconfCallback(argument);
+		//			break;
+		//		case MainControllerCommand.HELP_TEXT:
+		//			helpCallback(argument);
+		//		case MainControllerCommand.SHELL_TEXT:
+		//			shellCallback(argument);
+		//		case MainControllerCommand.EXIT_TEXT:
+		//		case MainControllerCommand.EXIT_TEXT2:
+		//			exitCallback(argument);
+		//			break;
+		//		case MainControllerCommand.BATCH_TEXT:
+		//			executeBatchFile(argument);
+		//			break;
+		//		case MainControllerCommand.INFO_TEXT:
+		//			infoCallback(argument);
+		//			break;
+		//		default:
+		//			break;
+		//		}
+		//		
+	}
+	/*
+	 * Executes the index-th element of the execute list
+	 */
+	private void executeFromList(int index) {
+		if (index >= mycfg.getExecuteItems().size()) {
+			System.err.println("Cli.executeFromList: invalid argument");
+			return;
+		}
+		
+		if (mycfg.getExecuteItems().get(index).getTestcaseName() == null) {
+			MainController.execute_control(mycfg.getExecuteItems().get(index).getModuleName());
+		} else if (!mycfg.getExecuteItems().get(index).getTestcaseName().equals("*")) {
+			MainController.execute_testcase(mycfg.getExecuteItems().get(index).getModuleName(), null);
+		} else {
+			MainController.execute_testcase(mycfg.getExecuteItems().get(index).getModuleName(), mycfg.getExecuteItems().get(index).getTestcaseName());
+		}
+	}
 }

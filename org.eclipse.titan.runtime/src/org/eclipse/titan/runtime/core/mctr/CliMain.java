@@ -7,18 +7,16 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.mctr;
 
-import org.eclipse.titan.runtime.core.MainController;
-
 public class CliMain {
 
 	public static void main(String[] args) {
 		Cli userInterface = new Cli();
 		int max_ptcs = -1;
-		
-		//FIXME: MainController.initialize(userInterface, max_ptcs);
-		
+
+		MainController.initialize(userInterface, max_ptcs);
+
 		userInterface.enterLoop(args);
-		//FIXME: MainController::terminate();
+		MainController.terminate();
 	}
-	
+
 }
