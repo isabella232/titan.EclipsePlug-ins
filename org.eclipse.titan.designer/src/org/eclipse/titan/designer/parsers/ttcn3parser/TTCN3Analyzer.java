@@ -254,6 +254,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			final ParseTree root = parser.pr_TTCN3File();
 			ParserUtilities.logParseTree( root, parser );
 			warningsAndErrors = parser.getWarningsAndErrors();
+			warningsAndErrors.addAll(lexer.getWarningsAndErrors());
 			mErrorsStored = lexerListener.getErrorsStored();
 			mErrorsStored.addAll( parserListener.getErrorsStored() );
 		} catch (RecognitionException e) {
@@ -272,6 +273,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				final ParseTree root = parser.pr_TTCN3File();
 				ParserUtilities.logParseTree( root, parser );
 				warningsAndErrors = parser.getWarningsAndErrors();
+				warningsAndErrors.addAll(lexer.getWarningsAndErrors());
 				mErrorsStored = lexerListener.getErrorsStored();
 				mErrorsStored.addAll( parserListener.getErrorsStored() );
 			} catch(RecognitionException e) {
