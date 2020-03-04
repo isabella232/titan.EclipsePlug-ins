@@ -1454,7 +1454,7 @@ public class TitanBitString extends Base_Type {
 			bits_ptr = new int[0];
 			this.n_bits = 0;
 		} else {
-			bits_ptr = new int[n_bits];
+			bits_ptr = new int[(n_bits + 7) / 8];
 			this.n_bits = n_bits;
 		}
 	}
