@@ -19,6 +19,7 @@ public class Syntactical_errors_tests {
 	//SemanticErrors2_asn
 	//SemanticErrors3_asn
 	//ReturnValueTest.ttcn
+	//SyntaxErrors.ttcn
 	
 	@Test
 	public void SemanticErrors2_asn() throws Exception {
@@ -32,8 +33,15 @@ public class Syntactical_errors_tests {
 	
 	@Test
 	public void ReturnValueTest_ttcn() throws Exception {
-		Designer_plugin_tests.checkSyntaxMarkersOnFile( ReturnValueTest_ttcn_initializer(), "src/Unstructured_tests/ReturnValueTest.ttcn");
+		Designer_plugin_tests.checkSyntaxMarkersOnFile(ReturnValueTest_ttcn_initializer(), "src/Unstructured_tests/ReturnValueTest.ttcn");
 	}
+	
+	@Test
+	public void SyntaxErrors_ttcn() throws Exception {
+		Designer_plugin_tests.checkSyntaxMarkersOnFile(SyntaxErrors_ttcn_initializer(), "src/Unstructured_tests/SyntaxErrors.ttcn");
+	}
+	
+	//===== Initializers =====
 
 	private ArrayList<MarkerToCheck> SemanticErrors2_asn_initializer() {
 		//SemanticErrors2.asn
@@ -70,6 +78,22 @@ public class Syntactical_errors_tests {
 		return markersToCheck;
 	}
 	
+	private ArrayList<MarkerToCheck> SyntaxErrors_ttcn_initializer() {
+		//SyntaxErrors.ttcn
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(11);
+		int lineNum = 4;
+		markersToCheck.add(new MarkerToCheck("Bitstring value contains invalid character",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("no viable alternative at input ''20'B'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Bitstring value contains invalid character",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("no viable alternative at input ''aA'B'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid character `G' in binary string",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid character `x' in binary string",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("no viable alternative at input ''0'O'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Octetstring value contains odd number of hexadecimal digits",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid character `G' in binary string",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("no viable alternative at input ''0G'O'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Octetstring value contains odd number of hexadecimal digits",  lineNum, IMarker.SEVERITY_ERROR));
 
-
+		return markersToCheck;
+	}
 }

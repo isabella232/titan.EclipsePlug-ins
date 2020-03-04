@@ -1,0 +1,11 @@
+module SyntaxErrors {
+
+//Invalid characters or odd problem in strings:
+const bitstring cg_bs1 := '20'B
+const bitstring cg_bs2 := 'aA'B
+const hexstring cg_hs1 := 'FG'H
+const hexstring cg_hs2 := 'fx'H
+const octetstring cg_os1 := '0'O
+const octetstring cg_os1 := '0G'O
+
+}
