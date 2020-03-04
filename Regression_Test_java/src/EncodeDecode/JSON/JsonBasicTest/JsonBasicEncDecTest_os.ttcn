@@ -434,6 +434,27 @@ testcase tc_jsonBasic_encdec_os_charstring() runs on CT {
   }
 }
 
+testcase tc_jsonBasic_encdec_os_charstring2() runs on CT {
+  const CS_json x := "1\n\r\t\f 2";
+  var CS_json y := "1\n\r\t\f 2", z;
+  var octetstring os;
+  var octetstring expected := char2oct("\"1\\n\\r\\t\\f 2\"");
+  log("expected:",expected);
+  os := f_json_enc_cs2os(x);
+  f_compare_octetstring(os,expected);
+
+  os := f_json_enc_cs2os(y);
+  f_compare_octetstring(os,expected);
+
+  //decode test:
+  z := f_json_dec_os2cs(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
 testcase tc_jsonBasic_encdec_os_hexstring() runs on CT {
   const HS_json x := '1'H;
   var HS_json y := '1'H, z;
@@ -455,6 +476,49 @@ testcase tc_jsonBasic_encdec_os_hexstring() runs on CT {
   }
 }
 
+testcase tc_jsonBasic_encdec_os_hexstring2() runs on CT {
+  const HS_json x := '1234567890afAG 'H;
+  var HS_json y := '1234567890afAG 'H, z;
+  var hexstring y1 := '1234567890afAG'H;
+  var octetstring os;
+  var octetstring expected := char2oct("\"1234567890AFAF\"");
+  log("expected:",expected);
+  os := f_json_enc_hs2os(x);
+  f_compare_octetstring(os,expected);
+
+  os := f_json_enc_hs2os(y);
+  f_compare_octetstring(os,expected);
+
+  //decode test:
+  z := f_json_dec_os2hs(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
+
+//empty
+testcase tc_jsonBasic_encdec_os_hexstring3() runs on CT {
+  const HS_json x := ''H;
+  var HS_json y := ''H, z;
+  var octetstring os;
+  var octetstring expected := char2oct("\"\"");
+  log("expected:",expected);
+  os := f_json_enc_hs2os(x);
+  f_compare_octetstring(os,expected);
+
+  os := f_json_enc_hs2os(y);
+  f_compare_octetstring(os,expected);
+
+  //decode test:
+  z := f_json_dec_os2hs(expected);
+  if ( y ==z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail);
+  }
+}
 testcase tc_jsonBasic_encdec_os_octetstring() runs on CT {
   const OS_json x := 'F1'O;
   var OS_json y := 'F1'O, z;
@@ -835,7 +899,10 @@ control {
   execute( tc_jsonBasic_encdec_os_enum() );
   execute( tc_jsonBasic_encdec_os_bitstring() );
   execute( tc_jsonBasic_encdec_os_charstring() );
+  execute( tc_jsonBasic_encdec_os_charstring2() );
   execute( tc_jsonBasic_encdec_os_hexstring() );
+  execute( tc_jsonBasic_encdec_os_hexstring2() );
+  execute( tc_jsonBasic_encdec_os_hexstring3() );
   execute( tc_jsonBasic_encdec_os_octetstring() );
   execute( tc_jsonBasic_encdec_os_ucharstring() );
 //  execute( tc_jsonBasic_encdec_os_AI3() );
