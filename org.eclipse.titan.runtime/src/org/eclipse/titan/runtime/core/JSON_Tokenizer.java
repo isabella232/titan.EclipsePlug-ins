@@ -160,7 +160,7 @@ public class JSON_Tokenizer {
 	private boolean check_for_literal(final String p_literal) {
 		final int len = p_literal.length();
 		if (buf_ptr.length() - buf_pos >= len &&
-				buf_ptr.substring(buf_pos).equals(p_literal)) {
+				buf_ptr.substring(buf_pos, buf_pos + len).equals(p_literal)) {
 			final int start_pos = buf_pos;
 			buf_pos += len;
 			if (!skip_white_spaces() || check_for_separator()) {
