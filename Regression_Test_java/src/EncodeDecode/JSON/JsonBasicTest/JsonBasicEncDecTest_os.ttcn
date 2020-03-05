@@ -1,14 +1,14 @@
 /******************************************************************************
- * Copyright (c) 2000-2020 Ericsson Telecom AB
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
- *
- * Contributors:
- *   Balasko, Jeno
- *
- ******************************************************************************/
+* Copyright (c) 2000-2020 Ericsson Telecom AB
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v2.0
+* which accompanies this distribution, and is available at
+* https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+*
+* Contributors:
+*   Balasko, Jeno
+*
+******************************************************************************/
 // The testcases check if the encode and decode funcions run and check the result.
 // The return value of the encoding functions is octetstring
 // Anytype is out of scope
@@ -44,7 +44,7 @@ testcase tc_jsonBasic_encdec_os_integer() runs on CT {
   log("expected:",expected);
   os := f_json_enc_i2os(x);
   f_compare_octetstring(os,expected);
-  
+
   os := f_json_enc_i2os(y);
   f_compare_octetstring(os,expected);
 
@@ -66,7 +66,7 @@ testcase tc_jsonBasic_encdec_os_integer_big() runs on CT {
   log("expected:",expected);
   os := f_json_enc_i2os(x);
   f_compare_octetstring(os,expected);
-  
+
   os := f_json_enc_i2os(y);
   f_compare_octetstring(os,expected);
 
@@ -175,7 +175,7 @@ testcase tc_jsonBasic_encdec_os_float1() runs on CT {
 
   os := f_json_enc_f2os(y);
   f_compare_octetstring(os,expected);
-  
+
   //decode test:
   z := f_json_dec_os2f(expected);
   if ( y ==z ) {
@@ -218,7 +218,7 @@ testcase tc_jsonBasic_encdec_os_float1b() runs on CT {
 
   os := f_json_enc_f2os(y);
   f_compare_octetstring(os,expected);
-  
+
   //decode test:
   z := f_json_dec_os2f(expected);
   if ( y ==z ) {
@@ -249,7 +249,7 @@ testcase tc_jsonBasic_encdec_os_float1c() runs on CT {
   }
 }
 
-testcase tc_jsonBasic_encdec_os_float2() runs on CT {
+testcase tc_jsonBasic_encdec_os_float_infinity() runs on CT {
   const F_json x := infinity;
   var F_json y := infinity, z;
   var octetstring os;
@@ -270,7 +270,7 @@ testcase tc_jsonBasic_encdec_os_float2() runs on CT {
   }
 }
 
-testcase tc_jsonBasic_encdec_os_float3() runs on CT {
+testcase tc_jsonBasic_encdec_os_float_minus_infinity() runs on CT {
   const F_json x := -infinity;
   var F_json y := -infinity, z;
   var octetstring os;
@@ -291,7 +291,7 @@ testcase tc_jsonBasic_encdec_os_float3() runs on CT {
   }
 }
 
-testcase tc_jsonBasic_encdec_os_float4() runs on CT {
+testcase tc_jsonBasic_encdec_os_float_NaN() runs on CT {
   const F_json x := not_a_number;
   var F_json y := not_a_number, z;
   var octetstring os;
@@ -322,7 +322,7 @@ testcase tc_jsonBasic_encdec_os_float_unbound() runs on CT {
     log(os)
     setverdict(fail, "DTE expected")
   } @catch(e) {
-	log(e);
+    log(e);
     if( match(e,t_unbound)){ 
       setverdict(pass)
     } else {
@@ -379,7 +379,6 @@ testcase tc_jsonBasic_encdec_os_enum_unbound() runs on CT {
     os := f_json_enc_e2os(y);
     setverdict(fail, "DTE expected")
   } @catch(e) {
-
     if( match(e,t_unbound)){ 
       setverdict(pass)
     } else {
@@ -400,7 +399,7 @@ testcase tc_jsonBasic_encdec_os_bitstring() runs on CT {
   log("expected:",expected);
   os := f_json_enc_bs2os(x);
   f_compare_octetstring(os,expected);
-  
+
   os := f_json_enc_bs2os(y);
   f_compare_octetstring(os,expected);
 
@@ -412,6 +411,31 @@ testcase tc_jsonBasic_encdec_os_bitstring() runs on CT {
     setverdict(fail);
   }
 }
+
+testcase tc_jsonBasic_encdec_os_bitstring2() runs on CT {
+  const BS_json x := '1001 1111'B;
+  var BS_json y := '1001 1111'B, z;
+  var octetstring os;
+  var octetstring expected := char2oct("\"10011111\"");
+
+  log("expected:",expected);
+  os := f_json_enc_bs2os(x);
+  f_compare_octetstring(os,expected);
+
+  os := f_json_enc_bs2os(y);
+  f_compare_octetstring(os,expected);
+
+  //decode test:
+  z := f_json_dec_os2bs(expected);
+  log(z);
+  const BS_json c_expected2 := '10011111'B;
+  if ( c_expected2 == z ) {
+    setverdict(pass);
+  } else {
+    setverdict(fail, "expected: ", c_expected2, " got: ", z);
+  }
+}
+
 
 testcase tc_jsonBasic_encdec_os_charstring() runs on CT {
   const CS_json x := "1";
@@ -477,9 +501,8 @@ testcase tc_jsonBasic_encdec_os_hexstring() runs on CT {
 }
 
 testcase tc_jsonBasic_encdec_os_hexstring2() runs on CT {
-  const HS_json x := '1234567890afAG 'H;
-  var HS_json y := '1234567890afAG 'H, z;
-  var hexstring y1 := '1234567890afAG'H;
+  const HS_json x := '1234567890afAF 'H;
+  var HS_json y := '1234567890afAF 'H, z;
   var octetstring os;
   var octetstring expected := char2oct("\"1234567890AFAF\"");
   log("expected:",expected);
@@ -499,7 +522,7 @@ testcase tc_jsonBasic_encdec_os_hexstring2() runs on CT {
 }
 
 //empty
-testcase tc_jsonBasic_encdec_os_hexstring3() runs on CT {
+testcase tc_jsonBasic_encdec_os_hexstring_empty() runs on CT {
   const HS_json x := ''H;
   var HS_json y := ''H, z;
   var octetstring os;
@@ -519,6 +542,40 @@ testcase tc_jsonBasic_encdec_os_hexstring3() runs on CT {
     setverdict(fail);
   }
 }
+
+testcase tc_jsonBasic_encdec_os_hexstring_unbound() runs on CT {
+
+  var HS_json y, z; //intentionally uninit
+  var octetstring os;
+  template charstring t_expected := pattern "*Dynamic test case error: Encoding an unbound hexstring value*"
+  @try {
+    os := f_json_enc_hs2os(y);
+    setverdict(fail, "DTE expected");
+  } @catch(e){
+    log(e);
+    if( match(e, t_expected) ) {
+      setverdict(pass);
+    } else {
+      setverdict(fail,match(e, t_expected))
+    }
+  }
+
+  var octetstring os1;
+  template charstring t_expected2 := pattern "*Dynamic test case error: Initializing a TTCN_Buffer with an unbound octetstring value*"
+  //decode test:
+  @try {
+    z := f_json_dec_os2hs(os1);
+    setverdict(fail, "DTE expected");
+  } @catch(e){
+    log(e);
+    if( match(e, t_expected2) ) {
+      setverdict(pass);
+    } else {
+      setverdict(fail,match(e, t_expected2))
+    }
+  }
+}
+
 testcase tc_jsonBasic_encdec_os_octetstring() runs on CT {
   const OS_json x := 'F1'O;
   var OS_json y := 'F1'O, z;
@@ -696,7 +753,7 @@ testcase tc_jsonBasic_encdec_os_AI3() runs on CT {
   log(bs);
   log(oct2char(bs));
   f_compare_octetstring(bs, expected);
-  
+
   bs := f_json_enc_ai3toos(y);
   log(bs);  
   f_compare_octetstring(bs, expected);
@@ -725,7 +782,7 @@ testcase tc_jsonBasic_encdec_os_roi1() runs on CT {
   log(os);  
   f_compare_octetstring(os,expected);
 
-//  //encvalue - retval is bitstring
+  //  //encvalue - retval is bitstring
 
   //decode test:
   var RoI_json z := f_json_dec_os2roi(expected);
@@ -746,12 +803,12 @@ testcase tc_jsonBasic_encdec_os_roi2() runs on CT {
   log(os);
   log( (os));  
   f_compare_octetstring(os,expected);
-  
+
   os := f_json_enc_roi2os(y);
   log(os);  
   f_compare_octetstring(os,expected);
 
-//  //encvalue - retval is bitstring
+  //  //encvalue - retval is bitstring
 
   //decode test:
   var RoI_json z := f_json_dec_os2roi(expected);
@@ -777,7 +834,7 @@ testcase tc_jsonBasic_encdec_os_roi3() runs on CT {
   log(os);  
   f_compare_octetstring(os,expected);
 
-//  //encvalue - retval is bitstring
+  //  //encvalue - retval is bitstring
 
   //decode test:
   var RoI_json z := f_json_dec_os2roi(expected);
@@ -887,26 +944,30 @@ control {
   execute(tc_jsonBasic_encdec_os_integer_field());
   execute(tc_jsonBasic_encdec_os_integer_field_optional());
   execute(tc_jsonBasic_encdec_os_integer_field_optional_omit());
-  
+
   execute( tc_jsonBasic_encdec_os_float1() );
   execute( tc_jsonBasic_encdec_os_float1a() );
   execute( tc_jsonBasic_encdec_os_float1b() );
   execute( tc_jsonBasic_encdec_os_float1c() );
-  execute( tc_jsonBasic_encdec_os_float2() );
-  execute( tc_jsonBasic_encdec_os_float3() );
-  execute( tc_jsonBasic_encdec_os_float4() );
+  execute( tc_jsonBasic_encdec_os_float_infinity() );
+  execute( tc_jsonBasic_encdec_os_float_minus_infinity() );
+  execute( tc_jsonBasic_encdec_os_float_NaN() );
   execute(tc_jsonBasic_encdec_os_float_unbound())
+  
   execute( tc_jsonBasic_encdec_os_enum() );
+  execute( tc_jsonBasic_encdec_os_enum_unbound());
+  
   execute( tc_jsonBasic_encdec_os_bitstring() );
   execute( tc_jsonBasic_encdec_os_charstring() );
   execute( tc_jsonBasic_encdec_os_charstring2() );
   execute( tc_jsonBasic_encdec_os_hexstring() );
   execute( tc_jsonBasic_encdec_os_hexstring2() );
-  execute( tc_jsonBasic_encdec_os_hexstring3() );
+  execute( tc_jsonBasic_encdec_os_hexstring_empty() );
+  execute( tc_jsonBasic_encdec_os_hexstring_unbound() );
   execute( tc_jsonBasic_encdec_os_octetstring() );
   execute( tc_jsonBasic_encdec_os_ucharstring() );
-//  execute( tc_jsonBasic_encdec_os_AI3() );
-//  execute( tc_jsonBasic_encdec_os_verdict() );
+  //  execute( tc_jsonBasic_encdec_os_AI3() );
+  //  execute( tc_jsonBasic_encdec_os_verdict() );
   execute( tc_jsonBasic_encdec_os_record() );
   execute( tc_jsonBasic_encdec_os_roi1() );
   execute( tc_jsonBasic_encdec_os_roi2() );
