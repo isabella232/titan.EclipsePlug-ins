@@ -125,6 +125,13 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
+      <FolderPath>src/EncodeDecode/JSON/JsonModuleTest</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
       <FolderPath>src/EncodeDecode/OER/OER_BasicTest</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
