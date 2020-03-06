@@ -1,0 +1,7 @@
+BerBasicASN1Types DEFINITIONS
+
+  AUTOMATIC TAGS ::=
+
+BEGIN
+
+END
