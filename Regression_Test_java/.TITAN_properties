@@ -15,6 +15,12 @@
   </ProjectProperties>
   <FileProperties>
     <FileResource>
+      <FilePath>src/ASN1/Enum/EnumWithReference.asn</FilePath>
+      <FileProperties>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FileProperties>
+    </FileResource>
+    <FileResource>
       <FilePath>src/ASN1/enum1/enum1</FilePath>
       <FileProperties>
         <ExcludeFromBuild>true</ExcludeFromBuild>
