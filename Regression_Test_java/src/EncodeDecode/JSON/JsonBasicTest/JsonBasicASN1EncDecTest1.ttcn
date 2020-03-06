@@ -131,10 +131,10 @@ testcase tc_asn1_bool2bs() runs on CT {
 testcase tc_asn1_bmpstr2bs() runs on CT {
   var Asn1_bmpstr x := "Laci", d;
   var bitstring encoded1 := f_json_enc_abmpstr2bs(x); //Dynamic test case error: Internal error: No JSON descriptor available for type 'BMPString'
-  log("encoded1:", encoded1);
-  var bitstring expected := oct2bit(char2oct("\Laci\"")); //true
+  log("encoded1:", encoded1, bit2oct(encoded1));
+  var bitstring expected := oct2bit(char2oct("\"Laci\"")); //true
   var bitstring encoded2 := encvalue(x); //semantic error: No coding rule specified for type `bitstring'
-  log("encoded2:", encoded2);
+  log("encoded2:", encoded2, bit2oct(encoded2));
   f_compare_bitstring(encoded1,expected);
   
   //decoding:
@@ -146,15 +146,15 @@ testcase tc_asn1_bmpstr2bs() runs on CT {
   }
 }
 
-//===== BMPString ======
-
+//===== Number ======
+//not ready yet !!!
 testcase tc_asn1_number2bs() runs on CT {
   var Asn1_Number x := { decimal := 1234567890 }, d;
   var bitstring encoded1 := f_json_enc_anumber2bs(x); //Dynamic test case error: Internal error: No JSON descriptor available for type 'BMPString'
-  log("encoded1:", encoded1);
-  var bitstring expected := oct2bit(char2oct("\Laci\"")); //true
+  log("encoded1:", encoded1, bit2oct(encoded1));
+  var bitstring expected := oct2bit(char2oct("{\"decimal\":1234567890}")); //true
   var bitstring encoded2 := encvalue(x); //semantic error: No coding rule specified for type `bitstring'
-  log("encoded2:", encoded2);
+  log("encoded2:", encoded2, bit2oct(encoded2));
   f_compare_bitstring(encoded1,expected);
   
   //decoding:
