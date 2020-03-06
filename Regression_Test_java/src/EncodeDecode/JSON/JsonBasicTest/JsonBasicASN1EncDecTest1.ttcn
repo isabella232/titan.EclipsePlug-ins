@@ -158,12 +158,12 @@ testcase tc_asn1_number2bs() runs on CT {
   f_compare_bitstring(encoded1,expected);
   
   //decoding:
-//  d :=   f_json_dec_bs2abmpstr(encoded1);
-//  if ( d==x ){
-//    setverdict(pass);
-//  } else {
-//    setverdict( fail, "expected: ", x, " got: ", d)
-//  }
+  d :=   f_json_dec_bs2anumber(encoded1);
+  if ( d==x ){
+    setverdict(pass);
+  } else {
+    setverdict( fail, "expected: ", x, " got: ", d)
+  }
 }
 // 0 = ascii x30 = 00110000
 // 1 = ascii x31 = 00110001
@@ -192,7 +192,7 @@ control {
   execute( tc_asn1_i2bs());
   execute( tc_asn1_bs2bs());
   execute( tc_asn1_bool2bs());
-  execute(tc_asn1_bmpstr2bs()); //TODO: DTE, Dynamic test case error: Internal error: No JSON descriptor available for type 'BMPString'
+  execute(tc_asn1_bmpstr2bs());
   execute(tc_asn1_number2bs());
   execute(tc_asn1_i2bs());
 }
