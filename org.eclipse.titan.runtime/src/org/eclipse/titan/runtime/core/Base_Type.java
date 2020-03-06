@@ -173,7 +173,7 @@ public abstract class Base_Type {
 	public static final TTCN_Typedescriptor TitanISO646String_descr_ = TitanVisibleString_descr_;
 	public static final TTCN_Typedescriptor TitanGeneralString_descr_ = new TTCN_Typedescriptor("GeneralString", null, null, null);
 	public static final TTCN_Typedescriptor TitanUniversalString_descr_ = new TTCN_Typedescriptor("UniversalString", null, null, null);
-	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, null, null);
+	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, JSON.TitanBMPString_json_, null);
 
 	/**
 	 * Deletes the value, setting it to unbound.
