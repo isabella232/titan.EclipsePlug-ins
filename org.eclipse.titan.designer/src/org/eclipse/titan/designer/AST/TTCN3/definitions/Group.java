@@ -193,20 +193,6 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	/**
-	 * Adds a definition to the list of definitions. The parent group of the
-	 * newly added definition is set to this group here.
-	 *
-	 * @param definition
-	 *                The definition to add.
-	 */
-	public void addDefinition(final Definition definition) {
-		if (definition != null && definition.getIdentifier() != null && definition.getIdentifier().getLocation() != null) {
-			definition.setParentGroup(this);
-			definitions.add(definition);
-		}
-	}
-
-	/**
 	 * Adds a module importation to the list of module importations. The
 	 * parent group of the newly added module importation is set to this
 	 * group here. The parent groups of the top level module importations
