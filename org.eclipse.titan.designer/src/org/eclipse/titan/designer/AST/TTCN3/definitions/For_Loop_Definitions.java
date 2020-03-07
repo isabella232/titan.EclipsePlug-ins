@@ -433,8 +433,8 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		IAppendableSyntax lastAppendableBeforeChange = null;
 		IAppendableSyntax lastPrependableBeforeChange = null;
 
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
-			final Definition temp = iterator.next();
+		for (int i = 0, size = definitions.size(); i < size && !enveloped; i++) {
+			final Definition temp = definitions.get(i);
 			final Location tempLocation = temp.getLocation();
 			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 			if (tempLocation.equals(cumulativeLocation) && reparser.envelopsDamage(cumulativeLocation)) {
