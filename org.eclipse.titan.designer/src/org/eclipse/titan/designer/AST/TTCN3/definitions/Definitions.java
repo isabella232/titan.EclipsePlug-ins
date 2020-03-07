@@ -191,7 +191,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	/**
 	 * Adds a list of definitions to the list of definitions.
 	 * <p>
-	 * The scope of the newly added definitions is set to this scope scope
+	 * The scope of the newly added definitions are set to this scope scope
 	 * here.
 	 *
 	 * @param definitionList
