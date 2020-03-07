@@ -1086,13 +1086,15 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
+		final ArrayList<ImportModule> importsToBeRemoved = new ArrayList<ImportModule>();
 		for (int i = importedModules.size() - 1; i >= 0; i--) {
 			final ImportModule temp = importedModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				importedModules.remove(i);
+				importsToBeRemoved.add(temp);
 			}
 		}
+		importedModules.removeAll(importsToBeRemoved);
 
 		for (int i = friendModules.size() - 1; i >= 0; i--) {
 			final FriendModule temp = friendModules.get(i);
