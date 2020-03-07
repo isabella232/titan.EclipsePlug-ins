@@ -217,10 +217,6 @@ public final class TTCN3Module extends Module {
 		this.commentLocation = commentLocation;
 	}
 
-	public void addDefinition(final Definition def) {
-		definitions.addDefinition(def);
-	}
-
 	public void addDefinitions(final List<Definition> definitionList) {
 		definitions.addDefinitions(definitionList);
 	}
