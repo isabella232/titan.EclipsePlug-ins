@@ -103,10 +103,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		Definition definition;
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			definition = iterator.next();
-
+		for (final Definition definition : definitions) {
 			if (definition == child) {
 				final Identifier identifier = definition.getIdentifier();
 
