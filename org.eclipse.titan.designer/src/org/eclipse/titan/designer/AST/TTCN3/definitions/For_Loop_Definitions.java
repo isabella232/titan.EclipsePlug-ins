@@ -567,13 +567,15 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 *                the parser doing the incremental parsing.
 	 * */
 	private void removeStuffInRange(final TTCN3ReparseUpdater reparser) {
+		final ArrayList<Definition> toBeRemoved = new ArrayList<Definition>();
 		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
-				definitions.remove(temp);
+				toBeRemoved.add(temp);
 			}
 		}
+		definitions.removeAll(toBeRemoved);
 	}
 
 	@Override
