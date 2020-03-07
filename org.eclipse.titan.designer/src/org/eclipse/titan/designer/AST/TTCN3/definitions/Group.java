@@ -949,21 +949,23 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		for (int i = definitions.size() - 1; i >= 0; i--) {
-			final Definition temp = definitions.get(i);
+		final ArrayList<Definition> toBeRemoved = new ArrayList<Definition>();
+		for (final Definition temp : definitions) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				definitions.remove(i);
+				toBeRemoved.add(temp);
 			}
 		}
+		definitions.removeAll(toBeRemoved);
 
-		for (final Iterator<Definition> iterator = allDefinitions.iterator(); iterator.hasNext();) {
-			final Definition temp = iterator.next();
+		toBeRemoved.clear();
+		for (final Definition temp : allDefinitions) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				allDefinitions.remove(temp);
+				toBeRemoved.add(temp);
 			}
 		}
+		allDefinitions.removeAll(toBeRemoved);
 	}
 
 	@Override
