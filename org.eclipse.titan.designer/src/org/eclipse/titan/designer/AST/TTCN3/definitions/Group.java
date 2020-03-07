@@ -926,21 +926,25 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 		allImportedModules.removeAll(importsToBeRemoved);
 
+		final ArrayList<FriendModule> frendsToBeRemoved = new ArrayList<FriendModule>();
 		for (int i = friendModules.size() - 1; i >= 0; i--) {
 			final FriendModule temp = friendModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				friendModules.remove(i);
+				frendsToBeRemoved.add(temp);
 			}
 		}
+		friendModules.removeAll(frendsToBeRemoved);
 
+		frendsToBeRemoved.clear();
 		for (int i = allFriends.size() - 1; i >= 0; i--) {
 			final FriendModule temp = allFriends.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				allFriends.remove(i);
+				frendsToBeRemoved.add(temp);
 			}
 		}
+		allFriends.removeAll(frendsToBeRemoved);
 
 		final ArrayList<Definition> definitionsToBeRemoved = new ArrayList<Definition>();
 		for (final Definition temp : definitions) {

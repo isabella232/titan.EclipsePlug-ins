@@ -1096,6 +1096,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 		importedModules.removeAll(importsToBeRemoved);
 
+		final ArrayList<FriendModule> frendsToBeRemoved = new ArrayList<FriendModule>();
 		for (int i = friendModules.size() - 1; i >= 0; i--) {
 			final FriendModule temp = friendModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
@@ -1103,6 +1104,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				friendModules.remove(i);
 			}
 		}
+		friendModules.removeAll(frendsToBeRemoved);
 
 		final ArrayList<Definition> toBeRemoved = new ArrayList<Definition>();
 		for (final Definition temp : definitions) {
