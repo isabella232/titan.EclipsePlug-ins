@@ -159,22 +159,6 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	/**
-	 * Adds a definition to the list of definitions.
-	 * <p>
-	 * The scope of the newly added definition is set to this scope here.
-	 *
-	 * @param definition
-	 *                the definition to be added
-	 * */
-	private void addDefinition(final Definition definition) {
-		if (definition != null && definition.getIdentifier() != null && definition.getIdentifier().getLocation() != null) {
-			definition.setMyScope(this);
-			definitions.add(definition);
-			definition.setFullNameParent(this);
-		}
-	}
-
-	/**
 	 * Adds a list of definitions to the list of definitions.
 	 * <p>
 	 * The scope of the newly added definitions is set to this scope scope
