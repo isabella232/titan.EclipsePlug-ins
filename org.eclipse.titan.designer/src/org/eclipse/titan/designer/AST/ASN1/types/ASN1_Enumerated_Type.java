@@ -830,8 +830,9 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		final ArrayList<Enum_field> fields = new ArrayList<EnumeratedGenerator.Enum_field>(items.size());
 		for (int i = 0; i < items.size(); i++) {
 			final EnumItem tempItem = items.get(i);
+			final Identifier tempId = tempItem.getId();
 
-			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempItem.getValue()).getValue()));
+			fields.add(new Enum_field(tempId.getName(), tempId.getDisplayName(), ((Integer_Value)tempItem.getValue()).getValue()));
 		}
 
 		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw, hasJson);
