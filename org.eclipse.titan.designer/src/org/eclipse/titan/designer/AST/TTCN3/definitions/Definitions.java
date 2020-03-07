@@ -342,10 +342,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		final HashMap<String, Definition> defs = new HashMap<String, Definition>(definitions.size());
 
 		//This defs is necessary because the definitionMaps is not ready yet
-		Definition definition;
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			definition = iterator.next();
-
+		for (final Definition definition : definitions) {
 			if (definition.getParentGroup() == null) {
 				final String defName = definition.getIdentifier().getName();
 				if (!defs.containsKey(defName)) {
@@ -506,8 +503,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			iterator.next().postCheck();
+		for (final Definition temp : definitions) {
+			temp.postCheck();
 		}
 	}
 
@@ -574,8 +571,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
-			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-				iterator.next().addProposal(propCollector, 0);
+			for (final Definition temp : definitions) {
+				temp.addProposal(propCollector, 0);
 			}
 		}
 		super.addProposal(propCollector);
@@ -608,8 +605,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
-			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-				iterator.next().addDeclaration(declarationCollector, 0);
+			for (final Definition temp : definitions) {
+				temp.addDeclaration(declarationCollector, 0);
 			}
 		}
 
@@ -739,8 +736,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			isControlPossible &= friendModules.get(friendModules.size() - 1).getLocation().getEndOffset() < leftBoundary;
 		}
 
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
-			final Definition temp = iterator.next();
+		for (int i = 0, size = definitions.size(); i < size && !enveloped; i++) {
+			final Definition temp = definitions.get(i);
 			if (temp.getParentGroup() == null) {
 				final Location tempLocation = temp.getLocation();
 				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
@@ -985,8 +982,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			final Definition temp = iterator.next();
+		for (final Definition temp : definitions) {
 			if (temp.getParentGroup() == null) {
 				final Location tempLocation = temp.getLocation();
 				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
@@ -1110,8 +1106,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		final ArrayList<Definition> toBeRemoved = new ArrayList<Definition>();
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			final Definition temp = iterator.next();
+		for (final Definition temp : definitions) {
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
 				toBeRemoved.add(temp);
