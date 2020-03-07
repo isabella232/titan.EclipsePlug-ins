@@ -209,6 +209,28 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	/**
+	 * Adds a list of module importations to the list of module importations.
+	 * <p>
+	 * The parent group of the newly added module importations are set to this group. The parent
+	 * groups of top level module importations are set to null.
+	 *
+	 * @param importModuleList
+	 *                the module importations to be added
+	 * */
+	public void addImportedModules(final List<ImportModule> importModuleList) {
+		if (importModuleList != null) {
+			final ArrayList<ImportModule> safeToAdd = new ArrayList<ImportModule>(importModuleList.size());
+			for (final ImportModule importModule : importModuleList) {
+				if (importModule != null && importModule.getIdentifier() != null && importModule.getIdentifier().getLocation() != null) {
+					safeToAdd.add(importModule);
+					importModule.setParentGroup(this);
+				}
+			}
+			importedModules.addAll(safeToAdd);
+		}
+	}
+
+	/**
 	 * Adds a friend module to the list of friend modules. The parent group
 	 * of the newly added friend module is set to this group. The parent
 	 * groups of top level module friendships are set to null.
@@ -551,10 +573,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 					temp.addFriendModules(allFriends);
 
 					addDefinitions(localDefinitions);
-
-					for (final ImportModule impmod : localImports) {
-						addImportedModule(impmod);
-					}
+					addImportedModules(localImports);
 
 					for (final Group group : localGroups) {
 						addGroup(group);
