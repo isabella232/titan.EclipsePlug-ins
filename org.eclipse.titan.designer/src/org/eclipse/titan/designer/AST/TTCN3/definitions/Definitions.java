@@ -217,9 +217,15 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public void addDefinitions(final List<Definition> definitionList) {
 		lastUniquenessCheckTimeStamp = null;
 		if (definitionList != null) {
+			final ArrayList<Definition> safeToAdd = new ArrayList<Definition>(definitionList.size());
 			for (final Definition definition : definitionList) {
-				addDefinition(definition);
+				if (definition != null && definition.getIdentifier() != null && definition.getIdentifier().getLocation() != null) {
+					definition.setMyScope(this);
+					safeToAdd.add(definition);
+					definition.setFullNameParent(this);
+				}
 			}
+			definitions.addAll(safeToAdd);
 		}
 	}
 
