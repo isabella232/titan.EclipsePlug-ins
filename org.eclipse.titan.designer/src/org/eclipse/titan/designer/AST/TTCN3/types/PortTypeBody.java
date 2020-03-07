@@ -278,9 +278,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			vardefs = new Definitions();
 		}
 
-		for (final Definition def : definitions) {
-			vardefs.addDefinition(def);
-		}
+		vardefs.addDefinitions(definitions);
 	}
 
 	public void setMapParams(final FormalParameterList params) {
