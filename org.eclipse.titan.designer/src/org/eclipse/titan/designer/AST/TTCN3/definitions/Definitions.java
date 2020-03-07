@@ -1101,7 +1101,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			final FriendModule temp = friendModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				friendModules.remove(i);
+				frendsToBeRemoved.add(temp);
 			}
 		}
 		friendModules.removeAll(frendsToBeRemoved);
