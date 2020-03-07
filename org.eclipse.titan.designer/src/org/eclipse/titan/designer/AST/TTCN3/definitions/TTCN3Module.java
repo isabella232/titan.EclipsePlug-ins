@@ -249,6 +249,28 @@ public final class TTCN3Module extends Module {
 		}
 	}
 
+	/**
+	 * Adds a list of friend module declarations to the list of friend modules.
+	 * <p>
+	 * The project of the newly added declarations are set to this project
+	 * here.
+	 *
+	 * @param friendModuleList
+	 *                the friend modules to be added
+	 * */
+	public void addFriendModules(final List<FriendModule> friendModuleList) {
+		if (friendModuleList != null) {
+			final ArrayList<FriendModule> safeToAdd = new ArrayList<FriendModule>(friendModuleList.size());
+			for (final FriendModule friendModule : friendModuleList) {
+				if (friendModule != null) {
+					safeToAdd.add(friendModule);
+					friendModule.setProject(project);
+				}
+			}
+			friendModules.addAll(safeToAdd);
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public Definitions getAssignmentsScope() {

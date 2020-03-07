@@ -224,6 +224,28 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	/**
+	 * Adds a list of friend module declarations to the list of friend modules.
+	 * <p>
+	 * The parent group of the newly added friend modules are set to this group. The parent
+	 * groups of top level module friendships are set to null.
+	 *
+	 * @param friendModuleList
+	 *                the friend modules to be added
+	 * */
+	public void addFriendModules(final List<FriendModule> friendModuleList) {
+		if (friendModuleList != null) {
+			final ArrayList<FriendModule> safeToAdd = new ArrayList<FriendModule>(friendModuleList.size());
+			for (final FriendModule friendModule : friendModuleList) {
+				if (friendModule != null) {
+					safeToAdd.add(friendModule);
+					friendModule.setParentGroup(this);
+				}
+			}
+			friendModules.addAll(safeToAdd);
+		}
+	}
+
+	/**
 	 * Adds a list of definitions to the list of definitions. The scope of
 	 * the newly added definitions are set to this scope here.
 	 *
