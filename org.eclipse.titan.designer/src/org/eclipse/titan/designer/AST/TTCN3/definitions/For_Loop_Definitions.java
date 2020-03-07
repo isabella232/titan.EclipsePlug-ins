@@ -166,7 +166,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * @param definition
 	 *                the definition to be added
 	 * */
-	public void addDefinition(final Definition definition) {
+	private void addDefinition(final Definition definition) {
 		if (definition != null && definition.getIdentifier() != null && definition.getIdentifier().getLocation() != null) {
 			definition.setMyScope(this);
 			definitions.add(definition);
@@ -185,9 +185,15 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * */
 	public void addDefinitions(final List<Definition> definitionList) {
 		if (definitionList != null) {
+			final ArrayList<Definition> safeToAdd = new ArrayList<Definition>(definitionList.size());
 			for (final Definition definition : definitionList) {
-				addDefinition(definition);
+				if (definition != null && definition.getIdentifier() != null && definition.getIdentifier().getLocation() != null) {
+					definition.setMyScope(this);
+					safeToAdd.add(definition);
+					definition.setFullNameParent(this);
+				}
 			}
+			definitions.addAll(safeToAdd);
 		}
 	}
 
