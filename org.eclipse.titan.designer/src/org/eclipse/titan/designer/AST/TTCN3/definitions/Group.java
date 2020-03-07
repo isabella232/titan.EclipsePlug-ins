@@ -907,8 +907,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		final ArrayList<ImportModule> importsToBeRemoved = new ArrayList<ImportModule>();
-		for (int i = importedModules.size() - 1; i >= 0; i--) {
-			final ImportModule temp = importedModules.get(i);
+		for (final ImportModule temp : importedModules) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				importsToBeRemoved.add(temp);
@@ -917,8 +916,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		importedModules.removeAll(importsToBeRemoved);
 
 		importsToBeRemoved.clear();
-		for (int i = allImportedModules.size() - 1; i >= 0; i--) {
-			final ImportModule temp = allImportedModules.get(i);
+		for (final ImportModule temp : allImportedModules) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				importsToBeRemoved.add(temp);
@@ -927,8 +925,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		allImportedModules.removeAll(importsToBeRemoved);
 
 		final ArrayList<FriendModule> frendsToBeRemoved = new ArrayList<FriendModule>();
-		for (int i = friendModules.size() - 1; i >= 0; i--) {
-			final FriendModule temp = friendModules.get(i);
+		for (final FriendModule temp : friendModules) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				frendsToBeRemoved.add(temp);
@@ -937,8 +934,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		friendModules.removeAll(frendsToBeRemoved);
 
 		frendsToBeRemoved.clear();
-		for (int i = allFriends.size() - 1; i >= 0; i--) {
-			final FriendModule temp = allFriends.get(i);
+		for (final FriendModule temp : allFriends) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				frendsToBeRemoved.add(temp);
