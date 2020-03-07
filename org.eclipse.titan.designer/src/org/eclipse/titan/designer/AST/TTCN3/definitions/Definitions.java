@@ -1109,13 +1109,15 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
+		final ArrayList<Definition> toBeRemoved = new ArrayList<Definition>();
 		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
-				definitions.remove(temp);
+				toBeRemoved.add(temp);
 			}
 		}
+		definitions.removeAll(toBeRemoved);
 	}
 
 	@Override
