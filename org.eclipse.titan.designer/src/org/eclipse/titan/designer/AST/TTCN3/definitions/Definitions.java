@@ -1053,9 +1053,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 						addGroup(group);
 					}
 
-					for (final FriendModule friend : allFriends) {
-						module.addFriendModule(friend);
-					}
+					module.addFriendModules(allFriends);
 					if (controlParts != null && controlParts.size() == 1) {
 						((TTCN3Module) parentScope).addControlpart(controlParts.get(0));
 					}

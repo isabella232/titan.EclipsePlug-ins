@@ -548,9 +548,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 						temp.addImportedModule(impmod);
 					}
 
-					for (final FriendModule friend : allFriends) {
-						temp.addFriendModule(friend);
-					}
+					temp.addFriendModules(allFriends);
 
 					addDefinitions(localDefinitions);
 
@@ -562,9 +560,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 						addGroup(group);
 					}
 
-					for (final FriendModule friend : localFriends) {
-						addFriendModule(friend);
-					}
+					addFriendModules(localFriends);
 				}
 			}
 		});
