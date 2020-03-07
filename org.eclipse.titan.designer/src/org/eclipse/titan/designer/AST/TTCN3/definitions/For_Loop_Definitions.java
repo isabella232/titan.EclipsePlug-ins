@@ -91,10 +91,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		Definition definition;
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			definition = iterator.next();
-
+		for (final Definition definition : definitions) {
 			if (definition == child) {
 				final Identifier identifier = definition.getIdentifier();
 
@@ -202,9 +199,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		definitionMap.clear();
 
 		String definitionName;
-		Definition definition;
-		for (int i = 0, size = definitions.size(); i < size; i++) {
-			definition = definitions.get(i);
+		for (final Definition definition : definitions) {
 			final Identifier identifier = definition.getIdentifier();
 			definitionName = identifier.getName();
 			if (definitionMap.containsKey(definitionName)) {
@@ -255,10 +250,8 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		definitionMap.clear();
 
 		String definitionName;
-		Definition definition;
 		Identifier identifier;
-		for (int i = 0, size = definitions.size(); i < size; i++) {
-			definition = definitions.get(i);
+		for (final Definition definition : definitions) {
 			identifier = definition.getIdentifier();
 			definitionName = identifier.getName();
 			if (definitionMap.containsKey(definitionName)) {
@@ -297,8 +290,8 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			iterator.next().postCheck();
+		for (final Definition definition : definitions) {
+			definition.postCheck();
 		}
 	}
 
@@ -365,8 +358,8 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
-			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-				iterator.next().addProposal(propCollector, 0);
+			for (final Definition definition : definitions) {
+				definition.addProposal(propCollector, 0);
 			}
 		}
 		super.addProposal(propCollector);
@@ -393,8 +386,8 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
-			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-				iterator.next().addDeclaration(declarationCollector, 0);
+			for (final Definition definition : definitions) {
+				definition.addDeclaration(declarationCollector, 0);
 			}
 		}
 		super.addDeclaration(declarationCollector);
@@ -414,8 +407,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (!isDamaged) {
 			// handle the simple case quickly
-			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-				final Definition temp = iterator.next();
+			for (final Definition temp : definitions) {
 				final Location temporalLocation = temp.getLocation();
 				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 				if (reparser.isAffected(temporalLocation)) {
@@ -536,8 +528,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 			lastUniquenessCheckTimeStamp = null;
 		}
 
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			final Definition temp = iterator.next();
+		for (final Definition temp : definitions) {
 			final Location temporalLocation = temp.getLocation();
 			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 			if (reparser.isAffected(temporalLocation)) {
@@ -568,8 +559,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * */
 	private void removeStuffInRange(final TTCN3ReparseUpdater reparser) {
 		final ArrayList<Definition> toBeRemoved = new ArrayList<Definition>();
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			final Definition temp = iterator.next();
+		for (final Definition temp : definitions) {
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
 				toBeRemoved.add(temp);
