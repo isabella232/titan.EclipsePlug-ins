@@ -906,21 +906,25 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
+		final ArrayList<ImportModule> importsToBeRemoved = new ArrayList<ImportModule>();
 		for (int i = importedModules.size() - 1; i >= 0; i--) {
 			final ImportModule temp = importedModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				importedModules.remove(i);
+				importsToBeRemoved.add(temp);
 			}
 		}
+		importedModules.removeAll(importsToBeRemoved);
 
+		importsToBeRemoved.clear();
 		for (int i = allImportedModules.size() - 1; i >= 0; i--) {
 			final ImportModule temp = allImportedModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				allImportedModules.remove(i);
+				importsToBeRemoved.add(temp);
 			}
 		}
+		allImportedModules.removeAll(importsToBeRemoved);
 
 		for (int i = friendModules.size() - 1; i >= 0; i--) {
 			final FriendModule temp = friendModules.get(i);
@@ -938,23 +942,23 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		final ArrayList<Definition> toBeRemoved = new ArrayList<Definition>();
+		final ArrayList<Definition> definitionsToBeRemoved = new ArrayList<Definition>();
 		for (final Definition temp : definitions) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				toBeRemoved.add(temp);
+				definitionsToBeRemoved.add(temp);
 			}
 		}
-		definitions.removeAll(toBeRemoved);
+		definitions.removeAll(definitionsToBeRemoved);
 
-		toBeRemoved.clear();
+		definitionsToBeRemoved.clear();
 		for (final Definition temp : allDefinitions) {
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
-				toBeRemoved.add(temp);
+				definitionsToBeRemoved.add(temp);
 			}
 		}
-		allDefinitions.removeAll(toBeRemoved);
+		allDefinitions.removeAll(definitionsToBeRemoved);
 	}
 
 	@Override
