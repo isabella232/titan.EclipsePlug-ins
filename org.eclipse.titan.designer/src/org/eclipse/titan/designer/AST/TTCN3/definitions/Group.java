@@ -225,7 +225,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 	/**
 	 * Adds a list of definitions to the list of definitions. The scope of
-	 * the newly added definitions is set to this scope here.
+	 * the newly added definitions are set to this scope here.
 	 *
 	 * @param definitionList
 	 *                The definitions to add.
