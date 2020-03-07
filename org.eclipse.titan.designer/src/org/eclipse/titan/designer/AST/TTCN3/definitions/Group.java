@@ -246,9 +246,14 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	 */
 	public void addDefinitions(final List<Definition> definitionList) {
 		if (definitionList != null) {
-			for (final Definition def : definitionList) {
-				addDefinition(def);
+			final ArrayList<Definition> safeToAdd = new ArrayList<Definition>(definitionList.size());
+			for (final Definition definition : definitionList) {
+				if (definition != null && definition.getIdentifier() != null && definition.getIdentifier().getLocation() != null) {
+					definition.setParentGroup(this);
+					safeToAdd.add(definition);
+				}
 			}
+			definitions.addAll(safeToAdd);
 		}
 	}
 
