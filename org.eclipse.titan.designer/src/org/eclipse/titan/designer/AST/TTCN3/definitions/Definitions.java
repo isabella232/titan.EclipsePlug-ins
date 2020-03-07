@@ -189,23 +189,6 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	/**
-	 * Adds a definition to the list of definitions.
-	 * <p>
-	 * The scope of the newly added definition is set to this scope here.
-	 *
-	 * @param definition
-	 *                the definition to be added
-	 * */
-	public void addDefinition(final Definition definition) {
-		lastUniquenessCheckTimeStamp = null;
-		if (definition != null && definition.getIdentifier() != null && definition.getIdentifier().getLocation() != null) {
-			definition.setMyScope(this);
-			definitions.add(definition);
-			definition.setFullNameParent(this);
-		}
-	}
-
-	/**
 	 * Adds a list of definitions to the list of definitions.
 	 * <p>
 	 * The scope of the newly added definitions is set to this scope scope
