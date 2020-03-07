@@ -323,16 +323,15 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 		// Take care of ordering.
 		int from = 0;
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			final Definition def = iterator.next();
+		for (final Definition definition : definitions) {
 			for (int j = from; j < groups.size(); j++) {
 				final Group grp = groups.get(j);
-				if (def.getLocation().getLine() >= grp.getLocation().getLine()) {
+				if (definition.getLocation().getLine() >= grp.getLocation().getLine()) {
 					outlineElements.add(grp);
 					++from;
 				}
 			}
-			outlineElements.add(def);
+			outlineElements.add(definition);
 		}
 		if (from < groups.size()) {
 			for (int i = from; i < groups.size(); i++) {
@@ -659,8 +658,8 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
-			final Definition temp = iterator.next();
+		for (int i = 0, size = definitions.size(); i < size && !enveloped; i++) {
+			final Definition temp = definitions.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
 				enveloped = true;
@@ -847,8 +846,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			final Definition temp = iterator.next();
+		for (final Definition temp : definitions) {
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
