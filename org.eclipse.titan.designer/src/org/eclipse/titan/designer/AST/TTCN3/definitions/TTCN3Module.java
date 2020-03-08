@@ -226,11 +226,7 @@ public final class TTCN3Module extends Module {
 			return;
 		}
 
-		int index = importedModules.size();
-		while (index > 0 && importedModules.get(index-1).getLocation().getOffset() > impmod.getLocation().getOffset()) {
-			index--;
-		}
-		importedModules.add(index, impmod);
+		importedModules.add(impmod);
 		impmod.setMyModule(identifier);
 		impmod.setMyModule(this);
 		impmod.setProject(project);
