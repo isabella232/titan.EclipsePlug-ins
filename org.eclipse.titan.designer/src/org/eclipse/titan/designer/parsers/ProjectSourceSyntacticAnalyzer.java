@@ -354,7 +354,6 @@ public final class ProjectSourceSyntacticAnalyzer {
 			return Status.CANCEL_STATUS;
 		}
 
-		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 		final SubMonitor progress = SubMonitor.convert(monitor, 1);
 		progress.setTaskName("On-the-fly syntactic checking of project: " + project.getName());
 
@@ -400,7 +399,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			allCheckedFiles.addAll(asn1FilesToCheck);
 
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("  **Syntax only check to be done on  " + (ttcn3FilesToCheck.size() + asn1FilesToCheck.size()) + " files.",stream);
+				TITANDebugConsole.println("  **Syntax only check to be done on  " + (ttcn3FilesToCheck.size() + asn1FilesToCheck.size()) + " files.");
 			}
 
 			// parsing the files
@@ -427,7 +426,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 					return Status.CANCEL_STATUS;
 				} else if (!file.isAccessible()) {
 					if (reportDebugInformation) {
-						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.",stream);
+						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.");
 					}
 					latch.countDown();
 				} else if (!uptodateFiles.containsKey(file) && !highlySyntaxErroneousFiles.contains(file)) {
@@ -466,7 +465,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 					return Status.CANCEL_STATUS;
 				} else if (!file.isAccessible()) {
 					if (reportDebugInformation) {
-						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.",stream);
+						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.");
 					}
 					latch.countDown();
 				} else if (!uptodateFiles.containsKey(file) && !highlySyntaxErroneousFiles.contains(file)) {
@@ -516,11 +515,11 @@ public final class ProjectSourceSyntacticAnalyzer {
 				//MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 				TITANDebugConsole.println("  **It took " + (System.nanoTime() - absoluteStart) * (1e-9) + " seconds till the files ("
 								+ uptodateFiles.size() + " pieces) of project " + project.getName()
-								+ " got syntactically analyzed",stream);
+								+ " got syntactically analyzed");
 			}
 		} else {
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("  **The project " + project.getName() + " does not seem to need syntax only check.",stream);
+				TITANDebugConsole.println("  **The project " + project.getName() + " does not seem to need syntax only check.");
 			}
 			progress.worked(1);
 			progress.done();
@@ -570,13 +569,12 @@ public final class ProjectSourceSyntacticAnalyzer {
 			return Status.CANCEL_STATUS;
 		}
 
-		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 		final SubMonitor progress = SubMonitor.convert(monitor, 1);
 		progress.setTaskName("On-the-fly syntactic checking of project: " + project.getName());
 
 		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		final boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
-				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
+				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		if (syntacticallyOutdated) {
 			syntacticallyOutdated = false;
@@ -644,7 +642,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			allCheckedFiles.addAll(asn1FilesToCheck);
 
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("  **Syntax check to be done on  " + (ttcn3FilesToCheck.size() + asn1FilesToCheck.size()) + " files in project " + project.getName() + ".",stream);
+				TITANDebugConsole.println("  **Syntax check to be done on  " + (ttcn3FilesToCheck.size() + asn1FilesToCheck.size()) + " files in project " + project.getName() + ".");
 			}
 
 			// parsing the files
@@ -672,7 +670,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 					return Status.CANCEL_STATUS;
 				} else if (!file.isAccessible()) {
 					if (reportDebugInformation) {
-						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.",stream);
+						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.");
 					}
 					latch.countDown();
 				} else if (OutOfMemoryCheck.isOutOfMemory()) {
@@ -690,7 +688,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 							if (reportDebugInformation) {
 								//MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 								TITANDebugConsole.println("The file " + file.getLocationURI()
-												+ " does not seem to exist.",stream);
+												+ " does not seem to exist.");
 							}
 							latch.countDown();
 							continue;
@@ -735,7 +733,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 					return Status.CANCEL_STATUS;
 				} else if (!file.isAccessible()) {
 					if (reportDebugInformation) {
-						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.",stream);
+						TITANDebugConsole.println("The file " + file.getLocationURI() + " does not seem to exist.");
 					}
 					latch.countDown();
 				} else if (OutOfMemoryCheck.isOutOfMemory()) {
@@ -799,11 +797,11 @@ public final class ProjectSourceSyntacticAnalyzer {
 				//MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 				TITANDebugConsole.println("  **It took " + (System.nanoTime() - absoluteStart) * (1e-9) + " seconds till the files ("
 								+ uptodateFiles.size() + " pieces) of project " + project.getName()
-								+ " got syntactically analyzed",stream);
+								+ " got syntactically analyzed");
 			}
 		} else {
 			if (reportDebugInformation) {
-				TITANDebugConsole.println("  **The project " + project.getName() + " does not seem to need syntax check.",stream);
+				TITANDebugConsole.println("  **The project " + project.getName() + " does not seem to need syntax check.");
 			}
 			progress.worked(1);
 			progress.done();

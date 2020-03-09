@@ -183,15 +183,14 @@ public final class ReferenceFinder {
 		}
 
 		if (reportDebugInformation) {
-			final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
-			TITANDebugConsole.println("found scope: name=" + scope.getScopeName() + "  type=" + scope.getClass().getName(), stream);
+			TITANDebugConsole.println("found scope: name=" + scope.getScopeName() + "  type=" + scope.getClass().getName());
 			TITANDebugConsole.println("found assignment: name=" + assignment.getIdentifier().getDisplayName() + "  type="
-					+ assignment.getClass().getName(),stream);
+					+ assignment.getClass().getName());
 			if (type != null) {
-				TITANDebugConsole.println("found type: name=" + type.getTypename() + "  type=" + type.getClass().getName(), stream);
+				TITANDebugConsole.println("found type: name=" + type.getTypename() + "  type=" + type.getClass().getName());
 			}
 			if (fieldId != null) {
-				TITANDebugConsole.println("found field: name=" + fieldId.getDisplayName(), stream);
+				TITANDebugConsole.println("found field: name=" + fieldId.getDisplayName());
 			}
 		}
 

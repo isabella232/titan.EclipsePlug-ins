@@ -201,10 +201,9 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 		final List<Module> startModulesCopy = new ArrayList<Module>(startModules);
 
 		final List<Module> result = new ArrayList<Module>();
-		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 		if (writeDebugInfo) {
 			for (final Module startModule: startModules) {
-				TITANDebugConsole.println("  ** Module " + startModule.getName() + " can not be skipped as it was not yet analyzed.", stream);
+				TITANDebugConsole.println("  ** Module " + startModule.getName() + " can not be skipped as it was not yet analyzed.");
 			}
 		}
 
@@ -220,7 +219,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 				if (!startModulesCopy.contains(dependentModule)) {
 					startModulesCopy.add(dependentModule);
 					if (writeDebugInfo) {
-						TITANDebugConsole.println("  ** Module " + dependentModule.getName() + " can not be skipped as it depends on " + startModule.getName() + " which needs to be checked.", stream);
+						TITANDebugConsole.println("  ** Module " + dependentModule.getName() + " can not be skipped as it depends on " + startModule.getName() + " which needs to be checked.");
 					}
 				}
 			}

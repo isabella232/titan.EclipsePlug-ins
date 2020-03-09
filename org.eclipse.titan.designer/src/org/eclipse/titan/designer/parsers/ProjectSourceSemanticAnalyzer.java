@@ -431,9 +431,8 @@ public class ProjectSourceSemanticAnalyzer {
 			}
 
 			if (preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
-				final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
-				TITANDebugConsole.println("  ** Had to start checking at " + nofModulesTobeChecked + " modules. ", stream);
-				TITANDebugConsole.println("  **On-the-fly semantic checking of projects (" + allModules.size() + " modules) took " + (System.nanoTime() - semanticCheckStart) * (1e-9) + " seconds", stream);
+				TITANDebugConsole.println("  ** Had to start checking at " + nofModulesTobeChecked + " modules. ");
+				TITANDebugConsole.println("  **On-the-fly semantic checking of projects (" + allModules.size() + " modules) took " + (System.nanoTime() - semanticCheckStart) * (1e-9) + " seconds");
 			}
 			progress.subTask("Cleanup operations");
 
