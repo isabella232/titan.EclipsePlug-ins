@@ -11,6 +11,7 @@ import java.io.File;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.titan.runtime.core.TTCN_Runtime;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
@@ -54,12 +55,14 @@ public class Cli extends UserInterface {
 	private waitStateEnum waitState;
 	private ConfigData mycfg = new ConfigData();
 	private int executeListIndex;
+	private ReentrantLock mutex;
 
 	public Cli() {
 		loggingEnabled = true;
 		exitFlag = false;
 		waitState = waitStateEnum.WAIT_NOTHING;
 		executeListIndex = 0;
+		mutex = new ReentrantLock();
 	}
 
 	@Override
@@ -137,8 +140,13 @@ public class Cli extends UserInterface {
 
 	@Override
 	public void status_change() {
-		if (waitState != waitStateEnum.WAIT_NOTHING && conditionHolds(waitState)) {
-			waitState = waitStateEnum.WAIT_NOTHING;
+		mutex.lock();
+		try {
+			if (waitState != waitStateEnum.WAIT_NOTHING && conditionHolds(waitState)) {
+				waitState = waitStateEnum.WAIT_NOTHING;
+			}
+		} finally {
+			mutex.unlock();
 		}
 	}
 
@@ -273,6 +281,13 @@ public class Cli extends UserInterface {
 		if (!error_flag) {
 			// create MTC on firstly connected HC
 			MainController.create_mtc(MainController.get_hosts().get(0));
+			try {
+				//TODO: need to test on different machines
+				Thread.currentThread().join(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			waitMCState(waitStateEnum.WAIT_MTC_CREATED);
 			if (MainController.get_state() != mcStateEnum.MC_READY) {
 				System.out.println("Creation of MTC failed. Cannot continue in batch mode.");
