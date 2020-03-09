@@ -9,6 +9,8 @@
 *   Balasko, Jeno
 *
 ******************************************************************************/
+//cpp: 12 pass
+//java:10 pass
 module JsonBasicAttributeTest {
 
 type component CT {}
@@ -54,7 +56,7 @@ type record R3_json {
 } with { encode "JSON"; variant(i) "JSON: name as Integer"; variant(i) "JSON: omit as null";}
 
 type record R4_json {
-  integer i optional
+  integer i
 } with { encode "JSON"; variant "JSON: as value";}
 
 //======= Record with more field =========
@@ -96,6 +98,7 @@ testcase tc_attr_enum_no_attr() runs on CT {
   f_compare_bitstring(expected,encoded);
 }
 
+//Status: fail
 testcase tc_attr_enum_text_attr() runs on CT {
   var Etext x := One;
   var bitstring expected := oct2bit(char2oct("\"1\""));
@@ -180,16 +183,7 @@ testcase tc_rec_attr_name_as_and_omit_as_null_intvalue() runs on CT {
   f_compare_bitstring(expected,encoded);
 }
 
-//Attribute: as value & omit as null
-testcase tc_rec_attr_as_value_and_omit_as_null_omitvalue() runs on CT {
-  var R4_json x := { i:= omit } 
-  var bitstring expected := oct2bit(char2oct("null")); 
-  var bitstring encoded := encvalue(x);
-  log(bit2oct(encoded));
-  f_compare_bitstring(expected,encoded);
-}
-
-testcase tc_rec_attr_as_value_and_omit_as_null_intvalue() runs on CT {
+testcase tc_rec_attr_as_value_intvalue() runs on CT {
   var R4_json x := { i:= 1 }
   var bitstring expected := oct2bit(char2oct("1"));
   var bitstring encoded := encvalue(x);
@@ -197,9 +191,10 @@ testcase tc_rec_attr_as_value_and_omit_as_null_intvalue() runs on CT {
   log(bit2oct(encoded));
   f_compare_bitstring(expected,encoded);
 }
+
 control {
   execute(tc_attr_enum_no_attr());
-//  execute(tc_attr_enum_text_attr());
+  //execute(tc_attr_enum_text_attr()); //fail
   execute(tc_rec_attr_no_attr_omit());
   execute(tc_rec_attr_no_attr_int());
   execute(tc_rec_attr_omit_as_null_omitvalue());
@@ -208,8 +203,7 @@ control {
   execute(tc_rec_attr_name_as_intvalue());
   execute(tc_rec_attr_name_as_and_omit_as_null_omitvalue());
   execute(tc_rec_attr_name_as_and_omit_as_null_intvalue());
-  execute(tc_rec_attr_as_value_and_omit_as_null_omitvalue());
-  execute(tc_rec_attr_as_value_and_omit_as_null_intvalue());
+  execute(tc_rec_attr_as_value_intvalue());
 }
 
 } with {
