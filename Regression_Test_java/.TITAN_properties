@@ -121,6 +121,13 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
+      <FolderPath>src/EncodeDecode/multipleEncodings</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
       <FolderPath>src/cfgFile/testport_parameters</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>

@@ -1,0 +1,113 @@
+/******************************************************************************
+ * Copyright (c) 2000-2020 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ *
+ * Contributors:
+ *   Baranyi, Botond
+ *
+ ******************************************************************************/
+
+module TtcnTypes {
+
+external function f_dec_abc(inout bitstring x, out R1 y) return integer
+  with { extension "prototype(sliding) decode(abc)" }
+  
+external function f_dec_abc2(inout bitstring x, out R3 y) return integer
+  with { extension "prototype(sliding) decode(abc)" }
+  
+type enumerated E1 { val1, val2, val3 }
+with {
+  encode "TEXT";
+}
+
+type record R1 {
+  E1 f1
+}
+with {
+  encode "XML";
+  encode "abc";
+  encode (f1) "XML";
+  variant (f1) "XML"."untagged";
+  encode (f1) "RAW";
+  variant (f1) "RAW"."16 bit";
+}
+
+type R1 R2;
+
+type R2 R3;
+
+type union U1 {
+  integer alt1
+}
+with {
+  encode "JSON";
+}
+
+type U1 U2
+with {
+  variant "JSON: as value";
+}
+
+type record of R1 RecOf
+with {
+  encode "JSON";
+}
+
+type set S {
+  integer num,
+  charstring str
+}
+with {
+  encode "JSON";
+  encode "XML";
+  variant (num) {"JSON", "XML"}."name as 'int'";
+}
+
+type record Msg {
+  bitstring data
+}
+
+signature Sig(inout charstring p);
+
+type port PT1 message {
+  inout Msg
+}
+with {
+  extension "internal";
+}
+
+type port PT2 procedure {
+  inout Sig
+}
+with {
+  extension "internal";
+}
+
+type component CT {
+  port PT1 pt1;
+  port PT2 pt2;
+}
+
+type record BitAndHex {
+  bitstring b1,
+  bitstring b2,
+  bitstring b3,
+  hexstring h1,
+  hexstring h2,
+  hexstring h3
+}
+with {
+  encode "JSON";
+  encode "RAW";
+  variant (b1) "RAW"."FIELDLENGTH(4)";
+  variant (b2) "RAW"."FIELDLENGTH(4)";
+  variant (b3) "RAW"."FIELDLENGTH(8)";
+  variant (h1) "RAW"."FIELDLENGTH(1)";
+  variant (h2) "RAW"."FIELDLENGTH(1)";
+  variant (h3) "RAW"."FIELDLENGTH(2)";
+}
+
+}
