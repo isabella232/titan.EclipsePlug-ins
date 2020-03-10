@@ -40,6 +40,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.ErrorBehaviorList;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.PrintingAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.PrintingType;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.PrintingType.PrintingTypeEnum;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.PrototypeAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
@@ -63,6 +64,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * The Def_ExtFunction class represents TTCN3 external function definitions.
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  * */
 public final class Def_Extfunction extends Definition implements IParameterisedAssignment {
 	public enum ExternalFunctionEncodingType_type {
@@ -984,6 +986,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_Logger");
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
+		final int prettyPrinting = printingType != null && printingType.getPrintingType() == PrintingTypeEnum.PRETTY ? 1 : 0;
 
 		source.append( "\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {\n" );
 		source.append( "\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);\n" );
@@ -993,7 +996,9 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( "\t\t}\n" );
 		source.append( "\t\tTTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		source.append( "\t\tfinal TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
-		source.append(MessageFormat.format( "\t\t{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName()) );
+		source.append(MessageFormat.format( "\t\t{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n",
+				firstParName, inputType.getGenNameTypeDescriptor(aData, source), encodingType.getEncodingName(),
+				prettyPrinting) );
 
 		//FIXME implement JSON and XER specific parts
 		String resultName;
