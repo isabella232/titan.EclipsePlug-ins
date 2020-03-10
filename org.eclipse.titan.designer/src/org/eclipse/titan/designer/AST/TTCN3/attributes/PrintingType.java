@@ -36,7 +36,7 @@ public final class PrintingType extends ASTNode implements ILocateableNode {
 	}
 
 	private final PrintingTypeEnum printingType;
-	
+
 	public PrintingTypeEnum getPrintingType() {
 		return printingType;
 	}
