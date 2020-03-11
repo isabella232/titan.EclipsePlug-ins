@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.BER.ASN_BERdescriptor;
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
@@ -36,6 +37,7 @@ public abstract class Base_Type {
 	public static class TTCN_Typedescriptor {
 		// name of the type
 		public final String name;
+		public final ASN_BERdescriptor ber;
 		// information for RAW coding
 		public final TTCN_RAWdescriptor raw;
 		public final TTCN_JSONdescriptor json;
@@ -53,6 +55,9 @@ public abstract class Base_Type {
 		 * @param name
 		 *                the name of the type in its generated, unique
 		 *                form.
+		 * @param ber
+		 *                the BER descriptor if the type has one,
+		 *                {@code null} otherwise.
 		 * @param raw
 		 *                the RAW descriptor if the type has one,
 		 *                {@code null} otherwise.
@@ -64,8 +69,9 @@ public abstract class Base_Type {
 		 *                type descriptor of the of type, {@code false}
 		 *                otherwise.
 		 * */
-		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json, final TTCN_Typedescriptor oftype_descr) {
+		public TTCN_Typedescriptor(final String name, final ASN_BERdescriptor ber, final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json, final TTCN_Typedescriptor oftype_descr) {
 			this.name = name;
+			this.ber = ber;
 			this.raw = raw;
 			this.json = json;
 			this.oftype_descr = oftype_descr;
@@ -77,6 +83,9 @@ public abstract class Base_Type {
 		 * @param name
 		 *                the name of the type in its generated, unique
 		 *                form.
+		 * @param ber
+		 *                the BER descriptor if the type has one,
+		 *                {@code null} otherwise.
 		 * @param raw
 		 *                the RAW descriptor if the type has one,
 		 *                {@code null} otherwise.
@@ -84,10 +93,29 @@ public abstract class Base_Type {
 		 *                the JSON descriptor if the type has one,
 		 *                {@code null} otherwise.
 		 * */
-		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json) {
+		public TTCN_Typedescriptor(final String name, final ASN_BERdescriptor ber, final TTCN_RAWdescriptor raw, final TTCN_JSONdescriptor json) {
 			this.name = name;
+			this.ber = ber;
 			this.raw = raw;
 			this.json = json;
+			this.oftype_descr = null;
+		}
+
+		/**
+		 * Initializes the type descriptor.
+		 *
+		 * @param name
+		 *                the name of the type in its generated, unique
+		 *                form.
+		 * @param ber
+		 *                the BER descriptor if the type has one,
+		 *                {@code null} otherwise.
+		 * */
+		public TTCN_Typedescriptor(final String name, final ASN_BERdescriptor ber) {
+			this.name = name;
+			this.ber = ber;
+			this.raw = null;
+			this.json = null;
 			this.oftype_descr = null;
 		}
 
@@ -103,6 +131,7 @@ public abstract class Base_Type {
 		 * */
 		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw) {
 			this.name = name;
+			this.ber = null;
 			this.raw = raw;
 			this.json = null;
 			this.oftype_descr = null;
@@ -120,6 +149,7 @@ public abstract class Base_Type {
 		 * */
 		public TTCN_Typedescriptor(final String name, final TTCN_JSONdescriptor json) {
 			this.name = name;
+			this.ber = null;
 			this.raw = null;
 			this.json = json;
 			this.oftype_descr = null;
@@ -134,46 +164,47 @@ public abstract class Base_Type {
 		 * */
 		public TTCN_Typedescriptor(final String name) {
 			this.name = name;
+			this.ber = null;
 			this.raw = null;
 			this.json = null;
 			this.oftype_descr = null;
 		}
 	}
 
-	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
-	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
-	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
-	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null, null, null);
-	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", null, null, null);
-	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
-	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
-	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
-	public static final TTCN_Typedescriptor TitanCharString_descr_ = new TTCN_Typedescriptor("charstring", RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
-	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
-	public static final TTCN_Typedescriptor TitanComponent_descr_ = new TTCN_Typedescriptor("component", null, null, null);
-	public static final TTCN_Typedescriptor TitanDefault_descr_ = new TTCN_Typedescriptor("default", null, null, null);
-	public static final TTCN_Typedescriptor TitanAsn_Null_descr_ = new TTCN_Typedescriptor("NULL", null, JSON.TitanAsn_Null_json_, null);
-	public static final TTCN_Typedescriptor TitanAsn_Any_descr_ = new TTCN_Typedescriptor("ANY", null, JSON.TitanAsn_Any_json_, null);
-	public static final TTCN_Typedescriptor TitanExternal_descr_ = new TTCN_Typedescriptor("EXTERNAL", null, null, null);
-	public static final TTCN_Typedescriptor TitanEmbedded_PDV_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV", null, null, null);
-	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING", null, JSON.TitanCharString_json_, null);
-	public static final TTCN_Typedescriptor TitanObjectDescriptor_descr_ = new TTCN_Typedescriptor("ObjectDescriptor", null, null, null);
-	public static final TTCN_Typedescriptor TitanUTF8String_descr_ = new TTCN_Typedescriptor("UTF8String", null, JSON.TitanUTF8String_json_, null);
-	public static final TTCN_Typedescriptor TitanAsn_Roid_descr_ = new TTCN_Typedescriptor("RELATIVE-OID", null, JSON.TitanAsn_Roid_json_, null);
-	public static final TTCN_Typedescriptor TitanNumericString_descr_ = new TTCN_Typedescriptor("NumericString", null, JSON.TitanNumericString_json_, null);
-	public static final TTCN_Typedescriptor TitanPrintableString_descr_ = new TTCN_Typedescriptor("PrintableString", null, JSON.TitanPrintableString_json_, null);
-	public static final TTCN_Typedescriptor TitanTeletexString_descr_ = new TTCN_Typedescriptor("TeletexString", null, JSON.TitanTeletexString_json_, null);
+	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", BER.TitanBoolean_Ber_, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
+	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", BER.TitanInteger_Ber_, RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
+	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", BER.TitanFloat_Ber_, RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
+	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null, null, null, null);
+	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", BER.TitanObjectId_Ber_, null, null, null);
+	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", BER.TitanBitString_Ber_, RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
+	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
+	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", BER.TitanOctetString_Ber_, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
+	public static final TTCN_Typedescriptor TitanCharString_descr_ = new TTCN_Typedescriptor("charstring", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_, null);
+	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_, null);
+	public static final TTCN_Typedescriptor TitanComponent_descr_ = new TTCN_Typedescriptor("component", null, null, null, null);
+	public static final TTCN_Typedescriptor TitanDefault_descr_ = new TTCN_Typedescriptor("default", null, null, null, null);
+	public static final TTCN_Typedescriptor TitanAsn_Null_descr_ = new TTCN_Typedescriptor("NULL", BER.TitanASN_Null_Ber_, null, JSON.TitanAsn_Null_json_, null);
+	public static final TTCN_Typedescriptor TitanAsn_Any_descr_ = new TTCN_Typedescriptor("ANY", BER.TitanASN_Any_Ber_, null, JSON.TitanAsn_Any_json_, null);
+	public static final TTCN_Typedescriptor TitanExternal_descr_ = new TTCN_Typedescriptor("EXTERNAL", BER.TitanExternal_Ber_, null, null, null);
+	public static final TTCN_Typedescriptor TitanEmbedded_PDV_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV", BER.TitanEmbedded_PDV_Ber_, null, null, null);
+	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING", BER.TitanCharacter_String_Ber_, null, JSON.TitanCharString_json_, null);
+	public static final TTCN_Typedescriptor TitanObjectDescriptor_descr_ = new TTCN_Typedescriptor("ObjectDescriptor", BER.TitanObjectDescriptor_Ber_, null, null, null);
+	public static final TTCN_Typedescriptor TitanUTF8String_descr_ = new TTCN_Typedescriptor("UTF8String", BER.TitanUTF8String_Ber_, null, JSON.TitanUTF8String_json_, null);
+	public static final TTCN_Typedescriptor TitanAsn_Roid_descr_ = new TTCN_Typedescriptor("RELATIVE-OID", BER.TitanASN_Roid_Ber_, null, JSON.TitanAsn_Roid_json_, null);
+	public static final TTCN_Typedescriptor TitanNumericString_descr_ = new TTCN_Typedescriptor("NumericString", BER.TitanNumericString_Ber_, null, JSON.TitanNumericString_json_, null);
+	public static final TTCN_Typedescriptor TitanPrintableString_descr_ = new TTCN_Typedescriptor("PrintableString", BER.TitanPrintableString_Ber_, null, JSON.TitanPrintableString_json_, null);
+	public static final TTCN_Typedescriptor TitanTeletexString_descr_ = new TTCN_Typedescriptor("TeletexString", BER.TitanTeletexString_Ber_, null, JSON.TitanTeletexString_json_, null);
 	public static final TTCN_Typedescriptor TitanT61String_descr_ = TitanTeletexString_descr_;
-	public static final TTCN_Typedescriptor TitanVideotexString_descr_ = new TTCN_Typedescriptor("VideotexString", null, JSON.TitanVideotexString_json_, null);
-	public static final TTCN_Typedescriptor TitanIA5String_descr_ = new TTCN_Typedescriptor("IA5String", null, JSON.TitanIA5String_json_, null);
-	public static final TTCN_Typedescriptor TitanASN_GeneralizedTime_descr_ = new TTCN_Typedescriptor("GeneralizedTime", null, null, null);
-	public static final TTCN_Typedescriptor TitanASN_UTCTime_descr_ = new TTCN_Typedescriptor("UTCTime", null, null, null);
-	public static final TTCN_Typedescriptor TitanGraphicString_descr_ = new TTCN_Typedescriptor("GraphicString", null, JSON.TitanGraphicString_json_, null);
-	public static final TTCN_Typedescriptor TitanVisibleString_descr_ = new TTCN_Typedescriptor("VisibleString", null, JSON.TitanVisibleString_json_, null);
+	public static final TTCN_Typedescriptor TitanVideotexString_descr_ = new TTCN_Typedescriptor("VideotexString", BER.TitanVideotexString_Ber_, null, JSON.TitanVideotexString_json_, null);
+	public static final TTCN_Typedescriptor TitanIA5String_descr_ = new TTCN_Typedescriptor("IA5String", BER.TitanIA5String_Ber_, null, JSON.TitanIA5String_json_, null);
+	public static final TTCN_Typedescriptor TitanASN_GeneralizedTime_descr_ = new TTCN_Typedescriptor("GeneralizedTime", BER.TitanGeneralizedTime_Ber_, null, null, null);
+	public static final TTCN_Typedescriptor TitanASN_UTCTime_descr_ = new TTCN_Typedescriptor("UTCTime", BER.TitanUTCTime_Ber_, null, null, null);
+	public static final TTCN_Typedescriptor TitanGraphicString_descr_ = new TTCN_Typedescriptor("GraphicString", BER.TitanGraphicString_Ber_, null, JSON.TitanGraphicString_json_, null);
+	public static final TTCN_Typedescriptor TitanVisibleString_descr_ = new TTCN_Typedescriptor("VisibleString", BER.TitanVisibleString_Ber_, null, JSON.TitanVisibleString_json_, null);
 	public static final TTCN_Typedescriptor TitanISO646String_descr_ = TitanVisibleString_descr_;
-	public static final TTCN_Typedescriptor TitanGeneralString_descr_ = new TTCN_Typedescriptor("GeneralString", null, JSON.TitanGeneralString_json_, null);
-	public static final TTCN_Typedescriptor TitanUniversalString_descr_ = new TTCN_Typedescriptor("UniversalString", null, JSON.TitanUniversalCharString_json_, null);
-	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, JSON.TitanBMPString_json_, null);
+	public static final TTCN_Typedescriptor TitanGeneralString_descr_ = new TTCN_Typedescriptor("GeneralString", BER.TitanGeneralString_Ber_, null, JSON.TitanGeneralString_json_, null);
+	public static final TTCN_Typedescriptor TitanUniversalString_descr_ = new TTCN_Typedescriptor("UniversalString", BER.TitanUniversalString_Ber_, null, JSON.TitanUniversalCharString_json_, null);
+	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", BER.TitanBMPString_Ber_, null, JSON.TitanBMPString_json_, null);
 
 	/**
 	 * Deletes the value, setting it to unbound.

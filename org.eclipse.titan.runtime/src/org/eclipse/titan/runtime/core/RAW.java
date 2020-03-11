@@ -605,7 +605,7 @@ public class RAW {
 				p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
 				p_td.raw.forceomit, p_td.raw.csn1lh);
 
-		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null, null);
+		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, null, my_raw, null, null);
 		final TitanInteger i = new TitanInteger(integer_value);
 		i.RAW_encode(my_descr, myleaf);
 		//  myleaf.align=0;//p_td.raw.endianness==raw_order_t.ORDER_MSB ? min_bits_enum-fl : fl-min_bits_enum;
@@ -620,7 +620,7 @@ public class RAW {
 				p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
 				p_td.raw.forceomit, p_td.raw.csn1lh);
 
-		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null, null);
+		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, null, my_raw, null, null);
 		final TitanInteger i = new TitanInteger();
 		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord, no_err, -1, true, null);
 		if(fl < 0) {

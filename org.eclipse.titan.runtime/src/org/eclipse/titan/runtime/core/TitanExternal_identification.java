@@ -32,9 +32,9 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  */
 public class TitanExternal_identification extends Base_Type {
 	public static final TTCN_JSONdescriptor TitanExternal_identification_context__negotiation_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation", null, TitanExternal_identification_context__negotiation_json_, null);
+	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation", null, null, TitanExternal_identification_context__negotiation_json_, null);
 	public static final TTCN_JSONdescriptor TitanExternal_identification_syntaxes_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
-	public static final TTCN_Typedescriptor TitanExternal_identification_syntaxes_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.syntaxes", null, TitanExternal_identification_syntaxes_json_, null);
+	public static final TTCN_Typedescriptor TitanExternal_identification_syntaxes_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.syntaxes", null, null, TitanExternal_identification_syntaxes_json_, null);
 
 	/**
 	 * Indicates the state/selection of this union kind.

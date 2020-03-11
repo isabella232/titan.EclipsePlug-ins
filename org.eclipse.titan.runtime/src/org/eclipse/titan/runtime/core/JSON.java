@@ -411,7 +411,7 @@ public class JSON {
 			raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB,
 			raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
 	// originally { null, null, cbor_float_raw_, null, null, null, null, TTCN_Typedescriptor.DONTCARE }
-	private static final TTCN_Typedescriptor cbor_float_descr_ = new TTCN_Typedescriptor( null,	cbor_float_raw_, null, null );
+	private static final TTCN_Typedescriptor cbor_float_descr_ = new TTCN_Typedescriptor( null, null, cbor_float_raw_, null, null );
 
 	public static void json2cbor_coding(final TTCN_Buffer buff, final JSON_Tokenizer tok, final AtomicInteger num_of_items) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>();
@@ -718,7 +718,7 @@ public class JSON {
 			raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB,
 			raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
 	// originally { null, null, bson_float_raw_, null, null, null, null, TTCN_Typedescriptor.DONTCARE }
-	private static final TTCN_Typedescriptor bson_float_descr_ = new TTCN_Typedescriptor( null, bson_float_raw_, null, null );
+	private static final TTCN_Typedescriptor bson_float_descr_ = new TTCN_Typedescriptor( null, null, bson_float_raw_, null, null );
 
 	// Never use buff.get_read_data() without checking if it has enough bytes in the
 	// buffer.

@@ -2644,6 +2644,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final StringBuilder globalVariable = new StringBuilder();
 		globalVariable.append(MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{1}\"", genname, getFullName()));
+		//FIXME ASN BER has very limited support for now
+		if (codingsSupported > 1) {
+			globalVariable.append(", null");
+		}
+
 		if (generate_raw) {
 			globalVariable.append(MessageFormat.format(", {0}", gennameRawDescriptor));
 		} else if (codingsSupported > 1) {
