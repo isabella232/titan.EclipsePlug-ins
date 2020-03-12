@@ -710,8 +710,13 @@ public final class ProjectSourceSyntacticAnalyzer {
 							}
 
 							try {
+								final long absoluteStart2 = System.nanoTime();
 								final TemporalParseData temp = fileBasedTTCN3Analysis(tempFile);
 								tempResults[index] = temp;
+								final long now = System.nanoTime();
+								if (reportDebugInformation) {
+									TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to syntactically check " + tempFile.getLocation());
+								}
 							} finally {
 								latch.countDown();
 								parseProgress.worked(1);
@@ -758,8 +763,13 @@ public final class ProjectSourceSyntacticAnalyzer {
 							}
 
 							try {
+								final long absoluteStart2 = System.nanoTime();
 								final TemporalParseData temp = fileBasedASN1Analysis(tempFile);
 								tempResults[index] = temp;
+								final long now = System.nanoTime();
+								if (reportDebugInformation) {
+									TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to syntactically check " + tempFile.getLocation());
+								}
 							} finally {
 								latch.countDown();
 								parseProgress.worked(1);
