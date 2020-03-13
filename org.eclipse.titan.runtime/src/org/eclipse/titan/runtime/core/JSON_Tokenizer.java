@@ -39,6 +39,9 @@ public class JSON_Tokenizer {
 	/** A dummy JSON tokenizer, use when there is no actual JSON document */
 	public static JSON_Tokenizer DUMMY_BUFFER = new JSON_Tokenizer();
 
+	/** maximum number of tabs for indentation in case of pretty printing */
+	private static final int MAX_TABS = 64;
+
 	/** The buffer that stores the JSON document
 	 * This is a buffer with exponential allocation (expstring), only uses expstring
 	 * memory operations from memory.h (ex.: mputstr, mputprintf) */
@@ -86,7 +89,10 @@ public class JSON_Tokenizer {
 	 * If the maximum depth is reached, the code is not indented further.
 	 * Used only if pretty printing is set. */
 	private void put_depth() {
-		put_s(TABS + ((depth > MAX_TABS) ? 0 : MAX_TABS - depth));
+		final int tabs = (depth > MAX_TABS) ? MAX_TABS : depth;
+		for (int i = 0; i < tabs; i++) {
+			put_c('\t');
+		}
 	}
 
 	/** Skips white spaces until a non-white-space character is found.
@@ -516,14 +522,6 @@ public class JSON_Tokenizer {
 		}
 		return first_digit || zero;
 	}
-
-	private static final String TABS =
-			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
-			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
-			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
-			"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
-
-	private static final int MAX_TABS = TABS.length(); // 64
 
 	private static StringBuilder convert_to_json_string(final String str) {
 		final StringBuilder ret_val = new StringBuilder("\"");
