@@ -318,11 +318,11 @@ testcase tc_CER_DER_encoding_of_SEQUENCE() runs on CT {
   if ((enc_DER_PDU44(myValue2) == '30030101FF'O)and(enc_CER_PDU44(myValue2) == '30800101FF0000'O)) {setverdict(pass);} else {setverdict(fail);}
   if ((enc_DER_PDU44(myValue3) == '30060101FF020105'O)and(enc_CER_PDU44(myValue3) == '30800101FF0201050000'O)) {setverdict(pass);} else {setverdict(fail);}
   if (dec_BER_PDU44('3000'O) == myValue1){setverdict(pass);} else {setverdict(fail);}
-//  if (dec_BER_PDU44('30800000'O) == myValue1){setverdict(pass);} else {setverdict(fail);} //fail
-//  if (dec_BER_PDU44('30030101FF'O) == myValue2){setverdict(pass);} else {setverdict(fail);} //error TODO: analyze this!
-//  if (dec_BER_PDU44('30800101FF0000'O) == myValue2){setverdict(pass);} else {setverdict(fail);}
-//  if (dec_BER_PDU44('30060101FF020105'O) == myValue3){setverdict(pass);} else {setverdict(fail);}
-//  if (dec_BER_PDU44('30800101FF0201050000'O) == myValue3){setverdict(pass);} else {setverdict(fail);}
+  if (dec_BER_PDU44('30800000'O) == myValue1){setverdict(pass);} else {setverdict(fail);} //fail
+  if (dec_BER_PDU44('30030101FF'O) == myValue2){setverdict(pass);} else {setverdict(fail);} //error TODO: analyze this!
+  if (dec_BER_PDU44('30800101FF0000'O) == myValue2){setverdict(pass);} else {setverdict(fail);}
+  if (dec_BER_PDU44('30060101FF020105'O) == myValue3){setverdict(pass);} else {setverdict(fail);}
+  if (dec_BER_PDU44('30800101FF0201050000'O) == myValue3){setverdict(pass);} else {setverdict(fail);}
 }
 
 //=========== Control Part ===================
