@@ -9,6 +9,8 @@ import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.ASN1.values.ASN1_Null_Value;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.*;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST.json_string_escaping;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST.json_type_indicator;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.PrintingType.PrintingTypeEnum;
 import org.eclipse.titan.designer.AST.TTCN3.types.*;
@@ -1017,7 +1019,7 @@ pr_xsddata:
 |	XSDQName
 |	SHORTKeyword
 |	LONGKeyword
-|	XSDstring
+|	STRINGKeyword
 |	XSDnormalizedString
 |	XSDtoken
 |	XSDName
@@ -1061,6 +1063,7 @@ pr_xsddata:
 
 
 // JSON encoding rules
+// JSON attributes, with 'JSON:' prefix (legacy attributes and type indicators)
 pr_XJsonDef: JSONKeyword COLON pr_XJsonAttribute;
 
 pr_XJsonAttribute:
@@ -1071,6 +1074,7 @@ pr_XJsonAttribute:
 |	pr_XExtend
 |	pr_XMetainfoForUnbound
 |	pr_XAsNumber
+|	pr_XTypeIndicator
 );
 
 pr_XOmitAsNull: 
@@ -1091,6 +1095,7 @@ pr_JsonAlias returns [String value]:
 |	FORKeyword 		{$value = "for";}
 |	UNBOUNDKeyword 	{$value = "unbound";}
 |	NUMBERKeyword 	{$value = "number";}
+|	STRINGKeyword 	{$value = "string";}
 );
 
 pr_XAsValue: ASKeyword VALUEKeyword { jsonstruct.as_value = true; };
@@ -1132,6 +1137,16 @@ pr_XMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword
 
 pr_XAsNumber: ASKeyword NUMBERKeyword  {jsonstruct.as_number = true;};
 
+pr_XTypeIndicator:
+  NUMBERKeyword   { jsonstruct.type_indicator = json_type_indicator.JSON_NUMBER; }
+| XKWinteger      { jsonstruct.type_indicator = json_type_indicator.JSON_INTEGER; }
+| STRINGKeyword   { jsonstruct.type_indicator = json_type_indicator.JSON_STRING; }
+| XKWarray        { jsonstruct.type_indicator = json_type_indicator.JSON_ARRAY; }
+| XKWobject       { jsonstruct.type_indicator = json_type_indicator.JSON_OBJECT; }
+| XKWobjectMember { jsonstruct.type_indicator = json_type_indicator.JSON_OBJECT_MEMBER; }
+| XKWliteral      { jsonstruct.type_indicator = json_type_indicator.JSON_LITERAL; }
+;
+
 pr_JSONAttributes: pr_JSONAttribute { json_f = true; };
 
 pr_JSONAttribute:
@@ -1143,11 +1158,12 @@ pr_JSONAttribute:
 |	pr_JAsNumber
 |	pr_JChosen
 |	pr_JAsMap
+|	pr_JEscapeAs
 );
 
 pr_JOmitAsNull: OMIT ASKeyword Null {jsonstruct.omit_as_null = true;  };
 
-pr_JAsValue: ASKeyword VALUEKeyword {jsonstruct.as_value = true; };
+pr_JAsValue: ASVALUEKeyword {jsonstruct.as_value = true; };
 
 pr_JDefault: DEFAULTKeyword value = pr_JsonValue { jsonstruct.default_value = $value.v; };
 
@@ -1168,3 +1184,9 @@ pr_JChosen:
 ;
 
 pr_JAsMap: ASKeyword JSONMAPKeyword { jsonstruct.as_map = true; };
+
+pr_JEscapeAs:
+ 	XKWescape ASKeyword SHORTKeyword   { jsonstruct.string_escaping = json_string_escaping.ESCAPE_AS_SHORT; }
+|	XKWescape ASKeyword XKWusi         { jsonstruct.string_escaping = json_string_escaping.ESCAPE_AS_USI; }
+|	XKWescape ASKeyword XKWtransparent { jsonstruct.string_escaping = json_string_escaping.ESCAPE_AS_TRANSPARENT; }
+;

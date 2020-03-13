@@ -169,7 +169,7 @@ COLLAPSEKeyword: 'collapse';
 REPLACEKeyword: 'replace';
 
 /* XSD:something */
-XSDstring: 'string';
+STRINGKeyword: 'string';
 XSDnormalizedString: 'normalizedString';
 XSDtoken: 'token';
 XSDName: 'Name';
@@ -226,6 +226,14 @@ UNBOUNDKeyword: 'unbound';
 CHOSENKeyword: 'chosen';
 JSONOTHERWISEKeyword: 'otherwise';
 JSONMAPKeyword: 'map';
+XKWinteger:      'integer';
+XKWarray:        'array';
+XKWobject:       'object';
+XKWobjectMember: 'objectMember';
+XKWliteral:      'literal';
+XKWescape:       'escape';
+XKWusi:          'usi';
+XKWtransparent:  'transparent';
 
 /* BER encoder keywords (not entering) */
 LENGTHKeyword: 'length';
@@ -405,6 +413,15 @@ FORKeyword2: 'for' -> type(FORKeyword);
 UNBOUNDKeyword2: 'unbound' -> type(UNBOUNDKeyword);
 NUMBERKeyword2: 'number' -> type(NUMBERKeyword);
 JSONValueStart: '(' -> mode(JsonValue_MODE);
+XKWinteger2:      'integer' -> type(XKWinteger);
+STRINGKeyword2:   'string' -> type(STRINGKeyword);
+XKWarray2:        'array' -> type(XKWarray);
+XKWobject2:       'object' -> type(XKWobject);
+XKWobjectMember2: 'objectMember' -> type(XKWobjectMember);
+XKWliteral2:      'literal' -> type(XKWliteral);
+XKWescape2:       'escape' -> type(XKWescape);
+XKWusi2:          'usi' -> type(XKWusi);
+XKWtransparent2:  'transparent' -> type(XKWtransparent);
 
 AliasToken:
 ( ('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*

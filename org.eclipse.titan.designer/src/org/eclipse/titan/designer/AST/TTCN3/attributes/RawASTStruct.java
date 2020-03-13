@@ -62,7 +62,7 @@ public class RawASTStruct {
 
 	public static class rawAST_coding_field_list {
 		public ArrayList<rawAST_coding_fields> fields;
-		//public String value;
+		public String value;
 		public ExpressionStruct expression;
 		public ExpressionStruct nativeExpression;
 		public boolean isOmitValue;

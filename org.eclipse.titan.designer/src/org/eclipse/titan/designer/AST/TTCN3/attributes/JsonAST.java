@@ -37,7 +37,6 @@ public class JsonAST {
 		}
 	}
 
-
 	public static class JsonEnumText{
 		public String from;
 		public String to;
@@ -46,6 +45,24 @@ public class JsonAST {
 			from = p_from;
 			to = p_to;
 		}
+	}
+
+	public enum json_type_indicator {
+		JSON_NO_TYPE,
+		JSON_NUMBER,
+		JSON_INTEGER,
+		JSON_STRING,
+		JSON_ARRAY,
+		JSON_OBJECT,
+		JSON_OBJECT_MEMBER,
+		JSON_LITERAL
+	}
+
+	public enum json_string_escaping {
+		ESCAPING_UNSET, // no escaping attribute was set (equivalent with ESCAPE_AS_SHORT at runtime)
+		ESCAPE_AS_SHORT, // attribute "escape as short" was set explicitly
+		ESCAPE_AS_USI,
+		ESCAPE_AS_TRANSPARENT
 	}
 
 	/**
@@ -118,9 +135,13 @@ public class JsonAST {
 	 */
 	public boolean as_map;
 
+	public boolean use_null;
+
 	/** List of enumerated values whose texts are changed. */
 	public List<JsonEnumText> enum_texts;
 
+	public json_type_indicator type_indicator;
+	public json_string_escaping string_escaping;
 
 	public JsonAST() {
 		init_JsonAST();
@@ -138,6 +159,9 @@ public class JsonAST {
 			as_map = value.as_map;
 			enum_texts = new ArrayList<JsonEnumText>(value.enum_texts);
 			schema_extensions = new ArrayList<JsonSchemaExtension>(value.schema_extensions);
+			use_null = value.use_null;
+			type_indicator = value.type_indicator;
+			string_escaping = value.string_escaping;
 		} else {
 			init_JsonAST();
 		}
@@ -154,13 +178,141 @@ public class JsonAST {
 		as_map = false;
 		enum_texts = new ArrayList<JsonEnumText>();
 		schema_extensions = new ArrayList<JsonSchemaExtension>();
+		use_null = false;
+		type_indicator = json_type_indicator.JSON_NO_TYPE;
+		string_escaping = json_string_escaping.ESCAPING_UNSET;
 	}
 
 	public boolean empty() {
 		return omit_as_null == false && alias == null && as_value == false &&
 				default_value == null && metainfo_unbound == false && as_number == false &&
-				tag_list == null && as_map == false && enum_texts.size() == 0;
+				tag_list == null && as_map == false && enum_texts.size() == 0 &&
+				use_null == false && type_indicator != json_type_indicator.JSON_OBJECT &&
+				type_indicator != json_type_indicator.JSON_OBJECT_MEMBER && type_indicator != json_type_indicator.JSON_LITERAL &&
+				(string_escaping == json_string_escaping.ESCAPING_UNSET || string_escaping == json_string_escaping.ESCAPE_AS_SHORT);
 
+	}
+
+	public String get_type_str() {
+		switch (type_indicator) {
+		case JSON_NO_TYPE:
+			return "<none>";
+		case JSON_NUMBER:
+			return "JSON:number";
+		case JSON_INTEGER:
+			return "JSON:integer";
+		case JSON_STRING:
+			return "JSON:string";
+		case JSON_ARRAY:
+			return "JSON:array";
+		case JSON_OBJECT:
+			return "JSON:object";
+		case JSON_OBJECT_MEMBER:
+			return "JSON:objectMember";
+		case JSON_LITERAL:
+			return "JSON:literal";
+		default:
+			//TODO
+			//FATAL_ERROR("JsonAST.get_type_str");
+			return null;
+		}
+	}
+
+	public String get_escaping_str() {
+		switch (string_escaping) {
+		case ESCAPE_AS_SHORT:
+			return "escape as short";
+		case ESCAPE_AS_USI:
+			return "escape as usi";
+		case ESCAPE_AS_TRANSPARENT:
+			return "escape as transparent";
+		default:
+			//TODO
+			//FATAL_ERROR("JsonAST.get_escaping_str");
+			return null;
+		}
+	}
+
+	public String get_escaping_gen_str() {
+		switch (string_escaping) {
+		case ESCAPING_UNSET:
+		case ESCAPE_AS_SHORT:
+			return "ESCAPE_AS_SHORT";
+		case ESCAPE_AS_USI:
+			return "ESCAPE_AS_USI";
+		case ESCAPE_AS_TRANSPARENT:
+			return "ESCAPE_AS_TRANSPARENT";
+		default:
+			//TODO
+			//FATAL_ERROR("JsonAST.get_escaping_gen_str");
+			return null;
+		}
+	}
+
+	public void print_JsonAST() {
+		System.out.printf("\n\rOmit encoding: ");
+		if (omit_as_null) {
+			System.out.printf("as null value\n\r");
+		} else {
+			System.out.printf("skip field\n\r");
+		}
+		if (alias != null) {
+			System.out.printf("Name as %s\n\r", alias);
+		}
+		if (as_value) {
+			System.out.printf("Encoding unions as JSON value\n\r");
+		}
+		if (default_value != null) {
+			System.out.printf("Default value: %s\n\r", default_value);
+		}
+		if (as_number) {
+			System.out.printf("Encoding enumerated values as numbers\n\r");
+		}
+		if (0 != schema_extensions.size()) {
+			System.out.printf("Extensions:");
+			for (int i = 0; i < schema_extensions.size(); ++i) {
+				System.out.printf(" \"%s\" : \"%s\"", schema_extensions.get(i).key, schema_extensions.get(i).value);
+			}
+		}
+		if (metainfo_unbound) {
+			System.out.printf("Metainfo for unbound field(s)\n\r");
+		}
+		if (tag_list != null) {
+			System.out.printf("Chosen union fields:\n\r");
+			System.out.printf("  Number of rules: %d\n\r", tag_list.size());
+			for (int i = 0; i < tag_list.size(); ++i) {
+				System.out.printf("  Rule #%d:\n\r", i);
+				System.out.printf("    Chosen field: %s\n\r", tag_list.get(i).fieldname != null ?
+						tag_list.get(i).fieldname : "omit");
+				System.out.printf("    Number of conditions: %d\n\r", tag_list.get(i).fields.size());
+				for (int j = 0; j < tag_list.get(i).fields.size(); ++j) {
+					System.out.printf("    Condition #%d:\n\r", j);
+					System.out.printf("      Value: %s\n\r", tag_list.get(i).fields.get(j).value);
+					System.out.printf("      Field: ");
+					for (int k = 0; k < tag_list.get(i).fields.get(j).fields.size(); ++k) {
+						if (k != 0) {
+							System.out.printf(".");
+						}
+						System.out.printf("%s", tag_list.get(i).fields.get(j).fields.get(k).nthfieldname);
+					}
+					System.out.printf("\n\r");
+				}
+			}
+			System.out.printf("Type: %s\n\r", get_type_str());
+			if (string_escaping != json_string_escaping.ESCAPING_UNSET) {
+				System.out.printf("%s\n\r", get_escaping_str());
+			}
+		}
+		if (as_map) {
+			System.out.printf("Encoding elements into a map of key-value pairs.\n\r");
+		}
+		if (0 != enum_texts.size()) {
+			System.out.printf("Enum texts:");
+			for (int i = 0; i < enum_texts.size(); ++i) {
+				System.out.printf(" '%s' -> '%s'", enum_texts.get(i).from, enum_texts.get(i).to);
+			}
+			System.out.printf("\n\r");
+		}
 	}
 }
 
