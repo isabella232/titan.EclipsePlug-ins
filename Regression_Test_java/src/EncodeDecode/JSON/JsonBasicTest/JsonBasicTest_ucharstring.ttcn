@@ -119,6 +119,7 @@ testcase tc_JSON_ustr_local3() runs on CT {
 //'\f', '\b', '\"', '\\' and '\/'), and uses USI-like escape sequences (i.e. '\u' followed by 4 hex digits
 //containing the character’s ASCII code) for all other characters between char(U0) and char(U1F),
 //and for char(U7F)."
+
 //Encoding data record
 type record E {
   universal charstring u, //data to be encoded
@@ -139,10 +140,22 @@ testcase tc_JSON_ustr_local_char() runs on CT {
     [5]:= { u := char(0,0,0,9), o:= '225C7422'O }, //("\"\\t\""), horizontal tab \t
     [6]:= { u := char(0,0,0,10), o:= '225C6E22'O }, //("\"\\n\"") line feed \n
     [7]:= { u := char(0,0,0,11), o:= '225C753030304222'O}, //("\"\\u000B\"")" vertical tab \v -Not applied
-    [8]:= { u := char(0,0,0,31), o:= '225C753030314622'O}, // //("\"\\u001F\""), unit separator
-    //from this point, UTF-8 applied:
-    [9]:= { u := char(0,0,0,32), o:= '222022'O}, //'222022'O space, got: '222022'O
-    [10]:= { u := char(0,0,0,126), o:= '227E22'O } //
+    [8]:= { u := char(0,0,0,12), o:= '225C6622'O}, //form feed, \f
+    [9]:= { u := char(0,0,0,13), o:= '225C7222'O}, //carriage return,\r
+    [10]:= { u := char(0,0,0,31), o:= '225C753030314622'O}, // //("\"\\u001F\""), unit separator
+
+    //from this point, UTF-8 applied, perhaps with escape
+    [11]:= { u := char(0,0,0,32), o:= '222022'O}, //'222022'O space, got: '222022'O
+    [12]:= { u := char(0,0,0,34), o:= '225C2222'O }, // ("\"\\\"\"")  quotation mark, escaped
+    [13]:= { u := char(0,0,0,47), o:= '225C2F22'O },// ("\"\\/\"") slash
+    [14]:= { u := char(0,0,0,92), o:= '225C5C22'O }, //("\"\\\\\"") back slash
+    [15]:= { u := char(0,0,0,125), o:= '227D22'O }, // }
+    [16]:= { u := char(0,0,0,126), o:= '227E22'O }, // ~
+    [17]:= { u := char(0,0,0,127), o:= '225C753030374622'O  }, //[DEL], ("\"\\u007F\"")
+
+    //one byte is not enough:
+    [18]:= { u := char(0,0,0,128), o:= '22C28022'O } //First case upper 7bit
+
   }
   const integer N := sizeof(cl_data);
   for(var integer i:= 0; i<N;i:=i+1 ) {
