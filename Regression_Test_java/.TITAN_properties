@@ -33,12 +33,6 @@
       </FileProperties>
     </FileResource>
     <FileResource>
-      <FilePath>src/EncodeDecode/BER/BerBasicTest/BerBasicTest.ttcn</FilePath>
-      <FileProperties>
-        <ExcludeFromBuild>true</ExcludeFromBuild>
-      </FileProperties>
-    </FileResource>
-    <FileResource>
       <FilePath>src/TverdictOper.ttcn</FilePath>
       <FileProperties>
         <ExcludeFromBuild>true</ExcludeFromBuild>
