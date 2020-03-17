@@ -129,7 +129,8 @@ type record E {
 // record of input-output data for encoding
 type record of E RoE;
 
-testcase tc_JSON_ustr_local_char() runs on CT {
+//
+testcase tc_JSON_ustr_local_char1() runs on CT {
   //local const:
   const RoE cl_data := {
     [0]:= { u := char(0,0,0,0), o:= '225C753030303022'O}, // ("\"\\u0000\"")
@@ -151,10 +152,7 @@ testcase tc_JSON_ustr_local_char() runs on CT {
     [14]:= { u := char(0,0,0,92), o:= '225C5C22'O }, //("\"\\\\\"") back slash
     [15]:= { u := char(0,0,0,125), o:= '227D22'O }, // }
     [16]:= { u := char(0,0,0,126), o:= '227E22'O }, // ~
-    [17]:= { u := char(0,0,0,127), o:= '225C753030374622'O  }, //[DEL], ("\"\\u007F\"")
-
-    //one byte is not enough:
-    [18]:= { u := char(0,0,0,128), o:= '22C28022'O } //First case upper 7bit
+    [17]:= { u := char(0,0,0,127), o:= '225C753030374622'O } //[DEL], ("\"\\u007F\"")
 
   }
   const integer N := sizeof(cl_data);
@@ -180,6 +178,55 @@ testcase tc_JSON_ustr_local_char() runs on CT {
   }
   setverdict(pass);
 }
+
+testcase tc_JSON_ustr_local_char2() runs on CT {
+  //local const:
+  const RoE cl_data := {
+    //one byte is not enough:
+    //2 bytes utf8 length:
+    [0]:= { u := char(0,0,0,128), o:= '22C28022'O }, //First case upper 7bit
+    [1]:= { u := char(0,0,0,193), o:= '22C38122'O }, //Á, 00C1, utf8:C381
+    [2]:= { u := char(0,0,0,201), o:= '22C38922'O }, //É, 00C9, utf8:C389
+    [3]:= { u := char(0,0,0,205), o:= '22C38D22'O }, //Í, 00CD, utf8:C38D
+    [4]:= { u := char(0,0,0,211), o:= '22C39322'O }, //Ó, 00D3, utf8:C393
+    [5]:= { u := char(0,0,0,214), o:= '22C39622'O }, //Ö, 00D6, utf8:C396
+    [6]:= { u := char(0,0,0,255), o:= '22C3BF22'O }, //Latin Small Letter Y with Diaeresis "ÿ" //07ff
+	[7]:= { u := char(0,0,1,0),   o:= '22C48022'O }, //Latin Capital Letter a with Macron, 256dec=0100 utf8:C480
+	[8]:= { u := char(0,0,7,255), o:= '22DFBF22'O },  //2047dec=07FF, utf8:DFBF  (last 2bytes utf8)
+	
+	[9]:= { u := char(0,0,8,0),   o:= '22E0A08022'O }, //Samaritan Letter Alaf, 0800
+	[10]:= { u := char(0,0,255,255), o:= '22EFBFBF22'O }, //very last 3 bytes code
+	
+	//utf8 length: 4 bytes
+	[11]:= { u := char(0,1,0,0), o:= '22F090808022'O } //first 4 bytes utf8
+	
+  }
+  const integer N := sizeof(cl_data);
+  for(var integer i:= 0; i<N;i:=i+1 ) {
+    var octetstring v_enc := f_enc_ustr(cl_data[i].u);
+    log(i,": Expected: ", cl_data[i].o, " unichar: ", oct2unichar(cl_data[i].o))
+    if (v_enc != cl_data[i].o) {
+      setverdict(fail, "Encoding failed. Expected: ", cl_data[i].o, ", got: ", v_enc);
+    }
+    //var:
+    var universal charstring v_ustr := cl_data[i].u;
+    var octetstring v_enc1 := f_enc_ustr(v_ustr);
+    log("Expected: ", cl_data[i].o, " unichar: ", oct2unichar(cl_data[i].o))
+    if (v_enc1 != cl_data[i].o) {
+      setverdict(fail, "Encoding failed. Expected: ", cl_data[i].o, ", got: ", v_enc1);
+    }
+
+    //decode
+    var universal charstring v_dec := f_dec_ustr(v_enc1);
+    if (v_dec != cl_data[i].u) {
+      setverdict(fail, "Decoding failed. Expected: ", cl_data[i].u, ", got: ", v_dec);
+    }
+  }
+  setverdict(pass);
+}
+
+//TODO: Check Higher plane codepoints !
+
 //================================
 //global constant:
 testcase tc_JSON_ustr_gc() runs on CT {
@@ -263,12 +310,12 @@ testcase tc_JSON_ustr_in_rec2() runs on CT {
   setverdict(pass);
 }
 
-//TODO: Check Higher plane codepoints !
 
 control {
   execute(tc_JSON_ustr_local1());
   execute(tc_JSON_ustr_local2());
-  execute(tc_JSON_ustr_local_char());
+  execute(tc_JSON_ustr_local_char1());
+  execute(tc_JSON_ustr_local_char2());
   execute(tc_JSON_ustr_gc());
   execute(tc_JSON_ustr_lc());
 //  execute(tc_JSON_ustr_in_rec1());
