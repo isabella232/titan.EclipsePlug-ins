@@ -85,9 +85,13 @@ public class JSON_Tokenizer {
 		buf_ptr.append(s);
 	}
 
-	/** Indents a new line in JSON code depending on the current depth.
+	/**
+	 * Indents a new line in JSON code depending on the current depth.
 	 * If the maximum depth is reached, the code is not indented further.
-	 * Used only if pretty printing is set. */
+	 * Used only if pretty printing is set.
+	 *
+	 * TODO check performance against a version where the tabs are copied from a buffer in 1 step.
+	 * */
 	private void put_depth() {
 		final int tabs = (depth > MAX_TABS) ? MAX_TABS : depth;
 		for (int i = 0; i < tabs; i++) {
