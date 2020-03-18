@@ -61,18 +61,18 @@ testcase tc_JSON_ustr_local1() runs on CT {
   setverdict(pass);
 }
 
-//local constant, var:
-testcase tc_JSON_ustr_local2() runs on CT {
+//TODO: Perhaps this is not the correct behavior, too big input!
+testcase tc_JSON_ustr_too_big_char() runs on CT {
   //local const:
-  const universal charstring cl_ustr := char(0,0,0,127);
-  const octetstring cl_enc_ustr := '225C753030374622'O // ("\"\\u007F\"")"
-  var octetstring v_enc := f_enc_ustr(cl_ustr);
+  const universal charstring cl_ustr := char(1,0,0,0); // max:1FFFFF - illegal input for Json encoder !!!
+  const octetstring cl_enc_ustr := '22F98080808022'O //got:'22F98080808022'O , code point: 01 00 00 00 
+  var octetstring v_enc := f_enc_ustr(cl_ustr); // max:1FFFFF - illegal input for Json encoder !!!
   log("Expected: ", cl_enc_ustr, " unichar: ", oct2unichar(v_enc))
   if (v_enc != cl_enc_ustr) {
     setverdict(fail, "Encoding failed. Expected: ", cl_enc_ustr, ", got: ", v_enc);
   }
   //var:
-  var universal charstring v_ustr := char(0,0,0,127);
+  var universal charstring v_ustr := char(1,0,0,0);
   var octetstring v_enc1 := f_enc_ustr(v_ustr);
   log("Expected: ", cl_enc_ustr, " unichar: ", oct2unichar(v_enc1))
   if (v_enc1 != cl_enc_ustr) {
@@ -227,6 +227,45 @@ testcase tc_JSON_ustr_local_char2() runs on CT {
 
 //TODO: Check Higher plane codepoints !
 
+testcase tc_JSON_ustr_local_char3() runs on CT {
+  //max number encodable in UTF-8 is '00011111 11111111 11111111'B='1F FF FF'O=char(0,31,255,255)
+  //https://hu.wikipedia.org/wiki/UTF-8
+  //local const:
+  const RoE cl_data := {
+	//utf8 length: 4 bytes
+	[0]:= { u := char(0,1,0,0), o:= '22F090808022'O }, //first 4 bytes utf8
+	[1]:= { u := char(0,1,1,1), o:= '22F090848122'O }, // Aegean Word Separator Dot, U+10101, utf8: F0908481
+	[2]:= { u := char(0,1,1,127), o:= '22F09085BF22'O }, //Greek Four Obols Sign, U+1017F, utf-8:
+	[3]:= { u := char(0,1,1,255), o:= '22F09087BF22'O }, //Phaistos Disc. last char U+101FF, utf-8:F0 90 87 BF
+	[4]:= { u := char(0,1,1,255), o:= '22F09087BF22'O },
+	[5]:= { u := char(0,15,1,239), o:= '22F3B087AF22'O }, //last defined unicode point, U+F01EF  utf-8:F3B087AF ok, manually tested
+	[6]:= { u := char(0,31,255,255), o:= '22F7BFBFBF22'O} //'1F FF FF'O very last code point permitted in UTF-8, manually checked
+  }
+  const integer N := sizeof(cl_data);
+  for(var integer i:= 0; i<N;i:=i+1 ) {
+    log("==== i=",i,"========================================================");
+    var octetstring v_enc := f_enc_ustr(cl_data[i].u);
+    log(i,": Expected: ", cl_data[i].o, " unichar: ", oct2unichar(cl_data[i].o))
+    if (v_enc != cl_data[i].o) {
+      setverdict(fail, "Encoding failed. Expected: ", cl_data[i].o, ", got: ", v_enc);
+    }
+    //var:
+    var universal charstring v_ustr := cl_data[i].u;
+    var octetstring v_enc1 := f_enc_ustr(v_ustr);
+    log("Expected: ", cl_data[i].o, " unichar: ", oct2unichar(cl_data[i].o))
+    if (v_enc1 != cl_data[i].o) {
+      setverdict(fail, "Encoding failed. Expected: ", cl_data[i].o, ", got: ", v_enc1);
+    }
+
+    //decode
+    var universal charstring v_dec := f_dec_ustr(v_enc1);
+    if (v_dec != cl_data[i].u) {
+      setverdict(fail, "Decoding failed. Expected: ", cl_data[i].u, ", got: ", v_dec);
+    }
+  }
+  setverdict(pass);
+}
+
 //================================
 //global constant:
 testcase tc_JSON_ustr_gc() runs on CT {
@@ -313,9 +352,10 @@ testcase tc_JSON_ustr_in_rec2() runs on CT {
 
 control {
   execute(tc_JSON_ustr_local1());
-  execute(tc_JSON_ustr_local2());
+  execute(tc_JSON_ustr_too_big_char());
   execute(tc_JSON_ustr_local_char1());
   execute(tc_JSON_ustr_local_char2());
+  execute(tc_JSON_ustr_local_char3());
   execute(tc_JSON_ustr_gc());
   execute(tc_JSON_ustr_lc());
 //  execute(tc_JSON_ustr_in_rec1());
