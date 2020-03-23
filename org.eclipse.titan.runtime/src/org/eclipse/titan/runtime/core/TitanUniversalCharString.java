@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
@@ -31,6 +32,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
+import org.eclipse.titan.runtime.core.cfgparser.StandardCharsets;
 
 /**
  * TTCN-3 Universal_charstring
@@ -2453,11 +2455,11 @@ public class TitanUniversalCharString extends Base_Type {
 
 		final String tmp_str;
 		if (charstring) {
-			tmp_str = TitanCharString.to_JSON_string(cstr);
+			tmp_str = TitanCharString.to_JSON_string(cstr, p_td.json.escaping);
 		} else {
 			final TTCN_Buffer tmp_buf = new TTCN_Buffer();
 			encode_utf8(tmp_buf);
-			tmp_str = to_JSON_string(tmp_buf);
+			tmp_str = to_JSON_string(tmp_buf, p_td.json.escaping);
 		}
 
 		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
@@ -2508,46 +2510,72 @@ public class TitanUniversalCharString extends Base_Type {
 		return dec_len;
 	}
 
-	private static String to_JSON_string(final TTCN_Buffer p_buf) {
+	private static String to_JSON_string(final TTCN_Buffer p_buf, json_string_escaping mode) {
 		final byte[] ustr = p_buf.get_data();
-		final int ustr_len = p_buf.get_len();
 
 		// Need at least 3 more characters (the double quotes around the string and the terminating zero)
 		final StringBuilder json_str = new StringBuilder();
 
-		json_str.append('\"');
+		json_str.append('"');
 
-		for (int i = 0; i < ustr_len; ++i) {
-			// Increase the size of the buffer if it's not big enough to store the
-			// characters remaining in the universal charstring
-			switch(ustr[i]) {
-			case '\\':
-				json_str.append("\\\\");
-				break;
-			case '\n':
-				json_str.append("\\n");
-				break;
-			case '\t':
-				json_str.append("\\t");
-				break;
-			case '\r':
-				json_str.append("\\r");
-				break;
-			case '\f':
-				json_str.append("\\f");
-				break;
-			case '\b':
-				json_str.append("\\b");
-				break;
-			case '\"':
-				json_str.append("\\\"");
-				break;
-			default:
-				json_str.append( (char)ustr[i] );
-				break;
+		final String str = new String(ustr, StandardCharsets.UTF8);
+		for (int i = 0; i < str.length(); ) {
+			final int codePoint = str.codePointAt(i);
+			final char c = (char)codePoint;
+			if (mode != json_string_escaping.ESCAPE_AS_USI) {
+				switch(c) {
+				case '\n':
+					json_str.append("\\n");
+					break;
+				case '\t':
+					json_str.append("\\t");
+					break;
+				case '\r':
+					json_str.append("\\r");
+					break;
+				case '\f':
+					json_str.append("\\f");
+					break;
+				case '\b':
+					json_str.append("\\b");
+					break;
+				case '\"':
+					json_str.append("\\\"");
+					break;
+				case '\\':
+					if (mode == json_string_escaping.ESCAPE_AS_SHORT) {
+						json_str.append("\\\\");
+						break;
+					}
+					// fall through (to the default branch) if ESCAPE_AS_TRANSPARENT
+				case '/':
+					if (mode == json_string_escaping.ESCAPE_AS_SHORT) {
+						json_str.append("\\/");
+						break;
+					}
+					// fall through if ESCAPE_AS_TRANSPARENT
+				default:
+					if ((c >= 0 && c <= 0x1F) || c == 0x7F) {
+						// C0 control characters use USI-like escape sequences
+						json_str.append("\\u00");
+						json_str.append(Integer.toHexString(c / 16));
+						json_str.append(Integer.toHexString(c % 16));
+					} else {
+						json_str.appendCodePoint(codePoint);
+					}
+					break;
+				}
+			} else { // ESCAPE_AS_USI
+				if (c <= 0x20 || c == '\"' || c == '\\' || c == 0x7F) {
+					json_str.append("\\u00");
+					json_str.append(Integer.toHexString(c / 16));
+					json_str.append(Integer.toHexString(c % 16));
+				} else {
+					json_str.appendCodePoint(codePoint);
+				}
 			}
+			i += Character.charCount(codePoint);
 		}
-
 		json_str.append('\"');
 		return json_str.toString();
 	}

@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
@@ -1224,7 +1225,7 @@ public class TitanCharString extends Base_Type {
 			return -1;
 		}
 
-		final String tmp_str = to_JSON_string(val_ptr);
+		final String tmp_str = to_JSON_string(val_ptr, p_td.json.escaping);
 		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
 		return enc_len;
 	}
@@ -1264,41 +1265,65 @@ public class TitanCharString extends Base_Type {
 		return dec_len;
 	}
 
-	static String to_JSON_string( final StringBuilder cstr ) {
+	static String to_JSON_string( final StringBuilder cstr, json_string_escaping mode ) {
 		// Need at least 3 more characters (the double quotes around the string and the terminating zero)
 		final StringBuilder json_str = new StringBuilder();
 
 		json_str.append('\"');
 
 		for (int i = 0; i < cstr.length(); ++i) {
-			// Increase the size of the buffer if it's not big enough to store the
-			// characters remaining in the charstring plus 1 (for safety, in case this
-			// character needs to be double-escaped).
-			switch(cstr.charAt(i)) {
-			case '\\':
-				json_str.append("\\\\");
-				break;
-			case '\n':
-				json_str.append("\\n");
-				break;
-			case '\t':
-				json_str.append("\\t");
-				break;
-			case '\r':
-				json_str.append("\\r");
-				break;
-			case '\f':
-				json_str.append("\\f");
-				break;
-			case '\b':
-				json_str.append("\\b");
-				break;
-			case '\"':
-				json_str.append("\\\"");
-				break;
-			default:
-				json_str.append(cstr.charAt(i));
-				break;
+			final char c = cstr.charAt(i);
+			if (mode != json_string_escaping.ESCAPE_AS_USI) {
+				switch(c) {
+				case '\n':
+					json_str.append("\\n");
+					break;
+				case '\t':
+					json_str.append("\\t");
+					break;
+				case '\r':
+					json_str.append("\\r");
+					break;
+				case '\f':
+					json_str.append("\\f");
+					break;
+				case '\b':
+					json_str.append("\\b");
+					break;
+				case '\"':
+					json_str.append("\\\"");
+					break;
+				case '\\':
+					if (mode == json_string_escaping.ESCAPE_AS_SHORT) {
+						json_str.append("\\\\");
+						break;
+					}
+					// fall through (to the default branch) if ESCAPE_AS_TRANSPARENT
+				case '/':
+					if (mode == json_string_escaping.ESCAPE_AS_SHORT) {
+						json_str.append("\\/");
+						break;
+					}
+					// fall through if ESCAPE_AS_TRANSPARENT
+				default:
+					if ((c >= 0 && c <= 0x1F) || c == 0x7F) {
+						// C0 control characters use USI-like escape sequences
+						json_str.append("\\u00");
+						json_str.append(Integer.toHexString(c / 16));
+						json_str.append(Integer.toHexString(c % 16));
+					} else {
+						json_str.append(cstr.charAt(i));
+					}
+					break;
+				}
+			} else { // ESCAPE_AS_USI
+				if (c <= 0x20 || c == '\"' || c == '\\' || c == 0x7F) {
+					json_str.append("\\u00");
+					json_str.append(Integer.toHexString(c / 16));
+					json_str.append(Integer.toHexString(c % 16));
+				} else {
+					json_str.append(cstr.charAt(i));
+				}
 			}
 		}
 
@@ -1307,7 +1332,6 @@ public class TitanCharString extends Base_Type {
 	}
 
 	/**
-	 *
 	 * @param p_value (in) JSON string
 	 * @param check_quotes (in) true if quotes are expected as the first and last character
 	 * @param str (out) result
@@ -1368,7 +1392,7 @@ public class TitanCharString extends Base_Type {
 						final byte upper_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 4));
 						final byte lower_nibble = AdditionalFunctions.char_to_hexdigit(p_value.charAt(i + 5));
 						if (0x07 >= upper_nibble && 0x0F >= lower_nibble) {
-							str.append( (upper_nibble << 4) | lower_nibble );
+							str.append( (char)((upper_nibble << 4) | lower_nibble) );
 							// skip 4 extra characters (the 4 hex digits)
 							i += 4;
 						} else {

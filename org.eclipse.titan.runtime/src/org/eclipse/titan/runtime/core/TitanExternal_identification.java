@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
@@ -31,9 +32,9 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanExternal_identification extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanExternal_identification_context__negotiation_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanExternal_identification_context__negotiation_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation", null, null, TitanExternal_identification_context__negotiation_json_, null);
-	public static final TTCN_JSONdescriptor TitanExternal_identification_syntaxes_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanExternal_identification_syntaxes_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanExternal_identification_syntaxes_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.syntaxes", null, null, TitanExternal_identification_syntaxes_json_, null);
 
 	/**
