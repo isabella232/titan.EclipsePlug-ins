@@ -202,6 +202,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"List_", "List", "List"},
 		{"AtomicBoolean_", "AtomicBoolean", "AtomicBoolean"},
 		{"AtomicInteger_", "AtomicInteger", "AtomicInteger"},
+		{"Integer_", "Integer", "Integer"},
 		{"java_", "java", "java"},
 		{"sun_", "sun", "sun"},
 		/* Java keywords postfixed - keywords in TTCN */
@@ -383,6 +384,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"AdditionalFunctions_", "AdditionalFunctions", "AdditionalFunctions"},
 		{"Optional_", "Optional", "Optional"},
 		{"RAW_", "RAW", "RAW"},
+		{"JSON_", "JSON", "JSON"},
 		{"TtcnError_", "TtcnError", "TtcnError"},
 		{"Severity_", "Severity", "Severity"},
 		/* built-in types */
