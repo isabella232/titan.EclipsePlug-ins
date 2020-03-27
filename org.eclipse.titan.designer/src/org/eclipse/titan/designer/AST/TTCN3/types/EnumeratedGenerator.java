@@ -600,6 +600,9 @@ public final class EnumeratedGenerator {
 			source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of enumerated type {0}.\");\n", e_defs.displayName));
 			source.append("\t\t\t\treturn -1;\n");
 			source.append("\t\t\t}\n\n");
+			source.append("\t\t\tif (p_td.json.isUse_null()) {\n");
+			source.append("\t\t\t\treturn p_tok.put_next_token(json_token_t.JSON_TOKEN_LITERAL_NULL);\n");
+			source.append("\t\t\t}\n");
 			source.append("\t\t\tString tmp_str = null;\n");
 			source.append("\t\t\tif (p_td.json.isAs_number()) {\n");
 			source.append("\t\t\t\ttmp_str = \"\"+enum_value.ordinal();\n");
@@ -671,7 +674,12 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t} else if (json_token_t.JSON_TOKEN_NUMBER == token.get() && p_td.json.isAs_number()) {\n");
 			source.append("\t\t\t\tfinal String value_str = value.toString();\n");
-			source.append("\t\t\t\tfinal int number = Integer.parseInt(value_str);\n");
+			source.append("\t\t\t\tint number = 0;\n");
+			source.append("\t\t\t\ttry {\n");
+			source.append("\t\t\t\t\tnumber = Integer.parseInt(value_str);\n");
+			source.append("\t\t\t\t} catch (Exception e) {\n");
+			source.append("\t\t\t\t\terror = true;\n");
+			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tif (value_str.matches(\".*[.Ee].*\")) {\n");
 			source.append("\t\t\t\t\terror = true;\n");
 			source.append("\t\t\t\t} else if (is_valid_enum(number)) {\n");

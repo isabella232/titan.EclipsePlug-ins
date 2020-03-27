@@ -1944,14 +1944,35 @@ public final class RecordSetCodeGenerator {
 		// JSON decode, RT1
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
+		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, boolean p_parent_is_map, final int p_chosen_field) {\n");
 
 		if (fieldInfos.size() == 1) {
 			if (!jsonAsValue) {
 				source.append("\t\t\tif (p_td.json.isAs_value()) {\n");
 			}
-			source.append(MessageFormat.format("\t\t\t{0}return get_field_{1}().JSON_decode({2}_descr_, p_tok, p_silent);\n",
-					jsonAsValue ? "" : "\t", fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
+			if (fieldInfos.get(0).isOptional) {
+			// can only happen if the record has the 'JSON:object' attribute;
+			// in this case the optional class must not be allowed to decode the
+			// JSON literal 'null', since it's not a JSON object;
+			// furthermore, the empty JSON object should be decoded as 'omit'
+				source.append("\t\t\t\tfinal AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
+				source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+				source.append("\t\t\t\tint dec_len = p_tok.get_next_token(j_token, null, null);\n");
+				source.append("\t\t\t\tif (j_token.get() == json_token_t.JSON_TOKEN_LITERAL_NULL) {\n");
+				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
+				source.append("\t\t\t\t}\n");
+				source.append("\t\t\t\telse if (j_token.get() == json_token_t.JSON_TOKEN_OBJECT_START) {\n");
+				source.append("\t\t\t\t\tdec_len += p_tok.get_next_token(j_token, null, null);\n");
+				source.append("\t\t\t\t\tif (j_token.get() == json_token_t.JSON_TOKEN_OBJECT_END) {\n");
+				source.append(MessageFormat.format("\t\t\t\t\t\tthis.{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfos.get(0).mJavaVarName));
+				source.append("\t\t\t\t\t\treturn dec_len;\n");
+				source.append("\t\t\t\t\t}\n");
+				source.append("\t\t\t\t}\n");
+				// otherwise rewind the buffer and decode normally
+				source.append("\t\t\t\tp_tok.set_buf_pos(buf_pos);\n");
+			}
+			source.append(MessageFormat.format("\t\t\t\treturn get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent);\n",
+				fieldInfos.get(0).mJavaVarName, fieldInfos.get(0).mTypeDescriptorName));
 			if (!jsonAsValue) {
 				source.append("\t\t\t}\n");
 			}
@@ -1960,7 +1981,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\tfinal AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 		}
 		if (jsonAsMapPossible) {
-			source.append("\t\t\tif (p_td.json.isAs_map()) {\n");
+			source.append("\t\t\tif (p_parent_is_map) {\n");
 			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
 			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
 			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");

@@ -218,6 +218,14 @@ public class JSON {
 		public List<JsonEnumText> getEnum_texts() {
 			return enum_texts;
 		}
+
+		public boolean isUse_null() {
+			return use_null;
+		}
+
+		public json_string_escaping getEscaping() {
+			return escaping;
+		}
 	}
 
 	// JSON decoder error codes, originally json_decode_error

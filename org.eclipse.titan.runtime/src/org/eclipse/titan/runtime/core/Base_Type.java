@@ -439,15 +439,20 @@ public abstract class Base_Type {
 	public abstract int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok);
 	public abstract int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field);
 /*/
+
 	//TODO: comment
 	//It is assumed that when calling this function p_td.json is not null
-	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, boolean p_parent_is_map) {
 		throw new TtcnError(MessageFormat.format("JSON encoding requested for type `{0}'' which has no JSON encoding method.", p_td.name));
+	}
+
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		return JSON_encode(p_td, p_tok, false);
 	}
 
 	//TODO: comment
 	//It is assumed that when calling this function p_td.json is not null
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, boolean p_parent_is_map, final int p_chosen_field) {
 		throw new TtcnError(MessageFormat.format("JSON decoding requested for type `{0}'' which has no JSON decoding method.", p_td.name));
 	}
 //*/
@@ -455,4 +460,9 @@ public abstract class Base_Type {
 	public final int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent) {
 		return JSON_decode(p_td, p_tok, p_silent, JSON.CHOSEN_FIELD_UNSET);
 	}
+
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		return JSON_decode(p_td, p_tok, p_silent, false, p_chosen_field);
+	}
+
 }
