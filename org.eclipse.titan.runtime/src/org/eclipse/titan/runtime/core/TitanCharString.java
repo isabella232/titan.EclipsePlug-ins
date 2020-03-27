@@ -1309,8 +1309,8 @@ public class TitanCharString extends Base_Type {
 					if ((c >= 0 && c <= 0x1F) || c == 0x7F) {
 						// C0 control characters use USI-like escape sequences
 						json_str.append("\\u00");
-						json_str.append(Integer.toHexString(c / 16));
-						json_str.append(Integer.toHexString(c % 16));
+						json_str.append(Integer.toHexString(c / 16).toUpperCase());
+						json_str.append(Integer.toHexString(c % 16).toUpperCase());
 					} else {
 						json_str.append(cstr.charAt(i));
 					}
@@ -1319,8 +1319,8 @@ public class TitanCharString extends Base_Type {
 			} else { // ESCAPE_AS_USI
 				if (c <= 0x20 || c == '\"' || c == '\\' || c == 0x7F) {
 					json_str.append("\\u00");
-					json_str.append(Integer.toHexString(c / 16));
-					json_str.append(Integer.toHexString(c % 16));
+					json_str.append(Integer.toHexString(c / 16).toUpperCase());
+					json_str.append(Integer.toHexString(c % 16).toUpperCase());
 				} else {
 					json_str.append(cstr.charAt(i));
 				}
