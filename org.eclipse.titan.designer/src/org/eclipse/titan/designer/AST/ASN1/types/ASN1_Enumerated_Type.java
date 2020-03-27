@@ -571,7 +571,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				} else {
 					//FIXME get_eis_index_byName
 					final EnumItem enumItem = getEnumItemWithName(identifier);
-					final int index = (int) ((Integer_Value) enumItem.getValue()).getValue();
+					final int index = (int) ((Integer_Value) enumItem.getValue().getValueRefdLast(timestamp, null)).getValue();
 					jsonAttribute.enum_texts.get(i).index = index;
 					for (int j = 0; j < i; j++) {
 						if (jsonAttribute.enum_texts.get(j).index == index) {
@@ -831,8 +831,9 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		for (int i = 0; i < items.size(); i++) {
 			final EnumItem tempItem = items.get(i);
 			final Identifier tempId = tempItem.getId();
-
-			fields.add(new Enum_field(tempId.getName(), tempId.getDisplayName(), ((Integer_Value)tempItem.getValue()).getValue()));
+			final Integer_Value tempValue = (Integer_Value)tempItem.getValue().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null); 
+			
+			fields.add(new Enum_field(tempId.getName(), tempId.getDisplayName(), tempValue.getValue()));
 		}
 
 		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw, hasJson);
