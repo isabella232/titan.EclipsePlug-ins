@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -79,6 +80,9 @@ public final class BrokenPartsChecker {
 
 	private void generalChecker() {
 		final List<Module> modulesToCheck = selectionMethod.getModulesToCheck();
+		if (modulesToCheck.isEmpty()) {
+			return;
+		}
 
 		progress.setTaskName("Semantic check");
 		progress.setWorkRemaining(modulesToCheck.size());
@@ -99,9 +103,6 @@ public final class BrokenPartsChecker {
 		if (useParallelSemanticChecking) {
 			// When enabled do a quick parallel checking on the modules, where it is possible.
 			// 2 modules can be checked in parallel if the codes to be checked do not overlap.
-			// On an abstract level we create layers of the subtree that needs to be check,
-			//  based on how far a module is from an already checked module.
-			// Each iteration builds up a new layer/set, and checks its elements in parallel.
 			// Please note, that this will not let all modules be processed in parallel,
 			//  modules in import loops (and all modules depending on them) have to be checked in the single threaded way.
 			final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
@@ -113,64 +114,52 @@ public final class BrokenPartsChecker {
 				}
 			});
 
+			final AtomicInteger activeExecutorCount = new AtomicInteger(0);
 			final List<Module> modulesToCheckCopy = new ArrayList<Module>(modulesToCheck);
-			// iterate until parallel processing is still possible
-			boolean mightStillProcessElements = true;
-			while (mightStillProcessElements) {
-				// build the layer/set of modules that can be checked in parallel in this iteration.
-				final List<Module> modulesToCheckParallely = new ArrayList<Module>(modulesToCheckCopy.size());
-				for (final Module module : modulesToCheckCopy) {
-					final List<Module> importedModules = module.getImportedModules();
-					boolean ok = true;
-					for (final Module importedModule : importedModules) {
-						if (!importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
-							ok = false;
-						}
-					}
-					if (ok) {
-						modulesToCheckParallely.add(module);
-					}
+			Collections.sort(modulesToCheckCopy, new Comparator<Module>() {
+				@Override
+				public int compare(final Module o1, final Module o2) {
+					return o2.getAssignments().getNofAssignments() - o1.getAssignments().getNofAssignments();
 				}
-				modulesToCheckCopy.removeAll(modulesToCheckParallely);
-				TITANDebugConsole.println("  **can check " + modulesToCheckParallely.size() + " modules " + modulesToCheckCopy.size() + " remains");
-				mightStillProcessElements = modulesToCheckParallely.size() > 0;
-				Collections.sort(modulesToCheckParallely, new Comparator<Module>() {
-					@Override
-					public int compare(final Module o1, final Module o2) {
-						return o2.getAssignments().getNofAssignments() - o1.getAssignments().getNofAssignments();
-					}
-				});
-				// do the parallel checking
-				final CountDownLatch latch = new CountDownLatch(modulesToCheckParallely.size());
-				for (final Module module : modulesToCheckParallely) {
-					executor.execute(new Runnable() {
-						@Override
-						public void run() {
-							if (progress.isCanceled()) {
-								latch.countDown();
-								throw new OperationCanceledException();
-							}
+			});
 
-							try {
-								final long absoluteStart2 = System.nanoTime();
-								module.check(compilationCounter);
-								final long now = System.nanoTime();
-								TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to check " + module.getName());
-								progress.worked(1);
-							} finally {
-								latch.countDown();
-							}
-						}
-					});
+			final ArrayList<Module> modulesToCheckParallely = new ArrayList<Module>();
+			//initial filling
+			for (final Module module : modulesToCheckCopy) {
+				final List<Module> importedModules = module.getImportedModules();
+				boolean ok = true;
+				for (final Module importedModule : importedModules) {
+					if (!importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
+						ok = false;
+					}
 				}
-
-				try {
-					latch.await();
-				} catch (InterruptedException e) {
-					ErrorReporter.logExceptionStackTrace(e);
+				if (ok) {
+					modulesToCheckParallely.add(module);
 				}
-				TITANDebugConsole.println("  **It took " + (System.nanoTime() - absoluteStart) * (1e-9) + " seconds so far for Designer to check the modules in parallel mode");
 			}
+
+			final CountDownLatch latch = new CountDownLatch(modulesToCheck.size());
+
+			if (modulesToCheckParallely.isEmpty()) {
+				// When we can not start in parallel mode, just start somewhere
+				modulesToCheckParallely.add(modulesToCheckCopy.remove(0));
+			} else {
+				modulesToCheckCopy.removeAll(modulesToCheckParallely);
+			}
+
+			synchronized(modulesToCheckCopy) {
+				for (final Module module : modulesToCheckParallely) {
+					addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, activeExecutorCount, progress);
+				}
+			}
+
+			try {
+				latch.await();
+			} catch (InterruptedException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+			}
+			TITANDebugConsole.println("  **It took " + (System.nanoTime() - absoluteStart) * (1e-9) + " seconds so far for Designer to check the modules in parallel mode");
+
 			executor.shutdown();
 			try {
 				executor.awaitTermination(30, TimeUnit.SECONDS);
@@ -178,24 +167,77 @@ public final class BrokenPartsChecker {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
 			executor.shutdownNow();
+		} else {
+			for (final Module module : modulesToCheck) {
+				progress.subTask("Semantically checking module: " + module.getName());
+
+				final long absoluteStart2 = System.nanoTime();
+				module.check(compilationCounter);
+				final long now = System.nanoTime();
+				TITANDebugConsole.println("" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + "");
+
+
+				progress.worked(1);
+			}
+			TITANDebugConsole.println("  **It took " + (System.nanoTime() - absoluteStart) * (1e-9) + " seconds for Designer to check the modules");
 		}
-
-		for (final Module module : modulesToCheck) {
-			progress.subTask("Semantically checking module: " + module.getName());
-
-			final long absoluteStart2 = System.nanoTime();
-			module.check(compilationCounter);
-			final long now = System.nanoTime();
-			TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to check " + module.getName());
-
-
-			progress.worked(1);
-		}
-		TITANDebugConsole.println("  **It took " + (System.nanoTime() - absoluteStart) * (1e-9) + " seconds for Designer to check the modules");
 
 		for (final Module module : selectionMethod.getModulesToSkip()) {
 			module.setSkippedFromSemanticChecking(false);
 		}
+	}
+
+	private static void addToExecutor(final Module module, final ExecutorService executor, final CountDownLatch latch, final CompilationTimeStamp compilationCounter, final long absoluteStart,
+			final List<Module> modulesToCheckCopy, final AtomicInteger activeExecutorCount, final SubMonitor progress) {
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+				if (progress.isCanceled()) {
+					latch.countDown();
+					throw new OperationCanceledException();
+				}
+
+				try {
+					activeExecutorCount.incrementAndGet();
+					final long absoluteStart2 = System.nanoTime();
+					module.check(compilationCounter);
+					final long now = System.nanoTime();
+					TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to check " + module.getName());
+					progress.worked(1);
+				} finally {
+					latch.countDown();
+
+					final ArrayList<Module> modulesToCheckParallely = new ArrayList<Module>();
+					synchronized(modulesToCheckCopy) {
+						for (final Module module : modulesToCheckCopy) {
+							final List<Module> importedModules = module.getImportedModules();
+							boolean ok = true;
+							for (final Module importedModule : importedModules) {
+								if (!importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
+									ok = false;
+								}
+							}
+							if (ok) {
+								modulesToCheckParallely.add(module);
+							}
+						}
+						modulesToCheckCopy.removeAll(modulesToCheckParallely);
+					}
+
+					for (final Module module : modulesToCheckParallely) {
+						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, activeExecutorCount, progress);
+					}
+
+					if (activeExecutorCount.decrementAndGet() == 0 && modulesToCheckParallely.isEmpty() && !modulesToCheckCopy.isEmpty()) {
+						// there are more modules to check, but none can be checked in the normal way
+						// and this is the last executor running.
+						// current heuristic: just select one to keep checking ... and hope this breaks the loop stopping parallelism.
+						final Module module = modulesToCheckCopy.remove(0);
+						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, activeExecutorCount, progress);
+					}
+				}
+			}
+		});
 	}
 
 	private void definitionsChecker(final Map<Module, List<Assignment>> moduleAndBrokenDefs) {
