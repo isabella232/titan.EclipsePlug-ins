@@ -87,7 +87,7 @@ public final class EnumeratedGenerator {
 		// private to disable instantiation
 	}
 
-	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
+	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs , final StringBuilder localTypeDescriptor) {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Base_Template");
@@ -115,6 +115,9 @@ public final class EnumeratedGenerator {
 
 		//		if(needsAlias()) { ???
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", e_defs.name));
+
+		source.append(localTypeDescriptor);
+
 		//== enum_type ==
 		if (aData.isDebug()) {
 			source.append("\t\t/**\n");

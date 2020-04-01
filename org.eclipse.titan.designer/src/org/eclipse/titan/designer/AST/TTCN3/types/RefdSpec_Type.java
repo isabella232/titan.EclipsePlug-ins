@@ -340,6 +340,41 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute != null || jsonAttribute != null ||
+				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
+				|| (!isAsn() && hasEncodeAttribute("JSON"))) {
+			if (needsAlias()) {
+				String baseName = getGenNameOwn(aData);
+				return baseName + "." + getGenNameOwn();
+			} else if (getParentType() != null) {
+				final IType parentType = getParentType();
+				if (parentType.generatesOwnClass(aData, source)) {
+					return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+				}
+
+				return getGenNameOwn(aData);
+			}
+
+			return getGenNameOwn(aData);
+		}
+
+		if (needsAlias()) {
+			String baseName = getGenNameOwn(aData);
+			return baseName + "." + getGenNameOwn();
+		}
+
+		if (refdType != null && refdType != this) {
+			return refdType.getGenNameTypeDescriptor(aData, source);
+		}
+
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
 		return rawAttribute != null;
 	}
@@ -385,6 +420,12 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return needsAlias();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -398,7 +439,6 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 			last.generateCode(aData, tempSource);
 		}
 
-		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
 			switch (last.getTypetype()) {
@@ -417,7 +457,14 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 				}
 				break;
 			default:
-				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, last.getGenNameValue(aData, source)));
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, last.getGenNameValue(aData, source)));
+
+				final StringBuilder descriptor = new StringBuilder();
+				generateCodeTypedescriptor(aData, source, descriptor);
+				source.append(descriptor);
+
+				source.append("\t}\n");
+
 				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, last.getGenNameTemplate(aData, source)));
 			}
 		}

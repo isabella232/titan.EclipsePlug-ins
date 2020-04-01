@@ -588,6 +588,40 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		final boolean force_gen_seof = aData.getForceGenSeof();
+		if (force_gen_seof) {
+			return true;
+		} else {
+			final IType ofType = getOfType();
+			switch (ofType.getTypetype()) {
+			case TYPE_BOOL:
+			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
+			case TYPE_HEXSTRING:
+			case TYPE_OCTETSTRING:
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+			case TYPE_UTF8STRING:
+			case TYPE_TELETEXSTRING:
+			case TYPE_VIDEOTEXSTRING:
+			case TYPE_GRAPHICSTRING:
+			case TYPE_GENERALSTRING:
+			case TYPE_UNIVERSALSTRING:
+			case TYPE_BMPSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+			case TYPE_INTEGER:
+			case TYPE_INTEGER_A:
+			case TYPE_REAL:
+				return false;
+			default:
+				return true;
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -599,8 +633,6 @@ public final class SetOf_Type extends AbstractOfType {
 		final String displayName = getFullName();
 		final IType ofType = getOfType();
 		final boolean force_gen_seof = aData.getForceGenSeof();
-
-		generateCodeTypedescriptor(aData, source);
 
 		if (force_gen_seof) {
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
@@ -620,7 +652,10 @@ public final class SetOf_Type extends AbstractOfType {
 				extension_bit = dummy_raw.extension_bit;
 			}
 
-			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit, hasJson);
+			final StringBuilder localTypeDescriptor = new StringBuilder();
+			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+
+			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit, hasJson, localTypeDescriptor);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 		} else {
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
@@ -644,6 +679,8 @@ public final class SetOf_Type extends AbstractOfType {
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
+				generateCodeTypedescriptor(aData, source, null);
+
 				final String ownName = getGenNameOwn(aData);
 				final String valueName = getGenNameValue(aData, source);
 				source.append(MessageFormat.format("\t// code for type {0} is not generated, {1} is used instead\n", ownName, valueName));
@@ -664,7 +701,10 @@ public final class SetOf_Type extends AbstractOfType {
 					extension_bit = dummy_raw.extension_bit;
 				}
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson);
+				final StringBuilder localTypeDescriptor = new StringBuilder();
+				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 				break;
 			}
@@ -736,6 +776,42 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		final boolean force_gen_seof = aData.getForceGenSeof();
+		if (force_gen_seof) {
+			String baseName = getGenNameTypeName(aData, source);
+			return baseName + "." + getGenNameOwn();
+		} else {
+			final IType ofType = getOfType();
+			switch (ofType.getTypetype()) {
+			case TYPE_BOOL:
+			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
+			case TYPE_HEXSTRING:
+			case TYPE_OCTETSTRING:
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+			case TYPE_UTF8STRING:
+			case TYPE_TELETEXSTRING:
+			case TYPE_VIDEOTEXSTRING:
+			case TYPE_GRAPHICSTRING:
+			case TYPE_GENERALSTRING:
+			case TYPE_UNIVERSALSTRING:
+			case TYPE_BMPSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+			case TYPE_INTEGER:
+			case TYPE_INTEGER_A:
+			case TYPE_REAL:
+				return getGenNameOwn();
+			default:
+				String baseName = getGenNameTypeName(aData, source);
+				return baseName + "." + getGenNameOwn();
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
 		return true;
 	}
@@ -743,7 +819,35 @@ public final class SetOf_Type extends AbstractOfType {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData) + "_raw_";
+		final boolean force_gen_seof = aData.getForceGenSeof();
+		if (force_gen_seof) {
+			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+		} else {
+			final IType ofType = getOfType();
+			switch (ofType.getTypetype()) {
+			case TYPE_BOOL:
+			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
+			case TYPE_HEXSTRING:
+			case TYPE_OCTETSTRING:
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+			case TYPE_UTF8STRING:
+			case TYPE_TELETEXSTRING:
+			case TYPE_VIDEOTEXSTRING:
+			case TYPE_GRAPHICSTRING:
+			case TYPE_GENERALSTRING:
+			case TYPE_UNIVERSALSTRING:
+			case TYPE_BMPSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+			case TYPE_INTEGER:
+			case TYPE_INTEGER_A:
+			case TYPE_REAL:
+				return getGenNameOwn() + "_raw_";
+			default:
+				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+			}
+		}
 	}
 
 	@Override

@@ -289,6 +289,13 @@ public final class Port_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
+		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;

@@ -20,9 +20,9 @@ import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -375,6 +375,34 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute != null || jsonAttribute != null ||
+				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+			if (needsAlias()) {
+				String baseName = getGenNameOwn(aData);
+				return baseName + "." + getGenNameOwn();
+			} else if (getParentType() != null) {
+				final IType parentType = getParentType();
+				if (parentType.generatesOwnClass(aData, source)) {
+					return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+				}
+
+				return getGenNameOwn(aData);
+			}
+
+			return getGenNameOwn(aData);
+		}
+
+		if (needsAlias()) {
+			String baseName = getGenNameOwn(aData);
+			return baseName + "." + getGenNameOwn();
+		}
+
+		return referred_type.getGenNameTypeDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
 		return !((jsonAttribute == null || jsonAttribute.empty()) && (getOwnertype() != TypeOwner_type.OT_RECORD_OF || getParentType().getJsonAttribute() == null
 				|| !getParentType().getJsonAttribute().as_map));
@@ -398,6 +426,12 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return needsAlias();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -413,13 +447,21 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 			}
 		}
 
-		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
 			last.generateCode(aData, source);
 
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referred_type.getGenNameValue(aData, source)));
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, referred_type.getGenNameValue(aData, source)));
+
+			final StringBuilder descriptor = new StringBuilder();
+			generateCodeTypedescriptor(aData, source, descriptor);
+			source.append(descriptor);
+
+			source.append("\t}\n");
+
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referred_type.getGenNameTemplate(aData, source)));
+		} else {
+			generateCodeTypedescriptor(aData, source, null);
 		}
 
 		generateCodeForCodingHandlers(aData, source);

@@ -829,6 +829,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		return enumItem == null ? null : enumItem.getId();
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return true;
+	}
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
@@ -846,7 +852,8 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		final String ownName = getGenNameOwn();
 		final String displayName = getFullName();
 
-		generateCodeTypedescriptor(aData, source);
+		final StringBuilder localTypeDescriptor = new StringBuilder();
+		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
@@ -859,7 +866,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempValue).getValue()));
 		}
 		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw, hasJson);
-		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
+		EnumeratedGenerator.generateValueClass( aData, source, e_defs, localTypeDescriptor);
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 
 		if (hasDoneAttribute()) {
@@ -886,6 +893,13 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		String baseName = getGenNameTypeName(aData, source);
+		return baseName + "." + getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
 		return true;
 	}
@@ -893,7 +907,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData) + "_raw_";
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 	}
 
 	@Override

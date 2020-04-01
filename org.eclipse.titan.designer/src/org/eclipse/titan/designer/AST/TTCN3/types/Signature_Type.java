@@ -716,6 +716,25 @@ public final class Signature_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		String baseName = getGenNameTypeName(aData, source);
+		return baseName + "." + getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;

@@ -49,6 +49,8 @@ public final class RecordOfGenerator {
 	 *                is to be generated.
 	 * @param hasJson
 	 *                {@code true}: if the type has JSON coding attributes.
+	 * @param localTypeDescriptor
+	 *                FIXME document
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
@@ -59,7 +61,8 @@ public final class RecordOfGenerator {
 										   final boolean hasRaw,
 										   final boolean forceGenSeof,
 										   final int extension_bit,
-										   final boolean hasJson) {
+										   final boolean hasJson,
+										   final StringBuilder localTypeDescriptor) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
@@ -100,6 +103,8 @@ public final class RecordOfGenerator {
 		}
 
 		source.append(MessageFormat.format("\tpublic static class {0} extends Record_Of_Type '{'\n", genName));
+
+		source.append(localTypeDescriptor);
 
 		generateValueDeclaration( source, genName, ofTypeName, isSetOf );
 		generateValueConstructors( aData, source, genName, ofTypeName, displayName );

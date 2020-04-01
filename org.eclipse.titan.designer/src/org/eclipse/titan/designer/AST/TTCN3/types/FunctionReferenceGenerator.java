@@ -58,8 +58,11 @@ public final class FunctionReferenceGenerator {
 	 *                where the source code is to be generated.
 	 * @param def
 	 *                the function definition to generate code for.
+	 * @param localTypeDescriptor
+	 *                FIXME comment
 	 * */
-	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def) {
+	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def,
+			final StringBuilder localTypeDescriptor) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addCommonLibraryImport("TtcnError");
 		aData.addCommonLibraryImport("Module_List");
@@ -70,6 +73,9 @@ public final class FunctionReferenceGenerator {
 		}
 
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", def.genName));
+
+		source.append(localTypeDescriptor);
+
 		switch (def.type) {
 		case FUNCTION:
 			source.append("\t\tpublic interface function_pointer {\n");

@@ -144,6 +144,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** the time when code for this type was generated. */
 	protected BuildTimestamp lastTimeGenerated = null;
 
+	//FIXME comment
+	private BuildTimestamp lastTimeTypeDescriptorGenerated = null;
+
 	/**
 	 * The actual value of the severity level to report type compatibility
 	 * on.
@@ -2583,6 +2586,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		codersToGenerate.add(encodingType);
 	}
 
+	//FIXME comment
+	//FIXME should be abstract
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source ) {
+		return true;
+	}
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
@@ -2597,11 +2606,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
+	 * @param localTarget TODO
 	 * */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget) {
+		if (lastTimeTypeDescriptorGenerated != null && !lastTimeTypeDescriptorGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeTypeDescriptorGenerated = aData.getBuildTimstamp();
+
 		//FIXME implement: actually more complicated
 		final String genname = getGenNameOwn();
-//		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source);
+		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source);
 		/* genname{type,ber,raw,text,xer,json,oer}descriptor == gennameown is true if
 		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
 		 * and can't use the descriptor of one of the built-in types.
@@ -2614,7 +2630,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final boolean generate_raw = aData.getEnableRaw() && last.getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		String gennameRawDescriptor;
 		if (generate_raw && needsOwnRawDescriptor(aData)) {
-			generateCodeRawDescriptor(aData, source);
+			generateCodeRawDescriptor(aData, source, localTarget);
 		}
 		if (generate_raw) {
 			gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
@@ -2626,7 +2642,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final boolean generate_json = aData.getEnableJson() && last.getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		String gennameJsonDescriptor;
 		if (generate_json && needsOwnJsonDescriptor(aData)) {
-			generateCodeJsonDescriptor(aData, source);
+			generateCodeJsonDescriptor(aData, source, localTarget);
 		}
 		if (generate_json) {
 			gennameJsonDescriptor = getGenNameJsonDescriptor(aData, source);
@@ -2638,7 +2654,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 
 		final String descriptorName = MessageFormat.format("{0}_descr_", genname);
-		if (aData.hasGlobalVariable(descriptorName)) {
+		if (localTarget == null && aData.hasGlobalVariable(descriptorName)) {
 			return;
 		}
 
@@ -2663,19 +2679,29 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		switch (last.getTypetype()) {
 		case TYPE_SEQUENCE_OF: {
+			if ("GenericParameters1_0".equals(((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source))) {
+				((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source);
+			}
 			final StringBuilder preInit = aData.getPreInit();
-			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", gennameTypeDescriptor, ((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
 			break;}
 		case TYPE_SET_OF:{
+			if ("GenericParameters1_0".equals(((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source))) {
+				((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source);
+			}
 			final StringBuilder preInit = aData.getPreInit();
-			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", gennameTypeDescriptor, ((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
 			break;}
 		default:
 			break;
 		}
 
 		globalVariable.append(");\n");
-		aData.addGlobalVariable(descriptorName, globalVariable.toString());
+		if (localTarget == null) {
+			aData.addGlobalVariable(descriptorName, globalVariable.toString());
+		} else {
+			localTarget.append(globalVariable);
+		}
 	}
 
 	/**
@@ -2686,7 +2712,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 * */
-	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget) {
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
@@ -2696,7 +2722,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final String genname = getGenNameOwn();
 		final String descriptorName = MessageFormat.format("{0}_raw_", genname);
-		if (aData.hasGlobalVariable(descriptorName)) {
+		if (localTarget == null && aData.hasGlobalVariable(descriptorName)) {
 			return;
 		}
 
@@ -2865,14 +2891,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final StringBuilder globalVariable = new StringBuilder();
 		final String raw_value_string = RAW_value.toString();
-		if (aData.RAW_attibute_registry.containsKey(raw_value_string)) {
-			final String previousName = aData.RAW_attibute_registry.get(raw_value_string);
-			globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, previousName));
+		if (localTarget == null) {
+			if (aData.RAW_attibute_registry.containsKey(raw_value_string)) {
+				final String previousName = aData.RAW_attibute_registry.get(raw_value_string);
+				globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, previousName));
+			} else {
+				aData.RAW_attibute_registry.put(raw_value_string, MessageFormat.format("{0}_raw_", genname));
+				globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, raw_value_string));
+			}
+			aData.addGlobalVariable(descriptorName, globalVariable.toString());
 		} else {
-			aData.RAW_attibute_registry.put(raw_value_string, MessageFormat.format("{0}_raw_", genname));
 			globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, raw_value_string));
+			localTarget.append(globalVariable);
 		}
-		aData.addGlobalVariable(descriptorName, globalVariable.toString());
 
 		if (dummyRaw) {
 			rawAttribute = null;
@@ -2887,13 +2918,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 * */
-	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget) {
 		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
 		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
 		final String genname = getGenNameOwn();
 		final String descriptorName = MessageFormat.format("{0}_json_", genname);
-		if (aData.hasGlobalVariable(descriptorName)) {
+		if (localTarget == null && aData.hasGlobalVariable(descriptorName)) {
 			return;
 		}
 
@@ -2942,11 +2973,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 				}
 				enum_texts_value.append("};\n");
-				aData.addGlobalVariable(enum_texts_name, enum_texts_value.toString());
+				if (localTarget == null) {
+					aData.addGlobalVariable(enum_texts_name, enum_texts_value.toString());
+				} else {
+					localTarget.append(enum_texts_value);
+				}
 			}
 			JSON_value.append(enum_texts_name).append(");\n");
 		}
+		if (localTarget == null) {
 		aData.addGlobalVariable(descriptorName, JSON_value.toString());
+		} else {
+			localTarget.append(JSON_value);
+		}
 	}
 
 	/**
@@ -3301,31 +3340,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param source the source code generated
 	 * @return The name of the Java variable in the generated code.
 	 */
-	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
-		//FIXME implement the handling of attribute checks
-		if (rawAttribute != null || jsonAttribute != null ||
-				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
-				|| (!isAsn() && hasEncodeAttribute("JSON"))) {
-			return getGenNameOwn(aData);
-		}
-		if (this instanceof IReferencingType) {
-			//FIXME check for XER
-			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final IType t = ((IReferencingType) this).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), refChain);
-			refChain.release();
-
-			if (t != null && t != this) {
-				return t.getGenNameTypeDescriptor(aData, source);
-			}
-		}
-
-		return internalGetGenNameTypeDescriptor(aData, source);
-	}
-
-	//FIXME comment
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameTypeName(aData, source);
-	}
+	public abstract String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source);
 
 	@Override
 	/** {@inheritDoc} */

@@ -226,10 +226,12 @@ public final class RecordSetCodeGenerator {
 	 *                true if this type is a field with the "as value" coding instruction
 	 * @param jsonAsMapPossible
 	 *                true if this type is a field with the "as map" coding instruction
+	 * @param localTypeDescriptor
+	 *                FIXME comment
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw,
-			final boolean hasJson, final boolean jsonAsValue, final boolean jsonAsMapPossible) {
+			final boolean hasJson, final boolean jsonAsValue, final boolean jsonAsMapPossible, final StringBuilder localTypeDescriptor) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("JSON_Tokenizer");
 		aData.addBuiltinTypeImport("Text_Buf");
@@ -258,7 +260,7 @@ public final class RecordSetCodeGenerator {
 		final boolean jsonNeeded = hasJson; //TODO can be forced optionally if needed
 
 		if (fieldInfos.isEmpty()) {
-			generateEmptyValueClass(aData, source, className, classDisplayname, rawNeeded);
+			generateEmptyValueClass(aData, source, className, classDisplayname, rawNeeded, localTypeDescriptor);
 			return;
 		}
 
@@ -268,6 +270,8 @@ public final class RecordSetCodeGenerator {
 		source.append( className );
 		source.append(" extends Base_Type");
 		source.append( " {\n" );
+		source.append(localTypeDescriptor);
+
 		generateDeclaration( aData, source, fieldInfos );
 		generateConstructor( aData, source, fieldInfos, className );
 		generateConstructorManyParams( aData, source, fieldInfos, className );
@@ -3660,11 +3664,17 @@ public final class RecordSetCodeGenerator {
 	 * @param rawNeeded
 	 *                {@code true} if encoding/decoding for RAW is to be
 	 *                generated.
+	 * @param localTypeDescriptor
+	 *                FIXME comment
 	 */
-	public static void generateEmptyValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname, final boolean rawNeeded) {
+	public static void generateEmptyValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
+			final boolean rawNeeded, final StringBuilder localTypeDescriptor) {
 		aData.addBuiltinTypeImport("TitanNull_Type");
 
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", className));
+
+		source.append(localTypeDescriptor);
+
 		source.append("\t\tprivate boolean bound_flag;\n\n");
 
 		source.append(MessageFormat.format("\t\tpublic {0}() '{'\n", className));
@@ -4639,7 +4649,7 @@ public final class RecordSetCodeGenerator {
 			source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{0});\n", 0, tempFieldSize));
 			source.append(MessageFormat.format("final RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos{0});\n", 0));
 			source.append("if (temp_leaf != null) {\n");
-			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempFieldSize - 1).type));
+			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempFieldSize - 1).typedesc));
 			source.append(" } else ");
 		} else {
 			source.append("RAW_enc_tree temp_leaf;\n");
@@ -4654,7 +4664,7 @@ public final class RecordSetCodeGenerator {
 				source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
 				source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
 				source.append("if (temp_leaf != null) {\n");
-				source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).type));
+				source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).typedesc));
 				source.append(" } else ");
 			}
 		}

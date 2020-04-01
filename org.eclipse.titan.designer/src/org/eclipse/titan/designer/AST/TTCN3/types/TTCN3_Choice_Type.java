@@ -660,6 +660,25 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		String baseName = getGenNameTypeName(aData, source);
+		return baseName + "." + getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -670,13 +689,29 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
-		generateCodeTypedescriptor(aData, source);
+		final StringBuilder localTypeDescriptor = new StringBuilder();
+		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final IType cfType = compField.getType();
+
+			switch (cfType.getTypetype()) {
+			case TYPE_ARRAY:
+			case TYPE_TTCN3_CHOICE:
+			case TYPE_TTCN3_ENUMERATED:
+			case TYPE_TTCN3_SEQUENCE:
+			case TYPE_TTCN3_SET:
+			case TYPE_SEQUENCE_OF:
+			case TYPE_SET_OF:
+				break;
+			default:
+				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				break;
+			}
+
 			final String jsonAlias = cfType.getJsonAttribute() != null ? cfType.getJsonAttribute().alias : null;
 			final int JsonValueType = hasJson ? cfType.getJsonValueType() : 0;
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source ),
@@ -808,7 +843,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false; 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, raw, hasJson, false, jsonAsValue);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, raw, hasJson, false, jsonAsValue, localTypeDescriptor);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {

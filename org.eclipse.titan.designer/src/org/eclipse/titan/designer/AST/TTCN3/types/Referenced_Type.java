@@ -1188,6 +1188,45 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute != null || jsonAttribute != null ||
+				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
+				|| (!isAsn() && hasEncodeAttribute("JSON"))) {
+			if (needsAlias()) {
+				String baseName = getGenNameOwn(aData);
+				return baseName + "." + getGenNameOwn();
+			} else if (getParentType() != null) {
+				final IType parentType = getParentType();
+				if (parentType.generatesOwnClass(aData, source)) {
+					return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+				}
+
+				return getGenNameOwn(aData);
+			}
+
+			return getGenNameOwn(aData);
+		}
+
+		if (needsAlias()) {
+			String baseName = getGenNameOwn(aData);
+			return baseName + "." + getGenNameOwn();
+		}
+
+		final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IType t = ((IReferencingType) this).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), refChain);
+		refChain.release();
+
+		if (t != null && t != this) {
+			return t.getGenNameTypeDescriptor(aData, source);
+		}
+
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
 		return rawAttribute != null;
 	}
@@ -1202,6 +1241,10 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		if (rawAttribute != null) {
+			if (needsAlias()) {
+				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+			}
+
 			return getGenNameOwn(aData) + "_raw_";
 		}
 
@@ -1233,6 +1276,12 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return needsAlias();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -1245,7 +1294,6 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			refd.generateCode(aData, tempSource);
 		}
 
-		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
 			switch (refd.getTypetype()) {
@@ -1264,9 +1312,18 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				}
 				break;
 			default:
-				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, refd.getGenNameValue(aData, source)));
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, refd.getGenNameValue(aData, source)));
+
+				final StringBuilder descriptor = new StringBuilder();
+				generateCodeTypedescriptor(aData, source, descriptor);
+				source.append(descriptor);
+
+				source.append("\t}\n");
+
 				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, refd.getGenNameTemplate(aData, source)));
 			}
+		} else {
+			generateCodeTypedescriptor(aData, source, null);
 		}
 
 		if (!isAsn()) {

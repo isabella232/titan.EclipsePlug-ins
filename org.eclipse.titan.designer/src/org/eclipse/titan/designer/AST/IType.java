@@ -1143,6 +1143,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
 
+	//FIXME comment
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget);
+
 	/**
 	 * Returns the name of the type descriptor (- the _descr_ postfix).
 	 *
@@ -1245,6 +1248,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param encodingType the encoding type to use.
 	 * */
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType);
+
+	//FIXME comment
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source );
 
 	/**
 	 * Add generated java code on this level.

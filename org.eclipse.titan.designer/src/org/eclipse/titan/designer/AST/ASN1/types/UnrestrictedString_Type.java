@@ -20,8 +20,8 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
-import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -230,6 +230,12 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return needsAlias();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -237,11 +243,20 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
-		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source)));
+
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, getGenNameValue(aData, source)));
+
+			final StringBuilder descriptor = new StringBuilder();
+			generateCodeTypedescriptor(aData, source, descriptor);
+			source.append(descriptor);
+
+			source.append("\t}\n");
+
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
+		} else {
+			generateCodeTypedescriptor(aData, source, null);
 		}
 
 		generateCodeForCodingHandlers(aData, source);
@@ -266,6 +281,28 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute != null || jsonAttribute != null ||
+				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+			if (needsAlias()) {
+				String baseName = getGenNameOwn(aData);
+				return baseName + "." + getGenNameOwn();
+			} else if (getParentType() != null) {
+				final IType parentType = getParentType();
+				if (parentType.generatesOwnClass(aData, source)) {
+					return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+				}
+
+				return getGenNameOwn(aData);
+			}
+
+			return getGenNameOwn(aData);
+		}
+
+		if (needsAlias()) {
+			String baseName = getGenNameOwn(aData);
+			return baseName + "." + getGenNameOwn();
+		}
+
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanCharacter_String";
 	}

@@ -217,6 +217,12 @@ public final class GeneralizedTime_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return needsAlias();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -224,11 +230,20 @@ public final class GeneralizedTime_Type extends ASN1Type {
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
-		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source)));
+
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, getGenNameValue(aData, source)));
+
+			final StringBuilder descriptor = new StringBuilder();
+			generateCodeTypedescriptor(aData, source, descriptor);
+			source.append(descriptor);
+
+			source.append("\t}\n");
+
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
+		} else {
+			generateCodeTypedescriptor(aData, source, null);
 		}
 
 		generateCodeForCodingHandlers(aData, source);
@@ -257,7 +272,29 @@ public final class GeneralizedTime_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute != null || jsonAttribute != null ||
+				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+			if (needsAlias()) {
+				String baseName = getGenNameOwn(aData);
+				return baseName + "." + getGenNameOwn();
+			} else if (getParentType() != null) {
+				final IType parentType = getParentType();
+				if (parentType.generatesOwnClass(aData, source)) {
+					return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+				}
+
+				return getGenNameOwn(aData);
+			}
+
+			return getGenNameOwn(aData);
+		}
+
+		if (needsAlias()) {
+			String baseName = getGenNameOwn(aData);
+			return baseName + "." + getGenNameOwn();
+		}
+
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanCharString";
 	}

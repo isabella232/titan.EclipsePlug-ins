@@ -138,10 +138,12 @@ public final class UnionGenerator {
 	 *                true if anytype kind
 	 * @param jsonAsValue
 	 *                true if this type is a field of a union with the "as value" coding instruction
+	 * @param localTypeDescriptor
+	 *                FIXME document
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw, boolean hasJson,
-			final boolean isAnytypeKind, final boolean jsonAsValue) {
+			final boolean isAnytypeKind, final boolean jsonAsValue, final StringBuilder localTypeDescriptor) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("JSON_Tokenizer");
@@ -166,6 +168,9 @@ public final class UnionGenerator {
 		}
 
 		source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{'\n", genName));
+
+		source.append(localTypeDescriptor);
+
 		generateValueDeclaration(aData, source, genName, fieldInfos);
 		generateValueConstructors(aData, source, genName, fieldInfos);
 		generateValueCopyValue(aData, source, genName, displayName, fieldInfos);
@@ -3260,7 +3265,7 @@ public final class UnionGenerator {
 			source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{0});\n", 0, tempFieldSize));
 			source.append(MessageFormat.format("final RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos{0});\n", 0));
 			source.append("if (temp_leaf != null) {\n");
-			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempFieldSize - 1).type));
+			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempFieldSize - 1).typedesc));
 			source.append(" } else ");
 		} else {
 			source.append("RAW_enc_tree temp_leaf;\n");
@@ -3276,7 +3281,7 @@ public final class UnionGenerator {
 				source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{0});\n", temp_tag, tempFieldSize));
 				source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
 				source.append("if (temp_leaf != null) {\n");
-				source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempFieldSize - 1).type));
+				source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempFieldSize - 1).typedesc));
 				source.append(" } else ");
 			}
 		}

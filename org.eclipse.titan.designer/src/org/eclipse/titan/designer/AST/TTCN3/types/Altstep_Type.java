@@ -496,6 +496,25 @@ public final class Altstep_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		String baseName = getGenNameTypeName(aData, source);
+		return baseName + "." + getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -506,7 +525,8 @@ public final class Altstep_Type extends Type {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
-		generateCodeTypedescriptor(aData, source);
+		final StringBuilder localTypeDescriptor = new StringBuilder();
+		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 		final FunctionReferenceDefinition def = new FunctionReferenceDefinition(genName, displayName);
 		def.returnType = null;
@@ -537,7 +557,7 @@ public final class Altstep_Type extends Type {
 			def.parameterNames.add(formalParameter.getIdentifier().getName());
 		}
 
-		FunctionReferenceGenerator.generateValueClass(aData, source, def);
+		FunctionReferenceGenerator.generateValueClass(aData, source, def, localTypeDescriptor);
 		FunctionReferenceGenerator.generateTemplateClass(aData, source, def);
 
 		if (hasDoneAttribute()) {

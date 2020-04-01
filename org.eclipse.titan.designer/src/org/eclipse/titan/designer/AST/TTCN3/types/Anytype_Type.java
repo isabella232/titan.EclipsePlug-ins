@@ -907,6 +907,43 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		String baseName = getGenNameTypeName(aData, source);
+		return baseName + "." + getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameOwn(aData) + "_json_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -917,7 +954,8 @@ public final class Anytype_Type extends Type {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
-		generateCodeTypedescriptor(aData, source);
+		final StringBuilder localTypeDescriptor = new StringBuilder();
+		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
@@ -942,7 +980,7 @@ public final class Anytype_Type extends Type {
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		//FIXME can have raw attributes
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, true, jsonAsValue);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, true, jsonAsValue, localTypeDescriptor);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {
@@ -953,30 +991,6 @@ public final class Anytype_Type extends Type {
 		}
 
 		generateCodeForCodingHandlers(aData, source);
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
-		return true;
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData) + "_raw_";
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
-		return true;
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData) + "_json_";
 	}
 
 	@Override

@@ -360,6 +360,34 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute != null || jsonAttribute != null ||
+				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+			if (needsAlias()) {
+				String baseName = getGenNameOwn(aData);
+				return baseName + "." + getGenNameOwn();
+			} else if (getParentType() != null) {
+				final IType parentType = getParentType();
+				if (parentType.generatesOwnClass(aData, source)) {
+					return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+				}
+
+				return getGenNameOwn(aData);
+			}
+
+			return getGenNameOwn(aData);
+		}
+
+		if (needsAlias()) {
+			String baseName = getGenNameOwn(aData);
+			return baseName + "." + getGenNameOwn();
+		}
+
+		return referencedLast.getGenNameTypeDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
 		return rawAttribute != null;
 	}
@@ -405,6 +433,12 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return needsAlias();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -420,7 +454,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 			}
 		}
 
-		generateCodeTypedescriptor(aData, source);
+		generateCodeTypedescriptor(aData, source, null);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
 			switch (last.getTypetype()) {
@@ -439,7 +473,14 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 				}
 				break;
 			default:
-				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referencedLast.getGenNameValue(aData, source)));
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, referencedLast.getGenNameValue(aData, source)));
+
+				final StringBuilder descriptor = new StringBuilder();
+				generateCodeTypedescriptor(aData, source, descriptor);
+				source.append(descriptor);
+
+				source.append("\t}\n");
+
 				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referencedLast.getGenNameTemplate(aData, source)));
 			}
 		}

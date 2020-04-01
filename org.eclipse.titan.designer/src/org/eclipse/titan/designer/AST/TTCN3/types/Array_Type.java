@@ -1249,6 +1249,17 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (inTypeDefinition) {
+			String baseName = getGenNameOwn(aData);
+			return baseName + "." + getGenNameOwn();
+		}
+
+		return getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
 		return true;
 	}
@@ -1261,6 +1272,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return inTypeDefinition;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
@@ -1269,6 +1286,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		lastTimeGenerated = aData.getBuildTimstamp();
 
 		if (!inTypeDefinition) {
+			generateCodeTypedescriptor(aData, source, null);
 			return;
 		}
 
@@ -1281,9 +1299,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final String templateName = dimension.getTemplateType(aData, source, elementType, myScope);
 		final String elementName = elementType.getGenNameValue(aData, source);
 
-		generateCodeTypedescriptor(aData, source);
-
 		source.append(MessageFormat.format("public static class {0} extends {1} '{' \n", ownName, valueName));
+
+		final StringBuilder descriptor = new StringBuilder();
+		generateCodeTypedescriptor(aData, source, descriptor);
+		source.append(descriptor);
+
 		if (aData.isDebug()) {
 			source.append("/**\n");
 			source.append(" * Initializes to unbound value.\n");

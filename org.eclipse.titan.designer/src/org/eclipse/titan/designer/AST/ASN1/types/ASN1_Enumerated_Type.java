@@ -571,7 +571,11 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				} else {
 					//FIXME get_eis_index_byName
 					final EnumItem enumItem = getEnumItemWithName(identifier);
-					final int index = (int) ((Integer_Value) enumItem.getValue().getValueRefdLast(timestamp, null)).getValue();
+					final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+					final IValue lastValue = enumItem.getValue().getValueRefdLast(timestamp, referenceChain);
+					referenceChain.release();
+
+					final int index = (int) ((Integer_Value) lastValue).getValue();
 					jsonAttribute.enum_texts.get(i).index = index;
 					for (int j = 0; j < i; j++) {
 						if (jsonAttribute.enum_texts.get(j).index == index) {
@@ -796,6 +800,12 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		return enumItem == null ? null : enumItem.getId();
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return true;
+	}
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
@@ -813,7 +823,8 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		final String ownName = getGenNameOwn();
 		final String displayName = getFullName();
 
-		generateCodeTypedescriptor(aData, source);
+		final StringBuilder localTypeDescriptor = new StringBuilder();
+		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 		final List<EnumItem> items = new ArrayList<EnumItem>();
 		if (enumerations != null) {
@@ -831,13 +842,13 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		for (int i = 0; i < items.size(); i++) {
 			final EnumItem tempItem = items.get(i);
 			final Identifier tempId = tempItem.getId();
-			final Integer_Value tempValue = (Integer_Value)tempItem.getValue().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null); 
-			
+			final Integer_Value tempValue = (Integer_Value)tempItem.getValue().getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+
 			fields.add(new Enum_field(tempId.getName(), tempId.getDisplayName(), tempValue.getValue()));
 		}
 
 		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw, hasJson);
-		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
+		EnumeratedGenerator.generateValueClass( aData, source, e_defs, localTypeDescriptor );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 
 		generateCodeForCodingHandlers(aData, source);
@@ -853,6 +864,19 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
 		return  getGenNameOwn(aData).concat("_template");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
+		String baseName = getGenNameTypeName(aData, source);
+		return baseName + "." + getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 	}
 
 	@Override
