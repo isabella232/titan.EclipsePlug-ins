@@ -1292,17 +1292,19 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		aData.addBuiltinTypeImport("Base_Template");
 
-		elementType.generateCode(aData, source);
-
 		final String ownName = getGenNameValue(aData, source);
 		final String valueName = dimension.getValueType(aData, source, elementType, myScope);
 		final String templateName = dimension.getTemplateType(aData, source, elementType, myScope);
 		final String elementName = elementType.getGenNameValue(aData, source);
 
-		source.append(MessageFormat.format("public static class {0} extends {1} '{' \n", ownName, valueName));
-
 		final StringBuilder descriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, descriptor);
+		elementType.generateCodeTypedescriptor(aData, source, descriptor);
+
+		elementType.generateCode(aData, source);
+
+		source.append(MessageFormat.format("public static class {0} extends {1} '{' \n", ownName, valueName));
+
 		source.append(descriptor);
 
 		if (aData.isDebug()) {
