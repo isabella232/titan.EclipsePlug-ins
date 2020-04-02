@@ -1178,7 +1178,35 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData) + "_json_";
+		final boolean force_gen_seof = aData.getForceGenSeof();
+		if (force_gen_seof) {
+			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";
+		} else {
+			final IType ofType = getOfType();
+			switch (ofType.getTypetype()) {
+			case TYPE_BOOL:
+			case TYPE_BITSTRING:
+			case TYPE_BITSTRING_A:
+			case TYPE_HEXSTRING:
+			case TYPE_OCTETSTRING:
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+			case TYPE_UTF8STRING:
+			case TYPE_TELETEXSTRING:
+			case TYPE_VIDEOTEXSTRING:
+			case TYPE_GRAPHICSTRING:
+			case TYPE_GENERALSTRING:
+			case TYPE_UNIVERSALSTRING:
+			case TYPE_BMPSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+			case TYPE_INTEGER:
+			case TYPE_INTEGER_A:
+			case TYPE_REAL:
+				return getGenNameOwn(aData) + "_json_";
+			default:
+				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";
+			}
+		}
 	}
 
 	@Override
