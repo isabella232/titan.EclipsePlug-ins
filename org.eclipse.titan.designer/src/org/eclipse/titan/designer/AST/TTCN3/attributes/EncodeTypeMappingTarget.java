@@ -50,6 +50,10 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 			this.encodeAttribute = null;
 		}
 		this.errorBehaviorAttribute = errorBehaviorAttribute;
+
+		if (targetType != null) {
+			targetType.setFullNameParent(this);
+		}
 	}
 
 	@Override

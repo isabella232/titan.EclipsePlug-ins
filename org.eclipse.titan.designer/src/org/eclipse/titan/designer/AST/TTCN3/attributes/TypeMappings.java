@@ -62,6 +62,7 @@ public final class TypeMappings extends ASTNode implements ILocateableNode, IInc
 
 	public void addMapping(final TypeMapping mapping) {
 		mappings.add(mapping);
+		mapping.setFullNameParent(this);
 	}
 
 	public int getNofMappings() {

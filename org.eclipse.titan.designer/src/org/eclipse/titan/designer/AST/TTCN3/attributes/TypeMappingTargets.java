@@ -35,6 +35,7 @@ public final class TypeMappingTargets extends ASTNode implements IIncrementallyU
 
 	public void addMappingTarget(final TypeMappingTarget mappingTarget) {
 		targets.add(mappingTarget);
+		mappingTarget.setFullNameParent(this);
 	}
 
 	public int getNofTargets() {

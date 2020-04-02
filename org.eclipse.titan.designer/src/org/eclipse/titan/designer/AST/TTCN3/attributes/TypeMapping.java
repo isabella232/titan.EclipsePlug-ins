@@ -53,6 +53,8 @@ public final class TypeMapping extends ASTNode implements ILocateableNode, IIncr
 	public TypeMapping(final Type type, final TypeMappingTargets mappingTargets) {
 		source_type = type;
 		this.mappingTargets = mappingTargets;
+
+		mappingTargets.setFullNameParent(this);
 	}
 
 	@Override

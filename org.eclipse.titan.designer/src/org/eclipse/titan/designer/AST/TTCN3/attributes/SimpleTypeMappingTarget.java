@@ -38,6 +38,10 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 
 	public SimpleTypeMappingTarget(final Type targetType) {
 		this.targetType = targetType;
+
+		if (targetType != null) {
+			targetType.setFullNameParent(this);
+		}
 	}
 
 	@Override

@@ -48,6 +48,10 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 			this.decodeAttribute = null;
 		}
 		this.errorBehaviorAttribute = errorBehaviorAttribute;
+
+		if (targetType != null) {
+			targetType.setFullNameParent(this);
+		}
 	}
 
 	@Override

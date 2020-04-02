@@ -49,6 +49,10 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 	public FunctionTypeMappingTarget(final Type targetType, final Reference functionReference) {
 		this.targetType = targetType;
 		this.functionReference = functionReference;
+
+		if (targetType != null) {
+			targetType.setFullNameParent(this);
+		}
 	}
 
 	@Override
