@@ -1121,7 +1121,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL:
-				return getGenNameOwn();
+				return getGenNameOwn(aData);
 			default:
 				String baseName = getGenNameTypeName(aData, source);
 				return baseName + "." + getGenNameOwn();
@@ -1162,7 +1162,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL:
-				return getGenNameOwn() + "_raw_";
+				return getGenNameOwn(aData) + "_raw_";
 			default:
 				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 			}
