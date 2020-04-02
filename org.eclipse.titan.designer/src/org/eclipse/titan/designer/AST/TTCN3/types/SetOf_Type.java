@@ -654,6 +654,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 			final StringBuilder localTypeDescriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+			ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit, hasJson, localTypeDescriptor);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
@@ -680,6 +681,7 @@ public final class SetOf_Type extends AbstractOfType {
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
 				generateCodeTypedescriptor(aData, source, null);
+				ofType.generateCodeTypedescriptor(aData, source, null);
 
 				final String ownName = getGenNameOwn(aData);
 				final String valueName = getGenNameValue(aData, source);
@@ -703,6 +705,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );

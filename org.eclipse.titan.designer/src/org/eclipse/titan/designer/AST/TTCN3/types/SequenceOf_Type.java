@@ -972,6 +972,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 			final StringBuilder localTypeDescriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+			ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit, hasJson, localTypeDescriptor);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
@@ -997,6 +998,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
 				generateCodeTypedescriptor(aData, source, null);
+				ofType.generateCodeTypedescriptor(aData, source, null);
 
 				final String ownName = getGenNameOwn(aData);
 				final String valueName = getGenNameValue(aData, source);
@@ -1022,6 +1024,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 
 				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
