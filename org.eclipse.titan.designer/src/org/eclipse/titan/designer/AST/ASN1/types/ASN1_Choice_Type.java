@@ -663,6 +663,12 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
 		return true;
 	}
