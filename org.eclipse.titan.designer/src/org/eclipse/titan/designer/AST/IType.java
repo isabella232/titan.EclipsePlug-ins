@@ -1143,8 +1143,15 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
 
-	//FIXME comment
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget);
+	/**
+	 * Generates the code for the type descriptor ( and all encodings needed) for this type.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code to report errors to.
+	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
+	 *    {@code otherwise} the type descriptors will be added to this Stringbuilder.
+	 * */
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget);
 
 	/**
 	 * Returns the name of the type descriptor (- the _descr_ postfix).
@@ -1249,7 +1256,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType);
 
-	//FIXME comment
+	/**
+	 * Indicates if this type will generate its own class, or not.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code to report error to.
+	 * @return {@code true} if during code generation a class will be generated for this class,
+	 *   {@code false otherwise}
+	 * */
 	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source );
 
 	/**

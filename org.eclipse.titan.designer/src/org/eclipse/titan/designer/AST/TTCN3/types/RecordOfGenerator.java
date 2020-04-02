@@ -50,7 +50,8 @@ public final class RecordOfGenerator {
 	 * @param hasJson
 	 *                {@code true}: if the type has JSON coding attributes.
 	 * @param localTypeDescriptor
-	 *                FIXME document
+	 *                the code to be generated into the class representing
+	 *                the type and coding descriptors of the type.
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,

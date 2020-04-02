@@ -59,7 +59,8 @@ public final class FunctionReferenceGenerator {
 	 * @param def
 	 *                the function definition to generate code for.
 	 * @param localTypeDescriptor
-	 *                FIXME comment
+	 *                the code to be generated into the class representing
+	 *                the type and coding descriptors of the type.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def,
 			final StringBuilder localTypeDescriptor) {

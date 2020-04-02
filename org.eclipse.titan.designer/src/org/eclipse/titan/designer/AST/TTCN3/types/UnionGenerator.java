@@ -139,7 +139,8 @@ public final class UnionGenerator {
 	 * @param jsonAsValue
 	 *                true if this type is a field of a union with the "as value" coding instruction
 	 * @param localTypeDescriptor
-	 *                FIXME document
+	 *                the code to be generated into the class representing
+	 *                the type and coding descriptors of the type.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw, boolean hasJson,

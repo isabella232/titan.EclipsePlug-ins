@@ -144,7 +144,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** the time when code for this type was generated. */
 	protected BuildTimestamp lastTimeGenerated = null;
 
-	//FIXME comment
+	/** the time when code for the type descriptor of this type was generated. */
 	private BuildTimestamp lastTimeTypeDescriptorGenerated = null;
 
 	/**
@@ -2586,8 +2586,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		codersToGenerate.add(encodingType);
 	}
 
-	//FIXME comment
 	//FIXME should be abstract
+	/**
+	 * Indicates if this type will generate its own class, or not.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code to report error to.
+	 * @return {@code true} if during code generation a class will be generated for this class,
+	 *   {@code false otherwise}
+	 * */
 	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source ) {
 		return true;
 	}
@@ -2606,9 +2613,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * @param localTarget TODO
+	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
+	 *    {@code otherwise} the type descriptors will be added to this StringBuilder.
 	 * */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget) {
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
 		if (lastTimeTypeDescriptorGenerated != null && !lastTimeTypeDescriptorGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
 		}
@@ -2679,16 +2687,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		switch (last.getTypetype()) {
 		case TYPE_SEQUENCE_OF: {
-			if ("GenericParameters1_0".equals(((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source))) {
-				((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source);
-			}
 			final StringBuilder preInit = aData.getPreInit();
 			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", gennameTypeDescriptor, ((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
 			break;}
 		case TYPE_SET_OF:{
-			if ("GenericParameters1_0".equals(((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source))) {
-				((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source);
-			}
 			final StringBuilder preInit = aData.getPreInit();
 			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", gennameTypeDescriptor, ((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source)));
 			break;}
@@ -2711,8 +2713,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
+	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
+	 *    {@code otherwise} the RAW descriptors will be added to this StringBuilder.
 	 * */
-	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget) {
+	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
@@ -2917,8 +2921,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
+	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
+	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
 	 * */
-	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget) {
+	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
 		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
 		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
@@ -2982,7 +2988,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			JSON_value.append(enum_texts_name).append(");\n");
 		}
 		if (localTarget == null) {
-		aData.addGlobalVariable(descriptorName, JSON_value.toString());
+			aData.addGlobalVariable(descriptorName, JSON_value.toString());
 		} else {
 			localTarget.append(JSON_value);
 		}

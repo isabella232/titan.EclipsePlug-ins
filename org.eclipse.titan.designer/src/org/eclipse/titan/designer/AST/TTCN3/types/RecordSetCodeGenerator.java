@@ -227,7 +227,8 @@ public final class RecordSetCodeGenerator {
 	 * @param jsonAsMapPossible
 	 *                true if this type is a field with the "as map" coding instruction
 	 * @param localTypeDescriptor
-	 *                FIXME comment
+	 *                the code to be generated into the class representing
+	 *                the type and coding descriptors of the type.
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw,
@@ -3665,7 +3666,8 @@ public final class RecordSetCodeGenerator {
 	 *                {@code true} if encoding/decoding for RAW is to be
 	 *                generated.
 	 * @param localTypeDescriptor
-	 *                FIXME comment
+	 *                the code to be generated into the class representing
+	 *                the type and coding descriptors of the type.
 	 */
 	public static void generateEmptyValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final boolean rawNeeded, final StringBuilder localTypeDescriptor) {
