@@ -712,6 +712,9 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			case TYPE_TTCN3_SET:
 			case TYPE_SEQUENCE_OF:
 			case TYPE_SET_OF:
+				if (!cfType.generatesOwnClass(aData, source)) {
+					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				}
 				break;
 			default:
 				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);

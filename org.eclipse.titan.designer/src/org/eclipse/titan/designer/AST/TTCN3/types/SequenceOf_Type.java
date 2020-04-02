@@ -972,7 +972,9 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 			final StringBuilder localTypeDescriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
-			ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+			if (!ofType.generatesOwnClass(aData, source)) {
+				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+			}
 
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit, hasJson, localTypeDescriptor);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
@@ -998,11 +1000,40 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
 				generateCodeTypedescriptor(aData, source, null);
-				ofType.generateCodeTypedescriptor(aData, source, null);
+				if (!ofType.generatesOwnClass(aData, source)) {
+					ofType.generateCodeTypedescriptor(aData, source, null);
+				}
 
 				final String ownName = getGenNameOwn(aData);
 				final String valueName = getGenNameValue(aData, source);
 				source.append(MessageFormat.format("\t// code for type {0} is not generated, {1} is used instead\n", ownName, valueName));
+				break;
+			}
+			case TYPE_REFERENCED: {
+				final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source );
+
+				final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+				final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
+				int extension_bit = RawASTStruct.XDEFDEFAULT;
+				if (hasRaw) {
+					RawAST dummy_raw;
+					if (rawAttribute == null) {
+						dummy_raw = new RawAST(getDefaultRawFieldLength());
+					} else {
+						dummy_raw = rawAttribute;
+					}
+
+					extension_bit = dummy_raw.extension_bit;
+				}
+
+				final StringBuilder localTypeDescriptor = new StringBuilder();
+				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				if (!ofType.generatesOwnClass(aData, source)) {
+					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				}
+
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
+				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 				break;
 			}
 			default: {
@@ -1024,7 +1055,9 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
-				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				if (!ofType.generatesOwnClass(aData, source)) {
+					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				}
 
 				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
@@ -1124,6 +1157,13 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL:
+				if (getParentType() != null) {
+					final IType parentType = getParentType();
+					if (parentType.generatesOwnClass(aData, source)) {
+						return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+					}
+				}
+
 				return getGenNameOwn(aData);
 			default:
 				String baseName = getGenNameTypeName(aData, source);
@@ -1165,6 +1205,13 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL:
+				if (getParentType() != null) {
+					final IType parentType = getParentType();
+					if (parentType.generatesOwnClass(aData, source)) {
+						return parentType.getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
+					}
+				}
+
 				return getGenNameOwn(aData) + "_raw_";
 			default:
 				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
@@ -1205,6 +1252,13 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL:
+				if (getParentType() != null) {
+					final IType parentType = getParentType();
+					if (parentType.generatesOwnClass(aData, source)) {
+						return parentType.getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";
+					}
+				}
+
 				return getGenNameOwn(aData) + "_json_";
 			default:
 				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";

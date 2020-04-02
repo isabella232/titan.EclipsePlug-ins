@@ -1173,6 +1173,9 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			case TYPE_ASN1_SET:
 			case TYPE_SEQUENCE_OF:
 			case TYPE_SET_OF:
+				if (!cfType.generatesOwnClass(aData, source)) {
+					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				}
 				break;
 			default:
 				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
