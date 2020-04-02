@@ -933,7 +933,7 @@ public final class Anytype_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
-		return getGenNameOwn(aData) + "_json_";
+		return getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";
 	}
 
 	@Override
