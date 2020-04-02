@@ -296,6 +296,12 @@ public final class Port_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
 			return;

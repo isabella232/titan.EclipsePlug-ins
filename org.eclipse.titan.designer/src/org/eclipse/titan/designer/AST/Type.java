@@ -2586,7 +2586,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		codersToGenerate.add(encodingType);
 	}
 
-	//FIXME should be abstract
 	/**
 	 * Indicates if this type will generate its own class, or not.
 	 *
@@ -2595,9 +2594,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return {@code true} if during code generation a class will be generated for this class,
 	 *   {@code false otherwise}
 	 * */
-	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source ) {
-		return true;
-	}
+	public abstract boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source );
 
 	/**
 	 * Add generated java code on this level.
