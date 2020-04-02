@@ -97,6 +97,7 @@ public final class ExtensionAndException extends ASTNode {
 
 	public void setExtensionAdditions(final ExtensionAdditions extensionAdditions) {
 		this.extensionAdditions = extensionAdditions;
+		this.extensionAdditions.setFullNameParent(this);
 	}
 
 	@Override
