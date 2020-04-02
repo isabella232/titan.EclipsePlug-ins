@@ -32,7 +32,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * @author Adam Delic

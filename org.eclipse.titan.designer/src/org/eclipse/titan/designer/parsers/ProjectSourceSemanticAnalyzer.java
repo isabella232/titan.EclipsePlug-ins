@@ -45,7 +45,6 @@ import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * Helper class to separate the responsibility of the source parser into smaller
