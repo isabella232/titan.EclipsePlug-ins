@@ -101,6 +101,13 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
+      <FolderPath>src/EncodeDecode/JSON/JsonComplexTest</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
       <FolderPath>src/EncodeDecode/JSON/JsonModuleTest</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
@@ -109,6 +116,13 @@
     </FolderResource>
     <FolderResource>
       <FolderPath>src/EncodeDecode/OER/OER_BasicTest</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
+      <FolderPath>src/EncodeDecode/OER/OER_EncDec</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
         <ExcludeFromBuild>true</ExcludeFromBuild>
