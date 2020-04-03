@@ -1,6 +1,5 @@
 package org.eclipse.titan.Regression_Test_java.user_provided;
 
-import org.eclipse.titan.Regression_Test_java.generated.dual;
 import org.eclipse.titan.Regression_Test_java.generated.dual.PDUType1;
 import org.eclipse.titan.runtime.core.TTCN_Buffer;
 import org.eclipse.titan.runtime.core.TTCN_EncDec;
@@ -23,7 +22,7 @@ public class dual_externalfunctions {
 		}
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);
 		final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();
-		par.encode(dual.PDUType1_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_RAW, 0);
+		par.encode(PDUType1.PDUType1_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_RAW, 0);
 		final TitanOctetString ret_val = new TitanOctetString();
 		ttcn_buffer.get_string(ret_val);
 		if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {
@@ -47,7 +46,7 @@ public class dual_externalfunctions {
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);
 		TTCN_EncDec.clear_error();
 		final TTCN_Buffer ttcn_buffer = new TTCN_Buffer(stream);
-		result.decode(dual.PDUType1_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_RAW, 0);
+		result.decode(PDUType1.PDUType1_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_RAW, 0);
 		if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_ENCDEC)) {
 			TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_ENCDEC);
 			TTCN_Logger.log_event_str("dec_PDUType1_gen(): Decoded @dual.PDUType1: ");
