@@ -825,6 +825,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 
 		final List<EnumItem> items = new ArrayList<EnumItem>();
 		if (enumerations != null) {

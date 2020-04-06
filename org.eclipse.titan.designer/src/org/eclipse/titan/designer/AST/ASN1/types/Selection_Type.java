@@ -455,6 +455,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 		}
 
 		generateCodeTypedescriptor(aData, source, null);
+		generateCodeDefaultCoding(aData, source, null);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
 			switch (last.getTypetype()) {
@@ -477,6 +478,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 				final StringBuilder descriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, descriptor);
+				generateCodeDefaultCoding(aData, source, descriptor);
 				source.append(descriptor);
 
 				source.append("\t}\n");

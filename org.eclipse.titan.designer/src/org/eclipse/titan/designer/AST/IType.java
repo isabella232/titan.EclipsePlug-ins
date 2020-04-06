@@ -1154,6 +1154,18 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget);
 
 	/**
+	 * Generates the default coding descriptor for the types
+	 *
+	 * part of generate_code_rawdescriptor in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
+	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
+	 * */
+	public void generateCodeDefaultCoding(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget);
+
+	/**
 	 * Returns the name of the type descriptor (- the _descr_ postfix).
 	 *
 	 * get_genname_typedescriptor in titan.core

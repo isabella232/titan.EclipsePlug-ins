@@ -146,6 +146,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/** the time when code for the type descriptor of this type was generated. */
 	private BuildTimestamp lastTimeTypeDescriptorGenerated = null;
+	/** the time when code for default coding of this type was generated. */
+	private BuildTimestamp lastTimeTypeDefaultCodingGenerated = null;
 
 	/**
 	 * The actual value of the severity level to report type compatibility
@@ -2992,17 +2994,26 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
-	 * Generates the coding handler functions for the types
+	 * Generates the default coding descriptor for the types
 	 *
-	 * generate_code_rawdescriptor in the compiler
+	 * part of generate_code_rawdescriptor in the compiler
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
+	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
+	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
 	 * */
-	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source) {
+	public void generateCodeDefaultCoding(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
+		if (lastTimeTypeDefaultCodingGenerated != null && !lastTimeTypeDefaultCodingGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeTypeDefaultCodingGenerated = aData.getBuildTimstamp();
+
 		final String genname = getGenNameOwn();
+
 		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
-		if (t == null || !genname.equals(getGenNameDefaultCoding(aData, source, myScope))) {
+		if (t == null /*|| !genname.equals(getGenNameDefaultCoding(aData, source, myScope))*/) {
 			return;
 		}
 
@@ -3024,15 +3035,64 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
 		String globalVariable;
-		if (aData.encoding_registry.containsKey(defaultCoding)) {
-			final String previousName = aData.encoding_registry.get(defaultCoding);
-			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = {1};\n", genname, previousName);
+		if (localTarget == null) {
+			if (aData.encoding_registry.containsKey(defaultCoding)) {
+				final String previousName = aData.encoding_registry.get(defaultCoding);
+				globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = {1};\n", genname, previousName);
+			} else {
+				aData.encoding_registry.put(defaultCoding, MessageFormat.format("{0}_default_coding", genname));
+				globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
+			}
+	
+			aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", genname), globalVariable);
 		} else {
-			aData.encoding_registry.put(defaultCoding, MessageFormat.format("{0}_default_coding", genname));
 			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
+			localTarget.append(globalVariable);
+		}
+	}
+
+	/**
+	 * Generates the coding handler functions for the types
+	 *
+	 * generate_code_rawdescriptor in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * */
+	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source) {
+		final String genname = getGenNameOwn();
+		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (t == null || !genname.equals(getGenNameCoder(aData, source, myScope))) {
+			return;
 		}
 
-		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", genname), globalVariable);
+//		String defaultCoding = "";
+		final List<Coding_Type> tempCodingTable = t.getCodingTable();
+		if (tempCodingTable.size() == 0) {
+			return;
+		}
+//
+//		if (tempCodingTable.size() == 1) {
+//			final Coding_Type tempCodingType = tempCodingTable.get(0);
+//			if (tempCodingType.builtIn) {
+//				defaultCoding = tempCodingType.builtInCoding == MessageEncoding_type.BER ? "BER:2002" : tempCodingType.builtInCoding.getEncodingName();
+//			} else {
+//				defaultCoding = tempCodingType.customCoding.name;
+//			}
+//		}
+
+//		aData.addBuiltinTypeImport("TitanUniversalCharString");
+
+//		String globalVariable;
+//		if (aData.encoding_registry.containsKey(defaultCoding)) {
+//			final String previousName = aData.encoding_registry.get(defaultCoding);
+//			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = {1};\n", genname, previousName);
+//		} else {
+//			aData.encoding_registry.put(defaultCoding, MessageFormat.format("{0}_default_coding", genname));
+//			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
+//		}
+//
+//		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", genname), globalVariable);
 
 		if (!getGenNameCoder(aData, source, myScope).equals(genname) ) {
 			return;
@@ -3385,7 +3445,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameDefaultCoding(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		switch (ownerType) {
+		return getGenNameTypeDescriptor(aData, source);
+		/*switch (ownerType) {
 		case OT_TYPE_ASS:
 		case OT_TYPE_DEF:
 		case OT_ARRAY:
@@ -3408,7 +3469,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 		}
 
-		return "";
+		return "";*/
 	}
 
 	/**

@@ -885,6 +885,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
@@ -912,10 +913,12 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			case TYPE_SET_OF:
 				if (!cfType.generatesOwnClass(aData, source)) {
 					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+					cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				}
 				break;
 			default:
 				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				break;
 			}
 

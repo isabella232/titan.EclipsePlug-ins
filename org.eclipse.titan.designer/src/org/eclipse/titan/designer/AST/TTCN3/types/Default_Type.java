@@ -229,6 +229,7 @@ public final class Default_Type extends Type {
 
 			final StringBuilder descriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, descriptor);
+			generateCodeDefaultCoding(aData, source, descriptor);
 			source.append(descriptor);
 
 			source.append("\t}\n");
@@ -236,6 +237,7 @@ public final class Default_Type extends Type {
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
 		} else {
 			generateCodeTypedescriptor(aData, source, null);
+			generateCodeDefaultCoding(aData, source, null);
 		}
 
 		if (hasDoneAttribute()) {

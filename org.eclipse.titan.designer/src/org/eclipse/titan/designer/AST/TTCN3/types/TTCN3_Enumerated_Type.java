@@ -854,6 +854,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);

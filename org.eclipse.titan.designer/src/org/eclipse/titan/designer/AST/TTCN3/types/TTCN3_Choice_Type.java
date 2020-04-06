@@ -697,6 +697,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
@@ -714,10 +715,12 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			case TYPE_SET_OF:
 				if (!cfType.generatesOwnClass(aData, source)) {
 					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+					cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				}
 				break;
 			default:
 				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				break;
 			}
 

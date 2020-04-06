@@ -527,6 +527,7 @@ public final class Altstep_Type extends Type {
 
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 
 		final FunctionReferenceDefinition def = new FunctionReferenceDefinition(genName, displayName);
 		def.returnType = null;

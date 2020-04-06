@@ -250,6 +250,7 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 
 			final StringBuilder descriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, descriptor);
+			generateCodeDefaultCoding(aData, source, descriptor);
 			source.append(descriptor);
 
 			source.append("\t}\n");
@@ -257,6 +258,7 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
 		} else {
 			generateCodeTypedescriptor(aData, source, null);
+			generateCodeDefaultCoding(aData, source, null);
 		}
 
 		generateCodeForCodingHandlers(aData, source);

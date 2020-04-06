@@ -972,8 +972,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 			final StringBuilder localTypeDescriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+			generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 			if (!ofType.generatesOwnClass(aData, source)) {
 				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 			}
 
 			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit, hasJson, localTypeDescriptor);
@@ -1000,8 +1002,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
 				generateCodeTypedescriptor(aData, source, null);
+				generateCodeDefaultCoding(aData, source, null);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, null);
+					ofType.generateCodeDefaultCoding(aData, source, null);
 				}
 
 				final String ownName = getGenNameOwn(aData);
@@ -1028,8 +1032,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				}
 
 				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
@@ -1055,8 +1061,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				}
 
 				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);

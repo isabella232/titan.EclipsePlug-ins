@@ -1287,6 +1287,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		if (!inTypeDefinition) {
 			generateCodeTypedescriptor(aData, source, null);
+			generateCodeDefaultCoding(aData, source, null);
 			return;
 		}
 
@@ -1299,7 +1300,9 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		final StringBuilder descriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, descriptor);
+		generateCodeDefaultCoding(aData, source, descriptor);
 		elementType.generateCodeTypedescriptor(aData, source, descriptor);
+		elementType.generateCodeDefaultCoding(aData, source, descriptor);
 
 		elementType.generateCode(aData, source);
 
