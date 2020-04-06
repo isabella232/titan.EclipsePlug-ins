@@ -2093,9 +2093,9 @@ public class TitanUniversalCharString extends Base_Type {
 		} else {
 			for (int i = 0; i < val_ptr.size(); i++) {
 				final TitanUniversalChar temp = val_ptr.get(i);
-				final char g = temp.getUc_group();
-				final char p = temp.getUc_plane();
-				final char r = temp.getUc_row();
+				final int g = temp.getUc_group() & 0xFF;
+				final int p = temp.getUc_plane() & 0xFF;
+				final int r = temp.getUc_row() & 0xFF;
 				final int c = temp.getUc_cell() & 0xFF;
 				if (g == 0x00 && p <= 0x1F) {
 					if (p == 0x00) {
@@ -2521,9 +2521,9 @@ public class TitanUniversalCharString extends Base_Type {
 		final String str = new String(ustr, StandardCharsets.UTF8);
 		for (int i = 0; i < str.length(); ) {
 			final int codePoint = str.codePointAt(i);
-			final char c = (char)codePoint;
+			//final char c = (char)codePoint;
 			if (mode != json_string_escaping.ESCAPE_AS_USI) {
-				switch(c) {
+				switch(codePoint) {
 				case '\n':
 					json_str.append("\\n");
 					break;
@@ -2555,21 +2555,21 @@ public class TitanUniversalCharString extends Base_Type {
 					}
 					// fall through if ESCAPE_AS_TRANSPARENT
 				default:
-					if ((c >= 0 && c <= 0x1F) || c == 0x7F) {
+					if ((codePoint >= 0 && codePoint <= 0x1F) || codePoint == 0x7F) {
 						// C0 control characters use USI-like escape sequences
 						json_str.append("\\u00");
-						json_str.append(Integer.toHexString(c / 16).toUpperCase());
-						json_str.append(Integer.toHexString(c % 16).toUpperCase());
+						json_str.append(Integer.toHexString(codePoint / 16).toUpperCase());
+						json_str.append(Integer.toHexString(codePoint % 16).toUpperCase());
 					} else {
 						json_str.appendCodePoint(codePoint);
 					}
 					break;
 				}
 			} else { // ESCAPE_AS_USI
-				if (c <= 0x20 || c == '\"' || c == '\\' || c == 0x7F) {
+				if (codePoint <= 0x20 || codePoint == '\"' || codePoint == '\\' || codePoint == 0x7F) {
 					json_str.append("\\u00");
-					json_str.append(Integer.toHexString(c / 16).toUpperCase());
-					json_str.append(Integer.toHexString(c % 16).toUpperCase());
+					json_str.append(Integer.toHexString(codePoint / 16).toUpperCase());
+					json_str.append(Integer.toHexString(codePoint % 16).toUpperCase());
 				} else {
 					json_str.appendCodePoint(codePoint);
 				}

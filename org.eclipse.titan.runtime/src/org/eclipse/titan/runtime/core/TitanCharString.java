@@ -1353,7 +1353,8 @@ public class TitanCharString extends Base_Type {
 		boolean error = false;
 
 		for (int i = start; i < end; ++i) {
-			if (0 > (byte)p_value.charAt(i)) {
+			final char c = p_value.charAt(i);
+			if (c < 0 || c >= 0x80) {
 				error = true;
 				break;
 			}
