@@ -25,6 +25,10 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV extends Base_Type {
+	public static final TTCN_Typedescriptor TitanEmbedded_PDV_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV");
+	public static final TTCN_Typedescriptor TitanEmbedded_PDV_data__value__descriptor_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV.data-value-descriptor");
+	public static final TTCN_Typedescriptor TitanEmbedded_PDV_data__value_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV.data-value", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
+	public static final TitanUniversalCharString TitanEmbedded_PDV_data__value_default_coding = new TitanUniversalCharString("JSON");
 	private final TitanEmbedded_PDV_identification identification; //ASN1_Choice_Type
 	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
 	private final TitanOctetString data__value; //OctetString_Type

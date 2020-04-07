@@ -25,6 +25,10 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanExternal extends Base_Type {
+	public static final TTCN_Typedescriptor TitanExternal_descr_ = new TTCN_Typedescriptor("EXTERNAL");
+	public static final TTCN_Typedescriptor TitanExternal_data__value__descriptor_descr_ = new TTCN_Typedescriptor("EXTERNAL.data-value-descriptor");
+	public static final TTCN_Typedescriptor TitanExternal_data__value_descr_ = new TTCN_Typedescriptor("EXTERNAL.data-value", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
+	public static final TitanUniversalCharString TitanExternal_data__value_default_coding = new TitanUniversalCharString("JSON");
 	private final TitanExternal_identification identification; //ASN1_Choice_Type
 	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
 	private final TitanOctetString data__value; //OctetString_Type

@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -27,6 +28,13 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification_syntaxes extends Base_Type {
+	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_syntaxes_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntaxes_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntaxes", TitanCharacter_String_identification_syntaxes.TitanCharacter_String_identification_syntaxes_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_syntaxes_default_coding = new TitanUniversalCharString("JSON");
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntaxes_abstract__descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntaxes.abstract", JSON.TitanObjectid_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_syntaxes_abstract__default_coding = new TitanUniversalCharString("JSON");
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntaxes_transfer_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntaxes.transfer", JSON.TitanObjectid_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_syntaxes_transfer_default_coding = new TitanUniversalCharString("JSON");
 	private final TitanObjectid abstract_; //ObjectID_Type
 	private final TitanObjectid transfer; //ObjectID_Type
 
@@ -397,7 +405,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, boolean p_parent_is_map, final int p_chosen_field) {
 		final AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		int dec_len = p_tok.get_next_token(j_token, null, null);
 		if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {
@@ -413,7 +421,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		while (true) {
 			final StringBuilder fld_name = new StringBuilder();
 			final AtomicInteger name_len = new AtomicInteger(0);
-			final int buf_pos = p_tok.get_buf_pos();
+			int buf_pos = p_tok.get_buf_pos();
 			dec_len += p_tok.get_next_token(j_token, fld_name, name_len);
 			if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {
 				JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);
@@ -477,7 +485,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		return dec_len;
 	}
 
-	private static void JSON_ERROR(final boolean p_silent, final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
+	private static void JSON_ERROR(final boolean p_silent, final TTCN_EncDec.error_type p_et, final String fmt, final java.lang.Object... args) {
 		if (!p_silent) {
 			TTCN_EncDec_ErrorContext.error(p_et, fmt, args);
 		}

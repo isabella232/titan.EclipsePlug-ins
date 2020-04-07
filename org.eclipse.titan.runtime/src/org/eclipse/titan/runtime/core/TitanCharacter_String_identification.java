@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
-import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
@@ -34,11 +33,17 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_syntaxes_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
-	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntaxes_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntaxes", null, null, TitanCharacter_String_identification_syntaxes_json_, null);
-	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_context__negotiation_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
-	public static final TTCN_Typedescriptor TitanCharacter_String_identification_context__negotiation_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.context-negotiation", null, null, TitanCharacter_String_identification_context__negotiation_json_, null);
-
+	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification", TitanCharacter_String_identification.TitanCharacter_String_identification_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_default_coding = new TitanUniversalCharString("JSON");
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntax_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntax", JSON.TitanObjectid_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_syntax_default_coding = new TitanUniversalCharString("JSON");
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_presentation__context__id_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.presentation-context-id", JSON.TitanInteger_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_presentation__context__id_default_coding = new TitanUniversalCharString("JSON");
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_transfer__syntax_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.transfer-syntax", JSON.TitanObjectid_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_transfer__syntax_default_coding = new TitanUniversalCharString("JSON");
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_fixed_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.fixed", JSON.TitanAsn_Null_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_identification_fixed_default_coding = new TitanUniversalCharString("JSON");
 	/**
 	 * Indicates the state/selection of this union kind.
 	 * When union_selection is UNBOUND_VALUE, the union is unbound.
@@ -763,7 +768,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			if (!as_value) {
 				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "syntaxes");
 			}
-			enc_len += get_field_syntaxes().JSON_encode(TitanCharacter_String_identification_syntaxes_descr_, p_tok);
+			enc_len += get_field_syntaxes().JSON_encode(TitanCharacter_String_identification_syntaxes.TitanCharacter_String_identification_syntaxes_descr_, p_tok);
 			break;
 		case ALT_syntax:
 			if (!as_value) {
@@ -781,7 +786,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			if (!as_value) {
 				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "context-negotiation");
 			}
-			enc_len += get_field_context__negotiation().JSON_encode(TitanCharacter_String_identification_context__negotiation_descr_, p_tok);
+			enc_len += get_field_context__negotiation().JSON_encode(TitanCharacter_String_identification_context__negotiation.TitanCharacter_String_identification_context__negotiation_descr_, p_tok);
 			break;
 		case ALT_transfer__syntax:
 			if (!as_value) {
@@ -812,13 +817,13 @@ public class TitanCharacter_String_identification extends Base_Type {
 		if (0 <= p_chosen_field && 6 > p_chosen_field) {
 			switch (p_chosen_field) {
 			case 0:
-				return get_field_syntaxes().JSON_decode(TitanCharacter_String_identification_syntaxes_descr_, p_tok, true);
+				return get_field_syntaxes().JSON_decode(TitanCharacter_String_identification_syntaxes.TitanCharacter_String_identification_syntaxes_descr_, p_tok, true);
 			case 1:
 				return get_field_syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, true);
 			case 2:
 				return get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, true);
 			case 3:
-				return get_field_context__negotiation().JSON_decode(TitanCharacter_String_identification_context__negotiation_descr_, p_tok, true);
+				return get_field_context__negotiation().JSON_decode(TitanCharacter_String_identification_context__negotiation.TitanCharacter_String_identification_context__negotiation_descr_, p_tok, true);
 			case 4:
 				return get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, true);
 			case 5:
@@ -878,12 +883,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 			}
 			case JSON_TOKEN_OBJECT_START: {
 				p_tok.set_buf_pos(buf_pos);
-				ret_val = get_field_syntaxes().JSON_decode(TitanCharacter_String_identification_syntaxes_descr_, p_tok, true);
+				ret_val = get_field_syntaxes().JSON_decode(TitanCharacter_String_identification_syntaxes.TitanCharacter_String_identification_syntaxes_descr_, p_tok, true);
 				if (0 <= ret_val) {
 					return ret_val;
 				}
 				p_tok.set_buf_pos(buf_pos);
-				ret_val = get_field_context__negotiation().JSON_decode(TitanCharacter_String_identification_context__negotiation_descr_, p_tok, true);
+				ret_val = get_field_context__negotiation().JSON_decode(TitanCharacter_String_identification_context__negotiation.TitanCharacter_String_identification_context__negotiation_descr_, p_tok, true);
 				if (0 <= ret_val) {
 					return ret_val;
 				}
@@ -919,15 +924,15 @@ public class TitanCharacter_String_identification extends Base_Type {
 				return JSON.JSON_ERROR_INVALID_TOKEN;
 			}
 
-			StringBuilder fld_name = new StringBuilder();
-			AtomicInteger name_len = new AtomicInteger(0);
+			final StringBuilder fld_name = new StringBuilder();
+			final AtomicInteger name_len = new AtomicInteger(0);
 			dec_len += p_tok.get_next_token(j_token, fld_name, name_len);
 			if (json_token_t.JSON_TOKEN_NAME != j_token.get()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);
 				return JSON.JSON_ERROR_FATAL;
 			} else {
 				if (8 == name_len.get() && "syntaxes".equals(fld_name.substring(0,name_len.get()))) {
-					final int ret_val = get_field_syntaxes().JSON_decode(TitanCharacter_String_identification_syntaxes_descr_, p_tok, p_silent);
+					final int ret_val = get_field_syntaxes().JSON_decode(TitanCharacter_String_identification_syntaxes.TitanCharacter_String_identification_syntaxes_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "syntaxes");
@@ -957,7 +962,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 						dec_len += ret_val;
 					}
 				} else if (19 == name_len.get() && "context-negotiation".equals(fld_name.substring(0,name_len.get()))) {
-					final int ret_val = get_field_context__negotiation().JSON_decode(TitanCharacter_String_identification_context__negotiation_descr_, p_tok, p_silent);
+					final int ret_val = get_field_context__negotiation().JSON_decode(TitanCharacter_String_identification_context__negotiation.TitanCharacter_String_identification_context__negotiation_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "context-negotiation");

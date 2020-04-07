@@ -26,6 +26,10 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Arpad Lovassy
  */
 public class TitanCharacter_String extends Base_Type {
+	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING");
+	public static final TTCN_Typedescriptor TitanCharacter_String_data__value__descriptor_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.data-value-descriptor");
+	public static final TTCN_Typedescriptor TitanCharacter_String_string__value_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.string-value", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
+	public static final TitanUniversalCharString TitanCharacter_String_string__value_default_coding = new TitanUniversalCharString("JSON");
 	private final TitanCharacter_String_identification identification; //ASN1_Choice_Type
 	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
 	private final TitanOctetString string__value; //OctetString_Type

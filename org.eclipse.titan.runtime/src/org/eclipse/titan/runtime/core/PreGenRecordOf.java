@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
@@ -45,77 +44,14 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location.entity_type_t;
  */
 public final class PreGenRecordOf extends TTCN_Module {
 
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
-	public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
-	public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.anytype");
 
 	public PreGenRecordOf() {
 		super("PreGenRecordOf", module_type_enum.TTCN3_MODULE, new byte[] {(byte)2, (byte)172, (byte)107, (byte)74, (byte)67, (byte)37, (byte)48, (byte)47, (byte)113, (byte)216, (byte)134, (byte)12, (byte)12, (byte)157, (byte)70, (byte)204});
 	}
 
 	public static class PREGEN__RECORD__OF__INTEGER__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
 
 		protected List<TitanInteger> valueElements;
 
@@ -1124,7 +1060,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -1177,7 +1113,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -2358,6 +2294,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -3351,7 +3289,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -3404,7 +3342,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -4698,6 +4636,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
 
 		protected List<TitanOctetString> valueElements;
 
@@ -5706,7 +5646,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -5759,7 +5699,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -6940,6 +6880,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__FLOAT extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
 
 		protected List<TitanFloat> valueElements;
 
@@ -7948,7 +7890,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -8001,7 +7943,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -9182,6 +9124,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -10190,7 +10134,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -10243,7 +10187,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -11424,6 +11368,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__BITSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
 
 		protected List<TitanBitString> valueElements;
 
@@ -12432,7 +12378,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -12485,7 +12431,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -13666,6 +13612,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
 
 		protected List<TitanBoolean> valueElements;
 
@@ -14674,7 +14622,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -14727,7 +14675,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -15908,6 +15856,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__CHARSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
 
 		protected List<TitanCharString> valueElements;
 
@@ -16916,7 +16866,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -16969,7 +16919,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -18150,6 +18100,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__BOOLEAN extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
 
 		protected List<TitanBoolean> valueElements;
 
@@ -19158,7 +19110,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -19211,7 +19163,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -20392,6 +20344,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__BITSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
 
 		protected List<TitanBitString> valueElements;
 
@@ -21400,7 +21354,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -21453,7 +21407,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -22634,6 +22588,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__INTEGER extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
 
 		protected List<TitanInteger> valueElements;
 
@@ -23642,7 +23598,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -23695,7 +23651,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -24876,6 +24832,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -25869,7 +25827,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -25922,7 +25880,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -27216,6 +27174,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__BOOLEAN extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
 
 		protected List<TitanBoolean> valueElements;
 
@@ -28209,7 +28169,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -28262,7 +28222,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -29556,6 +29516,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__FLOAT__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
 
 		protected List<TitanFloat> valueElements;
 
@@ -30549,7 +30511,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -30602,7 +30564,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -31896,6 +31858,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__INTEGER extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
 
 		protected List<TitanInteger> valueElements;
 
@@ -32889,7 +32853,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -32942,7 +32906,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -34236,6 +34200,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__CHARSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
 
 		protected List<TitanCharString> valueElements;
 
@@ -35229,7 +35195,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -35282,7 +35248,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -36576,6 +36542,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanUniversalCharString_raw_, JSON.TitanUniversalCharString_json_);
 
 		protected List<TitanUniversalCharString> valueElements;
 
@@ -37584,7 +37552,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -37637,7 +37605,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanUniversalCharString val = new TitanUniversalCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -38818,6 +38786,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__HEXSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
 
 		protected List<TitanHexString> valueElements;
 
@@ -39811,7 +39781,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -39864,7 +39834,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -41158,6 +41128,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__HEXSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
 
 		protected List<TitanHexString> valueElements;
 
@@ -42151,7 +42123,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -42204,7 +42176,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -43498,6 +43470,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__OCTETSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
 
 		protected List<TitanOctetString> valueElements;
 
@@ -44491,7 +44465,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -44544,7 +44518,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -45838,6 +45812,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__FLOAT extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__FLOAT_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_FLOAT.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
 
 		protected List<TitanFloat> valueElements;
 
@@ -46831,7 +46807,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -46884,7 +46860,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -48178,6 +48154,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__INTEGER__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__INTEGER__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.oftype", null, RAW.TitanInteger_raw_, JSON.TitanInteger_json_);
 
 		protected List<TitanInteger> valueElements;
 
@@ -49171,7 +49149,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -49224,7 +49202,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanInteger val = new TitanInteger();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -50518,6 +50496,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__OCTETSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
 
 		protected List<TitanOctetString> valueElements;
 
@@ -51511,7 +51491,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -51564,7 +51544,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -52858,6 +52838,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__OCTETSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__OCTETSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.oftype", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
 
 		protected List<TitanOctetString> valueElements;
 
@@ -53866,7 +53848,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -53919,7 +53901,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanOctetString val = new TitanOctetString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -55100,6 +55082,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__HEXSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
 
 		protected List<TitanHexString> valueElements;
 
@@ -56108,7 +56092,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -56161,7 +56145,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -57342,6 +57326,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__CHARSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
 
 		protected List<TitanCharString> valueElements;
 
@@ -58335,7 +58321,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -58388,7 +58374,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -59682,6 +59668,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__BITSTRING extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
 
 		protected List<TitanBitString> valueElements;
 
@@ -60675,7 +60663,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -60728,7 +60716,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -62022,6 +62010,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__BOOLEAN__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BOOLEAN__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.oftype", null, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_);
 
 		protected List<TitanBoolean> valueElements;
 
@@ -63015,7 +63005,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -63068,7 +63058,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBoolean val = new TitanBoolean();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -64362,6 +64352,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.oftype", null, RAW.TitanCharString_raw_, JSON.TitanCharString_json_);
 
 		protected List<TitanCharString> valueElements;
 
@@ -65370,7 +65362,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -65423,7 +65415,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanCharString val = new TitanCharString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -66604,6 +66596,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__FLOAT__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__FLOAT__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.oftype", null, RAW.TitanFloat_raw_, JSON.TitanFloat_json_);
 
 		protected List<TitanFloat> valueElements;
 
@@ -67612,7 +67606,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -67665,7 +67659,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanFloat val = new TitanFloat();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -68846,6 +68840,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__SET__OF__BITSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__SET__OF__BITSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.oftype", null, RAW.TitanBitString_raw_, JSON.TitanBitString_json_);
 
 		protected List<TitanBitString> valueElements;
 
@@ -69839,7 +69835,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -69892,7 +69888,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanBitString val = new TitanBitString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -71186,6 +71182,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED extends Record_Of_Type {
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED");
+		public static final TTCN_Typedescriptor PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_0_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.oftype", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_);
 
 		protected List<TitanHexString> valueElements;
 
@@ -72194,7 +72192,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 				}
 				else {
-					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok);
+					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
 					if (0 > ret_val) break;
 					enc_len += ret_val;
 				}
@@ -72247,7 +72245,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 					p_tok.set_buf_pos(buf_pos);
 				}
 				final TitanHexString val = new TitanHexString();
-				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent);
+				final int ret_val2 = val.JSON_decode(p_td.oftype_descr, p_tok, p_silent, p_td.json.isAs_map(), JSON.CHOSEN_FIELD_UNSET);
 				if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 					p_tok.set_buf_pos(buf_pos);
 					break;
@@ -73428,6 +73426,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 	}
 	public static class anytype extends Base_Type {
+		public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("@PreGenRecordOf.anytype");
 		/**
 		 * Indicates the state/selection of this union kind.
 		 * When union_selection is UNBOUND_VALUE, the union is unbound.
@@ -74356,38 +74355,38 @@ public final class PreGenRecordOf extends TTCN_Module {
 		}
 		pre_init_called = true;
 		final TTCN_Location current_location = TTCN_Location.enter("PreGenRecordOf.ttcn", 0, entity_type_t.LOCATION_UNKNOWN, "PreGenRecordOf");
-		PREGEN__RECORD__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__RECORD__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__RECORD__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__RECORD__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__RECORD__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__RECORD__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__RECORD__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
-		PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
-		PREGEN__SET__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__SET__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__SET__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__SET__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__SET__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__SET__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__SET__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
-		PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
-		PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
-		PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
-		PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
-		PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
-		PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
-		PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
-		PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+		PREGEN__RECORD__OF__BOOLEAN.PREGEN__RECORD__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+		PREGEN__RECORD__OF__INTEGER.PREGEN__RECORD__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+		PREGEN__RECORD__OF__FLOAT.PREGEN__RECORD__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+		PREGEN__RECORD__OF__BITSTRING.PREGEN__RECORD__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+		PREGEN__RECORD__OF__HEXSTRING.PREGEN__RECORD__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+		PREGEN__RECORD__OF__OCTETSTRING.PREGEN__RECORD__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+		PREGEN__RECORD__OF__CHARSTRING.PREGEN__RECORD__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+		PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING.PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+		PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED.PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+		PREGEN__RECORD__OF__INTEGER__OPTIMIZED.PREGEN__RECORD__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+		PREGEN__RECORD__OF__FLOAT__OPTIMIZED.PREGEN__RECORD__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+		PREGEN__RECORD__OF__BITSTRING__OPTIMIZED.PREGEN__RECORD__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+		PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED.PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+		PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED.PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+		PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED.PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+		PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+		PREGEN__SET__OF__BOOLEAN.PREGEN__SET__OF__BOOLEAN_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+		PREGEN__SET__OF__INTEGER.PREGEN__SET__OF__INTEGER_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+		PREGEN__SET__OF__FLOAT.PREGEN__SET__OF__FLOAT_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+		PREGEN__SET__OF__BITSTRING.PREGEN__SET__OF__BITSTRING_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+		PREGEN__SET__OF__HEXSTRING.PREGEN__SET__OF__HEXSTRING_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+		PREGEN__SET__OF__OCTETSTRING.PREGEN__SET__OF__OCTETSTRING_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+		PREGEN__SET__OF__CHARSTRING.PREGEN__SET__OF__CHARSTRING_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+		PREGEN__SET__OF__UNIVERSAL__CHARSTRING.PREGEN__SET__OF__UNIVERSAL__CHARSTRING_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
+		PREGEN__SET__OF__BOOLEAN__OPTIMIZED.PREGEN__SET__OF__BOOLEAN__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBoolean_descr_;
+		PREGEN__SET__OF__INTEGER__OPTIMIZED.PREGEN__SET__OF__INTEGER__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanInteger_descr_;
+		PREGEN__SET__OF__FLOAT__OPTIMIZED.PREGEN__SET__OF__FLOAT__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanFloat_descr_;
+		PREGEN__SET__OF__BITSTRING__OPTIMIZED.PREGEN__SET__OF__BITSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanBitString_descr_;
+		PREGEN__SET__OF__HEXSTRING__OPTIMIZED.PREGEN__SET__OF__HEXSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanHexString_descr_;
+		PREGEN__SET__OF__OCTETSTRING__OPTIMIZED.PREGEN__SET__OF__OCTETSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanOctetString_descr_;
+		PREGEN__SET__OF__CHARSTRING__OPTIMIZED.PREGEN__SET__OF__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanCharString_descr_;
+		PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED.PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED_descr_.oftype_descr = Base_Type.TitanUniversalCharString_descr_;
 		current_location.leave();
 	}
 
