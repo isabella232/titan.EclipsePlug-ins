@@ -345,7 +345,6 @@ public class TitanVerdictType extends Base_Type {
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
-		throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 	}
 
 	@Override
