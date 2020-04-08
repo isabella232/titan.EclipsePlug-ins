@@ -963,17 +963,17 @@ control {
   execute( tc_jsonBasic_encdec_os_hexstring_empty() );
   execute( tc_jsonBasic_encdec_os_hexstring_unbound() );
   execute( tc_jsonBasic_encdec_os_octetstring() );
-//  execute( tc_jsonBasic_encdec_os_ucharstring() );
+  execute( tc_jsonBasic_encdec_os_ucharstring() );
 //  execute( tc_jsonBasic_encdec_os_AI3() );
-//  execute( tc_jsonBasic_encdec_os_verdict() );
-//  execute( tc_jsonBasic_encdec_os_record() );
-  execute( tc_jsonBasic_encdec_os_roi1() );
-  execute( tc_jsonBasic_encdec_os_roi2() );
-  execute( tc_jsonBasic_encdec_os_roi3() );
-//  execute( tc_jsonBasic_encdec_os_set() );
-  execute( tc_jsonBasic_encdec_os_soi() );
+  execute( tc_jsonBasic_encdec_os_verdict() );
+  execute( tc_jsonBasic_encdec_os_record() );
+//  execute( tc_jsonBasic_encdec_os_roi1() );
+//  execute( tc_jsonBasic_encdec_os_roi2() );
+//  execute( tc_jsonBasic_encdec_os_roi3() );
+  execute( tc_jsonBasic_encdec_os_set() );
+//  execute( tc_jsonBasic_encdec_os_soi() );
   execute( tc_jsonBasic_encdec_os_union_const() );
-//  execute( tc_jsonBasic_encdec_os_union() );
+  execute( tc_jsonBasic_encdec_os_union() );
 }
 
 } with {
