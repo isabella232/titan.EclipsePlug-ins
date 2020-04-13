@@ -3034,19 +3034,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
-		String globalVariable;
+		final String globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
 		if (localTarget == null) {
-			if (aData.encoding_registry.containsKey(defaultCoding)) {
-				final String previousName = aData.encoding_registry.get(defaultCoding);
-				globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = {1};\n", genname, previousName);
-			} else {
-				aData.encoding_registry.put(defaultCoding, MessageFormat.format("{0}_default_coding", genname));
-				globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
-			}
-	
 			aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", genname), globalVariable);
 		} else {
-			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
 			localTarget.append(globalVariable);
 		}
 	}
