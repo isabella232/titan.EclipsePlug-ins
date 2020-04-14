@@ -465,5 +465,4 @@ public abstract class Base_Type {
 	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
 		return JSON_decode(p_td, p_tok, p_silent, false, p_chosen_field);
 	}
-
 }
