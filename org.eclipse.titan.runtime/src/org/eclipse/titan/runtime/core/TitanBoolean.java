@@ -695,7 +695,7 @@ public class TitanBoolean extends Base_Type {
 	}
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND,"Encoding an unbound boolean value.");
 			return -1;
@@ -706,7 +706,7 @@ public class TitanBoolean extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		int dec_len = 0;
 		if (p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length()) {

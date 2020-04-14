@@ -758,7 +758,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 		boolean as_value = p_td.json.isAs_value();
 		int enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
 		switch(union_selection) {
@@ -811,7 +811,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 		if (0 <= p_chosen_field && 6 > p_chosen_field) {
 			switch (p_chosen_field) {
 			case 0:

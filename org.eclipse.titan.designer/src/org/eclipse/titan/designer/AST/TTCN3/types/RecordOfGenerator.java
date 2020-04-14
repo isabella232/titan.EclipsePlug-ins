@@ -1573,7 +1573,7 @@ public final class RecordOfGenerator {
 			// JSON encode, RT1
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
-			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
+			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {\n");
 			source.append("\t\t\tif (!is_bound()) {\n");
 			source.append("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,\n");
 			source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of type {0}.\");\n", displayName));
@@ -1601,7 +1601,7 @@ public final class RecordOfGenerator {
 			// JSON decode, RT1
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
-			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
+			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {\n");
 			source.append("\t\t\tif (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {\n");
 			// use the default value (currently only the empty array can be set as
 			// default value for this type)

@@ -317,7 +317,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 		//TODO
 		//#ifdef TITAN_RUNTIME_2
 		//switch(get_selection()) {
@@ -360,7 +360,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 		// try the optional value first
 		set_to_present();
 		final int buf_pos = p_tok.get_buf_pos();

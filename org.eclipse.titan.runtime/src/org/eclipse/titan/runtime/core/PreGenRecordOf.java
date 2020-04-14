@@ -1044,7 +1044,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED.");
@@ -1071,7 +1071,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -3273,7 +3273,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING.");
@@ -3300,7 +3300,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -5630,7 +5630,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED.");
@@ -5657,7 +5657,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -7874,7 +7874,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT.");
@@ -7901,7 +7901,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -10118,7 +10118,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING.");
@@ -10145,7 +10145,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -12362,7 +12362,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING.");
@@ -12389,7 +12389,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -14606,7 +14606,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED.");
@@ -14633,7 +14633,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -16850,7 +16850,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING.");
@@ -16877,7 +16877,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -19094,7 +19094,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN.");
@@ -19121,7 +19121,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -21338,7 +21338,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED.");
@@ -21365,7 +21365,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -23582,7 +23582,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_INTEGER.");
@@ -23609,7 +23609,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -25811,7 +25811,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -25838,7 +25838,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -28153,7 +28153,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN.");
@@ -28180,7 +28180,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -30495,7 +30495,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED.");
@@ -30522,7 +30522,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -32837,7 +32837,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER.");
@@ -32864,7 +32864,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -35179,7 +35179,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING.");
@@ -35206,7 +35206,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -37536,7 +37536,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED.");
@@ -37563,7 +37563,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -39765,7 +39765,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING.");
@@ -39792,7 +39792,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -42107,7 +42107,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED.");
@@ -42134,7 +42134,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -44449,7 +44449,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING.");
@@ -44476,7 +44476,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -46791,7 +46791,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_FLOAT.");
@@ -46818,7 +46818,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -49133,7 +49133,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED.");
@@ -49160,7 +49160,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -51475,7 +51475,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED.");
@@ -51502,7 +51502,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -53832,7 +53832,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING.");
@@ -53859,7 +53859,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -56076,7 +56076,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING.");
@@ -56103,7 +56103,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -58305,7 +58305,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED.");
@@ -58332,7 +58332,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -60647,7 +60647,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING.");
@@ -60674,7 +60674,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -62989,7 +62989,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED.");
@@ -63016,7 +63016,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -65346,7 +65346,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED.");
@@ -65373,7 +65373,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -67590,7 +67590,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED.");
@@ -67617,7 +67617,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -69819,7 +69819,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED.");
@@ -69846,7 +69846,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
@@ -72176,7 +72176,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+		public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 			if (!is_bound()) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,
 						"Encoding an unbound value of type @PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED.");
@@ -72203,7 +72203,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 
 		@Override
 		/** {@inheritDoc} */
-		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();

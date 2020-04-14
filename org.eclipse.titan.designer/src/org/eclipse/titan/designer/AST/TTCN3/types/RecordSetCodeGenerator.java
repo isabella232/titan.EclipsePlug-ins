@@ -1894,7 +1894,7 @@ public final class RecordSetCodeGenerator {
 		// JSON encode, RT1
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
+		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {\n");
 		source.append("\t\t\tif (!is_bound()) {\n");
 		source.append(MessageFormat.format("\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value of type {0}.\");\n", displayName));
 		source.append("\t\t\t\treturn -1;\n");
@@ -1949,7 +1949,7 @@ public final class RecordSetCodeGenerator {
 		// JSON decode, RT1
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, boolean p_parent_is_map, final int p_chosen_field) {\n");
+		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {\n");
 
 		if (fieldInfos.size() == 1) {
 			if (!jsonAsValue) {

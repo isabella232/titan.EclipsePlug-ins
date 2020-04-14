@@ -597,7 +597,7 @@ public final class EnumeratedGenerator {
 			// JSON encode
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
-			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
+			source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {\n");
 			source.append("\t\t\tif (enum_value == enum_type.UNBOUND_VALUE) {\n");
 			source.append("\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND,\n");
 			source.append(MessageFormat.format("\t\t\t\t\t\"Encoding an unbound value of enumerated type {0}.\");\n", e_defs.displayName));
@@ -629,7 +629,7 @@ public final class EnumeratedGenerator {
 			// JSON decode
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
-			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
+			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {\n");
 			source.append("\t\t\tfinal AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 			source.append("\t\t\tfinal StringBuilder value = new StringBuilder();\n");
 			source.append("\t\t\tfinal AtomicInteger value_len = new AtomicInteger(0);\n");

@@ -380,7 +380,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
 		if (!is_bound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value of type EMBEDDED PDV.identification.syntaxes.");
 			return -1;
@@ -404,7 +404,7 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, boolean p_parent_is_map, final int p_chosen_field) {
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 		final AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		int dec_len = p_tok.get_next_token(j_token, null, null);
 		if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {

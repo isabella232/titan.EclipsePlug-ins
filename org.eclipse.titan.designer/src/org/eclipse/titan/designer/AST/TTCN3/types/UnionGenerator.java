@@ -1566,7 +1566,7 @@ public final class UnionGenerator {
 		// JSON encode
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok) {\n");
+		source.append("\t\tpublic int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {\n");
 		if ( fieldInfos.size() > 0 ) {
 			if (use_runtime_2) {
 				source.append("\t\t\tif (err_descr) {\n");
@@ -1692,7 +1692,7 @@ public final class UnionGenerator {
 		// JSON decode
 		source.append("\t\t@Override\n");
 		source.append("\t\t/** {@inheritDoc} *"+"/\n");
-		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {\n");
+		source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {\n");
 		if (fieldInfos.size() > 0) {
 			source.append(MessageFormat.format("\t\t\tif (0 <= p_chosen_field && {0,number,#} > p_chosen_field) '{'\n", fieldInfos.size()));
 			source.append("\t\t\t\tswitch (p_chosen_field) {\n");
