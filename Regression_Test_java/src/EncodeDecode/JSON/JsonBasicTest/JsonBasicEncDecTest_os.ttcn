@@ -967,11 +967,11 @@ control {
 //  execute( tc_jsonBasic_encdec_os_AI3() );
   execute( tc_jsonBasic_encdec_os_verdict() );
   execute( tc_jsonBasic_encdec_os_record() );
-//  execute( tc_jsonBasic_encdec_os_roi1() );
-//  execute( tc_jsonBasic_encdec_os_roi2() );
-//  execute( tc_jsonBasic_encdec_os_roi3() );
+  execute( tc_jsonBasic_encdec_os_roi1() );
+  execute( tc_jsonBasic_encdec_os_roi2() );
+  execute( tc_jsonBasic_encdec_os_roi3() );
   execute( tc_jsonBasic_encdec_os_set() );
-//  execute( tc_jsonBasic_encdec_os_soi() );
+  execute( tc_jsonBasic_encdec_os_soi() );
   execute( tc_jsonBasic_encdec_os_union_const() );
   execute( tc_jsonBasic_encdec_os_union() );
 }

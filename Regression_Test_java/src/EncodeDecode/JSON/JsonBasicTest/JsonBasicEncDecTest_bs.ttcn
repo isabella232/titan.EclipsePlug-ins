@@ -1419,12 +1419,12 @@ control {
   //JSON objects:
   execute( tc_jsonBasic_encdec_record() ); 
   execute( tc_jsonBasic_encdec_set() );
-//  execute( tc_jsonBasic_encdec_roi1() ); //decode DTE, ...which has no JSON decoding method.
-//  execute( tc_jsonBasic_encdec_roi2() );
+  execute( tc_jsonBasic_encdec_roi1() );
+  execute( tc_jsonBasic_encdec_roi2() );
 //  execute( tc_jsonBasic_encdec_AI3());
-//  execute( tc_jsonBasic_encdec_soi1() );//decode DTE, ...which has no JSON decoding method.
-//  execute( tc_jsonBasic_encdec_soi2() );
-//  execute( tc_jsonBasic_encdec_soi3() );
+  execute( tc_jsonBasic_encdec_soi1() );
+  execute( tc_jsonBasic_encdec_soi2() );
+  execute( tc_jsonBasic_encdec_soi3() );
   execute( tc_jsonBasic_encdec_union_const() );
   execute( tc_jsonBasic_encdec_union() );
   execute( tc_jsonBasic_encdec_anytype_i());
