@@ -13,9 +13,12 @@
 module JsonTestcases {
 
 import from JsonFunctions all;
-import from JsonTypes all;
+import from JsonTypes0 all;
+import from JsonTypes1 all;
 import from JsonData language "ASN.1" all;
 import from OtherTypes all;
+
+type component MTC {}
 
 modulepar R tsp_r := {
   i:= 1,
@@ -880,7 +883,7 @@ control {
   execute(tc_hexstring_nonempty());
   execute(tc_bitstring_empty());
   execute(tc_bitstring_nonempty());
-//  execute(tc_verdicttype());
+  execute(tc_verdicttype());
   execute(tc_float());
   execute(tc_record());
   execute(tc_record_const());

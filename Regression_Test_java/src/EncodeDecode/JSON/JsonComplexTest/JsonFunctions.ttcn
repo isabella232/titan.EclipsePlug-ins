@@ -13,7 +13,8 @@
 module JsonFunctions
 {
 
-import from JsonTypes all;
+import from JsonTypes0 all;
+import from  JsonTypes1 all;
 import from JsonData language "ASN.1" all;
 import from OtherTypes all;
 
