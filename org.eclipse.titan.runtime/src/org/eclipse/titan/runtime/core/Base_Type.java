@@ -174,8 +174,8 @@ public abstract class Base_Type {
 	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", BER.TitanBoolean_Ber_, RAW.TitanBoolean_raw_, JSON.TitanBoolean_json_, null);
 	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", BER.TitanInteger_Ber_, RAW.TitanInteger_raw_, JSON.TitanInteger_json_, null);
 	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", BER.TitanFloat_Ber_, RAW.TitanFloat_raw_, JSON.TitanFloat_json_, null);
-	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null, null, null, null);
-	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", BER.TitanObjectId_Ber_, null, null, null);
+	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null, null, JSON.TitanVerdictType_json_, null);
+	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", BER.TitanObjectId_Ber_, null, JSON.TitanObjectid_json_, null);
 	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", BER.TitanBitString_Ber_, RAW.TitanBitString_raw_, JSON.TitanBitString_json_, null);
 	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", null, RAW.TitanHexString_raw_, JSON.TitanHexString_json_, null);
 	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", BER.TitanOctetString_Ber_, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_, null);
