@@ -50,7 +50,7 @@ testcase tc_DER_CER_encoding_of_BOOLEAN() runs on CT {
   if ((enc_DER_PDU1(b2) == '010100'O)and(enc_CER_PDU1(b2) == '010100'O)) {setverdict(pass);} else {setverdict(fail);}
 }
 
-testcase tc_DER_CER_coding_of_BOOLEAN_unbound() runs on CT {
+testcase tc_DER_CER_encoding_of_BOOLEAN_unbound() runs on CT {
   var BERPDU1 b;
   @try {
     var octetstring os := enc_DER_PDU1(b);
@@ -75,7 +75,7 @@ testcase tc_DER_CER_coding_of_BOOLEAN_unbound() runs on CT {
 //  DER + CER coding of integer (unified) 
 //===========================================
 
-testcase tc_DER_CER_coding_of_INTEGER_const() runs on CT {
+testcase tc_DER_CER_encoding_of_INTEGER_const() runs on CT {
   const BERPDU8 b1_8 := 5
   const BERPDU8 b2_8 := 0
   const BERPDU8 b3_8 := 127
@@ -113,7 +113,7 @@ testcase tc_DER_CER_coding_of_INTEGER_const() runs on CT {
   if (dec_BER_PDU8('02820002FF7F'O) == b14_8){setverdict(pass);} else {setverdict(fail);}
 }
 
-testcase tc_DER_CER_coding_of_INTEGER_var() runs on CT {
+testcase tc_DER_CER_encoding_of_INTEGER_var() runs on CT {
   var BERPDU8 b1_8 := 5
   var BERPDU8 b2_8 := 0
   var BERPDU8 b3_8 := 127
@@ -130,7 +130,7 @@ testcase tc_DER_CER_coding_of_INTEGER_var() runs on CT {
   if ((enc_DER_PDU8(b7_8) == '0202FF7F'O)and(enc_CER_PDU8(b7_8) == '0202FF7F'O)) {setverdict(pass);} else {setverdict(fail);}
 }
 
-testcase tc_DER_CER_coding_of_INTEGER_unbound() runs on CT {
+testcase tc_DER_CER_encoding_of_INTEGER_unbound() runs on CT {
   var BERPDU8 b;
   @try {
     var octetstring os := enc_DER_PDU8(b);
@@ -145,7 +145,7 @@ testcase tc_DER_CER_coding_of_INTEGER_unbound() runs on CT {
 //===========================================
 //  CER + DER coding of REAL, (unified)
 //===========================================
-testcase  tc_CER_DER_coding_of_real() runs on CT {
+testcase  tc_CER_DER_encoding_of_real() runs on CT {
   if ((enc_DER_PDU28(b1_28) == '0900'O)and(enc_CER_PDU28(b1_28) == '0900'O)) {setverdict(pass);} else {setverdict(fail);}
   if ((enc_DER_PDU28(b2_28) == '0900'O)and(enc_CER_PDU28(b2_28) == '0900'O)) {setverdict(pass);} else {setverdict(fail);}
   if ((enc_DER_PDU28(b3_28) == '0900'O)and(enc_CER_PDU28(b3_28) == '0900'O)) {setverdict(pass);} else {setverdict(fail);}
@@ -246,7 +246,7 @@ testcase  tc_CER_DER_coding_of_real() runs on CT {
 //===========================================
 //   CER + DER coding of BIT STRING, (unified)
 //===========================================
-testcase  tc_CER_DER_coding_of_bitstring() runs on CT {
+testcase  tc_CER_DER_encoding_of_bitstring() runs on CT {
   const BERPDU31 b1 := ''B
   const BERPDU31 b2 := '1'B
   const BERPDU31 b3 := '1010101'B
@@ -310,7 +310,7 @@ testcase  tc_CER_DER_coding_of_bitstring() runs on CT {
 //===========================================
 //   CER + DER coding of OCTETSTRING, (unified)
 //===========================================
-testcase  tc_CER_DER_coding_of_OCTETSTRING() runs on CT {
+testcase  tc_CER_DER_encoding_of_OCTETSTRING() runs on CT {
   const BERPDU34 b1_34 := ''O
   const BERPDU34 b2_34 := 'FFFF'O
   const BERPDU34 b3_34 := 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'O
@@ -348,7 +348,7 @@ testcase  tc_CER_DER_coding_of_OCTETSTRING() runs on CT {
 //===========================================
 //   DER + CER coding of NULL (unified)
 //===========================================
-testcase  tc_CER_DER_coding_of_NULL() runs on CT {
+testcase  tc_CER_DER_encoding_of_NULL() runs on CT {
   const BERPDU37 b := NULL;
   if ((enc_DER_PDU37(b) == '0500'O)and(enc_CER_PDU37(b) == '0500'O)) {setverdict(pass);} else {setverdict(fail);}
   if (dec_BER_PDU37('0500'O) == myNullValue_37){setverdict(pass);} else {setverdict(fail);}
@@ -378,12 +378,14 @@ testcase tc_CER_DER_encoding_of_SEQUENCE() runs on CT {
 
 control {
   execute(tc_DER_CER_encoding_of_BOOLEAN());
-  execute(tc_DER_CER_coding_of_INTEGER_const());
-  execute(tc_DER_CER_coding_of_INTEGER_var());
-  execute(tc_CER_DER_coding_of_real());
-  execute(tc_CER_DER_coding_of_bitstring());
-  execute(tc_CER_DER_coding_of_OCTETSTRING());
-  execute(tc_CER_DER_coding_of_NULL());
+  execute(tc_DER_CER_encoding_of_BOOLEAN_unbound()); 
+  execute(tc_DER_CER_encoding_of_INTEGER_const());
+  execute(tc_DER_CER_encoding_of_INTEGER_var());
+  execute(tc_DER_CER_encoding_of_INTEGER_unbound());
+  execute(tc_CER_DER_encoding_of_real());
+  execute(tc_CER_DER_encoding_of_bitstring());
+  execute(tc_CER_DER_encoding_of_OCTETSTRING());
+  execute(tc_CER_DER_encoding_of_NULL());
   execute(tc_CER_DER_encoding_of_SEQUENCE());
 }
 
