@@ -381,7 +381,7 @@ public final class Optional<TYPE extends Base_Type> extends Base_Type {
 				p_tok.set_buf_pos(buf_pos);
 			}
 		}
-		dec_len = optionalValue.JSON_decode(p_td, p_tok, p_silent, p_chosen_field);
+		dec_len = optionalValue.JSON_decode(p_td, p_tok, p_silent, false, p_chosen_field);
 		if (JSON.JSON_ERROR_FATAL == dec_len) {
 			if (p_silent) {
 				clean_up();

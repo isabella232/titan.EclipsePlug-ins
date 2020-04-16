@@ -813,7 +813,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
 		if (0 <= p_chosen_field && 6 > p_chosen_field) {
 			switch (p_chosen_field) {
 			case 0:
