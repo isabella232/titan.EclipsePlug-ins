@@ -10,7 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Value_List;
@@ -638,8 +641,13 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		switch (p_coding) {
 		case CT_JSON:
-			//TODO: implement JSON support
-			break;
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+			JSON_encode(p_td, tok, false);
+			p_buf.put_s(tok.get_buffer().toString().getBytes());
+		    break;
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type {0}", p_td.name));
 		}
@@ -650,11 +658,118 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		switch (p_coding) {
 		case CT_JSON:
-			//TODO: implement JSON support
+			if(p_td.json == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			}
+			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+			if(JSON_decode(p_td, tok, false, false) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
+						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+			p_buf.set_pos(tok.get_buf_pos());
 			break;
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type {0}", p_td.name));
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
+		if (!is_bound() && (null == p_td.json || !p_td.json.isMetainfo_unbound())) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound array value.");
+			return -1;
+		}
+
+		int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_ARRAY_START, null);
+
+		for (int i = 0; i < array_size; ++i) {
+			if (null != p_td.json && p_td.json.isMetainfo_unbound() && !array_elements[i].is_bound()) {
+				// unbound elements are encoded as { "metainfo []" : "unbound" }
+				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);
+				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "metainfo []");
+				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, "\"unbound\"");
+				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
+			}
+			else {
+				int ret_val = array_elements[i].JSON_encode(get_elem_descr(), p_tok, false);
+				if (0 > ret_val) break;
+				enc_len += ret_val;
+			}
+		}
+
+		enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_ARRAY_END, null);
+		return enc_len;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
+		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		int dec_len = p_tok.get_next_token(token, null, null);
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_ARRAY_START != token.get()) {
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		} 
+
+		for (int i = 0; i < array_size; ++i) {
+			int buf_pos = p_tok.get_buf_pos();
+			int ret_val;
+			if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
+				// check for metainfo object
+				ret_val = p_tok.get_next_token(token, null, null);
+				if (json_token_t.JSON_TOKEN_OBJECT_START == token.get()) {
+					final StringBuilder value = new StringBuilder();
+					final AtomicInteger value_len = new AtomicInteger(0);
+					ret_val += p_tok.get_next_token(token, value, value_len);
+					if (json_token_t.JSON_TOKEN_NAME == token.get() && 11 == value_len.get() &&
+							"metainfo []".equals(value.toString())) {
+						ret_val += p_tok.get_next_token(token, value, value_len);
+						if (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() &&
+								"\"unbound\"".equals(value.toString())) {
+							ret_val = p_tok.get_next_token(token, null, null);
+							if (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {
+								dec_len += ret_val;
+								continue;
+							}
+						}
+					}
+				}
+				// metainfo object not found, jump back and let the element type decode it
+				p_tok.set_buf_pos(buf_pos);
+			}
+			int ret_val2 = array_elements[i].JSON_decode(get_elem_descr(), p_tok, p_silent, false);
+			if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_ARRAY_ELEM_TOKEN_ERROR,
+						array_size - i, (array_size - i > 1) ? "s" : "");
+				return JSON.JSON_ERROR_FATAL;
+			} 
+			else if (JSON.JSON_ERROR_FATAL == ret_val2) {
+				if (p_silent) {
+					clean_up();
+				}
+				return JSON.JSON_ERROR_FATAL;
+			}
+			dec_len += ret_val2;
+		}
+
+		dec_len += p_tok.get_next_token(token, null, null);
+		if (json_token_t.JSON_TOKEN_ARRAY_END != token.get()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_ARRAY_END_TOKEN_ERROR, "");
+			if (p_silent) {
+				clean_up();
+			}
+			return JSON.JSON_ERROR_FATAL;
+		}
+
+		return dec_len;
+	}
+
+	protected TTCN_Typedescriptor get_elem_descr() {
+		throw new TtcnError("TitanValue_Array.get_elem_descr() must be overriden");
 	}
 
 	public TitanAlt_Status done(final TitanVerdictType value_redirect, final Index_Redirect index_redirect) {
