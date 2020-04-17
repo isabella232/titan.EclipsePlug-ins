@@ -1330,6 +1330,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", ownName));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("protected TTCN_Typedescriptor get_elem_descr() {\n");
+		source.append(MessageFormat.format("return {0}_descr_;\n", elementType.getGenNameTypeDescriptor(aData, source)));
+		source.append("}\n");
+
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public static class {0}_template extends {1} '{'\n", ownName, templateName));
@@ -1449,6 +1455,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("public {0}(final TitanValue_Array<{1}> otherValue) '{'\n", className, ofType));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("protected TTCN_Typedescriptor get_elem_descr() {\n");
+		source.append(MessageFormat.format("return {0}_descr_;\n", elementType.getGenNameTypeDescriptor(aData, source)));
+		source.append("}\n");
+	      
 		source.append("}\n\n");
 	}
 

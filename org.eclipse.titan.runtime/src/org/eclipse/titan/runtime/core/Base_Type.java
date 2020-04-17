@@ -459,10 +459,10 @@ public abstract class Base_Type {
 
 	//It is assumed that when calling this function p_td.json is not null
 	public final int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent) {
-		return JSON_decode(p_td, p_tok, p_silent, JSON.CHOSEN_FIELD_UNSET);
+		return JSON_decode(p_td, p_tok, p_silent, false, JSON.CHOSEN_FIELD_UNSET);
 	}
 
-	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final int p_chosen_field) {
-		return JSON_decode(p_td, p_tok, p_silent, false, p_chosen_field);
+	public final int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map) {
+		return JSON_decode(p_td, p_tok, p_silent, p_parent_is_map, JSON.CHOSEN_FIELD_UNSET);
 	}
 }
