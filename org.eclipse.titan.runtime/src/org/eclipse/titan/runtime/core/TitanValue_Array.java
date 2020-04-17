@@ -640,14 +640,16 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		switch (p_coding) {
-		case CT_JSON:
+		case CT_JSON: {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 			JSON_encode(p_td, tok, false);
 			p_buf.put_s(tok.get_buffer().toString().getBytes());
 		    break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type {0}", p_td.name));
 		}
@@ -657,17 +659,19 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	/** {@inheritDoc} */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		switch (p_coding) {
-		case CT_JSON:
+		case CT_JSON: {
 			if(p_td.json == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 			}
-			JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+
+			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 			if(JSON_decode(p_td, tok, false, false) < 0) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 						"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 			p_buf.set_pos(tok.get_buf_pos());
 			break;
+		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type {0}", p_td.name));
 		}
