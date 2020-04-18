@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -973,12 +974,15 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final StringBuilder localTypeDescriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 			generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+			final StringBuilder localCodingHandler = new StringBuilder();
+			generateCodeForCodingHandlers(aData, source, localCodingHandler);
 			if (!ofType.generatesOwnClass(aData, source)) {
 				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 			}
 
-			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit, hasJson, localTypeDescriptor);
+			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, true, extension_bit, hasJson, localTypeDescriptor, localCodingHandler);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 		} else {
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
@@ -1003,9 +1007,11 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			case TYPE_REAL: {
 				generateCodeTypedescriptor(aData, source, null);
 				generateCodeDefaultCoding(aData, source, null);
+				generateCodeForCodingHandlers(aData, source, null);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, null);
 					ofType.generateCodeDefaultCoding(aData, source, null);
+					ofType.generateCodeForCodingHandlers(aData, source, null);
 				}
 
 				final String ownName = getGenNameOwn(aData);
@@ -1033,12 +1039,15 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				final StringBuilder localCodingHandler = new StringBuilder();
+				generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+					ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor, localCodingHandler);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 				break;
 			}
@@ -1062,12 +1071,15 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				final StringBuilder localCodingHandler = new StringBuilder();
+				generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+					ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, false, hasRaw, false, extension_bit, hasJson, localTypeDescriptor, localCodingHandler);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 				break;
 			}
@@ -1085,8 +1097,6 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				subType.generateCode(aData, source);
 			}
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

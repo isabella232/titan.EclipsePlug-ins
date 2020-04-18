@@ -229,10 +229,14 @@ public final class RecordSetCodeGenerator {
 	 * @param localTypeDescriptor
 	 *                the code to be generated into the class representing
 	 *                the type and coding descriptors of the type.
+	 * @param localCodingHandler
+	 *                the coding handlers to be generated into the class.
+	 * 
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw,
-			final boolean hasJson, final boolean jsonAsValue, final boolean jsonAsMapPossible, final StringBuilder localTypeDescriptor) {
+			final boolean hasJson, final boolean jsonAsValue, final boolean jsonAsMapPossible, final StringBuilder localTypeDescriptor,
+			final StringBuilder localCodingHandler) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("JSON_Tokenizer");
 		aData.addBuiltinTypeImport("Text_Buf");
@@ -297,6 +301,8 @@ public final class RecordSetCodeGenerator {
 			aData.addBuiltinTypeImport("JSON_Tokenizer.json_token_t");
 			generateValueJsonEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, jsonAsValue, jsonAsMapPossible);
 		}
+
+		source.append(localCodingHandler);
 
 		source.append( "\t}\n\n" );
 	}

@@ -656,12 +656,15 @@ public final class SetOf_Type extends AbstractOfType {
 			final StringBuilder localTypeDescriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 			generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+			final StringBuilder localCodingHandler = new StringBuilder();
+			generateCodeForCodingHandlers(aData, source, localCodingHandler);
 			if (!ofType.generatesOwnClass(aData, source)) {
 				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 			}
 
-			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit, hasJson, localTypeDescriptor);
+			RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, true, extension_bit, hasJson, localTypeDescriptor, localCodingHandler);
 			RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 		} else {
 			final String ofTypeGenName = ofType.getGenNameValue( aData, source );
@@ -687,9 +690,11 @@ public final class SetOf_Type extends AbstractOfType {
 			case TYPE_REAL: {
 				generateCodeTypedescriptor(aData, source, null);
 				generateCodeDefaultCoding(aData, source, null);
+				generateCodeForCodingHandlers(aData, source, null);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, null);
 					ofType.generateCodeDefaultCoding(aData, source, null);
+					ofType.generateCodeForCodingHandlers(aData, source, null);
 				}
 
 				final String ownName = getGenNameOwn(aData);
@@ -715,12 +720,15 @@ public final class SetOf_Type extends AbstractOfType {
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				final StringBuilder localCodingHandler = new StringBuilder();
+				generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+					ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson, localTypeDescriptor, localCodingHandler);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 				break;
 			}
@@ -742,12 +750,15 @@ public final class SetOf_Type extends AbstractOfType {
 				final StringBuilder localTypeDescriptor = new StringBuilder();
 				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				final StringBuilder localCodingHandler = new StringBuilder();
+				generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				if (!ofType.generatesOwnClass(aData, source)) {
 					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+					ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
 
-				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson, localTypeDescriptor);
+				RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeGenName, true, hasRaw, false, extension_bit, hasJson, localTypeDescriptor, localCodingHandler);
 				RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 				break;
 			}
@@ -765,8 +776,6 @@ public final class SetOf_Type extends AbstractOfType {
 				subType.generateCode(aData, source);
 			}
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

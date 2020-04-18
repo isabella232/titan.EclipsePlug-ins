@@ -791,6 +791,6 @@ public final class Signature_Type extends Type {
 			subType.generateCode(aData, source);
 		}
 
-		generateCodeForCodingHandlers(aData, source);
+		generateCodeForCodingHandlers(aData, source, null);
 	}
 }

@@ -245,6 +245,7 @@ public final class External_Type extends ASN1Type implements IReferencingType {
 			final StringBuilder descriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, descriptor);
 			generateCodeDefaultCoding(aData, source, descriptor);
+			generateCodeForCodingHandlers(aData, source, descriptor);
 			source.append(descriptor);
 
 			source.append("\t}\n");
@@ -253,9 +254,8 @@ public final class External_Type extends ASN1Type implements IReferencingType {
 		} else {
 			generateCodeTypedescriptor(aData, source, null);
 			generateCodeDefaultCoding(aData, source, null);
+			generateCodeForCodingHandlers(aData, source, null);
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

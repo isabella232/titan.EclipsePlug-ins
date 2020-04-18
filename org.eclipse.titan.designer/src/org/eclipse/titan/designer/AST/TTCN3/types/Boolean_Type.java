@@ -310,6 +310,7 @@ public final class Boolean_Type extends ASN1Type {
 			final StringBuilder descriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, descriptor);
 			generateCodeDefaultCoding(aData, source, descriptor);
+			generateCodeForCodingHandlers(aData, source, descriptor);
 			source.append(descriptor);
 
 			source.append("\t}\n");
@@ -318,6 +319,7 @@ public final class Boolean_Type extends ASN1Type {
 		} else {
 			generateCodeTypedescriptor(aData, source, null);
 			generateCodeDefaultCoding(aData, source, null);
+			generateCodeForCodingHandlers(aData, source, null);
 		}
 
 		if (!isAsn()) {
@@ -328,8 +330,6 @@ public final class Boolean_Type extends ASN1Type {
 				subType.generateCode(aData, source);
 			}
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

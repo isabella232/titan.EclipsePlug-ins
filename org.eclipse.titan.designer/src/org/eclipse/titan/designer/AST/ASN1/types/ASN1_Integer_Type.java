@@ -617,6 +617,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 			final StringBuilder descriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, descriptor);
 			generateCodeDefaultCoding(aData, source, descriptor);
+			generateCodeForCodingHandlers(aData, source, descriptor);
 			source.append(descriptor);
 
 			source.append("\t}\n");
@@ -625,9 +626,8 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		} else {
 			generateCodeTypedescriptor(aData, source, null);
 			generateCodeDefaultCoding(aData, source, null);
+			generateCodeForCodingHandlers(aData, source, null);
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

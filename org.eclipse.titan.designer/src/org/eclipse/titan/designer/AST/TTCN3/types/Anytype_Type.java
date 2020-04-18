@@ -957,6 +957,8 @@ public final class Anytype_Type extends Type {
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+		final StringBuilder localCodingHandler = new StringBuilder();
+		generateCodeForCodingHandlers(aData, source, localCodingHandler);
 
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
@@ -981,7 +983,7 @@ public final class Anytype_Type extends Type {
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		//FIXME can have raw attributes
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, true, jsonAsValue, localTypeDescriptor);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, true, jsonAsValue, localTypeDescriptor, localCodingHandler);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {
@@ -990,8 +992,6 @@ public final class Anytype_Type extends Type {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

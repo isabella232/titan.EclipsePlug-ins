@@ -1008,4 +1008,248 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		}
 	}
 
+	/**
+	 * The encoder function for type EMBEDDED PDV.identification.
+	 *
+	 * @param input_value
+	 *                the input value to encode.
+	 * @param output_stream
+	 *                the octetstring to be extend with the result of the
+	 *                encoding.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * */
+	public static void TitanEmbedded_PDV_identification_encoder(final TitanEmbedded_PDV_identification input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `EMBEDDED PDV.identification' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+		input_value.encode(TitanEmbedded_PDV_identification.TitanEmbedded_PDV_identification_descr_, ttcnBuffer, codingType, extra_options.get());
+		ttcnBuffer.get_string(output_stream);
+	}
+
+	/**
+	 * The decoder function for type EMBEDDED PDV.identification. In case
+	 * of successful decoding the bits used for decoding are removed from
+	 * the beginning of the input_stream.
+	 *
+	 * @param input_stream
+	 *                the octetstring starting with the value to be decoded.
+	 * @param output_value
+	 *                the decoded value if the decoding was successful.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
+	 *         case of error (incomplete message or length)
+	 * */
+	public static TitanInteger TitanEmbedded_PDV_identification_decoder( final TitanOctetString input_stream, final TitanEmbedded_PDV_identification output_value, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `EMBEDDED PDV.identification' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+		output_value.decode(TitanEmbedded_PDV_identification.TitanEmbedded_PDV_identification_descr_, ttcnBuffer, codingType, extra_options.get());
+		switch (TTCN_EncDec.get_last_error_type()) {
+		case ET_NONE:
+			ttcnBuffer.cut();
+			ttcnBuffer.get_string(input_stream);
+			return new TitanInteger(0);
+		case ET_INCOMPL_MSG:
+		case ET_LEN_ERR:
+			return new TitanInteger(2);
+		default:
+			return new TitanInteger(1);
+		}
+	}
+
+	/**
+	 * The encoder function for type objid.
+	 *
+	 * @param input_value
+	 *                the input value to encode.
+	 * @param output_stream
+	 *                the octetstring to be extend with the result of the
+	 *                encoding.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * */
+	public static void TitanEmbedded_PDV_identification_syntax_encoder(final TitanObjectid input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+		input_value.encode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		ttcnBuffer.get_string(output_stream);
+	}
+
+	/**
+	 * The decoder function for type objid. In case
+	 * of successful decoding the bits used for decoding are removed from
+	 * the beginning of the input_stream.
+	 *
+	 * @param input_stream
+	 *                the octetstring starting with the value to be decoded.
+	 * @param output_value
+	 *                the decoded value if the decoding was successful.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
+	 *         case of error (incomplete message or length)
+	 * */
+	public static TitanInteger TitanEmbedded_PDV_identification_syntax_decoder( final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+		output_value.decode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		switch (TTCN_EncDec.get_last_error_type()) {
+		case ET_NONE:
+			ttcnBuffer.cut();
+			ttcnBuffer.get_string(input_stream);
+			return new TitanInteger(0);
+		case ET_INCOMPL_MSG:
+		case ET_LEN_ERR:
+			return new TitanInteger(2);
+		default:
+			return new TitanInteger(1);
+		}
+	}
+
+	/**
+	 * The encoder function for type objid.
+	 *
+	 * @param input_value
+	 *                the input value to encode.
+	 * @param output_stream
+	 *                the octetstring to be extend with the result of the
+	 *                encoding.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * */
+	public static void TitanEmbedded_PDV_identification_transfer__syntax_encoder(final TitanObjectid input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+		input_value.encode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		ttcnBuffer.get_string(output_stream);
+	}
+
+	/**
+	 * The decoder function for type objid. In case
+	 * of successful decoding the bits used for decoding are removed from
+	 * the beginning of the input_stream.
+	 *
+	 * @param input_stream
+	 *                the octetstring starting with the value to be decoded.
+	 * @param output_value
+	 *                the decoded value if the decoding was successful.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
+	 *         case of error (incomplete message or length)
+	 * */
+	public static TitanInteger TitanEmbedded_PDV_identification_transfer__syntax_decoder( final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+		output_value.decode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		switch (TTCN_EncDec.get_last_error_type()) {
+		case ET_NONE:
+			ttcnBuffer.cut();
+			ttcnBuffer.get_string(input_stream);
+			return new TitanInteger(0);
+		case ET_INCOMPL_MSG:
+		case ET_LEN_ERR:
+			return new TitanInteger(2);
+		default:
+			return new TitanInteger(1);
+		}
+	}
+
+	/**
+	 * The encoder function for type NULL.
+	 *
+	 * @param input_value
+	 *                the input value to encode.
+	 * @param output_stream
+	 *                the octetstring to be extend with the result of the
+	 *                encoding.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * */
+	public static void TitanEmbedded_PDV_identification_fixed_encoder(final TitanAsn_Null input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `NULL' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+		input_value.encode(Base_Type.TitanAsn_Null_descr_, ttcnBuffer, codingType, extra_options.get());
+		ttcnBuffer.get_string(output_stream);
+	}
+
+	/**
+	 * The decoder function for type NULL. In case
+	 * of successful decoding the bits used for decoding are removed from
+	 * the beginning of the input_stream.
+	 *
+	 * @param input_stream
+	 *                the octetstring starting with the value to be decoded.
+	 * @param output_value
+	 *                the decoded value if the decoding was successful.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
+	 *         case of error (incomplete message or length)
+	 * */
+	public static TitanInteger TitanEmbedded_PDV_identification_fixed_decoder( final TitanOctetString input_stream, final TitanAsn_Null output_value, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `NULL' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+		output_value.decode(Base_Type.TitanAsn_Null_descr_, ttcnBuffer, codingType, extra_options.get());
+		switch (TTCN_EncDec.get_last_error_type()) {
+		case ET_NONE:
+			ttcnBuffer.cut();
+			ttcnBuffer.get_string(input_stream);
+			return new TitanInteger(0);
+		case ET_INCOMPL_MSG:
+		case ET_LEN_ERR:
+			return new TitanInteger(2);
+		default:
+			return new TitanInteger(1);
+		}
+	}
+
 }

@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.Optional.optional_sel;
@@ -431,6 +432,67 @@ public class TitanCharacter_String extends Base_Type {
 		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+		}
+	}
+
+	/**
+	 * The encoder function for type octetstring.
+	 *
+	 * @param input_value
+	 *                the input value to encode.
+	 * @param output_stream
+	 *                the octetstring to be extend with the result of the
+	 *                encoding.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * */
+	public static void TitanCharacter_String_string__value_encoder(final TitanOctetString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `octetstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+		input_value.encode(Base_Type.TitanOctetString_descr_, ttcnBuffer, codingType, extra_options.get());
+		ttcnBuffer.get_string(output_stream);
+	}
+
+	/**
+	 * The decoder function for type octetstring. In case
+	 * of successful decoding the bits used for decoding are removed from
+	 * the beginning of the input_stream.
+	 *
+	 * @param input_stream
+	 *                the octetstring starting with the value to be decoded.
+	 * @param output_value
+	 *                the decoded value if the decoding was successful.
+	 * @param coding_name
+	 *                the name of the coding to use.
+	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
+	 *         case of error (incomplete message or length)
+	 * */
+	public static TitanInteger TitanCharacter_String_string__value_decoder( final TitanOctetString input_stream, final TitanOctetString output_value, final TitanUniversalCharString coding_name) {
+		final AtomicInteger extra_options = new AtomicInteger(0);
+		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
+			TTCN_Logger.begin_event_log2str();
+			coding_name.log();
+			throw new TtcnError(MessageFormat.format("Type `octetstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+		}
+		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+		output_value.decode(Base_Type.TitanOctetString_descr_, ttcnBuffer, codingType, extra_options.get());
+		switch (TTCN_EncDec.get_last_error_type()) {
+		case ET_NONE:
+			ttcnBuffer.cut();
+			ttcnBuffer.get_string(input_stream);
+			return new TitanInteger(0);
+		case ET_INCOMPL_MSG:
+		case ET_LEN_ERR:
+			return new TitanInteger(2);
+		default:
+			return new TitanInteger(1);
 		}
 	}
 

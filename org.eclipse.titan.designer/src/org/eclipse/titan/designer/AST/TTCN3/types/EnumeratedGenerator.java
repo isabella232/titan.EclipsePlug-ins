@@ -87,7 +87,7 @@ public final class EnumeratedGenerator {
 		// private to disable instantiation
 	}
 
-	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs , final StringBuilder localTypeDescriptor) {
+	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs , final StringBuilder localTypeDescriptor, final StringBuilder localCodingHandler) {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Base_Template");
@@ -195,6 +195,9 @@ public final class EnumeratedGenerator {
 		generateValueGetParam(source);
 		generateValueEncodeDecodeText(source, e_defs.displayName);
 		generateValueEncodeDecode(aData, source, e_defs, rawNeeded, jsonNeeded);
+
+		source.append(localCodingHandler);
+
 		source.append("\t}\n");
 	}
 

@@ -144,10 +144,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** the time when code for this type was generated. */
 	protected BuildTimestamp lastTimeGenerated = null;
 
+	//FIXME these should be only temporary fields
 	/** the time when code for the type descriptor of this type was generated. */
 	private BuildTimestamp lastTimeTypeDescriptorGenerated = null;
 	/** the time when code for default coding of this type was generated. */
 	private BuildTimestamp lastTimeTypeDefaultCodingGenerated = null;
+	/** the time when code for the coding handlers of this type was generated. */
+	private BuildTimestamp lastTimeTypeCodingHandlerGenerated = null;
 
 	/**
 	 * The actual value of the severity level to report type compatibility
@@ -3049,43 +3052,28 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
+	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
+	 *    {@code otherwise} the coding handlers will be added to this StringBuilder.
 	 * */
-	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source) {
-		final String genname = getGenNameOwn();
-		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
-		if (t == null || !genname.equals(getGenNameCoder(aData, source, myScope))) {
+	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
+		if (lastTimeTypeCodingHandlerGenerated != null && !lastTimeTypeCodingHandlerGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
 		}
 
-//		String defaultCoding = "";
+		lastTimeTypeCodingHandlerGenerated = aData.getBuildTimstamp();
+
+		final String genname = getGenNameOwn();
+		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (t == null) {
+			return;
+		}
+
 		final List<Coding_Type> tempCodingTable = t.getCodingTable();
 		if (tempCodingTable.size() == 0) {
 			return;
 		}
-//
-//		if (tempCodingTable.size() == 1) {
-//			final Coding_Type tempCodingType = tempCodingTable.get(0);
-//			if (tempCodingType.builtIn) {
-//				defaultCoding = tempCodingType.builtInCoding == MessageEncoding_type.BER ? "BER:2002" : tempCodingType.builtInCoding.getEncodingName();
-//			} else {
-//				defaultCoding = tempCodingType.customCoding.name;
-//			}
-//		}
 
-//		aData.addBuiltinTypeImport("TitanUniversalCharString");
-
-//		String globalVariable;
-//		if (aData.encoding_registry.containsKey(defaultCoding)) {
-//			final String previousName = aData.encoding_registry.get(defaultCoding);
-//			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = {1};\n", genname, previousName);
-//		} else {
-//			aData.encoding_registry.put(defaultCoding, MessageFormat.format("{0}_default_coding", genname));
-//			globalVariable = MessageFormat.format("\tpublic static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", genname, defaultCoding);
-//		}
-//
-//		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", genname), globalVariable);
-
-		if (!getGenNameCoder(aData, source, myScope).equals(genname) ) {
+		if (getGenNameCoder(aData, source, myScope).isEmpty() ) {
 			return;
 		}
 
@@ -3229,8 +3217,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 		decoderString.append("\t}\n\n");
 
-		source.append(encoderString);
-		source.append(decoderString);
+		if (localTarget == null) {
+			source.append(encoderString);
+			source.append(decoderString);
+		} else {
+			localTarget.append(encoderString);
+			localTarget.append(decoderString);
+		}
+		
 	}
 
 	/**
@@ -3407,6 +3401,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		// if the type has an 'encode' or 'variant' attribute, then it needs its own coder functions
 		//TODO add support for more coders
 		if (codingTable.size() > 0 || rawAttribute != null || jsonAttribute != null) {
+			if (generatesOwnClass(aData, source)) {
+				return getGenNameOwn(aData) + "." + getGenNameOwn();
+			} else if (getParentType() != null) {
+				final IType parentType = getParentType();
+				if (parentType.generatesOwnClass(aData, source)) {
+					return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+				}
+
+				return getGenNameOwn(aData);
+			}
+
 			return getGenNameOwn(aData);
 		}
 
@@ -3416,6 +3421,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			final Coding_Type tempCodingType = ct_codingTable.get(i);
 			if (!tempCodingType.builtIn && (tempCodingType.customCoding.encoders.containsKey(this) ||
 					tempCodingType.customCoding.decoders.containsKey(this))) {
+				if (generatesOwnClass(aData, source)) {
+					return getGenNameOwn(aData) + "." + getGenNameOwn();
+				} else if (getParentType() != null) {
+					final IType parentType = getParentType();
+					if (parentType.generatesOwnClass(aData, source)) {
+						return parentType.getGenNameOwn(aData) + "." + getGenNameOwn();
+					}
+
+					return getGenNameOwn(aData);
+				}
+
 				return getGenNameOwn(aData);
 			}
 		}

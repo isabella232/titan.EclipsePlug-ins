@@ -758,6 +758,8 @@ public final class Open_Type extends ASN1Type {
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+		final StringBuilder localCodingHandler = new StringBuilder();
+		generateCodeForCodingHandlers(aData, source, localCodingHandler);
 
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
@@ -786,10 +788,8 @@ public final class Open_Type extends ASN1Type {
 
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, false, jsonAsValue, localTypeDescriptor);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, false, jsonAsValue, localTypeDescriptor, localCodingHandler);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

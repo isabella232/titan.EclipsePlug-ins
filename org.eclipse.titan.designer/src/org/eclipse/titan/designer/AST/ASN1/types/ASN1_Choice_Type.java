@@ -692,6 +692,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+		final StringBuilder localCodingHandler = new StringBuilder();
+		generateCodeForCodingHandlers(aData, source, localCodingHandler);
 
 		final boolean hasJson = getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
@@ -710,11 +712,13 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 				if (!cfType.generatesOwnClass(aData, source)) {
 					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 					cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+					cfType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
 				break;
 			default:
 				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				cfType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				break;
 			}
 
@@ -736,10 +740,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, false, jsonAsValue, localTypeDescriptor);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, null, hasJson, false, jsonAsValue, localTypeDescriptor, localCodingHandler);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

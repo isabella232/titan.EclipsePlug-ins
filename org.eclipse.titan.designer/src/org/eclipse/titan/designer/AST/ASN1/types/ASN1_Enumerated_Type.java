@@ -826,6 +826,8 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+		final StringBuilder localCodingHandler = new StringBuilder();
+		generateCodeForCodingHandlers(aData, source, localCodingHandler);
 
 		final List<EnumItem> items = new ArrayList<EnumItem>();
 		if (enumerations != null) {
@@ -849,10 +851,8 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		}
 
 		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source), hasRaw, hasJson);
-		EnumeratedGenerator.generateValueClass( aData, source, e_defs, localTypeDescriptor );
+		EnumeratedGenerator.generateValueClass( aData, source, e_defs, localTypeDescriptor, localCodingHandler);
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

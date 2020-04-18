@@ -509,6 +509,8 @@ public final class Testcase_Type extends Type {
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+		final StringBuilder localCodingHandler = new StringBuilder();
+		generateCodeForCodingHandlers(aData, source, localCodingHandler);
 
 		final FunctionReferenceDefinition def = new FunctionReferenceDefinition(genName, displayName);
 		def.returnType = null;
@@ -546,7 +548,7 @@ public final class Testcase_Type extends Type {
 			def.parameterNames.add(formalParameter.getIdentifier().getName());
 		}
 
-		FunctionReferenceGenerator.generateValueClass(aData, source, def, localTypeDescriptor);
+		FunctionReferenceGenerator.generateValueClass(aData, source, def, localTypeDescriptor, localCodingHandler);
 		FunctionReferenceGenerator.generateTemplateClass(aData, source, def);
 
 		if (hasDoneAttribute()) {
@@ -555,7 +557,5 @@ public final class Testcase_Type extends Type {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 }

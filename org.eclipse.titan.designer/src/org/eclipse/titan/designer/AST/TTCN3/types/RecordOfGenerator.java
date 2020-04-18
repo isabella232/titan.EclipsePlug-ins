@@ -52,6 +52,8 @@ public final class RecordOfGenerator {
 	 * @param localTypeDescriptor
 	 *                the code to be generated into the class representing
 	 *                the type and coding descriptors of the type.
+	 * @param localCodingHandler
+	 *                the coding handlers to be generated into the class.
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
@@ -63,7 +65,8 @@ public final class RecordOfGenerator {
 										   final boolean forceGenSeof,
 										   final int extension_bit,
 										   final boolean hasJson,
-										   final StringBuilder localTypeDescriptor) {
+										   final StringBuilder localTypeDescriptor,
+										   final StringBuilder localCodingHandler) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
@@ -127,6 +130,8 @@ public final class RecordOfGenerator {
 		generateValueSetImplicitOmit(source, ofTypeName);
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
 		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded, forceGenSeof, extension_bit, jsonNeeded);
+
+		source.append(localCodingHandler);
 
 		source.append("\t}\n");
 	}

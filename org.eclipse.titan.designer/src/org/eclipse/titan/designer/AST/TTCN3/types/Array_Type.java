@@ -1253,9 +1253,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		if (inTypeDefinition) {
 			String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
+		} else if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = aData.getTemporaryVariableName();
 		}
 
-		return getGenNameOwn();
+//		String baseName = getGenNameOwn(aData);
+		return lastGenName + "." + lastGenName;
 	}
 
 	@Override
@@ -1284,10 +1288,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		lastTimeGenerated = aData.getBuildTimstamp();
+		lastBuildTimestamp = aData.getBuildTimstamp();
+		lastGenName = aData.getTemporaryVariableName();
 
 		if (!inTypeDefinition) {
+			setGenName(lastGenName);
 			generateCodeTypedescriptor(aData, source, null);
 			generateCodeDefaultCoding(aData, source, null);
+			generateCodeForCodingHandlers(aData, source, null);
 			return;
 		}
 
@@ -1301,8 +1309,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final StringBuilder descriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, descriptor);
 		generateCodeDefaultCoding(aData, source, descriptor);
-		elementType.generateCodeTypedescriptor(aData, source, descriptor);
-		elementType.generateCodeDefaultCoding(aData, source, descriptor);
+		generateCodeForCodingHandlers(aData, source, descriptor);
+		if (!elementType.generatesOwnClass(aData, source)) {
+			elementType.generateCodeTypedescriptor(aData, source, descriptor);
+			elementType.generateCodeDefaultCoding(aData, source, descriptor);
+			elementType.generateCodeForCodingHandlers(aData, source, descriptor);
+		}
 
 		elementType.generateCode(aData, source);
 
@@ -1421,8 +1433,6 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	/**
@@ -1434,6 +1444,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	 */
 	public void generateCodeValue( final JavaGenData aData, final StringBuilder source) {
 		final String className = getGenNameValue(aData, source);
+		setGenName(lastGenName);
 
 		final IType elementType = getElementType();
 		final String ofType = elementType.getGenNameValue( aData, source );
@@ -1446,6 +1457,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		aData.addBuiltinTypeImport("TitanValue_Array");
 
 		source.append(MessageFormat.format("public static class {0} extends TitanValue_Array<{1}> '{'\n", className, ofType));
+
+		generateCodeTypedescriptor(aData, source, source);
+		generateCodeDefaultCoding(aData, source, source);
+
 		source.append(MessageFormat.format("public {0}() '{'\n", className));
 		source.append(MessageFormat.format("super({0}.class, {1,number,#} , {2,number,#});\n", ofType, dim.getSize(), dim.getOffset()));
 		source.append("}\n");
@@ -1460,7 +1475,9 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("protected TTCN_Typedescriptor get_elem_descr() {\n");
 		source.append(MessageFormat.format("return {0}_descr_;\n", elementType.getGenNameTypeDescriptor(aData, source)));
 		source.append("}\n");
-	      
+
+		generateCodeForCodingHandlers(aData, source, source);
+
 		source.append("}\n\n");
 	}
 

@@ -61,9 +61,11 @@ public final class FunctionReferenceGenerator {
 	 * @param localTypeDescriptor
 	 *                the code to be generated into the class representing
 	 *                the type and coding descriptors of the type.
+	 * @param localCodingHandler
+	 *                the coding handlers to be generated into the class.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def,
-			final StringBuilder localTypeDescriptor) {
+			final StringBuilder localTypeDescriptor, final StringBuilder localCodingHandler) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addCommonLibraryImport("TtcnError");
 		aData.addCommonLibraryImport("Module_List");
@@ -533,6 +535,8 @@ public final class FunctionReferenceGenerator {
 		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
 		generateDecodeTextInternal(aData, source, def, "referred_function");
 		source.append("\t\t}\n\n");
+
+		source.append(localCodingHandler);
 
 		source.append("\t}\n\n");
 	}

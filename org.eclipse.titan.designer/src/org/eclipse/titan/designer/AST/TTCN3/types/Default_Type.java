@@ -230,6 +230,7 @@ public final class Default_Type extends Type {
 			final StringBuilder descriptor = new StringBuilder();
 			generateCodeTypedescriptor(aData, source, descriptor);
 			generateCodeDefaultCoding(aData, source, descriptor);
+			generateCodeForCodingHandlers(aData, source, descriptor);
 			source.append(descriptor);
 
 			source.append("\t}\n");
@@ -238,6 +239,7 @@ public final class Default_Type extends Type {
 		} else {
 			generateCodeTypedescriptor(aData, source, null);
 			generateCodeDefaultCoding(aData, source, null);
+			generateCodeForCodingHandlers(aData, source, null);
 		}
 
 		if (hasDoneAttribute()) {
@@ -246,8 +248,6 @@ public final class Default_Type extends Type {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

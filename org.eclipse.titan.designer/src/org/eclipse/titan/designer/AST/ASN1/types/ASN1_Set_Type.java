@@ -1149,6 +1149,8 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		final StringBuilder localTypeDescriptor = new StringBuilder();
 		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+		final StringBuilder localCodingHandler = new StringBuilder();
+		generateCodeForCodingHandlers(aData, source, localCodingHandler);
 
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
@@ -1177,11 +1179,13 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				if (!cfType.generatesOwnClass(aData, source)) {
 					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 					cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+					cfType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
 				break;
 			default:
 				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
 				cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
+				cfType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				break;
 			}
 
@@ -1228,10 +1232,8 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		final boolean jsonAsValue = jsonAttribute != null ? jsonAttribute.as_value : false;
 		final boolean jsonAsMapPossible = jsonAttribute != null ? jsonAttribute.as_map : false;
 
-		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true, hasRaw, null, hasJson, jsonAsValue, jsonAsMapPossible, localTypeDescriptor);
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true, hasRaw, null, hasJson, jsonAsValue, jsonAsMapPossible, localTypeDescriptor, localCodingHandler);
 		RecordSetCodeGenerator.generateTemplateClass(aData, source, className, classReadableName, namesList, hasOptional, true);
-
-		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override
