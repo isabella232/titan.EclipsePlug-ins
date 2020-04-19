@@ -691,11 +691,6 @@ public final class SetOf_Type extends AbstractOfType {
 				generateCodeTypedescriptor(aData, source, null);
 				generateCodeDefaultCoding(aData, source, null);
 				generateCodeForCodingHandlers(aData, source, null);
-				if (!ofType.generatesOwnClass(aData, source)) {
-					ofType.generateCodeTypedescriptor(aData, source, null);
-					ofType.generateCodeDefaultCoding(aData, source, null);
-					ofType.generateCodeForCodingHandlers(aData, source, null);
-				}
 
 				final String ownName = getGenNameOwn(aData);
 				final String valueName = getGenNameValue(aData, source);
