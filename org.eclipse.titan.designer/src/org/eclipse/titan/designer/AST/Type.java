@@ -147,10 +147,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	//FIXME these should be only temporary fields
 	/** the time when code for the type descriptor of this type was generated. */
 	private BuildTimestamp lastTimeTypeDescriptorGenerated = null;
-	/** the time when code for default coding of this type was generated. */
-	private BuildTimestamp lastTimeTypeDefaultCodingGenerated = null;
-	/** the time when code for the coding handlers of this type was generated. */
-	private BuildTimestamp lastTimeTypeCodingHandlerGenerated = null;
 
 	/**
 	 * The actual value of the severity level to report type compatibility
@@ -2728,10 +2724,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final String genname = getGenNameOwn();
 		final String descriptorName = MessageFormat.format("{0}_raw_", genname);
-		if (localTarget == null && aData.hasGlobalVariable(descriptorName)) {
-			return;
-		}
-
 		final StringBuilder RAW_value = new StringBuilder();
 		RAW_value.append(MessageFormat.format("new TTCN_RAWdescriptor(", genname));
 
@@ -2932,10 +2924,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final String genname = getGenNameOwn();
 		final String descriptorName = MessageFormat.format("{0}_json_", genname);
-		if (localTarget == null && aData.hasGlobalVariable(descriptorName)) {
-			return;
-		}
-
 		final StringBuilder JSON_value = new StringBuilder();
 
 		JSON_value.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0} =", descriptorName));
@@ -3007,12 +2995,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
 	 * */
 	public void generateCodeDefaultCoding(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
-		if (lastTimeTypeDefaultCodingGenerated != null && !lastTimeTypeDefaultCodingGenerated.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
-
-		lastTimeTypeDefaultCodingGenerated = aData.getBuildTimstamp();
-
 		final String genname = getGenNameOwn();
 
 		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
@@ -3056,12 +3038,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *    {@code otherwise} the coding handlers will be added to this StringBuilder.
 	 * */
 	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
-		if (lastTimeTypeCodingHandlerGenerated != null && !lastTimeTypeCodingHandlerGenerated.isLess(aData.getBuildTimstamp())) {
-			return;
-		}
-
-		lastTimeTypeCodingHandlerGenerated = aData.getBuildTimstamp();
-
 		final String genname = getGenNameOwn();
 		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
 		if (t == null) {
