@@ -422,7 +422,7 @@ public final class InternalMakefileGenerator {
 			if (hasSpecialCharacters(other.getDirectory()) || hasSpecialCharacters(other.getFileName())) {
 				final String path = other.getDirectory() == null ? "" : (other.getDirectory() + File.separatorChar);
 				errorBuilder.append("The path of the file `" + path + other.getFileName() + "' contains special characters,"
-						+ "that cannot be handled properly by the `make' utility and/or the shell.\n");
+						+ " that cannot be handled properly by the `make' utility and/or the shell.\n");
 				isErroneous = true;
 			}
 		}
