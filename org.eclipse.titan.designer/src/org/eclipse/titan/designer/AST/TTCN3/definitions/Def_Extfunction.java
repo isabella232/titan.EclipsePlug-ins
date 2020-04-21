@@ -1120,7 +1120,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			aData.addBuiltinTypeImport("TitanOctetString");
 
 			// checking for remaining data in the buffer if decoding was successful
-			source.append( "\t\tif (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
+			source.append( "\t\tif (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n" );
 			source.append( "\t\t\tif (ttcn_buffer.get_pos() < ttcn_buffer.get_len()) {\n" );
 			source.append( "\t\t\t\tttcn_buffer.cut();\n" );
 
@@ -1133,7 +1133,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				source.append( "\t\t\t\ttmp_os.log();\n");
 			}
 			source.append( "\t\t\t\tfinal TitanCharString remaining_stream = TTCN_Logger.end_event_log2str();\n" );
-			source.append( MessageFormat.format( "\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_EXTRA_DATA, \"{0}(): Warning: Data remained at the end of the stream after successful decoding: %s\", remaining_stream.get_value());\n", identifier.getDisplayName()));
+			source.append( MessageFormat.format( "\t\t\t\tTTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_EXTRA_DATA, \"{0}(): Warning: Data remained at the end of the stream after successful decoding: %s\", remaining_stream.get_value());\n", identifier.getDisplayName()));
 			source.append( "\t\t\t}\n" );
 
 			// closing the block and returning the appropriate result or status code
