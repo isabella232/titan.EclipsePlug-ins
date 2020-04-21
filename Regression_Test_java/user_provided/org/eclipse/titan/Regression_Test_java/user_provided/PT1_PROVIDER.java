@@ -36,7 +36,7 @@ public abstract class PT1_PROVIDER extends TitanPort {
 	
 	protected void outgoing_send(final PDUType2 send_par) {
 		TitanOctetString os = new TitanOctetString();
-		dual.PDUType2_encoder(send_par, os, new TitanUniversalCharString("RAW"));
+		dual.PDUType2.PDUType2_encoder(send_par, os, new TitanUniversalCharString("RAW"));
 		incoming_message(os);
 	}
 	

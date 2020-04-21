@@ -1371,7 +1371,6 @@ testcase tc_jsonBasic_encdec_union() runs on CT {
 
 //== anytype ===
 
-
 //not ready
 type integer I;
 type charstring CS;
@@ -1421,7 +1420,7 @@ control {
   execute( tc_jsonBasic_encdec_set() );
   execute( tc_jsonBasic_encdec_roi1() );
   execute( tc_jsonBasic_encdec_roi2() );
-//  execute( tc_jsonBasic_encdec_AI3());
+  execute( tc_jsonBasic_encdec_AI3());
   execute( tc_jsonBasic_encdec_soi1() );
   execute( tc_jsonBasic_encdec_soi2() );
   execute( tc_jsonBasic_encdec_soi3() );
