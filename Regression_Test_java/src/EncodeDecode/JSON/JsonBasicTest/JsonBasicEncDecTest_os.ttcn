@@ -964,7 +964,7 @@ control {
   execute( tc_jsonBasic_encdec_os_hexstring_unbound() );
   execute( tc_jsonBasic_encdec_os_octetstring() );
   execute( tc_jsonBasic_encdec_os_ucharstring() );
-//  execute( tc_jsonBasic_encdec_os_AI3() );
+  execute( tc_jsonBasic_encdec_os_AI3() );
   execute( tc_jsonBasic_encdec_os_verdict() );
   execute( tc_jsonBasic_encdec_os_record() );
   execute( tc_jsonBasic_encdec_os_roi1() );
