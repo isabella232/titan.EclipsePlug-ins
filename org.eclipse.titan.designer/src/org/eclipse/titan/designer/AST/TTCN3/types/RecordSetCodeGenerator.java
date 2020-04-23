@@ -922,12 +922,17 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 
 		source.append("\t\t\tcase CT_JSON: {\n");
-		source.append("\t\t\t\tif(p_td.json == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While JSON-encoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\ttry{\n");
+		source.append("\t\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
+		source.append("\t\t\t\t\tJSON_encode(p_td, tok);\n");
+		source.append("\t\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
+		source.append("\t\t\t\t} finally {\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
-		source.append("\t\t\t\tJSON_encode(p_td, tok);\n");
-		source.append("\t\t\t\tp_buf.put_s(tok.get_buffer().toString().getBytes());\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 
@@ -977,14 +982,19 @@ public final class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 
 		source.append("\t\t\tcase CT_JSON: {\n");
-		source.append("\t\t\t\tif(p_td.json == null) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\tfinal TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While JSON-decoding type '%s': \", p_td.name);\n");
+		source.append("\t\t\t\ttry{\n");
+		source.append("\t\t\t\t\tif(p_td.json == null) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error_internal(\"No JSON descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
+		source.append("\t\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
+		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
+		source.append("\t\t\t\t} finally {\n");
+		source.append("\t\t\t\t\terrorContext.leave_context();\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());\n");
-		source.append("\t\t\t\tif(JSON_decode(p_td, tok, false) < 0) {\n");
-		source.append("\t\t\t\t\tTTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tp_buf.set_pos(tok.get_buf_pos());\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 

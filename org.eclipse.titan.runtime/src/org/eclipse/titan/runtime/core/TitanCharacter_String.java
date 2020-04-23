@@ -377,12 +377,17 @@ public class TitanCharacter_String extends Base_Type {
 			break;
 		}
 		case CT_JSON: {
-			if(p_td.json == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-encoding type '%s': ", p_td.name);
+			try {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+			} finally {
+				errorContext.leave_context();
 			}
-			final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
-			JSON_encode(p_td, tok);
-			p_buf.put_s(tok.get_buffer().toString().getBytes());
 			break;
 		}
 		default:
@@ -420,14 +425,19 @@ public class TitanCharacter_String extends Base_Type {
 			break;
 		}
 		case CT_JSON: {
-			if(p_td.json == null) {
-				TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-decoding type '%s': ", p_td.name);
+			try {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
+			} finally {
+				errorContext.leave_context();
 			}
-			final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
-			if(JSON_decode(p_td, tok, false) < 0) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-			}
-			p_buf.set_pos(tok.get_buf_pos());
 			break;
 		}
 		default:
