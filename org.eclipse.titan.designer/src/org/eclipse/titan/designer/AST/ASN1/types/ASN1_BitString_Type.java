@@ -579,8 +579,8 @@ public final class ASN1_BitString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanBitString";
+		aData.addBuiltinTypeImport( "TitanBitString" );
+		return "TitanBitString.TitanBitString";
 	}
 
 	@Override
@@ -605,8 +605,8 @@ public final class ASN1_BitString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanBitString" );
 
-		return "JSON.TitanBitString_json_";
+		return "TitanBitString.TitanBitString_json_";
 	}
 }
