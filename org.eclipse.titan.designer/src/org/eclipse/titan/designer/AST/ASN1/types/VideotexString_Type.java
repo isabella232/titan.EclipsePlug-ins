@@ -277,17 +277,17 @@ public final class VideotexString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanVideotexString" );
 
-		return "TitanUniversalCharString";
+		return "TitanVideotexString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
+		aData.addBuiltinTypeImport( "TitanVideotexString_template" );
 
-		return "TitanUniversalCharString_template";
+		return "TitanVideotexString_template";
 	}
 
 	@Override
@@ -322,16 +322,16 @@ public final class VideotexString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanVideotexString";
+		aData.addBuiltinTypeImport( "TitanVideotexString" );
+		return "TitanVideotexString.TitanVideotexString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanVideotexString" );
 
-		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
+		return MessageFormat.format("TitanVideotexString.convert_to_VideotexString({0})", fromName);
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public final class VideotexString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanVideotexString_json_";
+		aData.addBuiltinTypeImport( "TitanVideotexString" );
+		return "TitanVideotexString.TitanVideotexString_json_";
 	}
 }

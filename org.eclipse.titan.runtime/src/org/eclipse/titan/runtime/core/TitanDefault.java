@@ -23,6 +23,8 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * @author Arpad Lovassy
  */
 public class TitanDefault extends Base_Type {
+	public static final TTCN_Typedescriptor TitanDefault_descr_ = new TTCN_Typedescriptor("default", null, null, null, null);
+
 	/** internal object to indicate unbound state. */
 	static final Default_Base UNBOUND_DEFAULT = new Default_Base() {
 		@Override

@@ -277,17 +277,17 @@ public final class GraphicString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanGraphicString" );
 
-		return "TitanUniversalCharString";
+		return "TitanGraphicString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
+		aData.addBuiltinTypeImport( "TitanGraphicString_template" );
 
-		return "TitanUniversalCharString_template";
+		return "TitanGraphicString_template";
 	}
 
 	@Override
@@ -322,16 +322,16 @@ public final class GraphicString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanGraphicString";
+		aData.addBuiltinTypeImport( "TitanGraphicString" );
+		return "TitanGraphicString.TitanGraphicString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanGraphicString" );
 
-		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
+		return MessageFormat.format("TitanGraphicString.convert_to_GraphicString({0})", fromName);
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public final class GraphicString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanGraphicString_json_";
+		aData.addBuiltinTypeImport( "TitanGraphicString" );
+		return "TitanGraphicString.TitanGraphicString_json_";
 	}
 }

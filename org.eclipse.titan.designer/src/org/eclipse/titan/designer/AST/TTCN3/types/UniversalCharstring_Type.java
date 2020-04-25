@@ -581,8 +581,8 @@ public final class UniversalCharstring_Type extends Type {
 		}
 
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanUniversalCharString";
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		return "TitanUniversalCharString.TitanUniversalCharString";
 	}
 
 	@Override
@@ -595,9 +595,9 @@ public final class UniversalCharstring_Type extends Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
-			return "RAW.TitanUniversalCharString_raw_";
+			return "TitanUniversalCharString.TitanUniversalCharString_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -619,9 +619,9 @@ public final class UniversalCharstring_Type extends Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
-		return "JSON.TitanUniversalCharString_json_";
+		return "TitanUniversalCharString.TitanUniversalCharString_json_";
 	}
 
 	@Override

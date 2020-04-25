@@ -1017,7 +1017,7 @@ public final class Component_Type extends Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanComponent";
+		aData.addBuiltinTypeImport( "TitanComponent" );
+		return "TitanComponent.TitanComponent";
 	}
 }

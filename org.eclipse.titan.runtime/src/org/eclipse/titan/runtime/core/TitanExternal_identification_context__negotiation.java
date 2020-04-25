@@ -30,9 +30,9 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	public static final TTCN_JSONdescriptor TitanExternal_identification_context__negotiation_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation", TitanExternal_identification_context__negotiation.TitanExternal_identification_context__negotiation_json_);
 	public static final TitanUniversalCharString TitanExternal_identification_context__negotiation_default_coding = new TitanUniversalCharString("JSON");
-	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_presentation__context__id_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation.presentation-context-id", JSON.TitanInteger_json_);
+	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_presentation__context__id_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation.presentation-context-id", TitanInteger.TitanInteger_json_);
 	public static final TitanUniversalCharString TitanExternal_identification_context__negotiation_presentation__context__id_default_coding = new TitanUniversalCharString("JSON");
-	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_transfer__syntax_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation.transfer-syntax", JSON.TitanObjectid_json_);
+	public static final TTCN_Typedescriptor TitanExternal_identification_context__negotiation_transfer__syntax_descr_ = new TTCN_Typedescriptor("EXTERNAL.identification.context-negotiation.transfer-syntax", TitanObjectid.TitanObjectid_json_);
 	public static final TitanUniversalCharString TitanExternal_identification_context__negotiation_transfer__syntax_default_coding = new TitanUniversalCharString("JSON");
 	private final TitanInteger presentation__context__id; //ASN1_Integer_Type
 	private final TitanObjectid transfer__syntax; //ObjectID_Type
@@ -321,7 +321,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		}
 		case CT_JSON: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-encoding type '%s': ", p_td.name);
-			try {
+			try{
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
@@ -369,7 +369,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		}
 		case CT_JSON: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-decoding type '%s': ", p_td.name);
-			try {
+			try{
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
@@ -400,12 +400,12 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 
 		{
 			enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "presentation-context-id");
-			enc_len += get_field_presentation__context__id().JSON_encode(Base_Type.TitanInteger_descr_, p_tok);
+			enc_len += get_field_presentation__context__id().JSON_encode(TitanInteger.TitanInteger_descr_, p_tok);
 		}
 
 		{
 			enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "transfer-syntax");
-			enc_len += get_field_transfer__syntax().JSON_encode(Base_Type.TitanObjectid_descr_, p_tok);
+			enc_len += get_field_transfer__syntax().JSON_encode(TitanObjectid.TitanObjectid_descr_, p_tok);
 		}
 
 		enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
@@ -443,7 +443,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 			else {
 				if (23 == name_len.get() && "presentation-context-id".equals(fld_name.substring(0,name_len.get()))) {
 					presentation__context__id_found = true;
-					final int ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, p_silent);
+					final int ret_val = get_field_presentation__context__id().JSON_decode(TitanInteger.TitanInteger_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "presentation-context-id");
@@ -454,7 +454,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 				}
 				else if (15 == name_len.get() && "transfer-syntax".equals(fld_name.substring(0,name_len.get()))) {
 					transfer__syntax_found = true;
-					final int ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
+					final int ret_val = get_field_transfer__syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "transfer-syntax");
@@ -494,7 +494,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		return dec_len;
 	}
 
-	private static void JSON_ERROR(final boolean p_silent, final TTCN_EncDec.error_type p_et, final String fmt, final java.lang.Object... args) {
+	private static void JSON_ERROR(final boolean p_silent, final error_type p_et, final String fmt, final java.lang.Object... args) {
 		if (!p_silent) {
 			TTCN_EncDec_ErrorContext.error(p_et, fmt, args);
 		}
@@ -580,7 +580,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-		input_value.encode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		input_value.encode(TitanObjectid.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
 		ttcnBuffer.get_string(output_stream);
 	}
 
@@ -607,7 +607,7 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-		output_value.decode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		output_value.decode(TitanObjectid.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
 		switch (TTCN_EncDec.get_last_error_type()) {
 		case ET_NONE:
 			ttcnBuffer.cut();

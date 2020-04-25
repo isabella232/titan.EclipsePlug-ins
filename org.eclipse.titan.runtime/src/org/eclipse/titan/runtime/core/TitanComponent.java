@@ -27,6 +27,8 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
  * @author Arpad Lovassy
  */
 public class TitanComponent extends Base_Type {
+	public static final TTCN_Typedescriptor TitanComponent_descr_ = new TTCN_Typedescriptor("component", null, null, null, null);
+
 	// the predefined component reference values
 	public static final int NULL_COMPREF = 0;
 	public static final int MTC_COMPREF = 1;

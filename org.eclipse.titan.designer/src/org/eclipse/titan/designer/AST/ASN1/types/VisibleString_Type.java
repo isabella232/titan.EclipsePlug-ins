@@ -269,15 +269,15 @@ public final class VisibleString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
-		return "TitanCharString";
+		aData.addBuiltinTypeImport( "TitanVisibleString" );
+		return "TitanVisibleString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString_template" );
-		return "TitanCharString_template";
+		aData.addBuiltinTypeImport( "TitanVisibleString_template" );
+		return "TitanVisibleString_template";
 	}
 
 	@Override
@@ -312,16 +312,16 @@ public final class VisibleString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanVisibleString";
+		aData.addBuiltinTypeImport( "TitanVisibleString" );
+		return "TitanVisibleString.TitanVisibleString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "TitanVisibleString" );
 
-		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
+		return MessageFormat.format("TitanVisibleString.convert_to_VisibleString({0})", fromName);
 	}
 
 	@Override
@@ -337,7 +337,7 @@ public final class VisibleString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanVisibleString_json_";
+		aData.addBuiltinTypeImport( "TitanVisibleString" );
+		return "TitanVisibleString.TitanVisibleString_json_";
 	}
 }

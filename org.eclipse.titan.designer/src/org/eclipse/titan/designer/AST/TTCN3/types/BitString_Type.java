@@ -398,8 +398,8 @@ public final class BitString_Type extends Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanBitString";
+		aData.addBuiltinTypeImport( "TitanBitString" );
+		return "TitanBitString.TitanBitString";
 	}
 
 	@Override
@@ -412,9 +412,9 @@ public final class BitString_Type extends Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanBitString" );
 
-			return "RAW.TitanBitString_raw_";
+			return "TitanBitString.TitanBitString_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -436,9 +436,9 @@ public final class BitString_Type extends Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanBitString" );
 
-		return "JSON.TitanBitString_json_";
+		return "TitanBitString.TitanBitString_json_";
 	}
 
 	@Override

@@ -372,8 +372,8 @@ public final class Boolean_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanBoolean";
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		return "TitanBoolean.TitanBoolean";
 	}
 
 	@Override
@@ -386,9 +386,9 @@ public final class Boolean_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanBoolean" );
 
-			return "RAW.TitanBoolean_raw_";
+			return "TitanBoolean.TitanBoolean_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -410,9 +410,9 @@ public final class Boolean_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanBoolean" );
 
-		return "JSON.TitanBoolean_json_";
+		return "TitanBoolean.TitanBoolean_json_";
 	}
 
 }

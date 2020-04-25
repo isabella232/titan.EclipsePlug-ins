@@ -265,15 +265,15 @@ public final class PrintableString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
-		return "TitanCharString";
+		aData.addBuiltinTypeImport( "TitanPrintableString" );
+		return "TitanPrintableString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString_template" );
-		return "TitanCharString_template";
+		aData.addBuiltinTypeImport( "TitanPrintableString_template" );
+		return "TitanPrintableString_template";
 	}
 
 	@Override
@@ -308,16 +308,16 @@ public final class PrintableString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanPrintableString";
+		aData.addBuiltinTypeImport( "TitanPrintableString" );
+		return "TitanPrintableString.TitanPrintableString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "TitanPrintableString" );
 
-		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
+		return MessageFormat.format("TitanPrintableString.convert_to_PrintableString({0})", fromName);
 	}
 
 	@Override
@@ -333,7 +333,7 @@ public final class PrintableString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanPrintableString_json_";
+		aData.addBuiltinTypeImport( "TitanPrintableString" );
+		return "TitanPrintableString.TitanPrintableString_json_";
 	}
 }

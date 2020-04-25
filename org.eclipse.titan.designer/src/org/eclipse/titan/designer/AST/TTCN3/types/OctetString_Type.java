@@ -441,8 +441,8 @@ public final class OctetString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanOctetString";
+		aData.addBuiltinTypeImport( "TitanOctetString" );
+		return "TitanOctetString.TitanOctetString";
 	}
 
 	@Override
@@ -455,9 +455,9 @@ public final class OctetString_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanOctetString" );
 
-			return "RAW.TitanOctetString_raw_";
+			return "TitanOctetString.TitanOctetString_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -479,9 +479,9 @@ public final class OctetString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanOctetString" );
 
-		return "JSON.TitanOctetString_json_";
+		return "TitanOctetString.TitanOctetString_json_";
 	}
 
 	@Override

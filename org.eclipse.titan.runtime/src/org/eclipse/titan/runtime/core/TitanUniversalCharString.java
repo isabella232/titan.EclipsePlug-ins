@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
 import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
@@ -27,6 +28,9 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
+import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
+import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
 import org.eclipse.titan.runtime.core.RAW.top_bit_order_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
@@ -41,6 +45,10 @@ import org.eclipse.titan.runtime.core.cfgparser.StandardCharsets;
  * @author Andrea Palfi
  */
 public class TitanUniversalCharString extends Base_Type {
+	public static final TTCN_RAWdescriptor TitanUniversalCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_JSONdescriptor TitanUniversalCharString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", null, TitanUniversalCharString_raw_, TitanUniversalCharString_json_, null);
+
 
 	/** Internal data */
 	List<TitanUniversalChar> val_ptr;

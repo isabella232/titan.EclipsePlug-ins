@@ -277,17 +277,17 @@ public final class TeletexString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanTeletexString" );
 
-		return "TitanUniversalCharString";
+		return "TitanTeletexString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
+		aData.addBuiltinTypeImport( "TitanTeletexString_template" );
 
-		return "TitanUniversalCharString_template";
+		return "TitanTeletexString_template";
 	}
 
 	@Override
@@ -322,16 +322,16 @@ public final class TeletexString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanTeletexString";
+		aData.addBuiltinTypeImport( "TitanTeletexString" );
+		return "TitanTeletexString.TitanTeletexString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanTeletexString" );
 
-		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
+		return MessageFormat.format("TitanTeletexString.convert_to_TeletexString({0})", fromName);
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public final class TeletexString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanTeletexString_json_";
+		aData.addBuiltinTypeImport( "TitanTeletexString" );
+		return "TitanTeletexString.TitanTeletexString_json_";
 	}
 }

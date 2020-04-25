@@ -290,7 +290,7 @@ public final class Default_Type extends Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanDefault";
+		aData.addBuiltinTypeImport( "TitanDefault" );
+		return "TitanDefault.TitanDefault";
 	}
 }

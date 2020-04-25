@@ -7,12 +7,20 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import org.eclipse.titan.runtime.core.BER.ASN_BERdescriptor;
+import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
+
 /**
  * ASN.1 any type
  *
  * @author Kristof Szabados
  */
 public class TitanAsn_Any extends TitanOctetString {
+	public static final ASN_BERdescriptor TitanASN_Any_Ber_ = new ASN_BERdescriptor(0, null);
+	public static final TTCN_JSONdescriptor TitanAsn_Any_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_Typedescriptor TitanAsn_Any_descr_ = new TTCN_Typedescriptor("ANY", TitanASN_Any_Ber_, null, TitanAsn_Any_json_, null);
+
 	/**
 	 * Initializes to unbound value.
 	 * */

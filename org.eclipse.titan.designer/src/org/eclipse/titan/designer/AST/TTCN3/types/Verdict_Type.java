@@ -317,8 +317,8 @@ public final class Verdict_Type extends Type {
 
 			return getGenNameOwn(aData);
 		}
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanVerdictType";
+		aData.addBuiltinTypeImport( "TitanVerdictType" );
+		return "TitanVerdictType.TitanVerdictType";
 	}
 
 	@Override
@@ -334,7 +334,7 @@ public final class Verdict_Type extends Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanVerdictType_json_";
+		aData.addBuiltinTypeImport( "TitanVerdictType" );
+		return "TitanVerdictType.TitanVerdictType_json_";
 	}
 }

@@ -402,8 +402,8 @@ public final class HexString_Type extends Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanHexString";
+		aData.addBuiltinTypeImport( "TitanHexString" );
+		return "TitanHexString.TitanHexString";
 	}
 
 	@Override
@@ -416,9 +416,9 @@ public final class HexString_Type extends Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanHexString" );
 
-			return "RAW.TitanHexString_raw_";
+			return "TitanHexString.TitanHexString_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -440,9 +440,9 @@ public final class HexString_Type extends Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanHexString" );
 
-		return "JSON.TitanHexString_json_";
+		return "TitanHexString.TitanHexString_json_";
 	}
 
 	@Override

@@ -29,7 +29,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 public class TitanCharacter_String extends Base_Type {
 	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING");
 	public static final TTCN_Typedescriptor TitanCharacter_String_data__value__descriptor_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.data-value-descriptor");
-	public static final TTCN_Typedescriptor TitanCharacter_String_string__value_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.string-value", null, RAW.TitanOctetString_raw_, JSON.TitanOctetString_json_);
+	public static final TTCN_Typedescriptor TitanCharacter_String_string__value_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.string-value", null, TitanOctetString.TitanOctetString_raw_, TitanOctetString.TitanOctetString_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_string__value_default_coding = new TitanUniversalCharString("JSON");
 	private final TitanCharacter_String_identification identification; //ASN1_Choice_Type
 	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
@@ -378,7 +378,7 @@ public class TitanCharacter_String extends Base_Type {
 		}
 		case CT_JSON: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-encoding type '%s': ", p_td.name);
-			try {
+			try{
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
@@ -426,7 +426,7 @@ public class TitanCharacter_String extends Base_Type {
 		}
 		case CT_JSON: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-decoding type '%s': ", p_td.name);
-			try {
+			try{
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
@@ -465,7 +465,7 @@ public class TitanCharacter_String extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `octetstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-		input_value.encode(Base_Type.TitanOctetString_descr_, ttcnBuffer, codingType, extra_options.get());
+		input_value.encode(TitanOctetString.TitanOctetString_descr_, ttcnBuffer, codingType, extra_options.get());
 		ttcnBuffer.get_string(output_stream);
 	}
 
@@ -492,7 +492,7 @@ public class TitanCharacter_String extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `octetstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-		output_value.decode(Base_Type.TitanOctetString_descr_, ttcnBuffer, codingType, extra_options.get());
+		output_value.decode(TitanOctetString.TitanOctetString_descr_, ttcnBuffer, codingType, extra_options.get());
 		switch (TTCN_EncDec.get_last_error_type()) {
 		case ET_NONE:
 			ttcnBuffer.cut();

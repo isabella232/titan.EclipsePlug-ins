@@ -9,6 +9,11 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.BER.ASN_BERdescriptor;
+import org.eclipse.titan.runtime.core.BER.ASN_Tag;
+import org.eclipse.titan.runtime.core.BER.ASN_TagClass;
+import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Asn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
@@ -23,6 +28,12 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
  * @author Arpad Lovassy
  */
 public class TitanAsn_Null extends Base_Type {
+	private static final ASN_Tag TitanASN_Null_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 5)};
+	public static final ASN_BERdescriptor TitanASN_Null_Ber_ = new ASN_BERdescriptor(1, TitanASN_Null_tag_);
+	public static final TTCN_JSONdescriptor TitanAsn_Null_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+
+	public static final TTCN_Typedescriptor TitanAsn_Null_descr_ = new TTCN_Typedescriptor("NULL", TitanASN_Null_Ber_, null, TitanAsn_Null_json_, null);
+
 	/**
 	 * This enum is only used so that we can create a bound ASN.1 null.
 	 * Needed to differentiate between the constructors.

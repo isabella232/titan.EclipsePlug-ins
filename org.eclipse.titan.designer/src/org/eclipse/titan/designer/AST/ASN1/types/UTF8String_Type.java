@@ -279,17 +279,17 @@ public final class UTF8String_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanUTF8String" );
 
-		return "TitanUniversalCharString";
+		return "TitanUTF8String";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
+		aData.addBuiltinTypeImport( "TitanUTF8String_template" );
 
-		return "TitanUniversalCharString_template";
+		return "TitanUTF8String_template";
 	}
 
 	@Override
@@ -324,16 +324,16 @@ public final class UTF8String_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanUTF8String";
+		aData.addBuiltinTypeImport( "TitanUTF8String" );
+		return "TitanUTF8String.TitanUTF8String";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanUTF8String" );
 
-		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
+		return MessageFormat.format("TitanUTF8String.convert_to_UTF8String({0})", fromName);
 	}
 
 	@Override
@@ -349,7 +349,7 @@ public final class UTF8String_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanUTF8String_json_";
+		aData.addBuiltinTypeImport( "TitanUTF8String" );
+		return "TitanUTF8String.TitanUTF8String_json_";
 	}
 }

@@ -549,8 +549,8 @@ public final class Integer_Type extends Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanInteger";
+		aData.addBuiltinTypeImport( "TitanInteger" );
+		return "TitanInteger.TitanInteger";
 	}
 
 	@Override
@@ -563,9 +563,9 @@ public final class Integer_Type extends Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanInteger" );
 
-			return "RAW.TitanInteger_raw_";
+			return "TitanInteger.TitanInteger_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -586,8 +586,8 @@ public final class Integer_Type extends Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanInteger" );
 
-		return "JSON.TitanInteger_json_";
+		return "TitanInteger.TitanInteger_json_";
 	}
 }

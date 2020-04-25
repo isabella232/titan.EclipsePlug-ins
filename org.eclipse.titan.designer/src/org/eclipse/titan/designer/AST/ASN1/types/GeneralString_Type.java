@@ -277,17 +277,17 @@ public final class GeneralString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanGeneralString" );
 
-		return "TitanUniversalCharString";
+		return "TitanGeneralString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
+		aData.addBuiltinTypeImport( "TitanGeneralString_template" );
 
-		return "TitanUniversalCharString_template";
+		return "TitanGeneralString_template";
 	}
 
 	@Override
@@ -322,16 +322,16 @@ public final class GeneralString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanGeneralString";
+		aData.addBuiltinTypeImport( "TitanGeneralString" );
+		return "TitanGeneralString.TitanGeneralString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanGeneralString" );
 
-		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
+		return MessageFormat.format("TitanGeneralString.convert_to_GeneralString({0})", fromName);
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public final class GeneralString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanGeneralString_json_";
+		aData.addBuiltinTypeImport( "TitanGeneralString" );
+		return "TitanGeneralString.TitanGeneralString_json_";
 	}
 }

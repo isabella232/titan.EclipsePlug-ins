@@ -298,8 +298,8 @@ public final class RelativeObjectIdentifier_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanAsn_Roid";
+		aData.addBuiltinTypeImport( "TitanAsn_Roid" );
+		return "TitanAsn_Roid.TitanAsn_Roid";
 	}
 
 	@Override
@@ -315,7 +315,7 @@ public final class RelativeObjectIdentifier_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanAsn_Roid_json_";
+		aData.addBuiltinTypeImport( "TitanAsn_Roid" );
+		return "TitanAsn_Roid.TitanAsn_Roid_json_";
 	}
 }

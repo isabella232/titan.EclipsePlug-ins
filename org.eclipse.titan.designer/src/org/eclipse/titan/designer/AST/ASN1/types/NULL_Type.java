@@ -279,8 +279,8 @@ public final class NULL_Type extends ASN1Type {
 		}
 
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanAsn_Null";
+		aData.addBuiltinTypeImport( "TitanAsn_Null" );
+		return "TitanAsn_Null.TitanAsn_Null";
 	}
 
 	@Override
@@ -296,7 +296,7 @@ public final class NULL_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanAsn_Null_json_";
+		aData.addBuiltinTypeImport( "TitanAsn_Null" );
+		return "TitanAsn_Null.TitanAsn_Null_json_";
 	}
 }

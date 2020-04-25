@@ -269,15 +269,15 @@ public final class IA5String_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
-		return "TitanCharString";
+		aData.addBuiltinTypeImport( "TitanIA5String" );
+		return "TitanIA5String";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString_template" );
-		return "TitanCharString_template";
+		aData.addBuiltinTypeImport( "TitanIA5String_template" );
+		return "TitanIA5String_template";
 	}
 
 	@Override
@@ -312,16 +312,16 @@ public final class IA5String_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanIA5String";
+		aData.addBuiltinTypeImport( "TitanIA5String" );
+		return "TitanIA5String.TitanIA5String";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "TitanIA5String" );
 
-		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
+		return MessageFormat.format("TitanIA5String.convert_to_IA5tring({0})", fromName);
 	}
 
 	@Override
@@ -337,7 +337,7 @@ public final class IA5String_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanIA5String_json_";
+		aData.addBuiltinTypeImport( "TitanIA5String" );
+		return "TitanIA5String.TitanIA5String_json_";
 	}
 }

@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.BER.ASN_BERdescriptor;
+import org.eclipse.titan.runtime.core.BER.ASN_Tag;
+import org.eclipse.titan.runtime.core.BER.ASN_TagClass;
+import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
@@ -30,6 +35,11 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
  * @author Arpad Lovassy
  * */
 public class TitanObjectid extends Base_Type {
+	private static final ASN_Tag TitanObjectId_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 6)};
+	public static final ASN_BERdescriptor TitanObjectId_Ber_ = new ASN_BERdescriptor(1, TitanObjectId_tag_);
+	public static final TTCN_JSONdescriptor TitanObjectid_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+
+	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", TitanObjectId_Ber_, null, TitanObjectid_json_, null);
 
 	public static final int MIN_COMPONENTS = 2;
 

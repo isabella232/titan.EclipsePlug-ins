@@ -293,8 +293,8 @@ public final class Any_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanAsn_Any";
+		aData.addBuiltinTypeImport( "TitanAsn_Any" );
+		return "TitanAsn_Any.TitanAsn_Any";
 	}
 
 	@Override
@@ -311,9 +311,9 @@ public final class Any_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanAsn_Any" );
 
-		return "JSON.TitanAsn_Any_json_";
+		return "TitanAsn_Any.TitanAsn_Any_json_";
 
 	}
 }

@@ -254,15 +254,15 @@ public final class UTCTime_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
-		return "TitanCharString";
+		aData.addBuiltinTypeImport( "TitanASN_UTCTime" );
+		return "TitanASN_UTCTime";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString_template" );
-		return "TitanCharString_template";
+		aData.addBuiltinTypeImport( "TitanASN_UTCTime_template" );
+		return "TitanASN_UTCTime_template";
 	}
 
 	@Override
@@ -297,15 +297,15 @@ public final class UTCTime_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanASN_UTCTime";
+		aData.addBuiltinTypeImport( "TitanASN_UTCTime" );
+		return "TitanASN_UTCTime.TitanASN_UTCTime";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "TitanASN_UTCTime" );
 
-		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
+		return MessageFormat.format("TitanASN_UTCTime.convert_to_ASN_UTCTime({0})", fromName);
 	}
 }

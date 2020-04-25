@@ -12,6 +12,11 @@ import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.BER.ASN_BERdescriptor;
+import org.eclipse.titan.runtime.core.BER.ASN_Tag;
+import org.eclipse.titan.runtime.core.BER.ASN_TagClass;
+import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Integer;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
@@ -22,11 +27,14 @@ import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
+import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
 import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
 import org.eclipse.titan.runtime.core.RAW.top_bit_order_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 
 
 /**
@@ -36,6 +44,12 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Andrea Palfi
  */
 public class TitanInteger extends Base_Type {
+	private static final ASN_Tag TitanInteger_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 2)};
+	public static final ASN_BERdescriptor TitanInteger_Ber_ = new ASN_BERdescriptor(1, TitanInteger_tag_);
+	public static final TTCN_RAWdescriptor TitanInteger_raw_ = new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
+	public static final TTCN_JSONdescriptor TitanInteger_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", TitanInteger_Ber_, TitanInteger_raw_, TitanInteger_json_, null);
+
 	private boolean boundFlag;
 
 	private boolean nativeFlag;

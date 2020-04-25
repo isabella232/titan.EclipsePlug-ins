@@ -669,8 +669,8 @@ public final class ASN1_Integer_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanInteger";
+		aData.addBuiltinTypeImport( "TitanInteger" );
+		return "TitanInteger.TitanInteger";
 	}
 
 	@Override
@@ -686,7 +686,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanInteger_json_";
+		aData.addBuiltinTypeImport( "TitanInteger" );
+		return "TitanInteger.TitanInteger_json_";
 	}
 }

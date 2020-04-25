@@ -540,8 +540,8 @@ public final class Float_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanFloat";
+		aData.addBuiltinTypeImport( "TitanFloat" );
+		return "TitanFloat.TitanFloat";
 	}
 
 	@Override
@@ -554,9 +554,9 @@ public final class Float_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanFloat" );
 
-			return "RAW.TitanFloat_raw_";
+			return "TitanFloat.TitanFloat_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -578,9 +578,9 @@ public final class Float_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanFloat" );
 
-		return "JSON.TitanFloat_json_";
+		return "TitanFloat.TitanFloat_json_";
 	}
 
 }

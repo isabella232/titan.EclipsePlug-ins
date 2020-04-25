@@ -569,8 +569,8 @@ public final class CharString_Type extends Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanCharString";
+		aData.addBuiltinTypeImport( "TitanCharString" );
+		return "TitanCharString.TitanCharString";
 	}
 
 	@Override
@@ -583,9 +583,9 @@ public final class CharString_Type extends Type {
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (rawAttribute == null) {
-			aData.addBuiltinTypeImport( "RAW" );
+			aData.addBuiltinTypeImport( "TitanCharString" );
 
-			return "RAW.TitanCharString_raw_";
+			return "TitanCharString.TitanCharString_raw_";
 		} else if (needsAlias()) {
 			return getGenNameOwn(aData) + "." + getGenNameOwn() + "_raw_";
 		} else {
@@ -607,9 +607,9 @@ public final class CharString_Type extends Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
+		aData.addBuiltinTypeImport( "TitanCharString" );
 
-		return "JSON.TitanCharString_json_";
+		return "TitanCharString.TitanCharString_json_";
 	}
 
 

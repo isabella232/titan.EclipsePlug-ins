@@ -36,13 +36,13 @@ public class TitanCharacter_String_identification extends Base_Type {
 	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_json_ =new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
 	public static final TTCN_Typedescriptor TitanCharacter_String_identification_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification", TitanCharacter_String_identification.TitanCharacter_String_identification_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_default_coding = new TitanUniversalCharString("JSON");
-	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntax_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntax", JSON.TitanObjectid_json_);
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntax_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntax", TitanObjectid.TitanObjectid_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_syntax_default_coding = new TitanUniversalCharString("JSON");
-	public static final TTCN_Typedescriptor TitanCharacter_String_identification_presentation__context__id_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.presentation-context-id", JSON.TitanInteger_json_);
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_presentation__context__id_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.presentation-context-id", TitanInteger.TitanInteger_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_presentation__context__id_default_coding = new TitanUniversalCharString("JSON");
-	public static final TTCN_Typedescriptor TitanCharacter_String_identification_transfer__syntax_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.transfer-syntax", JSON.TitanObjectid_json_);
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_transfer__syntax_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.transfer-syntax", TitanObjectid.TitanObjectid_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_transfer__syntax_default_coding = new TitanUniversalCharString("JSON");
-	public static final TTCN_Typedescriptor TitanCharacter_String_identification_fixed_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.fixed", JSON.TitanAsn_Null_json_);
+	public static final TTCN_Typedescriptor TitanCharacter_String_identification_fixed_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.fixed", TitanAsn_Null.TitanAsn_Null_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_fixed_default_coding = new TitanUniversalCharString("JSON");
 	/**
 	 * Indicates the state/selection of this union kind.
@@ -701,7 +701,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 		}
 		case CT_JSON: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-encoding type '%s': ", p_td.name);
-			try {
+			try{
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
@@ -749,7 +749,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 		}
 		case CT_JSON: {
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-decoding type '%s': ", p_td.name);
-			try {
+			try{
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
@@ -784,13 +784,13 @@ public class TitanCharacter_String_identification extends Base_Type {
 			if (!as_value) {
 				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "syntax");
 			}
-			enc_len += get_field_syntax().JSON_encode(Base_Type.TitanObjectid_descr_, p_tok);
+			enc_len += get_field_syntax().JSON_encode(TitanObjectid.TitanObjectid_descr_, p_tok);
 			break;
 		case ALT_presentation__context__id:
 			if (!as_value) {
 				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "presentation-context-id");
 			}
-			enc_len += get_field_presentation__context__id().JSON_encode(Base_Type.TitanInteger_descr_, p_tok);
+			enc_len += get_field_presentation__context__id().JSON_encode(TitanInteger.TitanInteger_descr_, p_tok);
 			break;
 		case ALT_context__negotiation:
 			if (!as_value) {
@@ -802,13 +802,13 @@ public class TitanCharacter_String_identification extends Base_Type {
 			if (!as_value) {
 				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "transfer-syntax");
 			}
-			enc_len += get_field_transfer__syntax().JSON_encode(Base_Type.TitanObjectid_descr_, p_tok);
+			enc_len += get_field_transfer__syntax().JSON_encode(TitanObjectid.TitanObjectid_descr_, p_tok);
 			break;
 		case ALT_fixed:
 			if (!as_value) {
 				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_NAME, "fixed");
 			}
-			enc_len += get_field_fixed().JSON_encode(Base_Type.TitanAsn_Null_descr_, p_tok);
+			enc_len += get_field_fixed().JSON_encode(TitanAsn_Null.TitanAsn_Null_descr_, p_tok);
 			break;
 		default:
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value of type CHARACTER STRING.identification.");
@@ -829,15 +829,15 @@ public class TitanCharacter_String_identification extends Base_Type {
 			case 0:
 				return get_field_syntaxes().JSON_decode(TitanCharacter_String_identification_syntaxes.TitanCharacter_String_identification_syntaxes_descr_, p_tok, true);
 			case 1:
-				return get_field_syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, true);
+				return get_field_syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, true);
 			case 2:
-				return get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, true);
+				return get_field_presentation__context__id().JSON_decode(TitanInteger.TitanInteger_descr_, p_tok, true);
 			case 3:
 				return get_field_context__negotiation().JSON_decode(TitanCharacter_String_identification_context__negotiation.TitanCharacter_String_identification_context__negotiation_descr_, p_tok, true);
 			case 4:
-				return get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, true);
+				return get_field_transfer__syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, true);
 			case 5:
-				return get_field_fixed().JSON_decode(Base_Type.TitanAsn_Null_descr_, p_tok, true);
+				return get_field_fixed().JSON_decode(TitanAsn_Null.TitanAsn_Null_descr_, p_tok, true);
 			}
 		}
 		final AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
@@ -848,7 +848,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			switch(j_token.get()) {
 			case JSON_TOKEN_NUMBER: {
 				p_tok.set_buf_pos(buf_pos);
-				ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, true);
+				ret_val = get_field_presentation__context__id().JSON_decode(TitanInteger.TitanInteger_descr_, p_tok, true);
 				if (0 <= ret_val) {
 					return ret_val;
 				}
@@ -860,12 +860,12 @@ public class TitanCharacter_String_identification extends Base_Type {
 			}
 			case JSON_TOKEN_STRING: {
 				p_tok.set_buf_pos(buf_pos);
-				ret_val = get_field_syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, true);
+				ret_val = get_field_syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, true);
 				if (0 <= ret_val) {
 					return ret_val;
 				}
 				p_tok.set_buf_pos(buf_pos);
-				ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, true);
+				ret_val = get_field_transfer__syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, true);
 				if (0 <= ret_val) {
 					return ret_val;
 				}
@@ -910,7 +910,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			}
 			case JSON_TOKEN_LITERAL_NULL: {
 				p_tok.set_buf_pos(buf_pos);
-				ret_val = get_field_fixed().JSON_decode(Base_Type.TitanAsn_Null_descr_, p_tok, true);
+				ret_val = get_field_fixed().JSON_decode(TitanAsn_Null.TitanAsn_Null_descr_, p_tok, true);
 				if (0 <= ret_val) {
 					return ret_val;
 				}
@@ -952,7 +952,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 						dec_len += ret_val;
 					}
 				} else if (6 == name_len.get() && "syntax".equals(fld_name.substring(0,name_len.get()))) {
-					final int ret_val = get_field_syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
+					final int ret_val = get_field_syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "syntax");
@@ -962,7 +962,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 						dec_len += ret_val;
 					}
 				} else if (23 == name_len.get() && "presentation-context-id".equals(fld_name.substring(0,name_len.get()))) {
-					final int ret_val = get_field_presentation__context__id().JSON_decode(Base_Type.TitanInteger_descr_, p_tok, p_silent);
+					final int ret_val = get_field_presentation__context__id().JSON_decode(TitanInteger.TitanInteger_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "presentation-context-id");
@@ -982,7 +982,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 						dec_len += ret_val;
 					}
 				} else if (15 == name_len.get() && "transfer-syntax".equals(fld_name.substring(0,name_len.get()))) {
-					final int ret_val = get_field_transfer__syntax().JSON_decode(Base_Type.TitanObjectid_descr_, p_tok, p_silent);
+					final int ret_val = get_field_transfer__syntax().JSON_decode(TitanObjectid.TitanObjectid_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "transfer-syntax");
@@ -992,7 +992,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 						dec_len += ret_val;
 					}
 				} else if (5 == name_len.get() && "fixed".equals(fld_name.substring(0,name_len.get()))) {
-					final int ret_val = get_field_fixed().JSON_decode(Base_Type.TitanAsn_Null_descr_, p_tok, p_silent);
+					final int ret_val = get_field_fixed().JSON_decode(TitanAsn_Null.TitanAsn_Null_descr_, p_tok, p_silent);
 					if (0 > ret_val) {
 						if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val) {
 							TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_FIELD_TOKEN_ERROR, "fixed");
@@ -1100,7 +1100,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-		input_value.encode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		input_value.encode(TitanObjectid.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
 		ttcnBuffer.get_string(output_stream);
 	}
 
@@ -1127,7 +1127,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-		output_value.decode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		output_value.decode(TitanObjectid.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
 		switch (TTCN_EncDec.get_last_error_type()) {
 		case ET_NONE:
 			ttcnBuffer.cut();
@@ -1161,7 +1161,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-		input_value.encode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		input_value.encode(TitanObjectid.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
 		ttcnBuffer.get_string(output_stream);
 	}
 
@@ -1188,7 +1188,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `objid' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-		output_value.decode(Base_Type.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
+		output_value.decode(TitanObjectid.TitanObjectid_descr_, ttcnBuffer, codingType, extra_options.get());
 		switch (TTCN_EncDec.get_last_error_type()) {
 		case ET_NONE:
 			ttcnBuffer.cut();
@@ -1222,7 +1222,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `NULL' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-		input_value.encode(Base_Type.TitanAsn_Null_descr_, ttcnBuffer, codingType, extra_options.get());
+		input_value.encode(TitanAsn_Null.TitanAsn_Null_descr_, ttcnBuffer, codingType, extra_options.get());
 		ttcnBuffer.get_string(output_stream);
 	}
 
@@ -1249,7 +1249,7 @@ public class TitanCharacter_String_identification extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Type `NULL' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 		}
 		final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-		output_value.decode(Base_Type.TitanAsn_Null_descr_, ttcnBuffer, codingType, extra_options.get());
+		output_value.decode(TitanAsn_Null.TitanAsn_Null_descr_, ttcnBuffer, codingType, extra_options.get());
 		switch (TTCN_EncDec.get_last_error_type()) {
 		case ET_NONE:
 			ttcnBuffer.cut();

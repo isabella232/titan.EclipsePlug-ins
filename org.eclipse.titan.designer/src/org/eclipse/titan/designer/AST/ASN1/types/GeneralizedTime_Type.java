@@ -254,15 +254,15 @@ public final class GeneralizedTime_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
-		return "TitanCharString";
+		aData.addBuiltinTypeImport( "TitanASN_GeneralizedTime" );
+		return "TitanASN_GeneralizedTime";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanCharString_template" );
-		return "TitanCharString_template";
+		aData.addBuiltinTypeImport( "TitanASN_GeneralizedTime_template" );
+		return "TitanASN_GeneralizedTime_template";
 	}
 
 	@Override
@@ -297,15 +297,15 @@ public final class GeneralizedTime_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanCharString";
+		aData.addBuiltinTypeImport( "TitanASN_GeneralizedTime" );
+		return "TitanASN_GeneralizedTime.TitanASN_GeneralizedTime";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "TitanASN_GeneralizedTime" );
 
-		return MessageFormat.format("TitanCharString.convert_to_CharString({0})", fromName);
+		return MessageFormat.format("TitanASN_GeneralizedTime.convert_to_ASN_GeneralizedTime({0})", fromName);
 	}
 }

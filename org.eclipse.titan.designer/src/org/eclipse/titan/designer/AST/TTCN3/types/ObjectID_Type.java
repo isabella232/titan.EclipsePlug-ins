@@ -334,8 +334,8 @@ public final class ObjectID_Type extends ASN1Type {
 			String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanObjectid";
+		aData.addBuiltinTypeImport( "TitanObjectid" );
+		return "TitanObjectid.TitanObjectid";
 	}
 
 	@Override
@@ -351,7 +351,7 @@ public final class ObjectID_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanObjectid_json_";
+		aData.addBuiltinTypeImport( "TitanObjectid" );
+		return "TitanObjectid.TitanObjectid_json_";
 	}
 }

@@ -279,17 +279,17 @@ public final class BMPString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanBMPString" );
 
-		return "TitanUniversalCharString";
+		return "TitanBMPString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
+		aData.addBuiltinTypeImport( "TitanBMPString_template" );
 
-		return "TitanUniversalCharString_template";
+		return "TitanBMPString_template";
 	}
 
 	@Override
@@ -324,16 +324,16 @@ public final class BMPString_Type extends ASN1Type {
 			return baseName + "." + getGenNameOwn();
 		}
 
-		aData.addBuiltinTypeImport( "Base_Type" );
-		return "Base_Type.TitanBMPString";
+		aData.addBuiltinTypeImport( "TitanBMPString" );
+		return "TitanBMPString.TitanBMPString";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String generateConversion(final JavaGenData aData, final IType fromType, final String fromName, final boolean forValue, final ExpressionStruct expression) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport( "TitanBMPString" );
 
-		return MessageFormat.format("TitanUniversalCharString.convert_to_UniversalCharString({0})", fromName);
+		return MessageFormat.format("TitanBMPString.convert_to_BMPString({0})", fromName);
 	}
 
 	@Override
@@ -349,7 +349,7 @@ public final class BMPString_Type extends ASN1Type {
 			return getGenNameOwn(aData) + "_json_";
 		}
 
-		aData.addBuiltinTypeImport( "JSON" );
-		return "JSON.TitanBMPString_json_";
+		aData.addBuiltinTypeImport( "TitanBMPString" );
+		return "TitanBMPString.TitanBMPString_json_";
 	}
 }
