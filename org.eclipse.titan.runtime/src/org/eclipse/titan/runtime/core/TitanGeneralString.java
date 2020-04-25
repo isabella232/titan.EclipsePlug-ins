@@ -59,6 +59,16 @@ public class TitanGeneralString extends TitanUniversalCharString {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanGeneralString(final String otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanGeneralString(final TitanCharString otherValue) {
 		super(otherValue);
 	}

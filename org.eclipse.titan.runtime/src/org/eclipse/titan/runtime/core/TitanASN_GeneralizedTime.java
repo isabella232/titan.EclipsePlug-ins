@@ -34,6 +34,16 @@ public class TitanASN_GeneralizedTime extends TitanVisibleString {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanASN_GeneralizedTime(final String otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanASN_GeneralizedTime(final TitanCharString otherValue) {
 		super(otherValue);
 	}

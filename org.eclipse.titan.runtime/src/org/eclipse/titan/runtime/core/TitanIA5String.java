@@ -38,6 +38,16 @@ public class TitanIA5String extends TitanCharString {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanIA5String(final String otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanIA5String(final TitanCharString otherValue) {
 		super(otherValue);
 	}

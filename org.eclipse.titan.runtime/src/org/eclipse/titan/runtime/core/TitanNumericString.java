@@ -58,6 +58,16 @@ public class TitanNumericString extends TitanCharString {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanNumericString(final String otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanNumericString(final TitanCharString otherValue) {
 		super(otherValue);
 	}

@@ -37,6 +37,16 @@ public class TitanISO646String extends TitanCharString {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanISO646String(final String otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanISO646String(final TitanCharString otherValue) {
 		super(otherValue);
 	}

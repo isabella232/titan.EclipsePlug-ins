@@ -38,6 +38,16 @@ public class TitanVisibleString extends TitanCharString {
 	 * @param otherValue
 	 *                the value to initialize to.
 	 * */
+	public TitanVisibleString(final String otherValue) {
+		super(otherValue);
+	}
+
+	/**
+	 * Initializes to a given value.
+	 *
+	 * @param otherValue
+	 *                the value to initialize to.
+	 * */
 	public TitanVisibleString(final TitanCharString otherValue) {
 		super(otherValue);
 	}
