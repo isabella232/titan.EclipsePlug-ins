@@ -7,7 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.mctr;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -120,14 +123,15 @@ public class Cli extends UserInterface {
 				} else {
 					mycfg.setTcp_listen_port(0);
 				}
-				
+
 				mycfg.add_exec(executeSectionHandler.getExecuteitems());
 				//TODO: assign groups, components and host
 			}
 		}
 		int ret_val = 0;
-
+		
 		if (mycfg.getNum_hcs().compareTo(BigInteger.ZERO) <= 0) {
+	
 			ret_val = interactiveMode();
 		} else {
 			ret_val = batchMode();
@@ -216,7 +220,32 @@ public class Cli extends UserInterface {
 	}
 
 	public void exitCallback(String arguments) {
+		if (arguments == null || arguments.isEmpty()) {
+			switch (MainController.get_state()) {
+			case MC_READY:
+			case MC_RECONFIGURING:
+				MainController.exit_mtc();
+				waitMCState(waitStateEnum.WAIT_MTC_TERMINATED);
+				break;
+		    case MC_LISTENING:
+		    case MC_LISTENING_CONFIGURED:
+		    case MC_HC_CONNECTED:
+		    case MC_ACTIVE:
+		    	MainController.shutdown_session();
+		    	waitMCState(waitStateEnum.WAIT_SHUTDOWN_COMPLETE);
+		    	exitFlag = true;
+		    	break;
+			default:
+				System.out.println("Cannot exit until execution is finished.");
+				break;
+			}
+		} else {
+			helpCallback(MainControllerCommand.EXIT_TEXT);
+		}
+	}
 
+	private static void cleanUp() {
+		//Empty by default
 	}
 
 	/**
@@ -251,7 +280,30 @@ public class Cli extends UserInterface {
 	 * The main cli event loop.
 	 */
 	private int interactiveMode() {
-		return 0;
+		if (MainController.start_session(mycfg.getLocal_addr(), mycfg.getTcp_listen_port()) == 0) {
+			System.out.println("Initialization of TCP server failed. Exiting.");
+			return 1; //EXIT_FAILURE
+		}
+
+		BufferedReader console_reader = new BufferedReader(new InputStreamReader(System.in));
+
+		do {
+			try {
+				String line_read = console_reader.readLine();
+				line_read = line_read.trim();
+				if (line_read != null) {
+					processCommand(line_read);
+					line_read = null;
+				} else {
+					System.out.println("exit");
+					exitCallback("");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} while(!exitFlag);
+		return 0; //EXIT_SUCCESS
 	}
 
 	/**
@@ -281,13 +333,13 @@ public class Cli extends UserInterface {
 		if (!error_flag) {
 			// create MTC on firstly connected HC
 			MainController.create_mtc(MainController.get_hosts().get(0));
-			try {
+			/*try {
 				//TODO: need to test on different machines
 				Thread.currentThread().join(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			waitMCState(waitStateEnum.WAIT_MTC_CREATED);
 			if (MainController.get_state() != mcStateEnum.MC_READY) {
 				System.out.println("Creation of MTC failed. Cannot continue in batch mode.");
@@ -379,7 +431,6 @@ public class Cli extends UserInterface {
 				waitState = waitStateEnum.WAIT_NOTHING;
 			} else {
 				waitState = newWaitState;
-				//wait?
 			}
 		} else {
 			System.err.println("Cli.waitMCState: invalid argument");
@@ -402,50 +453,33 @@ public class Cli extends UserInterface {
 			argument = splitted_line[1];
 		}
 
-		//FIXME commented as using 1.7 feature.
-		//		switch (command) {
-		//		case MainControllerCommand.CMTC_TEXT:
-		//			cmtcCallback(argument);
-		//			break;
-		//		case MainControllerCommand.SMTC_TEXT:
-		//			smtcCallback(argument);
-		//			break;
-		//		case MainControllerCommand.STOP_TEXT:
-		//			stopCallback(argument);
-		//			break;
-		//		case MainControllerCommand.PAUSE_TEXT:
-		//			pauseCallback(argument);
-		//			break;
-		//		case MainControllerCommand.CONTINUE_TEXT:
-		//			continueCallback(argument);
-		//			break;
-		//		case MainControllerCommand.EMTC_TEXT:
-		//			emtcCallback(argument);
-		//			break;
-		//		case MainControllerCommand.LOG_TEXT:
-		//			logCallback(argument);
-		//			break;
-		//		case MainControllerCommand.RECONF_TEXT:
-		//			reconfCallback(argument);
-		//			break;
-		//		case MainControllerCommand.HELP_TEXT:
-		//			helpCallback(argument);
-		//		case MainControllerCommand.SHELL_TEXT:
-		//			shellCallback(argument);
-		//		case MainControllerCommand.EXIT_TEXT:
-		//		case MainControllerCommand.EXIT_TEXT2:
-		//			exitCallback(argument);
-		//			break;
-		//		case MainControllerCommand.BATCH_TEXT:
-		//			executeBatchFile(argument);
-		//			break;
-		//		case MainControllerCommand.INFO_TEXT:
-		//			infoCallback(argument);
-		//			break;
-		//		default:
-		//			break;
-		//		}
-		//		
+		if (command.equals(MainControllerCommand.CMTC_TEXT)) {
+			cmtcCallback(argument);
+		} else if (command.equals(MainControllerCommand.SMTC_TEXT)) {
+			smtcCallback(argument);
+		} else if (command.equals(MainControllerCommand.STOP_TEXT)) {
+			stopCallback(argument);
+		} else if (command.equals(MainControllerCommand.PAUSE_TEXT)) {
+			pauseCallback(argument);
+		} else if (command.equals(MainControllerCommand.CONTINUE_TEXT)) {
+			continueCallback(argument);
+		} else if (command.equals(MainControllerCommand.EMTC_TEXT)) {
+			emtcCallback(argument);
+		} else if (command.equals(MainControllerCommand.LOG_TEXT)) {
+			logCallback(argument);
+		} else if (command.equals(MainControllerCommand.RECONF_TEXT)) {
+			reconfCallback(argument);
+		} else if (command.equals(MainControllerCommand.HELP_TEXT)) {
+			helpCallback(argument);
+		} else if (command.equals(MainControllerCommand.SHELL_TEXT)) {
+			shellCallback(argument);
+		} else if (command.equals(MainControllerCommand.EXIT_TEXT) || command.equals(MainControllerCommand.EXIT_TEXT2)) {
+			exitCallback(argument);
+		} else if (command.equals(MainControllerCommand.BATCH_TEXT)) {
+			executeBatchFile(argument);
+		} else if (command.equals(MainControllerCommand.INFO_TEXT)) {
+			infoCallback(argument);
+		}
 	}
 	/*
 	 * Executes the index-th element of the execute list
@@ -455,7 +489,7 @@ public class Cli extends UserInterface {
 			System.err.println("Cli.executeFromList: invalid argument");
 			return;
 		}
-		
+
 		if (mycfg.getExecuteItems().get(index).getTestcaseName() == null) {
 			MainController.execute_control(mycfg.getExecuteItems().get(index).getModuleName());
 		} else if (!mycfg.getExecuteItems().get(index).getTestcaseName().equals("*")) {
