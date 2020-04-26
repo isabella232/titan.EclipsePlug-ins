@@ -236,7 +236,7 @@ public final class Default_Type extends Type {
 			source.append("\t}\n");
 
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
-		} else {
+		} else if (getParentType() == null || !getParentType().generatesOwnClass(aData, source)) {
 			generateCodeTypedescriptor(aData, source, null);
 			generateCodeDefaultCoding(aData, source, null);
 			generateCodeForCodingHandlers(aData, source, null);

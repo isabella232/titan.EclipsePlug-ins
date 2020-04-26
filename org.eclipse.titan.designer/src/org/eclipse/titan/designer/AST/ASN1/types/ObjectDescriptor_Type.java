@@ -241,7 +241,7 @@ public final class ObjectDescriptor_Type extends ASN1Type {
 			source.append(descriptor);
 
 			source.append("\t}\n");
-		} else {
+		} else if (getParentType() == null || !getParentType().generatesOwnClass(aData, source)) {
 			generateCodeTypedescriptor(aData, source, null);
 			generateCodeDefaultCoding(aData, source, null);
 			generateCodeForCodingHandlers(aData, source, null);
