@@ -859,9 +859,9 @@ public final class TTCN_Logger {
 			final long startSeconds = start_time / 1000;
 			final long startMicroSeconds = start_time % 1000;
 			if (microseconds < startMicroSeconds) {
-				str.append(String.format("%d", newSeconds - startSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - startMicroSeconds)));
+				str.append(String.format("%d", newSeconds - startSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - startMicroSeconds))).append("000");
 			} else {
-				str.append(String.format("%d", newSeconds - startSeconds)).append('.').append(String.format("%03d", microseconds - startMicroSeconds));
+				str.append(String.format("%d", newSeconds - startSeconds)).append('.').append(String.format("%03d", microseconds - startMicroSeconds)).append("000");
 			}
 			break;
 		}
