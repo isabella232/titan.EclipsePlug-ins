@@ -153,6 +153,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * on.
 	 */
 	private static String typeCompatibilitySeverity;
+
 	/**
 	 * if typeCompatibilitySeverity is set to Error this is true, in this
 	 * case structured types must be nominally compatible
@@ -249,10 +250,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
-	 * Returns a new type representing the encoded stream of the given encoding type.
+	 * Returns a new type representing the encoded stream of the given
+	 * encoding type.
 	 *
-	 * @param encodingType the encoding type.
-	 * @param streamVariant the variant of the stream.
+	 * @param encodingType
+	 *                the encoding type.
+	 * @param streamVariant
+	 *                the variant of the stream.
 	 * @return the temporary type.
 	 * */
 	public static Type getStreamType(final MessageEncoding_type encodingType, final int streamVariant) {
@@ -605,6 +609,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * TTCN-3 types need to have an 'encode' attribute to support an encoding.
 	 * ASN.1 types automatically support BER, PER and JSON encodings, and XER
 	 * encoding, if set by the compiler option.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
 	 * */
 	public final void checkEncode(final CompilationTimeStamp timestamp) {
 		rawAttribute = null;
@@ -2179,7 +2186,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Return the encoding belonging to the provided name.
 	 *
-	 * @param encoding the name of the encoding to identify
+	 * @param encoding
+	 *                the name of the encoding to identify
 	 * @return the encoding identified by the name or undefined otherwise.
 	 * */
 	public static MessageEncoding_type getEncodingType(final String encoding) {
@@ -2590,17 +2598,22 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Indicates if this type will generate its own class, or not.
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code to report error to.
-	 * @return {@code true} if during code generation a class will be generated for this class,
-	 *   {@code false otherwise}
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code to report error to.
+	 * @return {@code true} if during code generation a class will be
+	 *         generated for this class, {@code false otherwise}
 	 * */
 	public abstract boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source );
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 */
 	public abstract void generateCode( final JavaGenData aData, final StringBuilder source );
 
@@ -2609,11 +2622,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * generate_code_typedescriptor in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the type descriptors will be added to this StringBuilder.
-	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the type
+	 *                descriptors will be added to this StringBuilder.
+	 * @param attributeRegistry
+	 *                A hashmap (value-name pair) used to compress final
+	 *                static coding attributes of complex types and their
+	 *                fields.
 	 * */
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		if (lastTimeTypeDescriptorGenerated != null && !lastTimeTypeDescriptorGenerated.isLess(aData.getBuildTimstamp())) {
@@ -2710,11 +2730,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * generate_code_rawdescriptor in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the RAW descriptors will be added to this StringBuilder.
-	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the RAW
+	 *                descriptors will be added to this StringBuilder.
+	 * @param attributeRegistry
+	 *                A hashmap (value-name pair) used to compress final
+	 *                static coding attributes of complex types and their
+	 *                fields.
 	 * */
 	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
@@ -2919,11 +2946,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * generate_code_jsondescriptor in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
-	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the JSON
+	 *                descriptors will be added to this StringBuilder.
+	 * @param attributeRegistry
+	 *                A hashmap (value-name pair) used to compress final
+	 *                static coding attributes of complex types and their
+	 *                fields.
 	 * */
 	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
@@ -3007,10 +3041,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * part of generate_code_rawdescriptor in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the JSON
+	 *                descriptors will be added to this StringBuilder.
 	 * */
 	public void generateCodeDefaultCoding(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
 		final String genname = getGenNameOwn();
@@ -3050,10 +3088,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * generate_code_rawdescriptor in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the coding handlers will be added to this StringBuilder.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the coding
+	 *                handlers will be added to this StringBuilder.
 	 * */
 	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
 		final String genname = getGenNameOwn();
@@ -3243,7 +3285,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
-	 * Returns whether the type needs an explicit Java alias and/or
+	 * @return whether the type needs an explicit Java alias and/or
 	 * an alias to a type descriptor of another type. It returns true for those
 	 * types that are defined in module-level type definitions hence are
 	 * directly accessible by the users of Java API (in test ports, external
@@ -3264,26 +3306,30 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * Returns the name of the Java value class that represents this at runtime.
 	 * The class is either pre-defined (written manually in the Base
 	 * Library) or generated by the compiler.
-	 * The reference is valid in the module that \a scope belongs to.
+	 * The reference is valid in the module that scope belongs to.
 	 *
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public abstract String getGenNameValue(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Returns the name of the Java template class that represents this at runtime.
-	 * The class is either pre-defined (written manually in the Base
-	 * Library) or generated by the compiler.
-	 * The reference is valid in the module that \a p_scope belongs to.
+	 * The class is either pre-defined (written manually in the
+	 * Base Library) or generated by the compiler. The reference is valid in
+	 * the module that \a p_scope belongs to.
 	 *
 	 * get_genname_template in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public abstract String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
@@ -3377,8 +3423,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * get_genname_typedescriptor in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public abstract String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source);
@@ -3475,8 +3523,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Checks if the type needs its own RAW descriptor.
 	 *
-	 * @param aData only used to update imports if needed
-	 * @return {@code true} if the type needs its own RAW descriptor, {@code false} otherwise.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @return {@code true} if the type needs its own RAW descriptor,
+	 *         {@code false} otherwise.
 	 */
 	public boolean needsOwnRawDescriptor(final JavaGenData aData) {
 		ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
@@ -3489,8 +3539,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * get_genname_rawdescriptor in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
@@ -3502,8 +3554,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Checks if the type needs its own JSON descriptor.
 	 *
-	 * @param aData only used to update imports if needed
-	 * @return {@code true} if the type needs its own JSON descriptor, {@code false} otherwise.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @return {@code true} if the type needs its own JSON descriptor,
+	 *         {@code false} otherwise.
 	 */
 	public boolean needsOwnJsonDescriptor(final JavaGenData aData) {
 		//FIXME: temporally version
@@ -3527,8 +3581,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source) {
@@ -3541,8 +3597,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *
 	 * generate_code_done in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * */
 	public void generateCodeDone(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenNameValue(aData, source);
@@ -3706,23 +3764,36 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/**
 	 * Generates type specific call for the reference used in isbound call
-	 * into argument expression. Argument \a subrefs holds the reference path
-	 * that needs to be checked. Argument \a module is the actual module of
-	 * the reference and is used to gain access to temporal identifiers.
+	 * into argument expression. Argument \a subrefs holds the reference
+	 * path that needs to be checked. Argument \a module is the actual
+	 * module of the reference and is used to gain access to temporal
+	 * identifiers.
 	 *
 	 * generate_code_ispresentbound in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param expression the expression for code generation
-	 * @param subreferences the subreference to process
-	 * @param subReferenceIndex the index telling which part of the subreference to process
-	 * @param globalId is the name of the bool variable where the result
-	 * of the isbound check is calculated.
-	 * @param externalId is the name
-	 * of the assignment where the call chain starts.
-	 * @param isTemplate is_template tells if the assignment is a template or not.
-	 * @param optype tells if the function is isbound or ispresent.
-	 * @param field the expression to be used to reach the last union's field, or null.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param expression
+	 *                the expression for code generation
+	 * @param subreferences
+	 *                the subreference to process
+	 * @param subReferenceIndex
+	 *                the index telling which part of the subreference to
+	 *                process
+	 * @param globalId
+	 *                is the name of the bool variable where the result of
+	 *                the isbound check is calculated.
+	 * @param externalId
+	 *                is the name of the assignment where the call chain
+	 *                starts.
+	 * @param isTemplate
+	 *                is_template tells if the assignment is a template or
+	 *                not.
+	 * @param optype
+	 *                tells if the function is isbound or ispresent.
+	 * @param field
+	 *                the expression to be used to reach the last union's
+	 *                field, or null.
 	 * */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
@@ -3741,26 +3812,40 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/**
 	 * Generates type specific call for the reference used in isbound call
-	 * into argument expression. Argument \a subrefs holds the reference path
-	 * that needs to be checked. Argument \a module is the actual module of
-	 * the reference and is used to gain access to temporal identifiers.
+	 * into argument expression. Argument \a subrefs holds the reference
+	 * path that needs to be checked. Argument \a module is the actual
+	 * module of the reference and is used to gain access to temporal
+	 * identifiers.
 	 *
-	 * This version should only be called from string types.
-	 * It only serves to save from copy-paste -ing the same code to every string type class.
-	 * generate_code_ispresentbound in the compiler
+	 * This version should only be called from string types. It only serves
+	 * to save from copy-paste -ing the same code to every string type
+	 * class. generate_code_ispresentbound in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param expression the expression for code generation
-	 * @param subreferences the subreference to process
-	 * @param subReferenceIndex the index telling which part of the subreference to process
-	 * @param globalId is the name of the bool variable where the result
-	 * of the isbound check is calculated.
-	 * @param externalId is the name
-	 * of the assignment where the call chain starts.
-	 * @param isTemplate is_template tells if the assignment is a template or not.
-	 * @param field the expression to be used to reach the last union's field, or null.
-	 * @param targetScope the scope to generate the code for.
-	 * @param isBound tells if the function is isbound or ispresent.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param expression
+	 *                the expression for code generation
+	 * @param subreferences
+	 *                the subreference to process
+	 * @param subReferenceIndex
+	 *                the index telling which part of the subreference to
+	 *                process
+	 * @param globalId
+	 *                is the name of the bool variable where the result of
+	 *                the isbound check is calculated.
+	 * @param externalId
+	 *                is the name of the assignment where the call chain
+	 *                starts.
+	 * @param isTemplate
+	 *                is_template tells if the assignment is a template or
+	 *                not.
+	 * @param field
+	 *                the expression to be used to reach the last union's
+	 *                field, or null.
+	 * @param targetScope
+	 *                the scope to generate the code for.
+	 * @param isBound
+	 *                tells if the function is isbound or ispresent.
 	 * */
 	protected void generateCodeIspresentBound_forStrings(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
@@ -3819,11 +3904,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * Helper function used in generateCodeIspresentbound() for the
 	 * ispresent() function in case of template parameter.
 	 *
-	 * @param expression the expression to generate code to (error messages if needed).
-	 * @param subreferences the subreferences to check.
-	 * @param beginIndex the index at which index the checking of subreferences should start.
-	 * @return true if the referenced field which is embedded into a "?" is always present,
-	 * otherwise returns false.
+	 * @param expression
+	 *                the expression to generate code to (error messages if
+	 *                needed).
+	 * @param subreferences
+	 *                the subreferences to check.
+	 * @param beginIndex
+	 *                the index at which index the checking of subreferences
+	 *                should start.
+	 * @return true if the referenced field which is embedded into a "?" is
+	 *         always present, otherwise returns false.
 	 * */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		return true;

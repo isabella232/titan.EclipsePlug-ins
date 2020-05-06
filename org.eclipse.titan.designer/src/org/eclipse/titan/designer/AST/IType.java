@@ -199,7 +199,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	}
 
 	/**
-	 *  Enumeration to represent the owner of the type.
+	 * Enumeration to represent the owner of the type.
 	 */
 	enum TypeOwner_type {
 		OT_UNKNOWN,
@@ -503,13 +503,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 			List<Integer> subrefsArray, List<IType> typeArray);
 
 	/**
-	 * Returns whether the last field referenced by subReferences is an optional
-	 * record/SEQUENCE or set/SET field.
+	 * Returns whether the last field referenced by subReferences is an
+	 * optional record/SEQUENCE or set/SET field.
 	 * It can be used only after a successful
 	 * semantic check (e.g. during code generation) or the behaviour will be
 	 * unpredictable.
 	 *
-	 * @param subReferences the subreferences to walk
+	 * @param subReferences
+	 *                the subreferences to walk
 	 * */
 	boolean fieldIsOptional(final List<ISubReference> subReferences);
 
@@ -531,6 +532,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * TODO might need some optimization later.
+	 * 
 	 * @param timestamp
 	 *                the time stamp of the actual build cycle.
 	 * @return the length of the raw field length of this type
@@ -604,7 +606,8 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * @param typeList the list to fill with the found types
+	 * @param typeList
+	 *                the list to fill with the found types
 	 * @param only_own_table
 	 *                if true, then only the type's own coding table is
 	 *                checked, otherwise inherited coding tables are also
@@ -679,7 +682,8 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Set the raw attribute of a type from outside.
 	 * Should be used only when raw attribute checking requires it
 	 *
-	 * @param newAttributes the new attributes to set.
+	 * @param newAttributes
+	 *                the new attributes to set.
 	 * */
 	void setRawAttributes(final RawAST newAttributes);
 
@@ -687,7 +691,8 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Set the json attribute of a type from outside.
 	 * Should be used only when json attribute checking requires it
 	 *
-	 * @param newAttributes the new attributes to set.
+	 * @param newAttributes
+	 *                the new attributes to set.
 	 * */
 	void setJsonAttributes(final JsonAST newAttributes);
 
@@ -708,34 +713,45 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Adds a coding to the type.
 	 *
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param name the name of the coding to add.
-	 * @param modifier the modifier of the coding to add.
-	 * @param silent stay silent if the coding can not be applied to a given type.
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param name
+	 *                the name of the coding to add.
+	 * @param modifier
+	 *                the modifier of the coding to add.
+	 * @param silent
+	 *                stay silent if the coding can not be applied to a
+	 *                given type.
 	 * */
 	void addCoding(final CompilationTimeStamp timestamp, final String name, final Attribute_Modifier_type modifier, final boolean silent);
 
 	/**
 	 * Sets the encoding function for a type.
 	 *
-	 * @param codingName the name of the coding to set it for
-	 * @param functionDefinition the function definition to set
+	 * @param codingName
+	 *                the name of the coding to set it for
+	 * @param functionDefinition
+	 *                the function definition to set
 	 * */
 	void setEncodingFunction(final String codingName, final Assignment functionDefinition);
 
 	/**
 	 * Sets the decoding function for a type.
 	 *
-	 * @param codingName the name of the coding to set it for
-	 * @param functionDefinition the function definition to set
+	 * @param codingName
+	 *                the name of the coding to set it for
+	 * @param functionDefinition
+	 *                the function definition to set
 	 * */
 	void setDecodingFunction(final String codingName, final Assignment functionDefinition);
 
 	/**
 	 * Checks for the type that has a coding table.
 	 *
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param ignoreLocal ignore the local coding table.
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param ignoreLocal
+	 *                ignore the local coding table.
 	 * @return the first type in the searched chain with a coding table.
 	 * */
 	IType getTypeWithCodingTable(final CompilationTimeStamp timestamp, final boolean ignoreLocal);
@@ -743,8 +759,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks if the type can have the given encoding.
 	 *
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param coding the coding to check for.
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param coding
+	 *                the coding to check for.
 	 *
 	 * @return true if the type has the given encoding.
 	 * */
@@ -753,8 +771,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks if the type has the given encoding.
 	 *
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param coding the coding to check for.
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param coding
+	 *                the coding to check for.
 	 *
 	 * @return true if the type has the given encoding.
 	 * */
@@ -1123,8 +1143,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source);
@@ -1137,8 +1159,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * get_genname_template in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source);
@@ -1146,23 +1170,35 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Generates the code for the type descriptor ( and all encodings needed) for this type.
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code to report errors to.
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the type descriptors will be added to this Stringbuilder.
-	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code to report errors to.
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the type
+	 *                descriptors will be added to this Stringbuilder.
+	 * @param attributeRegistry
+	 *                A hashmap (value-name pair) used to compress final
+	 *                static coding attributes of complex types and their
+	 *                fields.
 	 * */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry);
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget,
+			final HashMap<String, String> attributeRegistry);
 
 	/**
 	 * Generates the default coding descriptor for the types
 	 *
 	 * part of generate_code_rawdescriptor in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the JSON
+	 *                descriptors will be added to this StringBuilder.
 	 * */
 	public void generateCodeDefaultCoding(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget);
 
@@ -1171,10 +1207,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * generate_code_rawdescriptor in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
-	 *    {@code otherwise} the coding handlers will be added to this StringBuilder.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param localTarget
+	 *                {@code null} if the code to be generated is to be
+	 *                added to module level, {@code otherwise} the coding
+	 *                handlers will be added to this StringBuilder.
 	 * */
 	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget);
 
@@ -1183,8 +1223,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * get_genname_typedescriptor in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source);
@@ -1194,9 +1236,12 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * get_genname_coder in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param scope the scope to generate to.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param scope
+	 *                the scope to generate to.
 	 * @return The name prefix of the Java function in the generated code.
 	 */
 	public String getGenNameCoder(final JavaGenData aData, final StringBuilder source, final Scope scope);
@@ -1206,9 +1251,12 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * get_genname_default_coding in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param scope the scope to generate to.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param scope
+	 *                the scope to generate to.
 	 * @return The name prefix of the Java function in the generated code.
 	 */
 	public String getGenNameDefaultCoding(final JavaGenData aData, final StringBuilder source, final Scope scope);
@@ -1216,8 +1264,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks if the type needs its own RAW descriptor.
 	 *
-	 * @param aData only used to update imports if needed
-	 * @return {@code true} if the type needs its own RAW descriptor, {@code false} otherwise.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @return {@code true} if the type needs its own RAW descriptor,
+	 *         {@code false} otherwise.
 	 */
 	public boolean needsOwnRawDescriptor(final JavaGenData aData);
 
@@ -1226,8 +1276,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * get_genname_rawdescriptor in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source);
@@ -1235,16 +1287,20 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks if the type needs its own JSON descriptor.
 	 *
-	 * @param aData only used to update imports if needed
-	 * @return {@code true} if the type needs its own JSON descriptor, {@code false} otherwise.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @return {@code true} if the type needs its own JSON descriptor,
+	 *         {@code false} otherwise.
 	 */
 	public boolean needsOwnJsonDescriptor(final JavaGenData aData);
 
 	/**
 	 * get_genname_jsondescriptor in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source);
@@ -1257,8 +1313,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source);
@@ -1269,34 +1327,44 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * originally get_gen_coder_functions
 	 *
-	 * @param encodingType the encoding type to check
+	 * @param encodingType
+	 *                the encoding type to check
 	 * @return true if the type has the provided encoding, false otherwise
 	 * */
 	public boolean getGenerateCoderFunctions(final MessageEncoding_type encodingType);
 
 	/**
-	 * Indicates for the type and it's field types, that they need to generate coder functions for the provided coding type.
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param encodingType the encoding type to use.
+	 * Indicates for the type and it's field types, that they need to
+	 * generate coder functions for the provided coding type.
+	 * 
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param encodingType
+	 *                the encoding type to use.
 	 * */
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType);
 
 	/**
 	 * Indicates if this type will generate its own class, or not.
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code to report error to.
-	 * @return {@code true} if during code generation a class will be generated for this class,
-	 *   {@code false otherwise}
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code to report error to.
+	 * @return {@code true} if during code generation a class will be
+	 *         generated for this class, {@code false otherwise}
 	 * */
-	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source );
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
+	 * 
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
 	 */
-	public void generateCode( final JavaGenData aData, final StringBuilder source );
+	public void generateCode(final JavaGenData aData, final StringBuilder source);
 
 	/**
 	 * Generates type specific call for the reference used in isbound call
@@ -1306,27 +1374,42 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * generate_code_ispresentbound in the compiler
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param expression the expression for code generation
-	 * @param subreferences the subreference to process
-	 * @param subReferenceIndex the index telling which part of the subreference to process
-	 * @param globalId is the name of the bool variable where the result
-	 * of the isbound check is calculated.
-	 * @param externalId is the name
-	 * of the assignment where the call chain starts.
-	 * @param isTemplate is_template tells if the assignment is a template or not.
-	 * @param optype tells if the function is isbound or ispresent.
-	 * @param field the field selector for ischosen, {@code null} otherwise.
-	 * @param targetScope the scope to generate the code for.
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param expression
+	 *                the expression for code generation
+	 * @param subreferences
+	 *                the subreference to process
+	 * @param subReferenceIndex
+	 *                the index telling which part of the subreference to
+	 *                process
+	 * @param globalId
+	 *                is the name of the bool variable where the result of
+	 *                the isbound check is calculated.
+	 * @param externalId
+	 *                is the name of the assignment where the call chain
+	 *                starts.
+	 * @param isTemplate
+	 *                is_template tells if the assignment is a template or
+	 *                not.
+	 * @param optype
+	 *                tells if the function is isbound or ispresent.
+	 * @param field
+	 *                the field selector for ischosen, {@code null}
+	 *                otherwise.
+	 * @param targetScope
+	 *                the scope to generate the code for.
 	 * */
-	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope);
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression,
+			final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId,
+			final boolean isTemplate, final Operation_type optype, final String field, final Scope targetScope);
 
 	/**
 	 * Helper function used in generateCodeIspresentbound() for the
 	 * ispresent() function in case of template parameter.
 	 *
-	 * @return true if the referenced field which is embedded into a "?" is always present,
-	 * otherwise returns false.
+	 * @return true if the referenced field which is embedded into a "?" is
+	 *         always present, otherwise returns false.
 	 * */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex);
 
@@ -1334,6 +1417,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public void setOwnertype(final TypeOwner_type ownerType, final INamedNode owner);
 
 	TypeOwner_type getOwnertype();
+
 	INamedNode getOwner();
 
 	/**
