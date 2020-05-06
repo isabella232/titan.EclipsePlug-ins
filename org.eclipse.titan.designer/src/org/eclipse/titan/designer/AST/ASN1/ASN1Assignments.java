@@ -382,7 +382,8 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 			}
 		}
 
-		for (final ASN1Assignment assignment : dynamic_assignments) {
+		final List<ASN1Assignment> tempAssignments = new ArrayList<ASN1Assignment>(dynamic_assignments);
+		for (final ASN1Assignment assignment : tempAssignments) {
 			if (assignment.getLikelyLocation().containsOffset(offset)) {
 				return assignment;
 			}
@@ -397,7 +398,9 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		for (final ASN1Assignment ass : assignments) {
 			ass.findReferences(referenceFinder, foundIdentifiers);
 		}
-		for (final ASN1Assignment ass : dynamic_assignments) {
+
+		final List<ASN1Assignment> tempAssignments = new ArrayList<ASN1Assignment>(dynamic_assignments);
+		for (final ASN1Assignment ass : tempAssignments) {
 			ass.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -461,7 +464,8 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 			assignment.generateCode( aData, false );
 		}
 
-		for (final ASN1Assignment assignment : dynamic_assignments ) {
+		final List<ASN1Assignment> tempAssignments = new ArrayList<ASN1Assignment>(dynamic_assignments);
+		for (final ASN1Assignment assignment : tempAssignments) {
 			assignment.generateCode( aData, false );
 		}
 	}
