@@ -2613,8 +2613,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param source the source code generated
 	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
 	 *    {@code otherwise} the type descriptors will be added to this StringBuilder.
+	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
 	 * */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		if (lastTimeTypeDescriptorGenerated != null && !lastTimeTypeDescriptorGenerated.isLess(aData.getBuildTimstamp())) {
 			return;
 		}
@@ -2636,7 +2637,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final boolean generate_raw = aData.getEnableRaw() && last.getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		String gennameRawDescriptor;
 		if (generate_raw && needsOwnRawDescriptor(aData)) {
-			generateCodeRawDescriptor(aData, source, localTarget);
+			generateCodeRawDescriptor(aData, source, localTarget, attributeRegistry);
 		}
 		if (generate_raw) {
 			gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
@@ -2648,7 +2649,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final boolean generate_json = aData.getEnableJson() && last.getGenerateCoderFunctions(MessageEncoding_type.JSON);
 		String gennameJsonDescriptor;
 		if (generate_json && needsOwnJsonDescriptor(aData)) {
-			generateCodeJsonDescriptor(aData, source, localTarget);
+			generateCodeJsonDescriptor(aData, source, localTarget, attributeRegistry);
 		}
 		if (generate_json) {
 			gennameJsonDescriptor = getGenNameJsonDescriptor(aData, source);
@@ -2713,8 +2714,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param source the source code generated
 	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
 	 *    {@code otherwise} the RAW descriptors will be added to this StringBuilder.
+	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
 	 * */
-	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
+	private void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
@@ -2889,17 +2891,21 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final StringBuilder globalVariable = new StringBuilder();
 		final String raw_value_string = RAW_value.toString();
-		if (localTarget == null) {
-			if (aData.RAW_attibute_registry.containsKey(raw_value_string)) {
-				final String previousName = aData.RAW_attibute_registry.get(raw_value_string);
+		if (attributeRegistry != null) {
+			if (attributeRegistry.containsKey(raw_value_string)) {
+				final String previousName = attributeRegistry.get(raw_value_string);
 				globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, previousName));
 			} else {
-				aData.RAW_attibute_registry.put(raw_value_string, MessageFormat.format("{0}_raw_", genname));
+				attributeRegistry.put(raw_value_string, MessageFormat.format("{0}_raw_", genname));
 				globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, raw_value_string));
 			}
-			aData.addGlobalVariable(descriptorName, globalVariable.toString());
 		} else {
 			globalVariable.append(MessageFormat.format("\tpublic static final TTCN_RAWdescriptor {0}_raw_ = {1};\n", genname, raw_value_string));
+		}
+
+		if (localTarget == null) {
+			aData.addGlobalVariable(descriptorName, globalVariable.toString());
+		} else {
 			localTarget.append(globalVariable);
 		}
 
@@ -2917,8 +2923,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param source the source code generated
 	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
 	 *    {@code otherwise} the JSON descriptors will be added to this StringBuilder.
+	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
 	 * */
-	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget) {
+	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
 		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
@@ -2926,16 +2933,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final String descriptorName = MessageFormat.format("{0}_json_", genname);
 		final StringBuilder JSON_value = new StringBuilder();
 
-		JSON_value.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0} =", descriptorName));
 		JSON_value.append(MessageFormat.format("new TTCN_JSONdescriptor(", genname));
 
 		final boolean as_map = (jsonAttribute != null && jsonAttribute.as_map) || 
 				(ownerType == TypeOwner_type.OT_RECORD_OF && parentType.getJsonAttribute() != null && parentType.getJsonAttribute().as_map);
 
 		if (jsonAttribute == null) { 
-			JSON_value.append(MessageFormat.format("false, null, false, null, false, false, {0}, 0, null);\n", as_map ? "true": "false"));
+			JSON_value.append(MessageFormat.format("false, null, false, null, false, false, {0}, 0, null)", as_map ? "true": "false"));
 		} else {
-
 			String enum_texts_name = null;
 			JSON_value.append(jsonAttribute.omit_as_null).append(',');
 			if (jsonAttribute.alias != null) {
@@ -2975,12 +2980,25 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					localTarget.append(enum_texts_value);
 				}
 			}
-			JSON_value.append(enum_texts_name).append(");\n");
+			JSON_value.append(enum_texts_name).append(")");
+		}
+
+		final StringBuilder globalVariable = new StringBuilder();
+		if (attributeRegistry != null) {
+			if (attributeRegistry.containsKey(JSON_value.toString())) {
+				final String previousName = attributeRegistry.get(JSON_value.toString());
+				globalVariable.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0}_json_ = {1};\n", genname, previousName));
+			} else {
+				attributeRegistry.put(JSON_value.toString(), MessageFormat.format("{0}_json_", genname));
+				globalVariable.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0}_json_ = {1};\n", genname, JSON_value.toString()));
+			}
+		} else {
+			globalVariable.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0}_json_ = {1};\n", genname, JSON_value.toString()));
 		}
 		if (localTarget == null) {
-			aData.addGlobalVariable(descriptorName, JSON_value.toString());
+			aData.addGlobalVariable(descriptorName, globalVariable.toString());
 		} else {
-			localTarget.append(JSON_value);
+			localTarget.append(globalVariable);
 		}
 	}
 

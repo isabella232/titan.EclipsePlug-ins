@@ -884,7 +884,8 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final String classReadableName = getFullName();
 
 		final StringBuilder localTypeDescriptor = new StringBuilder();
-		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+		final HashMap<String, String> attributeRegistry = new HashMap<String, String>();
+		generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 		final StringBuilder localCodingHandler = new StringBuilder();
 		generateCodeForCodingHandlers(aData, source, localCodingHandler);
@@ -914,13 +915,13 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			case TYPE_SEQUENCE_OF:
 			case TYPE_SET_OF:
 				if (!cfType.generatesOwnClass(aData, source)) {
-					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+					cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 					cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 					cfType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
 				break;
 			default:
-				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				cfType.generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 				cfType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				cfType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				break;

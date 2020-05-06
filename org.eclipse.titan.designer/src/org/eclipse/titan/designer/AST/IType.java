@@ -1150,8 +1150,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param source the source code to report errors to.
 	 * @param localTarget {@code null} if the code to be generated is to be added to module level,
 	 *    {@code otherwise} the type descriptors will be added to this Stringbuilder.
+	 * @param attributeRegistry A hashmap (value-name pair) used to compress final static coding attributes of complex types and their fields.
 	 * */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget);
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry);
 
 	/**
 	 * Generates the default coding descriptor for the types

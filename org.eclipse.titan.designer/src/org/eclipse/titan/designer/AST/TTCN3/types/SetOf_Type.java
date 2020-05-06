@@ -653,12 +653,13 @@ public final class SetOf_Type extends AbstractOfType {
 			}
 
 			final StringBuilder localTypeDescriptor = new StringBuilder();
-			generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+			final HashMap<String, String> attributeRegistry = new HashMap<String, String>();
+			generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 			generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 			final StringBuilder localCodingHandler = new StringBuilder();
 			generateCodeForCodingHandlers(aData, source, localCodingHandler);
 			if (!ofType.generatesOwnClass(aData, source)) {
-				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 				ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 			}
@@ -687,7 +688,7 @@ public final class SetOf_Type extends AbstractOfType {
 			case TYPE_INTEGER:
 			case TYPE_INTEGER_A:
 			case TYPE_REAL: {
-				generateCodeTypedescriptor(aData, source, null);
+				generateCodeTypedescriptor(aData, source, null, aData.attibute_registry);
 				generateCodeDefaultCoding(aData, source, null);
 				generateCodeForCodingHandlers(aData, source, null);
 
@@ -712,12 +713,13 @@ public final class SetOf_Type extends AbstractOfType {
 				}
 
 				final StringBuilder localTypeDescriptor = new StringBuilder();
-				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				final HashMap<String, String> attributeRegistry = new HashMap<String, String>();
+				generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				final StringBuilder localCodingHandler = new StringBuilder();
 				generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				if (!ofType.generatesOwnClass(aData, source)) {
-					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 					ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}
@@ -742,12 +744,13 @@ public final class SetOf_Type extends AbstractOfType {
 				}
 
 				final StringBuilder localTypeDescriptor = new StringBuilder();
-				generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+				final HashMap<String, String> attributeRegistry = new HashMap<String, String>();
+				generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 				generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 				final StringBuilder localCodingHandler = new StringBuilder();
 				generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				if (!ofType.generatesOwnClass(aData, source)) {
-					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+					ofType.generateCodeTypedescriptor(aData, source, localTypeDescriptor, attributeRegistry);
 					ofType.generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 					ofType.generateCodeForCodingHandlers(aData, source, localCodingHandler);
 				}

@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.jface.text.templates.Template;
@@ -936,7 +937,7 @@ public final class Component_Type extends Type {
 			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, getGenNameValue(aData, source)));
 
 			final StringBuilder descriptor = new StringBuilder();
-			generateCodeTypedescriptor(aData, source, descriptor);
+			generateCodeTypedescriptor(aData, source, descriptor, null);
 			generateCodeDefaultCoding(aData, source, descriptor);
 			generateCodeForCodingHandlers(aData, source, descriptor);
 			source.append(descriptor);
@@ -945,7 +946,7 @@ public final class Component_Type extends Type {
 
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source)));
 		} else {
-			generateCodeTypedescriptor(aData, source, null);
+			generateCodeTypedescriptor(aData, source, null, aData.attibute_registry);
 			generateCodeDefaultCoding(aData, source, null);
 			generateCodeForCodingHandlers(aData, source, null);
 		}
@@ -974,7 +975,7 @@ public final class Component_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget) {
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget, HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 
 		final String genname = getGenNameOwn();

@@ -460,7 +460,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{'\n", ownName, last.getGenNameValue(aData, source)));
 
 				final StringBuilder descriptor = new StringBuilder();
-				generateCodeTypedescriptor(aData, source, descriptor);
+				generateCodeTypedescriptor(aData, source, descriptor, null);
 				generateCodeDefaultCoding(aData, source, descriptor);
 				generateCodeForCodingHandlers(aData, source, descriptor);
 				source.append(descriptor);

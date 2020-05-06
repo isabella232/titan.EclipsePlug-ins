@@ -526,7 +526,7 @@ public final class Altstep_Type extends Type {
 		final String displayName = getFullName();
 
 		final StringBuilder localTypeDescriptor = new StringBuilder();
-		generateCodeTypedescriptor(aData, source, localTypeDescriptor);
+		generateCodeTypedescriptor(aData, source, localTypeDescriptor, null);
 		generateCodeDefaultCoding(aData, source, localTypeDescriptor);
 		final StringBuilder localCodingHandler = new StringBuilder();
 		generateCodeForCodingHandlers(aData, source, localCodingHandler);

@@ -1293,7 +1293,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		if (!inTypeDefinition) {
 			setGenName(lastGenName);
-			generateCodeTypedescriptor(aData, source, null);
+			generateCodeTypedescriptor(aData, source, null, aData.attibute_registry);
 			generateCodeDefaultCoding(aData, source, null);
 			generateCodeForCodingHandlers(aData, source, null);
 			return;
@@ -1307,11 +1307,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final String elementName = elementType.getGenNameValue(aData, source);
 
 		final StringBuilder descriptor = new StringBuilder();
-		generateCodeTypedescriptor(aData, source, descriptor);
+		generateCodeTypedescriptor(aData, source, descriptor, null);
 		generateCodeDefaultCoding(aData, source, descriptor);
 		generateCodeForCodingHandlers(aData, source, descriptor);
 		if (!elementType.generatesOwnClass(aData, source)) {
-			elementType.generateCodeTypedescriptor(aData, source, descriptor);
+			elementType.generateCodeTypedescriptor(aData, source, descriptor, null);
 			elementType.generateCodeDefaultCoding(aData, source, descriptor);
 			elementType.generateCodeForCodingHandlers(aData, source, descriptor);
 		}
@@ -1458,7 +1458,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		source.append(MessageFormat.format("public static class {0} extends TitanValue_Array<{1}> '{'\n", className, ofType));
 
-		generateCodeTypedescriptor(aData, source, source);
+		generateCodeTypedescriptor(aData, source, source, null);
 		generateCodeDefaultCoding(aData, source, source);
 
 		source.append(MessageFormat.format("public {0}() '{'\n", className));
