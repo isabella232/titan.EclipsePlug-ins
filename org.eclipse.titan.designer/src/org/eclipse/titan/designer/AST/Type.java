@@ -3145,7 +3145,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						decoderString.append("\t\t\tfinal TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
 						decoderString.append(MessageFormat.format("\t\t\tfinal TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, "")));
 						decoderString.append("\t\t\tinput_stream.operator_assign(AdditionalFunctions.bit2oct(bit_stream));\n");
-						decoderString.append("\t\t\treturn ret_val;\n");
+						decoderString.append("\t\t\treturn ret_val.get_int();\n");
 					}
 				}
 				decoderString.append("\t\t}\n");
