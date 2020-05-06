@@ -731,7 +731,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 
 						final String coderName = memberType.getGenNameCoder(aData, setValuesString, scope);
 						final String codingName = memberType.getGenNameDefaultCoding(aData, setValuesString, scope);
-						setValuesString.append(MessageFormat.format("if ({0}_decoder(buff_{1}, ptr_{1}, {2}_default_coding).operator_not_equals(0)) '{'\n", coderName, i, codingName));
+						setValuesString.append(MessageFormat.format("if ({0}_decoder(buff_{1}, ptr_{1}, {2}_default_coding) != 0) '{'\n", coderName, i, codingName));
 						setValuesString.append(MessageFormat.format("throw new TtcnError(\"Decoding failed in value redirect #{0}.\");\n", i+1));
 						setValuesString.append("}\n");
 						setValuesString.append(MessageFormat.format("if (buff_{0}.lengthof().operator_not_equals(0)) '{'\n", i));

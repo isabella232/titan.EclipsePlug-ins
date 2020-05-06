@@ -3108,7 +3108,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		decoderString.append("\t * @return 0 if nothing could be decoded, 1 in case of success, 2 in\n");
 		decoderString.append("\t *         case of error (incomplete message or length)\n");
 		decoderString.append("\t * */\n");
-		decoderString.append(MessageFormat.format("\tpublic static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", genname, getGenNameValue(aData, source)));
+		decoderString.append(MessageFormat.format("\tpublic static int {0}_decoder(final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", genname, getGenNameValue(aData, source)));
 
 		// user defined codecs
 		for (int i = 0; i < tempCodingTable.size(); i++) {
@@ -3201,12 +3201,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			decoderString.append("\t\tcase ET_NONE:\n");
 			decoderString.append("\t\t\tttcnBuffer.cut();\n");
 			decoderString.append("\t\t\tttcnBuffer.get_string(input_stream);\n");
-			decoderString.append("\t\t\treturn new TitanInteger(0);\n");
+			decoderString.append("\t\t\treturn 0;\n");
 			decoderString.append("\t\tcase ET_INCOMPL_MSG:\n");
 			decoderString.append("\t\tcase ET_LEN_ERR:\n");
-			decoderString.append("\t\t\treturn new TitanInteger(2);\n");
+			decoderString.append("\t\t\treturn 2;\n");
 			decoderString.append("\t\tdefault:\n");
-			decoderString.append("\t\t\treturn new TitanInteger(1);\n");
+			decoderString.append("\t\t\treturn 1;\n");
 			decoderString.append("\t\t}\n");
 		}
 		decoderString.append("\t}\n\n");

@@ -498,7 +498,7 @@ public abstract class Parameter_Redirection extends ASTNode implements ILocateab
 
 					final String coderName = variableEntry.getDeclarationType().getGenNameCoder(aData, setParametersString, scope);
 					final String codingName = declarationType.getGenNameDefaultCoding(aData, setParametersString, scope);
-					setParametersString.append(MessageFormat.format("if ({0}_decoder(buff, ptr_{1}_dec, {2}_default_coding).operator_not_equals(0)) '{'\n", coderName, parameterName, codingName));
+					setParametersString.append(MessageFormat.format("if ({0}_decoder(buff, ptr_{1}_dec, {2}_default_coding) != 0) '{'\n", coderName, parameterName, codingName));
 					setParametersString.append(MessageFormat.format("throw new TtcnError(\"Decoding failed in parameter (for parameter `{0}'').\");\n", parameterName));
 					setParametersString.append("}\n");
 					setParametersString.append("if (buff.lengthof().operator_not_equals(0)) {\n");
