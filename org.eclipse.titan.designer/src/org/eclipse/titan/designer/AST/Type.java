@@ -3077,9 +3077,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 		aData.addCommonLibraryImport("TtcnError");
 		aData.addCommonLibraryImport("TTCN_Logger");
-
-
 		aData.addImport("java.text.MessageFormat");
+
 		final StringBuilder encoderString = new StringBuilder();
 		encoderString.append("\t/**\n");
 		encoderString.append(MessageFormat.format("\t * The encoder function for type {0}.\n", getTypename()));
@@ -3219,7 +3218,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			localTarget.append(encoderString);
 			localTarget.append(decoderString);
 		}
-		
 	}
 
 	/**
