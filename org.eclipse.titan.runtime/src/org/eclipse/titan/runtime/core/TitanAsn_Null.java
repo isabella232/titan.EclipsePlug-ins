@@ -8,18 +8,22 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.BER.ASN_BERdescriptor;
 import org.eclipse.titan.runtime.core.BER.ASN_Tag;
 import org.eclipse.titan.runtime.core.BER.ASN_TagClass;
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
 import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
+import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Asn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Unbound;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 
 /**
  * ASN.1 NULL type
@@ -249,6 +253,86 @@ public class TitanAsn_Null extends Base_Type {
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
 		boundFlag = true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_JSON: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-encoding type '%s': ", p_td.name);
+			try {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+				JSON_encode(p_td, tok);
+				p_buf.put_s(tok.get_buffer().toString().getBytes());
+			} finally {
+				errorContext.leave_context();
+			}
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_JSON: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While JSON-decoding type '%s': ", p_td.name);
+			try {
+				if(p_td.json == null) {
+					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
+				}
+
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				if(JSON_decode(p_td, tok, false) < 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,
+							"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+				}
+				p_buf.set_pos(tok.get_buf_pos());
+			} finally {
+				errorContext.leave_context();
+			}
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_encode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
+		if (!is_bound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound ASN.1 NULL value.");
+			return -1;
+		}
+
+		return p_tok.put_next_token(json_token_t.JSON_TOKEN_LITERAL_NULL);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
+		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
+		int dec_len = p_tok.get_next_token(token, null, null);
+		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
+			if (!p_silent) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
+			}
+			return JSON.JSON_ERROR_FATAL;
+		}
+		else if (json_token_t.JSON_TOKEN_LITERAL_NULL != token.get()) {
+			return JSON.JSON_ERROR_INVALID_TOKEN;
+		}
+		boundFlag = true;
+		return dec_len;
 	}
 
 	/**
