@@ -51,6 +51,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button disableUserInformation;
 	private Button enableRealtimeFeature;
 	private Button forceGenSeof;
+	private Button enableOOP;
 	private Button activateDebugger;
 
 	//private Composite namingRuleComposite; //TODO: check: is this obsolete?
@@ -110,6 +111,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			}
 
 			forceGenSeof.dispose();
+			enableOOP.dispose();
 
 			if (CBuilder) {
 				activateDebugger.dispose();
@@ -207,6 +209,9 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		forceGenSeof = new Button(mainComposite, SWT.CHECK);
 		forceGenSeof.setText("Force the generation of Seof types (-F)");
+		
+		enableOOP = new Button(mainComposite, SWT.CHECK);
+		enableOOP.setText("Enable object oriented programming - OOP (-k)");
 
 		if (CBuilder) {
 			activateDebugger = new Button(mainComposite, SWT.CHECK);
@@ -265,6 +270,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		}
 
 		forceGenSeof.setEnabled(enabled);
+		enableOOP.setEnabled(enabled);
 
 		if (CBuilder) {
 			activateDebugger.setEnabled(enabled);
@@ -361,6 +367,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		}
 
 		forceGenSeof.setSelection(false);
+		enableOOP.setSelection(false);
 
 		if (CBuilder) {
 			activateDebugger.setSelection(false);
@@ -492,6 +499,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.FORCE_GEN_SEOF));
 			forceGenSeof.setSelection("true".equals(temp) ? true : false);
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ENABLE_OOP));
+			enableOOP.setSelection("true".equals(temp) ? true : false);
 
 			if (CBuilder) {
 				temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
@@ -552,6 +563,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			}
 
 			setProperty(project, TITANFlagsOptionsData.FORCE_GEN_SEOF, forceGenSeof.getSelection() ? "true" : "false");
+			setProperty(project, TITANFlagsOptionsData.ENABLE_OOP, enableOOP.getSelection() ? "true" : "false");
 
 			if (CBuilder) {
 				setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");

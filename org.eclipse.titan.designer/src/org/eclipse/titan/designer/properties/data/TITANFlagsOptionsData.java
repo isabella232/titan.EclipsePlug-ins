@@ -45,19 +45,21 @@ public final class TITANFlagsOptionsData {
 	public static final String INCLUDE_SOURCEINFO_PROPERTY = "includeSourceInfo";
 	public static final String ADD_SOURCELINEINFO_PROPERTY = "addSourceLineInfo";
 	public static final String SUPPRESS_WARNINGS_PROPERTY = "suppressWarnings";
-	public static final String QUIETLY_PROPERTY = "quietly";
 
 	public static final String ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY = "omitInValueList";
 	public static final String WARNINGS_FOR_BAD_VARIANTS_PROPERTY = "warningsForBadVariants";
 	public static final String IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY = "ignoreUntaggedOnTopLevelUnion";
 	public static final String ACTIVATE_DEBUGGER_PROPERTY = "activateDebugger";
+	public static final String QUIETLY_PROPERTY = "quietly";
 	public static final String ENABLE_LEGACY_ENCODING_PROPERTY ="enableLegacyEncoding";
 	public static final String DISABLE_USER_INFORMATION_PROPERTY ="disableUserInformation";
 
 	public static final String ENABLE_REALTIME = "enableRealtimeTesting";
-	public static final String FORCE_GEN_SEOF = "forceGenSeof";
-
 	public static final String DISABLE_SUBTYPE_CHECKING_PROPERTY = "disableSubtypeChecking";
+	public static final String FORCE_GEN_SEOF = "forceGenSeof";
+	public static final String ENABLE_OOP = "enableOOP";
+
+	
 
 	//The order of items of the next array defines the order of items in the tpd file within the "MakefileSettings".
 	//It should be according to the TPD.xsd otherwise the generated tpd will not be valid and the import will fail.
@@ -67,7 +69,7 @@ public final class TITANFlagsOptionsData {
 			FORCE_XER_IN_ASN1_PROPERTY, DEFAULT_AS_OMIT_PROPERTY, FORCE_OLD_FUNC_OUT_PAR_PROPERTY, GCC_MESSAGE_FORMAT_PROPERTY, LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
 			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, WARNINGS_FOR_BAD_VARIANTS_PROPERTY,
 			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, ACTIVATE_DEBUGGER_PROPERTY, QUIETLY_PROPERTY, ENABLE_LEGACY_ENCODING_PROPERTY, DISABLE_USER_INFORMATION_PROPERTY,
-			ENABLE_REALTIME, DISABLE_SUBTYPE_CHECKING_PROPERTY, FORCE_GEN_SEOF /*insert here the next new item*/};
+			ENABLE_REALTIME, DISABLE_SUBTYPE_CHECKING_PROPERTY, FORCE_GEN_SEOF, ENABLE_OOP /*insert here the next new item*/};
 	
 			//TODO:is  NAMING_RULES obsolete? 
 			
@@ -78,7 +80,7 @@ public final class TITANFlagsOptionsData {
 		"false", "false", "false", "false", "false",
 		"false", "false", "false", "false", "false",
 		"false", "false", "false", "false", "false",
-		"false", "false", "false" /*insert here the next new item*/};
+		"false", "false", "false", "false" /*insert here the next new item*/};
 
 	private TITANFlagsOptionsData() {
 		// Do nothing
@@ -187,6 +189,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.FORCE_GEN_SEOF));
 			builder.append("true".equals(temp) ? "F" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ENABLE_OOP));
+			builder.append("true".equals(temp) ? "k" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
@@ -312,6 +318,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.FORCE_GEN_SEOF));
 			builder.append("true".equals(temp) ? " + force generation of setofs" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ENABLE_OOP));
+			builder.append("true".equals(temp) ? " + enable OOP" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
