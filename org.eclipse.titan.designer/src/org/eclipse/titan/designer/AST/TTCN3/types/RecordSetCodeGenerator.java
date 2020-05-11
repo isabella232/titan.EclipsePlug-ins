@@ -2005,7 +2005,7 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\tif (p_parent_is_map) {\n");
 			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
 			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
-			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
 			source.append("\t\t\t\tint dec_len = p_tok.get_next_token(j_token, fld_name, name_len);\n");
 			source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
 			source.append("\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, \"\");\n");
