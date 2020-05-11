@@ -358,6 +358,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 			default:
 				value.getLocation().reportSemanticError(BITSTRINGVALUEEXPECTED2);
 				value.setIsErroneous(true);
+				break;
 			}
 		}
 

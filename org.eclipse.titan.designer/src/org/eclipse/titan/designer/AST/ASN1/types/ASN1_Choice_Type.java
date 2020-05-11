@@ -347,6 +347,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 				value.setIsErroneous(true);
 			}
 			value.setIsErroneous(true);
+			break;
 		}
 
 		value.setLastTimeChecked(timestamp);

@@ -443,6 +443,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		default:
 			value.getLocation().reportSemanticError(value.isAsn() ? ASN1ENUMERATEDVALUEEXPECTED : TTCN3ENUMERATEDVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		value.setLastTimeChecked(timestamp);

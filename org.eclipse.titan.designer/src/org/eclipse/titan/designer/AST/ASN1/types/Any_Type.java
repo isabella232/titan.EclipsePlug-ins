@@ -143,6 +143,7 @@ public final class Any_Type extends ASN1Type {
 				default:
 					value.getLocation().reportSemanticError("ANY (OCTET STRING) value was expected");
 					value.setIsErroneous(true);
+					break;
 				}
 			}
 		} else {

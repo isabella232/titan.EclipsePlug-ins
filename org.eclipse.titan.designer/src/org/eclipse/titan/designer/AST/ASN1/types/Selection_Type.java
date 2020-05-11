@@ -486,6 +486,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 				source.append("\t}\n");
 
 				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referencedLast.getGenNameTemplate(aData, source)));
+				break;
 			}
 		}
 	}

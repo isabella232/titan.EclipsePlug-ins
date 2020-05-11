@@ -324,6 +324,7 @@ public final class Open_Type extends ASN1Type {
 				value.getLocation().reportSemanticError(MessageFormat.format(UNIONEXPECTED, getFullName()));
 			}
 			value.setIsErroneous(true);
+			break;
 		}
 
 		value.setLastTimeChecked(timestamp);

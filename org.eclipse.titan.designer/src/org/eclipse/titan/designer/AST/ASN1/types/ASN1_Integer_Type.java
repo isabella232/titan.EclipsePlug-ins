@@ -329,6 +329,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		default:
 			value.getLocation().reportSemanticError(INTEGERVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		value.setLastTimeChecked(timestamp);
@@ -389,6 +390,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		default:
 			value.getLocation().reportSemanticError(INTEGERVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 	}
 
