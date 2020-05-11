@@ -1260,7 +1260,8 @@ public class TitanInteger extends Base_Type {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
+
+				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
 				p_buf.put_s(tok.get_buffer().toString().getBytes());
 			} finally {
@@ -1299,7 +1300,8 @@ public class TitanInteger extends Base_Type {
 				if(p_td.json == null) {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
-				JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,
 							"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -1341,7 +1343,7 @@ public class TitanInteger extends Base_Type {
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
 		int dec_len = 0;
-		boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
+		final boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
 		if (use_default) {
 			// No JSON data in the buffer -> use default value
 			value.setLength(0);
