@@ -79,8 +79,8 @@ public final class Int2BitExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
-		final StringBuilder builder = new StringBuilder("int2bit");
-		builder.append('(').append(value1.createStringRepresentation());
+		final StringBuilder builder = new StringBuilder("int2bit(");
+		builder.append(value1.createStringRepresentation());
 		builder.append(", ");
 		builder.append(value2.createStringRepresentation()).append(')');
 		return builder.toString();

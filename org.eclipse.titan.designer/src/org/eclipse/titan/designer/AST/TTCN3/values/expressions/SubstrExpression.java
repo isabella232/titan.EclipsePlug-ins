@@ -108,8 +108,8 @@ public final class SubstrExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
-		final StringBuilder builder = new StringBuilder("substr");
-		builder.append('(').append(templateInstance1.createStringRepresentation());
+		final StringBuilder builder = new StringBuilder("substr(");
+		builder.append(templateInstance1.createStringRepresentation());
 		builder.append(", ");
 		builder.append(value2.createStringRepresentation());
 		builder.append(", ");

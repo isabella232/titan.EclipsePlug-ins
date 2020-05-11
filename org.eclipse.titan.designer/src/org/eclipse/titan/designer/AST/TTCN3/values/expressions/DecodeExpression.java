@@ -102,8 +102,8 @@ public final class DecodeExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
-		final StringBuilder builder = new StringBuilder("decvalue");
-		builder.append('(').append(reference1.getDisplayName());
+		final StringBuilder builder = new StringBuilder("decvalue(");
+		builder.append(reference1.getDisplayName());
 		builder.append(", ");
 		builder.append(reference2.getDisplayName());
 		if (encodingInfo != null) {

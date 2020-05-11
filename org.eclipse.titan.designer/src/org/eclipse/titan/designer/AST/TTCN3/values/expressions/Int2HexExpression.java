@@ -78,8 +78,8 @@ public final class Int2HexExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
-		final StringBuilder builder = new StringBuilder("int2hex");
-		builder.append('(').append(value1.createStringRepresentation());
+		final StringBuilder builder = new StringBuilder("int2hex(");
+		builder.append(value1.createStringRepresentation());
 		builder.append(", ");
 		builder.append(value2.createStringRepresentation()).append(')');
 		return builder.toString();
