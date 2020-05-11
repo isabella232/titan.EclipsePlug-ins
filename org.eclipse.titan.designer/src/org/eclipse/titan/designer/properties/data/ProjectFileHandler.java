@@ -501,11 +501,8 @@ public final class ProjectFileHandler {
 		}
 		saveJob.setRule(project.getWorkspace().getRuleFactory().refreshRule(project));
 
-		AtomicInteger projectSavesRunning = savesRunning.get(project);
-		if (projectSavesRunning == null) {
-			projectSavesRunning = new AtomicInteger(0);
-			savesRunning.put(project, projectSavesRunning);
-		}
+		savesRunning.putIfAbsent(project, new AtomicInteger(0));
+		final AtomicInteger projectSavesRunning = savesRunning.get(project);
 		final boolean alreadyRunning = projectSavesRunning.get() > 0;
 		if (alreadyRunning) {
 			final WorkspaceJob lastSaveJob = lastSaves.get(project);
