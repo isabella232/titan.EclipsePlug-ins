@@ -1590,7 +1590,7 @@ public final class UnionGenerator {
 			if (!jsonAsValue) {
 				// 'as value' is not set for the base type, but it might still be set in
 				// the type descriptor
-				source.append("\t\t\tboolean as_value = p_td.json.isAs_value();\n");
+				source.append("\t\t\tfinal boolean as_value = p_td.json.isAs_value();\n");
 				source.append("\t\t\tint enc_len = as_value ? 0 : p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_START, null);\n");
 			} else {
 				source.append("\t\t\tint enc_len = 0;\n");
