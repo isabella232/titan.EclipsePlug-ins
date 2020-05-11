@@ -706,7 +706,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 				enc_len += p_tok.put_next_token(json_token_t.JSON_TOKEN_OBJECT_END, null);
 			}
 			else {
-				int ret_val = array_elements[i].JSON_encode(get_elem_descr(), p_tok, false);
+				final int ret_val = array_elements[i].JSON_encode(get_elem_descr(), p_tok, false);
 				if (0 > ret_val) break;
 				enc_len += ret_val;
 			}
@@ -730,7 +730,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 		} 
 
 		for (int i = 0; i < array_size; ++i) {
-			int buf_pos = p_tok.get_buf_pos();
+			final int buf_pos = p_tok.get_buf_pos();
 			int ret_val;
 			if (null != p_td.json && p_td.json.isMetainfo_unbound()) {
 				// check for metainfo object
@@ -755,7 +755,8 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 				// metainfo object not found, jump back and let the element type decode it
 				p_tok.set_buf_pos(buf_pos);
 			}
-			int ret_val2 = array_elements[i].JSON_decode(get_elem_descr(), p_tok, p_silent, false);
+
+			final int ret_val2 = array_elements[i].JSON_decode(get_elem_descr(), p_tok, p_silent, false);
 			if (JSON.JSON_ERROR_INVALID_TOKEN == ret_val2) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_ARRAY_ELEM_TOKEN_ERROR,
 						array_size - i, (array_size - i > 1) ? "s" : "");
