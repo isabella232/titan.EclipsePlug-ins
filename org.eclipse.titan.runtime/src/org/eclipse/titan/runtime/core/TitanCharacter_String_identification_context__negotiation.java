@@ -431,7 +431,7 @@ public class TitanCharacter_String_identification_context__negotiation extends B
 		while (true) {
 			final StringBuilder fld_name = new StringBuilder();
 			final AtomicInteger name_len = new AtomicInteger(0);
-			int buf_pos = p_tok.get_buf_pos();
+			final int buf_pos = p_tok.get_buf_pos();
 			dec_len += p_tok.get_next_token(j_token, fld_name, name_len);
 			if (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {
 				JSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);
