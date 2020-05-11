@@ -468,7 +468,7 @@ public final class Integer_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		return needsAlias();
 	}
 

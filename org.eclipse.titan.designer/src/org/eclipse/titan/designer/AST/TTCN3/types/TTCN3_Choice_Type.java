@@ -680,7 +680,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		return true;
 	}
 

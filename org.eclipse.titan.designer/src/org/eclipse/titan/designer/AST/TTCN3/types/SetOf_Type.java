@@ -588,7 +588,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		final boolean force_gen_seof = aData.getForceGenSeof();
 		if (force_gen_seof) {
 			return true;

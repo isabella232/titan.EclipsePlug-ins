@@ -251,7 +251,7 @@ public final class ObjectID_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		return needsAlias();
 	}
 

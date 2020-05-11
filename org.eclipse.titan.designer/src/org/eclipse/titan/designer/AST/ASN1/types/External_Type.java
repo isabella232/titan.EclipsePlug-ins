@@ -224,7 +224,7 @@ public final class External_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		return needsAlias();
 	}
 

@@ -906,7 +906,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		final boolean force_gen_seof = aData.getForceGenSeof();
 		if (force_gen_seof) {
 			return true;

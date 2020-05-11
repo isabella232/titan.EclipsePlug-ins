@@ -802,7 +802,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		return true;
 	}
 

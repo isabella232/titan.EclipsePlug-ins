@@ -426,7 +426,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean generatesOwnClass(JavaGenData aData, StringBuilder source) {
+	public boolean generatesOwnClass(final JavaGenData aData, final StringBuilder source) {
 		return needsAlias();
 	}
 
