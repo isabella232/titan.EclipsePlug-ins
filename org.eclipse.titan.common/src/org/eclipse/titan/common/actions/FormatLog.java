@@ -98,7 +98,7 @@ public final class FormatLog extends AbstractHandler implements IWorkbenchWindow
 
 		} catch (IOException e) {
 			ErrorReporter.logExceptionStackTrace("Error while formatting log file: " + file.getLocation().toOSString(), e);
-			final String message = e.getMessage() != null ? e.getMessage() : "";
+			final String message = e.getMessage() == null ? "" : e.getMessage();
 			return new Status(IStatus.ERROR, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, message, e);
 		} finally {
 			IOUtils.closeQuietly(fileInputStream, outChannel);
