@@ -538,7 +538,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
 	 *         case of error (incomplete message or length)
 	 * */
-	public static TitanInteger TitanCharacter_String_identification_syntaxes_decoder( final TitanOctetString input_stream, final TitanCharacter_String_identification_syntaxes output_value, final TitanUniversalCharString coding_name) {
+	public static int TitanCharacter_String_identification_syntaxes_decoder(final TitanOctetString input_stream, final TitanCharacter_String_identification_syntaxes output_value, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
 		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
@@ -552,12 +552,12 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		case ET_NONE:
 			ttcnBuffer.cut();
 			ttcnBuffer.get_string(input_stream);
-			return new TitanInteger(0);
+			return 0;
 		case ET_INCOMPL_MSG:
 		case ET_LEN_ERR:
-			return new TitanInteger(2);
+			return 2;
 		default:
-			return new TitanInteger(1);
+			return 1;
 		}
 	}
 
@@ -599,7 +599,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
 	 *         case of error (incomplete message or length)
 	 * */
-	public static TitanInteger TitanCharacter_String_identification_syntaxes_abstract__decoder( final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
+	public static int TitanCharacter_String_identification_syntaxes_abstract__decoder(final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
 		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
@@ -613,12 +613,12 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		case ET_NONE:
 			ttcnBuffer.cut();
 			ttcnBuffer.get_string(input_stream);
-			return new TitanInteger(0);
+			return 0;
 		case ET_INCOMPL_MSG:
 		case ET_LEN_ERR:
-			return new TitanInteger(2);
+			return 2;
 		default:
-			return new TitanInteger(1);
+			return 1;
 		}
 	}
 
@@ -660,7 +660,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
 	 *         case of error (incomplete message or length)
 	 * */
-	public static TitanInteger TitanCharacter_String_identification_syntaxes_transfer_decoder( final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
+	public static int TitanCharacter_String_identification_syntaxes_transfer_decoder(final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
 		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
@@ -674,12 +674,12 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		case ET_NONE:
 			ttcnBuffer.cut();
 			ttcnBuffer.get_string(input_stream);
-			return new TitanInteger(0);
+			return 0;
 		case ET_INCOMPL_MSG:
 		case ET_LEN_ERR:
-			return new TitanInteger(2);
+			return 2;
 		default:
-			return new TitanInteger(1);
+			return 1;
 		}
 	}
 

@@ -537,7 +537,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
 	 *         case of error (incomplete message or length)
 	 * */
-	public static TitanInteger TitanEmbedded_PDV_identification_context__negotiation_decoder( final TitanOctetString input_stream, final TitanEmbedded_PDV_identification_context__negotiation output_value, final TitanUniversalCharString coding_name) {
+	public static int TitanEmbedded_PDV_identification_context__negotiation_decoder(final TitanOctetString input_stream, final TitanEmbedded_PDV_identification_context__negotiation output_value, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
 		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
@@ -551,12 +551,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		case ET_NONE:
 			ttcnBuffer.cut();
 			ttcnBuffer.get_string(input_stream);
-			return new TitanInteger(0);
+			return 0;
 		case ET_INCOMPL_MSG:
 		case ET_LEN_ERR:
-			return new TitanInteger(2);
+			return 2;
 		default:
-			return new TitanInteger(1);
+			return 1;
 		}
 	}
 
@@ -598,7 +598,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	 * @return 0 if nothing could be decoded, 1 in case of success, 2 in
 	 *         case of error (incomplete message or length)
 	 * */
-	public static TitanInteger TitanEmbedded_PDV_identification_context__negotiation_transfer__syntax_decoder( final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
+	public static int TitanEmbedded_PDV_identification_context__negotiation_transfer__syntax_decoder(final TitanOctetString input_stream, final TitanObjectid output_value, final TitanUniversalCharString coding_name) {
 		final AtomicInteger extra_options = new AtomicInteger(0);
 		final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 		if (codingType != TTCN_EncDec.coding_type.CT_JSON) {
@@ -612,12 +612,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		case ET_NONE:
 			ttcnBuffer.cut();
 			ttcnBuffer.get_string(input_stream);
-			return new TitanInteger(0);
+			return 0;
 		case ET_INCOMPL_MSG:
 		case ET_LEN_ERR:
-			return new TitanInteger(2);
+			return 2;
 		default:
-			return new TitanInteger(1);
+			return 1;
 		}
 	}
 

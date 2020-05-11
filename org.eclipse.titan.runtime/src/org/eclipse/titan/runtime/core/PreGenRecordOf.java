@@ -1071,7 +1071,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -3310,7 +3312,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -5677,7 +5681,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -7931,7 +7937,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -10185,7 +10193,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -12439,7 +12449,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -14693,7 +14705,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -16947,7 +16961,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -19201,7 +19217,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -21455,7 +21473,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -23709,7 +23729,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -25948,7 +25970,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -28300,7 +28324,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -30652,7 +30678,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -33004,7 +33032,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -35356,7 +35386,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -37723,7 +37755,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -39962,7 +39996,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -42314,7 +42350,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -44666,7 +44704,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -47018,7 +47058,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -49370,7 +49412,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -51722,7 +51766,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -54089,7 +54135,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -56343,7 +56391,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -58582,7 +58632,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -60934,7 +60986,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -63286,7 +63340,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -65653,7 +65709,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -67907,7 +67965,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -70146,7 +70206,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
@@ -72513,7 +72575,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 				}
 				else {
 					final int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());
-					if (0 > ret_val) break;
+					if (0 > ret_val) {
+						break;
+					}
 					enc_len += ret_val;
 				}
 			}
