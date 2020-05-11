@@ -3079,37 +3079,41 @@ public final class UnionGenerator {
 		source.append("\t\t\t\tmp = new Module_Param_AnyOrNone();\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE: {\n");
-		source.append("\t\t\t\tModule_Parameter mp_field = null;\n");
-
-		if (fieldInfos.size() > maxFieldsLength) {
-			source.append("\t\t\t\tif (single_value_union_selection.ordinal() == 0 ) {\n");
-			source.append("\t\t\t\t\tbreak;\n");
-			final int fullSize = fieldInfos.size();
-			final int iterations = fullSize / maxFieldsLength;
-			for (int iteration = 0; iteration <= iterations; iteration++) {
-				final int start = iteration * maxFieldsLength;
-				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-				source.append(MessageFormat.format("\t\t\t\t} else if (single_value_union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
-				source.append(MessageFormat.format("\t\t\t\t\tmp_field = template_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
-			}
-			source.append("\t\t\t\t} else {\n");
-			source.append("\t\t\t\t\tbreak;\n");
-			source.append("\t\t\t\t}\n");
+		if (fieldInfos.isEmpty()) {
+			source.append("\t\t\t\tmp = new Module_Param_Assignment_List();\n");
 		} else {
-			source.append("\t\t\t\tswitch(single_value_union_selection) {\n");
-			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("\t\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("\t\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
+			source.append("\t\t\t\tModule_Parameter mp_field = null;\n");
+	
+			if (fieldInfos.size() > maxFieldsLength) {
+				source.append("\t\t\t\tif (single_value_union_selection.ordinal() == 0 ) {\n");
 				source.append("\t\t\t\t\tbreak;\n");
+				final int fullSize = fieldInfos.size();
+				final int iterations = fullSize / maxFieldsLength;
+				for (int iteration = 0; iteration <= iterations; iteration++) {
+					final int start = iteration * maxFieldsLength;
+					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
+					source.append(MessageFormat.format("\t\t\t\t} else if (single_value_union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
+					source.append(MessageFormat.format("\t\t\t\t\tmp_field = template_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+				}
+				source.append("\t\t\t\t} else {\n");
+				source.append("\t\t\t\t\tbreak;\n");
+				source.append("\t\t\t\t}\n");
+			} else {
+				source.append("\t\t\t\tswitch(single_value_union_selection) {\n");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					source.append(MessageFormat.format("\t\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\t\tmp_field = get_field_{0}().get_param(param_name);\n", fieldInfo.mJavaVarName));
+					source.append(MessageFormat.format("\t\t\t\t\tmp_field.set_id(new Module_Param_FieldName(\"{0}\"));\n", fieldInfo.mDisplayName));
+					source.append("\t\t\t\t\tbreak;\n");
+				}
+				source.append("\t\t\t\tdefault:\n");
+				source.append("\t\t\t\t\tbreak;\n");
+				source.append("\t\t\t\t}\n");
 			}
-			source.append("\t\t\t\tdefault:\n");
-			source.append("\t\t\t\t\tbreak;\n");
-			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tmp = new Module_Param_Assignment_List();\n");
+			source.append("\t\t\t\tmp.add_elem(mp_field);\n");
 		}
-		source.append("\t\t\t\tmp = new Module_Param_Assignment_List();\n");
-		source.append("\t\t\t\tmp.add_elem(mp_field);\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
