@@ -1977,7 +1977,7 @@ public final class RecordSetCodeGenerator {
 			// JSON literal 'null', since it's not a JSON object;
 			// furthermore, the empty JSON object should be decoded as 'omit'
 				source.append("\t\t\t\tfinal AtomicReference<json_token_t> j_token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
-				source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+				source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
 				source.append("\t\t\t\tint dec_len = p_tok.get_next_token(j_token, null, null);\n");
 				source.append("\t\t\t\tif (j_token.get() == json_token_t.JSON_TOKEN_LITERAL_NULL) {\n");
 				source.append("\t\t\t\t\treturn JSON.JSON_ERROR_FATAL;\n");
@@ -2050,7 +2050,11 @@ public final class RecordSetCodeGenerator {
 			source.append("\n\t\t\twhile (true) {\n");
 			source.append("\t\t\t\tfinal StringBuilder fld_name = new StringBuilder();\n");
 			source.append("\t\t\t\tfinal AtomicInteger name_len = new AtomicInteger(0);\n");
-			source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			if (has_metainfo_enabled) {
+				source.append("\t\t\t\tint buf_pos = p_tok.get_buf_pos();\n");
+			} else {
+				source.append("\t\t\t\tfinal int buf_pos = p_tok.get_buf_pos();\n");
+			}
 			source.append("\t\t\t\tdec_len += p_tok.get_next_token(j_token, fld_name, name_len);\n");
 			source.append("\t\t\t\tif (json_token_t.JSON_TOKEN_ERROR == j_token.get()) {\n");
 			source.append("\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, JSON.JSON_DEC_NAME_TOKEN_ERROR);\n");
