@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.BER.ASN_BERdescriptor;
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
@@ -173,7 +174,9 @@ public abstract class Base_Type {
 
 	public static final TTCN_Typedescriptor TitanExternal_descr_ = new TTCN_Typedescriptor("EXTERNAL", BER.TitanExternal_Ber_, null, null, null);
 	public static final TTCN_Typedescriptor TitanEmbedded_PDV_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV", BER.TitanEmbedded_PDV_Ber_, null, null, null);
-	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING", BER.TitanCharacter_String_Ber_, null, TitanCharString.TitanCharString_json_, null);
+	//TODO temporarily TitanCharString_json_ is located here so as to not reference the TitanCharString class not initialized before Base_Type
+	public static final TTCN_JSONdescriptor TitanCharString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_Typedescriptor TitanCharacter_String_descr_ = new TTCN_Typedescriptor("CHARACTER STRING", BER.TitanCharacter_String_Ber_, null, TitanCharString_json_, null);
 	public static final TTCN_Typedescriptor TitanObjectDescriptor_descr_ = new TTCN_Typedescriptor("ObjectDescriptor", BER.TitanObjectDescriptor_Ber_, null, null, null);
 
 	/**
