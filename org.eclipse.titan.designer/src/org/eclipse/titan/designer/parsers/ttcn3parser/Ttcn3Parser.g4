@@ -6360,7 +6360,7 @@ pr_Quadruple returns[UniversalCharstring string]
 pr_USI_element returns[String string]:
 (	UID	{$string = $UID.text;}
 |	IDENTIFIER	{final String temp = $IDENTIFIER.text;
-			if (temp.startsWith("u") || temp.startsWith("U")) {
+			if (temp != null && (temp.startsWith("u") || temp.startsWith("U"))) {
 				$string = temp;
 			} else {
 				reportError( "The USI notation requires the format to be [uU][+]?[0-9A-Fa-f]{1,8}", $IDENTIFIER, $IDENTIFIER );
@@ -8650,8 +8650,8 @@ pr_Identifier returns [Identifier identifier]
 pr_CString returns[String string]:
 	cs = CSTRING
 {
-	if($cs.text != null) {
-		final String temp = $cs.text;
+	final String temp = $cs.text;
+	if(temp != null) {
 		$string = temp.substring(1, temp.length() - 1);
 	}
 };
