@@ -46,7 +46,7 @@ public final class EnumeratedGenerator {
 		private long firstUnused = -1;  //first unused value for this enum type
 		private long secondUnused = -1; //second unused value for this enum type
 
-		public Enum_Defs(final List<Enum_field> aItems, final String aName, final String aDisplayName, final String aTemplateName, final boolean aHasRaw, boolean aHasJson){
+		public Enum_Defs(final List<Enum_field> aItems, final String aName, final String aDisplayName, final String aTemplateName, final boolean aHasRaw, final boolean aHasJson){
 			items = aItems;
 			name = aName;
 			displayName = aDisplayName;

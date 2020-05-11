@@ -145,7 +145,7 @@ public final class UnionGenerator {
 	 *                the coding handlers to be generated into the class.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
-			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw, boolean hasJson,
+			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw, final boolean hasJson,
 			final boolean isAnytypeKind, final boolean jsonAsValue, final StringBuilder localTypeDescriptor, final StringBuilder localCodingHandler) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Type");

@@ -975,7 +975,7 @@ public final class Component_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, StringBuilder localTarget, HashMap<String, String> attributeRegistry) {
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 
 		final String genname = getGenNameOwn();
