@@ -1284,7 +1284,7 @@ public class TitanCharString extends Base_Type {
 		return dec_len;
 	}
 
-	static String to_JSON_string( final StringBuilder cstr, json_string_escaping mode ) {
+	static String to_JSON_string( final StringBuilder cstr, final json_string_escaping mode ) {
 		// Need at least 3 more characters (the double quotes around the string and the terminating zero)
 		final StringBuilder json_str = new StringBuilder();
 

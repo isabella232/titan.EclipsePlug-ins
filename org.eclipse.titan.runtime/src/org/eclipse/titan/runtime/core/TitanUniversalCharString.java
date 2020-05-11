@@ -2530,7 +2530,7 @@ public class TitanUniversalCharString extends Base_Type {
 		return dec_len;
 	}
 
-	private static String to_JSON_string(final TTCN_Buffer p_buf, json_string_escaping mode) {
+	private static String to_JSON_string(final TTCN_Buffer p_buf, final json_string_escaping mode) {
 		final byte[] ustr = p_buf.get_data();
 
 		// Need at least 3 more characters (the double quotes around the string and the terminating zero)
