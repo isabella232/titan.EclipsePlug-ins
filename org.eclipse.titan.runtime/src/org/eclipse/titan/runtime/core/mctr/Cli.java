@@ -289,11 +289,9 @@ public class Cli extends UserInterface {
 
 		do {
 			try {
-				String line_read = console_reader.readLine();
+				final String line_read = console_reader.readLine();
 				if (line_read != null) {
-					line_read = line_read.trim();
-					processCommand(line_read);
-					line_read = null;
+					processCommand(line_read.trim());
 				} else {
 					System.out.println("exit");
 					exitCallback("");
