@@ -296,9 +296,9 @@ public final class PortGenerator {
 		public boolean has_sliding;
 		public boolean legacy;
 
-		public StringBuilder varDefs;
-		public StringBuilder varInit;
-		public StringBuilder translationFunctions = new StringBuilder();
+		public String varDefs;
+		public String varInit;
+		public String translationFunctions;
 		public boolean realtime;
 
 		public PortDefinition(final String genName, final String displayName) {
