@@ -181,13 +181,12 @@ public final class RotateRightExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IType type = getMyGovernor();
+		final IType type = getMyGovernor();
 		if (type != null) {
 			return type;
 		}
 
 		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
-
 		if (last == null || value1 == null) {
 			return null;
 		}

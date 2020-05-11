@@ -205,7 +205,7 @@ public final class Bit2OctExpression extends Expression_Value {
 
 	public static String asn_bit2oct(final String bitString) {
 		final String bitString1 = bitString.replaceAll(" ", "");
-		int size = bitString1.length();
+		final int size = bitString1.length();
 		final StringBuilder octatstringBuilder = new StringBuilder(size);
 
 		for (int i = 0; i < size; ) {

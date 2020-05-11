@@ -238,7 +238,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		final IType lastType = type.getTypeRefdLast(timestamp);
 		boolean attributeValidationDisabled = false;
 		try {
-			String property = getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY));
+			final String property = getLocation().getFile().getProject().getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, TITANFlagsOptionsData.DISABLE_ATTRIBUTE_VALIDATION_PROPERTY));
 			attributeValidationDisabled = property != null && "true".equals(property);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);

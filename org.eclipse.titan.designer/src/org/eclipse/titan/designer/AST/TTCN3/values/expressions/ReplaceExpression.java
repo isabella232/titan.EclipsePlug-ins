@@ -850,7 +850,7 @@ public final class ReplaceExpression extends Expression_Value {
 		}
 
 		if (get_needs_conversion()) {
-			ExpressionStruct tempExpression = new ExpressionStruct();
+			final ExpressionStruct tempExpression = new ExpressionStruct();
 			generateCodeExpressionReplace(aData, tempExpression);
 			final IType templateGovernor = templateInstance1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 			final IType lastTemplateGovernor = templateGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
