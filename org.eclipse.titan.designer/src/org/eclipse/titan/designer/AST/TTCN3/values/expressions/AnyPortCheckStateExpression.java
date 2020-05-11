@@ -77,8 +77,7 @@ public class AnyPortCheckStateExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("any port.checkstate(");
+		final StringBuilder builder = new StringBuilder("any port.checkstate(");
 		builder.append(value.createStringRepresentation());
 		builder.append(')');
 

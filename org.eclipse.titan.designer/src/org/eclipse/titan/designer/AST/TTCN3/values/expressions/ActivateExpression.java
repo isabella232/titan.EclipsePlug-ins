@@ -198,8 +198,7 @@ public final class ActivateExpression extends Expression_Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport("TitanDefault");
 
-		final StringBuilder result = new StringBuilder();
-		result.append("new TitanDefault(");
+		final StringBuilder result = new StringBuilder("new TitanDefault(");
 		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpressionExpression(aData, expression);
 		result.append(expression.expression);
