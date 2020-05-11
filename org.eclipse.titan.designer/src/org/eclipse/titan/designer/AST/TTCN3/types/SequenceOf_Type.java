@@ -459,6 +459,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			}
 
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

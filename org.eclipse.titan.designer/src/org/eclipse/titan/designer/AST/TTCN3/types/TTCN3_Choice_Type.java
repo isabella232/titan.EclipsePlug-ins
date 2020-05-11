@@ -347,6 +347,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				value.getLocation().reportSemanticError(MessageFormat.format(UNIONEXPECTED, getFullName()));
 			}
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

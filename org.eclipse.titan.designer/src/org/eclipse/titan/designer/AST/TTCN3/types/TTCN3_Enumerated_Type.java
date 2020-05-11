@@ -418,6 +418,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		default:
 			value.getLocation().reportSemanticError(value.isAsn() ? ASN1ENUMERATEDVALUEEXPECTED : TTCN3ENUMERATEDVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

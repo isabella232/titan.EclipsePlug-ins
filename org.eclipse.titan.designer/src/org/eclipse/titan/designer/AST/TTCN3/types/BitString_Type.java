@@ -157,6 +157,7 @@ public final class BitString_Type extends Type {
 		default:
 			value.getLocation().reportSemanticError(BITSTRINGVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

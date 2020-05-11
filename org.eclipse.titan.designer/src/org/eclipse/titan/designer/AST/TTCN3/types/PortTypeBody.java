@@ -2077,6 +2077,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		default:
 			portDefinition.testportType = TestportType.NORMAL;
+			break;
 
 		}
 

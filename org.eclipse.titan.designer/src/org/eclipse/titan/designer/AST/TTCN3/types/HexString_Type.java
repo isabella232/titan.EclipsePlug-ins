@@ -155,6 +155,7 @@ public final class HexString_Type extends Type {
 		default:
 			value.getLocation().reportSemanticError(HEXSTRINGVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

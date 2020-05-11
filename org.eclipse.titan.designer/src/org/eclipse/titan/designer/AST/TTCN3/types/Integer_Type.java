@@ -158,6 +158,7 @@ public final class Integer_Type extends Type {
 		default:
 			value.getLocation().reportSemanticError(INTEGERVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {
@@ -226,6 +227,7 @@ public final class Integer_Type extends Type {
 		default:
 			value.getLocation().reportSemanticError(INTEGERVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (subCheck) {
@@ -292,6 +294,7 @@ public final class Integer_Type extends Type {
 		default:
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
 			template.setIsErroneous(true);
+			break;
 		}
 
 		if (template.getLengthRestriction() != null) {

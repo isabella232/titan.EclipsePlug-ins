@@ -194,6 +194,7 @@ public final class Float_Type extends ASN1Type {
 			default:
 				value.getLocation().reportSemanticError(FLOATVALUEEXPECTED);
 				value.setIsErroneous(true);
+				break;
 			}
 		}
 
@@ -377,6 +378,7 @@ public final class Float_Type extends ASN1Type {
 				break;
 			default:
 				error = true;
+				break;
 			}
 			++i;
 		}

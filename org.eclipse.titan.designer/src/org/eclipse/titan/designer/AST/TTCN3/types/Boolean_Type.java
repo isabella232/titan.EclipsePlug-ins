@@ -159,6 +159,7 @@ public final class Boolean_Type extends ASN1Type {
 				value.getLocation().reportSemanticError(BOOLEANVALUEEXPECTED1);
 			}
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

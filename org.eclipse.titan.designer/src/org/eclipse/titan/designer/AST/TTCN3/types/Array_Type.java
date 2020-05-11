@@ -506,6 +506,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		default:
 			value.getLocation().reportSemanticError(ARRAYVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		value.setLastTimeChecked(timestamp);

@@ -431,6 +431,7 @@ public final class Anytype_Type extends Type {
 		default:
 			value.getLocation().reportSemanticError(MessageFormat.format(ANYTYPEEXPECTED, getFullName()));
 			value.setIsErroneous(true);
+			break;
 		}
 
 		value.setLastTimeChecked(timestamp);

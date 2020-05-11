@@ -141,6 +141,7 @@ public final class Verdict_Type extends Type {
 		default:
 			value.getLocation().reportSemanticError(VERDICTVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

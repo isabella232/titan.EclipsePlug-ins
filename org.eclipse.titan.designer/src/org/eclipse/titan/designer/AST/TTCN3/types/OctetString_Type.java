@@ -186,6 +186,7 @@ public final class OctetString_Type extends ASN1Type {
 			default:
 				value.getLocation().reportSemanticError(OCTETSTRINGVALUEEXPECTED3);
 				value.setIsErroneous(true);
+				break;
 			}
 		}
 

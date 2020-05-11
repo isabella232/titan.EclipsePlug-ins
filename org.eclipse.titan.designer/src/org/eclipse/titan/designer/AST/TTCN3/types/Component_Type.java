@@ -269,6 +269,7 @@ public final class Component_Type extends Type {
 		default:
 			value.getLocation().reportSemanticError(COMPONENTVALUEEXPECTED);
 			value.setIsErroneous(true);
+			break;
 		}
 
 		value.setLastTimeChecked(timestamp);

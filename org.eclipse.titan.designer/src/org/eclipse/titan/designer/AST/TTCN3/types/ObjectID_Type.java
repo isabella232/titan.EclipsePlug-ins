@@ -167,6 +167,7 @@ public final class ObjectID_Type extends ASN1Type {
 				value.getLocation().reportSemanticError(OBJIDVALUEEXPECTED2);
 			}
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {

@@ -384,6 +384,7 @@ public final class SetOf_Type extends AbstractOfType {
 				value.getLocation().reportSemanticError(SETOFVALUEEXPECTED2);
 			}
 			value.setIsErroneous(true);
+			break;
 		}
 
 		if (valueCheckingOptions.sub_check) {
