@@ -986,7 +986,7 @@ public final class Component_Type extends Type {
 
 		final String globalVariable = MessageFormat.format("\tpublic static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, getGenNameValue(aData, source));
 		if (localTarget == null) {
-			aData.addGlobalVariable(descriptorName, globalVariable.toString());
+			aData.addGlobalVariable(descriptorName, globalVariable);
 		} else {
 			localTarget.append(globalVariable);
 		}
