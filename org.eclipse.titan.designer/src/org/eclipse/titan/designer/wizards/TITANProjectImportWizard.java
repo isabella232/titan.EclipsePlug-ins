@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -33,7 +32,6 @@ import org.eclipse.titan.designer.wizards.GUIProjectImporter.ProjectInformation;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.PreferencesUtil;
-import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 /**
@@ -48,7 +46,6 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 	private TITANProjectImportPage newProjectPage;
 	private TITANProjectImportRecursivelyPage recursivelyPage;
 	private final boolean wasAutoBuilding;
-	private IConfigurationElement config;
 
 	public TITANProjectImportWizard() {
 		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
@@ -146,7 +143,6 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		BasicNewProjectResourceWizard.updatePerspective(config);
 		selectAndReveal(newProject);
 
 		final ProjectInformation information = mainPage.getInformation();
