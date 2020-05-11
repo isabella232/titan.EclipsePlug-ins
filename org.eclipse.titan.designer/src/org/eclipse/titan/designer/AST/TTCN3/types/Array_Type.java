@@ -1251,7 +1251,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	/** {@inheritDoc} */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (inTypeDefinition) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		} else if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
 			lastBuildTimestamp = aData.getBuildTimstamp();

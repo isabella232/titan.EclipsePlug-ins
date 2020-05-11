@@ -717,7 +717,7 @@ public final class Signature_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
-		String baseName = getGenNameTypeName(aData, source);
+		final String baseName = getGenNameTypeName(aData, source);
 		return baseName + "." + getGenNameOwn();
 	}
 

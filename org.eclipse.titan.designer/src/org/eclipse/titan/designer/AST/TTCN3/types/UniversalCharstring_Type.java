@@ -561,7 +561,7 @@ public final class UniversalCharstring_Type extends Type {
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
 				|| hasEncodeAttribute("JSON")) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -576,7 +576,7 @@ public final class UniversalCharstring_Type extends Type {
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 

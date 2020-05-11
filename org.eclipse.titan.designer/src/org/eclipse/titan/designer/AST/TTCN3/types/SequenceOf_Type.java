@@ -1149,7 +1149,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
 		final boolean force_gen_seof = aData.getForceGenSeof();
 		if (force_gen_seof) {
-			String baseName = getGenNameTypeName(aData, source);
+			final String baseName = getGenNameTypeName(aData, source);
 			return baseName + "." + getGenNameOwn();
 		} else {
 			final IType ofType = getOfType();
@@ -1181,7 +1181,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				return getGenNameOwn(aData);
 			default:
-				String baseName = getGenNameTypeName(aData, source);
+				final String baseName = getGenNameTypeName(aData, source);
 				return baseName + "." + getGenNameOwn();
 			}
 		}

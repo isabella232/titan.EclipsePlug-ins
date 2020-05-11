@@ -345,7 +345,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
 				|| (!isAsn() && hasEncodeAttribute("JSON"))) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -360,7 +360,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 

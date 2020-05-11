@@ -928,7 +928,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 					getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'metainfo for unbound' will be ignored, because the {0} is encoded without field names.", refdLast.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE ? "record" : "set"));
 				} else {
 					for (int i = 0; i < nofComponents; i++) {
-						Type componentType = last.getComponentByIndex(i).getType();
+						final Type componentType = last.getComponentByIndex(i).getType();
 						if (componentType.jsonAttribute == null) {
 							componentType.jsonAttribute = new JsonAST();
 						}
@@ -1193,7 +1193,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
 				|| (!isAsn() && hasEncodeAttribute("JSON"))) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -1208,7 +1208,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 

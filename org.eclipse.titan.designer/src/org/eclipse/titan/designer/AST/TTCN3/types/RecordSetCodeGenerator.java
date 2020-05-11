@@ -2113,7 +2113,7 @@ public final class RecordSetCodeGenerator {
 					source.append("\t\t\t\t\t\t\tint chosen_field = CHOSEN_FIELD_UNSET;\n");
 					int j;
 					for (j = 0; j < fieldInfos.get(i).jsonChosen.size(); j++) {
-						rawAST_coding_taglist cur_choice =	fieldInfos.get(i).jsonChosen.get(j);
+						final rawAST_coding_taglist cur_choice =	fieldInfos.get(i).jsonChosen.get(j);
 						if (cur_choice.fields.size() > 0) {
 							/* this is a normal rule */
 							if (first_value) {

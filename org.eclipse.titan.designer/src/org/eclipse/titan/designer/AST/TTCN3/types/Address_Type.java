@@ -366,7 +366,7 @@ public final class Address_Type extends Type implements IReferencingType {
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())
 				|| hasEncodeAttribute("JSON")) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -381,7 +381,7 @@ public final class Address_Type extends Type implements IReferencingType {
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 
