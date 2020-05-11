@@ -1605,7 +1605,9 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\telse {\n");
 			source.append("\t\t\t\t\tfinal int ret_val = get_at(i).JSON_encode(p_td.oftype_descr, p_tok, p_td.json.isAs_map());\n");
-			source.append("\t\t\t\t\tif (0 > ret_val) break;\n");
+			source.append("\t\t\t\t\tif (0 > ret_val) {\n");
+			source.append("\t\t\t\t\t\tbreak;\n");
+			source.append("\t\t\t\t\t}\n");
 			source.append("\t\t\t\t\tenc_len += ret_val;\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t}\n");
