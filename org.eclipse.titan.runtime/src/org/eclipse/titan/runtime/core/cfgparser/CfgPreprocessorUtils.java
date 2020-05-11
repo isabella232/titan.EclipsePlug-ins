@@ -28,7 +28,7 @@ public class CfgPreprocessorUtils {
 	 */
 	static String get_macro_id_from_ref(final String str) {
 		if (str != null && str.charAt(0) == '$' && str.charAt(1) == '{') {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			int i = 2;
 			// skip over the whitespaces after the brace
 			while (str.charAt(i) == ' ' || str.charAt(i) == '\t') {
@@ -392,7 +392,7 @@ public class CfgPreprocessorUtils {
 		return (state == string_state.ALPHANUM || state == string_state.DOT);
 	}
 
-	public static boolean string_is_bool(String typedMacroValue) {
+	public static boolean string_is_bool(final String typedMacroValue) {
 		if ("true".equals(typedMacroValue)) {
 			return true;
 		}

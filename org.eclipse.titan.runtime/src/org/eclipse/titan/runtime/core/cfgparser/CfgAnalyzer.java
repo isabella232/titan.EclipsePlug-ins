@@ -122,9 +122,10 @@ public final class CfgAnalyzer {
 					// preparsing modified the cfg file, so use the temp.cfg instead
 					file = preparsedFile;
 				}
+
 				config_preproc_error = preprocessor.get_error_flag();
-				ConfigCharsetDetector detector = new ConfigCharsetDetector(file);
-				String detectedCharset = detector.detectCharSet();
+				final ConfigCharsetDetector detector = new ConfigCharsetDetector(file);
+				final String detectedCharset = detector.detectCharSet();
 				if (detectedCharset == null) {
 					reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "ISO-8859-1"));
 				} else {

@@ -26,7 +26,8 @@ public final class DefineSectionHandler {
 
 	private Map<String, List<Token>> definitions = new LinkedHashMap<String, List<Token>>();
 	private CommonTokenStream tokenStream;
-	public DefineSectionHandler(CommonTokenStream tokenStream) {
+
+	public DefineSectionHandler(final CommonTokenStream tokenStream) {
 		this.tokenStream = tokenStream;
 	}
 
@@ -52,7 +53,7 @@ public final class DefineSectionHandler {
 	 * @param aDefinition macro or environment variable
 	 * @return macro or environment variable value token list, or null if there is no such definition
 	 */
-	public List<Token> getDefinitionTokens(String aDefinition){
+	public List<Token> getDefinitionTokens(final String aDefinition){
 		if ( definitions != null && definitions.containsKey( aDefinition ) ) {
 			return definitions.get( aDefinition );
 		} else {

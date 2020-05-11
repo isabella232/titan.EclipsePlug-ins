@@ -180,8 +180,8 @@ public class CfgPreProcessor {
 	 */
 	private StringBuilder preparseDefine(final StringBuilder in, final AtomicBoolean modified, final CFGListener listener) {
 		// collect defines
-		StringReader reader = new StringReader( in.toString() );
-		CommonTokenStream tokenStream = CfgAnalyzer.createTokenStream(reader, listener);
+		final StringReader reader = new StringReader( in.toString() );
+		final CommonTokenStream tokenStream = CfgAnalyzer.createTokenStream(reader, listener);
 		RuntimeCfgPreParser parser = new RuntimeCfgPreParser( tokenStream );
 
 		if ( listener != null ) {
@@ -203,7 +203,7 @@ public class CfgPreProcessor {
 		}
 
 		// we can use the lexer which was created for the parser
-		StringBuilder out = resolveMacros(tokenStream, modified);
+		final StringBuilder out = resolveMacros(tokenStream, modified);
 		reader.close();
 		return out;
 	}
@@ -643,7 +643,7 @@ public class CfgPreProcessor {
 	 */
 	private static void writeOct(final StringBuilder out, final TitanOctetString oct) {
 		out.append('\'');
-		byte[] val_ptr = oct.get_value();
+		final byte[] val_ptr = oct.get_value();
 		final int size = val_ptr.length;
 		for (int i = 0; i < size; i++) {
 			final int digit = val_ptr[i];

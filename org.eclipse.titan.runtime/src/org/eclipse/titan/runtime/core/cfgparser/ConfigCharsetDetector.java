@@ -40,8 +40,8 @@ public final class ConfigCharsetDetector {
 		try {
 			file_input = new FileInputStream(p_file);
 			file_channel = file_input.getChannel();
-			int file_size = (int) (file_channel.size());
-			MappedByteBuffer buffer = file_channel.map(MapMode.READ_ONLY, 0, file_size);
+			final int file_size = (int) (file_channel.size());
+			final MappedByteBuffer buffer = file_channel.map(MapMode.READ_ONLY, 0, file_size);
 			char_bytes = new byte[file_size];
 			buffer.get(char_bytes);
 			/**
@@ -85,7 +85,7 @@ public final class ConfigCharsetDetector {
 			}
 		}
 
-		String detectedBom = detectBOM();
+		final String detectedBom = detectBOM();
 		if (detectedBom != null) {
 			return detectedBom;
 		}
@@ -124,10 +124,10 @@ public final class ConfigCharsetDetector {
 	private boolean isUTF8() {
 		int code_length = 0;
 		int i = 0;
-		int data_length = char_bytes.length;
+		final int data_length = char_bytes.length;
 		int ch = 0;
 		while (i != data_length) {
-			int temp_byte = char_bytes[i] & 0xFF;
+			final int temp_byte = char_bytes[i] & 0xFF;
 			if (temp_byte <= 0x7F) {
 				// 1 byte sequence : 0xxxxxxx
 				i++;
