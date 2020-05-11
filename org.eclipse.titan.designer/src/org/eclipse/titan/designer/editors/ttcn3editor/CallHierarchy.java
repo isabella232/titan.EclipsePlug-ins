@@ -97,7 +97,7 @@ public class CallHierarchy {
 	/**
 	 * The selected CallHierarchyNode. Setting in the {@link #functionCallFinder(ISelection)} and the {@link #setcurrentNode()}.
 	 */
-	private static CallHierarchyNode currentNode = null;
+	private CallHierarchyNode currentNode = null;
 
 	/**
 	 * Store the search history.
