@@ -290,8 +290,8 @@ public class Cli extends UserInterface {
 		do {
 			try {
 				String line_read = console_reader.readLine();
-				line_read = line_read.trim();
 				if (line_read != null) {
+					line_read = line_read.trim();
 					processCommand(line_read);
 					line_read = null;
 				} else {
