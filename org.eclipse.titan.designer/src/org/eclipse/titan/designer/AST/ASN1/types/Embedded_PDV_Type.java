@@ -281,7 +281,7 @@ public final class Embedded_PDV_Type extends ASN1Type implements IReferencingTyp
 		if (rawAttribute != null || jsonAttribute != null ||
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -296,7 +296,7 @@ public final class Embedded_PDV_Type extends ASN1Type implements IReferencingTyp
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 

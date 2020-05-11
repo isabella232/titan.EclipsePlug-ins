@@ -286,7 +286,7 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 		if (rawAttribute != null || jsonAttribute != null ||
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -301,7 +301,7 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 

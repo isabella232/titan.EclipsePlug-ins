@@ -364,7 +364,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 		if (rawAttribute != null || jsonAttribute != null ||
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -379,7 +379,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 

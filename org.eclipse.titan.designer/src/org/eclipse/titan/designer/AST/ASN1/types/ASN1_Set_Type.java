@@ -1118,7 +1118,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
-		String baseName = getGenNameTypeName(aData, source);
+		final String baseName = getGenNameTypeName(aData, source);
 		return baseName + "." + getGenNameOwn();
 	}
 

@@ -379,7 +379,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 		if (rawAttribute != null || jsonAttribute != null ||
 				hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
 			if (needsAlias()) {
-				String baseName = getGenNameOwn(aData);
+				final String baseName = getGenNameOwn(aData);
 				return baseName + "." + getGenNameOwn();
 			} else if (getParentType() != null) {
 				final IType parentType = getParentType();
@@ -394,7 +394,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 		}
 
 		if (needsAlias()) {
-			String baseName = getGenNameOwn(aData);
+			final String baseName = getGenNameOwn(aData);
 			return baseName + "." + getGenNameOwn();
 		}
 

@@ -170,8 +170,8 @@ public final class CTs_EE_CTs extends ASTNode {
 
 		lastTimeChecked = timestamp;
 
-		ArrayList<CompField> newComponents = new ArrayList<CompField>();
-		HashMap<String, CompField> newComponentsMap = new HashMap<String, CompField>();
+		final ArrayList<CompField> newComponents = new ArrayList<CompField>();
+		final HashMap<String, CompField> newComponentsMap = new HashMap<String, CompField>();
 
 		String typeName;
 		String componentName;
