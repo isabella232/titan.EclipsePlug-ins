@@ -264,6 +264,7 @@ public final class GreaterThanOrEqualExpression extends Expression_Value {
 		}
 		default:
 			setIsErroneous(true);
+			break;
 		}
 
 		return lastValue;

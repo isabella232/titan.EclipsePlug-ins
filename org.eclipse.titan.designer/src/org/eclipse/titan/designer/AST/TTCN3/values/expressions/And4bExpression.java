@@ -259,6 +259,7 @@ public final class And4bExpression extends Expression_Value {
 				break;
 			default:
 				setIsErroneous(true);
+				break;
 			}
 		}
 	}

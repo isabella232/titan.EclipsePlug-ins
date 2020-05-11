@@ -259,6 +259,7 @@ public final class Xor4bExpression extends Expression_Value {
 				break;
 			default:
 				setIsErroneous(true);
+				break;
 			}
 		}
 	}

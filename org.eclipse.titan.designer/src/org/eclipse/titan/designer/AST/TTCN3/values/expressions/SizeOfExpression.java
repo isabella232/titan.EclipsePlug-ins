@@ -681,6 +681,7 @@ public final class SizeOfExpression extends Expression_Value {
 						break;
 					default:
 						++result;
+						break;
 					}
 				}
 				return result;
@@ -700,6 +701,7 @@ public final class SizeOfExpression extends Expression_Value {
 					break;
 				default:
 					++result;
+					break;
 				}
 			}
 			return result;
