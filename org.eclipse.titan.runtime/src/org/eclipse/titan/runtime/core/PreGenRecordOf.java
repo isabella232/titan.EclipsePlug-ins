@@ -74619,13 +74619,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 				mp = new Module_Param_AnyOrNone();
 				break;
 			case SPECIFIC_VALUE: {
-				Module_Parameter mp_field = null;
-				switch(single_value_union_selection) {
-				default:
-					break;
-				}
 				mp = new Module_Param_Assignment_List();
-				mp.add_elem(mp_field);
 				break;
 			}
 			case VALUE_LIST:
