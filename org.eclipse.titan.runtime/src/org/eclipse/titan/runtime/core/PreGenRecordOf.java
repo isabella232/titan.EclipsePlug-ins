@@ -637,8 +637,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__INTEGER__OPTIMIZED ret_val = new PREGEN__RECORD__OF__INTEGER__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanInteger(valueElements.get(i+index)));
+				final TitanInteger elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
 			return ret_val;
@@ -2878,8 +2879,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING","element");
 			final PREGEN__SET__OF__UNIVERSAL__CHARSTRING ret_val = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanUniversalCharString(valueElements.get(i+index)));
+				final TitanUniversalCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
 			return ret_val;
@@ -5247,8 +5249,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__OCTETSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanOctetString(valueElements.get(i+index)));
+				final TitanOctetString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
 			return ret_val;
@@ -7503,8 +7506,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT","element");
 			final PREGEN__RECORD__OF__FLOAT ret_val = new PREGEN__RECORD__OF__FLOAT(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanFloat(valueElements.get(i+index)));
+				final TitanFloat elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
 			return ret_val;
@@ -9759,8 +9763,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING","element");
 			final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING ret_val = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanUniversalCharString(valueElements.get(i+index)));
+				final TitanUniversalCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
 			return ret_val;
@@ -12015,8 +12020,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING","element");
 			final PREGEN__RECORD__OF__BITSTRING ret_val = new PREGEN__RECORD__OF__BITSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBitString(valueElements.get(i+index)));
+				final TitanBitString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
 			return ret_val;
@@ -14271,8 +14277,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED ret_val = new PREGEN__RECORD__OF__BOOLEAN__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBoolean(valueElements.get(i+index)));
+				final TitanBoolean elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
 			return ret_val;
@@ -16527,8 +16534,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING","element");
 			final PREGEN__RECORD__OF__CHARSTRING ret_val = new PREGEN__RECORD__OF__CHARSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanCharString(valueElements.get(i+index)));
+				final TitanCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
 			return ret_val;
@@ -18783,8 +18791,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BOOLEAN","element");
 			final PREGEN__RECORD__OF__BOOLEAN ret_val = new PREGEN__RECORD__OF__BOOLEAN(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBoolean(valueElements.get(i+index)));
+				final TitanBoolean elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
 			return ret_val;
@@ -21039,8 +21048,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_BITSTRING_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__BITSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__BITSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBitString(valueElements.get(i+index)));
+				final TitanBitString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
 			return ret_val;
@@ -23295,8 +23305,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_INTEGER","element");
 			final PREGEN__RECORD__OF__INTEGER ret_val = new PREGEN__RECORD__OF__INTEGER(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanInteger(valueElements.get(i+index)));
+				final TitanInteger elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
 			return ret_val;
@@ -25536,8 +25547,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_UNIVERSAL_CHARSTRING_OPTIMIZED","element");
 			final PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanUniversalCharString(valueElements.get(i+index)));
+				final TitanUniversalCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
 			return ret_val;
@@ -27890,8 +27902,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN","element");
 			final PREGEN__SET__OF__BOOLEAN ret_val = new PREGEN__SET__OF__BOOLEAN(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBoolean(valueElements.get(i+index)));
+				final TitanBoolean elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
 			return ret_val;
@@ -30244,8 +30257,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_FLOAT_OPTIMIZED","element");
 			final PREGEN__SET__OF__FLOAT__OPTIMIZED ret_val = new PREGEN__SET__OF__FLOAT__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanFloat(valueElements.get(i+index)));
+				final TitanFloat elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
 			return ret_val;
@@ -32598,8 +32612,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_INTEGER","element");
 			final PREGEN__SET__OF__INTEGER ret_val = new PREGEN__SET__OF__INTEGER(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanInteger(valueElements.get(i+index)));
+				final TitanInteger elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
 			return ret_val;
@@ -34952,8 +34967,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING","element");
 			final PREGEN__SET__OF__CHARSTRING ret_val = new PREGEN__SET__OF__CHARSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanCharString(valueElements.get(i+index)));
+				final TitanCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
 			return ret_val;
@@ -37321,8 +37337,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_UNIVERSAL_CHARSTRING_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__UNIVERSAL__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanUniversalCharString(valueElements.get(i+index)));
+				final TitanUniversalCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanUniversalCharString(elem));
 				}
 			}
 			return ret_val;
@@ -39562,8 +39579,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING","element");
 			final PREGEN__SET__OF__HEXSTRING ret_val = new PREGEN__SET__OF__HEXSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanHexString(valueElements.get(i+index)));
+				final TitanHexString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
 			return ret_val;
@@ -41916,8 +41934,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_HEXSTRING_OPTIMIZED","element");
 			final PREGEN__SET__OF__HEXSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__HEXSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanHexString(valueElements.get(i+index)));
+				final TitanHexString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
 			return ret_val;
@@ -44270,8 +44289,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING","element");
 			final PREGEN__SET__OF__OCTETSTRING ret_val = new PREGEN__SET__OF__OCTETSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanOctetString(valueElements.get(i+index)));
+				final TitanOctetString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
 			return ret_val;
@@ -46624,8 +46644,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_FLOAT","element");
 			final PREGEN__SET__OF__FLOAT ret_val = new PREGEN__SET__OF__FLOAT(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanFloat(valueElements.get(i+index)));
+				final TitanFloat elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
 			return ret_val;
@@ -48978,8 +48999,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_INTEGER_OPTIMIZED","element");
 			final PREGEN__SET__OF__INTEGER__OPTIMIZED ret_val = new PREGEN__SET__OF__INTEGER__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanInteger(valueElements.get(i+index)));
+				final TitanInteger elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanInteger(elem));
 				}
 			}
 			return ret_val;
@@ -51332,8 +51354,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_OCTETSTRING_OPTIMIZED","element");
 			final PREGEN__SET__OF__OCTETSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__OCTETSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanOctetString(valueElements.get(i+index)));
+				final TitanOctetString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
 			return ret_val;
@@ -53701,8 +53724,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_OCTETSTRING","element");
 			final PREGEN__RECORD__OF__OCTETSTRING ret_val = new PREGEN__RECORD__OF__OCTETSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanOctetString(valueElements.get(i+index)));
+				final TitanOctetString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanOctetString(elem));
 				}
 			}
 			return ret_val;
@@ -55957,8 +55981,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING","element");
 			final PREGEN__RECORD__OF__HEXSTRING ret_val = new PREGEN__RECORD__OF__HEXSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanHexString(valueElements.get(i+index)));
+				final TitanHexString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
 			return ret_val;
@@ -58198,8 +58223,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_CHARSTRING_OPTIMIZED","element");
 			final PREGEN__SET__OF__CHARSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanCharString(valueElements.get(i+index)));
+				final TitanCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
 			return ret_val;
@@ -60552,8 +60578,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING","element");
 			final PREGEN__SET__OF__BITSTRING ret_val = new PREGEN__SET__OF__BITSTRING(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBitString(valueElements.get(i+index)));
+				final TitanBitString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
 			return ret_val;
@@ -62906,8 +62933,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BOOLEAN_OPTIMIZED","element");
 			final PREGEN__SET__OF__BOOLEAN__OPTIMIZED ret_val = new PREGEN__SET__OF__BOOLEAN__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBoolean(valueElements.get(i+index)));
+				final TitanBoolean elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBoolean(elem));
 				}
 			}
 			return ret_val;
@@ -65275,8 +65303,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_CHARSTRING_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__CHARSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanCharString(valueElements.get(i+index)));
+				final TitanCharString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanCharString(elem));
 				}
 			}
 			return ret_val;
@@ -67531,8 +67560,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_FLOAT_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__FLOAT__OPTIMIZED ret_val = new PREGEN__RECORD__OF__FLOAT__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanFloat(valueElements.get(i+index)));
+				final TitanFloat elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanFloat(elem));
 				}
 			}
 			return ret_val;
@@ -69772,8 +69802,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_SET_OF_BITSTRING_OPTIMIZED","element");
 			final PREGEN__SET__OF__BITSTRING__OPTIMIZED ret_val = new PREGEN__SET__OF__BITSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanBitString(valueElements.get(i+index)));
+				final TitanBitString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanBitString(elem));
 				}
 			}
 			return ret_val;
@@ -72141,8 +72172,9 @@ public final class PreGenRecordOf extends TTCN_Module {
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@PreGenRecordOf.PREGEN_RECORD_OF_HEXSTRING_OPTIMIZED","element");
 			final PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED ret_val = new PREGEN__RECORD__OF__HEXSTRING__OPTIMIZED(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
-				if (valueElements.get(i+index) != null) {
-					ret_val.valueElements.add(new TitanHexString(valueElements.get(i+index)));
+				final TitanHexString elem = valueElements.get(i+index);
+				if (elem != null) {
+					ret_val.valueElements.add(new TitanHexString(elem));
 				}
 			}
 			return ret_val;
