@@ -911,7 +911,7 @@ control {
 //  execute(tc_asn_objid_and_any());
 //  execute(tc_asn_optional_null());
   
-//  execute(tc_binary_strings_with_white_spaces());
+  execute(tc_binary_strings_with_white_spaces());
   execute(tc_binary_strings_with_invalid_chars());
   
   execute(tc_type_alias_record());

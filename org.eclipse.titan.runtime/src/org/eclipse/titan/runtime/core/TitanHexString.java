@@ -775,7 +775,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	static boolean isxdigit(final char hexdigit) {
-		return HEX_DIGITS.indexOf(hexdigit) >= 0;
+		return HEX_DIGITS.indexOf(Character.toUpperCase(hexdigit)) >= 0;
 	}
 
 	private void init_struct(final int n_nibbles) {
