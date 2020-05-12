@@ -1078,8 +1078,9 @@ public final class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tAdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, \"{0}\",\"element\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\t\tfinal {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		source.append("\t\t\tfor (int i=0; i<returncount; i++) {\n");
-		source.append("\t\t\t\tif (valueElements.get(i+index) != null) {\n");
-		source.append( MessageFormat.format( "\t\t\t\t\tret_val.valueElements.add(new {0}(valueElements.get(i+index)));\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\t\tfinal {0} elem = valueElements.get(i+index);\n", ofTypeName ) );
+		source.append("\t\t\t\tif (elem != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeName ) );
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn ret_val;\n");
