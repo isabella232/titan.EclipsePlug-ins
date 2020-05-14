@@ -7,6 +7,7 @@ parser grammar Asn1Parser;
 	import org.eclipse.core.resources.IFile;
 	import org.eclipse.core.resources.IMarker;
 	import org.eclipse.core.resources.IProject;
+	import org.eclipse.titan.common.parsers.CharstringExtractor;
 	import org.eclipse.titan.common.parsers.TITANMarker;
 	import org.eclipse.titan.designer.AST.*;
 	import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
@@ -1895,8 +1896,13 @@ pr_Val_CString returns[Charstring_Value value]
 @init { $value = null; }:
 	CSTRING
 {
-	String temp = $start.getText();
-	$value = new Charstring_Value(temp.substring(1, temp.length() - 1));
+	final String temp = $start.getText();
+	final CharstringExtractor cse = new CharstringExtractor( temp );
+	final String extracted = cse.getExtractedString();
+	if ( cse.isErroneous() ) {
+		reportUnsupportedConstruct( cse.getErrorMessage(), $start, $start );
+	}
+	$value = new Charstring_Value(extracted);
 	$value.setLocation(getLocation($start, $start));
 };
 
