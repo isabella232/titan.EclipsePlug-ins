@@ -487,7 +487,7 @@ public class TitanObjectid extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		} else if (json_token_t.JSON_TOKEN_NUMBER == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
 			if (use_default || (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
 				if (!use_default) {
 					// The default value doesn't have quotes around it
@@ -496,9 +496,7 @@ public class TitanObjectid extends Base_Type {
 					value.append( valueWithoutQuotes );
 					value_len.set(value.length());
 				}
-				// need a null-terminated string
-				final String value2 = value.toString() + value_len.get();
-				from_string(value2);
+				from_string(value.toString());
 			}
 		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
