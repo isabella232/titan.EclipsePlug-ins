@@ -341,7 +341,7 @@ public class CallHierarchy {
 			}
 
 			final Reference reference = (Reference) node;
-			final Assignment referedAssignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+			final Assignment referedAssignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 			if(referedAssignment == null) {
 				return V_CONTINUE;
