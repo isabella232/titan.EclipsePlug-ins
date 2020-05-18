@@ -872,10 +872,10 @@ control {
 //  execute(tc_charstring_ascii_extended1()); //TODO: Dynamic test case error: Internal error: Default counter cannot be reset when the control part defaults are saved.
 
   execute(tc_ucharstring_empty());
-//  execute(tc_ucharstring_ascii_extended1_xer());
-//  execute(tc_ucharstring_ascii_extended1());
-//  execute(tc_ucharstring_ascii_extended2());
-//  execute(tc_ucharstring_ascii_extended3());
+//  execute(tc_ucharstring_ascii_extended1_xer()); //error
+  execute(tc_ucharstring_ascii_extended1());
+  execute(tc_ucharstring_ascii_extended2());
+  execute(tc_ucharstring_ascii_extended3());
 //  execute(tc_ucharstring_higherplanes());
   execute(tc_octetstring_empty());
   execute(tc_octetstring_nonempty());
@@ -888,28 +888,28 @@ control {
   execute(tc_record());
   execute(tc_record_const());
   execute(tc_record_modulepar());
-//  execute(tc_record_empty());
+  execute(tc_record_empty());
   execute(tc_recordofinteger_empty());
   execute(tc_recordofinteger_short());
   execute(tc_recordoffloat_empty());
   execute(tc_recordoffloat_short());
   execute(tc_recordofCS_empty());
   execute(tc_recordofCS_short());
-//  execute(tc_array_int());
-//  execute(tc_array_float());
-//  execute(tc_array_str());
+  execute(tc_array_int());
+  execute(tc_array_float());
+  execute(tc_array_str());
   execute(tc_union());
   execute(tc_union2());
   execute(tc_union_false());
 
   execute(tc_asn_seqof());
-//  execute(tc_asn_seq());
-//  execute(tc_asn_choice());
-//  execute(tc_asn_strings());
-//  execute(tc_asn_complex());
+  execute(tc_asn_seq());
+  execute(tc_asn_choice());
+  execute(tc_asn_strings());
+  execute(tc_asn_complex());
 //  execute(tc_asn_open_type_and_null()); //java bug
-//  execute(tc_asn_objid_and_any());
-//  execute(tc_asn_optional_null());
+  execute(tc_asn_objid_and_any());
+  execute(tc_asn_optional_null());
   
   execute(tc_binary_strings_with_white_spaces());
   execute(tc_binary_strings_with_invalid_chars());
