@@ -2475,11 +2475,11 @@ public class TitanUniversalCharString extends Base_Type {
 
 		final String tmp_str;
 		if (charstring) {
-			tmp_str = TitanCharString.to_JSON_string(cstr, p_td.json.escaping);
+			tmp_str = TitanCharString.to_JSON_string(cstr, p_td.json.getEscaping());
 		} else {
 			final TTCN_Buffer tmp_buf = new TTCN_Buffer();
 			encode_utf8(tmp_buf);
-			tmp_str = to_JSON_string(tmp_buf, p_td.json.escaping);
+			tmp_str = to_JSON_string(tmp_buf, p_td.json.getEscaping());
 		}
 
 		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);

@@ -1244,7 +1244,7 @@ public class TitanCharString extends Base_Type {
 			return -1;
 		}
 
-		final String tmp_str = to_JSON_string(val_ptr, p_td.json.escaping);
+		final String tmp_str = to_JSON_string(val_ptr, p_td.json.getEscaping());
 		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_STRING, tmp_str);
 		return enc_len;
 	}

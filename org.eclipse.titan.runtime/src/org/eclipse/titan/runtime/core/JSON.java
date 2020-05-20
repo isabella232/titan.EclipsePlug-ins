@@ -120,7 +120,7 @@ public class JSON {
 		 * a non-optional universal charstring.
 		 * Example: { "key1" : value1, "key2" : value2 }
 		 */
-		private boolean as_map;
+		private final boolean as_map;
 
 		/**
 		 * Number of enumerated values whose texts are changed.
@@ -133,10 +133,10 @@ public class JSON {
 		private final List<JsonEnumText> enum_texts;
 
 		/** If set, encodes this value as the JSON literal 'null'. */
-		boolean use_null;
+		private final boolean use_null;
 
 		/** Setting for escaping of special characters in character strings */
-		json_string_escaping escaping;
+		private final json_string_escaping escaping;
 
 		public TTCN_JSONdescriptor(final boolean omit_as_null,
 				final String alias,
@@ -155,6 +155,7 @@ public class JSON {
 			this.default_value = default_value;
 			this.metainfo_unbound = metainfo_unbound;
 			this.as_number = as_number;
+			this.as_map = as_map;
 			this.nof_enum_texts = nof_enum_texts;
 			this.enum_texts = enum_texts;
 			this.use_null = use_null;
@@ -177,6 +178,7 @@ public class JSON {
 			this.default_value = default_value;
 			this.metainfo_unbound = metainfo_unbound;
 			this.as_number = as_number;
+			this.as_map = as_map;
 			this.nof_enum_texts = nof_enum_texts;
 			this.enum_texts = enum_texts;
 			this.use_null = false;
