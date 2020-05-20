@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+import org.eclipse.titan.runtime.core.cfgparser.StandardCharsets;
 
 /**
  * Buffer used by the different encoders/decoders.
@@ -21,6 +22,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * TODO too frequent array access might be optimized with temporal variables
  *
  * @author Farkas Izabella Ingrid
+ * @author Arpad Lovassy
  */
 public final class TTCN_Buffer {
 	final static private int INITIAL_SIZE = 1024;
@@ -506,11 +508,7 @@ public final class TTCN_Buffer {
 	public void get_string(final TitanCharString p_cs) {
 		p_cs.clean_up();
 		if (buf_len > 0) {
-			final StringBuilder str = new StringBuilder();
-			for (int i = 0; i < buf_len; i++) {
-				str.append(data_ptr[i] & 0xFF);
-			}
-			p_cs.operator_assign(str.toString());
+			p_cs.operator_assign(new String(get_data()));
 		} else {
 			p_cs.operator_assign("");
 		}
