@@ -1269,7 +1269,11 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		if (needsOwnJsonDescriptor(aData)) {
-			return getGenNameOwn(aData) + "_json_";
+			if (needsAlias()) {
+				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";
+			} else {
+				return getGenNameOwn(aData) + "_json_";
+			}
 		}
 
 		return refd.getGenNameJsonDescriptor(aData, source);

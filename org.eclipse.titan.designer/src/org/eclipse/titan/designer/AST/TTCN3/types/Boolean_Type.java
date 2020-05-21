@@ -408,7 +408,11 @@ public final class Boolean_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public String getGenNameJsonDescriptor(final JavaGenData aData, final StringBuilder source) {
 		if (needsOwnJsonDescriptor(aData)) {
-			return getGenNameOwn(aData) + "_json_";
+			if (needsAlias()) {
+				return getGenNameOwn(aData) + "." + getGenNameOwn() + "_json_";
+			} else {
+				return getGenNameOwn(aData) + "_json_";
+			}
 		}
 
 		aData.addBuiltinTypeImport( "TitanBoolean" );
