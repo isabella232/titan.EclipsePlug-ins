@@ -508,7 +508,7 @@ public final class FormalParameter extends Definition {
 	public ActualParameter checkActualParameter(final CompilationTimeStamp timestamp, final TemplateInstance parameter,
 			final Expected_Value_type expectedValue) {
 		if (lastTimeChecked == null) {
-			ErrorReporter.INTERNAL_ERROR("Checking an actual parameter against the not yet check formal parameter: " + getFullName());
+			ErrorReporter.INTERNAL_ERROR("Checking an actual parameter against a not yet checked formal parameter: " + getFullName());
 		}
 
 		switch (realAssignmentType) {
