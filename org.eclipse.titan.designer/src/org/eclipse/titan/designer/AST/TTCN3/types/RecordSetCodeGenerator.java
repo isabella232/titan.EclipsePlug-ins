@@ -2069,7 +2069,7 @@ public final class RecordSetCodeGenerator {
 			if (has_metainfo_enabled) {
 				// check for meta info
 				source.append("boolean is_metainfo = false;\n");
-				source.append("\t\t\t\t\tif (name_len.get() > 9 && \"metainfo \".equals(fld_name.substring(0,name_len.get()))) {\n");
+				source.append("\t\t\t\t\tif (name_len.get() > 9 && \"metainfo \".equals(fld_name.substring(0,9))) {\n");
 				source.append("\t\t\t\t\t\tfinal String s = fld_name.substring(9);\n");
 				source.append("\t\t\t\t\t\tfld_name.setLength(0);\n");
 				source.append("\t\t\t\t\t\tfld_name.append(s);\n");
@@ -2092,7 +2092,7 @@ public final class RecordSetCodeGenerator {
 						source.append("\t\t\t\t\t\t\tfinal StringBuilder info_value = new StringBuilder();\n");
 						source.append("\t\t\t\t\t\t\tfinal AtomicInteger info_len = new AtomicInteger(0);\n");
 						source.append("\t\t\t\t\t\t\tdec_len += p_tok.get_next_token(j_token, info_value, info_len);\n");
-						source.append("\t\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_STRING == j_token.get() && 9 == info_len.get() && \"\\\"unbound\\\"\".equals(info_value)) {\n");
+						source.append("\t\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_STRING == j_token.get() && 9 == info_len.get() && \"\\\"unbound\\\"\".equals(info_value.toString())) {\n");
 						source.append(MessageFormat.format("\t\t\t\t\t\t\t\tmetainfo_{0} = JSON.JSON_METAINFO_UNBOUND;\n", fieldInfos.get(i).mJavaVarName));
 						source.append("\t\t\t\t\t\t\t}\n");
 						source.append("\t\t\t\t\t\t\telse {\n");
