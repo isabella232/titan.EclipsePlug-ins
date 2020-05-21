@@ -1654,6 +1654,7 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_STRING == token.get() && 9 == value_len.get() && \"\\\"unbound\\\"\".equals(value.toString())) {\n");
 			source.append("\t\t\t\t\t\t\t\tret_val = p_tok.get_next_token(token, null, null);\n");
 			source.append("\t\t\t\t\t\t\t\tif (json_token_t.JSON_TOKEN_OBJECT_END == token.get()) {\n");
+			source.append("\t\t\t\t\t\t\t\t\tvalueElements.add(get_unbound_elem());\n");
 			source.append("\t\t\t\t\t\t\t\t\tdec_len += ret_val;\n");
 			source.append("\t\t\t\t\t\t\t\t\tcontinue;\n");
 			source.append("\t\t\t\t\t\t\t\t}\n");
