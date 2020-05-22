@@ -103,17 +103,6 @@ public final class BrokenPartsChecker {
 				ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.USEPARALLELSEMATICCHECKING, true, null);
 		if (useParallelSemanticChecking) {
-			//this is temporary
-			//FIXME some operation is de-stabilizing the parallel processing
-			for (final Module module : modulesToCheck) {
-				if (module instanceof ASN1Module) {
-					final long absoluteStart2 = System.nanoTime();
-					module.check(compilationCounter);
-					final long now = System.nanoTime();
-					TITANDebugConsole.println("" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + "");
-				}
-			}
-
 			// When enabled do a quick parallel checking on the modules, where it is possible.
 			// 2 modules can be checked in parallel if the codes to be checked do not overlap.
 			// Please note, that this will not let all modules be processed in parallel,
@@ -231,7 +220,7 @@ public final class BrokenPartsChecker {
 							final List<Module> importedModules = module.getImportedModules();
 							boolean ok = true;
 							for (final Module importedModule : importedModules) {
-								if (!modulesBeingChecked.contains(importedModule) && !importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
+								if (modulesBeingChecked.contains(importedModule) || (!importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter))) {
 									ok = false;
 									break;
 								}
