@@ -474,7 +474,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			return false;
 		}
 
-		if (!TTCN_Communication.send_log(event.get_field_timestamp__().get_field_seconds().get_int(), event.get_field_timestamp__().get_field_microSeconds().get_int(), event.get_field_severity().get_int(), event_str)) {
+		//FIXME the seconds can be a long, will be needed for the advanced fix of 563289
+		if (!TTCN_Communication.send_log((int)event.get_field_timestamp__().get_field_seconds().get_long(), event.get_field_timestamp__().get_field_microSeconds().get_int(), event.get_field_severity().get_int(), event_str)) {
 			// The event text shall be printed to stderr when there is no control
 			// connection towards MC (e.g. in single mode or in case of network
 			// error).
@@ -684,7 +685,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		return is_success;
 	}
 
-	private static void append_header(final StringBuilder returnValue, final int seconds, final int microseconds, final Severity severity, final StringBuilder sourceInfo) {
+	private static void append_header(final StringBuilder returnValue, final long seconds, final int microseconds, final Severity severity, final StringBuilder sourceInfo) {
 		TTCN_Logger.mputstr_timestamp(returnValue, TTCN_Logger.get_timestamp_format(), seconds, microseconds);
 
 		returnValue.append(' ');
@@ -770,7 +771,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			final int severityIndex = event.get_field_severity().get_int();
 			final Severity severity = Severity.values()[severityIndex];
 			final TimestampType timestamp = event.get_field_timestamp__();
-			append_header(returnValue, timestamp.get_field_seconds().get_int(), timestamp.get_field_microSeconds().get_int(), severity, sourceInfo);
+			append_header(returnValue, timestamp.get_field_seconds().get_long(), timestamp.get_field_microSeconds().get_int(), severity, sourceInfo);
 		}
 
 		final LogEventType_choice choice = event.get_field_logEvent().get_field_choice();

@@ -852,7 +852,7 @@ public final class TTCN_Logger {
 		}
 	}
 
-	public static void mputstr_timestamp(final StringBuilder str, final timestamp_format_t p_timestamp_format, final int seconds, final int microseconds) {
+	public static void mputstr_timestamp(final StringBuilder str, final timestamp_format_t p_timestamp_format, final long seconds, final int microseconds) {
 		switch (p_timestamp_format) {
 		case TIMESTAMP_SECONDS: {
 			final long newSeconds = seconds;
