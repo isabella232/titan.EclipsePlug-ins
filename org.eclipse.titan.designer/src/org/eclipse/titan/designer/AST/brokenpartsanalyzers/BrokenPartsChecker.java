@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.brokenpartsanalyzers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -27,6 +28,7 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ASN1.definitions.ASN1Module;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
@@ -101,6 +103,17 @@ public final class BrokenPartsChecker {
 				ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.USEPARALLELSEMATICCHECKING, true, null);
 		if (useParallelSemanticChecking) {
+			//this is temporary
+			//FIXME some operation is de-stabilizing the parallel processing
+			for (final Module module : modulesToCheck) {
+				if (module instanceof ASN1Module) {
+					final long absoluteStart2 = System.nanoTime();
+					module.check(compilationCounter);
+					final long now = System.nanoTime();
+					TITANDebugConsole.println("" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + "");
+				}
+			}
+
 			// When enabled do a quick parallel checking on the modules, where it is possible.
 			// 2 modules can be checked in parallel if the codes to be checked do not overlap.
 			// Please note, that this will not let all modules be processed in parallel,
@@ -148,9 +161,11 @@ public final class BrokenPartsChecker {
 				modulesToCheckCopy.removeAll(modulesToCheckParallely);
 			}
 
+			final List<Module> modulesBeingChecked = new LinkedList<Module>(modulesToCheckParallely);
+
 			synchronized(modulesToCheckCopy) {
 				for (final Module module : modulesToCheckParallely) {
-					addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, activeExecutorCount, progress);
+					addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
 				}
 			}
 
@@ -189,7 +204,7 @@ public final class BrokenPartsChecker {
 	}
 
 	private static void addToExecutor(final Module module, final ExecutorService executor, final CountDownLatch latch, final CompilationTimeStamp compilationCounter, final long absoluteStart,
-			final List<Module> modulesToCheckCopy, final AtomicInteger activeExecutorCount, final SubMonitor progress) {
+			final List<Module> modulesToCheckCopy, final List<Module> modulesBeingChecked, final AtomicInteger activeExecutorCount, final SubMonitor progress) {
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -200,9 +215,11 @@ public final class BrokenPartsChecker {
 
 				try {
 					activeExecutorCount.incrementAndGet();
+					modulesBeingChecked.add(module);
 					final long absoluteStart2 = System.nanoTime();
 					module.check(compilationCounter);
 					final long now = System.nanoTime();
+					modulesBeingChecked.remove(module);
 					TITANDebugConsole.println("  **It took (" + (absoluteStart2 - absoluteStart) + "," + (now - absoluteStart) + ") " + (now - absoluteStart2) * (1e-9) + " seconds for Designer to check " + module.getName());
 					progress.worked(1);
 				} finally {
@@ -214,7 +231,7 @@ public final class BrokenPartsChecker {
 							final List<Module> importedModules = module.getImportedModules();
 							boolean ok = true;
 							for (final Module importedModule : importedModules) {
-								if (!importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
+								if (!modulesBeingChecked.contains(importedModule) && !importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
 									ok = false;
 									break;
 								}
@@ -227,7 +244,7 @@ public final class BrokenPartsChecker {
 					}
 
 					for (final Module module : modulesToCheckParallely) {
-						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, activeExecutorCount, progress);
+						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
 					}
 
 					if (activeExecutorCount.decrementAndGet() == 0 && modulesToCheckParallely.isEmpty() && !modulesToCheckCopy.isEmpty()) {
@@ -235,7 +252,7 @@ public final class BrokenPartsChecker {
 						// and this is the last executor running.
 						// current heuristic: just select one to keep checking ... and hope this breaks the loop stopping parallelism.
 						final Module module = modulesToCheckCopy.remove(0);
-						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, activeExecutorCount, progress);
+						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
 					}
 				}
 			}
