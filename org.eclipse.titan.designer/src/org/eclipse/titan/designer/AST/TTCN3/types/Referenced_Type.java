@@ -1306,14 +1306,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, refd.getGenNameValue(aData, source)));
 				break;
 			case TYPE_SIGNATURE:
-				source.append(MessageFormat.format("\tpublic static class {0}_call extends {1}_call '{' '}'\n", genName, refd.getGenNameValue(aData, source)));
-				source.append(MessageFormat.format("\tpublic static class {0}_call_redirect extends {1}_call_redirect '{' '}'\n", genName, refd.getGenNameValue(aData, source)));
+				source.append(MessageFormat.format("\tpublic static class {0}_call extends {1}_call '{' '}'\n", ownName, refd.getGenNameValue(aData, source)));
+				source.append(MessageFormat.format("\tpublic static class {0}_call_redirect extends {1}_call_redirect '{' '}'\n", ownName, refd.getGenNameValue(aData, source)));
 				if (!((Signature_Type) refd).isNonblocking()) {
-					source.append(MessageFormat.format("\tpublic static class {0}_reply extends {1}_reply '{' '}'\n", genName, refd.getGenNameValue(aData, source)));
-					source.append(MessageFormat.format("\tpublic static class {0}_reply_redirect extends {1}_reply_redirect '{' '}'\n", genName, refd.getGenNameValue(aData, source)));
+					source.append(MessageFormat.format("\tpublic static class {0}_reply extends {1}_reply '{' '}'\n", ownName, refd.getGenNameValue(aData, source)));
+					source.append(MessageFormat.format("\tpublic static class {0}_reply_redirect extends {1}_reply_redirect '{' '}'\n", ownName, refd.getGenNameValue(aData, source)));
 				}
 				if (((Signature_Type) refd).getSignatureExceptions() != null) {
-					source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", genName, refd.getGenNameTemplate(aData, source)));
+					source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, refd.getGenNameTemplate(aData, source)));
 				}
 				break;
 			default:
