@@ -28,7 +28,6 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Module;
-import org.eclipse.titan.designer.AST.ASN1.definitions.ASN1Module;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
@@ -230,18 +229,18 @@ public final class BrokenPartsChecker {
 							}
 						}
 						modulesToCheckCopy.removeAll(modulesToCheckParallely);
-					}
 
-					for (final Module module : modulesToCheckParallely) {
-						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
-					}
+						for (final Module module : modulesToCheckParallely) {
+							addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
+						}
 
-					if (activeExecutorCount.decrementAndGet() == 0 && modulesToCheckParallely.isEmpty() && !modulesToCheckCopy.isEmpty()) {
-						// there are more modules to check, but none can be checked in the normal way
-						// and this is the last executor running.
-						// current heuristic: just select one to keep checking ... and hope this breaks the loop stopping parallelism.
-						final Module module = modulesToCheckCopy.remove(0);
-						addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
+						if (activeExecutorCount.decrementAndGet() == 0 && modulesToCheckParallely.isEmpty() && !modulesToCheckCopy.isEmpty()) {
+							// there are more modules to check, but none can be checked in the normal way
+							// and this is the last executor running.
+							// current heuristic: just select one to keep checking ... and hope this breaks the loop stopping parallelism.
+							final Module module = modulesToCheckCopy.remove(0);
+							addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
+						}
 					}
 				}
 			}
