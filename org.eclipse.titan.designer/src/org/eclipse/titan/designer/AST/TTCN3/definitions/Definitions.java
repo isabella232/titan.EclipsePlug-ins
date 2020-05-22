@@ -1184,9 +1184,9 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		};
 	}
 
-	public void setGenName(final String prefix) {
+	public void setGenName() {
 		for(final Definition definition: definitions) {
-			definition.setGenName(prefix + definition.getIdentifier().getName());
+			definition.setGenName(definition.getIdentifier().getName());
 		}
 	}
 

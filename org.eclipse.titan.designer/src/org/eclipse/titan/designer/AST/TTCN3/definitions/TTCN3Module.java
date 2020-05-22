@@ -475,6 +475,9 @@ public final class TTCN3Module extends Module {
 		versionNumber = null;
 		missingReferences.clear();
 
+		definitions.setGenName();
+		anytypeDefinition.setGenName(anytypeDefinition.getIdentifier().getName());
+
 		if (withAttributesPath != null) {
 			MarkerHandler.markAllSemanticMarkersForRemoval(withAttributesPath);
 			withAttributesPath.checkGlobalAttributes(timestamp, false);
