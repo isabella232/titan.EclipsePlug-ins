@@ -131,6 +131,7 @@ public final class BrokenPartsChecker {
 				for (final Module importedModule : importedModules) {
 					if (!importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
 						ok = false;
+						break;
 					}
 				}
 				if (ok) {
@@ -215,6 +216,7 @@ public final class BrokenPartsChecker {
 							for (final Module importedModule : importedModules) {
 								if (!importedModule.getSkippedFromSemanticChecking() && (importedModule.getLastCompilationTimeStamp() == null || importedModule.getLastCompilationTimeStamp() != compilationCounter)) {
 									ok = false;
+									break;
 								}
 							}
 							if (ok) {
