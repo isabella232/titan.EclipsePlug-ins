@@ -21,7 +21,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 	protected boolean isErroneous;
 
 	/** the name of the setting to be used in the code generator */
-	protected String genName;
+	private String genName;
 
 	/** the time when this setting was check the last time. */
 	protected CompilationTimeStamp lastTimeChecked;
