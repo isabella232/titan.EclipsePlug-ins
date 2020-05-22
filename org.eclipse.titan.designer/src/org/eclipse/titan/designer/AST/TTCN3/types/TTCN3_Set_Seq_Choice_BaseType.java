@@ -308,6 +308,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
+
 		//MarkerHandler.markAllSemanticMarkersForRemoval(this);//TODO: Check its place!!
 		lastTimeChecked = timestamp;
 		componentInternal = false;
