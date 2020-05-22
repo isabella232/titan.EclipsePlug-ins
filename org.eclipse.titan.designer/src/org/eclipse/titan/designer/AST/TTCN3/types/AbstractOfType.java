@@ -42,6 +42,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SingleLenghtRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.Length_ParsedSubType;
@@ -527,6 +528,7 @@ public abstract class AbstractOfType extends ASN1Type {
 				if (keyType.isOptionalField()) {
 					getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
 				}
+				ofTypeLast.setJsonAttributes(new JsonAST(jsonAttribute));
 			} else if (ofTypeLast.getTypetype() == Type_type.TYPE_TTCN3_SET || ((TTCN3_Set_Type) ofTypeLast).getNofComponents() == 2 ) {
 				final Type keyType = ((TTCN3_Set_Type) ofTypeLast).getComponentByIndex(0).getType();
 				if (keyType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype() != Type_type.TYPE_UCHARSTRING) {
@@ -536,6 +538,7 @@ public abstract class AbstractOfType extends ASN1Type {
 				if (keyType.isOptionalField()) {
 					getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type's first field to be mandatory");
 				}
+				ofTypeLast.setJsonAttributes(new JsonAST(jsonAttribute));
 			} else {
 				getLocation().reportSemanticError("Invalid attribute, 'as map' requires the element type to be a record or set with 2 fields");
 			}

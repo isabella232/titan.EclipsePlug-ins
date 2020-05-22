@@ -1076,6 +1076,31 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				// only allowed if it's an array type or a field of a record/set
 				getLocation().reportSemanticError("Invalid attribute 'metainfo for unbound', requires record, set, record of, set of, array or field of a record or set");
 			}
+			IType last = getTypeRefdLast(timestamp);
+			IType parent = getParentType();
+			if (Type_type.TYPE_TTCN3_SEQUENCE == last.getTypetype() || Type_type.TYPE_TTCN3_SET == last.getTypetype()) {
+				// if it's set for the record/set, pass it onto its fields
+				int nof_comps = ((TTCN3_Set_Seq_Choice_BaseType)last).getNofComponents();
+				if (jsonAttribute.as_value && nof_comps == 1) {
+					getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'metainfo for unbound' will be ignored, because the {0} is encoded without field names.",
+							Type_type.TYPE_TTCN3_SEQUENCE == last.getTypetype() ? "record" : "set"));
+				}
+				else {
+					for (int i = 0; i < nof_comps; i++) {
+						Type comp_type = ((TTCN3_Set_Seq_Choice_BaseType)last).getComponentByIndex(i).getType();
+						if (null == comp_type.jsonAttribute) {
+							comp_type.jsonAttribute = new JsonAST();
+						}
+						comp_type.jsonAttribute.metainfo_unbound = true;
+					}
+				}
+			}
+			else if (Type_type.TYPE_SEQUENCE_OF != last.getTypetype() && Type_type.TYPE_SET_OF != last.getTypetype() &&
+					Type_type.TYPE_ARRAY != last.getTypetype() && (null == parent ||
+					(Type_type.TYPE_TTCN3_SEQUENCE != parent.getTypetype() && Type_type.TYPE_TTCN3_SET != parent.getTypetype()))) {
+				// only allowed if it's an array type or a field of a record/set
+				getLocation().reportSemanticError("Invalid attribute 'metainfo for unbound', requires record, set, record of, set of, array or field of a record or set");
+			}
 		}
 
 		if (jsonAttribute.as_number) {
