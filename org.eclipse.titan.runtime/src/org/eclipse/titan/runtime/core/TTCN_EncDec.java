@@ -280,10 +280,18 @@ public final class TTCN_EncDec {
 	}
 
 	/**
-	 * Extract the parameters (coding type and extra settings) from the dynamic
-	 * coding string of coding predefined functions.
+	 * Extract the parameters (coding type and extra settings) from the
+	 * dynamic coding string of coding predefined functions.
 	 *
 	 * coding_type has to be returned in Java.
+	 *
+	 * @param coding_str
+	 *                the name of the coding as a string.
+	 * @param extra
+	 *                the extra style option.
+	 * @param encode
+	 *                {@code true} the encoding, {@code false} if decoding.
+	 * @return the exact encoding type.
 	 * */
 	public static coding_type get_coding_from_str(final TitanUniversalCharString coding_str, final AtomicInteger extra, final boolean encode) {
 		if (coding_str.operator_equals("BER:2002") || coding_str.operator_equals("DER:2002")) {
