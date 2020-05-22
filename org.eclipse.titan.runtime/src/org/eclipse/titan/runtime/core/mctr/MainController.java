@@ -1504,8 +1504,8 @@ public class MainController {
 		tc.local_verdict = VerdictTypeEnum.values()[text_buf.pull_int().get_int()];
 		tc.verdict_reason = text_buf.pull_string();
 		tc.return_type = text_buf.pull_string();
-		final byte[] return_value = new byte[text_buf.get_len() - text_buf.get_pos()];
-		text_buf.pull_raw(return_value.length, return_value);
+		tc.return_value = new byte[text_buf.get_len() - text_buf.get_pos()];
+		text_buf.pull_raw(tc.return_value.length, tc.return_value);
 		text_buf.cut_message();
 
 		component_stopped(tc);
