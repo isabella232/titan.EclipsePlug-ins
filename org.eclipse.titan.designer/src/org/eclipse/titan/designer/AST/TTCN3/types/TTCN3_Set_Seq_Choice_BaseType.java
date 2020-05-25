@@ -724,10 +724,6 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 		//FIXME: check tag_list
 
-		if (jsonAttribute.as_map) {
-			getLocation().reportSemanticError("Invalid attribute, 'as map' requires record of or set of");
-		}
-
 		if (jsonAttribute.enum_texts.size() > 0) {
 			getLocation().reportSemanticError("Invalid attribute, 'text ... as ...' requires an enumerated type");
 		}
