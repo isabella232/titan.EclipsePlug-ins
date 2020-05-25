@@ -326,8 +326,11 @@ The options will be applied to the *COMPILER_FLAGS* macro. By default only the *
 +
 NOTE: The flag responsible for function or load test runtime generation is not set here, but on the Makefile creation attributes (as that flag is handled by the Eclipse external `makefile` generator too).
 +
+NOTE: The flag `Enable object oriented programming - OOP  (-k)` only controls the makefile generator and the compiler. 
+Syntactic and semantic analyser do not support the OOP features yet.
++
 For more information on the meanings of these options please refer to section 5.1 of the TITAN Programmer’s Technical Reference guide <<12-references.adoc#_4, [4]>>.
-
++
 . Preprocessor
 +
 image::images/4_F43.png[title="Preprocessor"]

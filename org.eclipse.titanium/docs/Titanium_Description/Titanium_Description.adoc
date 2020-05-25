@@ -1,13 +1,13 @@
 ---
 Author: Kristóf Szabados
-Version: 1551-CRL 113 200/6, Rev. G
-Date: 2019-11-29
+Version: 1551-CRL 113 200/7, Rev. H
+Date: 2020-05-29
 
 ---
 = Titanium Description
 :author: Kristóf Szabados
-:revnumber: 1551-CRL 113 200/6, Rev. G
-:revdate: 2019-11-29
+:revnumber: 1551-CRL 113 200/7, Rev. H
+:revdate: 2020-05-29
 :title-logo-image: images/titan_logo.png
 :sectnums:
 :doctype: book
