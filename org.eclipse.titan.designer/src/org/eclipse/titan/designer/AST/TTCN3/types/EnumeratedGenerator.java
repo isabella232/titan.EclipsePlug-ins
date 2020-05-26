@@ -625,8 +625,8 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tboolean text_found = false;\n");
 			source.append("\t\t\t\tfor (int i = 0; i < p_td.json.getNof_enum_texts(); ++i) {\n");
-			source.append("\t\t\t\t\tif (p_td.json.getEnum_texts().get(i).index == enum_value.ordinal()) {\n");
-			source.append("\t\t\t\t\t\ttmp_str = \"\\\"\" + p_td.json.getEnum_texts().get(i).text + \"\\\"\";\n");
+			source.append("\t\t\t\t\tif (p_td.json.getEnum_texts().get(i).getIndex() == enum_value.ordinal()) {\n");
+			source.append("\t\t\t\t\t\ttmp_str = \"\\\"\" + p_td.json.getEnum_texts().get(i).getText() + \"\\\"\";\n");
 			source.append("\t\t\t\t\t\ttext_found = true;\n");
 			source.append("\t\t\t\t\t\tbreak;\n");
 			source.append("\t\t\t\t\t}\n");
@@ -670,8 +670,8 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\t\t\tboolean text_found = false;\n");
 			source.append("\t\t\t\t\tfinal String tmpValue = use_default ? value.toString() : value.substring(1);\n");
 			source.append("\t\t\t\t\tfor (int i = 0; i < p_td.json.getNof_enum_texts(); ++i) {\n");
-			source.append("\t\t\t\t\t\tif (p_td.json.getEnum_texts().get(i).text.equals(tmpValue)) {\n");
-			source.append("\t\t\t\t\t\t\tenum_value = enum_type.getValue(p_td.json.getEnum_texts().get(i).index);\n");
+			source.append("\t\t\t\t\t\tif (p_td.json.getEnum_texts().get(i).getText().equals(tmpValue)) {\n");
+			source.append("\t\t\t\t\t\t\tenum_value = enum_type.getValue(p_td.json.getEnum_texts().get(i).getIndex());\n");
 			source.append("\t\t\t\t\t\t\ttext_found = true;\n");
 			source.append("\t\t\t\t\t\t\tbreak;\n");
 			source.append("\t\t\t\t\t\t}\n");

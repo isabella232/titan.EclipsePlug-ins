@@ -41,7 +41,7 @@ public class JsonAST {
 		public String from;
 		public String to;
 		public int index; // set during semantic analysis
-		JsonEnumText(final String p_from, final String p_to){
+		public JsonEnumText(final String p_from, final String p_to){
 			from = p_from;
 			to = p_to;
 		}

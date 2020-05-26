@@ -3021,18 +3021,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			JSON_value.append(jsonAttribute.enum_texts.size()).append(',');
 
 			if (jsonAttribute.enum_texts.size() != 0) {
+				aData.addBuiltinTypeImport("JSON.JsonEnumText");
 				enum_texts_name = MessageFormat.format("{0}_json_enum_texts", genname);
 				final StringBuilder enum_texts_value = new StringBuilder();
-				enum_texts_value.append(MessageFormat.format("final JsonEnumText[] {0} = '{", enum_texts_name));
+				enum_texts_value.append(MessageFormat.format("\t\tfinal static List<JsonEnumText> {0} = new ArrayList<JsonEnumText>();\n", enum_texts_name));
+				enum_texts_value.append("\t\tstatic {\n");
 				for (int i = 0; i < jsonAttribute.enum_texts.size(); i++) {
 					final JsonEnumText element = jsonAttribute.enum_texts.get(i);
-					if (i == 0) {
-						enum_texts_value.append(MessageFormat.format(("'{{0}, \"{1}\"'}"),element.index, element.to));
-					}
-					enum_texts_value.append(MessageFormat.format((", '{{0}, \"{1}\"'}"),element.index, element.to));
-
+					enum_texts_value.append(MessageFormat.format("\t\t\t{0}.add(new JsonEnumText({1}, \"{2}\"));\n", enum_texts_name, element.index, element.to));
 				}
-				enum_texts_value.append("};\n");
+				enum_texts_value.append("\t\t}\n");
 				if (localTarget == null) {
 					aData.addGlobalVariable(enum_texts_name, enum_texts_value.toString());
 				} else {

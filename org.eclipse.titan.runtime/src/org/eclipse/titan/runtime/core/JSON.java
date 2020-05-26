@@ -41,8 +41,21 @@ public class JSON {
 	 * Enumerated text change structure
 	 */
 	public static final class JsonEnumText {
-		public int index;
-		public String text;
+		private int index;
+		private String text;
+
+		public JsonEnumText(final int index, final String text) {
+			this.index = index;
+			this.text = text;
+		}
+		
+		public int getIndex() {
+			return index;
+		}
+
+		public String getText() {
+			return text;
+		}
 	}
 
 	/** Helper enumerated type for storing the different methods of escaping in character strings */
