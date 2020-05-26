@@ -803,11 +803,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 								final Reference reference = new Reference(null, fieldsOrArrays);
 								final IType type = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
 								if (type != null) {
-									if (type.getMyScope() != myScope) {
-										qualifier.getLocation().reportSemanticWarning("Variant attribute is ignored, because it refers to a type from a different type definition");
-									} else {
-										type.checkThisVariant(timestamp, singleWithAttribute, false);
-									}
+									type.checkThisVariant(timestamp, singleWithAttribute, false);
 								}
 							}
 						} else {
