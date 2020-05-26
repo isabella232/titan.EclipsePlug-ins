@@ -621,7 +621,7 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\t}\n");
 			source.append("\t\t\tString tmp_str = null;\n");
 			source.append("\t\t\tif (p_td.json.isAs_number()) {\n");
-			source.append("\t\t\t\ttmp_str = \"\"+enum_value.ordinal();\n");
+			source.append("\t\t\t\ttmp_str = \"\"+enum_value.enum_num;\n");
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tboolean text_found = false;\n");
 			source.append("\t\t\t\tfor (int i = 0; i < p_td.json.getNof_enum_texts(); ++i) {\n");
