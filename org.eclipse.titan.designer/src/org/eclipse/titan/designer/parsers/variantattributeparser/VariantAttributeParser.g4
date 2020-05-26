@@ -9,6 +9,7 @@ import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.ASN1.values.ASN1_Null_Value;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.*;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST.JsonEnumText;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST.json_string_escaping;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.JsonAST.json_type_indicator;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
@@ -921,7 +922,11 @@ pr_XERAttribute:
 |	LISTKeyword
 |	pr_name
 |	pr_namespace
-|	pr_text
+|	t = pr_text
+	{
+		jsonstruct.enum_texts.add(new JsonEnumText($t.prefix, $t.uri));
+		json_f = true;
+	}
 |	UNTAGGEDKeyword
 |	USENILKeyword
 |	USENUMBERKeyword
@@ -960,9 +965,9 @@ pr_form: FORMKeyword ASKeyword ( UNQUALIFIEDKeyword | QUALIFIEDKeyword );
 
 pr_name: NAMEKeyword ASKeyword pr_newNameOrKeyword;
 
-pr_newNameOrKeyword:
-(	pr_keyword
-|	XSTRING
+pr_newNameOrKeyword returns [String name]:
+(	k = pr_keyword	{	$name = $k.text;	}
+|	XSTRING	{	$name = $XSTRING.getText().replaceAll("^\'|\'$", "");	}
 );
 
 pr_keyword:
@@ -981,11 +986,17 @@ pr_optPrefix:
 |	PREFIXKeyword XSTRING
 );
 
-pr_text:
+pr_text returns [String prefix, String uri]:
 (	TEXTKeyword
 	(	/* empty */
-	|	XSTRING ASKeyword pr_newNameOrKeyword
-	|	ALLKeyword ASKeyword pr_newNameOrKeyword
+	|	XSTRING ASKeyword newname = pr_newNameOrKeyword
+		{	$prefix = $XSTRING.getText().replaceAll("^\'|\'$", "");
+			$uri = $newname.name;
+		}
+	|	ALLKeyword ASKeyword newname = pr_newNameOrKeyword
+		{	$prefix = $ALLKeyword.getText();
+			$uri = $newname.name;
+		}
 	)
 );
 
