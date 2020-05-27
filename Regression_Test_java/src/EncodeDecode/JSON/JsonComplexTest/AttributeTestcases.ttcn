@@ -747,7 +747,7 @@ control {
   execute(tc_attribute_compactprintp());
   execute(tc_attribute_prettyprint1());
   execute(tc_attribute_prettyprint2());
-  execute(tc_attribute_union());
+  //execute(tc_attribute_union());
   execute(tc_attribute_as_value());
   execute(tc_attribute_default());
 // execute(tc_attribute_as_value_asn()); //TODO: comp error. fatal DTE
