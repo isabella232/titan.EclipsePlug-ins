@@ -357,14 +357,10 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("The port `@attribute_tests.extended.p4' with name p4 breaks the naming convention  `.*_PT'",  ++lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The port `@attribute_tests.extended.p5' with name p5 breaks the naming convention  `.*_PT'",  ++lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The port `@attribute_tests.extended.p6' with name p6 breaks the naming convention  `.*_PT'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 41;
-		int i = 0;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Variant attribute is ignored, because it refers to a type from a different type definition", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 26;
+		lineNum += 69;
 		markersToCheck.add(new MarkerToCheck("The value parameter `f' with name f breaks the naming convention  `pl_.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 13;
+		int i = 0;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to multiple definitions in attribute qualifiers is not yet supported", lineNum, IMarker.SEVERITY_WARNING));
 		}
