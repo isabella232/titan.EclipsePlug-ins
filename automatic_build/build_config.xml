@@ -10,7 +10,7 @@
 <project basedir="." name="config">
 
 	<!-- The qualifier of the features -->
-	<property name="version" value="6.6.1.CRL_113_200_6_R6B"/>
+	<property name="version" value="7.1.0.CRL_113_200_7_R1A"/>
 	<tstamp/>
 	<property name="timestamp" value="${DSTAMP}-${TSTAMP}"/>
 	<property name="version.qualifier" value="${version}_${timestamp}"/>

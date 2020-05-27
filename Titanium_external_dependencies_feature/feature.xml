@@ -2,7 +2,7 @@
 <feature
       id="Titanium_external_dependencies"
       label="Titanium_external_dependencies"
-      version="6.6.1.CRL_113_200_6_R6B_20191119-1000">
+      version="7.1.0.CRL_113_200_7_R1A_20200529-1000">
 
    <description>
       These feature packages Jung 2.1, com.google.guava 21.0 and apache POI to ease installation.

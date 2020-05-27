@@ -10,11 +10,11 @@
 <feature
       id="Titanium.Refactoring"
       label="Titanium_Refactoring_Feature"
-      version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
+      version="7.1.0.CRL_113_200_7_R1A_20200529-1000"
       provider-name="Eclipse Titan Project">
 
    <description url="https://projects.eclipse.org/projects/tools.titan/downloads">
-      CRL 113 200/6 R6B (6.6.pl1) version of the Titanium Refactoring plug-in.
+      CRL 113 200/7 R1A (7.1.pl0) version of the Titanium Refactoring plug-in.
    </description>
 
    <copyright>
@@ -177,7 +177,7 @@ You may add additional accurate notices of copyright ownership.
          id="org.eclipse.titanium.refactoring"
          download-size="0"
          install-size="0"
-         version="6.6.1.CRL_113_200_6_R6B_20191119-1000"
+         version="7.1.0.CRL_113_200_7_R1A_20200529-1000"
          unpack="false"/>
 
 </feature>
