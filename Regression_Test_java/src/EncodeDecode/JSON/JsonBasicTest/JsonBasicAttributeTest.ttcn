@@ -349,7 +349,7 @@ testcase tc_rec_attr_metainfo_nameas() runs on CT {
 //========= control part ============
 control {
   execute(tc_attr_enum_no_attr());
-//  execute(tc_attr_enum_text_attr()); //fails in java
+  execute(tc_attr_enum_text_attr());
   execute(tc_rec_attr_no_attr_omit());
   execute(tc_rec_attr_no_attr_int());
   execute(tc_rec_attr_omit_as_null_omitvalue());
