@@ -1,12 +1,12 @@
 ---
 Author: Kristóf Szabados
-Version: 1/1551-CRL 113 200/7, Rev. H
+Version: 1/1551-CRL 113 200/7, Rev. A
 Date: 2020-05-29
 
 ---
 = Titanium Refactoring Description
 :author: Kristóf Szabados
-:revnumber: 1/1551-CRL 113 200/7, Rev. H
+:revnumber: 1/1551-CRL 113 200/7, Rev. A
 :revdate: 2020-05-29
 :title-logo-image: images/titan_logo.png
 :sectnums:
