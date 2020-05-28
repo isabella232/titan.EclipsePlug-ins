@@ -144,7 +144,6 @@
                     <xs:element name="disableSubtypeChecking" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="forceGenSeof" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="enableOOP" minOccurs="0" maxOccurs="1" type="xs:boolean" />
-                    
                     <!-- *******C++ compiler:****** -->
                     <xs:element name="CxxCompiler" minOccurs="0" maxOccurs="1" type="xs:normalizedString" />
                     <xs:element name="optimizationLevel" minOccurs="0" maxOccurs="1" type="xs:normalizedString" />
@@ -165,7 +164,7 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-					<xs:element name="FreeBSDSpecificLibraries" minOccurs="0" maxOccurs="1">
+                    <xs:element name="FreeBSDSpecificLibraries" minOccurs="0" maxOccurs="1">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="listItem" minOccurs="1" maxOccurs="unbounded" type="xs:normalizedString" />
