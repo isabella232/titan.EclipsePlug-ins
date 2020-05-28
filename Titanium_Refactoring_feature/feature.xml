@@ -168,9 +168,9 @@ You may add additional accurate notices of copyright ownership.
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.core.filesystem"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.titan.common" version="6.6.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.titan.designer" version="6.6.1" match="greaterOrEqual"/>
-      <import feature="Titanium" version="6.6.1"/>
+      <import plugin="org.eclipse.titan.common" version="7.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.titan.designer" version="7.1.0" match="greaterOrEqual"/>
+      <import feature="Titanium" version="7.1.0"/>
    </requires>
 
    <plugin
