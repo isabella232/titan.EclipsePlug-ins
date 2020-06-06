@@ -78,6 +78,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
  * @author Kristof Szabados
  */
 public final class LoggerPluginManager {
+	//TODO we could write our own ring buffer to be much faster.
 	private final LinkedBlockingQueue<TitanLogEvent> ring_buffer = new LinkedBlockingQueue<TitanLoggerApi.TitanLogEvent>();
 
 	private enum event_destination_t {
@@ -302,7 +303,7 @@ public final class LoggerPluginManager {
 			break;
 		case LP_EMERGENCY:
 			TTCN_Logger.set_emergency_logging(logparam.logparam.emergency_logging);
-			// ring_buffer.set_size() doesn't need
+			// FIXME set ring_bufferr size, TTCN_Logger.get_emergency_logging();
 			break;
 		case LP_EMERGENCYBEHAVIOR:
 			TTCN_Logger.set_emergency_logging_behaviour(logparam.logparam.emergency_logging_behaviour_value);
@@ -388,10 +389,13 @@ public final class LoggerPluginManager {
 
 			if (!TTCN_Logger.should_log_to_file(severity) &&
 				TTCN_Logger.should_log_to_emergency(severity)) {
+				if (ring_buffer.size() >= TTCN_Logger.get_emergency_logging()) {
+					ring_buffer.poll();
+				}
 				ring_buffer.offer(event);
 			}
 		} else if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
-			if (ring_buffer.remainingCapacity() == 0) {
+			if (ring_buffer.size() >= TTCN_Logger.get_emergency_logging()) {
 				final TitanLoggerApi.TitanLogEvent ring_event = ring_buffer.poll();
 				if (ring_event != null) {
 					internal_log_to_all(ring_event, true, false, false);
