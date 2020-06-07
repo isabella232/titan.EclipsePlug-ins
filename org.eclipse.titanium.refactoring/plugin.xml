@@ -182,115 +182,281 @@
   </extension>
   <extension
         point="org.eclipse.ui.menus">
-     <menuContribution
-           allPopups="true"
-           locationURI="popup:org.eclipse.titan.designer.editors.ttcn3editor.context?after=additions">
-        <menu
-              label="TitaniumRefactoring">
-           <command
-                 commandId="org.eclipse.titanium.commands.ExtractDefinition"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.ExtractDefinition"
-                 label="Extract definition into a new project">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ExtractToFunction"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.ExtractToFunction"
-                 label="Extract code into a new function">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.LazyficationModule"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.LazyficationModule"
-                 label="Lazy-fication of formal parameters">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.MinimizeVisibilityModule"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.MinimizeVisibilityModule"
-                 label="Minimize visibility modifiers in module">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ExpandFieldNamesModule"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.ExpandFieldNamesModule"
-                 label="Expand value list notation in module">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.OrderFieldNamesModule"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.OrderFieldNamesModule"
-                 label="Order assignment list notation in module">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ContextLoggingFromEditor"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.ContextLoggingFromEditor"
-                 label="Add context info to log statements">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ExtractModuleParFromEditor"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.ExtractModuleParFromEditor"
-                 label="Extract module parameters into a new project">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.MinimizeScopeFromEditor"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.MinimizeScopeFromEditor"
-                 label="Minimize scope of local variables in function">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.OrganizeImportModule"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.OrganizeImportModule"
-                 label="Organize imports">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.RunsOnScopeModule"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.RunsOnScopeModule"
-                 label="Runs on scope reduction">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
-                 label="Ungroup module parameters in module">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.InsertFieldFromEditor"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.InsertFieldFromEditor"
-                 label="Insert field">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
-                 label="Change union to select union">
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.MoveFunctionModule"
-                 icon="resources/icons/titan.gif"
-                 id="org.eclipse.titanium.commands.MoveFunctionModule"
-                 label="Move function">
-           </command>
-        </menu>
-     </menuContribution>
+    <menuContribution
+          allPopups="true"
+          locationURI="popup:org.eclipse.titan.designer.editors.ttcn3editor.context?after=additions">
+      <menu
+             label="TitaniumRefactoring">
+        <command
+               commandId="org.eclipse.titanium.commands.ExtractDefinition"
+               icon="resources/icons/titan.gif"
+               id="org.eclipse.titanium.commands.ExtractDefinition"
+               label="Extract definition into a new project">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ExtractToFunction"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.ExtractToFunction"
+              label="Extract code into a new function">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.LazyficationModule"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.LazyficationModule"
+              label="Lazy-fication of formal parameters">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.MinimizeVisibilityModule"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.MinimizeVisibilityModule"
+              label="Minimize visibility modifiers in module">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ExpandFieldNamesModule"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.ExpandFieldNamesModule"
+              label="Expand value list notation in module">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.OrderFieldNamesModule"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.OrderFieldNamesModule"
+              label="Order assignment list notation in module">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ContextLoggingFromEditor"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.ContextLoggingFromEditor"
+              label="Add context info to log statements">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ExtractModuleParFromEditor"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.ExtractModuleParFromEditor"
+              label="Extract module parameters into a new project">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.MinimizeScopeFromEditor"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.MinimizeScopeFromEditor"
+              label="Minimize scope of local variables in function">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.OrganizeImportModule"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.OrganizeImportModule"
+              label="Organize imports">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.RunsOnScopeModule"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.RunsOnScopeModule"
+              label="Runs on scope reduction">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
+              label="Ungroup module parameters in module">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.InsertFieldFromEditor"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.InsertFieldFromEditor"
+              label="Insert field">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
+              label="Change union to select union">
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.MoveFunctionModule"
+              icon="resources/icons/titan.gif"
+              id="org.eclipse.titanium.commands.MoveFunctionModule"
+              label="Move function">
+        </command>
+      </menu>
+    </menuContribution>
   </extension>
   <extension
         point="org.eclipse.ui.menus">
-     <menuContribution
+    <menuContribution
            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
-        <menu
+      <menu
               id="org.eclipse.titanium.refactoring.menu.ProjectMenu"
               label="TitaniumRefactoring">
-           <command
-                 commandId="org.eclipse.titanium.commands.LazyficationProject"
-                 label="Lazy-fication of formal parameters">
-                 <visibleWhen checkEnabled="false">
+        <command
+              commandId="org.eclipse.titanium.commands.LazyficationProject"
+              label="Lazy-fication of formal parameters">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.MinimizeVisibilityProject"
+              label="Minimize visibility modifiers">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
+              label="Expand value list notation">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
+              label="Order assignment list notation">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ContextLoggingFromBrowser"
+              label="Add context info to log statements">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+               </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ExtractModuleParFromBrowser"
+              label="Extract module parameters into a new project">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.MinimizeScopeFromBrowser"
+              label="Minimize scope of local variables">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.OrganizeImportProject"
+              label="Organize imports">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
+              label="Runs on scope reduction">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.UngroupModuleparFromBrowser"
+              label="Ungroup module parameters">
+           <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.InsertFieldProject"
+              label="Insert field">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ChangeToSelectUnionFromBrowser"
+              label="Change union to select union">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.MoveFunctionProject"
+              label="Move function">
+              <visibleWhen checkEnabled="false">
+                  <with variable="selection">  
+                     <iterate operator="and">
+                        <adapt type="org.eclipse.core.resources.IResource">
+                        </adapt>  
+                     </iterate>
+                  </with>
+                </visibleWhen>
+        </command>
+      </menu>
+    </menuContribution>
+  </extension>
+  <extension
+        point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+      <menu
+          id="org.eclipse.titanium.refactoring.menu.PackageMenu"
+          label="TitaniumRefactoring">
+        <command
+               commandId="org.eclipse.titanium.commands.LazyficationProject"
+               label="Lazy-fication of formal parameters">
+               <visibleWhen checkEnabled="false">
                      <with variable="selection">  
                         <iterate operator="and">
                            <adapt type="org.eclipse.core.resources.IResource">
@@ -298,11 +464,11 @@
                         </iterate>
                      </with>
                    </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.MinimizeVisibilityProject"
-                 label="Minimize visibility modifiers">
-                 <visibleWhen checkEnabled="false">
+        </command>
+        <command
+               commandId="org.eclipse.titanium.commands.MinimizeVisibilityProject"
+               label="Minimize visibility modifiers">
+               <visibleWhen checkEnabled="false">
                      <with variable="selection">  
                         <iterate operator="and">
                            <adapt type="org.eclipse.core.resources.IResource">
@@ -310,11 +476,11 @@
                         </iterate>
                      </with>
                    </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
-                 label="Expand value list notation">
-                 <visibleWhen checkEnabled="false">
+        </command>
+        <command
+               commandId="org.eclipse.titanium.commands.OrganizeImportProject"
+               label="Organize imports">
+               <visibleWhen checkEnabled="false">
                      <with variable="selection">  
                         <iterate operator="and">
                            <adapt type="org.eclipse.core.resources.IResource">
@@ -322,44 +488,68 @@
                         </iterate>
                      </with>
                    </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
-                 label="Order assignment list notation">
-                 <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ContextLoggingFromBrowser"
-                 label="Add context info to log statements">
-                 <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ExtractModuleParFromBrowser"
-                 label="Extract module parameters into a new project">
-                 <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-           <command
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
+              label="Runs on scope reduction">
+              <visibleWhen checkEnabled="false">
+                   <with variable="selection">  
+                      <iterate operator="and">
+                          <adapt type="org.eclipse.core.resources.IResource">
+                          </adapt>  
+                       </iterate>
+                    </with>
+                  </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
+              label="Expand value list notation">
+              <visibleWhen checkEnabled="false">
+                   <with variable="selection">  
+                       <iterate operator="and">
+                         <adapt type="org.eclipse.core.resources.IResource">
+                         </adapt>  
+                       </iterate>
+                    </with>
+                  </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
+              label="Order assignment list notation">
+              <visibleWhen checkEnabled="false">
+                    <with variable="selection">  
+                       <iterate operator="and">
+                          <adapt type="org.eclipse.core.resources.IResource">
+                          </adapt>  
+                       </iterate>
+                    </with>
+                  </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ContextLoggingFromBrowser"
+              label="Add context info to log statements">
+              <visibleWhen checkEnabled="false">
+                    <with variable="selection">  
+                       <iterate operator="and">
+                         <adapt type="org.eclipse.core.resources.IResource">
+                          </adapt>  
+                       </iterate>
+                    </with>
+                  </visibleWhen>
+        </command>
+        <command
+              commandId="org.eclipse.titanium.commands.ExtractModuleParFromBrowser"
+              label="Extract module parameters into a new project">
+              <visibleWhen checkEnabled="false">
+                    <with variable="selection">  
+                       <iterate operator="and">
+                          <adapt type="org.eclipse.core.resources.IResource">
+                          </adapt>  
+                       </iterate>
+                    </with>
+                  </visibleWhen>
+        </command>
+        <command
                  commandId="org.eclipse.titanium.commands.MinimizeScopeFromBrowser"
                  label="Minimize scope of local variables">
                  <visibleWhen checkEnabled="false">
@@ -370,45 +560,9 @@
                         </iterate>
                      </with>
                    </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.OrganizeImportProject"
-                 label="Organize imports">
-                 <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
-                 label="Runs on scope reduction">
-                 <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.UngroupModuleparFromBrowser"
-                 label="Ungroup module parameters">
-              <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.InsertFieldProject"
+        </command>
+        <command
+                 commandId="org.eclipse.titanium.commands.InsertFieldFromEditor"
                  label="Insert field">
                  <visibleWhen checkEnabled="false">
                      <with variable="selection">  
@@ -418,176 +572,22 @@
                         </iterate>
                      </with>
                    </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.ChangeToSelectUnionFromBrowser"
-                 label="Change union to select union">
-                 <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-           <command
-                 commandId="org.eclipse.titanium.commands.MoveFunctionProject"
-                 label="Move function">
-                 <visibleWhen checkEnabled="false">
-                     <with variable="selection">  
-                        <iterate operator="and">
-                           <adapt type="org.eclipse.core.resources.IResource">
-                           </adapt>  
-                        </iterate>
-                     </with>
-                   </visibleWhen>
-           </command>
-        </menu>
-     </menuContribution>
+        </command>
+        <command
+          commandId="org.eclipse.titanium.commands.MoveFunctionProject"
+          label="Move function">
+          <visibleWhen checkEnabled="false">
+            <with variable="selection">  
+              <iterate operator="and">
+                <adapt type="org.eclipse.core.resources.IResource">
+                </adapt>  
+              </iterate>
+            </with>
+          </visibleWhen>
+        </command>
+      </menu>
+    </menuContribution>
   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-            <menu
-              id="org.eclipse.titanium.refactoring.menu.PackageMenu"
-              label="TitaniumRefactoring">
-	            <command
-	                  commandId="org.eclipse.titanium.commands.LazyficationProject"
-	                  label="Lazy-fication of formal parameters">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-	            <command
-	                  commandId="org.eclipse.titanium.commands.MinimizeVisibilityProject"
-	                  label="Minimize visibility modifiers">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-	            <command
-	                  commandId="org.eclipse.titanium.commands.OrganizeImportProject"
-	                  label="Organize imports">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-	            <command
-	                  commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
-	                  label="Runs on scope reduction">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-	            <command
-	                  commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
-	                  label="Expand value list notation">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-	            <command
-	                  commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
-	                  label="Order assignment list notation">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-	            <command
-	                  commandId="org.eclipse.titanium.commands.ContextLoggingFromBrowser"
-	                  label="Add context info to log statements">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-			    <command
-					  commandId="org.eclipse.titanium.commands.ExtractModuleParFromBrowser"
-					  label="Extract module parameters into a new project">
-					  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-			    </command>
-	           <command
-	                 commandId="org.eclipse.titanium.commands.MinimizeScopeFromBrowser"
-	                 label="Minimize scope of local variables">
-	                 <visibleWhen checkEnabled="false">
-	                     <with variable="selection">  
-	                        <iterate operator="and">
-	                           <adapt type="org.eclipse.core.resources.IResource">
-	                           </adapt>  
-	                        </iterate>
-	                     </with>
-	                   </visibleWhen>
-	           </command>
-	           <command
-	                 commandId="org.eclipse.titanium.commands.InsertFieldFromEditor"
-	                 label="Insert field">
-	                 <visibleWhen checkEnabled="false">
-	                     <with variable="selection">  
-	                        <iterate operator="and">
-	                           <adapt type="org.eclipse.core.resources.IResource">
-	                           </adapt>  
-	                        </iterate>
-	                     </with>
-	                   </visibleWhen>
-	           </command>
-	           <command
-	                  commandId="org.eclipse.titanium.commands.MoveFunctionProject"
-	                  label="Move function">
-	                  <visibleWhen checkEnabled="false">
-                        <with variable="selection">  
-                           <iterate operator="and">
-                              <adapt type="org.eclipse.core.resources.IResource">
-                              </adapt>  
-                           </iterate>
-                        </with>
-                      </visibleWhen>
-	            </command>
-            </menu>
-      </menuContribution>
-   </extension>
   <extension point="org.eclipse.help.toc">
     <toc file="toc.xml" primary="true"/>
   </extension>
