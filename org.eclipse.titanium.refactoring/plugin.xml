@@ -398,9 +398,14 @@
            <command
                  commandId="org.eclipse.titanium.commands.UngroupModuleparFromBrowser"
                  label="Ungroup module parameters">
-              <visibleWhen
-                    checkEnabled="false">
-              </visibleWhen>
+              <visibleWhen checkEnabled="false">
+                     <with variable="selection">  
+                        <iterate operator="and">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                           </adapt>  
+                        </iterate>
+                     </with>
+                   </visibleWhen>
            </command>
            <command
                  commandId="org.eclipse.titanium.commands.InsertFieldProject"
