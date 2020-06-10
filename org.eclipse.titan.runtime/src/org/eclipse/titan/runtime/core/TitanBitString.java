@@ -1359,9 +1359,9 @@ public class TitanBitString extends Base_Type {
 						final int maxindex = (decode_length - 1) / 8;
 						for (int a = 0, b = (decode_length - n_bits - 1) / 8; a < (n_bits + 7) / 8; a++, b++) {
 							bits_ptr[a] = bits_ptr[b] >> bound;
-						if (b < maxindex) {
-							bits_ptr[a] = bits_ptr[b + 1] << (8 - bound);
-						}
+							if (b < maxindex) {
+								bits_ptr[a] = bits_ptr[b + 1] << (8 - bound);
+							}
 						}
 					} else {
 						System.arraycopy(bits_ptr, (decode_length - n_bits) / 8, bits_ptr, 0, n_bits / 8);
