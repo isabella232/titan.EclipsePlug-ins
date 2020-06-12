@@ -35,7 +35,7 @@
 	-->
 	<target name="build.pdf" depends="check.asciidoctor" if="asciidoctor.present">
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/installationguide/installationguide.adoc"/>
-		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/apiguide/README.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/apiguide/Apiguide.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/PRI/PRI.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/referenceguide/ReferenceGuide.adoc"/>
 		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/java_referenceguide/JavaReferenceGuide.adoc"/>
