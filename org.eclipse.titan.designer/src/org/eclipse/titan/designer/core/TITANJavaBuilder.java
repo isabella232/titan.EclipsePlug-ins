@@ -132,6 +132,12 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 			}
 		}
 
+		try {
+			ProjectSourceCompiler.generateGeneratedPackageInfo(project);
+		} catch ( CoreException e ) {
+			ErrorReporter.logExceptionStackTrace("While generating Java package_info ", e);
+		}
+
 		progress.done();
 	}
 
