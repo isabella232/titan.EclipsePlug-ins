@@ -40,25 +40,27 @@
 
 	<!-- Release update site -->
 	<property name="updatesite.release.location"
-			  location="/proj/TTCN/www/ttcn/root/download/update_site"/>
+		location="${env.DOWNLOAD_DIR}/update_site"/>
+		<!-- location="${env.DOWNLOAD_DIR}/update_site"/> -->
+	   
 	<property name="updatesite.release.name" value="TITAN on Eclipse update site"/>
 	<property name="updatesite.release.url" value="http://ttcn.ericsson.se/download/update_site/"/>
 
 	<!-- FOA update site -->
 	<property name="updatesite.FOA.location"
-			  location="/proj/TTCN/www/ttcn/root/download/update_site/FOA_update_site"/>
+			  location="${env.DOWNLOAD_DIR}/update_site/FOA_update_site"/>
 	<property name="updatesite.FOA.name" value="FOA update Site"/>
 	<property name="updatesite.FOA.url" value="http://ttcn.ericsson.se/download/FOA_update_site/"/>
 
 	<!-- Experimental update site -->
 	<property name="updatesite.experimental.location"
-			  location="/proj/TTCN/www/ttcn/root/download/experimental_update_site"/>
+			  location="${env.DOWNLOAD_DIR}/experimental_update_site"/>
 	<property name="updatesite.experimental.name" value="Experimental update site"/>
 	<property name="updatesite.experimental.url" value="http://ttcn.ericsson.se/download/experimental_update_site/"/>
 
 	<!-- Testing update site -->
 	<property name="updatesite.testing.location"
-			  location="/proj/TTCN/www/ttcn/root/download/testing_update_site"/>
+			  location="${env.DOWNLOAD_DIR}/testing_update_site"/>
 	<property name="updatesite.testing.name" value="Testing update site"/>
 	<property name="updatesite.testing.url" value="http://ttcn.ericsson.se/download/testing_update_site/"/>
 
@@ -90,9 +92,8 @@
 	<property name="usrguide.eclipse.dir" location="${base.dir}/../"/>
 	<property name="usrguide.eclipse.titanium.dir" location="${base.dir}/../org.eclipse.titanium/docs/"/>
 	<property name="usrguide.eclipse.titanium.refactoring.dir" location="${base.dir}/../org.eclipse.titanium.refactoring/docs/"/>
-	<property name="doc2pdf.jar" location="${lib.dir}/doc2pdf.jar"/>
 
-    <property environment="env"/>
+	<property environment="env"/>
 
 	<!-- javac options -->
 	<property name="javac.debug" value="true"/>
@@ -101,7 +102,5 @@
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
 
-	<!-- The java 6 executable (needed for the doc2pdf.jar) -->
-	<property name="java6" location="/app/j2re/1.6.0_22/LMWP3/bin/java"/>
 </project>
 
