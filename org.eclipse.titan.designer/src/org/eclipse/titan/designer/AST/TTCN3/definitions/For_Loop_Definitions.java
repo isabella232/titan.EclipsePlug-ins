@@ -411,6 +411,8 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 				final Location temporalLocation = temp.getLocation();
 				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 				if (reparser.isAffected(temporalLocation)) {
+					temp.updateSyntax(reparser, false);
+
 					if(!temporalLocation.equals(cumulativeLocation)) {
 						reparser.updateLocation(cumulativeLocation);
 					}
