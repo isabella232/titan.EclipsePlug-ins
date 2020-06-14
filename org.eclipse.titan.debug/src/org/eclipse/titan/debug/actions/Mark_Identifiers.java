@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (c) 2000-2020 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ ******************************************************************************/
 package org.eclipse.titan.debug.actions;
 
 import java.io.InputStream;
@@ -18,6 +25,19 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
+/**
+ * This editor action allows us to debug the possible incorrect shifts happening during the update part of incremental parsing.
+ *
+ * This is done by checking for each identifier in the file if its name and the text in the file at the stored location is the same.
+ * If they are not the same, the identifier is underlined as if being a semantic error.
+ * This way if the update process goes wrong from some point onward, the incorrect identifier locations will help debug it.
+ *
+ * General usage:
+ *  add a single space somewhere in the beginning of an editor and save the file.
+ *  Invoke the action.
+ *
+ * @author Kristof Szabados
+ */
 public class Mark_Identifiers implements IEditorActionDelegate {
 	private TTCN3Editor targetEditor = null;
 	StringBuilder paddingBuffer = new StringBuilder();
