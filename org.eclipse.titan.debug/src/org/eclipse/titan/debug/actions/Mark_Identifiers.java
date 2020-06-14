@@ -1,0 +1,91 @@
+package org.eclipse.titan.debug.actions;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.consoles.TITANDebugConsole;
+import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor;
+import org.eclipse.titan.designer.parsers.GlobalParser;
+import org.eclipse.titan.designer.parsers.ProjectSourceParser;
+import org.eclipse.ui.IEditorActionDelegate;
+import org.eclipse.ui.IEditorPart;
+
+public class Mark_Identifiers implements IEditorActionDelegate {
+	private TTCN3Editor targetEditor = null;
+	StringBuilder paddingBuffer = new StringBuilder();
+
+	@Override
+	public void run(final IAction action) {
+		if (targetEditor == null) {
+			return;
+		}
+
+		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
+		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(file.getProject());
+		final Module module = parser.containedModule(file);
+		if (module == null) {
+			TITANDebugConsole.getConsole().newMessageStream().println("No module was found");
+		}
+
+		String content1;
+
+		try {
+			final InputStream is1 = file.getContents();
+			final char[] buf = new char[1024];
+			final StringBuilder sb = new StringBuilder();
+			final InputStreamReader isr = new InputStreamReader(is1);
+			int len;
+			while ((len = isr.read(buf)) > 0) {
+				sb.append(buf, 0, len);
+			}
+			content1 = sb.toString();
+			is1.close();
+		} catch (Exception e) {
+			return;
+		}
+
+		final String fileContent = content1;
+		module.accept(new ASTVisitor() {
+			@Override
+			public int visit(final IVisitableNode node) {
+				if (node instanceof Identifier) {
+					final Identifier id = (Identifier) node;
+					final Location loc = id.getLocation();
+					if (loc.getOffset() == -1) {
+						return super.visit(node);
+					}
+
+					final String inFile = fileContent.substring(loc.getOffset(), loc.getEndOffset());
+					final String inEditor = id.getDisplayName();
+					if (!inEditor.equals(inFile)) {
+						loc.reportSemanticError("This is an identifier");
+					}
+				}
+
+				return super.visit(node);
+			}
+		});
+	}
+
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+		// Nothing to be done
+	}
+
+	@Override
+	public void setActiveEditor(final IAction action, final IEditorPart targetEditor) {
+		if (targetEditor instanceof TTCN3Editor) {
+			this.targetEditor = (TTCN3Editor) targetEditor;
+		} else {
+			this.targetEditor = null;
+		}
+	}
+}

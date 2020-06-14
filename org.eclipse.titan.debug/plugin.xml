@@ -7,7 +7,7 @@
  which accompanies this distribution, and is available at
  https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  -->
-<?eclipse version="4.4"?>
+<?eclipse version="3.4"?>
 <plugin>
   <extension
     point="org.eclipse.ui.popupMenus">
@@ -52,13 +52,21 @@
         <separator name="organize"/>
       </menu>
       <action
-	        id="org.eclipse.titan.debug.commands.Export_Debug_AST"
-	        definitionId="org.eclipse.titan.debug.commands.Export_Debug_ASTCommand"
-	        label="Export Debug AST"
-	        icon="icons/titan.gif"
-	        menubarPath="org.eclipse.titan.debug.menu.ContextMenu/organize"
-	        class="org.eclipse.titan.debug.actions.Export_Debug_AST">
-	      </action>
+        id="org.eclipse.titan.debug.commands.Export_Debug_AST"
+        definitionId="org.eclipse.titan.debug.commands.Export_Debug_ASTCommand"
+        label="Export Debug AST"
+        icon="icons/titan.gif"
+        menubarPath="org.eclipse.titan.debug.menu.ContextMenu/organize"
+        class="org.eclipse.titan.debug.actions.Export_Debug_AST">
+      </action>
+      <action
+        id="org.eclipse.titan.debug.commands.Mark_Identifiers"
+        definitionId="org.eclipse.titan.debug.commands.Mark_IdentifiersCommand"
+        label="Mark Identifiers"
+        icon="icons/titan.gif"
+        menubarPath="org.eclipse.titan.debug.menu.ContextMenu/organize"
+        class="org.eclipse.titan.debug.actions.Mark_Identifiers">
+      </action>
       <action
         id="org.eclipse.titan.debug.commands.ProjectReanalyzer"
         definitionId="org.eclipse.titan.debug.commands.ProjectReanalyzer"
@@ -73,13 +81,20 @@
       <editorContribution
       id="org.eclipse.titan.designer.editors.ttcn3editor.actions"
       targetID="org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor">
-	      <action
-	        id="org.eclipse.titan.debug.actions.Export_Debug_AST"
-	        definitionId="org.eclipse.titan.debug.actions.Export_Debug_AST"
-	        label="Export Debug AST"
-	        icon="icons/titan.gif"
-	        class="org.eclipse.titan.debug.actions.Export_Debug_AST">
-	      </action>
+      <action
+        id="org.eclipse.titan.debug.actions.Export_Debug_AST"
+        definitionId="org.eclipse.titan.debug.actions.Export_Debug_AST"
+        label="Export Debug AST"
+        icon="icons/titan.gif"
+        class="org.eclipse.titan.debug.actions.Export_Debug_AST">
+      </action>
+      <action
+        id="org.eclipse.titan.debug.actions.Mark_Identifiers"
+        definitionId="org.eclipse.titan.debug.actions.Mark_Identifiers"
+        label="Mark_Identifiers"
+        icon="icons/titan.gif"
+        class="org.eclipse.titan.debug.actions.Mark_Identifiers">
+      </action>
       </editorContribution>
     </extension>
       <extension
@@ -94,6 +109,11 @@
       name="Export Debug AST"/>
       <command
       categoryId="org.eclipse.titan.debug.commands.Commands"
+      description="Mark_Identifiers"
+      id="org.eclipse.titan.debug.commands.Mark_IdentifiersCommand"
+      name="Mark Identifiers"/>
+      <command
+      categoryId="org.eclipse.titan.debug.commands.Commands"
       description="Check a module for code smells"
       id="org.eclipse.titan.debug.commands.ProjectReanalyzer"
       name="Re-Analyze projects"/>
@@ -104,13 +124,20 @@
       id="org.eclipse.titan.designer.editors.ttcn3editor.actions"
       targetID="org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor">
       <action
-	        id="org.eclipse.titan.debug.actions.Export_Debug_AST"
-	        definitionId="org.eclipse.titan.debug.commands.Export_Debug_ASTCommand"
-	        label="Export Debug AST"
-	        icon="icons/titan.gif"
-	        class="org.eclipse.titan.debug.actions.Export_Debug_AST">
-	      </action>
-	      <action
+        id="org.eclipse.titan.debug.actions.Export_Debug_AST"
+        definitionId="org.eclipse.titan.debug.commands.Export_Debug_ASTCommand"
+        label="Export Debug AST"
+        icon="icons/titan.gif"
+        class="org.eclipse.titan.debug.actions.Export_Debug_AST">
+      </action>
+      <action
+        id="org.eclipse.titan.debug.actions.Mark_Identifiers"
+        definitionId="org.eclipse.titan.debug.commands.Mark_IdentifiersCommand"
+        label="Mark Identifiers"
+        icon="icons/titan.gif"
+        class="org.eclipse.titan.debug.actions.Mark_Identifiers">
+      </action>
+      <action
         id="org.eclipse.titan.debug.commands.ProjectReanalyzer"
         definitionId="org.eclipse.titan.debug.commands.ProjectReanalyzer"
         label="Force Re-Analysis of projects"
