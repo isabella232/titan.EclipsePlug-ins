@@ -159,7 +159,10 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 
 		if (subReferences != null) {
 			for (int i = 0, size = subReferences.size(); i < size; i++) {
-				reparser.updateLocation(subReferences.get(i).getLocation());
+				final ISubReference subReference = subReferences.get(i);
+
+				subReference.updateSyntax(reparser, false);
+				reparser.updateLocation(subReference.getLocation());
 			}
 		}
 	}
