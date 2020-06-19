@@ -208,12 +208,14 @@ public final class PathConverter {
 
 		MessageConsoleStream stream = null;
 		if (reportDebugInformation) {
-			stream = outputConsole.newMessageStream();
+			final StringBuilder builder = new StringBuilder();
 
 			for (final String c : command) {
-				stream.print(c + " ");
+				builder.append(c).append(" ");
 			}
-			stream.println();
+
+			stream = outputConsole.newMessageStream();
+			stream.println(builder.toString());
 		}
 		return stream;
 	}
