@@ -45,7 +45,6 @@ import org.eclipse.titan.designer.license.License;
 import org.eclipse.titan.designer.license.LicenseValidator;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
 
 /**
@@ -239,8 +238,6 @@ public class TITANJob extends WorkspaceJob {
 		pb.redirectErrorStream(true);
 		Process proc = null;
 
-		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream(); 
-
 		String line;
 		BufferedReader stdout;
 
@@ -289,13 +286,13 @@ public class TITANJob extends WorkspaceJob {
 			for (final String c : finalCommand) {
 				builder.append(c + SPACE);
 			}
-			TITANConsole.println(builder.toString(),stream);
+			TITANConsole.println(builder.toString());
 
 			pb.command(finalCommand);
 			try {
 				proc = pb.start();
 			} catch (IOException e) {
-				TITANConsole.println(ExternalTitanAction.EXECUTION_FAILED,stream);
+				TITANConsole.println(ExternalTitanAction.EXECUTION_FAILED);
 				ErrorReporter.logExceptionStackTrace(e);
 				reportExecutionProblem(project, prefs, getName(), finalCommand, null, false);
 				foundErrors = true;
@@ -322,7 +319,7 @@ public class TITANJob extends WorkspaceJob {
 						return Status.CANCEL_STATUS;
 					}
 					analyzer.parseTitanErrors(line);
-					TITANConsole.println(line,stream);
+					TITANConsole.println(line);
 				}
 				int exitval = proc.waitFor();
 
@@ -332,7 +329,7 @@ public class TITANJob extends WorkspaceJob {
 				}
 
 				if (exitval != 0) {
-					TITANConsole.println(FAILURE + exitval,stream);
+					TITANConsole.println(FAILURE + exitval);
 					if (!analyzer.hasProcessedErrorMessages()) {
 						if (stderr.ready()) {
 							final StringBuilder builder2 = new StringBuilder();
@@ -353,12 +350,12 @@ public class TITANJob extends WorkspaceJob {
 					return Status.CANCEL_STATUS;
 				}
 
-				TITANConsole.println(SUCCESS,stream);
+				TITANConsole.println(SUCCESS);
 			} catch (IOException e) {
-				TITANConsole.println(ExternalTitanAction.EXECUTION_FAILED,stream);
+				TITANConsole.println(ExternalTitanAction.EXECUTION_FAILED);
 				ErrorReporter.logExceptionStackTrace(ExternalTitanAction.EXECUTION_FAILED, e);
 			} catch (InterruptedException e) {
-				TITANConsole.println(ExternalTitanAction.INTERRUPTION,stream);
+				TITANConsole.println(ExternalTitanAction.INTERRUPTION);
 				ErrorReporter.logExceptionStackTrace(ExternalTitanAction.INTERRUPTION, e);
 			} finally {
 				try {
