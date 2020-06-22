@@ -290,16 +290,16 @@ public class ProjectSourceSemanticAnalyzer {
 	 * @return the status of the operation when it finished.
 	 * */
 	static IStatus analyzeMultipleProjectsSemantically(final List<IProject> tobeSemanticallyAnalyzed, final IProgressMonitor monitor, final CompilationTimeStamp compilationCounter) {
-		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-			if (!tobeSemanticallyAnalyzed.get(i).isAccessible() || !TITANNature.hasTITANNature(tobeSemanticallyAnalyzed.get(i))) {
+		for (final IProject project: tobeSemanticallyAnalyzed) {
+			if (!project.isAccessible() || !TITANNature.hasTITANNature(project)) {
 				return Status.CANCEL_STATUS;
 			}
 		}
 
 		final long semanticCheckStart = System.nanoTime();
 
-		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-			final ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
+		for (final IProject project: tobeSemanticallyAnalyzed) {
+			final ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(project).getSemanticAnalyzer();
 			synchronized (semanticAnalyzer.outdatedModuleMap) {
 				semanticAnalyzer.outdatedModuleMap.clear();
 			}
@@ -325,9 +325,9 @@ public class ProjectSourceSemanticAnalyzer {
 			final List<String> semanticallyChecked = new ArrayList<String>();
 
 			//remove module name duplication markers. It shall be done before starting the next for-loop!
-			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
+			for (final IProject project: tobeSemanticallyAnalyzed) {
 				final ProjectSourceSemanticAnalyzer semanticAnalyzer =
-						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
+						GlobalParser.getProjectSourceParser(project).getSemanticAnalyzer();
 				for (final Module module: semanticAnalyzer.fileModuleMap.values()) {
 					if(module instanceof TTCN3Module){
 						MarkerHandler.markAllSemanticMarkersForRemoval(module.getIdentifier());
@@ -335,9 +335,9 @@ public class ProjectSourceSemanticAnalyzer {
 				}
 			}
 
-			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
+			for (final IProject project: tobeSemanticallyAnalyzed) {
 				final ProjectSourceSemanticAnalyzer semanticAnalyzer =
-						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
+						GlobalParser.getProjectSourceParser(project).getSemanticAnalyzer();
 				for (final Module module: semanticAnalyzer.fileModuleMap.values()) {
 					final String name = module.getIdentifier().getName();
 					allModules.add(module);
@@ -415,9 +415,9 @@ public class ProjectSourceSemanticAnalyzer {
 			//Not supported markers are handled here, at the and of checking. Otherwise they would be deleted
 			final IPreferencesService preferenceService = Platform.getPreferencesService();
 			final String option = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, GeneralConstants.WARNING, null);
-			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
+			for (final IProject project: tobeSemanticallyAnalyzed) {
 				// report the unsupported constructs in the project
-				final ProjectSourceSyntacticAnalyzer syntacticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSyntacticAnalyzer();
+				final ProjectSourceSyntacticAnalyzer syntacticAnalyzer = GlobalParser.getProjectSourceParser(project).getSyntacticAnalyzer();
 				for (final IFile file : syntacticAnalyzer.unsupportedConstructMap.keySet()) {
 					final List<TITANMarker> markers = syntacticAnalyzer.unsupportedConstructMap.get(file);
 					if (markers != null && file.isAccessible()) {
@@ -435,8 +435,8 @@ public class ProjectSourceSemanticAnalyzer {
 			}
 			progress.subTask("Cleanup operations");
 
-			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-				final ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
+			for (final IProject project: tobeSemanticallyAnalyzed) {
+				final ProjectSourceSemanticAnalyzer semanticAnalyzer = GlobalParser.getProjectSourceParser(project).getSemanticAnalyzer();
 				synchronized (semanticAnalyzer.semanticallyUptodateModules) {
 					semanticAnalyzer.semanticallyUptodateModules.clear();
 					semanticAnalyzer.semanticallyUptodateModules.addAll(semanticAnalyzer.moduleMap.keySet());
@@ -453,14 +453,13 @@ public class ProjectSourceSemanticAnalyzer {
 		}
 		progress.done();
 
-		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-			final IProject actualProject = tobeSemanticallyAnalyzed.get(i);
-			final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(actualProject);
+		for (final IProject project: tobeSemanticallyAnalyzed) {
+			final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
 			parser.setLastTimeChecked(compilationCounter);
 
-			GlobalProjectStructureTracker.updateData(actualProject);
+			GlobalProjectStructureTracker.updateData(project);
 
-			MarkerHandler.removeAllOnTheFlyMarkedMarkers(tobeSemanticallyAnalyzed.get(i));
+			MarkerHandler.removeAllOnTheFlyMarkedMarkers(project);
 		}
 
 		return Status.OK_STATUS;
