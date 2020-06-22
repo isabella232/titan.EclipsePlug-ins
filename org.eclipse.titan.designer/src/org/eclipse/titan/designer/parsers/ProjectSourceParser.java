@@ -785,27 +785,32 @@ public final class ProjectSourceParser {
 							progress.subTask("Analyzing project " + tempProject.getName());
 							GlobalParser.getProjectSourceParser(tempProject).analyzesRunning = true;
 
-							if (tempProject.isAccessible()) {
-								if (TITANNature.hasTITANNature(tempProject)) {
-									GlobalParser.getProjectSourceParser(tempProject).syntacticAnalyzer
-									.internalDoAnalyzeSyntactically(progress.newChild(1));
-									tobeSemanticallyAnalyzed.add(tempProject);
+							try {
+								if (tempProject.isAccessible()) {
+									if (TITANNature.hasTITANNature(tempProject)) {
+										GlobalParser.getProjectSourceParser(tempProject).syntacticAnalyzer
+										.internalDoAnalyzeSyntactically(progress.newChild(1));
+										tobeSemanticallyAnalyzed.add(tempProject);
+									} else {
+										final Location location = new Location(project, 0, 0, 0);
+										location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTTITANPROJECT,
+												tempProject.getName(), project.getName()), IMarker.SEVERITY_ERROR,
+												GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
+										progress.worked(1);
+									}
 								} else {
-									final Location location = new Location(project, 0, 0, 0);
-									location.reportExternalProblem(MessageFormat.format(REQUIREDPROJECTNOTTITANPROJECT,
-											tempProject.getName(), project.getName()), IMarker.SEVERITY_ERROR,
-											GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
+									final Location location = new Location(project);
+									location.reportExternalProblem(
+											MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tempProject.getName(),
+													project.getName()), IMarker.SEVERITY_ERROR,
+													GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 									progress.worked(1);
 								}
-							} else {
-								final Location location = new Location(project);
-								location.reportExternalProblem(
-										MessageFormat.format(REQUIREDPROJECTNOTACCESSIBLE, tempProject.getName(),
-												project.getName()), IMarker.SEVERITY_ERROR,
-												GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
-								progress.worked(1);
+							} catch (Exception e) {
+								ErrorReporter.logExceptionStackTrace(e);
+							} finally {
+								latch.countDown();
 							}
-							latch.countDown();
 						}
 					});
 				}
