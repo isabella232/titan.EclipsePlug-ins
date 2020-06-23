@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -149,7 +150,7 @@ public final class BrokenPartsChecker {
 				modulesToCheckCopy.removeAll(modulesToCheckParallely);
 			}
 
-			final List<Module> modulesBeingChecked = new LinkedList<Module>(modulesToCheckParallely);
+			final LinkedBlockingDeque<Module> modulesBeingChecked = new LinkedBlockingDeque<Module>(modulesToCheckParallely);
 
 			synchronized(modulesToCheckCopy) {
 				for (final Module module : modulesToCheckParallely) {
@@ -192,7 +193,7 @@ public final class BrokenPartsChecker {
 	}
 
 	private static void addToExecutor(final Module module, final ExecutorService executor, final CountDownLatch latch, final CompilationTimeStamp compilationCounter, final long absoluteStart,
-			final List<Module> modulesToCheckCopy, final List<Module> modulesBeingChecked, final AtomicInteger activeExecutorCount, final SubMonitor progress) {
+			final List<Module> modulesToCheckCopy, final LinkedBlockingDeque<Module> modulesBeingChecked, final AtomicInteger activeExecutorCount, final SubMonitor progress) {
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
