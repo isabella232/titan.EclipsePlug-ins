@@ -292,16 +292,15 @@ public class ChangeCreator {
 
 				if (needSorting || (removeImports && !isused)) {
 					if (reportDebug) {
-						final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 						TITANDebugConsole.println("Removing "
 								+ "'"
 								+ doc.substring(startLineRegion.getOffset(), endLineRegion.getOffset()
-										+ endLineRegion.getLength() + delLength) + "'", stream);
+										+ endLineRegion.getLength() + delLength) + "'");
 						TITANDebugConsole.println("From "
 								+ startLineRegion.getOffset()
 								+ " till "
 								+ ((endLineRegion.getOffset() - startLineRegion.getOffset())
-										+ endLineRegion.getLength() + delLength), stream);
+										+ endLineRegion.getLength() + delLength));
 					}
 
 					removeEdit.addChild(new DeleteEdit(startLineRegion.getOffset(),
