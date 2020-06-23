@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -757,13 +758,13 @@ public final class ProjectSourceParser {
 			TITANDebugConsole.println("On-the-fly analyzation of project " + project.getName() + " started");
 		}
 
-		final List<IProject> tobeSemanticallyAnalyzed = new ArrayList<IProject>();
-
 		try {
 			final boolean useParallelSemanticChecking = preferenceService.getBoolean(
 					ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.USEPARALLELSEMATICCHECKING, true, null);
 			if (useParallelSemanticChecking) {
+				final ConcurrentLinkedQueue<IProject> tobeSemanticallyAnalyzed = new ConcurrentLinkedQueue<IProject>();
+
 				final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
 					@Override
 					public Thread newThread(final Runnable r) {
@@ -828,7 +829,11 @@ public final class ProjectSourceParser {
 					ErrorReporter.logExceptionStackTrace(e);
 				}
 				executor.shutdownNow();
+
+				ProjectSourceSemanticAnalyzer.analyzeMultipleProjectsSemantically(new ArrayList<IProject>(tobeSemanticallyAnalyzed), progress.newChild(tobeAnalyzed.size()), compilationCounter);
 			} else {
+				final ArrayList<IProject> tobeSemanticallyAnalyzed = new ArrayList<IProject>();
+
 				for (final IProject tempProject : tobeAnalyzed) {
 					if (progress.isCanceled()) {
 						throw new OperationCanceledException();
@@ -858,9 +863,9 @@ public final class ProjectSourceParser {
 						progress.worked(1);
 					}
 				}
-			}
 
-			ProjectSourceSemanticAnalyzer.analyzeMultipleProjectsSemantically(tobeSemanticallyAnalyzed, progress.newChild(tobeAnalyzed.size()), compilationCounter);
+				ProjectSourceSemanticAnalyzer.analyzeMultipleProjectsSemantically(tobeSemanticallyAnalyzed, progress.newChild(tobeAnalyzed.size()), compilationCounter);
+			}
 
 			// semantic check for config file
 			// GlobalParser.getConfigSourceParser(project).doSemanticCheck();
