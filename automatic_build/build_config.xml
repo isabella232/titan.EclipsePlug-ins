@@ -8,7 +8,8 @@
  https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  -->
 <project basedir="." name="config">
-
+	<property environment="env"/>
+	
 	<!-- The qualifier of the features -->
 	<property name="version" value="7.1.0.CRL_113_200_7_R1A"/>
 	<tstamp/>
@@ -92,8 +93,6 @@
 	<property name="usrguide.eclipse.dir" location="${base.dir}/../"/>
 	<property name="usrguide.eclipse.titanium.dir" location="${base.dir}/../org.eclipse.titanium/docs/"/>
 	<property name="usrguide.eclipse.titanium.refactoring.dir" location="${base.dir}/../org.eclipse.titanium.refactoring/docs/"/>
-
-	<property environment="env"/>
 
 	<!-- javac options -->
 	<property name="javac.debug" value="true"/>
