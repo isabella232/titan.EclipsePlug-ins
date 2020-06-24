@@ -19,14 +19,14 @@ public final class ProductConstants {
 	/**
 	 * Global configuration flag for usage statistics sending, true if usage statistics is sent
 	 */
-	public static final boolean USAGE_STAT_SENDING = false;
+	public static final boolean USAGE_STAT_SENDING = true;
 
 	/**
 	 * Global configuration flag for license file checking.
 	 *   true: TITAN License file check is done,
 	 *   false: TITAN works without TITAN license file
 	 */
-	public static final boolean LICENSE_NEEDED = false;
+	public static final boolean LICENSE_NEEDED = true;
 
 	private ProductConstants() {
 		// Do nothing
