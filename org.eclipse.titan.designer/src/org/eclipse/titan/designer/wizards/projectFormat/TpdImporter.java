@@ -42,6 +42,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
@@ -614,12 +615,13 @@ public class TpdImporter {
 
 			final String projectName = nameNode.getTextContent();
 			final String realProjectName = finalProjectNames.get(projectName);
+			final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 			if (realProjectName != null && realProjectName.length() > 0) {
-				final IProject tempProject = ResourcesPlugin.getWorkspace().getRoot().getProject(realProjectName);
+				final IProject tempProject = workspaceRoot.getProject(realProjectName);
 				referencedProjects.add(tempProject);
 			} else {
 				//already existing projects:
-				final IProject tempProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+				final IProject tempProject = workspaceRoot.getProject(projectName);
 				referencedProjects.add(tempProject);
 			}
 		}
