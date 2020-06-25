@@ -18,6 +18,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -60,6 +68,7 @@ import org.eclipse.titan.common.utils.IOUtils;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
+import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
@@ -207,33 +216,68 @@ public class TpdImporter {
 		// store load location 
 		// (where they are loaded from)
 		//========================
-		final Map<URI, IProject> projectMap = new HashMap<URI, IProject>();
+		final Map<URI, IProject> projectMap = new ConcurrentHashMap<URI, IProject>();
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
+
+		final AtomicBoolean isErroneous = new AtomicBoolean(false);
+		final LinkedBlockingDeque<IProject> projectsCreatedTemp = new LinkedBlockingDeque<IProject>();
+		final CountDownLatch latch = new CountDownLatch(projectsToImport.size());
 		for (final URI file : projectsToImport.keySet()) {
 			final Document actualDocument = projectsToImport.get(file);
 
-			final IProject project = createProject(actualDocument.getDocumentElement(), file.equals(resolvedProjectFileURI) || !isSkipExistingProjects);
-			if (project == null) {
-				projectCreationMonitor.worked(1);
-				if (file.equals(resolvedProjectFileURI)) {
-					projectCreationMonitor.done();
-					progress.done();
-					return false;
-				} else {
-					continue;
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					final IProject project = createProject(actualDocument.getDocumentElement(), file.equals(resolvedProjectFileURI) || !isSkipExistingProjects);
+					if (project == null) {
+						if (file.equals(resolvedProjectFileURI)) {
+							isErroneous.set(true);
+							latch.countDown();
+							return;
+						} else {
+							latch.countDown();
+							return;
+						}
+					}
+					projectsCreatedTemp.add(project);
+					projectMap.put(file, project);
+					try {
+						project.setPersistentProperty(
+								new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.LOAD_LOCATION), file.getPath()
+										.toString());
+					} catch (CoreException e) {
+						ErrorReporter.logExceptionStackTrace("While loading referenced project from `" + file.getPath() + "'", e);
+					} finally {
+						latch.countDown();
+					}
 				}
-			}
-			projectsCreated.add(project);
-			projectMap.put(file, project);
-			try {
-				project.setPersistentProperty(
-						new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.LOAD_LOCATION), file.getPath()
-								.toString());
-			} catch (CoreException e) {
-				ErrorReporter.logExceptionStackTrace("While loading referenced project from `" + file.getPath() + "'", e);
-			}
-			projectCreationMonitor.worked(1);
+			});
 		}
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+
+		executor.shutdownNow();
+		projectsCreated.addAll(projectsCreatedTemp);
 		projectCreationMonitor.done();
+		if (isErroneous.get()) {
+			return false;
+		}
 
 		final IProgressMonitor normalInformationLoadingMonitor = progress.newChild(1);
 		normalInformationLoadingMonitor.beginTask("Loading directly stored project information", projectsToImport.size());
