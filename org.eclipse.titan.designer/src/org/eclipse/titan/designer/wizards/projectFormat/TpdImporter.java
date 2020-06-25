@@ -285,60 +285,92 @@ public class TpdImporter {
 		//====================================
 		//Load Project Data from all projects:
 		//====================================
+		final ExecutorService executor2 = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
+
+		final CountDownLatch latch2 = new CountDownLatch(projectsToImport.size());
 		for (final URI file : projectsToImport.keySet()) {
-			if (!projectMap.containsKey(file)) {
-				normalInformationLoadingMonitor.worked(1);
-				continue;
-			}
-
-			final IProject project = projectMap.get(file);
-			final IPath projectFileFolderPath = new Path(file.getPath()).removeLastSegments(1);
-			final URI projectFileFolderURI = URIUtil.toURI(projectFileFolderPath);
-			final Document actualDocument = projectsToImport.get(file);
-
-			if (this.searchPaths != null && !this.searchPaths.isEmpty()) {
-				final String tpdNameAttrVal = tpdNameAttrMap.get(project.getName());
-				final String tpdURIVal = tpdURIMap.get(project.getName());
-				if (tpdNameAttrVal != null) {
-					try {
-						project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.USE_TPD_NAME),
-								tpdNameAttrVal);
-					} catch (CoreException e) {
-						ErrorReporter.logExceptionStackTrace("While setting `useTpdName' for project `" + project.getName() + "'", e);
+			executor2.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (!projectMap.containsKey(file)) {
+						latch2.countDown();
+						return;
 					}
-				}
-				if (tpdURIVal != null) {
-					try {
-						project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.ORIG_TPD_URI),
-								tpdURIVal);
-					} catch (CoreException e) {
-						ErrorReporter.logExceptionStackTrace("While setting `origTpdURI' for project `" + project.getName() + "'", e);
+		
+					final IProject project = projectMap.get(file);
+					final IPath projectFileFolderPath = new Path(file.getPath()).removeLastSegments(1);
+					final URI projectFileFolderURI = URIUtil.toURI(projectFileFolderPath);
+					final Document actualDocument = projectsToImport.get(file);
+		
+					if (searchPaths != null && !searchPaths.isEmpty()) {
+						final String tpdNameAttrVal = tpdNameAttrMap.get(project.getName());
+						final String tpdURIVal = tpdURIMap.get(project.getName());
+						if (tpdNameAttrVal != null) {
+							try {
+								project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.USE_TPD_NAME),
+										tpdNameAttrVal);
+							} catch (CoreException e) {
+								ErrorReporter.logExceptionStackTrace("While setting `useTpdName' for project `" + project.getName() + "'", e);
+							}
+						}
+						if (tpdURIVal != null) {
+							try {
+								project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.ORIG_TPD_URI),
+										tpdURIVal);
+							} catch (CoreException e) {
+								ErrorReporter.logExceptionStackTrace("While setting `origTpdURI' for project `" + project.getName() + "'", e);
+							}
+						}
 					}
+		
+					final Element mainElement = actualDocument.getDocumentElement();
+					//=== Get the copyright text ===
+					final Node node = mainElement.getFirstChild();
+		
+					String commentStr = ""; //default value. This will be changed for PreferenceConstants.COPYRIGHT_DEFAULT_STRING at export
+					if( node !=null && node.getNodeType() == Element.COMMENT_NODE ){
+						//process comment node
+						final Comment comment = (Comment) node;
+						commentStr = comment.getData();
+					}
+					try {
+						project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.PROJECT_COPYRIGHT_STRING_ID),
+								commentStr);
+					} catch (CoreException e) {
+						ErrorReporter.logExceptionStackTrace("While setting `copyright string' for project `" + project.getName() + "'", e);
+					}
+		
+					if (!loadProjectDataFromNode(mainElement, project, projectFileFolderURI)) {
+						latch2.countDown();
+						isErroneous.set(true);
+						return;
+					}
+		
+					latch2.countDown();
 				}
-			}
-
-			final Element mainElement = actualDocument.getDocumentElement();
-			//=== Get the copyright text ===
-			final Node node = mainElement.getFirstChild();
-
-			String commentStr = ""; //default value. This will be changed for PreferenceConstants.COPYRIGHT_DEFAULT_STRING at export
-			if( node !=null && node.getNodeType() == Element.COMMENT_NODE ){
-				//process comment node
-				final Comment comment = (Comment) node;
-				commentStr = comment.getData();
-			}
-			try {
-				project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.PROJECT_COPYRIGHT_STRING_ID),
-						commentStr);
-			} catch (CoreException e) {
-				ErrorReporter.logExceptionStackTrace("While setting `copyright string' for project `" + project.getName() + "'", e);
-			}
-
-			if (!loadProjectDataFromNode(mainElement, project, projectFileFolderURI)) {
-				return false;
-			}
-
-			normalInformationLoadingMonitor.worked(1);
+			});
+		}
+		try {
+			latch2.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor2.shutdown();
+		try {
+			executor2.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor2.shutdownNow();
+		if (isErroneous.get()) {
+			return false;
 		}
 		normalInformationLoadingMonitor.done();
 		//=====================================
