@@ -65,7 +65,6 @@ import org.eclipse.titan.designer.properties.data.PreprocessorSymbolsOptionsData
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
 import org.eclipse.titan.designer.properties.data.TTCN3PreprocessorOptionsData;
-import org.eclipse.ui.console.MessageConsole;
 
 /**
  * This class is used to generate the Makefile used by the build system of Titan.
@@ -2352,7 +2351,6 @@ public final class InternalMakefileGenerator {
 	private StringBuilder appendExecutableTarget(final StringBuilder contents, final String allObjects, final boolean externalLibrariesDisabled) {
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
-		final MessageConsole debugConsole = TITANDebugConsole.getConsole();
 		final List<IProject> referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
 		if (dynamicLinking && library) {
 			contents.append("$(EXECUTABLE): $(LIBRARY)\n");
