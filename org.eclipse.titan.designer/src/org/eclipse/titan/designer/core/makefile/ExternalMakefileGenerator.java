@@ -63,7 +63,9 @@ public class ExternalMakefileGenerator {
 		final String pathOfTITAN = prefs.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "",
 				null);
 		final Path makefilegenPath = new Path(pathOfTITAN + File.separatorChar + BIN_DIRECTORY + File.separatorChar + MAKEFILEGENERATOR);
-		command.add(PathConverter.convert(makefilegenPath.toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
+		StringBuilder output = new StringBuilder();
+		command.add(PathConverter.convert(makefilegenPath.toOSString(), reportDebugInformation, output));
+		TITANDebugConsole.println(output);
 
 		final String decoratorParametersLong = TITANDecorator.propertiesAsParameters(project, true);
 		if (!EMPTY_STRING.equals(decoratorParametersLong)) {
@@ -89,8 +91,9 @@ public class ExternalMakefileGenerator {
 			final String relativePathToDirectory = PathUtil.getRelativePath(centralStorageDirectory, referencedCentralStorageDirectory);
 			final Path relativePath = new Path(relativePathToDirectory);
 			final String path = relativePath.append(fileName).toOSString();
-			command.add(APOSTROPHE + PathConverter.convert(path, reportDebugInformation, TITANDebugConsole.getConsole())
-					+ APOSTROPHE);
+			output = new StringBuilder();
+			command.add(APOSTROPHE + PathConverter.convert(path, reportDebugInformation, output) + APOSTROPHE);
+			TITANDebugConsole.println(output);
 		}
 
 		final IPath workingDirectoryPath = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
@@ -103,8 +106,9 @@ public class ExternalMakefileGenerator {
 			final String relativePathToDirectory = PathUtil.getRelativePath(workingDirectory, referencedWorkingDirectory);
 			final Path relativePath = new Path(relativePathToDirectory);
 			final String path = relativePath.append(fileName).toOSString();
-			command.add(APOSTROPHE + PathConverter.convert(path, reportDebugInformation, TITANDebugConsole.getConsole())
-					+ APOSTROPHE);
+			output = new StringBuilder();
+			command.add(APOSTROPHE + PathConverter.convert(path, reportDebugInformation, output) + APOSTROPHE);
+			TITANDebugConsole.println(output);
 		}
 
 		return command;

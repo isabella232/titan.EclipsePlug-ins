@@ -53,7 +53,9 @@ public final class ExternalCommandBrowser implements SelectionListener {
 
 		file = dialog.open();
 		if (file != null) {
-			final String filename = PathConverter.convert(file, reportDebugInformation, TITANDebugConsole.getConsole());
+			final StringBuilder output = new StringBuilder();
+			final String filename = PathConverter.convert(file, reportDebugInformation, output);
+			TITANDebugConsole.println(output);
 			field.setText("\"" + filename + "\"");
 		}
 	}

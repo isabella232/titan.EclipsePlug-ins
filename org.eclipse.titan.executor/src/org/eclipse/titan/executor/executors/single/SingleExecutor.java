@@ -58,7 +58,6 @@ import org.eclipse.titan.executor.views.executormonitor.LaunchStorage;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
-import org.eclipse.ui.console.MessageConsole;
 
 /**
  * @author Kristof Szabados
@@ -300,13 +299,13 @@ public final class SingleExecutor extends BaseExecutor {
 		EnvironmentHelper.set_LICENSE_FILE_PATH(env);
 		EnvironmentHelper.set_LD_LIBRARY_PATH(DynamicLinkingHelper.getProject(projectName), env);
 
-		final MessageConsole console = TITANDebugConsole.getConsole();
-
+		final StringBuilder output = new StringBuilder();
 		final List<String> command = new ArrayList<String>();
 		command.add("sh");
 		command.add("-c");
-		command.add(" sleep 1; cd '" + PathConverter.convert(workingdirectoryPath, true, console) + "'; '" + PathConverter.convert(executablePath, true, console)
-				+ "' '" + PathConverter.convert(actualConfigPath, true, console) + "'");
+		command.add(" sleep 1; cd '" + PathConverter.convert(workingdirectoryPath, true, output) + "'; '" + PathConverter.convert(executablePath, true, output)
+				+ "' '" + PathConverter.convert(actualConfigPath, true, output) + "'");
+		TITANDebugConsole.println(output);
 
 		for (final String c : command) {
 			TITANConsole.print(c + ' ');

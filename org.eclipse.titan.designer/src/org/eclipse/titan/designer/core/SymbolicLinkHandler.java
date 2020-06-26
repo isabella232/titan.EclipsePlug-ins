@@ -120,6 +120,7 @@ public final class SymbolicLinkHandler {
 		if (reportDebugInformation) {
 			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink creation.");
 		}
+		//TODO can be improved?
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 
@@ -189,13 +190,15 @@ public final class SymbolicLinkHandler {
 
 					if (!symlinkFiles.contains(lastSegment)) {
 						symlinkFiles.put(lastSegment, lastSegment);
+						final StringBuilder output = new StringBuilder();
 						final List<String> command = new ArrayList<String>();
 						command.add(LINK_CREATION);
 						command.add(FORCE_LINK_CREATION);
 						command.add(APOSTROPHE
 								+ PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
-										TITANDebugConsole.getConsole()) + APOSTROPHE);
+										output) + APOSTROPHE);
 						command.add(APOSTROPHE + lastSegment + APOSTROPHE);
+						TITANDebugConsole.println(output);
 						buildJob.addCommand(command, GENERATING_SYMBOLIC_LINKS);
 					}
 
@@ -404,6 +407,7 @@ public final class SymbolicLinkHandler {
 		if (reportDebugInformation) {
 			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for removed files).");
 		}
+		//TODO can be improved?
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		for (final String key : files.keySet()) {
@@ -411,13 +415,15 @@ public final class SymbolicLinkHandler {
 				@Override
 				public void run() {
 					final File tempFile = new File(workingDirectory + File.separatorChar + key + extension);
+					final StringBuilder output = new StringBuilder();
 					final List<String> command = new ArrayList<String>();
 					command.add(REMOVE);
 					command.add(FORCE_EXECUTION);
 					command.add(APOSTROPHE
-							+ PathConverter.convert(tempFile.getAbsolutePath(), reportDebugInformation, TITANDebugConsole.getConsole())
+							+ PathConverter.convert(tempFile.getAbsolutePath(), reportDebugInformation, output)
 							+ APOSTROPHE);
 					job.addCommand(command, REMOVING_OUTDATED_LINK);
+					TITANDebugConsole.println(output);
 					latch.countDown();
 					monitor.worked(1);
 				}
@@ -483,6 +489,7 @@ public final class SymbolicLinkHandler {
 		if (reportDebugInformation) {
 			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for excluded files).");
 		}
+		//TODO can be improved?
 		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		for (final Map.Entry<String, IFile> entry : files.entrySet()) {
@@ -500,12 +507,14 @@ public final class SymbolicLinkHandler {
 					final String originalLocation = location.toOSString();
 					try {
 						if (tempFile.exists() && (isWindows || originalLocation.equals(tempFile.getCanonicalPath()))) {
+							final StringBuilder output = new StringBuilder();
 							final List<String> command = new ArrayList<String>();
 							command.add(REMOVE);
 							command.add(FORCE_EXECUTION);
 							command.add(APOSTROPHE
 									+ PathConverter.convert(tempFile.getAbsolutePath(), reportDebugInformation,
-											TITANDebugConsole.getConsole()) + APOSTROPHE);
+											output) + APOSTROPHE);
+							TITANDebugConsole.println(output);
 							job.addCommand(command, REMOVING_OUTDATED_LINK);
 						}
 					} catch (IOException e) {

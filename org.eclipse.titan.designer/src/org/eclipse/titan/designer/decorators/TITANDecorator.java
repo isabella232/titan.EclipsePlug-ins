@@ -394,9 +394,10 @@ public final class TITANDecorator extends LabelProvider implements ILabelDecorat
 					final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(
 							ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false,
 							null);
+					final StringBuilder output = new StringBuilder();
 					result.append(SPACE + '\''
-							+ PathConverter.convert(targetExecutable, reportDebugInformation,
-									TITANDebugConsole.getConsole()) + '\'');
+							+ PathConverter.convert(targetExecutable, reportDebugInformation, output) + '\'');
+					TITANDebugConsole.println(output);
 				}
 				pendingSpace = true;
 			} else if (full) {

@@ -147,7 +147,9 @@ public final class CompilerVersionInformationCollector {
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		final String ttcn3Dir = PathConverter.convert(path, reportDebugInformation, TITANDebugConsole.getConsole());
+		final StringBuilder output = new StringBuilder();
+		final String ttcn3Dir = PathConverter.convert(path, reportDebugInformation, output);
+		TITANDebugConsole.println(output);
 		if( License.isLicenseNeeded() ) {
 			env.put(TTCN3_LICENSE_FILE_KEY, LicenseValidator.getResolvedLicenseFilePath(false));
 		}
@@ -186,8 +188,9 @@ public final class CompilerVersionInformationCollector {
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final ArrayList<String> command = new ArrayList<String>();
-		command.add(PathConverter.convert(new Path(path + COMPILER_SUBPATH).toOSString(), reportDebugInformation,
-				TITANDebugConsole.getConsole()));
+		final StringBuilder output = new StringBuilder();
+		command.add(PathConverter.convert(new Path(path + COMPILER_SUBPATH).toOSString(), reportDebugInformation, output));
+		TITANDebugConsole.println(output);
 		command.add('-' + VERSION_CHECK_FLAG);
 
 		final ProcessBuilder pb = new ProcessBuilder();
@@ -309,7 +312,9 @@ public final class CompilerVersionInformationCollector {
 		if (force || resolvedInstallationPath.length() == 0) {
 			final String installationPath = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.TITAN_INSTALLATION_PATH, "", null);
-			resolvedInstallationPath = PathConverter.convert(installationPath, reportDebugInformation, TITANDebugConsole.getConsole());
+			final StringBuilder output = new StringBuilder();
+			resolvedInstallationPath = PathConverter.convert(installationPath, reportDebugInformation, output);
+			TITANDebugConsole.println(output);
 		}
 
 		return resolvedInstallationPath;

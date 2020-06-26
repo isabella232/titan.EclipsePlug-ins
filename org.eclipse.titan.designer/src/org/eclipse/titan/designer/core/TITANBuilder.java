@@ -284,15 +284,18 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			if ((new File(realTargetExecutable)).exists()) {
 				// if the executable to be removed is given with
 				// full path
+				final StringBuilder output = new StringBuilder();
 				command.add(APOSTROPHE
-						+ PathConverter.convert(realTargetExecutable, reportDebugInformation, TITANDebugConsole.getConsole())
-						+ APOSTROPHE);
+						+ PathConverter.convert(realTargetExecutable, reportDebugInformation, output) + APOSTROPHE);
+				TITANDebugConsole.println(output);
 			} else if ((new File(workingDir.toOSString() + File.separatorChar + realTargetExecutable)).exists()) {
 				// if the executable to be removed is given only
 				// with a file name
+				final StringBuilder output = new StringBuilder();
 				command.add(APOSTROPHE
 						+ PathConverter.convert(workingDir.toOSString() + File.separatorChar + realTargetExecutable,
-								reportDebugInformation, TITANDebugConsole.getConsole()) + APOSTROPHE);
+								reportDebugInformation, output) + APOSTROPHE);
+				TITANDebugConsole.println(output);
 			} else {
 				// the file does not seem to exist, so it does
 				// not need to be removed ;)
@@ -647,12 +650,13 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			command.add(TEMPORARY_MAKEFILE);
 			buildJob.addCommand(command, REMOVING_TEMPORARY_MAKEFILE);
 
+			final StringBuilder output = new StringBuilder();
 			command = new ArrayList<String>();
-			command.add(APOSTROPHE + PathConverter.convert(makefileScript, reportDebugInformation, TITANDebugConsole.getConsole())
-					+ APOSTROPHE);
+			command.add(APOSTROPHE + PathConverter.convert(makefileScript, reportDebugInformation, output) + APOSTROPHE);
 			command.add(MAKEFILE);
 			command.add(TEMPORARY_MAKEFILE);
 			buildJob.addCommand(command, RUNNING_UPDATER);
+			TITANDebugConsole.println(output);
 
 			command = new ArrayList<String>();
 			command.add(MOVE);

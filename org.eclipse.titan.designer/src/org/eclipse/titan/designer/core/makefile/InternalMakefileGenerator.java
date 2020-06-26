@@ -233,80 +233,112 @@ public final class InternalMakefileGenerator {
 			return;
 		}
 
-		final MessageConsole conversionConsole = TITANDebugConsole.getConsole();
+		//TODO Should this be parallel?
 		for (final ModuleStruct module : ttcn3Modules) {
 			if (module.getDirectory() != null) {
-				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 			if (module.getOriginalLocation() != null) {
-				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 		}
 		for (final ModuleStruct module : ttcnppModules) {
 			if (module.getDirectory() != null) {
-				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 			if (module.getOriginalLocation() != null) {
-				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 		}
 
 		for (final TTCN3IncludeFileStruct includeFile : ttcn3IncludeFiles) {
 			if (includeFile.getDirectory() != null) {
-				includeFile.setDirectory(PathConverter.convert(includeFile.getDirectory(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				includeFile.setDirectory(PathConverter.convert(includeFile.getDirectory(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 			if (includeFile.getOriginalLocation() != null) {
+				final StringBuilder output = new StringBuilder();
 				includeFile.setOriginalLocation(PathConverter.convert(includeFile.getOriginalLocation(), reportDebugInformation,
-						conversionConsole));
+						output));
+				TITANDebugConsole.println(output);
 			}
 		}
 
 		for (final ModuleStruct module : asn1modules) {
 			if (module.getDirectory() != null) {
-				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 			if (module.getOriginalLocation() != null) {
-				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 		}
 		for (final UserStruct user : userFiles) {
 			if (user.getDirectory() != null) {
-				user.setDirectory(PathConverter.convert(user.getDirectory(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				user.setDirectory(PathConverter.convert(user.getDirectory(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 			if (user.getOriginalHeaderLocation() != null) {
+				final StringBuilder output = new StringBuilder();
 				user.setOriginalHeaderLocation(PathConverter.convert(user.getOriginalHeaderLocation(), reportDebugInformation,
-						conversionConsole));
+						output));
+				TITANDebugConsole.println(output);
 			}
 			if (user.getOriginalSourceLocation() != null) {
+				final StringBuilder output = new StringBuilder();
 				user.setOriginalSourceLocation(PathConverter.convert(user.getOriginalSourceLocation(), reportDebugInformation,
-						conversionConsole));
+						output));
+				TITANDebugConsole.println(output);
 			}
 		}
 		for (final OtherFileStruct other : otherFiles) {
 			if (other.getDirectory() != null) {
-				other.setDirectory(PathConverter.convert(other.getDirectory(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				other.setDirectory(PathConverter.convert(other.getDirectory(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 			if (other.getOriginalLocation() != null) {
-				other.setOriginalLocation(PathConverter.convert(other.getOriginalLocation(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				other.setOriginalLocation(PathConverter.convert(other.getOriginalLocation(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 		}
 
 		for (final BaseDirectoryStruct dir : baseDirectories) {
 			if (dir.getDirectoryName() != null) {
-				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 		}
 
 		for (final BaseDirectoryStruct dir : additionallyIncludedFolders) {
 			if (dir.getDirectoryName() != null) {
-				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, conversionConsole));
+				final StringBuilder output = new StringBuilder();
+				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, output));
+				TITANDebugConsole.println(output);
 			}
 		}
 
 		if (etsName != null) {
 			final Path path = new Path(etsName);
 			if (path.segmentCount() > 1) {
-				etsName = PathConverter.convert(etsName, reportDebugInformation, conversionConsole);
+				final StringBuilder output = new StringBuilder();
+				etsName = PathConverter.convert(etsName, reportDebugInformation, output);
+				TITANDebugConsole.println(output);
 			}
 		}
 	}
@@ -741,7 +773,6 @@ public final class InternalMakefileGenerator {
 			contents.append(" -DTITAN_RUNTIME_2");
 		}
 
-		final MessageConsole debugConsole = TITANDebugConsole.getConsole();
 		for (final IProject reachableProject : reachableProjects) {
 			final String[] optionList = PreprocessorIncludedOptionsData.getPreprocessorIncludes(reachableProject);
 			if (optionList.length > 0) {
@@ -753,9 +784,12 @@ public final class InternalMakefileGenerator {
 				} else {
 					final String tempProjectLocation = location.toOSString();
 					for (String temp : optionList) {
+						final StringBuilder output = new StringBuilder();
 						temp = TITANPathUtilities.resolvePathURIForMakefile(temp, 
-								tempProjectLocation, reportDebugInformation,debugConsole);
+								tempProjectLocation, reportDebugInformation, output);
 						contents.append(" -I").append(temp);
+						TITANDebugConsole.println(output);
+						
 					}
 				}
 			}
@@ -812,9 +846,11 @@ public final class InternalMakefileGenerator {
 					} else {
 						final String tempProjectLocation = location.toOSString();
 						for (String option : optionList) {
+							final StringBuilder output = new StringBuilder();
 							option = TITANPathUtilities.resolvePathURIForMakefile(option, 
-									tempProjectLocation, reportDebugInformation,debugConsole);
+									tempProjectLocation, reportDebugInformation, output);
 							contents.append(" -I").append(option);
+							TITANDebugConsole.println(output);
 						}
 					}
 				}
@@ -2341,9 +2377,11 @@ public final class InternalMakefileGenerator {
 					} else {
 						final String tempProjectLocation = location.toOSString();
 						for (String option : optionList) {
+							final StringBuilder output = new StringBuilder();
 							option = TITANPathUtilities.resolvePathURIForMakefile(option, 
-									tempProjectLocation,reportDebugInformation,debugConsole);
+									tempProjectLocation,reportDebugInformation, output);
 							contents.append(' ').append(option);
+							TITANDebugConsole.println(output);
 						}
 					}
 				}
@@ -2370,9 +2408,11 @@ public final class InternalMakefileGenerator {
 				} else {
 					final String tempProjectLocation = location.toOSString();
 					for (String temp : optionList) {
+						final StringBuilder output = new StringBuilder();
 						temp = TITANPathUtilities.resolvePathURIForMakefile(temp, 
-								tempProjectLocation, reportDebugInformation,debugConsole);
+								tempProjectLocation, reportDebugInformation, output);
 						contents.append(" -L").append(temp);
+						TITANDebugConsole.println(output);
 					}
 				}
 			}
@@ -2479,9 +2519,10 @@ public final class InternalMakefileGenerator {
 				ProjectBuildPropertyData.QUALIFIER, 
 				MakefileCreationData.TARGET_EXECUTABLE_PROPERTY);
 		if (temp != null && temp.trim().length() > 0) {
-			final MessageConsole debugConsole = TITANDebugConsole.getConsole();
+			final StringBuilder output = new StringBuilder();
 			etsName = TITANPathUtilities.resolvePathURIForMakefile(
-					temp, projectLocation, reportDebugInformation,debugConsole);
+					temp, projectLocation, reportDebugInformation, output);
+			TITANDebugConsole.println(output);
 		} else {
 			temp = project.getName();
 			if (Platform.OS_WIN32.equals(Platform.getOS())) {

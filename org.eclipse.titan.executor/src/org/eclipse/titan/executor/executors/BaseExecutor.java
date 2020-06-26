@@ -544,7 +544,9 @@ public abstract class BaseExecutor {
 				}
 			}
 
-			final String workingDirResult = PathConverter.convert(oldStyleWorkingDir ? controller.workingdirectory() : URIUtil.toPath(path).toOSString(), true, TITANConsole.getConsole());
+			StringBuilder output = new StringBuilder();
+			final String workingDirResult = PathConverter.convert(oldStyleWorkingDir ? controller.workingdirectory() : URIUtil.toPath(path).toOSString(), true, output);
+			TITANConsole.println(output);
 			command = command.replace(REPLACEABLEHOSTWORKIGNDIRECTORY, workingDirResult);
 
 			boolean oldStyleExecutable = true;
@@ -558,7 +560,10 @@ public abstract class BaseExecutor {
 				}
 			}
 
-			final String executableResult = PathConverter.convert(oldStyleExecutable ? controller.executable() : URIUtil.toPath(path).toOSString(), true, TITANConsole.getConsole());
+			output = new StringBuilder();
+			final String executableResult = PathConverter.convert(oldStyleExecutable ? controller.executable() : URIUtil.toPath(path).toOSString(), true, output);
+			TITANConsole.println(output);
+
 			String result = PathUtil.getRelativePath(workingDirResult, executableResult);
 			if (!result.equals(executableResult)) {
 				result = "./" + result;

@@ -177,8 +177,9 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			element.setAttribute("name", tempProject.getName());
 			element.setAttribute("location", tempProject.getLocationURI().toString());
 			if (win32 && tempProject.getLocation() != null) {
-				final String converted = PathConverter.convert(tempProject.getLocation().toOSString(), reportDebugInformation,
-						TITANDebugConsole.getConsole());
+				final StringBuilder output = new StringBuilder();
+				final String converted = PathConverter.convert(tempProject.getLocation().toOSString(), reportDebugInformation, output);
+				TITANDebugConsole.println(output);
 				final Path path = new Path(converted);
 				element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
 			}
@@ -194,8 +195,9 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
 				final String fileLocation = file.getLocation().toOSString();
-				final String converted = PathConverter.convert(fileLocation, reportDebugInformation,
-						TITANDebugConsole.getConsole());
+				final StringBuilder output = new StringBuilder();
+				final String converted = PathConverter.convert(fileLocation, reportDebugInformation, output);
+				TITANDebugConsole.println(output);
 				if (!converted.equals(fileLocation)) {
 					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
@@ -213,8 +215,9 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			final String fileLocation = file.getLocation().toString();
 			element.setAttribute("path", fileLocation);
 			if (win32 && file.getLocation() != null) {
-				final String converted = PathConverter.convert(fileLocation, reportDebugInformation,
-						TITANDebugConsole.getConsole());
+				final StringBuilder output = new StringBuilder();
+				final String converted = PathConverter.convert(fileLocation, reportDebugInformation, output);
+				TITANDebugConsole.println(output);
 				if (!converted.equals(fileLocation)) {
 					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
@@ -232,8 +235,9 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
 				final String fileLocation = file.getLocation().toOSString();
-				final String converted = PathConverter.convert(fileLocation, reportDebugInformation,
-						TITANDebugConsole.getConsole());
+				final StringBuilder output = new StringBuilder();
+				final String converted = PathConverter.convert(fileLocation, reportDebugInformation, output);
+				TITANDebugConsole.println(output);
 				if (!converted.equals(fileLocation)) {
 					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());

@@ -171,7 +171,9 @@ public final class LicenseValidator {
 		if (force || resolvedLicenseFilePath.length() == 0) {
 			final String licensePath = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.LICENSE_FILE_PATH,
 					"", null);
-			resolvedLicenseFilePath = PathConverter.convert(licensePath, reportDebugInformation, TITANDebugConsole.getConsole());
+			final StringBuilder output = new StringBuilder();
+			resolvedLicenseFilePath = PathConverter.convert(licensePath, reportDebugInformation, output);
+			TITANDebugConsole.println(output);
 		}
 
 		return resolvedLicenseFilePath;

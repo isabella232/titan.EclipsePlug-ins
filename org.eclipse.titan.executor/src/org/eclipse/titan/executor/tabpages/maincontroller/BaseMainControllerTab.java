@@ -482,7 +482,10 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			}
 
 			Process proc;
-			final String exename = PathConverter.convert(file.getPath(), true, TITANDebugConsole.getConsole());
+			final StringBuilder output = new StringBuilder();
+			final String exename = PathConverter.convert(file.getPath(), true, output);
+			TITANDebugConsole.println(output);
+
 			StringBuilder lastParam = new StringBuilder(exename);
 			lastParam.append(" -v");
 			List<String> shellCommand;

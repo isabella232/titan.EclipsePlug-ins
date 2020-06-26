@@ -95,7 +95,9 @@ public final class GenerateTestPortSkeleton extends ExternalTitanAction {
 				ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final List<String> command = new ArrayList<String>();
-		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
+		final StringBuilder output = new StringBuilder();
+		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, output));
+		TITANDebugConsole.println(output);
 		command.add('-' + GENERATE_TESTPORT_FLAG + getTITANActionFlags());
 		for (final String filePath : files.keySet()) {
 			command.add('\'' + filePath + '\'');

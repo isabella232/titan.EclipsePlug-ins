@@ -383,18 +383,24 @@ public final class CliExecutor extends BaseExecutor {
 			//TODO: implement
 			if ( !CREATE_TEMP_CFG || logFileNameDefined ) {
 				if (!StringUtils.isNullOrEmpty(configFilePath)) {
-					command.add(" sleep 1; " + mctrCliPath + " '" + PathConverter.convert(configFilePath, true, TITANDebugConsole.getConsole()) + "'");
+					final StringBuilder output = new StringBuilder();
+					command.add(" sleep 1; " + mctrCliPath + " '" + PathConverter.convert(configFilePath, true, output) + "'");
+					TITANDebugConsole.println(output);
 				} else {
 					command.add(" sleep 1; " + mctrCliPath);
 				}
 			} else {
 				generateTemporalCfgFile(generateCfgString());
-				command.add(" sleep 1; " + mctrCliPath + " '" + PathConverter.convert(temporalConfigFile.getName(), true, TITANDebugConsole.getConsole()) + "'");
+				final StringBuilder output = new StringBuilder();
+				command.add(" sleep 1; " + mctrCliPath + " '" + PathConverter.convert(temporalConfigFile.getName(), true, output) + "'");
+				TITANDebugConsole.println(output);
 			}
 		} else {
 			temporalConfigFile = null;
 			if (!StringUtils.isNullOrEmpty(configFilePath)) {
-				command.add(" sleep 1; " + mctrCliPath + " '" + PathConverter.convert(configFilePath, true, TITANDebugConsole.getConsole()) + "'");
+				final StringBuilder output = new StringBuilder();
+				command.add(" sleep 1; " + mctrCliPath + " '" + PathConverter.convert(configFilePath, true, output) + "'");
+				TITANDebugConsole.println(output);
 			} else {
 				command.add(" sleep 1; " + mctrCliPath);
 			}

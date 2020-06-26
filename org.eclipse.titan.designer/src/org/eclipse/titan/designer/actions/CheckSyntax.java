@@ -94,7 +94,9 @@ public final class CheckSyntax extends ExternalTitanAction {
 				Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final List<String> command = new ArrayList<String>();
-		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
+		final StringBuilder output = new StringBuilder();
+		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, output));
+		TITANDebugConsole.println(output);
 		command.add('-' + SYNTAX_CHECK_FLAG + getTITANActionFlags());
 		for (final String filePath : files.keySet()) {
 			command.add('\'' + filePath + '\'');

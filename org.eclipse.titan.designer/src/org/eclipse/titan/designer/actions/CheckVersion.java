@@ -88,7 +88,9 @@ public final class CheckVersion extends ExternalTitanAction {
 
 
 		final List<String> command = new ArrayList<String>();
-		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
+		final StringBuilder output = new StringBuilder();
+		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, output));
+		TITANDebugConsole.println(output);
 		command.add('-' + VERSION_CHECK_FLAG);
 		titanJob.addCommand(command, JOB_TITLE);
 

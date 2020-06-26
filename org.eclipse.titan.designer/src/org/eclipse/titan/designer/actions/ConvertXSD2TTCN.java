@@ -126,9 +126,11 @@ public final class ConvertXSD2TTCN extends ExternalTitanAction {
 		final List<String> command = new ArrayList<String>();
 		final IPreferencesService prefs = Platform.getPreferencesService();
 		final String pathOfTITAN = prefs.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "", null);
+		final StringBuilder output = new StringBuilder();
 		command.add(PathConverter.convert(
 				new Path(pathOfTITAN + File.separatorChar + "bin" + File.separatorChar + "xsd2ttcn").toOSString(),
-				reportDebugInformation, TITANDebugConsole.getConsole()));
+				reportDebugInformation, output));
+		TITANDebugConsole.println(output);
 		for (final String filePath : files.keySet()) {
 			command.add('\'' + filePath + '\'');
 		}

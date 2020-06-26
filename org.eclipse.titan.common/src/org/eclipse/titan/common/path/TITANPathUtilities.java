@@ -17,7 +17,6 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.environment.EnvironmentVariableResolver;
 import org.eclipse.titan.common.utils.environment.EnvironmentVariableResolver.VariableNotFoundException;
-import org.eclipse.ui.console.MessageConsole;
 
 /**
  * Utility class to resolve eclipse paths.
@@ -45,13 +44,14 @@ public final class TITANPathUtilities {
 	 * @param basePath
 	 * @return the resolved string
 	 */
+	//TODO update documentation
 	public static String resolvePathURIForMakefile(final String pathToBeResolved, final String basePath,
-			final boolean reportDebugInformation, final MessageConsole outputConsole) {
+			final boolean reportDebugInformation, final StringBuilder output) {
 		final URI uri = resolvePathURI(pathToBeResolved, basePath);
 		if (uri == null) {
 			return EnvironmentVariableResolver.eclipseStyle().replaceEnvVarsWithUnixEnvVars(pathToBeResolved);
 		} else {
-			return PathConverter.convert(URIUtil.toPath(uri).toOSString(), reportDebugInformation, outputConsole);
+			return PathConverter.convert(URIUtil.toPath(uri).toOSString(), reportDebugInformation, output);
 		}
 	}
 

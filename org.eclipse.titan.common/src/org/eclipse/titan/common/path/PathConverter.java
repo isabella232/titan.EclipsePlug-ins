@@ -23,8 +23,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.Cygwin;
 import org.eclipse.titan.common.utils.IOUtils;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * This is a simple utility to convert a Windows path to a path the build system
@@ -62,11 +60,11 @@ public final class PathConverter {
 	 * @param reportDebugInformation
 	 *                tells whether debug information be reported to the
 	 *                console, or not
-	 * @param outputConsole
-	 *                the console to write the output to
+	 * @param output
+	 *                the output created during the conversion.
 	 * @return the path in cygwin style or the value of the path parameter.
 	 * */
-	public static String convert(final String path, final boolean reportDebugInformation, final MessageConsole outputConsole) {
+	public static String convert(final String path, final boolean reportDebugInformation, final StringBuilder output) {
 
 		if("".equals(path.trim())){
 			ErrorReporter.logWarning("The empty path could not be converted");
@@ -88,7 +86,7 @@ public final class PathConverter {
 
 		final List<String> finalCommand = Arrays.asList("sh", "-c", "cygpath -u " + '\'' + path + '\'');
 
-		final MessageConsoleStream stream = printCommandToDebugConsole(reportDebugInformation, outputConsole, finalCommand);
+		printCommandToDebugConsole(reportDebugInformation, output, finalCommand);
 		final ProcessBuilder pb = new ProcessBuilder();
 		pb.redirectErrorStream(true);
 		pb.command(finalCommand);
@@ -100,17 +98,17 @@ public final class PathConverter {
 			return path;
 		}
 
-		return processOutput(path, stream, proc);
+		return processOutput(path, output, proc);
 
 	}
 
-	private static String processOutput(final String path, final MessageConsoleStream stream, final Process proc) {
+	private static String processOutput(final String path, final StringBuilder output, final Process proc) {
 		final BufferedReader stdout = new BufferedReader(new InputStreamReader(proc.getInputStream(), Charset.defaultCharset()));
 		try {
 			final StringBuilder solution = new StringBuilder();
 			String line = stdout.readLine();
 			while (line != null) {
-				printDebug(stream, line);
+				printDebug(output, line);
 				solution.append(line);
 				line = stdout.readLine();
 			}
@@ -122,7 +120,7 @@ public final class PathConverter {
 
 			line = stdout.readLine();//TODO check should have reached end by now.
 			while (line != null) {
-				printDebug(stream, line);
+				printDebug(output, line);
 				solution.append(line);
 				line = stdout.readLine();
 			}
@@ -131,10 +129,10 @@ public final class PathConverter {
 			CYGWINPATHMAP.put(path, temp);
 			return temp;
 		} catch (IOException e) {
-			printDebug(stream, EXECUTION_FAILED);
+			printDebug(output, EXECUTION_FAILED);
 			ErrorReporter.logExceptionStackTrace("Cygwin conversion result could not be read", e);
 		} catch (InterruptedException e) {
-			printDebug(stream, INTERRUPTION);
+			printDebug(output, INTERRUPTION);
 			ErrorReporter.logExceptionStackTrace("Conversion of " + path + " interrupted", e);
 		} finally {
 			IOUtils.closeQuietly(stdout);
@@ -142,14 +140,12 @@ public final class PathConverter {
 		return path;
 	}
 
-	private static void printDebug(final MessageConsoleStream stream, final String line) {
+	private static void printDebug(final StringBuilder output, final String line) {
 		if(inHeadLessMode) {
 			return;
 		}
 
-		if (stream != null) {
-			stream.println(line);
-		}
+		output.append(line);
 	}
 
 	/**
@@ -201,12 +197,11 @@ public final class PathConverter {
 		return baseDirPath.append( filePath );
 	}
 
-	private static MessageConsoleStream printCommandToDebugConsole(final boolean reportDebugInformation, final MessageConsole outputConsole, final List<String> command) {
+	private static void printCommandToDebugConsole(final boolean reportDebugInformation, final StringBuilder output, final List<String> command) {
 		if(inHeadLessMode) {
-			return null;
+			return;
 		}
 
-		MessageConsoleStream stream = null;
 		if (reportDebugInformation) {
 			final StringBuilder builder = new StringBuilder();
 
@@ -214,9 +209,7 @@ public final class PathConverter {
 				builder.append(c).append(" ");
 			}
 
-			stream = outputConsole.newMessageStream();
-			stream.println(builder.toString());
+			output.append(builder);
 		}
-		return stream;
 	}
 }

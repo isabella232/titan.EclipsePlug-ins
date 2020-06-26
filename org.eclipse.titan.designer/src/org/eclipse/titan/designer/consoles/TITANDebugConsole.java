@@ -113,6 +113,15 @@ public final class TITANDebugConsole {
 		if(inHeadLessMode) {
 			return;
 		}
+
 		print(message, getConsole().newMessageStream());
+	}
+
+	public static void println(final StringBuilder message) {
+		if(inHeadLessMode) {
+			return;
+		}
+
+		println(message.toString(), getConsole().newMessageStream());
 	}
 }

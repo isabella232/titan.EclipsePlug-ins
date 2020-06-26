@@ -57,6 +57,7 @@ public final class TITANConsole {
 		if(inHeadLessMode) {
 			return;
 		}
+
 		println(message, getConsole().newMessageStream());
 	}
 
@@ -64,6 +65,7 @@ public final class TITANConsole {
 		if(inHeadLessMode) {
 			return;
 		}
+
 		stream.print(message);
 	}
 
@@ -72,6 +74,15 @@ public final class TITANConsole {
 		if(inHeadLessMode) {
 			return;
 		}
+
 		print(message, getConsole().newMessageStream());
+	}
+
+	public static void println(final StringBuilder message) {
+		if(inHeadLessMode) {
+			return;
+		}
+
+		println(message.toString(), getConsole().newMessageStream());
 	}
 }

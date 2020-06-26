@@ -100,7 +100,9 @@ public final class CheckSemantic extends ExternalTitanAction {
 				Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final List<String> command = new ArrayList<String>();
-		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
+		final StringBuilder output = new StringBuilder();
+		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, output));
+		TITANDebugConsole.println(output);
 
 		// If a single project is selected used than use it's attributes used to generate the Makefile, otherwise use the general preferences.
 		if (singleSelectedProject == null) {

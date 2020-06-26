@@ -98,7 +98,11 @@ public final class EnvironmentHelper {
 			return temp;
 		}
 
-		return PathConverter.convert(temp, true, TITANDebugConsole.getConsole());
+		final StringBuilder output = new StringBuilder();
+		final String result = PathConverter.convert(temp, true, output);
+		TITANDebugConsole.println(output);
+
+		return result;
 	}
 
 	/**
@@ -119,7 +123,9 @@ public final class EnvironmentHelper {
 			return env;
 		}
 
-		temp = PathConverter.convert(temp, true, TITANDebugConsole.getConsole());
+		final StringBuilder output = new StringBuilder();
+		temp = PathConverter.convert(temp, true, output);
+		TITANDebugConsole.println(output);
 		env.put(TTCN_3_DIR, temp);
 
 		return env;
@@ -143,7 +149,9 @@ public final class EnvironmentHelper {
 			return env;
 		}
 
-		temp = PathConverter.convert(temp, true, TITANDebugConsole.getConsole());
+		final StringBuilder output = new StringBuilder();
+		temp = PathConverter.convert(temp, true, output);
+		TITANDebugConsole.println(output);
 		env.put("TTCN3_LICENSE_FILE", temp);
 
 		return env;
@@ -169,7 +177,9 @@ public final class EnvironmentHelper {
 					final String workingdirectory = tempProject.getPersistentProperty(
 							new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER, DesignerHelper.WORKINGDIR_PROPERTY));
 					final String projectPath = actualProject.getLocation().toString();
-					workingDirectories.append(':').append(PathConverter.convert(projectPath + "/" + workingdirectory, true, TITANDebugConsole.getConsole()));
+					final StringBuilder output = new StringBuilder();
+					workingDirectories.append(':').append(PathConverter.convert(projectPath + "/" + workingdirectory, true, output));
+					TITANDebugConsole.println(output);
 				} catch (CoreException e) {
 					ErrorReporter.logError("The working directory of project " + tempProject.getName() + " could not be determined");
 				}
