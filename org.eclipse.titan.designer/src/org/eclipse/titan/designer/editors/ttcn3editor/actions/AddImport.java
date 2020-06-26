@@ -137,7 +137,7 @@ public final class AddImport implements IEditorActionDelegate {
 				dialog.setElements(collected.toArray());
 				if (dialog.open() == Window.OK) {
 					if (reportDebugInformation) {
-						TITANDebugConsole.getConsole().newMessageStream().println("Selected: " + dialog.getFirstResult());
+						TITANDebugConsole.println("Selected: " + dialog.getFirstResult());
 					}
 					resultToInsert = (DeclarationCollectionHelper) dialog.getFirstResult();
 				}
