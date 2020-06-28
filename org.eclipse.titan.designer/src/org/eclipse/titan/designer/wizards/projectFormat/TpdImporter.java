@@ -710,12 +710,8 @@ public class TpdImporter {
 						final String rawLocation = rawURINode.getTextContent();
 						folder.createLink(URI.create(rawLocation), IResource.ALLOW_MISSING_LOCAL, null);
 					} else {
-						TITANDebugConsole
-								.getConsole()
-								.newMessageStream()
-								.println(
-										"Cannot create the resource " + folder.getFullPath().toString()
-												+ " the location information is missing or corrupted");
+						TITANDebugConsole.println("Cannot create the resource " + folder.getFullPath().toString()
+								+ " the location information is missing or corrupted");
 					}
 				} catch (CoreException e) {
 					ErrorReporter.logError("Error while importing folders into project: " + e );
@@ -792,12 +788,8 @@ public class TpdImporter {
 						final String rawURI = rawURINode.getTextContent();
 						targetFile.createLink(URI.create(rawURI), IResource.ALLOW_MISSING_LOCAL, null);
 					} else {
-						TITANDebugConsole
-								.getConsole()
-								.newMessageStream()
-								.println(
-										"Can not create the resource " + targetFile.getFullPath().toString()
-												+ " the location information is missing or corrupted");
+						TITANDebugConsole.println("Can not create the resource " + targetFile.getFullPath().toString()
+								+ " the location information is missing or corrupted");
 						continue;
 					}
 				} catch (CoreException e) {
@@ -1094,8 +1086,7 @@ public class TpdImporter {
 		final NodeList mainNodes = mainElement.getChildNodes();
 		final Node projectNameNode = ProjectFileHandler.getNodebyName(mainNodes, ProjectFormatConstants.PROJECTNAME_NODE);
 		if (null == projectNameNode) {
-			TITANDebugConsole.getConsole().newMessageStream()
-					.println("The name of the project could not be found in the project descriptor, it will not be created.");
+			TITANDebugConsole.println("The name of the project could not be found in the project descriptor, it will not be created.");
 			return null;
 		}
 
@@ -1134,7 +1125,7 @@ public class TpdImporter {
 
 		project = createNewProject(project, projectName);
 		if (project == null) {
-			TITANDebugConsole.getConsole().newMessageStream().println("There was an error while creating the project " + projectName);
+			TITANDebugConsole.println("There was an error while creating the project " + projectName);
 			return null;
 		}
 
