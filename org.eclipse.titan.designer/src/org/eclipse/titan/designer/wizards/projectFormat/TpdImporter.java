@@ -594,37 +594,77 @@ public class TpdImporter {
 	 * */
 	private boolean loadReferencedProjectsData(final Node referencedProjectsNode, final IProject project) {
 		final NodeList referencedProjectsList = referencedProjectsNode.getChildNodes();
-		final List<IProject> referencedProjects = new ArrayList<IProject>();
+		final LinkedBlockingDeque<IProject> referencedProjects = new LinkedBlockingDeque<IProject>();
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
+
+		final AtomicBoolean isErroneous = new AtomicBoolean(false);
+		final CountDownLatch latch = new CountDownLatch(referencedProjectsList.getLength());
 		for (int i = 0, size = referencedProjectsList.getLength(); i < size; i++) {
 			final Node referencedProjectNode = referencedProjectsList.item(i);
-			if (referencedProjectNode.getNodeType() != Node.ELEMENT_NODE) {
-				continue;
-			}
+			final int index = i;
 
-			final NamedNodeMap attributeMap = referencedProjectNode.getAttributes();
-			if (attributeMap == null) {
-				continue;
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (referencedProjectNode.getNodeType() != Node.ELEMENT_NODE) {
+						latch.countDown();
+						return;
+					}
+		
+					final NamedNodeMap attributeMap = referencedProjectNode.getAttributes();
+					if (attributeMap == null) {
+						latch.countDown();
+						return;
+					}
+		
+					final Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE);
+					if (nameNode == null) {
+						displayError("Import failed", "Error while importing project " + project.getName() + " the name attribute of the " + index
+								+ " th referenced project is missing");
+						isErroneous.set(true);
+						latch.countDown();
+						return;
+					}
+		
+					final String projectName = nameNode.getTextContent();
+					final String realProjectName = finalProjectNames.get(projectName);
+					final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+					if (realProjectName != null && realProjectName.length() > 0) {
+						final IProject tempProject = workspaceRoot.getProject(realProjectName);
+						referencedProjects.add(tempProject);
+					} else {
+						//already existing projects:
+						final IProject tempProject = workspaceRoot.getProject(projectName);
+						referencedProjects.add(tempProject);
+					}
 
-			final Node nameNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE);
-			if (nameNode == null) {
-				displayError("Import failed", "Error while importing project " + project.getName() + " the name attribute of the " + i
-						+ " th referenced project is missing");
-				return false;
-			}
-
-			final String projectName = nameNode.getTextContent();
-			final String realProjectName = finalProjectNames.get(projectName);
-			final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-			if (realProjectName != null && realProjectName.length() > 0) {
-				final IProject tempProject = workspaceRoot.getProject(realProjectName);
-				referencedProjects.add(tempProject);
-			} else {
-				//already existing projects:
-				final IProject tempProject = workspaceRoot.getProject(projectName);
-				referencedProjects.add(tempProject);
-			}
+					latch.countDown();
+				}
+			});
 		}
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdownNow();
+		if (isErroneous.get()) {
+			return false;
+		}
+
 		try {
 			final IProjectDescription description = project.getDescription();
 			description.setReferencedProjects(referencedProjects.toArray(new IProject[referencedProjects.size()]));
@@ -739,64 +779,108 @@ public class TpdImporter {
 	 * */
 	private boolean loadFilesData(final Node filesNode, final IProject project, final URI projectFileFolderURI) {
 		final NodeList fileNodeList = filesNode.getChildNodes();
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
+
+		final AtomicBoolean isErroneous = new AtomicBoolean(false);
+		final CountDownLatch latch = new CountDownLatch(fileNodeList.getLength());
 		for (int i = 0, size = fileNodeList.getLength(); i < size; i++) {
 			final Node fileItem = fileNodeList.item(i);
-			if (fileItem.getNodeType() != Node.ELEMENT_NODE) {
-				continue;
-			}
+			final int index = i;
 
-			final NamedNodeMap attributeMap = fileItem.getAttributes();
-			if (attributeMap == null) {
-				// there is no attribute, check next node
-				continue;
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
 
-			final Node projectRelativePathNode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_ECLIPSE_LOCATION_NODE);
-			if (projectRelativePathNode == null) {
-				displayError("Import failed", "Error while importing project " + project.getName() + " some attributes of the " + i
-						+ " th file are missing");
-				continue;
-			}
-
-			final String projectRelativePath = projectRelativePathNode.getTextContent();
-
-			final Node relativeURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RELATIVE_LOCATION);
-			final Node rawURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RAW_LOCATION);
-
-			final IFile targetFile = project.getFile(projectRelativePath);
-			if (!targetFile.exists()) {
-				try {
-					if (relativeURINode != null) {
-						final String relativeLocation = relativeURINode.getTextContent();
-						//perhaps the next few lines should be implemented as in the function loadFoldersData()
-						final URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
-						if (absoluteURI == null) {
-							ErrorReporter.logError("Error while importing files into project `" + project.getName() + "'. File `"
-									+ absoluteURI + "' does not exist!");
-							continue;
-						}
-
-						final File file = new File(absoluteURI);
-						if (file.exists()) {
-							targetFile.createLink(absoluteURI, IResource.ALLOW_MISSING_LOCAL, null);
-						} else {
-							ErrorReporter.logError("Error while importing files into project `" + project.getName() + "'. File `"
-									+ absoluteURI + "' does not exist");
-							continue;
-						}
-					} else if (rawURINode != null) {
-						final String rawURI = rawURINode.getTextContent();
-						targetFile.createLink(URI.create(rawURI), IResource.ALLOW_MISSING_LOCAL, null);
-					} else {
-						TITANDebugConsole.println("Can not create the resource " + targetFile.getFullPath().toString()
-								+ " the location information is missing or corrupted");
-						continue;
+					if (fileItem.getNodeType() != Node.ELEMENT_NODE) {
+						latch.countDown();
+						return;
 					}
-				} catch (CoreException e) {
-					ErrorReporter.logExceptionStackTrace("While creating link for `" + targetFile + "'", e);
-					return false;
+
+					final NamedNodeMap attributeMap = fileItem.getAttributes();
+					if (attributeMap == null) {
+						// there is no attribute, check next node
+						latch.countDown();
+						return;
+					}
+
+					final Node projectRelativePathNode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_ECLIPSE_LOCATION_NODE);
+					if (projectRelativePathNode == null) {
+						displayError("Import failed", "Error while importing project " + project.getName() + " some attributes of the " + index
+								+ " th file are missing");
+						latch.countDown();
+						return;
+					}
+
+					final String projectRelativePath = projectRelativePathNode.getTextContent();
+
+					final Node relativeURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RELATIVE_LOCATION);
+					final Node rawURINode = attributeMap.getNamedItem(ProjectFormatConstants.FILE_RAW_LOCATION);
+
+					final IFile targetFile = project.getFile(projectRelativePath);
+					if (!targetFile.exists()) {
+						try {
+							if (relativeURINode != null) {
+								final String relativeLocation = relativeURINode.getTextContent();
+								//perhaps the next few lines should be implemented as in the function loadFoldersData()
+								final URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
+								if (absoluteURI == null) {
+									ErrorReporter.logError("Error while importing files into project `" + project.getName() + "'. File `"
+											+ absoluteURI + "' does not exist!");
+									latch.countDown();
+									return;
+								}
+
+								final File file = new File(absoluteURI);
+								if (file.exists()) {
+									targetFile.createLink(absoluteURI, IResource.ALLOW_MISSING_LOCAL, null);
+								} else {
+									ErrorReporter.logError("Error while importing files into project `" + project.getName() + "'. File `"
+											+ absoluteURI + "' does not exist");
+									latch.countDown();
+									return;
+								}
+							} else if (rawURINode != null) {
+								final String rawURI = rawURINode.getTextContent();
+								targetFile.createLink(URI.create(rawURI), IResource.ALLOW_MISSING_LOCAL, null);
+							} else {
+								TITANDebugConsole.println("Can not create the resource " + targetFile.getFullPath().toString()
+										+ " the location information is missing or corrupted");
+								latch.countDown();
+								return;
+							}
+						} catch (CoreException e) {
+							ErrorReporter.logExceptionStackTrace("While creating link for `" + targetFile + "'", e);
+							isErroneous.set(true);
+							latch.countDown();
+							return;
+						}
+					}
+
+					latch.countDown();
 				}
-			}
+			});
+		}
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdownNow();
+		if (isErroneous.get()) {
+			return false;
 		}
 
 		return true;
