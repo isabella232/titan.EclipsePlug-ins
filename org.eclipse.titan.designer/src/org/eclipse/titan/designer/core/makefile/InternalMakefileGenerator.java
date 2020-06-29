@@ -23,6 +23,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -48,6 +53,7 @@ import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.consoles.TITANConsole;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.CompilerVersionInformationCollector;
+import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.core.ProductIdentityHelper;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
 import org.eclipse.titan.designer.parsers.GlobalParser;
@@ -232,114 +238,191 @@ public final class InternalMakefileGenerator {
 			return;
 		}
 
-		//TODO Should this be parallel?
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
+		final CountDownLatch latch = new CountDownLatch(ttcn3Modules.size() + ttcnppModules.size() + ttcn3IncludeFiles.size() + asn1modules.size() + userFiles.size() + otherFiles.size()
+				+ baseDirectories.size() + additionallyIncludedFolders.size() + etsName != null ? 1 : 0);
+
 		for (final ModuleStruct module : ttcn3Modules) {
-			if (module.getDirectory() != null) {
-				final StringBuilder output = new StringBuilder();
-				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
-			if (module.getOriginalLocation() != null) {
-				final StringBuilder output = new StringBuilder();
-				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (module.getDirectory() != null) {
+						final StringBuilder output = new StringBuilder();
+						module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					if (module.getOriginalLocation() != null) {
+						final StringBuilder output = new StringBuilder();
+						module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 		for (final ModuleStruct module : ttcnppModules) {
-			if (module.getDirectory() != null) {
-				final StringBuilder output = new StringBuilder();
-				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
-			if (module.getOriginalLocation() != null) {
-				final StringBuilder output = new StringBuilder();
-				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (module.getDirectory() != null) {
+						final StringBuilder output = new StringBuilder();
+						module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					if (module.getOriginalLocation() != null) {
+						final StringBuilder output = new StringBuilder();
+						module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 
 		for (final TTCN3IncludeFileStruct includeFile : ttcn3IncludeFiles) {
-			if (includeFile.getDirectory() != null) {
-				final StringBuilder output = new StringBuilder();
-				includeFile.setDirectory(PathConverter.convert(includeFile.getDirectory(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
-			if (includeFile.getOriginalLocation() != null) {
-				final StringBuilder output = new StringBuilder();
-				includeFile.setOriginalLocation(PathConverter.convert(includeFile.getOriginalLocation(), reportDebugInformation,
-						output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (includeFile.getDirectory() != null) {
+						final StringBuilder output = new StringBuilder();
+						includeFile.setDirectory(PathConverter.convert(includeFile.getDirectory(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					if (includeFile.getOriginalLocation() != null) {
+						final StringBuilder output = new StringBuilder();
+						includeFile.setOriginalLocation(PathConverter.convert(includeFile.getOriginalLocation(), reportDebugInformation,
+								output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 
 		for (final ModuleStruct module : asn1modules) {
-			if (module.getDirectory() != null) {
-				final StringBuilder output = new StringBuilder();
-				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
-			if (module.getOriginalLocation() != null) {
-				final StringBuilder output = new StringBuilder();
-				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (module.getDirectory() != null) {
+						final StringBuilder output = new StringBuilder();
+						module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					if (module.getOriginalLocation() != null) {
+						final StringBuilder output = new StringBuilder();
+						module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 		for (final UserStruct user : userFiles) {
-			if (user.getDirectory() != null) {
-				final StringBuilder output = new StringBuilder();
-				user.setDirectory(PathConverter.convert(user.getDirectory(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
-			if (user.getOriginalHeaderLocation() != null) {
-				final StringBuilder output = new StringBuilder();
-				user.setOriginalHeaderLocation(PathConverter.convert(user.getOriginalHeaderLocation(), reportDebugInformation,
-						output));
-				TITANDebugConsole.println(output);
-			}
-			if (user.getOriginalSourceLocation() != null) {
-				final StringBuilder output = new StringBuilder();
-				user.setOriginalSourceLocation(PathConverter.convert(user.getOriginalSourceLocation(), reportDebugInformation,
-						output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (user.getDirectory() != null) {
+						final StringBuilder output = new StringBuilder();
+						user.setDirectory(PathConverter.convert(user.getDirectory(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					if (user.getOriginalHeaderLocation() != null) {
+						final StringBuilder output = new StringBuilder();
+						user.setOriginalHeaderLocation(PathConverter.convert(user.getOriginalHeaderLocation(), reportDebugInformation,
+								output));
+						TITANDebugConsole.println(output);
+					}
+					if (user.getOriginalSourceLocation() != null) {
+						final StringBuilder output = new StringBuilder();
+						user.setOriginalSourceLocation(PathConverter.convert(user.getOriginalSourceLocation(), reportDebugInformation,
+								output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 		for (final OtherFileStruct other : otherFiles) {
-			if (other.getDirectory() != null) {
-				final StringBuilder output = new StringBuilder();
-				other.setDirectory(PathConverter.convert(other.getDirectory(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
-			if (other.getOriginalLocation() != null) {
-				final StringBuilder output = new StringBuilder();
-				other.setOriginalLocation(PathConverter.convert(other.getOriginalLocation(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (other.getDirectory() != null) {
+						final StringBuilder output = new StringBuilder();
+						other.setDirectory(PathConverter.convert(other.getDirectory(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					if (other.getOriginalLocation() != null) {
+						final StringBuilder output = new StringBuilder();
+						other.setOriginalLocation(PathConverter.convert(other.getOriginalLocation(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 
 		for (final BaseDirectoryStruct dir : baseDirectories) {
-			if (dir.getDirectoryName() != null) {
-				final StringBuilder output = new StringBuilder();
-				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (dir.getDirectoryName() != null) {
+						final StringBuilder output = new StringBuilder();
+						dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 
 		for (final BaseDirectoryStruct dir : additionallyIncludedFolders) {
-			if (dir.getDirectoryName() != null) {
-				final StringBuilder output = new StringBuilder();
-				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, output));
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					if (dir.getDirectoryName() != null) {
+						final StringBuilder output = new StringBuilder();
+						dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, output));
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
 
 		if (etsName != null) {
-			final Path path = new Path(etsName);
-			if (path.segmentCount() > 1) {
-				final StringBuilder output = new StringBuilder();
-				etsName = PathConverter.convert(etsName, reportDebugInformation, output);
-				TITANDebugConsole.println(output);
-			}
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					final Path path = new Path(etsName);
+					if (path.segmentCount() > 1) {
+						final StringBuilder output = new StringBuilder();
+						etsName = PathConverter.convert(etsName, reportDebugInformation, output);
+						TITANDebugConsole.println(output);
+					}
+					latch.countDown();
+				}
+			});
 		}
+
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdown();
+		try {
+			executor.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+		executor.shutdownNow();
 	}
 
 	/**
