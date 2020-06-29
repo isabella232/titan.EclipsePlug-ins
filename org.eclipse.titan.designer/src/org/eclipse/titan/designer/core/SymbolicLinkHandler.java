@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.filesystem.EFS;
@@ -33,7 +34,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
@@ -110,19 +110,14 @@ public final class SymbolicLinkHandler {
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int availableProcessors = Runtime.getRuntime().availableProcessors();
-		final IPreferencesService prefs = Platform.getPreferencesService();
-		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
-				availableProcessors, null);
-		if (NUMBER_OF_PROCESSORS < 1) {
-			NUMBER_OF_PROCESSORS = 1;
-		}
-		if (reportDebugInformation) {
-			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink creation.");
-		}
-		//TODO can be improved?
-		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>());
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
 
 		for (final IFile file : files.values()) {
 			// We  want makefile to be symlinked
@@ -397,19 +392,14 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int availableProcessors = Runtime.getRuntime().availableProcessors();
-		final IPreferencesService prefs = Platform.getPreferencesService();
-		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
-				availableProcessors, null);
-		if (NUMBER_OF_PROCESSORS < 1) {
-			NUMBER_OF_PROCESSORS = 1;
-		}
-		if (reportDebugInformation) {
-			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for removed files).");
-		}
-		//TODO can be improved?
-		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>());
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
 		for (final String key : files.keySet()) {
 			executor.execute(new Runnable() {
 				@Override
@@ -479,19 +469,14 @@ public final class SymbolicLinkHandler {
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 
 		final CountDownLatch latch = new CountDownLatch(files.size());
-		final int availableProcessors = Runtime.getRuntime().availableProcessors();
-		final IPreferencesService prefs = Platform.getPreferencesService();
-		int NUMBER_OF_PROCESSORS = prefs.getInt(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.PROCESSINGUNITSTOUSE,
-				availableProcessors, null);
-		if (NUMBER_OF_PROCESSORS < 1) {
-			NUMBER_OF_PROCESSORS = 1;
-		}
-		if (reportDebugInformation) {
-			TITANDebugConsole.println("Using " + NUMBER_OF_PROCESSORS + " processors for symlink removal (for excluded files).");
-		}
-		//TODO can be improved?
-		final ThreadPoolExecutor executor = new ThreadPoolExecutor(NUMBER_OF_PROCESSORS, NUMBER_OF_PROCESSORS, 10, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>());
+		final ExecutorService executor = Executors.newCachedThreadPool(new ThreadFactory() {
+			@Override
+			public Thread newThread(final Runnable r) {
+				final Thread t = new Thread(r);
+				t.setPriority(LoadBalancingUtilities.getThreadPriority());
+				return t;
+			}
+		});
 		for (final Map.Entry<String, IFile> entry : files.entrySet()) {
 			executor.execute(new Runnable() {
 				@Override
