@@ -202,7 +202,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 
 		check(timestamp);
-		if (reference.getSubreferences().size() == 1) {
+		if (reference.getSubreferences().size() <= actualSubReference) {
 			return this;
 		}
 
