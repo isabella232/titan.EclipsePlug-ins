@@ -15,7 +15,7 @@
 	<property name="timestamp" value="${DSTAMP}-${TSTAMP}"/>
 	<property name="version.qualifier" value="${version}_${timestamp}"/>
 
-	<property name="JAVA_HOME" value="/app/jdk/1.7.0_25/LMWP3/"/>
+	<property name="JAVA_HOME" value="${env.JAVA_HOME}"/>
 	<property name="ECLIPSE_HOME" value="${env.ECLIPSE_SDK}"/>
 
 	<property name="debuglevel" value="source,lines,vars"/>
