@@ -9,6 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -1295,7 +1298,7 @@ public class TitanFloat extends Base_Type {
 				|| (value > -MAX_DECIMAL_FLOAT && value <= -MIN_DECIMAL_FLOAT)
 				|| (value >= MIN_DECIMAL_FLOAT && value < MAX_DECIMAL_FLOAT);
 
-		final String tmp_str = String.format(decimal_repr ? "%f" : "%e", value);
+		final String tmp_str = String.format(Locale.US, decimal_repr ? "%f" : "%e", value);
 		final int enc_len = p_tok.put_next_token(json_token_t.JSON_TOKEN_NUMBER, tmp_str);
 		return enc_len;
 	}
@@ -1337,14 +1340,28 @@ public class TitanFloat extends Base_Type {
 				return JSON.JSON_ERROR_FATAL;
 			}
 		} else if (json_token_t.JSON_TOKEN_NUMBER == token.get()) {
-			float_value = new Ttcn3Float(Double.parseDouble(valueStr));
+			try {
+				final NumberFormat format = NumberFormat.getInstance(Locale.US);
+				final Number number = format.parse(valueStr);
+				float_value = new Ttcn3Float(number.doubleValue());
+			} catch (ParseException e) {
+				float_value = null;
+				return JSON.JSON_ERROR_FATAL;
+			}
 		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
 		}
 		if (!is_bound() && use_default) {
 			// Already checked the default value for the string possibilities, now
 			// check for a valid number
-			float_value = new Ttcn3Float(Double.parseDouble(valueStr));
+			try {
+				final NumberFormat format = NumberFormat.getInstance(Locale.US);
+				final Number number = format.parse(valueStr);
+				float_value = new Ttcn3Float(number.doubleValue());
+			} catch (ParseException e) {
+				float_value = null;
+				return JSON.JSON_ERROR_FATAL;
+			}
 		}
 		return dec_len;
 	}
