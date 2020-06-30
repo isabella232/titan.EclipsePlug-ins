@@ -223,7 +223,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	/** {@inheritDoc} */
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
-		if (reference.getSubreferences().size() == 1) {
+		if (reference.getSubreferences().size() <= actualSubReference) {
 			return true;
 		}
 
@@ -237,12 +237,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	/** {@inheritDoc} */
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
-		if (reference.getSubreferences().size() == 1) {
+		if (reference.getSubreferences().size() <= actualSubReference) {
 			return true;
 		}
+
 		if (this == refdLast || refdLast == null) {
 			return false;
 		}
+
 		return refdLast.getFieldTypesAsArray(reference, actualSubReference, typeArray);
 	}
 
