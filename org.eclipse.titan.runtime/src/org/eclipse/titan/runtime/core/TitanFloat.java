@@ -9,8 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -1340,28 +1338,14 @@ public class TitanFloat extends Base_Type {
 				return JSON.JSON_ERROR_FATAL;
 			}
 		} else if (json_token_t.JSON_TOKEN_NUMBER == token.get()) {
-			try {
-				final NumberFormat format = NumberFormat.getInstance(Locale.US);
-				final Number number = format.parse(valueStr);
-				float_value = new Ttcn3Float(number.doubleValue());
-			} catch (ParseException e) {
-				float_value = null;
-				return JSON.JSON_ERROR_FATAL;
-			}
+			float_value = new Ttcn3Float(Double.parseDouble(valueStr));
 		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
 		}
 		if (!is_bound() && use_default) {
 			// Already checked the default value for the string possibilities, now
 			// check for a valid number
-			try {
-				final NumberFormat format = NumberFormat.getInstance(Locale.US);
-				final Number number = format.parse(valueStr);
-				float_value = new Ttcn3Float(number.doubleValue());
-			} catch (ParseException e) {
-				float_value = null;
-				return JSON.JSON_ERROR_FATAL;
-			}
+			float_value = new Ttcn3Float(Double.parseDouble(valueStr));
 		}
 		return dec_len;
 	}
