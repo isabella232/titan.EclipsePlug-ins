@@ -696,9 +696,9 @@ public final class Referenced_Value extends Value {
 		if (referencedValue == null || referencedValue == this) {
 			if (get_needs_conversion()) {
 				final ExpressionStruct tempExpr = new ExpressionStruct();
-				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final ExpressionStruct refExpr = new ExpressionStruct();
 				reference.generateConstRef(aData, refExpr);
@@ -801,10 +801,10 @@ public final class Referenced_Value extends Value {
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (get_needs_conversion()) {
 			final ExpressionStruct tempExpr = new ExpressionStruct();
-			IType governor = myGovernor == null ? getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE): myGovernor;
-			IType currentType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-			IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-			IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType governor = myGovernor == null ? getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE): myGovernor;
+			final IType currentType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 			final ExpressionStruct refExpr = new ExpressionStruct();
 			reference.generateConstRef(aData, refExpr);

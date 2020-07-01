@@ -54,7 +54,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 		// Check for UTF8 encoding and decode it
 		// in case the editor encoded the TTCN-3 file with UTF-8
 		final StringBuilder octet_str = new StringBuilder();
-		int len = string == null ? 0 : string.length();
+		final int len = string == null ? 0 : string.length();
 		for (int i = 0; i < len; ++i) {
 			try {
 				octet_str.append(PredefFunc.hexdigit_to_char((char) (string.charAt(i) / 16)));
@@ -67,7 +67,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 		final CharCoding coding = PredefFunc.get_stringencoding(octet_str.toString(), location);
 		if (CharCoding.UTF_8 == coding) {
 			try {
-				UniversalCharstring ucs = PredefFunc.decode_utf8(octet_str.toString(), CharCoding.UTF_8);
+				final UniversalCharstring ucs = PredefFunc.decode_utf8(octet_str.toString(), CharCoding.UTF_8);
 				value = ucs.value;
 			} catch (Exception e) {
 				mErrorneous = true;
