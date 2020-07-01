@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -163,7 +164,7 @@ public final class Float2StrExpression extends Expression_Value {
 		String retval = null;
 		if (( -MAX_DECIMAL_FLOAT < float_val && float_val <= -MIN_DECIMAL_FLOAT)
 			|| ( MIN_DECIMAL_FLOAT <= float_val && float_val < MAX_DECIMAL_FLOAT) || (float_val == 0.0)) {
-			retval = String.format("%f", float_val);
+			retval = String.format(Locale.US, "%f", float_val);
 		} else if (float_val == Double.POSITIVE_INFINITY) {
 			retval = "infinity";
 		} else if (float_val == Double.NEGATIVE_INFINITY) {
@@ -171,7 +172,7 @@ public final class Float2StrExpression extends Expression_Value {
 		} else if (float_val != float_val) {
 			retval = "not_a_number";
 		} else {
-			retval = String.format("%e", float_val);
+			retval = String.format(Locale.US, "%e", float_val);
 		}
 		return retval;
 	}

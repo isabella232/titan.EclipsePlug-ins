@@ -13,6 +13,7 @@ import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
@@ -5076,9 +5077,9 @@ public final class AdditionalFunctions {
 		} else if (value == 0.0
 				|| (value > -TitanFloat.MAX_DECIMAL_FLOAT && value <= -TitanFloat.MIN_DECIMAL_FLOAT)
 				|| (value >= TitanFloat.MIN_DECIMAL_FLOAT && value < TitanFloat.MAX_DECIMAL_FLOAT)) {
-			return new TitanCharString(String.format("%f", value));
+			return new TitanCharString(String.format(Locale.US, "%f", value));
 		} else {
-			return new TitanCharString(String.format("%e", value));
+			return new TitanCharString(String.format(Locale.US, "%e", value));
 		}
 	}
 
@@ -5093,9 +5094,9 @@ public final class AdditionalFunctions {
 		} else if (value.getValue() == 0.0
 				|| (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT)
 				|| (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT)) {
-			return new TitanCharString(String.format("%f", value.getValue()));
+			return new TitanCharString(String.format(Locale.US, "%f", value.getValue()));
 		} else {
-			return new TitanCharString(String.format("%e", value.getValue()));
+			return new TitanCharString(String.format(Locale.US, "%e", value.getValue()));
 		}
 	}
 
@@ -5112,9 +5113,9 @@ public final class AdditionalFunctions {
 		} else if (value.get_value() == 0.0
 				|| (value.get_value() > -TitanFloat.MAX_DECIMAL_FLOAT && value.get_value() <= -TitanFloat.MIN_DECIMAL_FLOAT)
 				|| (value.get_value() >= TitanFloat.MIN_DECIMAL_FLOAT && value.get_value() < TitanFloat.MAX_DECIMAL_FLOAT)) {
-			return new TitanCharString(String.format("%f", value.get_value()));
+			return new TitanCharString(String.format(Locale.US, "%f", value.get_value()));
 		} else {
-			return new TitanCharString(String.format("%e", value.get_value()));
+			return new TitanCharString(String.format(Locale.US, "%e", value.get_value()));
 		}
 	}
 
