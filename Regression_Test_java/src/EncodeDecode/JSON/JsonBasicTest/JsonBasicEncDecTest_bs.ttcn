@@ -390,7 +390,7 @@ testcase tc_jsonBasic_encdec_float1c() runs on CT {
   if (r==0 and y==z){
     setverdict(pass);
   } else {
-    setverdict(fail);
+    setverdict(fail,"decoded: ",z, " expected: ", y, " return value of decode(): ",r);
   }
 }
 //Reference Guide: "The special float values
