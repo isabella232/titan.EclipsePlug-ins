@@ -111,7 +111,7 @@ public class Setencode_Statement extends Statement {
 
 		boolean type_error = false;
 		type.check(timestamp);
-		Type t_ct = (Type) type.getTypeWithCodingTable(timestamp, false);
+		final Type t_ct = (Type) type.getTypeWithCodingTable(timestamp, false);
 		if (t_ct == null) {
 			type.getLocation().reportSemanticError(OPERANDERROR1);
 			type_error = true;
@@ -120,9 +120,9 @@ public class Setencode_Statement extends Statement {
 		}
 
 		if (encoding != null) {
-			Value enc_str = this.encoding;
+			final Value enc_str = this.encoding;
 			IValue lastValue = enc_str.setLoweridToReference(timestamp);
-			UniversalCharstring_Type tempType = new UniversalCharstring_Type();
+			final UniversalCharstring_Type tempType = new UniversalCharstring_Type();
 			tempType.checkThisValue(timestamp, enc_str, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, false, false, false));
 			if (!type_error && !enc_str.getIsErroneous(timestamp) && !enc_str.isUnfoldable(timestamp)) {
 				lastValue = lastValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
@@ -138,7 +138,7 @@ public class Setencode_Statement extends Statement {
 			}
 		}
 
-		RunsOnScope runs_on_scope = myStatementBlock.getScopeRunsOn();
+		final RunsOnScope runs_on_scope = myStatementBlock.getScopeRunsOn();
 		if (runs_on_scope == null) {
 			getLocation().reportSemanticError("'self.setencode' must be in a definition with a runs-on clause");
 		} else if (!type_error && t_ct.getCodingTable().size() >= 2){

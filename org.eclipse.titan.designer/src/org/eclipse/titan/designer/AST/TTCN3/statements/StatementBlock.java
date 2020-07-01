@@ -335,7 +335,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			return;
 		}
 
-		List<Statement> localStatements = new ArrayList<Statement>(this.statements);
+		final List<Statement> localStatements = new ArrayList<Statement>(this.statements);
 		Statement statement;
 		for (int i = 0, size = newStatements.size(); i < size; i++) {
 			statement = newStatements.get(i);

@@ -688,7 +688,7 @@ public final class Port_Utility {
 			redirectTimestamp.getLocation().reportSemanticError(MessageFormat.format("The timestamp cannot be redirected, because port type `{0}'' does not have the ''realtime'' clause", portType.getTypename()));
 		}
 
-		IType variableType = redirectTimestamp.checkVariableReference(timestamp);
+		final IType variableType = redirectTimestamp.checkVariableReference(timestamp);
 		if (variableType != null && variableType.getTypeRefdLast(timestamp).getTypetype() != Type_type.TYPE_REAL) {
 			redirectTimestamp.getLocation().reportSemanticError(MessageFormat.format("The type of the variable should be float instead of `{0}''", variableType.getTypename()));
 		}

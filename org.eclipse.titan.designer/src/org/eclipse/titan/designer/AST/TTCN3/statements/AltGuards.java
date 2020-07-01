@@ -472,7 +472,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			final altguard_type altGuardType = altGuard.getType();
 			if (altGuardType.equals(altguard_type.AG_ELSE)) {
 				source.append("TTCN_Snapshot.else_branch_reached();\n");
-				StatementBlock block = altGuard.getStatementBlock();
+				final StatementBlock block = altGuard.getStatementBlock();
 				if (block.getSize() > 0) {
 					source.append("{\n");
 					//FIXME handle debugger

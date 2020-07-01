@@ -321,7 +321,7 @@ public final class DoWhile_Statement extends Statement {
 			final String tempId = aData.getTemporaryVariableName();
 			source.append(MessageFormat.format("boolean {0};\n", tempId));
 
-			ExpressionStruct expression2 = new ExpressionStruct();
+			final ExpressionStruct expression2 = new ExpressionStruct();
 			expression2.expression.append(tempId);
 			expression2.expression.append(" = ");
 			expression.generateCodeExpressionMandatory(aData, expression2, false);

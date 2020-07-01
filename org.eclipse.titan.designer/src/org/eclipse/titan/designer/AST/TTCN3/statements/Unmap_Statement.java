@@ -447,7 +447,7 @@ public final class Unmap_Statement extends Statement {
 				final ActualParameter actualParameter = actualParameterList.getParameter(i);
 				final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 				//FIXME handle copy needed case
-				ExpressionStruct parameterExpression = new ExpressionStruct();
+				final ExpressionStruct parameterExpression = new ExpressionStruct();
 				actualParameter.generateCode(aData, parameterExpression, formalParameter);
 				if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_VAL_OUT) {
 					expression.preamble.append(MessageFormat.format("{0}.set_param({1}, new TitanCharString(\"\"));\n", tempID, i));

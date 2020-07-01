@@ -126,7 +126,7 @@ public final class Stop_Port_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (portReference != null) {
-			ExpressionStruct expression = new ExpressionStruct();
+			final ExpressionStruct expression = new ExpressionStruct();
 			portReference.generateConstRef(aData, expression);
 			expression.expression.append(".stop()");
 			expression.mergeExpression(source);
