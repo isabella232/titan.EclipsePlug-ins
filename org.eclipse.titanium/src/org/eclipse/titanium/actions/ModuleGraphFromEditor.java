@@ -71,7 +71,7 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 		private Module actualModule;
 
 		// Constructor
-		Generator(final IProject project, Module actualModule) {
+		Generator(final IProject project, final Module actualModule) {
 			super("Generator");
 			this.project = project;
 			this.actualModule = actualModule;
