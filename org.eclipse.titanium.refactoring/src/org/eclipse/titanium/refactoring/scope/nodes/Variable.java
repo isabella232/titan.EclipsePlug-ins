@@ -92,7 +92,7 @@ public class Variable {
 		sb.append(prefix).append("VAR: ").append(definition == null ? "null" : definition.getIdentifier().toString());
 		if (includeRefs) {
 			sb.append('\n').append(prefix).append("  refs:\n");
-			for (Reference r: references) {
+			for (final Reference r: references) {
 				sb.append(" LHS:" + r.isLeftHandSide() + " " + r.getRef().toStringRecursive(false, 8)).append('\n');
 			}
 		}
