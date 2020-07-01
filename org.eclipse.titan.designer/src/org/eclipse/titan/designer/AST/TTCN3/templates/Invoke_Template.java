@@ -399,7 +399,7 @@ public final class Invoke_Template extends TTCN3Template {
 				}
 			}
 			for (int i = 0; i < actualParameter_list.getNofParameters(); i++) {
-				FormalParameter formalPar = formalParameterList == null ? null : formalParameterList.getParameterByIndex(i);
+				final FormalParameter formalPar = formalParameterList == null ? null : formalParameterList.getParameterByIndex(i);
 				if (!actualParameter_list.getParameter(i).hasSingleExpression(formalPar)) {
 					return false;
 				}

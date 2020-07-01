@@ -237,7 +237,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
-		String patternString = patternstring.create_charstring_literals(aData,myScope.getModuleScopeGen(),preamble);
+		final String patternString = patternstring.create_charstring_literals(aData,myScope.getModuleScopeGen(),preamble);
 		source.append(preamble);
 		source.append(MessageFormat.format("{0}.operator_assign(new {1});\n", name, patternString));
 		if (lengthRestriction != null) {
@@ -275,8 +275,8 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
-		StringBuilder preamble = new StringBuilder();
-		String patternString = patternstring.create_charstring_literals(aData,myScope.getModuleScopeGen(),preamble);
+		final StringBuilder preamble = new StringBuilder();
+		final String patternString = patternstring.create_charstring_literals(aData,myScope.getModuleScopeGen(),preamble);
 		result.append(preamble);
 		result.append( MessageFormat.format( "new {0}", patternString));
 
