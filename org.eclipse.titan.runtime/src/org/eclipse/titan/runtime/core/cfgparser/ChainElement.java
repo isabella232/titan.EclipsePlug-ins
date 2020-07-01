@@ -29,7 +29,7 @@ public class ChainElement<T> {
 	 */
 	private T value;
 
-	public ChainElement(ChainElement<T> prev, T value) {
+	public ChainElement(final ChainElement<T> prev, final T value) {
 		super();
 		this.prev = prev;
 		this.value = value;
