@@ -128,8 +128,8 @@ public final class ModuleImportationChain {
 	 * @param chainLink the chain link to look for.
 	 * */
 	public boolean contains(final ModuleImportation chainLink) {
-		for (int i = 0, size = chainLinks.size(); i < size; i++) {
-			if (chainLinks.get(i).identifier.getDisplayName().equals(chainLink.getIdentifier().getDisplayName())) {
+		for (final ModuleImportation tempLink : chainLinks) {
+			if (tempLink.identifier.getDisplayName().equals(chainLink.getIdentifier().getDisplayName())) {
 				return true;
 			}
 		}

@@ -268,10 +268,8 @@ public final class Def_Type extends Definition {
 	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp, final WithAttributesPath withAttributesPath) {
 		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
-		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
-		for (int i = 0, size = realAttributes.size(); i < size; i++) {
-			attribute = realAttributes.get(i);
+		for (final SingleWithAttribute attribute : realAttributes) {
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
 				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {

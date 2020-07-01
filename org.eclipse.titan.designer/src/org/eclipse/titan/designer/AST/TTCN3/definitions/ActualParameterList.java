@@ -147,10 +147,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 			return;
 		}
 
-		ActualParameter parameter;
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			parameter = parameters.get(i);
-
+		for (final ActualParameter parameter : parameters) {
 			parameter.updateSyntax(reparser, false);
 		}
 	}
@@ -210,8 +207,9 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 		if (parameters == null) {
 			return;
 		}
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			parameters.get(i).reArrangeInitCode(aData, source, usageModule);
+
+		for (final ActualParameter parameter : parameters) {
+			parameter.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 
@@ -229,7 +227,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 
 		for (int i = 0; i < parameters.size(); i++) {
 			final ActualParameter actualParameter = parameters.get(i);
-			FormalParameter formalPar = formalParameterList == null ? null : formalParameterList.getParameterByIndex(i);
+			final FormalParameter formalPar = formalParameterList == null ? null : formalParameterList.getParameterByIndex(i);
 			if(!actualParameter.hasSingleExpression(formalPar)) {
 				return false;
 			}

@@ -77,11 +77,9 @@ public final class Constraints extends ASTNode {
 			return null;
 		}
 
-		Constraint constraint;
-		for (int i = 0, size = constraints.size(); i < size; i++) {
-			constraint = constraints.get(i);
-			if (Constraint_type.CT_TABLE.equals(constraint.getConstraintType())) {
-				return (TableConstraint) constraint;
+		for (final Constraint tempConstraint : constraints) {
+			if (Constraint_type.CT_TABLE.equals(tempConstraint.getConstraintType())) {
+				return (TableConstraint) tempConstraint;
 			}
 		}
 		return null;
@@ -92,8 +90,8 @@ public final class Constraints extends ASTNode {
 			return;
 		}
 
-		for (int i = 0, size = constraints.size(); i < size; i++) {
-			constraints.get(i).setMyType(type);
+		for (final Constraint tempConstraint : constraints) {
+			tempConstraint.setMyType(type);
 		}
 	}
 
@@ -121,8 +119,8 @@ public final class Constraints extends ASTNode {
 			return;
 		}
 
-		for (int i = 0, size = constraints.size(); i < size; i++) {
-			constraints.get(i).check(timestamp);
+		for (final Constraint tempConstraint : constraints) {
+			tempConstraint.check(timestamp);
 		}
 	}
 

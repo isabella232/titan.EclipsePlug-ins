@@ -163,9 +163,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	public final StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		FormalParameter parameter;
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			parameter = parameters.get(i);
+		for (final FormalParameter parameter : parameters) {
 			if (parameter == child) {
 				final Identifier identifier = parameter.getIdentifier();
 				return builder.append(INamedNode.DOT).append((identifier != null) ? identifier.getDisplayName() : FULLNAMEPART);
@@ -263,8 +261,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	/** reset the properties tracking the use of the formal parameters */
 	public void reset () {
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			final FormalParameter parameter = parameters.get(i);
+		for (final FormalParameter parameter : parameters) {
 			parameter.reset();
 		}
 	}
@@ -285,8 +282,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			parameterMap.clear();
 		}
 
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			final FormalParameter parameter = parameters.get(i);
+		for (final FormalParameter parameter: parameters) {
 			if (parameter != null) {
 				final String parameterName = parameter.getIdentifier().getName();
 
@@ -415,8 +411,8 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * after the semantic check was completely run.
 	 */
 	public final void postCheck() {
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			parameters.get(i).postCheck();
+		for (final FormalParameter parameter: parameters) {
+			parameter.postCheck();
 		}
 	}
 
@@ -425,8 +421,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * unsupported
 	 */
 	public final void checkNoLazyParams() {
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			final FormalParameter formalParameter = parameters.get(i);
+		for (final FormalParameter formalParameter: parameters) {
 			if (formalParameter.getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
 				final Location tempLocation = formalParameter.getLocation();
 				tempLocation.reportSemanticError(MessageFormat.format(
@@ -1082,9 +1077,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			final FormalParameter parameter = parameters.get(i);
-
+		for (final FormalParameter parameter : parameters) {
 			parameter.updateSyntax(reparser, isDamaged);
 			reparser.updateLocation(parameter.getLocation());
 		}

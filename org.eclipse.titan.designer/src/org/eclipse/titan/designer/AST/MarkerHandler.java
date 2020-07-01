@@ -749,9 +749,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		IResource tempResource;
-		for (int i = 0, size = resources.size(); i < size; i++) {
-			tempResource = resources.get(i);
+		for (final IResource tempResource : resources) {
 			markMarkersForRemoval(GeneralConstants.COMPILER_ERRORMARKER, tempResource);
 			markMarkersForRemoval(GeneralConstants.COMPILER_WARNINGMARKER, tempResource);
 			markMarkersForRemoval(GeneralConstants.COMPILER_INFOMARKER, tempResource);
@@ -783,9 +781,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		IResource tempResource;
-		for (int i = 0, size = resources.size(); i < size; i++) {
-			tempResource = resources.get(i);
+		for (final IResource tempResource : resources) {
 			markMarkersForRemoval(markerTypeID, tempResource);
 		}
 	}
@@ -811,9 +807,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		IResource tempResource;
-		for (int i = 0, size = resources.size(); i < size; i++) {
-			tempResource = resources.get(i);
+		for (final IResource tempResource : resources) {
 			markMarkersForRemoval(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, tempResource);
 			markMarkersForRemoval(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, tempResource);
 			markMarkersForRemoval(GeneralConstants.ONTHEFLY_TASK_MARKER, tempResource);
@@ -927,9 +921,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		IResource tempResource;
-		for (int i = 0, size = resources.size(); i < size; i++) {
-			tempResource = resources.get(i);
+		for (final IResource tempResource : resources) {
 			for (final String qualifier : allMarkerTypes) {
 				removeMarkedMarkers(qualifier, tempResource);
 			}
@@ -957,9 +949,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		IResource tempResource;
-		for (int i = 0, size = resources.size(); i < size; i++) {
-			tempResource = resources.get(i);
+		for (final IResource tempResource : resources) {
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, tempResource);
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_TASK_MARKER, tempResource);
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_MIXED_MARKER, tempResource);
@@ -987,9 +977,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		IResource tempResource;
-		for (int i = 0, size = resources.size(); i < size; i++) {
-			tempResource = resources.get(i);
+		for (final IResource tempResource : resources) {
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, tempResource);
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, tempResource);
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_TASK_MARKER, tempResource);
@@ -1017,9 +1005,7 @@ public final class MarkerHandler {
 			}
 		}
 
-		IResource tempResource;
-		for (int i = 0, size = resources.size(); i < size; i++) {
-			tempResource = resources.get(i);
+		for (final IResource tempResource : resources) {
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, tempResource);
 			removeMarkedMarkers(GeneralConstants.ONTHEFLY_MIXED_MARKER, tempResource);
 		}

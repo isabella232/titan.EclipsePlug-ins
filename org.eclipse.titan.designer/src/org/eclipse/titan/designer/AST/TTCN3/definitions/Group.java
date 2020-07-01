@@ -483,8 +483,8 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			withAttributesPath.checkAttributes(timestamp);
 		}
 
-		for (int i = 0, size = groups.size(); i < size; i++) {
-			groups.get(i).check(timestamp);
+		for (final Group group : groups) {
+			group.check(timestamp);
 		}
 	}
 
@@ -859,24 +859,21 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			removeStuffInRange(reparser, allImportedModules, allDefinitions, friendModules);
 		}
 
-		for (int i = 0, size = groups.size(); i < size; i++) {
-			final Group temp = groups.get(i);
+		for (final Group temp : groups) {
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
 			}
 		}
 
-		for (int i = 0, size = importedModules.size(); i < size; i++) {
-			final ImportModule temp = importedModules.get(i);
+		for (final ImportModule temp : importedModules) {
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
 			}
 		}
 
-		for (int i = 0, size = friendModules.size(); i < size; i++) {
-			final FriendModule temp = friendModules.get(i);
+		for (final FriendModule temp : friendModules) {
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);

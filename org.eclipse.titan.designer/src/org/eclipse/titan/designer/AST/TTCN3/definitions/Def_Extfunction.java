@@ -262,10 +262,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
 		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
-		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
-		for (int i = 0, size = realAttributes.size(); i < size; i++) {
-			attribute = realAttributes.get(i);
+		for (final SingleWithAttribute attribute : realAttributes) {
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
 				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
@@ -282,9 +280,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		}
 
 		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
-		AttributeSpecification specification;
-		for (int i = 0, size = specifications.size(); i < size; i++) {
-			specification = specifications.get(i);
+		for (final AttributeSpecification specification : specifications) {
 			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
 			final List<ExtensionAttribute> temp = analyzer.getAttributes();
@@ -293,10 +289,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			}
 		}
 
-		ExtensionAttribute extensionAttribute;
-		for (int i = 0, size = attributes.size(); i < size; i++) {
-			extensionAttribute = attributes.get(i);
-
+		for (final ExtensionAttribute extensionAttribute : attributes) {
 			switch (extensionAttribute.getAttributeType()) {
 			case PROTOTYPE:
 				if (EncodingPrototype_type.NONE.equals(prototype)) {

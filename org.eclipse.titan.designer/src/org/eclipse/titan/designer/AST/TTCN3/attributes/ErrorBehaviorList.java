@@ -123,8 +123,7 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode,
 			return;
 		}
 
-		for (int i = 0, size = settings.size(); i < size; i++) {
-			final ErrorBehaviorSetting setting = settings.get(i);
+		for (final ErrorBehaviorSetting setting: settings) {
 			final String errorType = setting.getErrorType();
 			if ("ALL".equals(errorType)) {
 				if (settingAll != null) {

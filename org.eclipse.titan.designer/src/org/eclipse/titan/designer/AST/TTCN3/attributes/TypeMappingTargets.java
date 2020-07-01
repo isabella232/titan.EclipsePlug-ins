@@ -65,8 +65,8 @@ public final class TypeMappingTargets extends ASTNode implements IIncrementallyU
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		for (int i = 0, size = targets.size(); i < size; i++) {
-			targets.get(i).setMyScope(scope);
+		for (TypeMappingTarget tmt : targets) {
+			tmt.setMyScope(scope);
 		}
 	}
 

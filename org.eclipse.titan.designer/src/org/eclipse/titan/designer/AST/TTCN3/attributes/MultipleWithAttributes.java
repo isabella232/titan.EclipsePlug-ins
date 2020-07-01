@@ -105,9 +105,8 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 		}
 
 		if (attributes != null) {
-			SingleWithAttribute temp;
 			for (int i = 0, size = attributes.size(); i < size; i++) {
-				temp = attributes.get(i);
+				final SingleWithAttribute temp = attributes.get(i);
 				temp.updateSyntax(reparser, false);
 				reparser.updateLocation(temp.getLocation());
 			}

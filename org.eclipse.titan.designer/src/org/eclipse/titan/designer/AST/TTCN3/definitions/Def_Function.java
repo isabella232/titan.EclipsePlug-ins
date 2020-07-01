@@ -530,10 +530,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
 		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
-		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
-		for (int i = 0, size = realAttributes.size(); i < size; i++) {
-			attribute = realAttributes.get(i);
+		for (final SingleWithAttribute attribute : realAttributes) {
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
 				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
@@ -550,8 +548,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		}
 
 		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
-		for (int i = 0, size = specifications.size(); i < size; i++) {
-			final AttributeSpecification specification = specifications.get(i);
+		for (final AttributeSpecification specification: specifications) {
 			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
 			final List<ExtensionAttribute> temp = analyzer.getAttributes();
@@ -560,9 +557,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			}
 		}
 
-		for (int i = 0, size = attributes.size(); i < size; i++) {
-			final ExtensionAttribute extensionAttribute = attributes.get(i);
-
+		for (final ExtensionAttribute extensionAttribute: attributes) {
 			if (ExtensionAttribute_type.PROTOTYPE.equals(extensionAttribute.getAttributeType())) {
 				final PrototypeAttribute realAttribute = (PrototypeAttribute) extensionAttribute;
 				if (EncodingPrototype_type.NONE.equals(prototype)) {

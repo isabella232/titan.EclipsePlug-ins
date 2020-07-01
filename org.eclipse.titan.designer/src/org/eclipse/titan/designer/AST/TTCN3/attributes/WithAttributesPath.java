@@ -269,11 +269,9 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			break;
 		}
 
-		SingleWithAttribute tempAttribute;
-		Qualifiers qualifiers;
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-			tempAttribute = attributes.getAttribute(i);
-			qualifiers = tempAttribute.getQualifiers();
+			final SingleWithAttribute tempAttribute = attributes.getAttribute(i);
+			final Qualifiers qualifiers = tempAttribute.getQualifiers();
 			if (qualifiers != null && qualifiers.getNofQualifiers() != 0) {
 				tempAttribute.getLocation().reportSemanticError("Field qualifiers are only allowed for record, set and union types");
 			}
@@ -298,11 +296,9 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			return;
 		}
 
-		SingleWithAttribute tempAttribute;
-		Qualifiers qualifiers;
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-			tempAttribute = attributes.getAttribute(i);
-			qualifiers = tempAttribute.getQualifiers();
+			final SingleWithAttribute tempAttribute = attributes.getAttribute(i);
+			final Qualifiers qualifiers = tempAttribute.getQualifiers();
 			if (qualifiers != null && qualifiers.getNofQualifiers() != 0) {
 				tempAttribute.getLocation().reportSemanticError("Field qualifiers are only allowed for record, set and union types");
 			}
@@ -366,11 +362,9 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 		boolean selfHasVariant = false;
 
 		// checking the owned attributes
-		SingleWithAttribute actualSingleAttribute;
-		Qualifiers actualQualifiers;
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-			actualSingleAttribute = attributes.getAttribute(i);
-			actualQualifiers = actualSingleAttribute.getQualifiers();
+			final SingleWithAttribute actualSingleAttribute = attributes.getAttribute(i);
+			final Qualifiers actualQualifiers = actualSingleAttribute.getQualifiers();
 
 			// global attribute
 			if (actualQualifiers == null || actualQualifiers.getNofQualifiers() == 0) {
@@ -403,7 +397,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 		// gather information on the attributes collected from the
 		// parents
 		for (int i = 0, size = realAttributeCache.size(); i < size; i++) {
-			actualSingleAttribute = realAttributeCache.get(i);
+			final SingleWithAttribute actualSingleAttribute = realAttributeCache.get(i);
 
 			switch (actualSingleAttribute.getAttributeType()) {
 			case Encode_Attribute:
@@ -458,8 +452,8 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 		boolean localHasOverrideOptional = false;
 		// adding the right ones from the local attributes
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-			actualSingleAttribute = attributes.getAttribute(i);
-			actualQualifiers = actualSingleAttribute.getQualifiers();
+			final SingleWithAttribute actualSingleAttribute = attributes.getAttribute(i);
+			final Qualifiers actualQualifiers = actualSingleAttribute.getQualifiers();
 			if (actualQualifiers == null || actualQualifiers.getNofQualifiers() == 0) {
 				switch (actualSingleAttribute.getAttributeType()) {
 				case Encode_Attribute:

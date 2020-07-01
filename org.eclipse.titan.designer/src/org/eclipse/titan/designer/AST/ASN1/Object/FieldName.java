@@ -30,8 +30,8 @@ public final class FieldName extends ASTNode {
 	public FieldName newInstance() {
 		final FieldName temp = new FieldName();
 
-		for (int i = 0, size = fields.size(); i < size; i++) {
-			temp.addField(fields.get(i).newInstance());
+		for (final Identifier field : fields) {
+			temp.addField(field.newInstance());
 		}
 
 		return temp;
@@ -40,8 +40,8 @@ public final class FieldName extends ASTNode {
 	public String getDisplayName() {
 		final StringBuilder builder = new StringBuilder();
 
-		for (int i = 0, size = fields.size(); i < size; i++) {
-			builder.append('.').append(fields.get(i).getDisplayName());
+		for (final Identifier field : fields) {
+			builder.append('.').append(field.getDisplayName());
 		}
 
 		return builder.toString();

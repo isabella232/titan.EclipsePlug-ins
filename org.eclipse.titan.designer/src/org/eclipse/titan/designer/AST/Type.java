@@ -560,8 +560,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
-		for (int i = 0, size = realAttributes.size(); i < size; i++) {
-			final SingleWithAttribute singleAttribute = realAttributes.get(i);
+		for (final SingleWithAttribute singleAttribute : realAttributes) {
 			if (Attribute_Type.Extension_Attribute.equals(singleAttribute.getAttributeType())
 					&& "done".equals(singleAttribute.getAttributeSpecification().getSpecification())) {
 				hasDone = true;
@@ -801,7 +800,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 									fieldsOrArrays.add(qualifier.getSubReferenceByIndex(k));
 								}
 								final Reference reference = new Reference(null, fieldsOrArrays);
-								final IType type = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
+								final IType type = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);//?
 								if (type != null) {
 									type.checkThisVariant(timestamp, singleWithAttribute, false);
 								}
@@ -1072,18 +1071,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				// only allowed if it's an array type or a field of a record/set
 				getLocation().reportSemanticError("Invalid attribute 'metainfo for unbound', requires record, set, record of, set of, array or field of a record or set");
 			}
-			IType last = getTypeRefdLast(timestamp);
-			IType parent = getParentType();
+
+			final IType last = getTypeRefdLast(timestamp);
+			final IType parent = getParentType();
 			if (Type_type.TYPE_TTCN3_SEQUENCE == last.getTypetype() || Type_type.TYPE_TTCN3_SET == last.getTypetype()) {
 				// if it's set for the record/set, pass it onto its fields
-				int nof_comps = ((TTCN3_Set_Seq_Choice_BaseType)last).getNofComponents();
+				final int nof_comps = ((TTCN3_Set_Seq_Choice_BaseType)last).getNofComponents();
 				if (jsonAttribute.as_value && nof_comps == 1) {
 					getLocation().reportSemanticWarning(MessageFormat.format("Attribute 'metainfo for unbound' will be ignored, because the {0} is encoded without field names.",
 							Type_type.TYPE_TTCN3_SEQUENCE == last.getTypetype() ? "record" : "set"));
 				}
 				else {
 					for (int i = 0; i < nof_comps; i++) {
-						Type comp_type = ((TTCN3_Set_Seq_Choice_BaseType)last).getComponentByIndex(i).getType();
+						final Type comp_type = ((TTCN3_Set_Seq_Choice_BaseType)last).getComponentByIndex(i).getType();
 						if (null == comp_type.jsonAttribute) {
 							comp_type.jsonAttribute = new JsonAST();
 						}
@@ -2665,6 +2665,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		//FIXME implement: actually more complicated
 		final String genname = getGenNameOwn();
+		if ("RecWithAsNumber_days_0".equals(genname)) {
+			int i = 0;
+			i++;
+		}
 		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source);
 		/* genname{type,ber,raw,text,xer,json,oer}descriptor == gennameown is true if
 		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
@@ -3745,7 +3749,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		case TYPE_TTCN3_SEQUENCE:
 		case TYPE_TTCN3_SET:
 			if (t instanceof TTCN3_Set_Seq_Choice_BaseType) {
-				TTCN3_Set_Seq_Choice_BaseType bt = (TTCN3_Set_Seq_Choice_BaseType)t;
+				final TTCN3_Set_Seq_Choice_BaseType bt = (TTCN3_Set_Seq_Choice_BaseType)t;
 				if (bt.getNofComponents() > 1) {
 					return JSON_OBJECT;
 				} else {
@@ -3757,7 +3761,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		case TYPE_ASN1_SEQUENCE:
 		case TYPE_ASN1_SET:
 			if (t instanceof ASN1_Set_Seq_Choice_BaseType) {
-				ASN1_Set_Seq_Choice_BaseType bt = (ASN1_Set_Seq_Choice_BaseType)t;
+				final ASN1_Set_Seq_Choice_BaseType bt = (ASN1_Set_Seq_Choice_BaseType)t;
 				if (bt.getNofComponents() > 1) {
 					return JSON_OBJECT;
 				} else {

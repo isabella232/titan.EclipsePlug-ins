@@ -111,10 +111,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		Group group;
-		for (int i = 0, size = groups.size(); i < size; i++) {
-			group = groups.get(i);
-
+		for (final Group group : groups) {
 			if (group == child) {
 				final Identifier identifier = group.getIdentifier();
 				return builder.append(INamedNode.DOT).append(identifier.getDisplayName());
@@ -348,9 +345,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		Group group;
-		for (int i = 0, size = groups.size(); i < size; i++) {
-			group = groups.get(i);
+		for (final Group group : groups) {
 			if(group == null) {
 				continue; //paranoia
 			}
@@ -371,8 +366,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (int i = 0, size = groups.size(); i < size; i++) {
-			groups.get(i).check(timestamp);
+		for (final Group temp : groups) {
+			temp.check(timestamp);
 		}
 	}
 
@@ -951,16 +946,14 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			lastCompilationTimeStamp = null;
 		}
 
-		for (int i = 0, size = groups.size(); i < size; i++) {
-			final Group temp = groups.get(i);
+		for (final Group temp : groups) {
 			final Location tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
 			}
 		}
 
-		for (int i = 0, size = importedModules.size(); i < size; i++) {
-			final ImportModule temp = importedModules.get(i);
+		for (final ImportModule temp : importedModules) {
 			if (temp.getParentGroup() == null) {
 				final Location tempLocation = temp.getLocation();
 				if (reparser.isAffected(tempLocation)) {
@@ -969,8 +962,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (int i = 0, size = friendModules.size(); i < size; i++) {
-			final FriendModule temp = friendModules.get(i);
+		for (final FriendModule temp : friendModules) {
 			if (temp.getParentGroup() == null) {
 				final Location tempLocation = temp.getLocation();
 				if (reparser.isAffected(tempLocation)) {

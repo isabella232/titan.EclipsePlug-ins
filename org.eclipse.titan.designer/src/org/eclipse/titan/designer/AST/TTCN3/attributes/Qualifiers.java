@@ -82,9 +82,8 @@ public final class Qualifiers implements IIncrementallyUpdateable, IIdentifierCo
 		}
 
 		if (qualifiers != null) {
-			Qualifier temp;
 			for (int i = 0, size = qualifiers.size(); i < size; i++) {
-				temp = qualifiers.get(i);
+				final Qualifier temp = qualifiers.get(i);
 				temp.updateSyntax(reparser, false);
 				reparser.updateLocation(temp.getLocation());
 			}
