@@ -266,7 +266,9 @@ testcase tc_jsonBasic_encdec_float1() runs on CT {
   var bitstring bs;
   var bitstring expected := oct2bit(char2oct("2.000000"));
   log("expected:",expected);
+  log("expected oct:", char2oct("2.000000"))
   bs := f_json_enc_f2bs(x);
+  log("got:",bit2oct(bs));
   f_compare_bitstring(bs, expected);
 
   bs := f_json_enc_f2bs(y);
@@ -377,10 +379,11 @@ testcase tc_jsonBasic_encdec_float1c() runs on CT {
 
   //decode test:
   var F_json z := f_json_dec_bs2f(expected);
-  if ( y ==z ) {
+  if ( y == z ) {
     setverdict(pass);
   } else {
-    setverdict(fail);
+    //log("decoded: ",z, " expected: ",y)
+    setverdict(fail,"decoded: ",z, " expected: ",y);
   }
 
   var integer r := decvalue(expected, z);
