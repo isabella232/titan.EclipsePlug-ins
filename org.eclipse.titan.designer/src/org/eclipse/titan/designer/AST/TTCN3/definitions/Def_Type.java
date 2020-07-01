@@ -281,7 +281,7 @@ public final class Def_Type extends Definition {
 					specifications.add(attribute.getAttributeSpecification());
 				} else {
 					for (int j = 0, size2 = qualifiers.getNofQualifiers(); j < size2; j++) {
-						final Qualifier tempQualifier = qualifiers.getQualifierByIndex(i);
+						final Qualifier tempQualifier = qualifiers.getQualifierByIndex(j);
 						final ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
 						if (tempSubReference.getReferenceType() == Subreference_type.arraySubReference) {
 							tempQualifier.getLocation().reportSemanticError(Qualifier.INVALID_INDEX_QUALIFIER);
