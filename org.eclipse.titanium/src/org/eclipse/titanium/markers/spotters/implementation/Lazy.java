@@ -240,7 +240,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 			final Set<FormalParameter> tempStricts = new HashSet<FormalParameter>();
 			for (int index = 0, nodeSize = nodes.size(); index < nodeSize; ++index) {
 				if (haveToContinue) {
-					RelevantNodeBuilder tempNodeBuilder = nodes.get(index);
+					final RelevantNodeBuilder tempNodeBuilder = nodes.get(index);
 					tempStricts.addAll(tempNodeBuilder.strictFormalParameters);
 					final Set<FormalParameter> temp = tempNodeBuilder.collectRelevantReferences();
 					haveToContinue = tempNodeBuilder.haveToContinue;

@@ -65,7 +65,7 @@ public class BlockNode extends Node {
 		if (this.equals(n)) {
 			return true;
 		}
-		for (StatementNode sn: sts) {
+		for (final StatementNode sn: sts) {
 			if (sn.containsNode(n)) {
 				return true;
 			}
@@ -161,7 +161,7 @@ public class BlockNode extends Node {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(prefix).append("BN: ").append(toString()).append('\n');
 		if (recursive) {
-			for (StatementNode sn: sts) {
+			for (final StatementNode sn: sts) {
 				sb.append(sn.toStringRecursive(true, prefixLen+2)).append('\n');
 			}
 		}

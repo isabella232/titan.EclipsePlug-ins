@@ -86,8 +86,7 @@ public class Utils {
 	private static IFile extractFile(final IEditorPart editor, final String refactoringName) {
 		final IEditorInput input = editor.getEditorInput();
 		if (!(input instanceof IFileEditorInput)) {
-			TITANDebugConsole.getConsole().newMessageStream()
-			.println("Utils.extractFile() during refactoring " +
+			TITANDebugConsole.println("Utils.extractFile() during refactoring " +
 					refactoringName + ": IEditorInput is not an IFileEditorInput. ");
 			return null;
 		}
@@ -102,8 +101,7 @@ public class Utils {
 		final IEditorPart editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		TTCN3Editor editor;
 		if (editorPart == null || !(editorPart instanceof TTCN3Editor)) {
-			TITANDebugConsole.getConsole().newMessageStream()
-			.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
+			TITANDebugConsole.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
 					refactoringName + ": Only for TTCN3 editors!");
 			return;
 		} else {// TODO not needed else
@@ -119,8 +117,7 @@ public class Utils {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(selProject);
 		WorkspaceJob job = projectSourceParser.reportOutdating((IFile) selFile);
 		if (job == null) {
-			TITANDebugConsole.getConsole().newMessageStream()
-			.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
+			TITANDebugConsole.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
 					refactoringName + ": WorkspaceJob to report outdating could not be created for project: " + selProject);
 			return;
 		}
@@ -133,8 +130,7 @@ public class Utils {
 
 		job = projectSourceParser.analyzeAll();
 		if (job == null) {
-			TITANDebugConsole.getConsole().newMessageStream()
-			.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
+			TITANDebugConsole.println("Utils.updateASTForProjectActiveInEditor() during refactoring " +
 					refactoringName + ": WorkspaceJob to reanalyze project could not be created for project: " + selProject);
 			return;
 		}
@@ -276,16 +272,14 @@ public class Utils {
 				final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(proj);
 				final WorkspaceJob job = projectSourceParser.analyzeAll();
 				if (job == null) {
-					TITANDebugConsole.getConsole().newMessageStream()
-					.println("Utils.updateASTOp: WorkspaceJob to analyze project could not be created for project "
+					TITANDebugConsole.println("Utils.updateASTOp: WorkspaceJob to analyze project could not be created for project "
 							+ proj.getName() + ", during the refactoring: " + name);
 					return;
 				}
 				try {
 					job.join();
 				} catch (InterruptedException e) {
-					TITANDebugConsole.getConsole().newMessageStream()
-					.println("Utils.updateASTOp: Error during semantic analysis of the project: "
+					TITANDebugConsole.println("Utils.updateASTOp: Error during semantic analysis of the project: "
 							+ proj.getName() + ", during the refactoring: " + name);
 					return;
 				}

@@ -315,7 +315,7 @@ public class ComponentFinderFromEditor extends AbstractHandler implements IObjec
 		private boolean cce;
 		private Component_Type comp;
 
-		TestcaseVisitor(final List<Def_Function> checkedFunctions, HashMap<Component_Type, List<Component_Type>> components, final Component_Type comp) {
+		TestcaseVisitor(final List<Def_Function> checkedFunctions, final HashMap<Component_Type, List<Component_Type>> components, final Component_Type comp) {
 			this.components.putAll(components);
 			this.checkedFunctions = checkedFunctions;
 			counter = -1;
