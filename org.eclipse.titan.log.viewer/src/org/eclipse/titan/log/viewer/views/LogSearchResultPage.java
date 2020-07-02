@@ -127,7 +127,7 @@ public class LogSearchResultPage extends AbstractTextSearchViewPage {
 			return;
 		}
 
-		TextTableView openedView = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID,
+		final TextTableView openedView = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID,
 				logFile.getFullPath().toOSString(),
 				org.eclipse.ui.IWorkbenchPage.VIEW_VISIBLE);
 		openedView.setSelectedRecord(match.getOffset());
