@@ -36,7 +36,6 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
-import org.eclipse.titan.runtime.core.cfgparser.StandardCharsets;
 
 /**
  * TTCN-3 Universal_charstring
@@ -2532,18 +2531,17 @@ public class TitanUniversalCharString extends Base_Type {
 
 	private static String to_JSON_string(final TTCN_Buffer p_buf, final json_string_escaping mode) {
 		final byte[] ustr = p_buf.get_data();
+		final int ustr_len = p_buf.get_len();
 
 		// Need at least 3 more characters (the double quotes around the string and the terminating zero)
 		final StringBuilder json_str = new StringBuilder();
 
 		json_str.append('"');
 
-		final String str = new String(ustr, StandardCharsets.UTF8);
-		for (int i = 0; i < str.length(); ) {
-			final int codePoint = str.codePointAt(i);
-			//final char c = (char)codePoint;
+		for (int i = 0; i < ustr_len; i++) {
+			final int temp = ustr[i] & 0xFF;
 			if (mode != json_string_escaping.ESCAPE_AS_USI) {
-				switch(codePoint) {
+				switch(temp) {
 				case '\n':
 					json_str.append("\\n");
 					break;
@@ -2575,26 +2573,25 @@ public class TitanUniversalCharString extends Base_Type {
 					}
 					// fall through if ESCAPE_AS_TRANSPARENT
 				default:
-					if ((codePoint >= 0 && codePoint <= 0x1F) || codePoint == 0x7F) {
+					if ( temp <= 0x1F || temp == 0x7F) {
 						// C0 control characters use USI-like escape sequences
 						json_str.append("\\u00");
-						json_str.append(Integer.toHexString(codePoint / 16).toUpperCase());
-						json_str.append(Integer.toHexString(codePoint % 16).toUpperCase());
+						json_str.append(Integer.toHexString(temp / 16).toUpperCase());
+						json_str.append(Integer.toHexString(temp % 16).toUpperCase());
 					} else {
-						json_str.appendCodePoint(codePoint);
+						json_str.append((char)temp);
 					}
 					break;
 				}
 			} else { // ESCAPE_AS_USI
-				if (codePoint <= 0x20 || codePoint == '\"' || codePoint == '\\' || codePoint == 0x7F) {
+				if (temp <= 0x20 || temp == '\"' || temp == '\\' || temp == 0x7F) {
 					json_str.append("\\u00");
-					json_str.append(Integer.toHexString(codePoint / 16).toUpperCase());
-					json_str.append(Integer.toHexString(codePoint % 16).toUpperCase());
+					json_str.append(Integer.toHexString(temp / 16).toUpperCase());
+					json_str.append(Integer.toHexString(temp % 16).toUpperCase());
 				} else {
-					json_str.appendCodePoint(codePoint);
+					json_str.append((char)temp);
 				}
 			}
-			i += Character.charCount(codePoint);
 		}
 		json_str.append('\"');
 		return json_str.toString();
