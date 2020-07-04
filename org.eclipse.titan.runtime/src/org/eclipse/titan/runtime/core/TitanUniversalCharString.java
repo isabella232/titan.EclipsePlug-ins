@@ -2312,7 +2312,11 @@ public class TitanUniversalCharString extends Base_Type {
 
 				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
-				p_buf.put_s(tok.get_buffer().toString().getBytes());
+				StringBuilder temp = tok.get_buffer();
+				for (int i = 0; i < temp.length(); i++) {
+					int temp2 = temp.charAt(i);
+					p_buf.put_c((byte)temp2);
+				}
 			} finally {
 				errorContext.leave_context();
 			}
@@ -2350,7 +2354,12 @@ public class TitanUniversalCharString extends Base_Type {
 					TTCN_EncDec_ErrorContext.error_internal("No JSON descriptor available for type '%s'.", p_td.name);
 				}
 
-				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
+				final byte[] data = p_buf.get_data();
+				final char[] temp = new char[data.length];
+				for (int i = 0; i < data.length; i++) {
+					temp[i] = (char)data[i];
+				}
+				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(temp), p_buf.get_len());
 				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 							"Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -2512,7 +2521,11 @@ public class TitanUniversalCharString extends Base_Type {
 				cstr = out;
 			} else {
 				charstring = false;
-				decode_utf8(value.toString().getBytes(), CharCoding.UTF_8, false);
+				final byte temp[] = new byte[value.length()];
+				for (int i = 0; i < value.length(); i++) {
+					temp[i] = (byte)value.charAt(i);
+				}
+				decode_utf8(temp, CharCoding.UTF_8, false);
 				if (!from_JSON_string(!use_default)) {
 					if(!p_silent) {
 						TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "universal charstring");
