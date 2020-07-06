@@ -92,7 +92,7 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 				result = false;
 			}
 
-			String txt = getTextControl().getText();
+			final String txt = getTextControl().getText();
 
 			result = (txt.trim().length() > 0) || isEmptyStringAllowed();
 
@@ -108,7 +108,7 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 
 		@Override
 		protected boolean doCheckState() {
-			String newValue = getStringValue();
+			final String newValue = getStringValue();
 			try {
 				Pattern.compile(newValue);
 			} catch (PatternSyntaxException e) {
@@ -178,7 +178,7 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 				| ExpandableComposite.CLIENT_INDENT | ExpandableComposite.COMPACT);
 		ex.setText(title);
 		ex.setExpanded(false);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		ex.setLayoutData(data);
 		ex.addExpansionListener(new ExpansionAdapter() {
@@ -190,7 +190,7 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 				}
 
 				if (temp != null) {
-					Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+					final Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 					((ScrolledComposite) temp).setMinSize(point);
 					((ScrolledComposite) temp).layout(true, true);
 				}
@@ -206,7 +206,7 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 		pagecomp.setLayout(new GridLayout(1, false));
 		pagecomp.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Control result = super.createContents(pagecomp);
+		final Control result = super.createContents(pagecomp);
 		initilizing = false;
 		return result;
 	}
@@ -215,9 +215,9 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 	protected void createFieldEditors() {
 		final Composite tempParent = getFieldEditorParent();
 
-		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTNAMINGCONVENTIONPROBLEMS, REPORTNAMINGCONVENTIONPROBLEMS,
+		final ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.REPORTNAMINGCONVENTIONPROBLEMS, REPORTNAMINGCONVENTIONPROBLEMS,
 				IGNORE_WARNING_ERROR, tempParent);
-		Label text = comboedit.getLabelControl(tempParent);
+		final Label text = comboedit.getLabelControl(tempParent);
 		text.setToolTipText(REPORTNAMINGCONVENTIONPROBLEMS_TOOLTIP);
 		comboedit.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
@@ -242,8 +242,8 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 	 *                the parent composite to put the section under.
 	 * */
 	private void createModuleSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "module names");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "module names");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -260,8 +260,8 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 	 *                the parent composite to put the section under.
 	 * */
 	private void createTTCN3GlobalSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "global TTCN-3 definitions");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "global TTCN-3 definitions");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -288,8 +288,8 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 	 *                the parent composite to put the section under.
 	 * */
 	private void createTTCN3LocalSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "local TTCN-3 definitions");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "local TTCN-3 definitions");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -311,8 +311,8 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 	 *                the parent composite to put the section under.
 	 * */
 	private void createTTCN3ComponentSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "component internal TTCN-3 definitions");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "component internal TTCN-3 definitions");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -330,8 +330,8 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 	 *                the parent composite to put the section under.
 	 * */
 	private void createOthersSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "other naming rules");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "other naming rules");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -379,11 +379,11 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
+		final boolean result = super.performOk();
 		if (changed && getPreferenceStore().getBoolean(PreferenceConstants.USEONTHEFLYPARSING)) {
 			changed = false;
 
-			WorkspaceJob job = new WorkspaceJob("Re-analyzes") {
+			final WorkspaceJob job = new WorkspaceJob("Re-analyzes") {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
 					ErrorReporter.parallelWarningDisplayInMessageDialog(
