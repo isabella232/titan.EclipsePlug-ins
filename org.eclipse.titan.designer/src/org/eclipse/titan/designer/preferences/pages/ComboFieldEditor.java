@@ -78,7 +78,7 @@ public final class ComboFieldEditor extends FieldEditor {
 			return false;
 		}
 		for (int i = 0; i < table.length; i++) {
-			String[] array = table[i];
+			final String[] array = table[i];
 			if (array == null || array.length != 2) {
 				return false;
 			}
@@ -89,7 +89,7 @@ public final class ComboFieldEditor extends FieldEditor {
 	@Override
 	protected void adjustForNumColumns(final int numColumns) {
 		if (numColumns > 1) {
-			Control control = getLabelControl();
+			final Control control = getLabelControl();
 			int left = numColumns;
 			if (control != null) {
 				((GridData) control.getLayoutData()).horizontalSpan = 1;
@@ -97,7 +97,7 @@ public final class ComboFieldEditor extends FieldEditor {
 			}
 			((GridData) fCombo.getLayoutData()).horizontalSpan = left;
 		} else {
-			Control control = getLabelControl();
+			final Control control = getLabelControl();
 			if (control != null) {
 				((GridData) control.getLayoutData()).horizontalSpan = 1;
 			}
@@ -161,8 +161,8 @@ public final class ComboFieldEditor extends FieldEditor {
 			fCombo.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(final SelectionEvent evt) {
-					String oldValue = fValue;
-					String name = fCombo.getText();
+					final String oldValue = fValue;
+					final String name = fCombo.getText();
 					fValue = getValueForName(name);
 					setPresentsDefaultValue(false);
 					fireValueChanged(VALUE, oldValue, fValue);
@@ -190,7 +190,7 @@ public final class ComboFieldEditor extends FieldEditor {
 	 */
 	private String getValueForName(final String name) {
 		for (int i = 0; i < fEntryNamesAndValues.length; i++) {
-			String[] entry = fEntryNamesAndValues[i];
+			final String[] entry = fEntryNamesAndValues[i];
 			if (name.equals(entry[0])) {
 				return entry[1];
 			}

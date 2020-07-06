@@ -51,7 +51,7 @@ public class ExcludedResourcesPreferencePage extends FieldEditorPreferencePage i
 
 	@Override
 	protected void createFieldEditors() {
-		ExcludeRegexpEditor editor = new ExcludeRegexpEditor(PreferenceConstants.EXCLUDED_RESOURCES, "regular expressions",
+		final ExcludeRegexpEditor editor = new ExcludeRegexpEditor(PreferenceConstants.EXCLUDED_RESOURCES, "regular expressions",
 				getFieldEditorParent());
 		editor.setPropertyChangeListener(new IPropertyChangeListener() {
 
@@ -76,8 +76,8 @@ public class ExcludedResourcesPreferencePage extends FieldEditorPreferencePage i
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
+		final boolean result = super.performOk();
+		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
 		if (node != null) {
 			try {
 				node.flush();
@@ -101,7 +101,7 @@ public class ExcludedResourcesPreferencePage extends FieldEditorPreferencePage i
 			TITANDecorator.resetExclusion();
 
 			final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				PropertyNotificationManager.firePropertyChange(project);
 			}
 		}

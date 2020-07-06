@@ -62,10 +62,10 @@ public class MarkOccurrencesPage extends FieldEditorPreferencePage implements IW
 	@Override
 	protected void createFieldEditors() {
 		pageComposite = new Composite(getFieldEditorParent(), SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		pageComposite.setLayout(layout);
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -99,7 +99,7 @@ public class MarkOccurrencesPage extends FieldEditorPreferencePage implements IW
 		optionsGroup.setLayout(new GridLayout(1, true));
 		optionsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		boolean markOccurrencesEnabled = doGetPreferenceStore().getBoolean(PreferenceConstants.MARK_OCCURRENCES_ENABLED);
+		final boolean markOccurrencesEnabled = doGetPreferenceStore().getBoolean(PreferenceConstants.MARK_OCCURRENCES_ENABLED);
 
 		markASN1Assignments = new BooleanFieldEditor(PreferenceConstants.MARK_OCCURRENCES_ASN1_ASSIGNMENTS, MARK_ASN1_ASSIGNMENTS,
 				optionsGroup);
@@ -113,7 +113,7 @@ public class MarkOccurrencesPage extends FieldEditorPreferencePage implements IW
 	}
 
 	protected void updateFieldEditors() {
-		boolean markOccurrencesEnabled = enableMarkOccurrences.getBooleanValue();
+		final boolean markOccurrencesEnabled = enableMarkOccurrences.getBooleanValue();
 
 		delay.setEnabled(markOccurrencesEnabled, generalGroup);
 		keepMarks.setEnabled(markOccurrencesEnabled, generalGroup);
@@ -139,9 +139,9 @@ public class MarkOccurrencesPage extends FieldEditorPreferencePage implements IW
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
+		final boolean result = super.performOk();
 
-		IEclipsePreferences node = (IEclipsePreferences) Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE)
+		final IEclipsePreferences node = (IEclipsePreferences) Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE)
 				.node(ProductConstants.PRODUCT_ID_DESIGNER);
 		if (node != null) {
 			try {

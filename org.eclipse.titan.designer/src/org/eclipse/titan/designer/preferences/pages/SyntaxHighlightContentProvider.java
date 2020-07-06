@@ -35,10 +35,11 @@ final class SyntaxHighlightContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(final Object parentElement) {
 		if (parentElement instanceof ISyntaxHighlightTreeElement) {
-			ISyntaxHighlightTreeElement treeElement = ((ISyntaxHighlightTreeElement) parentElement);
+			final ISyntaxHighlightTreeElement treeElement = ((ISyntaxHighlightTreeElement) parentElement);
 
 			return treeElement.getChildren();
 		}
+
 		return new Object[] {};
 	}
 

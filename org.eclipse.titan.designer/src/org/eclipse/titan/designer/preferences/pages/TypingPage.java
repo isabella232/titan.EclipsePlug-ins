@@ -148,8 +148,8 @@ public final class TypingPage extends FieldEditorPreferencePage implements IWork
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
+		final boolean result = super.performOk();
+		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
 		if (node != null) {
 			try {
 				node.flush();

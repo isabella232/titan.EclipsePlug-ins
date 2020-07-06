@@ -38,11 +38,11 @@ public final class ShowMatchingBracketPage extends FieldEditorPreferencePage imp
 
 	@Override
 	protected void createFieldEditors() {
-		BooleanFieldEditor enableMatchingBrackets = new BooleanFieldEditor(PreferenceConstants.MATCHING_BRACKET_ENABLED,
+		final BooleanFieldEditor enableMatchingBrackets = new BooleanFieldEditor(PreferenceConstants.MATCHING_BRACKET_ENABLED,
 				HIGHLIGHT_MATCHING_BRACKETS, getFieldEditorParent());
 		addField(enableMatchingBrackets);
 
-		ColorFieldEditor matchingBracketColor = new ColorFieldEditor(PreferenceConstants.COLOR_MATCHING_BRACKET, COLOR,
+		final ColorFieldEditor matchingBracketColor = new ColorFieldEditor(PreferenceConstants.COLOR_MATCHING_BRACKET, COLOR,
 				getFieldEditorParent());
 		addField(matchingBracketColor);
 	}

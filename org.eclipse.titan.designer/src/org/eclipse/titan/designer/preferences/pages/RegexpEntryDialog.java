@@ -68,13 +68,13 @@ public class RegexpEntryDialog extends Dialog {
 			Pattern.compile(newText);
 			errorLabel.setVisible(false);
 
-			Button button = getButton(IDialogConstants.OK_ID);
+			final Button button = getButton(IDialogConstants.OK_ID);
 			if (button != null) {
 				button.setEnabled(true);
 			}
 		} catch (PatternSyntaxException e) {
 			errorLabel.setVisible(true);
-			Button button = getButton(IDialogConstants.OK_ID);
+			final Button button = getButton(IDialogConstants.OK_ID);
 			if (button != null) {
 				button.setEnabled(false);
 			}
@@ -90,12 +90,12 @@ public class RegexpEntryDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Composite panel = new Composite(container, SWT.NONE);
-		GridLayout layout = new GridLayout(3, false);
+		final Composite panel = new Composite(container, SWT.NONE);
+		final GridLayout layout = new GridLayout(3, false);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -107,7 +107,7 @@ public class RegexpEntryDialog extends Dialog {
 	}
 
 	protected void createNameArea(final Composite parent) {
-		Label label = new Label(parent, SWT.NONE);
+		final Label label = new Label(parent, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		label.setToolTipText("tooltip");
 

@@ -62,7 +62,7 @@ public final class IndentationPage extends FieldEditorPreferencePage implements 
 	@Override
 	protected Control createContents(final Composite parent) {
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		pageComposite.setLayout(layout);
 		GridData gridData = new GridData();
@@ -74,10 +74,10 @@ public final class IndentationPage extends FieldEditorPreferencePage implements 
 
 		generalGroup = new Group(pageComposite, SWT.SHADOW_ETCHED_OUT);
 		generalGroup.setText(GROUP_LABEL);
-		GridLayout layout2 = new GridLayout();
+		final GridLayout layout2 = new GridLayout();
 		layout2.numColumns = 2;
 		generalGroup.setLayout(layout2);
-		GridData gridData2 = new GridData(SWT.FILL, SWT.FILL, true, false);
+		final GridData gridData2 = new GridData(SWT.FILL, SWT.FILL, true, false);
 		generalGroup.setLayoutData(gridData2);
 
 		indentationComposit = new Composite(generalGroup, SWT.NONE);
@@ -122,8 +122,8 @@ public final class IndentationPage extends FieldEditorPreferencePage implements 
 	public boolean performOk() {
 		IndentationSupport.clearIndentString();
 
-		boolean result = super.performOk();
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
+		final boolean result = super.performOk();
+		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
 		if (node != null) {
 			try {
 				node.flush();

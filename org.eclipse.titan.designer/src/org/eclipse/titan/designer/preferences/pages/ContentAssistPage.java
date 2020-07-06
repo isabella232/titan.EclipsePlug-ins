@@ -63,7 +63,7 @@ public final class ContentAssistPage extends FieldEditorPreferencePage implement
 	@Override
 	protected void createFieldEditors() {
 		pageComposite = new Composite(getFieldEditorParent(), SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		pageComposite.setLayout(layout);
 		GridData gridData = new GridData();
@@ -103,7 +103,7 @@ public final class ContentAssistPage extends FieldEditorPreferencePage implement
 
 		sorting = new ComboFieldEditor(PreferenceConstants.CONTENTASSISTANT_PROPOSAL_SORTING, "Sort proposals", SORTING_OPTIONS,
 				sortingComposite);
-		Label text = sorting.getLabelControl(sortingComposite);
+		final Label text = sorting.getLabelControl(sortingComposite);
 		text.setToolTipText("Sort proposals");
 		addField(sorting);
 
@@ -168,8 +168,8 @@ public final class ContentAssistPage extends FieldEditorPreferencePage implement
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
+		final boolean result = super.performOk();
+		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
 		if (node != null) {
 			try {
 				node.flush();

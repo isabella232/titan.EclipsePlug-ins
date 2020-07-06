@@ -54,7 +54,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 
 	@Override
 	protected void createFieldEditors() {
-		Composite tempParent = getFieldEditorParent();
+		final Composite tempParent = getFieldEditorParent();
 
 		checkForLowMemory = new BooleanFieldEditor(PreferenceConstants.CHECKFORLOWMEMORY, CHECK_MEMORY, tempParent);
 		addField(checkForLowMemory);
@@ -145,7 +145,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	}
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
+		final boolean result = super.performOk();
 
 		if (realtimeSupport != null && realtimeSupport != getPreferenceStore().getBoolean(PreferenceConstants.ENABLEREALTIMEEXTENSION)) {
 			ErrorReporter.parallelWarningDisplayInMessageDialog(

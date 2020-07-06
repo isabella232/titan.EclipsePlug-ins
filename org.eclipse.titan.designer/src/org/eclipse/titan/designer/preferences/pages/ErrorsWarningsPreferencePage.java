@@ -136,7 +136,7 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 				| ExpandableComposite.CLIENT_INDENT | ExpandableComposite.COMPACT);
 		ex.setText(title);
 		ex.setExpanded(false);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		ex.setLayoutData(data);
 		ex.addExpansionListener(new ExpansionAdapter() {
@@ -148,7 +148,7 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 				}
 
 				if (temp != null) {
-					Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+					final Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 					((ScrolledComposite) temp).setMinSize(point);
 					((ScrolledComposite) temp).layout(true, true);
 				}
@@ -168,7 +168,7 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 
 	@Override
 	protected void createFieldEditors() {
-		Composite tempParent = getFieldEditorParent();
+		final Composite tempParent = getFieldEditorParent();
 
 		createCodeStyleSection(tempParent);
 		createUnnecessaryCodeSection(tempParent);
@@ -185,8 +185,8 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	 *                the parent composite to put the section under.
 	 * */
 	private void createCodeStyleSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "Code style problems");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "Code style problems");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -259,8 +259,8 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	 *                the parent composite to put the section under.
 	 * */
 	private void createPotentialProgrammingProblemsSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "Potential programming problems");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "Potential programming problems");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -445,8 +445,8 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 	 *                the parent composite to put the section under.
 	 * */
 	private void createUnnecessaryCodeSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "Unnecessary code");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "Unnecessary code");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -530,7 +530,7 @@ public final class ErrorsWarningsPreferencePage extends FieldEditorPreferencePag
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
+		final boolean result = super.performOk();
 		if (changed && getPreferenceStore().getBoolean(PreferenceConstants.USEONTHEFLYPARSING)) {
 			changed = false;
 
