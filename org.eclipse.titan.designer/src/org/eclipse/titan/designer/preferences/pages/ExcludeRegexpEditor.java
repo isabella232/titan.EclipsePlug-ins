@@ -79,10 +79,10 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 */
 	private void addPressed() {
 		setPresentsDefaultValue(false);
-		String input = getNewInputObject();
+		final String input = getNewInputObject();
 
 		if (input != null) {
-			int index = list.getSelectionIndex();
+			final int index = list.getSelectionIndex();
 			if (index >= 0) {
 				list.add(input, index + 1);
 			} else {
@@ -98,10 +98,10 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	private void editPressed() {
 		setPresentsDefaultValue(false);
 
-		int index = list.getSelectionIndex();
+		final int index = list.getSelectionIndex();
 		if (index >= 0) {
-			String input = list.getItem(index);
-			String output = getEditInputObject(input);
+			final String input = list.getItem(index);
+			final String output = getEditInputObject(input);
 			list.setItem(index, output);
 			selectionChanged();
 		}
@@ -113,7 +113,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	private void copyPressed() {
 		setPresentsDefaultValue(false);
 
-		int index = list.getSelectionIndex();
+		final int index = list.getSelectionIndex();
 		if (index >= 0) {
 			list.add(list.getItem(index));
 		}
@@ -122,7 +122,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 
 	@Override
 	protected void adjustForNumColumns(final int numColumns) {
-		Control control = getLabelControl();
+		final Control control = getLabelControl();
 		((GridData) control.getLayoutData()).horizontalSpan = numColumns;
 		((GridData) list.getLayoutData()).horizontalSpan = numColumns - 1;
 	}
@@ -151,11 +151,11 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 * @return Button
 	 */
 	private Button createPushButton(final Composite parent, final String name) {
-		Button button = new Button(parent, SWT.PUSH);
+		final Button button = new Button(parent, SWT.PUSH);
 		button.setText(name);
 		button.setFont(parent.getFont());
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
-		int widthHint = convertHorizontalDLUsToPixels(button, IDialogConstants.BUTTON_WIDTH);
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final int widthHint = convertHorizontalDLUsToPixels(button, IDialogConstants.BUTTON_WIDTH);
 		data.widthHint = Math.max(widthHint, button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 		button.setLayoutData(data);
 		button.addSelectionListener(getSelectionListener());
@@ -169,7 +169,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 		selectionListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
-				Widget widget = event.widget;
+				final Widget widget = event.widget;
 				if (widget == addButton) {
 					addPressed();
 				} else if (widget == removeButton) {
@@ -187,7 +187,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 
 	@Override
 	protected void doFillIntoGrid(final Composite parent, final int numColumns) {
-		Control control = getLabelControl(parent);
+		final Control control = getLabelControl(parent);
 		GridData gd = new GridData();
 		gd.horizontalSpan = numColumns;
 		control.setLayoutData(gd);
@@ -208,8 +208,8 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	@Override
 	protected void doLoad() {
 		if (list != null) {
-			String s = getPreferenceStore().getString(getPreferenceName());
-			String[] array = parseString(s);
+			final String s = getPreferenceStore().getString(getPreferenceName());
+			final String[] array = parseString(s);
 			for (int i = 0; i < array.length; i++) {
 				list.add(array[i]);
 			}
@@ -220,8 +220,8 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	protected void doLoadDefault() {
 		if (list != null) {
 			list.removeAll();
-			String s = getPreferenceStore().getDefaultString(getPreferenceName());
-			String[] array = parseString(s);
+			final String s = getPreferenceStore().getDefaultString(getPreferenceName());
+			final String[] array = parseString(s);
 			for (int i = 0; i < array.length; i++) {
 				list.add(array[i]);
 			}
@@ -230,9 +230,9 @@ public class ExcludeRegexpEditor extends FieldEditor {
 
 	@Override
 	protected void doStore() {
-		String newValue = createList(list.getItems());
+		final String newValue = createList(list.getItems());
 		if (newValue != null) {
-			String oldValue = getPreferenceStore().getString(getPreferenceName());
+			final String oldValue = getPreferenceStore().getString(getPreferenceName());
 			getPreferenceStore().setValue(getPreferenceName(), newValue);
 			fireValueChanged(VALUE, oldValue, newValue);
 		}
@@ -249,7 +249,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	public Composite getButtonBoxControl(final Composite parent) {
 		if (buttonBox == null) {
 			buttonBox = new Composite(parent, SWT.NULL);
-			GridLayout layout = new GridLayout();
+			final GridLayout layout = new GridLayout();
 			layout.marginWidth = 0;
 			buttonBox.setLayout(layout);
 			createButtons(buttonBox);
@@ -335,7 +335,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 */
 	private void removePressed() {
 		setPresentsDefaultValue(false);
-		int index = list.getSelectionIndex();
+		final int index = list.getSelectionIndex();
 		if (index >= 0) {
 			list.remove(index);
 			selectionChanged();
@@ -359,8 +359,8 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 */
 	protected void selectionChanged() {
 
-		int index = list.getSelectionIndex();
-		int size = list.getItemCount();
+		final int index = list.getSelectionIndex();
+		final int size = list.getItemCount();
 
 		removeButton.setEnabled(index >= 0);
 		editButton.setEnabled(size >= 1 && index >= 0);
@@ -400,7 +400,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 		final StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < items.length; i++) {
-			String item = items[i];
+			final String item = items[i];
 
 			if (i != 0) {
 				builder.append('#');
@@ -420,7 +420,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 * @return a new item
 	 */
 	protected String getNewInputObject() {
-		RegexpEntryDialog dialog = new RegexpEntryDialog(getShell());
+		final RegexpEntryDialog dialog = new RegexpEntryDialog(getShell());
 
 		if (dialog.open() == Window.OK) {
 			return dialog.getEntry();
@@ -438,7 +438,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 * @return a new item
 	 */
 	protected String getEditInputObject(final String original) {
-		RegexpEntryDialog dialog = new RegexpEntryDialog(getShell());
+		final RegexpEntryDialog dialog = new RegexpEntryDialog(getShell());
 		dialog.setEntry(original);
 
 		if (dialog.open() == Window.OK) {
@@ -461,7 +461,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 * @see #createList
 	 */
 	protected String[] parseString(final String stringList) {
-		java.util.List<String> splittedList = ResourceExclusionHelper.intelligentSplit(stringList, '#', '\\');
+		final java.util.List<String> splittedList = ResourceExclusionHelper.intelligentSplit(stringList, '#', '\\');
 		return splittedList.toArray(new String[splittedList.size()]);
 
 	}
