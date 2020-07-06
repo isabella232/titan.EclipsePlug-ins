@@ -158,7 +158,9 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(foldingListener);
 
 		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
-		EditorTracker.remove(file, this);
+		if (file != null) {
+			EditorTracker.remove(file, this);
+		}
 
 		super.dispose();
 	}
@@ -191,7 +193,9 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 		});
 
 		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
-		EditorTracker.put(file, this);
+		if (file != null) {
+			EditorTracker.put(file, this);
+		}
 	}
 
 	@Override
