@@ -695,9 +695,9 @@ public final class Referenced_Template extends TTCN3Template {
 
 			if (get_needs_conversion()) {
 				final ExpressionStruct tempExpr = new ExpressionStruct();
-				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final ExpressionStruct refExpr = new ExpressionStruct();
 				reference.generateConstRef(aData, refExpr);
@@ -977,9 +977,9 @@ public final class Referenced_Template extends TTCN3Template {
 			source.append(expression.preamble);
 			if (get_needs_conversion()) {
 				final ExpressionStruct tempExpr = new ExpressionStruct();
-				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final ExpressionStruct refExpr = new ExpressionStruct();
 				reference.generateConstRef(aData, refExpr);
@@ -998,9 +998,9 @@ public final class Referenced_Template extends TTCN3Template {
 		} else {
 			if (get_needs_conversion()) {
 				final ExpressionStruct tempExpr = new ExpressionStruct();
-				IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType currentType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedType = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getType(CompilationTimeStamp.getBaseTimestamp()).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType referencedFieldType = referencedType.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false).getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 				final ExpressionStruct refExpr = new ExpressionStruct();
 				reference.generateConstRef(aData, refExpr);
