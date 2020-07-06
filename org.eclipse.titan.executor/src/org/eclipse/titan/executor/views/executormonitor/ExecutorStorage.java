@@ -40,7 +40,7 @@ public final class ExecutorStorage {
 	 * @param element the element to be registered
 	 * */
 	public static void registerExecutorStorage(final LaunchElement element) {
-		ILaunch launch = element.launch();
+		final ILaunch launch = element.launch();
 		if (ExecutorStorage.getExecutorMap().containsKey(launch)) {
 			final BaseExecutor executor = ExecutorStorage.getExecutorMap().get(launch);
 			if (null == executor.mainControllerRoot()) {

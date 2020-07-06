@@ -57,7 +57,7 @@ public final class ComponentElement extends TreeLeaf implements ITreeBranch {
 
 	@Override
 	public List<ITreeLeaf> children() {
-		List<ITreeLeaf> result = new ArrayList<ITreeLeaf>();
+		final List<ITreeLeaf> result = new ArrayList<ITreeLeaf>();
 
 		if (null != referenceInfo) {
 			result.add(referenceInfo);

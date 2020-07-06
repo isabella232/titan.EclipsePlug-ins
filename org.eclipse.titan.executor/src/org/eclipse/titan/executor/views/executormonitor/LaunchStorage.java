@@ -39,7 +39,7 @@ public final class LaunchStorage {
 	 * @param element the launch element to be registered.
 	 * */
 	public static void registerLaunchElement(final LaunchElement element) {
-		ILaunch launch = element.launch();
+		final ILaunch launch = element.launch();
 		if (!LAUNCHELEMENTS_MAP.containsKey(launch)) {
 			LAUNCHELEMENTS_MAP.put(launch, element);
 		}
