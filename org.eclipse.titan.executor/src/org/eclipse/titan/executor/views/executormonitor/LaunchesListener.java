@@ -63,8 +63,7 @@ public final class LaunchesListener implements ILaunchesListener2 {
 
 	@Override
 	public void launchesChanged(final ILaunch[] launches) {
-		for (int i = 0; i < launches.length; i++) {
-			final ILaunch launched = launches[i];
+		for (final ILaunch launched : launches) {
 			final List<ITreeLeaf> children = executorMonitorView.getRoot().children();
 			for (final ITreeLeaf leaf : children) {
 				final LaunchElement launchElement = (LaunchElement) leaf;
