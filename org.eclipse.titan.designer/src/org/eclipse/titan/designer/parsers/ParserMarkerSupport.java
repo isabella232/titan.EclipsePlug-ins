@@ -49,7 +49,7 @@ public final class ParserMarkerSupport {
 			return;
 		}
 
-		Location location = new Location(file, taskMarker.getLine() - 1);
+		final Location location = new Location(file, taskMarker.getLine() - 1);
 		location.reportExternalProblem(taskMarker.getMessage(), taskMarker.getSeverity(), taskMarker.getPriority(),
 				GeneralConstants.ONTHEFLY_TASK_MARKER);
 	}
@@ -67,7 +67,7 @@ public final class ParserMarkerSupport {
 			return;
 		}
 
-		Location location = new Location(file, warningMarker.getLine());
+		final Location location = new Location(file, warningMarker.getLine());
 		location.reportSyntacticWarning(warningMarker.getMessage());
 	}
 
@@ -80,11 +80,11 @@ public final class ParserMarkerSupport {
 	 * */
 	public static IMarker[] getAllCompilerMarkers(final IResource resource) {
 		try {
-			IMarker[] errors = resource.findMarkers(GeneralConstants.COMPILER_ERRORMARKER, false, IResource.DEPTH_INFINITE);
-			IMarker[] warnings = resource.findMarkers(GeneralConstants.COMPILER_WARNINGMARKER, false, IResource.DEPTH_INFINITE);
-			IMarker[] infos = resource.findMarkers(GeneralConstants.COMPILER_INFOMARKER, false, IResource.DEPTH_INFINITE);
+			final IMarker[] errors = resource.findMarkers(GeneralConstants.COMPILER_ERRORMARKER, false, IResource.DEPTH_INFINITE);
+			final IMarker[] warnings = resource.findMarkers(GeneralConstants.COMPILER_WARNINGMARKER, false, IResource.DEPTH_INFINITE);
+			final IMarker[] infos = resource.findMarkers(GeneralConstants.COMPILER_INFOMARKER, false, IResource.DEPTH_INFINITE);
 
-			IMarker[] result = new IMarker[errors.length + warnings.length + infos.length];
+			final IMarker[] result = new IMarker[errors.length + warnings.length + infos.length];
 			System.arraycopy(errors, 0, result, 0, errors.length);
 			System.arraycopy(warnings, 0, result, errors.length, warnings.length);
 			System.arraycopy(infos, 0, result, errors.length + warnings.length, infos.length);
@@ -123,12 +123,12 @@ public final class ParserMarkerSupport {
 			return;
 		}
 
-		int lineNumber = errorStorage.lineNumber;
-		int charStart = errorStorage.charStart;
-		int charEnd = errorStorage.charEnd;
-		String message = errorStorage.message;
+		final int lineNumber = errorStorage.lineNumber;
+		final int charStart = errorStorage.charStart;
+		final int charEnd = errorStorage.charEnd;
+		final String message = errorStorage.message;
 
-		Location location = new Location(file, relativeLocation.getLine() + lineNumber - 1, relativeLocation.getOffset() + charStart,
+		final Location location = new Location(file, relativeLocation.getLine() + lineNumber - 1, relativeLocation.getOffset() + charStart,
 				relativeLocation.getOffset() + charEnd);
 		location.reportSingularExternalProblem(message, severity, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 	}
@@ -139,12 +139,12 @@ public final class ParserMarkerSupport {
 			return;
 		}
 
-		int lineNumber = errorStorage.lineNumber;
-		int charStart = errorStorage.charStart;
-		int charEnd = errorStorage.charEnd;
-		String message = errorStorage.message;
+		final int lineNumber = errorStorage.lineNumber;
+		final int charStart = errorStorage.charStart;
+		final int charEnd = errorStorage.charEnd;
+		final String message = errorStorage.message;
 
-		Location location = new Location(file, relativeLocation.getLine() + lineNumber - 1, relativeLocation.getOffset() + charStart,
+		final Location location = new Location(file, relativeLocation.getLine() + lineNumber - 1, relativeLocation.getOffset() + charStart,
 				relativeLocation.getOffset() + charEnd);
 		location.reportSingularExternalProblem(message, severity, GeneralConstants.ONTHEFLY_MIXED_MARKER);
 	}
@@ -154,21 +154,22 @@ public final class ParserMarkerSupport {
 		if (!file.isAccessible()) {
 			return;
 		}
-		int lineNumber = errorStorage.lineNumber;
+
+		final int lineNumber = errorStorage.lineNumber;
 		int charStart = errorStorage.charStart;
 		int charEnd = errorStorage.charEnd;
-		String message = errorStorage.message;
-		boolean justDoIt = errorStorage.exceptionType == SyntacticErrorStorage.ExceptionType.LEXER_NOVIABLEALT_EXCEPTION;
+		final String message = errorStorage.message;
+		final boolean justDoIt = errorStorage.exceptionType == SyntacticErrorStorage.ExceptionType.LEXER_NOVIABLEALT_EXCEPTION;
 
 		try {
 			if (justDoIt && lineNumber >= 0) {
 				IDocument document = null;
 
-				ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
-				IPath fullPath = file.getFullPath();
+				final ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
+				final IPath fullPath = file.getFullPath();
 				if (manager != null) {
 					manager.connect(fullPath, LocationKind.IFILE, null);
-					ITextFileBuffer buffer = manager.getTextFileBuffer(fullPath, LocationKind.IFILE );
+					final ITextFileBuffer buffer = manager.getTextFileBuffer(fullPath, LocationKind.IFILE );
 					document = buffer.getDocument();
 				}
 
@@ -184,7 +185,7 @@ public final class ParserMarkerSupport {
 				}
 			}
 
-			Location location = new Location(file, lineNumber, charStart, charEnd);
+			final Location location = new Location(file, lineNumber, charStart, charEnd);
 			location.reportSingularExternalProblem(message, severity, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
@@ -211,21 +212,22 @@ public final class ParserMarkerSupport {
 		if (!file.isAccessible()) {
 			return;
 		}
-		int lineNumber = errorStorage.lineNumber;
+
+		final int lineNumber = errorStorage.lineNumber;
 		int charStart = errorStorage.charStart;
 		int charEnd = errorStorage.charEnd;
-		String message = errorStorage.message;
-		boolean justDoIt = errorStorage.exceptionType == SyntacticErrorStorage.ExceptionType.LEXER_NOVIABLEALT_EXCEPTION;
+		final String message = errorStorage.message;
+		final boolean justDoIt = errorStorage.exceptionType == SyntacticErrorStorage.ExceptionType.LEXER_NOVIABLEALT_EXCEPTION;
 
 		try {
 			if (justDoIt && lineNumber >= 0) {
 				IDocument document = null;
 
-				ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
-				IPath fullPath = file.getFullPath();
+				final ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
+				final IPath fullPath = file.getFullPath();
 				if (manager != null) {
 					manager.connect(fullPath, LocationKind.IFILE, null);
-					ITextFileBuffer buffer = manager.getTextFileBuffer(fullPath, LocationKind.IFILE );
+					final ITextFileBuffer buffer = manager.getTextFileBuffer(fullPath, LocationKind.IFILE );
 					document = buffer.getDocument();
 				}
 
@@ -241,7 +243,7 @@ public final class ParserMarkerSupport {
 				}
 			}
 
-			Location location = new Location(file, lineNumber, charStart, charEnd);
+			final Location location = new Location(file, lineNumber, charStart, charEnd);
 			location.reportSingularExternalProblem(message, severity, GeneralConstants.ONTHEFLY_MIXED_MARKER);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
