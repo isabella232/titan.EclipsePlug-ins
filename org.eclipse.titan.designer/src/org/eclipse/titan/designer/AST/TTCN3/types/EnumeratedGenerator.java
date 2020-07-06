@@ -63,8 +63,7 @@ public final class EnumeratedGenerator {
 			}
 			final Map<Long, Enum_field> valueMap = new HashMap<Long, Enum_field>(items.size());
 
-			for( int i = 0, size = items.size(); i < size; i++) {
-				final Enum_field item = items.get(i);
+			for(final Enum_field item : items) {
 				valueMap.put(item.value, item);
 			}
 

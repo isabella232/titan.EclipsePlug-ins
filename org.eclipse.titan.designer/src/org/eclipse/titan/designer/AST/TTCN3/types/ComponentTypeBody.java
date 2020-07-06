@@ -540,8 +540,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		}
 
 		attrExtendsReferences = new ComponentTypeReferenceList();
-		for (int i = 0, size = attributes.size(); i < size; i++) {
-			final ExtensionAttribute tempAttribute = attributes.get(i);
+		for (final ExtensionAttribute tempAttribute : attributes) {
 			if (ExtensionAttribute_type.EXTENDS.equals(tempAttribute.getAttributeType())) {
 				final ExtensionsAttribute extensionsAttribute = (ExtensionsAttribute) tempAttribute;
 				for (int j = 0, size2 = extensionsAttribute.getNofTypes(); j < size2; j++) {
@@ -564,8 +563,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * */
 	private void initCompatibility(final ComponentTypeReferenceList references) {
 		final List<ComponentTypeBody> componentBodies = references.getComponentBodies();
-		for (int i = 0, size = componentBodies.size(); i < size; i++) {
-			final ComponentTypeBody componentBody = componentBodies.get(i);
+		for (final ComponentTypeBody componentBody : componentBodies) {
 			if (!compatibleBodies.contains(componentBody)) {
 				compatibleBodies.add(componentBody);
 			}

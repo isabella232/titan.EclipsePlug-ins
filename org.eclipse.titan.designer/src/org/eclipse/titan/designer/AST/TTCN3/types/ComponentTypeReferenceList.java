@@ -172,9 +172,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = componentReferences.size(); i < size; i++) {
-			final Reference reference = componentReferences.get(i);
-
+		for (final Reference reference : componentReferences) {
 			reference.updateSyntax(reparser, false);
 			reparser.updateLocation(reference.getLocation());
 		}
