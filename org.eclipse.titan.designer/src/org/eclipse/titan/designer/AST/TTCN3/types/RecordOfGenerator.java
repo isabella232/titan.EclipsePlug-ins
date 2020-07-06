@@ -1431,9 +1431,9 @@ public final class RecordOfGenerator {
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t\tfinal JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);\n");
 		source.append("\t\t\t\t\tJSON_encode(p_td, tok);\n");
-		source.append("\t\t\t\t\tStringBuilder temp = tok.get_buffer();\n");
+		source.append("\t\t\t\t\tfinal StringBuilder temp = tok.get_buffer();\n");
 		source.append("\t\t\t\t\tfor (int i = 0; i < temp.length(); i++) {\n");
-		source.append("\t\t\t\t\t\tint temp2 = temp.charAt(i);\n");
+		source.append("\t\t\t\t\t\tfinal int temp2 = temp.charAt(i);\n");
 		source.append("\t\t\t\t\t\tp_buf.put_c((byte)temp2);\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t} finally {\n");
