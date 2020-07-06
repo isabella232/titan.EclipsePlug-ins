@@ -388,13 +388,12 @@ public final class TTCN_Buffer {
 		if (n_octets > 0) {
 			if (buf_len > 0) {
 				increase_size(n_octets);
-				System.arraycopy(p_os.get_value(), 0, data_ptr, buf_len, n_octets);
-				buf_len += n_octets;
 			} else {
 				data_ptr = new byte[n_octets];
-				System.arraycopy(p_os.get_value(), 0, data_ptr, 0, n_octets);
-				buf_len = n_octets;
 			}
+
+			System.arraycopy(p_os.get_value(), 0, data_ptr, buf_len, n_octets);
+			buf_len += n_octets;
 		}
 	}
 
