@@ -1249,11 +1249,11 @@ public final class ProjectSourceParser {
 
 		final List<ProjectConfigurationsPropertyData.ConfigurationRequirement> requirements = ProjectConfigurationsPropertyData
 				.getConfigurationRequirements(project);
-		for (int i = 0, size = requirements.size(); i < size; i++) {
-			final ProjectConfigurationsPropertyData.ConfigurationRequirement temp = requirements.get(i);
+		for (final ProjectConfigurationsPropertyData.ConfigurationRequirement temp : requirements) {
 			if (temp.getConfiguration() == null || "".equals(temp.getConfiguration())) {
 				continue;
 			}
+
 			for (final IProject referencedProject : referencedProjects) {
 				final String name = referencedProject.getName();
 				if (name.equals(temp.getProjectName())) {
