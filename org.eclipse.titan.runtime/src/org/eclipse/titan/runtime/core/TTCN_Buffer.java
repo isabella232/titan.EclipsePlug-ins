@@ -370,9 +370,7 @@ public final class TTCN_Buffer {
 
 		if (length > 0) {
 			increase_size(length);
-			for (int i = 0; i < length; i++) {
-				data_ptr[i + buf_len] =  cstr[i];
-			}
+			System.arraycopy(cstr, 0, data_ptr, buf_len, length);
 			buf_len += length;
 		}
 	}
