@@ -119,9 +119,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	 * @param fields the list of new fields to be merged with the originals.
 	 * */
 	protected void addFieldsOrdered(final List<CompField> fields) {
-		for (int i = 0, size = fields.size(); i < size; i++) {
-			final CompField field = fields.get(i);
-
+		for (final CompField field : fields) {
 			if (field != null && field.getIdentifier() != null && field.getIdentifier().getName() != null) {
 				final int position = Collections.binarySearch(this.fields, field, FIELD_INSERTION_COMPARATOR);
 
@@ -200,9 +198,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 		lastUniquenessCheck = timestamp;
 
-		for (int i = 0, size = fields.size(); i < size; i++) {
-			final CompField field = fields.get(i);
-
+		for (final CompField field : fields) {
 			final Identifier fieldIdentifier = field.getIdentifier();
 			if(fieldIdentifier == null) {
 				continue;
@@ -227,8 +223,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			if( p instanceof Open_Type ) {
 				return;
 			}
-			for (int i = 0, size = doubleComponents.size(); i < size; i++) {
-				final CompField field = doubleComponents.get(i);
+			for (final CompField field : doubleComponents) {
 				//remove duplication from fields - not used anymore
 				//fields.remove(field);
 				//report duplication:
@@ -267,8 +262,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 		final Type parentType = myType.get();
 		lastCompilationTimeStamp = timestamp;
-		for (int i = 0, size = fields.size(); i < size; i++) {
-			final CompField field = fields.get(i);
+		for (final CompField field : fields) {
 			final Type fieldType = field.getType();
 			fieldType.setGenName(parentType.getGenNameOwn(), field.getIdentifier().getName());
 			fieldType.setParentType(parentType);
@@ -494,16 +488,12 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			return;
 		}
 
-		for (int i = 0, size = fields.size(); i < size; i++) {
-			final CompField field = fields.get(i);
-
+		for (final CompField field : fields) {
 			field.updateSyntax(reparser, false);
 			reparser.updateLocation(field.getLocation());
 		}
 		if (doubleComponents != null) {
-			for (int i = 0, size = doubleComponents.size(); i < size; i++) {
-				final CompField field = doubleComponents.get(i);
-
+			for (final CompField field : doubleComponents) {
 				field.updateSyntax(reparser, false);
 				reparser.updateLocation(field.getLocation());
 			}
