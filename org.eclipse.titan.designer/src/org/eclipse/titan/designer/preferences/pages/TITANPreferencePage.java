@@ -131,7 +131,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 								return;
 							}
 
-							Object o = active.getData();
+							final Object o = active.getData();
 							if (o instanceof PreferenceDialog) {
 								final PreferenceDialog d = (PreferenceDialog) o;
 								d.getTreeViewer().refresh();
@@ -194,13 +194,13 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 	@Override
 	protected Control createContents(final Composite parent) {
 		comp = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		comp.setLayout(layout);
 		comp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		super.createContents(comp);
 
-		String temp = CompilerVersionInformationCollector.getCompilerProductNumber();
+		final String temp = CompilerVersionInformationCollector.getCompilerProductNumber();
 		compilerProductNumber = ProductIdentityHelper.getProductIdentity(temp, null);
 
 		titanVersionInformation = new Label(comp, SWT.NONE);
@@ -237,7 +237,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			return;
 		}
 
-		String tempPath = installPath.getStringValue();
+		final String tempPath = installPath.getStringValue();
 		if (tempPath == null || tempPath.length() == 0) {
 			return;
 		}
@@ -246,8 +246,8 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 		if (Platform.OS_WIN32.equals(Platform.getOS())) {
 			temp = temp + ".exe";
 		}
-		IPath compilerPath = new Path(temp);
 
+		final IPath compilerPath = new Path(temp);
 		if (!compilerPath.toFile().exists()) {
 			installPath.getTextControl(getFieldEditorParent()).setToolTipText(
 					INSTALL_PATH_TOOLTIP + "\n The compiler was not found on the path `" + compilerPath.toOSString() + "'");
@@ -256,7 +256,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			return;
 		}
 
-		String tempCompilerProductNumber = CompilerVersionInformationCollector.checkTemporalLocation(installPath.getStringValue());
+		final String tempCompilerProductNumber = CompilerVersionInformationCollector.checkTemporalLocation(installPath.getStringValue());
 		if (tempCompilerProductNumber == null) {
 			installPath.getTextControl(getFieldEditorParent()).setToolTipText(
 					INSTALL_PATH_TOOLTIP + "\n The version of the used compiler could not be determined.");
@@ -265,7 +265,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			return;
 		}
 
-		ProductIdentity versionNumber = ProductIdentityHelper.getProductIdentity(tempCompilerProductNumber, null);
+		final ProductIdentity versionNumber = ProductIdentityHelper.getProductIdentity(tempCompilerProductNumber, null);
 		if (versionNumber == null) {
 			installPath.getTextControl(getFieldEditorParent())
 					.setToolTipText(INSTALL_PATH_TOOLTIP
@@ -295,7 +295,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			return;
 		}
 
-		String fileName = licenseFile.getStringValue();
+		final String fileName = licenseFile.getStringValue();
 		if (fileName == null || fileName.length() == 0) {
 			licenseInfo.setText("No license file provided");
 			setErrorMessage("No license file provided");
@@ -310,7 +310,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			return;
 		}
 
-		File realFile = new File(fileName);
+		final File realFile = new File(fileName);
 		if (!realFile.exists()) {
 			licenseInfo.setText("File not found");
 			setErrorMessage("File not found");
@@ -325,7 +325,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			return;
 		}
 
-		License license = new License(fileName);
+		final License license = new License(fileName);
 		license.process();
 
 		if (!license.isValid()) {
@@ -335,8 +335,8 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			return;
 		}
 
-		long validUntil = license.getValidUntil().getTime();
-		long now = System.currentTimeMillis();
+		final long validUntil = license.getValidUntil().getTime();
+		final long now = System.currentTimeMillis();
 
 		final StringBuilder builder = new StringBuilder();
 
@@ -405,16 +405,16 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 		addField(treatOnTheFlyErrorsFatalforBuild);
 
 
-		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.COMPILERMARKERSAFTERANALYZATION,
+		final ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.COMPILERMARKERSAFTERANALYZATION,
 				"When On-the-Fly analyzation ends the compiler markers:", COMPILER_ERROR_OPTIONS, getFieldEditorParent());
-		Label text = comboedit.getLabelControl(getFieldEditorParent());
+		final Label text = comboedit.getLabelControl(getFieldEditorParent());
 		text.setToolTipText("Keeping the compiler markers can be good for consistency, but might lead to outdated error reports.");
 		addField(comboedit);
 
 		//"When the compiler runs the on-the-fly markers:"
-		ComboFieldEditor comboedit2 = new ComboFieldEditor(PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER, "When the compiler runs the on-the-fly markers:",
+		final ComboFieldEditor comboedit2 = new ComboFieldEditor(PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER, "When the compiler runs the on-the-fly markers:",
 				ONTHEFLY_ERROR_OPTIONS, getFieldEditorParent());
-		Label text2 = comboedit2.getLabelControl(getFieldEditorParent());
+		final Label text2 = comboedit2.getLabelControl(getFieldEditorParent());
 		text2.setToolTipText("Keeping the on-the-fly marker is good for performance, but right now the compiler is more reliable.");
 		addField(comboedit2);
 
@@ -430,9 +430,9 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 		addField(displayDebugPreferences);
 
 		//"Action on the console before build"
-		ComboFieldEditor comboedit3 = new ComboFieldEditor(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD, "Action on the console before build:",
+		final ComboFieldEditor comboedit3 = new ComboFieldEditor(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD, "Action on the console before build:",
 				CONSOLE_ACTION_BEFORE_BUILD, getFieldEditorParent());
-		Label text3 = comboedit3.getLabelControl(getFieldEditorParent());
+		final Label text3 = comboedit3.getLabelControl(getFieldEditorParent());
 		text3.setToolTipText("Select what to do in the TITANConsole before starting the build to easier find the starting point of the actual build");
 		addField(comboedit3);
 
@@ -471,8 +471,8 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
+		final boolean result = super.performOk();
+		final IEclipsePreferences node = InstanceScope.INSTANCE.getNode(ProductConstants.PRODUCT_ID_DESIGNER);
 		if (node != null) {
 			try {
 				node.flush();
@@ -482,8 +482,8 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 		}
 
 		CompilerVersionInformationCollector.clearStoredInformation();
-		String temp = CompilerVersionInformationCollector.getCompilerProductNumber();
-		ProductIdentity finalVersion = ProductIdentityHelper.getProductIdentity(temp, null);
+		final String temp = CompilerVersionInformationCollector.getCompilerProductNumber();
+		final ProductIdentity finalVersion = ProductIdentityHelper.getProductIdentity(temp, null);
 		if (compilerProductNumber != null && compilerProductNumber.compareTo(finalVersion) != 0) {
 			ErrorReporter.parallelWarningDisplayInMessageDialog(
 				"The compiler version has changed",
@@ -492,9 +492,9 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 			compilerProductNumber = finalVersion;
 			// remove all generated Makefiles if the TITAN version
 			// has changed.
-			IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+			final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 
-			for (IProject project : projects) {
+			for (final IProject project : projects) {
 				if (project.isAccessible() && TITANBuilder.isBuilderEnabled(project)) {
 					TITANBuilder.cleanProjectForRebuild(project, false);
 				}
@@ -538,7 +538,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 
 	private void openUrl(final String url) {
 		try {
-			IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+			final IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
 			support.getExternalBrowser().openURL(new URL(url));
 		} catch (Exception e) {
 			ErrorReporter.logError("Could not open URL in an external browser [" + url + "]");
