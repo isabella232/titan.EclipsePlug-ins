@@ -2312,9 +2312,9 @@ public class TitanUniversalCharString extends Base_Type {
 
 				final JSON_Tokenizer tok = new JSON_Tokenizer(flavour != 0);
 				JSON_encode(p_td, tok);
-				StringBuilder temp = tok.get_buffer();
+				final StringBuilder temp = tok.get_buffer();
 				for (int i = 0; i < temp.length(); i++) {
-					int temp2 = temp.charAt(i);
+					final int temp2 = temp.charAt(i);
 					p_buf.put_c((byte)temp2);
 				}
 			} finally {
