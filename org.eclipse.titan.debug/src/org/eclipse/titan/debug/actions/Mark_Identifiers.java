@@ -52,7 +52,7 @@ public class Mark_Identifiers implements IEditorActionDelegate {
 		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(file.getProject());
 		final Module module = parser.containedModule(file);
 		if (module == null) {
-			TITANDebugConsole.getConsole().newMessageStream().println("No module was found");
+			TITANDebugConsole.println("No module was found");
 		}
 
 		String content1;
