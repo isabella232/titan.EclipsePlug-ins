@@ -99,8 +99,8 @@ public final class ObjectIdentifier_Value extends Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
-			objectIdComponents.get(i).setMyScope(scope);
+		for (final ObjectIdentifierComponent component : objectIdComponents) {
+			component.setMyScope(scope);
 		}
 	}
 
@@ -115,8 +115,8 @@ public final class ObjectIdentifier_Value extends Value {
 	 *                the list to be extended
 	 * */
 	public void getOidComponents(final JavaGenData aData, final List<String> components) {
-		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
-			objectIdComponents.get(i).getOidComponents(aData, components);
+		for (final ObjectIdentifierComponent component : objectIdComponents) {
+			component.getOidComponents(aData, components);
 		}
 	}
 
@@ -154,8 +154,8 @@ public final class ObjectIdentifier_Value extends Value {
 			final IReferenceChain referenceChain) {
 		checkOID(timestamp, referenceChain);
 
-		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
-			if (objectIdComponents.get(i).isVariable()) {
+		for (final ObjectIdentifierComponent component : objectIdComponents) {
+			if (component.isVariable()) {
 				return true;
 			}
 		}
@@ -173,9 +173,9 @@ public final class ObjectIdentifier_Value extends Value {
 		}
 
 		oidState_type state = oidState_type.START;
-		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
+		for (final ObjectIdentifierComponent component : objectIdComponents) {
 			referenceChain.markState();
-			state = objectIdComponents.get(i).checkOID(timestamp, referenceChain, this, state);
+			state = component.checkOID(timestamp, referenceChain, this, state);
 			referenceChain.previousState();
 		}
 
@@ -223,9 +223,7 @@ public final class ObjectIdentifier_Value extends Value {
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
-			final ObjectIdentifierComponent component = objectIdComponents.get(i);
-
+		for (final ObjectIdentifierComponent component : objectIdComponents) {
 			component.updateSyntax(reparser, false);
 			reparser.updateLocation(component.getLocation());
 		}
