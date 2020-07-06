@@ -37,7 +37,7 @@ public class DefinitionFinder {
 
 	private List<Object> getDefinitionsOfWorkspace() {
 		final List<Object> result = new ArrayList<Object>();
-		for (IProject project : GlobalParser.getAllAnalyzedProjects()) {
+		for (final IProject project : GlobalParser.getAllAnalyzedProjects()) {
 			result.addAll(getDefinitionsOfProject(project));
 		}
 		return result;
@@ -45,15 +45,15 @@ public class DefinitionFinder {
 
 	private List<Object> getDefinitionsOfProject(final IProject project) {
 		final List<Object> result = new ArrayList<Object>();
-		ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
 		if (filter.showOnlyModules()) {
 			result.addAll(parser.getModules());
 		} else {
-			for (Module module : parser.getModules()) {
+			for (final Module module : parser.getModules()) {
 				if (filter.filter(module)) {
 					result.add(module);
 				}
-				for (Assignment ass : module.getAssignments()) {
+				for (final Assignment ass : module.getAssignments()) {
 					if (filter.filter(ass)) {
 						result.add(ass);
 					}

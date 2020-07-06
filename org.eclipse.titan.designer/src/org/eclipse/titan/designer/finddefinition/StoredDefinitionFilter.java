@@ -71,8 +71,8 @@ public final class StoredDefinitionFilter {
 	}
 
 	public List<Object> filter(final List<Object> obj) {
-		List<Object> result = new ArrayList<Object>();
-		for (Object o : obj) {
+		final List<Object> result = new ArrayList<Object>();
+		for (final Object o : obj) {
 			if (filter(o)) {
 				result.add(o);
 			}

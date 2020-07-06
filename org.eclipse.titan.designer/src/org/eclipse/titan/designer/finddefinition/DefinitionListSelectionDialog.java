@@ -41,7 +41,7 @@ public final class DefinitionListSelectionDialog extends ElementListSelectionDia
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite control = (Composite) super.createDialogArea(parent);
+		final Composite control = (Composite) super.createDialogArea(parent);
 		createLocationLabel(control);
 		createFilterSection(control);
 		return control;
@@ -51,7 +51,7 @@ public final class DefinitionListSelectionDialog extends ElementListSelectionDia
 		locationLabel = new Label(parent, SWT.BORDER);
 		locationLabel.setFont(parent.getFont());
 
-		GridData data = new GridData();
+		final GridData data = new GridData();
 		data.grabExcessVerticalSpace = false;
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;
@@ -61,8 +61,8 @@ public final class DefinitionListSelectionDialog extends ElementListSelectionDia
 	}
 
 	private Control createFilterSection(final Composite parent) {
-		Composite main = new Composite(parent, SWT.NONE);
-		Group scopeGroup = new Group(main, SWT.NONE);
+		final Composite main = new Composite(parent, SWT.NONE);
+		final Group scopeGroup = new Group(main, SWT.NONE);
 		scopeGroup.setText("Scope");
 		final Button projectScope = new Button(scopeGroup, SWT.RADIO);
 		projectScope.setText("In the same project");
@@ -79,7 +79,7 @@ public final class DefinitionListSelectionDialog extends ElementListSelectionDia
 		scopeGroup.setLayout(new GridLayout());
 
 
-		Group typeGroup = new Group(main, SWT.NONE);
+		final Group typeGroup = new Group(main, SWT.NONE);
 		typeGroup.setText("Filter");
 		final Button module = new Button(typeGroup, SWT.CHECK);
 		module.setSelection(filter.getModules());
@@ -129,20 +129,20 @@ public final class DefinitionListSelectionDialog extends ElementListSelectionDia
 	}
 
 	private void applyDefinitionFilter() {
-		Object[] arr = finder.findDefinitions().toArray();
+		final Object[] arr = finder.findDefinitions().toArray();
 		setSelection(null);
 		setListElements(arr);
 	}
 
 	public void init() {
-		Object[] arr = finder.findDefinitions().toArray();
+		final Object[] arr = finder.findDefinitions().toArray();
 		setElements(arr);
 	}
 
 	@Override
 	protected void handleSelectionChanged() {
 		super.handleSelectionChanged();
-		Object[] selectedElements = getSelectedElements();
+		final Object[] selectedElements = getSelectedElements();
 		if (selectedElements.length > 0) {
 			locationLabel.setText(((ILocateableNode) selectedElements[0]).getLocation().getFile().getFullPath().toOSString());
 		}
