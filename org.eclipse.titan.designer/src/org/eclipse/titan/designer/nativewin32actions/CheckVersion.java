@@ -79,12 +79,12 @@ public final class CheckVersion extends ExternalTitanAction {
 
 		processSelection();
 
-		NativeWIN32TITANJob titanJob = new NativeWIN32TITANJob(JOB_TITLE, new HashMap<String, IFile>(), new File(DOT), project);
+		final NativeWIN32TITANJob titanJob = new NativeWIN32TITANJob(JOB_TITLE, new HashMap<String, IFile>(), new File(DOT), project);
 		titanJob.setPriority(Job.DECORATE);
 		titanJob.setUser(true);
 		titanJob.setRule(project);
 
-		ArrayList<String> command = new ArrayList<String>();
+		final ArrayList<String> command = new ArrayList<String>();
 		command.add(getCompilerPath().toOSString());
 		command.add('-' + VERSION_CHECK_FLAG);
 		titanJob.addCommand(command, JOB_TITLE);

@@ -98,12 +98,12 @@ public final class CheckSemantic extends ExternalTitanAction {
 
 		reportOnTheFlyOutdating();
 
-		NativeWIN32TITANJob titanJob = new NativeWIN32TITANJob(JOB_TITLE, files, workingDir, project);
+		final NativeWIN32TITANJob titanJob = new NativeWIN32TITANJob(JOB_TITLE, files, workingDir, project);
 		titanJob.setPriority(Job.DECORATE);
 		titanJob.setUser(true);
 		titanJob.setRule(project);
 
-		ArrayList<String> command = new ArrayList<String>();
+		final ArrayList<String> command = new ArrayList<String>();
 		command.add(getCompilerPath().toOSString());
 
 		String titanFlags = '-' + SEMANTIC_CHECK_FLAG;
@@ -132,7 +132,7 @@ public final class CheckSemantic extends ExternalTitanAction {
 
 			command.add(titanFlags);
 
-			String flags = TITANFlagsOptionsData.getTITANFlags(singleSelectedProject, useRuntime2);
+			final String flags = TITANFlagsOptionsData.getTITANFlags(singleSelectedProject, useRuntime2);
 			if (flags != null && flags.length() > 0) {
 				command.add(flags);
 			}
@@ -142,7 +142,7 @@ public final class CheckSemantic extends ExternalTitanAction {
 		titanJob.addCommand(command, JOB_TITLE);
 		titanJob.removeCompilerMarkers();
 
-		String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+		final String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER, PreferenceConstantValues.ONTHEFLYOPTIONREMOVE, null);
 		if (PreferenceConstantValues.ONTHEFLYOPTIONREMOVE.equals(markersAfterCompiler)) {
 			titanJob.removeOnTheFlyMarkers();
