@@ -97,8 +97,8 @@ public final class TypeSet extends ASTNode {
 		}
 
 		int result = 0;
-		for (int i = 0, size = types.size(); i < size; i++) {
-			if (types.get(i).isCompatible(timestamp, type, null, null, null)) {
+		for (final IType temp : types) {
+			if (temp.isCompatible(timestamp, type, null, null, null)) {
 				result++;
 			}
 		}

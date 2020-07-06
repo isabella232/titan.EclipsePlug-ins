@@ -288,9 +288,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 			return;
 		}
 
-		for (int i = 0, size = parameters.size(); i < size; i++) {
-			final SignatureFormalParameter parameter = parameters.get(i);
-
+		for (final SignatureFormalParameter parameter : parameters) {
 			parameter.updateSyntax(reparser, isDamaged);
 			reparser.updateLocation(parameter.getLocation());
 		}

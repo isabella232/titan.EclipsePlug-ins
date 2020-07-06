@@ -189,10 +189,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 			throw new ReParseException();
 		}
 
-		Type exception;
-		for (int i = 0, size = exceptionTypes.size(); i < size; i++) {
-			exception = exceptionTypes.get(i);
-
+		for (final Type exception : exceptionTypes) {
 			exception.updateSyntax(reparser, isDamaged);
 			reparser.updateLocation(exception.getLocation());
 		}
