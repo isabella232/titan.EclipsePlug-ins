@@ -185,10 +185,7 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 			throw new ReParseException();
 		}
 
-		NamedValue value;
-		for (int i = 0, size = values.size(); i < size; i++) {
-			value = values.get(i);
-
+		for (final NamedValue value : values) {
 			value.updateSyntax(reparser, false);
 			reparser.updateLocation(value.getLocation());
 		}

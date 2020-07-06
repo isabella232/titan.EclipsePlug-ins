@@ -365,9 +365,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	@Override
 	public int hashCode() {
 		int h = 0;
-		UniversalChar temp;
-		for (int i = 0, size = value.size(); i < size; i++) {
-			temp = value.get(i);
+		for (final UniversalChar temp : value) {
 			h = 31 * h + temp.group();
 			h = 31 * h + temp.plane();
 			h = 31 * h + temp.row();

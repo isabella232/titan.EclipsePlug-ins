@@ -185,10 +185,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 			throw new ReParseException();
 		}
 
-		ArrayDimension dimension;
-		for (int i = 0, size = dimensions.size(); i < size; i++) {
-			dimension = dimensions.get(i);
-
+		for (final ArrayDimension dimension : dimensions) {
 			dimension.updateSyntax(reparser, false);
 			reparser.updateLocation(dimension.getLocation());
 		}

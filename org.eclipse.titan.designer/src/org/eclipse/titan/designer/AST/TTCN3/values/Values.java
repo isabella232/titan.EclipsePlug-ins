@@ -186,16 +186,12 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 		}
 
 		if (isIndexed) {
-			for (int i = 0, size = indexedValues.size(); i < size; i++) {
-				final IndexedValue indexedValue = indexedValues.get(i);
-
+			for (final IndexedValue indexedValue : indexedValues) {
 				indexedValue.updateSyntax(reparser, false);
 				reparser.updateLocation(indexedValue.getLocation());
 			}
 		} else {
-			for (int i = 0, size = values.size(); i < size; i++) {
-				final IValue value = values.get(i);
-
+			for (final IValue value : values) {
 				if (value instanceof IIncrementallyUpdateable) {
 					((IIncrementallyUpdateable) value).updateSyntax(reparser, false);
 					reparser.updateLocation(value.getLocation());
@@ -210,13 +206,11 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (isIndexed) {
-			for (int i = 0, size = indexedValues.size(); i < size; i++) {
-				final IndexedValue indexedValue = indexedValues.get(i);
+			for (final IndexedValue indexedValue : indexedValues) {
 				indexedValue.findReferences(referenceFinder, foundIdentifiers);
 			}
 		} else {
-			for (int i = 0, size = values.size(); i < size; i++) {
-				final IValue value = values.get(i);
+			for (final IValue value : values) {
 				value.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -226,15 +220,13 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (isIndexed) {
-			for (int i = 0, size = indexedValues.size(); i < size; i++) {
-				final IndexedValue indexedValue = indexedValues.get(i);
+			for (final IndexedValue indexedValue : indexedValues) {
 				if (!indexedValue.accept(v)) {
 					return false;
 				}
 			}
 		} else {
-			for (int i = 0, size = values.size(); i < size; i++) {
-				final IValue value = values.get(i);
+			for (final IValue value : values) {
 				if (!value.accept(v)) {
 					return false;
 				}
