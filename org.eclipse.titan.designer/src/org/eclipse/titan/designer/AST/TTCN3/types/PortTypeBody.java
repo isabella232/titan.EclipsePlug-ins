@@ -174,22 +174,22 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		final StringBuilder builder = super.getFullName(child);
 
 		if (inTypes != null) {
-			for (int i = 0, size = inTypes.size(); i < size; i++) {
-				if (inTypes.get(i) == child) {
+			for (final IType inType : inTypes) {
+				if (inType == child) {
 					return builder.append(FULLNAMEPART1);
 				}
 			}
 		}
 		if (outTypes != null) {
-			for (int i = 0, size = outTypes.size(); i < size; i++) {
-				if (outTypes.get(i) == child) {
+			for (final IType outType : outTypes) {
+				if (outType == child) {
 					return builder.append(FULLNAMEPART2);
 				}
 			}
 		}
 		if (inoutTypes != null) {
-			for (int i = 0, size = inoutTypes.size(); i < size; i++) {
-				if (inoutTypes.get(i) == child) {
+			for (final IType inoutType : inoutTypes) {
+				if (inoutType == child) {
 					return builder.append(FULLNAMEPART3);
 				}
 			}
@@ -318,22 +318,22 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (inTypes != null) {
-			for (int i = 0, size = inTypes.size(); i < size; i++) {
-				inTypes.get(i).setMyScope(scope);
+			for (final IType inType : inTypes) {
+				inType.setMyScope(scope);
 			}
 		}
 		if (outTypes != null) {
-			for (int i = 0, size = outTypes.size(); i < size; i++) {
-				outTypes.get(i).setMyScope(scope);
+			for (final IType outType : outTypes) {
+				outType.setMyScope(scope);
 			}
 		}
 		if (inoutTypes != null) {
-			for (int i = 0, size = inoutTypes.size(); i < size; i++) {
-				inoutTypes.get(i).setMyScope(scope);
+			for (final IType inoutType : inoutTypes) {
+				inoutType.setMyScope(scope);
 			}
 		}
-		for (int i = 0; i < providerReferences.size(); i++) {
-			providerReferences.get(i).setMyScope(scope);
+		for (final Reference reference : providerReferences) {
+			reference.setMyScope(scope);
 		}
 		if (inMappings != null) {
 			inMappings.setMyScope(scope);
@@ -697,7 +697,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					// type's target mappings.
 					if (!found && outMappings != null) {
 						if (outMappings.hasMappingForType(timestamp, outMessages.getTypeByIndex(j))) {
-							TypeMapping typeMapping = outMappings.getMappingForType(timestamp, outMessages.getTypeByIndex(j));
+							final TypeMapping typeMapping = outMappings.getMappingForType(timestamp, outMessages.getTypeByIndex(j));
 							for (int k = 0; k < typeMapping.getNofTargets(); k++) {
 								if (providerBody.outMessages.hasType(timestamp, typeMapping.getTargetByIndex(k).getTargetType())) {
 									found = true;
@@ -1125,8 +1125,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			errorMessage = "sent";
 		}
 
-		for (int i = 0, size = list.size(); i < size; i++) {
-			final IType type = list.get(i);
+		for (final IType type : list) {
 			type.check(timestamp);
 
 			if (type.isComponentInternal(timestamp)) {
@@ -1807,11 +1806,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			throw new ReParseException();
 		}
 
-		IType type;
 		if (inTypes != null) {
-			for (int i = 0, size = inTypes.size(); i < size; i++) {
-				type = inTypes.get(i);
-
+			for (final IType type : inTypes) {
 				if (type instanceof IIncrementallyUpdateable) {
 					((IIncrementallyUpdateable) type).updateSyntax(reparser, false);
 					reparser.updateLocation(type.getLocation());
@@ -1821,9 +1817,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 		if (outTypes != null) {
-			for (int i = 0, size = outTypes.size(); i < size; i++) {
-				type = outTypes.get(i);
-
+			for (final IType type : outTypes) {
 				if (type instanceof IIncrementallyUpdateable) {
 					((IIncrementallyUpdateable) type).updateSyntax(reparser, false);
 					reparser.updateLocation(type.getLocation());
@@ -1833,9 +1827,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 		if (inoutTypes != null) {
-			for (int i = 0, size = inoutTypes.size(); i < size; i++) {
-				type = inoutTypes.get(i);
-
+			for (final IType type : inoutTypes) {
 				if (type instanceof IIncrementallyUpdateable) {
 					((IIncrementallyUpdateable) type).updateSyntax(reparser, false);
 					reparser.updateLocation(type.getLocation());
