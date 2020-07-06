@@ -663,7 +663,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source) {
-		String baseName = getGenNameTypeName(aData, source);
+		final String baseName = getGenNameTypeName(aData, source);
 		return baseName + "." + getGenNameOwn();
 	}
 

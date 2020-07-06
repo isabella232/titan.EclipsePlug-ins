@@ -422,17 +422,17 @@ public final class License {
 		builder.append("Versions\t: from ").append(from[0]).append('.').append(from[1]).append(".pl").append(from[2]);
 		builder.append(" until ").append(until[0]).append('.').append(until[1]).append(".pl").append(until[2]).append('\n');
 		builder.append("Languages\t:");
-		for (String temp : getLanguageList()) {
+		for (final String temp : getLanguageList()) {
 			builder.append(' ').append(temp);
 		}
 		builder.append('\n');
 		builder.append("Encoders\t:");
-		for (String temp : getEncoderList()) {
+		for (final String temp : getEncoderList()) {
 			builder.append(' ').append(temp);
 		}
 		builder.append('\n');
 		builder.append("Applications\t:");
-		for (String temp : getApplicationList()) {
+		for (final String temp : getApplicationList()) {
 			builder.append(' ').append(temp);
 		}
 		builder.append('\n');

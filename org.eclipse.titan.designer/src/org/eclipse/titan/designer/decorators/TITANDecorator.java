@@ -250,7 +250,7 @@ public final class TITANDecorator extends LabelProvider implements ILabelDecorat
 
 				final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(resource.getProject())
 						.getWorkingDirectoryResources(false);
-				for (IContainer workingDirectory : workingDirectories) {
+				for (final IContainer workingDirectory : workingDirectories) {
 					if (workingDirectory.equals(resource)) {
 						result.append(OPENING_PARENTHESIS);
 						result.append(EXCLUDED_AS_WORKINGDIR);
