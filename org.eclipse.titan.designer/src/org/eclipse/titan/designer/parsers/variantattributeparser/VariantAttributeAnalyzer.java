@@ -40,7 +40,7 @@ public class VariantAttributeAnalyzer {
 		final Location location = specification.getLocation();
 		final StringReader reader = new StringReader(specification.getSpecification());
 		final CharStream charStream = new UnbufferedCharStream(reader);
-		VariantAttributeLexer lexer = new VariantAttributeLexer(charStream);
+		final VariantAttributeLexer lexer = new VariantAttributeLexer(charStream);
 		lexer.setTokenFactory(new CommonTokenFactory(true));
 		final TitanListener lexerListener = new TitanListener();
 		lexer.removeErrorListeners();

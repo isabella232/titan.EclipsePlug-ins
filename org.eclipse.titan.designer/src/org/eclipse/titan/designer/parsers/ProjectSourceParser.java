@@ -345,7 +345,7 @@ public final class ProjectSourceParser {
 
 		visitedprojects.add(project);
 
-		for (IProject tempProject : ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects()) {
+		for (final IProject tempProject : ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects()) {
 			temp.addAll(GlobalParser.getProjectSourceParser(tempProject).internalGetKnownModuleNames(visitedprojects));
 		}
 
@@ -520,7 +520,7 @@ public final class ProjectSourceParser {
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportSemanticOutdating(final List<IFile> outdatedFiles) {
-		WorkspaceJob op = new WorkspaceJob("Reporting semantic outdate for " + outdatedFiles.size() + " files") {
+		final WorkspaceJob op = new WorkspaceJob("Reporting semantic outdate for " + outdatedFiles.size() + " files") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				for (IFile outdatedFile : outdatedFiles) {

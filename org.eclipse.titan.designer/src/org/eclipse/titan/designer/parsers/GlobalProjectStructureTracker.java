@@ -145,7 +145,7 @@ public final class GlobalProjectStructureTracker {
 		final ProjectStructureDataCollector collector = getDataCollector(project);
 		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
 		final Collection<Module> modules = parser.getModules();
-		for (Module module : modules) {
+		for (final Module module : modules) {
 			final Identifier moduleID = module.getIdentifier();
 			collector.addKnownModule(moduleID);
 

@@ -330,13 +330,14 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			if ( aEclipseFile.getProject() != null ) {
 				preprocessor.setMacros( PreprocessorSymbolsOptionsData.getTTCN3PreprocessorDefines( aEclipseFile.getProject() ) );
 			}
-			Ttcn3Parser parser = new Ttcn3Parser( preprocessor );
+
+			final Ttcn3Parser parser = new Ttcn3Parser( preprocessor );
 			ParserUtilities.setBuildParseTree( parser );
 			preprocessor.setActualLexer(lexer);
 			preprocessor.setParser(parser);
 
-			List<? extends Token> tokens = preprocessor.get(0, preprocessor.size());
-			for (Token token: tokens) {
+			final List<? extends Token> tokens = preprocessor.get(0, preprocessor.size());
+			for (final Token token: tokens) {
 				if (token.getChannel() != Token.HIDDEN_CHANNEL) {
 					final String text = token.getText();
 					md5.update(text.getBytes());
@@ -344,8 +345,8 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				}
 			}
 		} else {
-			List<? extends Token> tokens = lexer.getAllTokens();
-			for (Token token: tokens) {
+			final List<? extends Token> tokens = lexer.getAllTokens();
+			for (final Token token: tokens) {
 				if (token.getChannel() != Token.HIDDEN_CHANNEL) {
 					final String text = token.getText();
 					md5.update(text.getBytes());

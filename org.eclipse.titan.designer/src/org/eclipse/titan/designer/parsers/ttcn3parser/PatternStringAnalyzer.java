@@ -32,23 +32,22 @@ public class PatternStringAnalyzer {
 	}
 	
 	public static PatternString parse_pattern(final String p_str, final Location p_loc, final Token startToken, final Token endToken)	{
-		Reader reader = new StringReader(p_str);
-		
-		CharStream charStream = new UnbufferedCharStream(reader);
-		PatternStringLexer lexer = new PatternStringLexer(charStream);
+		final Reader reader = new StringReader(p_str);
+
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final PatternStringLexer lexer = new PatternStringLexer(charStream);
 		lexer.setStartToken(startToken);
-		
 		lexer.setTokenFactory(new CommonTokenFactory(true));
-		
 		lexer.setOffset(p_loc.getOffset());
 		lexer.setLine(p_loc.getLine());
 		lexer.setCharPositionInLine(0);
 		lexer.setActualFile((IFile)p_loc.getFile());
 		lexer.setTokenString(p_str);
 		lexer.setActualLocation(p_loc);
-		
+
 		while(lexer.nextToken().getType()!=Token.EOF) {}
-		PatternString retVal = lexer.getPatternString();
+
+		final PatternString retVal = lexer.getPatternString();
 		return retVal; 
 	}
 }
