@@ -67,7 +67,7 @@ public final class MakeAttributesData {
 			return MakeAttributesData.BUILD_LEVEL_5;
 		}
 		// get build level for 2.5, 4.5 etc ;
-		String s1 = s.replace(" ", "");
+		final String s1 = s.replace(" ", "");
 		if (s1.startsWith("Level2.5")) {
 			return MakeAttributesData.BUILD_LEVEL_2_5;
 		}
@@ -269,7 +269,7 @@ public final class MakeAttributesData {
 	 * @return the created XML tree's root node
 	 * */
 	public static Element saveLocalBuildSettings(final Document document, final IProject project) {
-		Element localBuildSettings = document.createElement(LOCALBUILDSETTINGS);
+		final Element localBuildSettings = document.createElement(LOCALBUILDSETTINGS);
 
 		// Makefile updater script
 		Element node = saveLocalBuildUpdaterScriptSettings(document, project);

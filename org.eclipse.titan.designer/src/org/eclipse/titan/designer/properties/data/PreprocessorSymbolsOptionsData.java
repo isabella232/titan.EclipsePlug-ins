@@ -179,7 +179,7 @@ public final class PreprocessorSymbolsOptionsData {
 	 * */
 	public static void saveMakefileSettings(final Element makefileSettings, final Document document, final IProject project) {
 		for (int i = 0; i < PROPERTIES.length; i++) {
-			QualifiedName tempName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, PROPERTIES[i]);
+			final QualifiedName tempName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, PROPERTIES[i]);
 			try {
 				final String temp = project.getPersistentProperty(tempName);
 				final String[] tempList = ListConverter.convertToList(temp);
@@ -229,11 +229,11 @@ public final class PreprocessorSymbolsOptionsData {
 		System.arraycopy(DEFAULT_VALUES, 0, newValues, 0, TAGS.length);
 
 		for (int i = 0, size = resourceList.getLength(); i < size; i++) {
-			Node resource = resourceList.item(i);
-			String name = resource.getNodeName();
+			final Node resource = resourceList.item(i);
+			final String name = resource.getNodeName();
 			for (int j = 0; j < TAGS.length; j++) {
 				if (TAGS[j].equals(name)) {
-					NodeList subResources = resource.getChildNodes();
+					final NodeList subResources = resource.getChildNodes();
 					Node subResource;
 					final List<String> values = new ArrayList<String>();
 					for (int i2 = 0; i2 < subResources.getLength(); i2++) {

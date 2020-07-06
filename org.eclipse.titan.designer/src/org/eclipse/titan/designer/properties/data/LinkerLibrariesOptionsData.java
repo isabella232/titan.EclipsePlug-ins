@@ -135,7 +135,7 @@ public final class LinkerLibrariesOptionsData {
 					final NodeList subResources = resource.getChildNodes();
 					final List<String> values = new ArrayList<String>();
 					for (int i2 = 0; i2 < subResources.getLength(); i2++) {
-						Node subResource = subResources.item(i2);
+						final Node subResource = subResources.item(i2);
 						if ("listItem".equals(subResource.getNodeName())) {
 							values.add(subResource.getTextContent());
 						}
@@ -218,7 +218,7 @@ public final class LinkerLibrariesOptionsData {
 			final String temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					DISABLE_EXTERNAL_DIRS_PROPERTY));
 			if (temp != null && !"false".equals(temp)) {
-				Element element = document.createElement(DISABLE_EXTERNAL_DIRS_TAG);
+				final Element element = document.createElement(DISABLE_EXTERNAL_DIRS_TAG);
 				makefileSettings.appendChild(element);
 				element.appendChild(document.createTextNode(temp));
 			}
@@ -277,7 +277,7 @@ public final class LinkerLibrariesOptionsData {
 		}
 
 		for (int i = 0; i < TAGS.length; i++) {
-			String temp = newValues[i];
+			final String temp = newValues[i];
 			final String[] tempList = ListConverter.convertToList(temp);
 			if (tempList.length > 0) {
 				final Element list = document.createElement(TAGS[i]);

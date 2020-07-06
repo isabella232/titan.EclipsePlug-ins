@@ -71,7 +71,7 @@ public class ProjectConfigurationsPropertyData {
 		final List<String> splittedList = ProjectRemoteBuildPropertyData.intelligentSplit(temp, '#', '\\');
 		final List<ConfigurationRequirement> result = new ArrayList<ConfigurationRequirement>(splittedList.size());
 
-		for (String split : splittedList) {
+		for (final String split : splittedList) {
 			final List<String> requirement = ProjectRemoteBuildPropertyData.intelligentSplit(split, ':', '\\');
 			if (requirement != null && requirement.size() == 2) {
 				result.add(new ConfigurationRequirement(requirement.get(0), requirement.get(1)));
@@ -79,7 +79,7 @@ public class ProjectConfigurationsPropertyData {
 		}
 
 		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
-		for (IProject referencedProject : referencedProjects) {
+		for (final IProject referencedProject : referencedProjects) {
 			boolean found = false;
 			final String projectName = referencedProject.getName();
 			for (int i = 0, size = result.size(); i < size && !found; i++) {
@@ -109,7 +109,7 @@ public class ProjectConfigurationsPropertyData {
 		final StringBuilder builder = new StringBuilder();
 		int i = 0;
 
-		for (ConfigurationRequirement requirement : requirements) {
+		for (final ConfigurationRequirement requirement : requirements) {
 			if (i != 0) {
 				builder.append('#');
 			}
@@ -154,7 +154,7 @@ public class ProjectConfigurationsPropertyData {
 			return root;
 		}
 
-		for (ConfigurationRequirement requirement : requirements) {
+		for (final ConfigurationRequirement requirement : requirements) {
 			if (requirement.configuration == null || requirement.configuration.isEmpty()) {
 				continue;
 			}
@@ -269,7 +269,7 @@ public class ProjectConfigurationsPropertyData {
 			return root;
 		}
 
-		for (ConfigurationRequirement requirement : requirements) {
+		for (final ConfigurationRequirement requirement : requirements) {
 			if (requirement.configuration == null || requirement.configuration.isEmpty()) {
 				continue;
 			}

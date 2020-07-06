@@ -153,7 +153,7 @@ public final class COptimalizationOptionsData {
 				final String temp = project
 						.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, PROPERTIES[i]));
 				if (temp != null && !DEFAULT_VALUES[i].equals(temp)) {
-					Element element = document.createElement(TAGS[i]);
+					final Element element = document.createElement(TAGS[i]);
 					element.appendChild(document.createTextNode(temp));
 					makefileSettings.appendChild(element);
 				}

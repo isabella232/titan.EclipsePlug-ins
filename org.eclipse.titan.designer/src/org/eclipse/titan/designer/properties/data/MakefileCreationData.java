@@ -303,12 +303,12 @@ public final class MakefileCreationData {
 	}
 
 	public static String getDefaultTargetExecutableName(final IProject project, final boolean isAbsolute) {
-		StringBuilder name = new StringBuilder();
+		final StringBuilder name = new StringBuilder();
 
 		//Absolute part of path
 		if (isAbsolute) {
 			try {
-				String location = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+				final String location = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY));
 
 				if (location != null) {

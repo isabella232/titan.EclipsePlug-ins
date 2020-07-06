@@ -370,7 +370,7 @@ public final class TITANFlagsOptionsData {
 	 *                the project to set the found attributes on.
 	 * */
 	public static void loadMakefileSettings(final Node root, final IProject project) {
-		NodeList resourceList = root.getChildNodes();
+		final NodeList resourceList = root.getChildNodes();
 
 		final String[] newValues = new String[TAGS.length];
 		System.arraycopy(DEFAULT_VALUES, 0, newValues, 0, TAGS.length);

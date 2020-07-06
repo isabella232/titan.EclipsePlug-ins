@@ -49,7 +49,7 @@ public final class ProjectRemoteBuildPropertyData {
 
 	// \\->\ , \#->#
 	public static List<String> intelligentSplit(final String input, final char delimeter, final char escape) {
-		List<String> results = new ArrayList<String>();
+		final List<String> results = new ArrayList<String>();
 		if (input == null || input.length() == 0) {
 			return results;
 		}
@@ -153,7 +153,7 @@ public final class ProjectRemoteBuildPropertyData {
 			return root;
 		}
 
-		for (BuildLocation location : locations) {
+		for (final BuildLocation location : locations) {
 			final Element remoteHost = document.createElement(REMOTEHOSTXMLNODE);
 
 			final Element active = document.createElement(ACTIVEXMLNODE);
@@ -230,7 +230,7 @@ public final class ProjectRemoteBuildPropertyData {
 		final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, PARALLEL_COMMAND_EXECUTION);
 		final String newValue = TRUE.equals(parallelRemoteBuild) ? TRUE : FALSE;
 		try {
-			String oldValue = project.getPersistentProperty(qualifiedName);
+			final String oldValue = project.getPersistentProperty(qualifiedName);
 			if (!newValue.equals(oldValue)) {
 				project.setPersistentProperty(qualifiedName, newValue);
 			}
@@ -292,7 +292,7 @@ public final class ProjectRemoteBuildPropertyData {
 
 		Element root = null;
 
-		for (BuildLocation location : locations) {
+		for (final BuildLocation location : locations) {
 			final Element remoteHost = document.createElement(REMOTEHOSTXMLNODE);
 
 			final Element active = document.createElement(ACTIVEXMLNODE);

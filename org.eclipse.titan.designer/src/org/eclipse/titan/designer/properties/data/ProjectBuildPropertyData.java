@@ -209,7 +209,7 @@ public final class ProjectBuildPropertyData {
 			final String name = node.getNodeName();
 			for (int j = 0; j < MAKEFILE_TAGS.length; j++) {
 				if (MAKEFILE_TAGS[j].equals(name)) {
-					String newValue = node.getTextContent();
+					final String newValue = node.getTextContent();
 					tempValues[j] = newValue;
 				}
 			}
@@ -322,7 +322,7 @@ public final class ProjectBuildPropertyData {
 			return;
 		}
 
-		String exported = value ? ProjectBuildPropertyData.TRUE_STRING : ProjectBuildPropertyData.FALSE_STRING;
+		final String exported = value ? ProjectBuildPropertyData.TRUE_STRING : ProjectBuildPropertyData.FALSE_STRING;
 		try {
 			project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.ALREADY_EXPORTED),
 					exported);

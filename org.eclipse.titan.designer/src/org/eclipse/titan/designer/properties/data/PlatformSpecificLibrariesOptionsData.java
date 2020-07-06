@@ -88,10 +88,10 @@ public final class PlatformSpecificLibrariesOptionsData {
 			final Node resource = resourceList.item(i);
 			final String name = resource.getNodeName();
 			if ((platform + SPECIFIC_LIBRARIES_TAG).equals(name)) {
-				NodeList subResources = resource.getChildNodes();
-				List<String> values = new ArrayList<String>();
+				final NodeList subResources = resource.getChildNodes();
+				final List<String> values = new ArrayList<String>();
 				for (int i2 = 0; i2 < subResources.getLength(); i2++) {
-					Node subResource = subResources.item(i2);
+					final Node subResource = subResources.item(i2);
 					if ("listItem".equals(subResource.getNodeName())) {
 						values.add(subResource.getTextContent());
 					}
@@ -142,7 +142,7 @@ public final class PlatformSpecificLibrariesOptionsData {
 				makefileSettings.appendChild(list);
 				for (int j = 0; j < tempList.length; j++) {
 					if (tempList[j] != null && tempList[j].length() > 0) {
-						Element item = document.createElement("listItem");
+						final Element item = document.createElement("listItem");
 						item.appendChild(document.createTextNode(tempList[j]));
 						list.appendChild(item);
 					}
@@ -181,10 +181,10 @@ public final class PlatformSpecificLibrariesOptionsData {
 			final Node resource = resourceList.item(i);
 			final String name = resource.getNodeName();
 			if ((platform + SPECIFIC_LIBRARIES_TAG).equals(name)) {
-				NodeList subResources = resource.getChildNodes();
-				List<String> values = new ArrayList<String>();
+				final NodeList subResources = resource.getChildNodes();
+				final List<String> values = new ArrayList<String>();
 				for (int i2 = 0; i2 < subResources.getLength(); i2++) {
-					Node subResource = subResources.item(i2);
+					final Node subResource = subResources.item(i2);
 					if ("listItem".equals(subResource.getNodeName())) {
 						values.add(subResource.getTextContent());
 					}
@@ -204,7 +204,7 @@ public final class PlatformSpecificLibrariesOptionsData {
 			makefileSettings.appendChild(list);
 			for (int j = 0; j < tempList.length; j++) {
 				if (saveDefaultValues || (tempList[j] != null && tempList[j].length() > 0)) {
-					Element item = document.createElement("listItem");
+					final Element item = document.createElement("listItem");
 					item.appendChild(document.createTextNode(tempList[j]));
 					list.appendChild(item);
 				}

@@ -184,8 +184,8 @@ public final class FolderBuildPropertyData {
 		Node folderPropertiesIndex = null;
 		Node namingConventionIndex = null;
 		for (int i = 0, size = resourceList.getLength(); i < size; i++) {
-			Node tempNode = resourceList.item(i);
-			String nodeName = tempNode.getNodeName();
+			final Node tempNode = resourceList.item(i);
+			final String nodeName = tempNode.getNodeName();
 			if (FOLDERPATHXMLNODE.equals(nodeName)) {
 				folderPathIndex = tempNode;
 			} else if (FOLDERPROPERTIESXMLNODE.equals(nodeName)) {
