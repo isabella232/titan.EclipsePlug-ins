@@ -66,8 +66,8 @@ public final class LaunchesListener implements ILaunchesListener2 {
 		for (int i = 0; i < launches.length; i++) {
 			final ILaunch launched = launches[i];
 			final List<ITreeLeaf> children = executorMonitorView.getRoot().children();
-			for (int j = 0, size = children.size(); i < size; i++) {
-				final LaunchElement launchElement = (LaunchElement) children.get(j);
+			for (final ITreeLeaf leaf : children) {
+				final LaunchElement launchElement = (LaunchElement) leaf;
 				if (launched.equals(launchElement.launch())) {
 					launchElement.changed();
 					PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
