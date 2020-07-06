@@ -335,14 +335,14 @@ public final class TITANDecorator extends LabelProvider implements ILabelDecorat
 
 				final List<IProject> reachableProjects = builder.getAllReachableProjects();
 				boolean prePorcessorOptionFound = false;
-				for (int i = 0, size = reachableProjects.size(); i < size && !prePorcessorOptionFound; i++) {
-					final IProject reachableProject = reachableProjects.get(i);
+				for (final IProject reachableProject : reachableProjects) {
 					final DecoratorVisitor visitor2 = new DecoratorVisitor();
 					try {
 						if (reachableProject.isAccessible()) {
 							reachableProject.accept(visitor2);
 							if (visitor2.getHasPreprecessable()) {
 								prePorcessorOptionFound = true;
+								break;
 							}
 						}
 					} catch (CoreException e) {
