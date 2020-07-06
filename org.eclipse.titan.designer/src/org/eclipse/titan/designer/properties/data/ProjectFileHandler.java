@@ -146,7 +146,8 @@ public final class ProjectFileHandler {
 				if (resource.getProjectRelativePath().lastSegment().startsWith(DOT)) {
 					return false;
 				}
-				for (IContainer workingDirectory : workingDirectories) {
+
+				for (final IContainer workingDirectory : workingDirectories) {
 					if (workingDirectory.equals(resource)) {
 						return false;
 					}
@@ -182,9 +183,9 @@ public final class ProjectFileHandler {
 	}
 
 	public static List<IFile> getCfgFiles(final IProject project) {
-		Map<String, IFile> files = getFiles(project);
-		List<IFile> cfgFiles = new ArrayList<IFile>();
-		for( IFile file : files.values()) {
+		final Map<String, IFile> files = getFiles(project);
+		final List<IFile> cfgFiles = new ArrayList<IFile>();
+		for(final IFile file : files.values()) {
 			if("cfg".equals(file.getFileExtension())) {
 				cfgFiles.add(file);
 			}
@@ -249,7 +250,7 @@ public final class ProjectFileHandler {
 		// the parse and parseURI methods return null.
 		parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, XML_SCHEMA);
 		config = parser.getDomConfig();
-		DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
+		final DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
 		config.setParameter("error-handler", errorHandler);
 		config.setParameter("validate", Boolean.TRUE);
 		config.setParameter("schema-type", XML_SCHEMA);
@@ -356,10 +357,10 @@ public final class ProjectFileHandler {
 		progress.beginTask("Save folders", folders.size());
 		Element root = null;
 
-		for (Iterator<Map.Entry<String, IFolder>> iterator = folders.entrySet().iterator(); iterator.hasNext();) {
+		for (final Iterator<Map.Entry<String, IFolder>> iterator = folders.entrySet().iterator(); iterator.hasNext();) {
 			final Map.Entry<String, IFolder> entry = iterator.next();
 			final IFolder folder = entry.getValue();
-			for (IContainer workingDirectory : workingDirectories) {
+			for (final IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(folder)) {
 					progress.worked(1);
 					continue;
@@ -409,10 +410,10 @@ public final class ProjectFileHandler {
 		progress.beginTask("Save files", files.size());
 		Element root = null;
 
-		for (Iterator<Map.Entry<String, IFile>> iterator = files.entrySet().iterator(); iterator.hasNext();) {
+		for (final Iterator<Map.Entry<String, IFile>> iterator = files.entrySet().iterator(); iterator.hasNext();) {
 			final Map.Entry<String, IFile> entry = iterator.next();
 			final IFile file = entry.getValue();
-			for (IContainer workingDirectory : workingDirectories) {
+			for (final IContainer workingDirectory : workingDirectories) {
 				if (workingDirectory.equals(file.getParent())) {
 					progress.worked(1);
 					continue;
@@ -457,7 +458,7 @@ public final class ProjectFileHandler {
 			return null;
 		}
 
-		WorkspaceJob saveJob = new WorkspaceJob(SAVING_PROPERTIES + project.getName()) {
+		final WorkspaceJob saveJob = new WorkspaceJob(SAVING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				try {
@@ -531,7 +532,7 @@ public final class ProjectFileHandler {
 	 * */
 	public void saveProjectInfoToDocument(final Document document, final IProgressMonitor monitor) {
 		saveActualConfigurationInfoToNode(project, document);
-		String activeConfigurationName = getActiveConfigurationName(project);
+		final String activeConfigurationName = getActiveConfigurationName(project);
 
 		if (DEFAULTCONFIGURATIONNAME.equals(activeConfigurationName)) {
 			saveProjectInfoToNode(project, document.getDocumentElement(), document, monitor);
@@ -679,7 +680,7 @@ public final class ProjectFileHandler {
 			}
 		}
 
-		for (IFile file : notYetReachedFiles) {
+		for (final IFile file : notYetReachedFiles) {
 			FileBuildPropertyData.loadDefaultProperties(file, changedResources);
 		}
 	}
@@ -704,7 +705,7 @@ public final class ProjectFileHandler {
 		notYetReachedFolders.addAll(folders);
 
 		if (node != null) {
-			NodeList resourceList = node.getChildNodes();
+			final NodeList resourceList = node.getChildNodes();
 			for (int i = 0, size = resourceList.getLength(); i < size; i++) {
 				final Node tempNode = resourceList.item(i);
 				if (FOLDERRESOURCEXMLNODE.equals(tempNode.getNodeName())) {
@@ -713,7 +714,7 @@ public final class ProjectFileHandler {
 			}
 		}
 
-		for (IFolder folder : notYetReachedFolders) {
+		for (final IFolder folder : notYetReachedFolders) {
 			FolderBuildPropertyData.loadDefaultProperties(folder, changedResources);
 		}
 	}
@@ -739,7 +740,7 @@ public final class ProjectFileHandler {
 			return;
 		}
 
-		WorkspaceJob loadJob = new WorkspaceJob(LOADING_PROPERTIES + project.getName()) {
+		final WorkspaceJob loadJob = new WorkspaceJob(LOADING_PROPERTIES + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				if (monitor.isCanceled() || !project.isAccessible()) {
@@ -787,7 +788,7 @@ public final class ProjectFileHandler {
 	 *                the document holding the information.
 	 * */
 	public void loadProjectSettingsFromDocument(final Document document) {
-		Node activeConfiguration = getNodebyName(document.getDocumentElement().getChildNodes(), ACTIVECONFIGURATIONXMLNODE);
+		final Node activeConfiguration = getNodebyName(document.getDocumentElement().getChildNodes(), ACTIVECONFIGURATIONXMLNODE);
 		String activeConfigurationName;
 		if (activeConfiguration == null) {
 			activeConfigurationName = DEFAULTCONFIGURATIONNAME;
@@ -824,10 +825,10 @@ public final class ProjectFileHandler {
 	 *         not.
 	 * */
 	public void saveDocumentToFile(final IFile file, final Document document) {
-		LSSerializer dom3Writer = domImplLS.createLSSerializer();
-		LSOutput output = domImplLS.createLSOutput();
+		final LSSerializer dom3Writer = domImplLS.createLSSerializer();
+		final LSOutput output = domImplLS.createLSOutput();
 
-		File localFile = file.getLocation().toFile();
+		final File localFile = file.getLocation().toFile();
 		try {
 			file.refreshLocal(IResource.DEPTH_ZERO, null);
 			final StringWriter sw = new StringWriter();
@@ -953,7 +954,7 @@ public final class ProjectFileHandler {
 			}
 		}
 
-		String activeConfigurationName = getActiveConfigurationName(project);
+		final String activeConfigurationName = getActiveConfigurationName(project);
 		activeConfiguration.appendChild(document.createTextNode(activeConfigurationName));
 	}
 
@@ -985,7 +986,7 @@ public final class ProjectFileHandler {
 		final SubMonitor progress = SubMonitor.convert(monitor);
 		progress.beginTask("Save", 3);
 
-		IProgressMonitor projectMonitor = progress.newChild(1);
+		final IProgressMonitor projectMonitor = progress.newChild(1);
 		final Node oldProjectRoot = getNodebyName(root.getChildNodes(), PROJECTPROPERTIESXMLNODE);
 		final Node newProjectRoot = saveProjectProperties(project, document);
 		projectMonitor.worked(1);
@@ -995,7 +996,7 @@ public final class ProjectFileHandler {
 			root.replaceChild(newProjectRoot, oldProjectRoot);
 		}
 
-		IProgressMonitor folderMonitor = progress.newChild(1);
+		final IProgressMonitor folderMonitor = progress.newChild(1);
 		final Node oldFolderRoot = getNodebyName(root.getChildNodes(), FOLDERPROPERTIESXMLNODE);
 		final Node newFolderRoot = saveFolderProperties(document, workingDirectories, folders, folderMonitor);
 		folderMonitor.worked(1);
@@ -1009,7 +1010,7 @@ public final class ProjectFileHandler {
 			root.removeChild(oldFolderRoot);
 		}
 
-		IProgressMonitor fileMonitor = progress.newChild(1);
+		final IProgressMonitor fileMonitor = progress.newChild(1);
 		final Node oldFileRoot = getNodebyName(root.getChildNodes(), FILEPROPERTIESXMLNODE);
 		final Node newFileRoot = saveFileProperties(document, workingDirectories, files, fileMonitor);
 		//fileMonitor.worked(1);
@@ -1115,7 +1116,7 @@ public final class ProjectFileHandler {
 		}
 
 		if (saveDefaultValues) {
-			for (String fileName : notYetReachedFiles) {
+			for (final String fileName : notYetReachedFiles) {
 				final Node newNode = FileBuildPropertyData.copyDefaultFileProperties(document, files.get(fileName));
 				if (newNode != null) {
 					if (root == null) {
@@ -1177,7 +1178,7 @@ public final class ProjectFileHandler {
 		}
 
 		if (saveDefaultValues) {
-			for (String folderName : notYetReachedFolders) {
+			for (final String folderName : notYetReachedFolders) {
 				final Node newNode = FolderBuildPropertyData.copyDefaultFolderProperties(document, folders.get(folderName));
 				if (newNode != null) {
 					if (root == null) {
@@ -1223,8 +1224,8 @@ public final class ProjectFileHandler {
 		Node configurationPropertiesNode = null;
 
 		for (int i = 0, size = resourceList.getLength(); i < size; i++) {
-			Node tempNode = resourceList.item(i);
-			String nodeName = tempNode.getNodeName();
+			final Node tempNode = resourceList.item(i);
+			final String nodeName = tempNode.getNodeName();
 			if (MAKEFILESETTINGSXMLNODE.equals(nodeName)) {
 				makefileSettingsNode = tempNode;
 			} else if (LOCALBUILDSETTINGS.equals(nodeName)) {
@@ -1238,7 +1239,7 @@ public final class ProjectFileHandler {
 			}
 		}
 
-		Node root = document.createElement(PROJECTPROPERTIESXMLNODE);
+		final Node root = document.createElement(PROJECTPROPERTIESXMLNODE);
 
 		root.appendChild(ProjectBuildPropertyData.copyMakefileSettings(makefileSettingsNode, document, saveDefaultValues));
 		root.appendChild(ProjectBuildPropertyData.copyLocalBuildSettings(localBuildSettingsNode, document, saveDefaultValues));
@@ -1307,7 +1308,7 @@ public final class ProjectFileHandler {
 			}
 		}
 
-		Document document = targetNode.getOwnerDocument();
+		final Document document = targetNode.getOwnerDocument();
 		Node newNode = copyProjectProperties(projectPropertiesNode, document, saveDefaultValues);
 		if (newNode != null) {
 			targetNode.appendChild(newNode);
@@ -1368,7 +1369,7 @@ public final class ProjectFileHandler {
 					for (int j = 0, size2 = configurationList.getLength(); j < size2; j++) {
 						final Node temp2 = configurationList.item(j);
 						if (CONFIGURATIONXMLNODE.equals(temp2.getNodeName())) {
-							Node attribute = temp2.getAttributes().getNamedItem("name");
+							final Node attribute = temp2.getAttributes().getNamedItem("name");
 							configurationNames.add(attribute.getTextContent());
 						}
 					}
@@ -1465,7 +1466,7 @@ public final class ProjectFileHandler {
 
 		Node child = root.getFirstChild();
 		while (child != null) {
-			Node sibling = child.getNextSibling();
+			final Node sibling = child.getNextSibling();
 			if (Node.TEXT_NODE == child.getNodeType()) {
 				final String content = child.getNodeValue().trim();
 				if (content.isEmpty()) {
