@@ -65,8 +65,8 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	public void setMyDefinition(final Definition definition) {
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			ifclauses.get(i).setMyDefinition(definition);
+		for (final If_Clause clause : ifclauses) {
+			clause.setMyDefinition(definition);
 		}
 	}
 
@@ -84,8 +84,8 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			ifclauses.get(i).setMyScope(scope);
+		for (final If_Clause clause : ifclauses) {
+			clause.setMyScope(scope);
 		}
 	}
 
@@ -95,14 +95,14 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	 * @param codeSection the code section where these statements should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			ifclauses.get(i).setCodeSection(codeSection);
+		for (final If_Clause clause : ifclauses) {
+			clause.setCodeSection(codeSection);
 		}
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			ifclauses.get(i).setMyAltguards(altGuards);
+		for (final If_Clause clause : ifclauses) {
+			clause.setMyAltguards(altGuards);
 		}
 	}
 
@@ -132,8 +132,8 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp, final StatementBlock elseBlock) {
 		StatementBlock.ReturnStatus_type result = StatementBlock.ReturnStatus_type.RS_MAYBE;
 
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			switch (ifclauses.get(i).hasReturn(timestamp)) {
+		for (final If_Clause clause : ifclauses) {
+			switch (clause.hasReturn(timestamp)) {
 			case RS_NO:
 				if (result == StatementBlock.ReturnStatus_type.RS_YES) {
 					return StatementBlock.ReturnStatus_type.RS_MAYBE;
@@ -210,8 +210,8 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	 * */
 	public boolean check(final CompilationTimeStamp timestamp, final boolean unreachable) {
 		boolean temporalUnreachable = unreachable;
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			temporalUnreachable = ifclauses.get(i).check(timestamp, temporalUnreachable);
+		for (final If_Clause clause : ifclauses) {
+			temporalUnreachable = clause.check(timestamp, temporalUnreachable);
 		}
 		return temporalUnreachable;
 	}
@@ -220,8 +220,8 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			ifclauses.get(i).checkAllowedInterleave();
+		for (final If_Clause clause : ifclauses) {
+			clause.checkAllowedInterleave();
 		}
 	}
 
@@ -230,8 +230,8 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	 * after the semantic check was completely run.
 	 */
 	public void postCheck() {
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			ifclauses.get(i).postCheck();
+		for (final If_Clause clause : ifclauses) {
+			clause.postCheck();
 		}
 	}
 
@@ -242,9 +242,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = ifclauses.size(); i < size; i++) {
-			final If_Clause clause = ifclauses.get(i);
-
+		for (final If_Clause clause : ifclauses) {
 			clause.updateSyntax(reparser, false);
 			reparser.updateLocation(clause.getLocation());
 		}

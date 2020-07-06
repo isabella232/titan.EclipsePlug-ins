@@ -228,8 +228,8 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * */
 	public void setMyDefinition(final Definition definition) {
 		myDefinition = definition;
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			statements.get(i).setMyDefinition(definition);
+		for (final Statement statement : statements) {
+			statement.setMyDefinition(definition);
 		}
 	}
 
@@ -247,8 +247,8 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		if (location != null) {
 			scope.addSubScope(location, this);
 		}
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			statements.get(i).setMyScope(this);
+		for (final Statement statement : statements) {
+			statement.setMyScope(this);
 		}
 	}
 
@@ -258,8 +258,8 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * @param codeSection the code section where these statements should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			statements.get(i).setCodeSection(codeSection);
+		for (final Statement statement : statements) {
+			statement.setCodeSection(codeSection);
 		}
 	}
 
@@ -336,10 +336,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		}
 
 		final List<Statement> localStatements = new ArrayList<Statement>(this.statements);
-		Statement statement;
-		for (int i = 0, size = newStatements.size(); i < size; i++) {
-			statement = newStatements.get(i);
-
+		for (final Statement statement : newStatements) {
 			final int position = Collections.binarySearch(localStatements, statement, STATEMENT_INSERTION_COMPARATOR);
 
 			if (position < 0) {
@@ -354,7 +351,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		}
 		// refresh indices
 		for (int i = 0, size = localStatements.size(); i < size; i++) {
-			statement = localStatements.get(i);
+			final Statement statement = localStatements.get(i);
 
 			statement.setMyStatementBlock(this, i);
 		}
@@ -374,8 +371,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	public Statement getFirstStatement() {
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			final Statement statement = statements.get(i);
+		for (final Statement statement : statements) {
 			switch (statement.getType()) {
 			case S_LABEL:
 				// skip this statement
@@ -432,8 +428,8 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			statements.get(i).setMyAltguards(altGuards);
+		for (final Statement statement : statements) {
+			statement.setMyAltguards(altGuards);
 		}
 	}
 
@@ -608,8 +604,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 		boolean unreachableFound = false;
 		Statement previousStatement = null;
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			final Statement statement = statements.get(i);
+		for (final Statement statement : statements) {
 			try {
 				statement.check(timestamp);
 			} catch (Exception e) {
@@ -654,8 +649,8 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			return;
 		}
 
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			statements.get(i).postCheck();
+		for (final Statement statement : statements) {
+			statement.postCheck();
 		}
 	}
 
@@ -666,8 +661,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 *                the actual semantic check cycle
 	 * */
 	private void checkLabels(final CompilationTimeStamp timestamp) {
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			final Statement statement = statements.get(i);
+		for (final Statement statement : statements) {
 			if (Statement_type.S_LABEL.equals(statement.getType())) {
 				final Label_Statement labelStatement = (Label_Statement) statement;
 				labelStatement.setUsed(false);
@@ -695,8 +689,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 *                the actual semantic check cycle
 	 * */
 	private void checkUnusedLabels(final CompilationTimeStamp timestamp) {
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			final Statement statement = statements.get(i);
+		for (final Statement statement : statements) {
 			if (Statement_type.S_LABEL.equals(statement.getType())) {
 				final Label_Statement labelStatement = (Label_Statement) statement;
 				if (!labelStatement.labelIsUsed()) {
@@ -711,8 +704,8 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		for (int i = 0, size = statements.size(); i < size; i++) {
-			statements.get(i).checkAllowedInterleave();
+		for (final Statement statement : statements) {
+			statement.checkAllowedInterleave();
 		}
 	}
 
@@ -902,9 +895,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (!isDamaged) {
 			// handle the simple case quickly
-			for (int i = 0, size = statements.size(); i < size; i++) {
-				final Statement statement = statements.get(i);
-
+			for (final Statement statement : statements) {
 				statement.updateSyntax(reparser, false);
 				reparser.updateLocation(statement.getLocation());
 			}

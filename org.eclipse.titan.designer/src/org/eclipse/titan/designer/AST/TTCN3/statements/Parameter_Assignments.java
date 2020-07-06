@@ -90,9 +90,7 @@ public final class Parameter_Assignments extends ASTNode implements IIncremental
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = parameterAssignments.size(); i < size; i++) {
-			final Parameter_Assignment assignment = parameterAssignments.get(i);
-
+		for (final Parameter_Assignment assignment : parameterAssignments) {
 			assignment.updateSyntax(reparser, isDamaged);
 			reparser.updateLocation(assignment.getLocation());
 		}

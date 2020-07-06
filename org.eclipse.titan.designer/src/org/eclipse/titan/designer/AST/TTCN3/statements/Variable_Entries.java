@@ -91,9 +91,7 @@ public final class Variable_Entries extends ASTNode implements IIncrementallyUpd
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = entries.size(); i < size; i++) {
-			final Variable_Entry entry = entries.get(i);
-
+		for (final Variable_Entry entry : entries) {
 			entry.updateSyntax(reparser, isDamaged);
 			reparser.updateLocation(entry.getLocation());
 		}

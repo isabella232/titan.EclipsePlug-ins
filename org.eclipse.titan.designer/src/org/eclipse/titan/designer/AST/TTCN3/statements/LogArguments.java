@@ -71,8 +71,8 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
-		for (int i = 0, size = arguments.size(); i < size; i++) {
-			arguments.get(i).setMyScope(scope);
+		for (final LogArgument argument : arguments) {
+			argument.setMyScope(scope);
 		}
 	}
 
@@ -82,8 +82,8 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 * @param codeSection the code section where these arguments should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = arguments.size(); i < size; i++) {
-			arguments.get(i).setCodeSection(codeSection);
+		for (final LogArgument argument : arguments) {
+			argument.setCodeSection(codeSection);
 		}
 	}
 
@@ -102,8 +102,8 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
 	public void check(final CompilationTimeStamp timestamp) {
-		for (int i = 0, size = arguments.size(); i < size; i++) {
-			arguments.get(i).check(timestamp);
+		for (final LogArgument argument : arguments) {
+			argument.check(timestamp);
 		}
 	}
 
@@ -118,8 +118,8 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 *                the ReferenceChain used to detect circular references.
 	 * */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
-		for (int i = 0, size = arguments.size(); i < size; i++) {
-			arguments.get(i).checkRecursions(timestamp, referenceChain);
+		for (final LogArgument argument : arguments) {
+			argument.checkRecursions(timestamp, referenceChain);
 		}
 	}
 
@@ -130,9 +130,7 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = arguments.size(); i < size; i++) {
-			final LogArgument argument = arguments.get(i);
-
+		for (final LogArgument argument : arguments) {
 			argument.updateSyntax(reparser, false);
 			reparser.updateLocation(argument.getLocation());
 		}

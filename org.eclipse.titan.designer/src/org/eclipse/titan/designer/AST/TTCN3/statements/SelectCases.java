@@ -80,8 +80,8 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			select_cases.get(i).setMyScope(scope);
+		for (final SelectCase select_case : select_cases) {
+			select_case.setMyScope(scope);
 		}
 	}
 
@@ -91,8 +91,8 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	 * @param codeSection the code section where these statements should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			select_cases.get(i).setCodeSection(codeSection);
+		for (final SelectCase select_case : select_cases) {
+			select_case.setCodeSection(codeSection);
 		}
 	}
 
@@ -103,14 +103,14 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	}
 
 	public void setMyDefinition(final Definition definition) {
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			select_cases.get(i).setMyDefinition(definition);
+		for (final SelectCase select_case : select_cases) {
+			select_case.setMyDefinition(definition);
 		}
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			select_cases.get(i).setMyAltguards(altGuards);
+		for (final SelectCase select_case : select_cases) {
+			select_case.setMyAltguards(altGuards);
 		}
 	}
 
@@ -138,9 +138,8 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		StatementBlock.ReturnStatus_type result = StatementBlock.ReturnStatus_type.RS_MAYBE;
 		boolean hasElse = false;
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			final SelectCase selectCase = select_cases.get(i);
-			switch (selectCase.hasReturn(timestamp)) {
+		for (final SelectCase select_case : select_cases) {
+			switch (select_case.hasReturn(timestamp)) {
 			case RS_NO:
 				if (result == StatementBlock.ReturnStatus_type.RS_YES) {
 					return StatementBlock.ReturnStatus_type.RS_MAYBE;
@@ -159,7 +158,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 				return StatementBlock.ReturnStatus_type.RS_MAYBE;
 			}
 
-			if (selectCase.hasElse()) {
+			if (select_case.hasElse()) {
 				hasElse = true;
 				break;
 			}
@@ -198,8 +197,8 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	 * */
 	public void check(final CompilationTimeStamp timestamp, final IType governor) {
 		boolean unrechable = false;
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			unrechable = select_cases.get(i).check(timestamp, governor, unrechable);
+		for (final SelectCase select_case : select_cases) {
+			unrechable = select_case.check(timestamp, governor, unrechable);
 		}
 	}
 
@@ -207,8 +206,8 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			select_cases.get(i).checkAllowedInterleave();
+		for (final SelectCase select_case : select_cases) {
+			select_case.checkAllowedInterleave();
 		}
 	}
 
@@ -217,8 +216,8 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	 * after the semantic check was completely run.
 	 */
 	public void postCheck() {
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			select_cases.get(i).postCheck();
+		for (final SelectCase select_case : select_cases) {
+			select_case.postCheck();
 		}
 	}
 
@@ -229,12 +228,9 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 			throw new ReParseException();
 		}
 
-		SelectCase branch;
-		for (int i = 0, size = select_cases.size(); i < size; i++) {
-			branch = select_cases.get(i);
-
-			branch.updateSyntax(reparser, false);
-			reparser.updateLocation(branch.getLocation());
+		for (final SelectCase select_case : select_cases) {
+			select_case.updateSyntax(reparser, false);
+			reparser.updateLocation(select_case.getLocation());
 		}
 	}
 

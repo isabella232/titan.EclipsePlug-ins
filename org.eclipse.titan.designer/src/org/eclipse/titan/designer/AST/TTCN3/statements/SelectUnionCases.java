@@ -95,8 +95,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			selectUnionCases.get(i).setMyScope(scope);
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.setMyScope(scope);
 		}
 	}
 
@@ -106,8 +106,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 * @param codeSection the code section where these statements should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			selectUnionCases.get(i).setCodeSection(codeSection);
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.setCodeSection(codeSection);
 		}
 	}
 
@@ -118,14 +118,14 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	public void setMyDefinition(final Definition definition) {
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			selectUnionCases.get(i).setMyDefinition(definition);
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.setMyDefinition(definition);
 		}
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			selectUnionCases.get(i).setMyAltguards(altGuards);
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.setMyAltguards(altGuards);
 		}
 	}
 
@@ -153,9 +153,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		StatementBlock.ReturnStatus_type result = StatementBlock.ReturnStatus_type.RS_MAYBE;
 		boolean hasElse = false;
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			final SelectUnionCase selectUnionCase = selectUnionCases.get(i);
-			switch (selectUnionCase.hasReturn(timestamp)) {
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			switch (selectCase.hasReturn(timestamp)) {
 			case RS_NO:
 				if (result == StatementBlock.ReturnStatus_type.RS_YES) {
 					return StatementBlock.ReturnStatus_type.RS_MAYBE;
@@ -174,7 +173,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 				return StatementBlock.ReturnStatus_type.RS_MAYBE;
 			}
 
-			if (selectUnionCase.hasElse()) {
+			if (selectCase.hasElse()) {
 				hasElse = true;
 				break;
 			}
@@ -217,8 +216,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 */
 	public void check( final CompilationTimeStamp aTimestamp, final TTCN3_Choice_Type aUnionType, final List<String> aFieldNames ) {
 		boolean unreachable = false;
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			unreachable = selectUnionCases.get(i).check( aTimestamp, aUnionType, unreachable, aFieldNames );
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			unreachable = selectCase.check( aTimestamp, aUnionType, unreachable, aFieldNames );
 		}
 	}
 
@@ -236,8 +235,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 */
 	public void check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final List<String> aTypesCovered ) {
 		boolean unreachable = false;
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			unreachable = selectUnionCases.get(i).check( aTimestamp, aAnytypeType, unreachable, aTypesCovered );
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			unreachable = selectCase.check( aTimestamp, aAnytypeType, unreachable, aTypesCovered );
 		}
 	}
 
@@ -245,8 +244,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			selectUnionCases.get(i).checkAllowedInterleave();
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.checkAllowedInterleave();
 		}
 	}
 
@@ -255,8 +254,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 * after the semantic check was completely run.
 	 */
 	public void postCheck() {
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			selectUnionCases.get(i).postCheck();
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.postCheck();
 		}
 	}
 
@@ -267,12 +266,9 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 			throw new ReParseException();
 		}
 
-		SelectUnionCase branch;
-		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
-			branch = selectUnionCases.get(i);
-
-			branch.updateSyntax(reparser, false);
-			reparser.updateLocation(branch.getLocation());
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.updateSyntax(reparser, false);
+			reparser.updateLocation(selectCase.getLocation());
 		}
 	}
 

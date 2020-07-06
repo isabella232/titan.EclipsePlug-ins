@@ -135,8 +135,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		altGuards.trimToSize();
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			altGuards.get(i).setMyScope(scope);
+		for (final AltGuard guard : altGuards) {
+			guard.setMyScope(scope);
 		}
 	}
 
@@ -146,8 +146,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * @param codeSection the code section where this statement should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			altGuards.get(i).setCodeSection(codeSection);
+		for (final AltGuard guard : altGuards) {
+			guard.setCodeSection(codeSection);
 		}
 	}
 
@@ -158,14 +158,14 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	public void setMyDefinition(final Definition definition) {
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			altGuards.get(i).setMyDefinition(definition);
+		for (final AltGuard guard : altGuards) {
+			guard.setMyDefinition(definition);
 		}
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		for (int i = 0, size = this.altGuards.size(); i < size; i++) {
-			this.altGuards.get(i).setMyAltguards(altGuards);
+		for (final AltGuard altGuard : this.altGuards) {
+			altGuard.setMyAltguards(altGuards);
 		}
 	}
 
@@ -203,8 +203,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * @return true if there is an else branch, false otherwise.
 	 * */
 	public boolean hasElse() {
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			final AltGuard guard = altGuards.get(i);
+		for (final AltGuard guard : altGuards) {
 			if (guard.getType() == altguard_type.AG_ELSE) {
 				return true;
 			}
@@ -225,8 +224,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		StatementBlock.ReturnStatus_type result = StatementBlock.ReturnStatus_type.RS_MAYBE;
 
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			final AltGuard guard = altGuards.get(i);
+		for (final AltGuard guard : altGuards) {
 			switch (guard.hasReturn(timestamp)) {
 			case RS_NO:
 				if (result == StatementBlock.ReturnStatus_type.RS_YES) {
@@ -278,8 +276,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * */
 	public void check(final CompilationTimeStamp timestamp) {
 		boolean unreachableFound = false;
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			final AltGuard guard = altGuards.get(i);
+		for (final AltGuard guard : altGuards) {
 			guard.check(timestamp);
 
 			if (unreachableFound) {
@@ -298,8 +295,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			altGuards.get(i).checkAllowedInterleave();
+		for (final AltGuard guard : altGuards) {
+			guard.checkAllowedInterleave();
 		}
 	}
 
@@ -308,8 +305,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * after the semantic check was completely run.
 	 */
 	public void postCheck() {
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			altGuards.get(i).postCheck();
+		for (final AltGuard guard : altGuards) {
+			guard.postCheck();
 		}
 	}
 
@@ -360,9 +357,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			return;
 		}
 
-		for (int i = 0, size = altGuards.size(); i < size; i++) {
-			final AltGuard guard = altGuards.get(i);
-
+		for (final AltGuard guard : altGuards) {
 			guard.updateSyntax(reparser, false);
 			reparser.updateLocation(guard.getLocation());
 		}
