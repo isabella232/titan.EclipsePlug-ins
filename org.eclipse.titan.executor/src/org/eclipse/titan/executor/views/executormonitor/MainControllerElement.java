@@ -113,9 +113,9 @@ public final class MainControllerElement extends TreeLeaf implements ITreeBranch
 
 		final List<HostControllerElement> oldHCs = hostControllers;
 		hostControllers = new ArrayList<HostControllerElement>(other.hostControllers.size());
-		for (HostControllerElement tempElement : other.hostControllers) {
+		for (final HostControllerElement tempElement : other.hostControllers) {
 			boolean found = false;
-			for (Iterator<HostControllerElement> iterator = oldHCs.iterator(); iterator.hasNext() && !found;) {
+			for (final Iterator<HostControllerElement> iterator = oldHCs.iterator(); iterator.hasNext() && !found;) {
 				final HostControllerElement oldElement = iterator.next();
 				if (oldElement.isSame(tempElement)) {
 					oldElement.transferData(tempElement);

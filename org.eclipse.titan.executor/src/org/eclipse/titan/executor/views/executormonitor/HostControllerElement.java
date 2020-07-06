@@ -129,9 +129,9 @@ public final class HostControllerElement extends TreeLeaf implements ITreeBranch
 
 		final List<ComponentElement> oldComponents = components;
 		components = new ArrayList<ComponentElement>(other.components.size());
-		for (ComponentElement tempElement : other.components) {
+		for (final ComponentElement tempElement : other.components) {
 			boolean found = false;
-			for (Iterator<ComponentElement> iterator = oldComponents.iterator(); iterator.hasNext() && !found;) {
+			for (final Iterator<ComponentElement> iterator = oldComponents.iterator(); iterator.hasNext() && !found;) {
 				final ComponentElement oldElement = iterator.next();
 				if (oldElement.isSame(tempElement)) {
 					oldElement.transferData(tempElement);
