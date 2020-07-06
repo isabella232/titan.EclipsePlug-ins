@@ -60,7 +60,7 @@ public class DebugPreferencePage extends FieldEditorPreferencePage implements IW
 				| ExpandableComposite.CLIENT_INDENT | ExpandableComposite.COMPACT);
 		ex.setText(title);
 		ex.setExpanded(false);
-		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
 		ex.setLayoutData(data);
 		ex.addExpansionListener(new ExpansionAdapter() {
@@ -72,7 +72,7 @@ public class DebugPreferencePage extends FieldEditorPreferencePage implements IW
 				}
 
 				if (temp != null) {
-					Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+					final Point point = pagecomp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 					((ScrolledComposite) temp).setMinSize(point);
 					((ScrolledComposite) temp).layout(true, true);
 				}
@@ -99,8 +99,8 @@ public class DebugPreferencePage extends FieldEditorPreferencePage implements IW
 	}
 
 	private void createConsoleSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "Debug console");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "Debug console");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
@@ -112,30 +112,30 @@ public class DebugPreferencePage extends FieldEditorPreferencePage implements IW
 	}
 
 	private void createLoadBalancingSection(final Composite parent) {
-		ExpandableComposite expandable = createExtendableComposite(parent, "Load balancing");
-		Composite comp = new Composite(expandable, SWT.NONE);
+		final ExpandableComposite expandable = createExtendableComposite(parent, "Load balancing");
+		final Composite comp = new Composite(expandable, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		expandable.setClient(comp);
 		expandable.setExpanded(false);
-		IntegerFieldEditor tokens = new IntegerFieldEditor(PreferenceConstants.DEBUG_LOAD_TOKENS_TO_PROCESS_IN_A_ROW,
+		final IntegerFieldEditor tokens = new IntegerFieldEditor(PreferenceConstants.DEBUG_LOAD_TOKENS_TO_PROCESS_IN_A_ROW,
 				"Tokens to process between thread switches", comp);
 		tokens.setValidRange(0, Integer.MAX_VALUE);
 		addField(tokens);
 
-		ScaleFieldEditor threadPriority = new ScaleFieldEditor(PreferenceConstants.DEBUG_LOAD_THREAD_PRIORITY, "Thread priority", comp);
+		final ScaleFieldEditor threadPriority = new ScaleFieldEditor(PreferenceConstants.DEBUG_LOAD_THREAD_PRIORITY, "Thread priority", comp);
 		threadPriority.setMinimum(Thread.MIN_PRIORITY);
 		threadPriority.setMaximum(Thread.MAX_PRIORITY);
 		threadPriority.setIncrement(1);
 		threadPriority.getScaleControl().setToolTipText("Sets the priority of the threads created by the syntax analyzer.");
 		addField(threadPriority);
 
-		IntegerFieldEditor sleepBetweenFiles = new IntegerFieldEditor(PreferenceConstants.DEBUG_LOAD_SLEEP_BETWEEN_FILES,
+		final IntegerFieldEditor sleepBetweenFiles = new IntegerFieldEditor(PreferenceConstants.DEBUG_LOAD_SLEEP_BETWEEN_FILES,
 				"Sleep the syntax analyzer thread after processing a single file(-1 to do not sleep at all)", comp);
 		sleepBetweenFiles.setValidRange(-1, Integer.MAX_VALUE);
 		addField(sleepBetweenFiles);
 
-		BooleanFieldEditor yieldBetweenChecks = new BooleanFieldEditor(PreferenceConstants.DEBUG_LOAD_YIELD_BETWEEN_CHECKS,
+		final BooleanFieldEditor yieldBetweenChecks = new BooleanFieldEditor(PreferenceConstants.DEBUG_LOAD_YIELD_BETWEEN_CHECKS,
 				"Switch thread after semantically checking modules or definitions.", comp);
 		addField(yieldBetweenChecks);
 	}
