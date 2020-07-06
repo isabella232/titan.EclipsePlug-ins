@@ -31,7 +31,6 @@ import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 public final class Export_Debug_AST implements IEditorActionDelegate {
 	private TTCN3Editor targetEditor = null;
@@ -44,12 +43,12 @@ public final class Export_Debug_AST implements IEditorActionDelegate {
 		ProjectSourceParser parser = GlobalParser.getProjectSourceParser(file.getProject());
 		Module module = parser.containedModule(file);
 		if (module == null) {
-			TITANDebugConsole.getConsole().newMessageStream().println("No module was found");
+			TITANDebugConsole.println("No module was found");
 		}
 		
-		TITANDebugConsole.getConsole().newMessageStream().println("*************************");
-		TITANDebugConsole.getConsole().newMessageStream().println("Printing DEBUG information for module `" + module.getName() + "':");
-		TITANDebugConsole.getConsole().newMessageStream().println("*************************");
+		TITANDebugConsole.println("*************************");
+		TITANDebugConsole.println("Printing DEBUG information for module `" + module.getName() + "':");
+		TITANDebugConsole.println("*************************");
 
 		module.accept(new ASTVisitor() {
 			private int padding = 0;
@@ -95,34 +94,34 @@ public final class Export_Debug_AST implements IEditorActionDelegate {
 			}
 			
 		});
-		TITANDebugConsole.getConsole().newMessageStream().println("*************************");
-		TITANDebugConsole.getConsole().newMessageStream().println("Printing DEBUG information for module `" + module.getName() + "' finished");
-		TITANDebugConsole.getConsole().newMessageStream().println("*************************");
+		TITANDebugConsole.println("*************************");
+		TITANDebugConsole.println("Printing DEBUG information for module `" + module.getName() + "' finished");
+		TITANDebugConsole.println("*************************");
 	}
 
 	private void printInfoln(int padding, String text) {
 		while (paddingBuffer.length() < padding * 2) {
 			paddingBuffer.append("  ");
 		}
-		MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
-		stream.print(paddingBuffer.substring(0, padding * 2));
-		stream.println(text);
+
+		TITANDebugConsole.print(paddingBuffer.substring(0, padding * 2));
+		TITANDebugConsole.println(text);
 	}
 
 	private void printInfoln(int padding, String kind, String fullname, CompilationTimeStamp timestamp, Location location) {
 		while (paddingBuffer.length() < padding * 2) {
 			paddingBuffer.append("  ");
 		}
-		MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
-		stream.print(paddingBuffer.substring(0, padding * 2));
-		stream.print(kind + " " + fullname);
+
+		TITANDebugConsole.print(paddingBuffer.substring(0, padding * 2));
+		TITANDebugConsole.print(kind + " " + fullname);
 		if (timestamp != null) {
-			stream.print(" last checked at " + timestamp);
+			TITANDebugConsole.print(" last checked at " + timestamp);
 		}
 		if (location instanceof NULL_Location) {
-			stream.println(" is located at null location");
+			TITANDebugConsole.println(" is located at null location");
 		} else {
-			stream.println(" is located at line " + location.getLine() + " between " + location.getOffset() + " - " + location.getEndOffset());
+			TITANDebugConsole.println(" is located at line " + location.getLine() + " between " + location.getOffset() + " - " + location.getEndOffset());
 		}
 	}
 
