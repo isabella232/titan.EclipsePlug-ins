@@ -33,7 +33,7 @@ public enum ExtensionHandler {
 	public synchronized void registerContributors() {
 		final IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(ID); 
 		plugins = new ArrayList<IProjectProcesser>();
-		for (IConfigurationElement element : config) {
+		for (final IConfigurationElement element : config) {
 			try {
 				final Object o = element.createExecutableExtension("class");
 				if (o instanceof IProjectProcesser) {

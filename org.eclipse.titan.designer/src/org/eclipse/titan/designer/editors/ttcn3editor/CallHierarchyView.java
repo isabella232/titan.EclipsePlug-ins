@@ -128,7 +128,7 @@ public final class CallHierarchyView extends ViewPart implements ISelectionChang
 	 * The {@link CallHierarchy} contains the in the call hierarchy view used search algorithms implementation.
 	 * @see CallHierarchy
 	 */
-	private CallHierarchy callHierarchy;
+	private final CallHierarchy callHierarchy;
 
 	/**
 	 * The current selected {@link CallHierarchyNode} in the {@link #treeViewer}.

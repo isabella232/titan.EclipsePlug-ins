@@ -136,7 +136,7 @@ public final class InternalMakefileGenerator {
 	
 	private boolean centralStorage;
 	
-	public InternalMakefileGenerator(IProject project) {
+	public InternalMakefileGenerator(final IProject project) {
 		this.project = project;
 	}
 	
