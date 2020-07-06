@@ -530,8 +530,7 @@ public final class GUIProjectImporter {
 	 *                 in case of problems.
 	 * */
 	public static void setUnusedFiles(final IProject project, final ProjectInformation info, final IProgressMonitor monitor) throws CoreException {
-		for (int i = 0, size = info.unUsedList.size(); i < size; i++) {
-			final String temp = info.unUsedList.get(i);
+		for (final String temp : info.unUsedList) {
 			monitor.subTask("Resolving the path `" + temp + "'");
 			final String absolutePath = PathConverter.getAbsolutePath(info.sourceFile, temp);
 			if (absolutePath == null) {
@@ -733,8 +732,8 @@ public final class GUIProjectImporter {
 		final IProject[] referencedProjects = description.getReferencedProjects();
 		final List<IProject> references = Arrays.asList(referencedProjects);
 
-		for (int i = 0, size = info.includeProjects.size(); i < size; i++) {
-			IPath path = info.includeProjects.get(i).absolutePath;
+		for (final IncludedProject includedProject : info.includeProjects) {
+			IPath path = includedProject.absolutePath;
 			if (path == null) {
 				continue;
 			}
@@ -898,8 +897,7 @@ public final class GUIProjectImporter {
 
 		final SubMonitor progress = SubMonitor.convert(monitor, group.files.size() + group.groups.size());
 		progress.setTaskName("Creating settings");
-		for (int i = 0, size = group.files.size(); i < size; i++) {
-			final String temp = group.files.get(i);
+		for (final String temp : group.files) {
 			progress.subTask("Resolving the path `" + temp + "'");
 			final String absolutePath = PathConverter.getAbsolutePath(sourceFile, temp);
 			if (absolutePath != null) {
@@ -909,8 +907,8 @@ public final class GUIProjectImporter {
 			progress.worked(1);
 		}
 
-		for (int i = 0, size = group.groups.size(); i < size; i++) {
-			setGroupFileSettings(project, sourceFile, group.groups.get(i), progress.newChild(1));
+		for (final FileGroup fileGroup : group.groups) {
+			setGroupFileSettings(project, sourceFile, fileGroup, progress.newChild(1));
 		}
 		progress.done();
 	}
