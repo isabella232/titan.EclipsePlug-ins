@@ -52,8 +52,8 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 		super.setMyScope(scope);
 
 		named_templates.trimToSize();
-		for (int i = 0, size = named_templates.size(); i < size; i++) {
-			named_templates.get(i).setMyScope(scope);
+		for (final NamedTemplate template : named_templates) {
+			template.setMyScope(scope);
 		}
 	}
 
@@ -62,11 +62,9 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		NamedTemplate temp;
-		for (int i = 0, size = named_templates.size(); i < size; i++) {
-			temp = named_templates.get(i);
-			if (temp == child) {
-				return builder.append(INamedNode.DOT).append(temp.getName().getDisplayName());
+		for (final NamedTemplate template : named_templates) {
+			if (template == child) {
+				return builder.append(INamedNode.DOT).append(template.getName().getDisplayName());
 			}
 		}
 
@@ -222,18 +220,13 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 			throw new ReParseException();
 		}
 
-		NamedTemplate template;
-		for (int i = 0, size = named_templates.size(); i < size; i++) {
-			template = named_templates.get(i);
-
+		for (final NamedTemplate template : named_templates) {
 			template.updateSyntax(reparser, false);
 			reparser.updateLocation(template.getLocation());
 		}
 
 		if (duplicatedNames != null) {
-			for (int i = 0, size = duplicatedNames.size(); i < size; i++) {
-				template = duplicatedNames.get(i);
-
+			for (final NamedTemplate template : duplicatedNames) {
 				template.updateSyntax(reparser, false);
 				reparser.updateLocation(template.getLocation());
 			}

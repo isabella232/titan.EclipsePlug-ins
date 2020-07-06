@@ -42,8 +42,8 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
-		for (int i = 0, size = templates.size(); i < size; i++) {
-			templates.get(i).setMyScope(scope);
+		for (final TTCN3Template template : templates) {
+			template.setMyScope(scope);
 		}
 	}
 	/**
@@ -87,9 +87,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 			throw new ReParseException();
 		}
 
-		TTCN3Template template;
-		for (int i = 0, size = templates.size(); i < size; i++) {
-			template = templates.get(i);
+		for (final TTCN3Template template : templates) {
 			template.updateSyntax(reparser, false);
 			reparser.updateLocation(template.getLocation());
 		}

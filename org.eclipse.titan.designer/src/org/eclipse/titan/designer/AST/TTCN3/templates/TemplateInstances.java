@@ -48,8 +48,8 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	public TemplateInstances(final TemplateInstances other) {
 		super();
 		instances = new ArrayList<TemplateInstance>(other.instances.size());
-		for (int i = 0, size = other.instances.size(); i < size; i++) {
-			instances.add(other.instances.get(i));
+		for (final TemplateInstance otherInstance : other.instances) {
+			instances.add(otherInstance);
 		}
 		location = other.location;
 	}
@@ -59,8 +59,8 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
-		for (int i = 0, size = instances.size(); i < size; i++) {
-			instances.get(i).setMyScope(scope);
+		for (final TemplateInstance instance : instances) {
+			instance.setMyScope(scope);
 		}
 	}
 
@@ -70,8 +70,8 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	 * @param codeSection the code section where these instances should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = instances.size(); i < size; i++) {
-			instances.get(i).setCodeSection(codeSection);
+		for (final TemplateInstance instance : instances) {
+			instance.setCodeSection(codeSection);
 		}
 	}
 
@@ -145,9 +145,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = instances.size(); i < size; i++) {
-			final TemplateInstance instance = instances.get(i);
-
+		for (final TemplateInstance instance : instances) {
 			instance.updateSyntax(reparser, false);
 			reparser.updateLocation(instance.getLocation());
 		}

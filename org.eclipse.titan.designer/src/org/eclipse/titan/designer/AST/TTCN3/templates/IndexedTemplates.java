@@ -67,8 +67,8 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 		super.setMyScope(scope);
 
 		indexed_templates.trimToSize();
-		for (int i = 0, size = indexed_templates.size(); i < size; i++) {
-			indexed_templates.get(i).setMyScope(scope);
+		for (final IndexedTemplate template : indexed_templates) {
+			template.setMyScope(scope);
 		}
 	}
 
@@ -77,8 +77,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		for (int i = 0, size = indexed_templates.size(); i < size; i++) {
-			final IndexedTemplate template = indexed_templates.get(i);
+		for (final IndexedTemplate template : indexed_templates) {
 			if (template == child) {
 				final IValue index = template.getIndex().getValue();
 				return builder.append(INamedNode.SQUAREOPEN).append(index.createStringRepresentation())
@@ -105,9 +104,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = indexed_templates.size(); i < size; i++) {
-			final IndexedTemplate template = indexed_templates.get(i);
-
+		for (final IndexedTemplate template : indexed_templates) {
 			template.updateSyntax(reparser, false);
 			reparser.updateLocation(template.getLocation());
 		}

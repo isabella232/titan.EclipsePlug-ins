@@ -46,14 +46,14 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
-		for (int i = 0, size = namedParams.size(); i < size; i++) {
-			namedParams.get(i).setMyScope(scope);
+		for (final NamedParameter parameter : namedParams) {
+			parameter.setMyScope(scope);
 		}
 	}
 
 	public void setCodeSection(final CodeSectionType codeSection) {
-		for (int i = 0, size = namedParams.size(); i < size; i++) {
-			namedParams.get(i).getInstance().setCodeSection(codeSection);
+		for (final NamedParameter parameter : namedParams) {
+			parameter.getInstance().setCodeSection(codeSection);
 		}
 	}
 
@@ -138,8 +138,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 			throw new ReParseException();
 		}
 
-		for (int i = 0, size = namedParams.size(); i < size; i++) {
-			final NamedParameter parameter = namedParams.get(i);
+		for (final NamedParameter parameter : namedParams) {
 
 			parameter.updateSyntax(reparser, false);
 			reparser.updateLocation(parameter.getLocation());
