@@ -67,11 +67,12 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 			if (event.getSelection().isEmpty()) {
 				return;
 			}
+
 			if (event.getSelection() instanceof IStructuredSelection) {
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				if (selection.size() == 1) {
 					if (selection.getFirstElement() instanceof SyntaxHighlightColoringElement) {
-						SyntaxHighlightColoringElement element = (SyntaxHighlightColoringElement) selection.getFirstElement();
+						final SyntaxHighlightColoringElement element = (SyntaxHighlightColoringElement) selection.getFirstElement();
 
 						foregroundColorEditor.setEnabled(true, colorEditorsComposite);
 						loadIntoTemp(element.getBasePreferenceKey() + PreferenceConstants.FOREGROUND);
@@ -143,14 +144,14 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 	public void init(final IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		tempstore = new PreferenceStore();
-		TempPreferenceInitializer inittializer = new TempPreferenceInitializer();
+		final TempPreferenceInitializer inittializer = new TempPreferenceInitializer();
 		inittializer.initializeDefaultPreferences();
 
 	}
 
 	@Override
 	public boolean performOk() {
-		for (String changedKey : possiblyChangedPreferences.keySet()) {
+		for (final String changedKey : possiblyChangedPreferences.keySet()) {
 			storeIntoFinal(changedKey);
 		}
 		return super.performOk();
@@ -158,8 +159,8 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 
 	@Override
 	protected void performDefaults() {
-		String[] preferenceNames = tempstore.preferenceNames();
-		for (String preferenceName : preferenceNames) {
+		final String[] preferenceNames = tempstore.preferenceNames();
+		for (final String preferenceName : preferenceNames) {
 			tempstore.setValue(preferenceName, tempstore.getDefaultString(preferenceName));
 			possiblyChangedPreferences.put(preferenceName, null);
 		}
@@ -193,9 +194,9 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 	}
 
 	protected Control createTreeViewer(final Composite parent) {
-		GridLayout treeLayout = new GridLayout();
+		final GridLayout treeLayout = new GridLayout();
 		treeLayout.numColumns = 2;
-		GridData treeData = new GridData();
+		final GridData treeData = new GridData();
 		treeData.horizontalAlignment = GridData.FILL;
 		treeData.verticalAlignment = SWT.FILL;
 		treeData.grabExcessHorizontalSpace = true;
@@ -215,10 +216,10 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 
 	protected Control createColorEditors(final Composite parent) {
 		colorEditorsComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		colorEditorsComposite.setLayout(layout);
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -289,7 +290,7 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 			}
 		});
 
-		GridData wordsGridData = new GridData();
+		final GridData wordsGridData = new GridData();
 		wordsGridData.horizontalAlignment = GridData.FILL;
 		wordsGridData.verticalAlignment = GridData.FILL;
 		wordsGridData.horizontalSpan = 2;
@@ -304,10 +305,10 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 
 	protected Control createUpperHalf(final Composite parent) {
 		upperHalfComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		upperHalfComposite.setLayout(layout);
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -323,10 +324,10 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 	@Override
 	protected Control createContents(final Composite parent) {
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		pageComposite.setLayout(layout);
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.verticalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -339,15 +340,15 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 	}
 
 	private SyntaxHighlightColoringGroup initialInput() {
-		SyntaxHighlightColoringGroup root = new SyntaxHighlightColoringGroup("root");
+		final SyntaxHighlightColoringGroup root = new SyntaxHighlightColoringGroup("root");
 
-		SyntaxHighlightColoringGroup generalGroup = new SyntaxHighlightColoringGroup("General");
+		final SyntaxHighlightColoringGroup generalGroup = new SyntaxHighlightColoringGroup("General");
 		generalGroup.add(new SyntaxHighlightColoringElement("Plain text", PreferenceConstants.COLOR_NORMAL_TEXT, "Example text"));
 		generalGroup.add(new SyntaxHighlightColoringElement("Comments", PreferenceConstants.COLOR_COMMENTS, "/* Example comment */"));
 		generalGroup.add(new SyntaxHighlightColoringElement("Strings", PreferenceConstants.COLOR_STRINGS, "\" Example string \""));
 		root.add(generalGroup);
 
-		SyntaxHighlightColoringGroup asn1Group = new SyntaxHighlightColoringGroup("ASN.1 specific");
+		final SyntaxHighlightColoringGroup asn1Group = new SyntaxHighlightColoringGroup("ASN.1 specific");
 		asn1Group.add(new SyntaxHighlightColoringElement("Keywords", PreferenceConstants.COLOR_ASN1_KEYWORDS,
 				org.eclipse.titan.designer.editors.asn1editor.CodeScanner.KEYWORDS));
 		asn1Group.add(new SyntaxHighlightColoringElement("CMIP verbs", PreferenceConstants.COLOR_CMIP_VERB,
@@ -366,7 +367,7 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 				org.eclipse.titan.designer.editors.asn1editor.CodeScanner.ACCESS_TYPE));
 		root.add(asn1Group);
 
-		SyntaxHighlightColoringGroup configGroup = new SyntaxHighlightColoringGroup("Configuration specific");
+		final SyntaxHighlightColoringGroup configGroup = new SyntaxHighlightColoringGroup("Configuration specific");
 		configGroup.add(new SyntaxHighlightColoringElement("Keywords", PreferenceConstants.COLOR_CONFIG_KEYWORDS,
 				org.eclipse.titan.designer.editors.configeditor.CodeScanner.KEYWORDS));
 		configGroup.add(new SyntaxHighlightColoringElement("Section title", PreferenceConstants.COLOR_SECTION_TITLE,
@@ -378,7 +379,7 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 				org.eclipse.titan.designer.editors.configeditor.CodeScanner.EXTERNAL_COMMAND_TYPES));
 		root.add(configGroup);
 
-		SyntaxHighlightColoringGroup ttcn3Group = new SyntaxHighlightColoringGroup("TTCN-3 specific");
+		final SyntaxHighlightColoringGroup ttcn3Group = new SyntaxHighlightColoringGroup("TTCN-3 specific");
 		ttcn3Group.add(new SyntaxHighlightColoringElement("Keywords", PreferenceConstants.COLOR_TTCN3_KEYWORDS,
 				org.eclipse.titan.designer.editors.ttcn3editor.CodeScanner.KEYWORDS));
 		ttcn3Group.add(new SyntaxHighlightColoringElement("Preprocessor", PreferenceConstants.COLOR_PREPROCESSOR, "Example #include"));
