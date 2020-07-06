@@ -99,8 +99,8 @@ public final class ExecutorMonitorView extends ViewPart {
 
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-				ITreeLeaf element = (ITreeLeaf) selection.getFirstElement();
+				final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				final ITreeLeaf element = (ITreeLeaf) selection.getFirstElement();
 
 				updateActions();
 
@@ -113,20 +113,20 @@ public final class ExecutorMonitorView extends ViewPart {
 				} else if (element instanceof MainControllerElement) {
 					createExecutorContextMenu((MainControllerElement) element);
 
-					BaseExecutor executor = ((MainControllerElement) element).executor();
-					IProcess process = executor.getProcess();
+					final BaseExecutor executor = ((MainControllerElement) element).executor();
+					final IProcess process = executor.getProcess();
 					if (null == process) {
 						return;
 					}
 
-					IConsole console = DebugUITools.getConsole(process);
+					final IConsole console = DebugUITools.getConsole(process);
 					if (null == console) {
 						return;
 					}
 
-					IConsole[] consoles = ConsolePlugin.getDefault().getConsoleManager().getConsoles();
+					final IConsole[] consoles = ConsolePlugin.getDefault().getConsoleManager().getConsoles();
 					boolean exists = false;
-					for (IConsole console2 : consoles) {
+					for (final IConsole console2 : consoles) {
 						if (console2.equals(console)) {
 							exists = true;
 						}
@@ -215,7 +215,7 @@ public final class ExecutorMonitorView extends ViewPart {
 
 	private void createEmptyContextMenu() {
 		manager.removeAll();
-		Menu menu = manager.createContextMenu(viewer.getControl());
+		final Menu menu = manager.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 	}
 
@@ -225,7 +225,7 @@ public final class ExecutorMonitorView extends ViewPart {
 		manager.add(removeAllTerminatedAction);
 		manager.add(terminateSelectedAction);
 		manager.add(terminateAllAction);
-		Menu menu = manager.createContextMenu(viewer.getControl());
+		final Menu menu = manager.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 	}
 
@@ -237,12 +237,12 @@ public final class ExecutorMonitorView extends ViewPart {
 		}
 		manager.add(removeSelectedAction);
 		manager.add(terminateSelectedAction);
-		Menu menu = manager.createContextMenu(viewer.getControl());
+		final Menu menu = manager.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 	}
 
 	private void createToolBar() {
-		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+		final IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
 		toolbarManager.add(removeSelectedAction);
 		toolbarManager.add(removeAllTerminatedAction);
 		toolbarManager.add(terminateSelectedAction);
@@ -261,11 +261,11 @@ public final class ExecutorMonitorView extends ViewPart {
 
 	private TreeBranch getInitialInput() {
 		root = new TreeBranch("root");
-		ILaunch[] launches = DebugPlugin.getDefault().getLaunchManager().getLaunches();
+		final ILaunch[] launches = DebugPlugin.getDefault().getLaunchManager().getLaunches();
 		ILaunchConfiguration launchConfiguration;
 		LaunchElement launchElement;
 		ILaunch launch;
-		for (ILaunch launche : launches) {
+		for (final ILaunch launche : launches) {
 			launch = launche;
 			launchConfiguration = launch.getLaunchConfiguration();
 
@@ -294,14 +294,16 @@ public final class ExecutorMonitorView extends ViewPart {
 		if (null == viewer || viewer.getSelection().isEmpty()) {
 			return;
 		}
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
 			ITreeLeaf element = (ITreeLeaf) iterator.next();
 			while (!(element instanceof LaunchElement)) {
 				element = element.parent();
 			}
-			ILaunch launched = ((LaunchElement) element).launch();
-			ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
+
+			final ILaunch launched = ((LaunchElement) element).launch();
+			final ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 
 			MainControllerElement mainController;
 			if (1 == ((LaunchElement) element).children().size()) {
@@ -310,7 +312,7 @@ public final class ExecutorMonitorView extends ViewPart {
 				mainController = null;
 			}
 			if (isSupportedConfiguration(launchConfiguration) && null != mainController) {
-				BaseExecutor executor = mainController.executor();
+				final BaseExecutor executor = mainController.executor();
 				if (!executor.isTerminated()) {
 					executor.terminate(false);
 				}
@@ -324,9 +326,9 @@ public final class ExecutorMonitorView extends ViewPart {
 			return;
 		}
 		for (int i = root.children().size() - 1; i >= 0; i--) {
-			LaunchElement element = (LaunchElement) root.children().get(i);
-			ILaunch launched = element.launch();
-			ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
+			final LaunchElement element = (LaunchElement) root.children().get(i);
+			final ILaunch launched = element.launch();
+			final ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 			MainControllerElement mainController;
 
 			if (1 == (element).children().size()) {
@@ -335,7 +337,7 @@ public final class ExecutorMonitorView extends ViewPart {
 				mainController = null;
 			}
 			if (isSupportedConfiguration(launchConfiguration) && null != mainController) {
-				BaseExecutor executor = mainController.executor();
+				final BaseExecutor executor = mainController.executor();
 				if (!executor.isTerminated()) {
 					executor.terminate(false);
 				}
@@ -354,15 +356,17 @@ public final class ExecutorMonitorView extends ViewPart {
 		if (null == viewer || viewer.getSelection().isEmpty()) {
 			return;
 		}
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		viewer.getTree().setRedraw(false);
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
 			ITreeLeaf element = (ITreeLeaf) iterator.next();
 			while (!(element instanceof LaunchElement)) {
 				element = element.parent();
 			}
-			ILaunch launched = ((LaunchElement) element).launch();
-			ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
+
+			final ILaunch launched = ((LaunchElement) element).launch();
+			final ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 
 			MainControllerElement mainController;
 			if (1 == ((LaunchElement) element).children().size()) {
@@ -372,7 +376,7 @@ public final class ExecutorMonitorView extends ViewPart {
 			}
 
 			if (isSupportedConfiguration(launchConfiguration) && null != mainController) {
-				BaseExecutor executor = mainController.executor();
+				final BaseExecutor executor = mainController.executor();
 				if (executor.isTerminated()) {
 					DebugPlugin.getDefault().getLaunchManager().removeLaunch(launched);
 				}
@@ -388,13 +392,14 @@ public final class ExecutorMonitorView extends ViewPart {
 			return;
 		}
 		for (int i = root.children().size() - 1; i >= 0; i--) {
-			LaunchElement element = (LaunchElement) root.children().get(i);
-			ILaunch launched = element.launch();
+			final LaunchElement element = (LaunchElement) root.children().get(i);
+			final ILaunch launched = element.launch();
 			if (null == launched) {
 				//				DebugPlugin.getDefault().getLaunchManager().removeLaunch(launched);
 				continue;
 			}
-			ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
+
+			final ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 
 			MainControllerElement mainController;
 			if (1 == element.children().size()) {
@@ -404,7 +409,7 @@ public final class ExecutorMonitorView extends ViewPart {
 			}
 
 			if (isSupportedConfiguration(launchConfiguration) && null != mainController) {
-				BaseExecutor executor = mainController.executor();
+				final BaseExecutor executor = mainController.executor();
 				if (executor.isTerminated()) {
 					DebugPlugin.getDefault().getLaunchManager().removeLaunch(launched);
 				}
@@ -427,22 +432,22 @@ public final class ExecutorMonitorView extends ViewPart {
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			@Override
 			public void run() {
-				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+				final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 				boolean foundTerminatable = false;
 				boolean foundRemovable = false;
 				ILaunch launched;
 				MainControllerElement mainController;
-				for (ITreeLeaf element : root.children()) {
+				for (final ITreeLeaf element : root.children()) {
 					launched = ((LaunchElement) element).launch();
 					if (((LaunchElement) element).children().size() == 1) {
 						mainController = (MainControllerElement) ((LaunchElement) element).children().get(0);
 					} else {
 						mainController = null;
 					}
-					ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 
+					final ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 					if (isSupportedConfiguration(launchConfiguration) && mainController != null) {
-						BaseExecutor executor = mainController.executor();
+						final BaseExecutor executor = mainController.executor();
 						foundTerminatable |= !executor.isTerminated();
 						foundRemovable |= executor.isTerminated();
 					}
@@ -461,10 +466,10 @@ public final class ExecutorMonitorView extends ViewPart {
 					} else {
 						mainController = null;
 					}
-					ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 
+					final ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();
 					if (isSupportedConfiguration(launchConfiguration) && mainController != null) {
-						BaseExecutor executor = mainController.executor();
+						final BaseExecutor executor = mainController.executor();
 						terminateSelectedAction.setEnabled(!executor.isTerminated());
 						removeSelectedAction.setEnabled(executor.isTerminated());
 					}
@@ -490,9 +495,9 @@ public final class ExecutorMonitorView extends ViewPart {
 					return;
 				}
 
-				ITreeLeaf element = root.children().get(0);
+				final ITreeLeaf element = root.children().get(0);
 				if (((LaunchElement) element).children().size() == 1) {
-					MainControllerElement mainController = (MainControllerElement) ((LaunchElement) element).children().get(0);
+					final MainControllerElement mainController = (MainControllerElement) ((LaunchElement) element).children().get(0);
 					viewer.setSelection(new StructuredSelection(mainController), true);
 				}
 			}
