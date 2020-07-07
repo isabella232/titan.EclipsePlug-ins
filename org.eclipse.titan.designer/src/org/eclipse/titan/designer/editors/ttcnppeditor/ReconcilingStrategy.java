@@ -121,7 +121,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 			return;
 		}
 
-		final TTCN3ReparseUpdater reparser;
+		TTCN3ReparseUpdater reparser;
 		final int length = dirtyRegion.getLength();
 
 		if (DirtyRegion.INSERT.equals(dirtyRegion.getType())) {
