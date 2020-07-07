@@ -206,7 +206,7 @@ public final class PathConverter {
 			final StringBuilder builder = new StringBuilder();
 
 			for (final String c : command) {
-				builder.append(c).append(" ");
+				builder.append(c).append(' ');
 			}
 
 			output.append(builder);
