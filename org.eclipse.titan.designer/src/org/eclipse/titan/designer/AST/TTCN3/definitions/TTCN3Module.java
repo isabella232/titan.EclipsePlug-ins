@@ -1330,7 +1330,7 @@ public final class TTCN3Module extends Module {
 				}
 				constructor.append("(byte)").append(digest[i] & 0xff);
 			}
-			constructor.append("}");
+			constructor.append('}');
 		}
 		constructor.append(");\n");
 		constructor.append("\t}\n\n");
