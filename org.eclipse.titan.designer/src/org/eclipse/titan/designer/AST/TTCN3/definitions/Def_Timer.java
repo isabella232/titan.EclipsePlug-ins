@@ -843,8 +843,6 @@ public final class Def_Timer extends Definition {
 				}
 			}
 		}
-
-		return;
 	}
 
 	private String generateClassCode(final JavaGenData aData, final StringBuilder sb, final ArrayList<String> list) {

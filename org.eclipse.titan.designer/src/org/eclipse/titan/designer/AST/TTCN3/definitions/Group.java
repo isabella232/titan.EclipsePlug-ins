@@ -913,8 +913,6 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		if (result > 1) {
 			throw new ReParseException(result - 1);
 		}
-
-		return;
 	}
 
 	/**
