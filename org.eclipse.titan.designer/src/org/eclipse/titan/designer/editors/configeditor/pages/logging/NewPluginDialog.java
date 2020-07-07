@@ -135,6 +135,5 @@ public class NewPluginDialog extends Dialog {
 		errorLabel.setVisible(false);
 		name = nameTemp;
 		path = pathTemp;
-		return;
 	}
 }
