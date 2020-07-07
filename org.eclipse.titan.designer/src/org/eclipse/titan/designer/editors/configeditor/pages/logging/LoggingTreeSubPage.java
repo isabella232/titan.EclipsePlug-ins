@@ -229,8 +229,7 @@ public final class LoggingTreeSubPage {
 
 	public LoggingSectionHandler.LoggerTreeElement getSelection() {
 		final ITreeSelection selection = (ITreeSelection) componentpluginViewer.getSelection();
-		final Object o = selection.getFirstElement();
-		return (LoggingSectionHandler.LoggerTreeElement) o;
+		return (LoggingSectionHandler.LoggerTreeElement) selection.getFirstElement();
 	}
 
 	private void internalRefresh() {

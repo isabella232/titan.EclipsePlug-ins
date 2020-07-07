@@ -259,8 +259,7 @@ public final class IncludeSubPage {
 			return null;
 		}
 
-		final ParseTree item = new AddedParseTree("\"included_file\"");
-		return item;
+		return new AddedParseTree("\"included_file\"");
 	}
 
 	private void removeIncludeSection() {
