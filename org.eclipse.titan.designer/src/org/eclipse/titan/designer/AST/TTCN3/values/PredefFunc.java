@@ -24,16 +24,16 @@ import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
  */
 public class PredefFunc {
 
-	private PredefFunc() {
-		// Hide constructor
-	}
-
 	// BOMs
 	private static final String utf32be = "0000FEFF";
 	private static final String utf32le = "FFFE0000";
 	private static final String utf16be = "FEFF";
 	private static final String utf16le = "FFFE";
 	private static final String utf8    = "EFBBBF";
+
+	private PredefFunc() {
+		// Hide constructor
+	}
 
 	public static class DecodeException extends Exception {
 
