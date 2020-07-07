@@ -32,6 +32,8 @@ import org.eclipse.titan.common.parsers.cfg.CfgInterval;
  * @author Arpad Lovassy
  */
 public final class ParserLogger {
+	/** date format in ISO 8601 */
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private static IPrinter sPrinter = new ConsolePrinter();
 
@@ -42,9 +44,6 @@ public final class ParserLogger {
 	private static void setPrinter( final IPrinter aPrinter ) {
 		sPrinter = aPrinter;
 	}
-
-	/** date format in ISO 8601 */
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * Logs a parse tree. (General version)
