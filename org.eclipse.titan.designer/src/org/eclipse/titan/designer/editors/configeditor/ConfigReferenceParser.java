@@ -48,17 +48,18 @@ public final class ConfigReferenceParser implements IReferenceParser {
 
 	public String findIncludedFileForOpening(final int offset, final IDocument document) {
 		moduleParameter = false;
-		final String includeString = null;
 		int ofs = offset - 1;
 		int endoffset = offset;
 		if (-1 == offset) {
-			return includeString;
+			return null;
 		}
+
 		try {
 			final int tempOfs = includeStartOffset(ofs, document);
 			if (-1 == tempOfs) {
-				return includeString;
+				return null;
 			}
+
 			ofs = tempOfs + 1;
 			char currentChar = document.getChar(endoffset);
 			while (endoffset < document.getLength()) {
@@ -67,11 +68,13 @@ public final class ConfigReferenceParser implements IReferenceParser {
 				}
 				currentChar = document.getChar(++endoffset);
 			}
+
 			return document.get(ofs, endoffset - ofs);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		return includeString;
+
+		return null;
 	}
 
 	@Override
