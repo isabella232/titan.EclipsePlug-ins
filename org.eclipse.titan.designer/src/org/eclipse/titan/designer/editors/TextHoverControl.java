@@ -106,7 +106,7 @@ public class TextHoverControl extends AbstractInformationControl {
 	public void setInput(final Object input) {
 		// Assume that the input is marked-up text, not a URL
 		fIsURL = false;
-		final String inputString;
+		String inputString;
 
 		if (input instanceof IHTMLHoverInfo) {
 			// Get the input string, then see whether it's a URL

@@ -58,7 +58,7 @@ public class ToggleComment extends TextEditorAction {
 			return;
 		}
 
-		final int operationCode;
+		int operationCode;
 		if (isSelectionCommented(editor.getSelectionProvider().getSelection())) {
 			operationCode = ITextOperationTarget.STRIP_PREFIX;
 		} else {
@@ -79,12 +79,12 @@ public class ToggleComment extends TextEditorAction {
 			display = shell.getDisplay();
 		}
 
-
+		final int finalOperationCode = operationCode;
 
 		BusyIndicator.showWhile(display, new Runnable() {
 			@Override
 			public void run() {
-				doOperation(operationCode);
+				doOperation(finalOperationCode);
 			}
 		});
 	}

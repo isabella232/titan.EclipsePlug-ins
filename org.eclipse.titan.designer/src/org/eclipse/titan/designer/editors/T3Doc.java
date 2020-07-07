@@ -181,8 +181,8 @@ public final class T3Doc {
 		for (final String stringItem : membersArraylist) {
 			final String stringItemTrim = stringItem.trim();
 			final String strWithoutMember = stringItemTrim.substring("@member".length()).trim();
-			final String key;
-			final String value;
+			String key;
+			String value;
 			final int cnt = strWithoutMember.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutMember;
@@ -203,14 +203,14 @@ public final class T3Doc {
 		for (final String stringItem : paramsArraylistTemp) {
 			final String stringItemTrim = stringItem.trim();
 			final String strWithoutParam = stringItemTrim.substring("@param".length()).trim();
-			final String key;
-			final String value;
+			String key;
+			String value;
 			final int cnt = strWithoutParam.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutParam;
 				value = "";
 			} else {
-				key = strWithoutParam.substring(0, strWithoutParam.indexOf(" "));
+				key = strWithoutParam.substring(0, strWithoutParam.indexOf(' '));
 				value = strWithoutParam.substring(key.length());
 			}
 			paramsArraylist.add(key.toString() + value.toString());
@@ -233,8 +233,8 @@ public final class T3Doc {
 				continue;
 			}
 
-			final String key;
-			final String value;
+			String key;
+			String value;
 			final int cnt = strWithoutMember.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutMember;
@@ -253,8 +253,8 @@ public final class T3Doc {
 		// ToDo what about spaces
 		for (final String stringItem : paramsArraylist) {
 			final String strWithoutParam = stringItem.substring("@param".length()).trim();
-			final String key;
-			final String value;
+			String key;
+			String value;
 			final int cnt = strWithoutParam.indexOf(" ");
 			if (cnt == -1) {
 				key = strWithoutParam;
