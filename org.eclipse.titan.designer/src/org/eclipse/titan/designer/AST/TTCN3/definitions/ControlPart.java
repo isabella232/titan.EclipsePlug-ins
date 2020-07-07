@@ -60,6 +60,9 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 
 	private Location commentLocation = null;
 
+	/** the time when this control part was checked the last time. */
+	private CompilationTimeStamp lastTimeChecked;
+
 	public static String getKind() {
 		return KIND;
 	}
@@ -82,9 +85,6 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	public void setCommentLocation(final Location commentLocation) {
 		this.commentLocation = commentLocation;
 	}
-
-	/** the time when this control part was checked the last time. */
-	private CompilationTimeStamp lastTimeChecked;
 
 	public ControlPart(final StatementBlock statementblock) {
 		setScopeMacroName("control");
