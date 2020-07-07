@@ -38,6 +38,12 @@ public final class StoredDefinitionFilter {
 
 	private IProject currentProject;
 
+	private final SubscribedBoolean functions;
+	private final SubscribedBoolean types;
+	private final SubscribedBoolean modules;
+	private final SubscribedBoolean globalVariables;
+	private final SubscribedBoolean workspaceScope;
+
 	private StoredDefinitionFilter(final IProject currentProject) {
 		functions = new SubscribedBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.FIND_DEF_FUNCT, true);
 		types = new SubscribedBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.FIND_DEF_TYPES, true);
@@ -46,12 +52,6 @@ public final class StoredDefinitionFilter {
 		workspaceScope = new SubscribedBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.FIND_DEF_WS, true);
 		this.currentProject = currentProject; 
 	}
-
-	private final SubscribedBoolean functions;
-	private final SubscribedBoolean types;
-	private final SubscribedBoolean modules;
-	private final SubscribedBoolean globalVariables;
-	private final SubscribedBoolean workspaceScope;
 
 	public static StoredDefinitionFilter getInstance(final IProject currentProject) {
 		if (instance == null) {
