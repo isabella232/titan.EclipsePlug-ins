@@ -18,6 +18,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
  * */
 public final class GroupSectionHandler extends ConfigSectionHandlerBase {
 
+	private List<Group> groups = new ArrayList<Group>();
+
 	public static class Group {
 		private ParseTree root = null;
 		private ParseTree groupName = null;
@@ -63,8 +65,6 @@ public final class GroupSectionHandler extends ConfigSectionHandlerBase {
 			this.item = item;
 		}
 	}
-
-	private List<Group> groups = new ArrayList<Group>();
 
 	public List<Group> getGroups() {
 		return groups;

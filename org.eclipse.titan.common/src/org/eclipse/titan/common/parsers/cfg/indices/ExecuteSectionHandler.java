@@ -18,6 +18,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class ExecuteSectionHandler extends ConfigSectionHandlerBase {
 
+	private List<ExecuteItem> executeitems = new ArrayList<ExecuteItem>();
+
 	public static class ExecuteItem {
 		private ParseTree root = null;
 		private ParseTree moduleName = null;
@@ -47,8 +49,6 @@ public final class ExecuteSectionHandler extends ConfigSectionHandlerBase {
 			this.testcaseName = testcaseName;
 		}
 	}
-
-	private List<ExecuteItem> executeitems = new ArrayList<ExecuteItem>();
 
 	public List<ExecuteItem> getExecuteitems() {
 		return executeitems;

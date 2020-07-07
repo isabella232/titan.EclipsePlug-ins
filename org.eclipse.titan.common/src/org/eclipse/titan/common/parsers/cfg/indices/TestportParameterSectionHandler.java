@@ -18,6 +18,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class TestportParameterSectionHandler {
 
+	private ParseTree lastSectionRoot = null;
+	private List<TestportParameter> testportParameters = new ArrayList<TestportParameter>();
+
 	public static class TestportParameter {
 		private ParseTree root = null;
 		private ParseTree componentName = null;
@@ -65,9 +68,6 @@ public final class TestportParameterSectionHandler {
 			this.value = value;
 		}
 	}
-
-	private ParseTree lastSectionRoot = null;
-	private List<TestportParameter> testportParameters = new ArrayList<TestportParameter>();
 
 	public ParseTree getLastSectionRoot() {
 		return lastSectionRoot;

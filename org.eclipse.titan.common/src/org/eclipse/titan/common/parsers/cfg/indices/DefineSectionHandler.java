@@ -21,6 +21,8 @@ import org.antlr.v4.runtime.tree.TerminalNodeImpl;
  */
 public final class DefineSectionHandler extends ConfigSectionHandlerBase {
 
+	private List<Definition> definitions = new ArrayList<Definition>();
+
 	public static class Definition {
 		/** definition rule */
 		private ParseTree mRoot = null;
@@ -55,8 +57,6 @@ public final class DefineSectionHandler extends ConfigSectionHandlerBase {
 			this.mDefinitionValue = aDefinitionValue;
 		}
 	}
-
-	private List<Definition> definitions = new ArrayList<Definition>();
 
 	public List<Definition> getDefinitions() {
 		return definitions;

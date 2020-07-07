@@ -18,6 +18,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class ModuleParameterSectionHandler {
 
+	private ParseTree lastSectionRoot = null;
+	private List<ModuleParameter> moduleParameters = new ArrayList<ModuleParameter>();
+
 	public static class ModuleParameter {
 		private ParseTree root = null;
 		private ParseTree moduleName = null;
@@ -72,9 +75,6 @@ public final class ModuleParameterSectionHandler {
 			this.value = value;
 		}
 	}
-
-	private ParseTree lastSectionRoot = null;
-	private List<ModuleParameter> moduleParameters = new ArrayList<ModuleParameter>();
 
 	public ParseTree getLastSectionRoot() {
 		return lastSectionRoot;

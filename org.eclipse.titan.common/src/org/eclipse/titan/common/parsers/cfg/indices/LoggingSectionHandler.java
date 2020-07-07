@@ -24,6 +24,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 
+	private Map<String, LoggerPluginsEntry> loggerPluginsTree = new HashMap<String, LoggingSectionHandler.LoggerPluginsEntry>();
+
+	// component/plugin hashmap
+	private final Map<String,HashMap<String,LogParamEntry>> loggerTree = new HashMap<String,HashMap<String,LogParamEntry>>();
+
 	public static final class PluginSpecificParam {
 		private ParseTree root = null;
 		private ParseTree param = null;
@@ -467,11 +472,6 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 			this.pluginRoots = pluginRoots;
 		}
 	}
-
-	private Map<String, LoggerPluginsEntry> loggerPluginsTree = new HashMap<String, LoggingSectionHandler.LoggerPluginsEntry>();
-
-	// component/plugin hashmap
-	private final Map<String,HashMap<String,LogParamEntry>> loggerTree = new HashMap<String,HashMap<String,LogParamEntry>>();
 
 	public Set<String> getComponents() {
 		return loggerTree.keySet();
