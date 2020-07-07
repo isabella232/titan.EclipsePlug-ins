@@ -33,22 +33,12 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 	private static final String SOURCEDIR_TOOLTIP = "The folder in which you want to save the sources of this project";
 	private static final String WORKINGDIR_TOOLTIP = "The folder in which you want all build operations to run.\n"
 			+ "Please note, that all files in the working directory are assumed to be generated, and will not be analyzed on-the-fly.";
-
-	private final class BasicProjectSelectorListener implements ModifyListener {
-		@Override
-		public void modifyText(final ModifyEvent e) {
-			final boolean valid = validatePage();
-			setPageComplete(valid);
-		}
-	}
-
 	private static final String TITLE = "TITAN settings";
 	private static final String DESCRIPTION = "Define the main TITAN folders";
 	// problems
 	private static final String WORKINGDIR_EMPTY = "The name of the working directory folder must be filled out";
 	private static final String SOURCEWORKSAME = "The source and the working directory can not be the same";
 
-	private final BasicProjectSelectorListener generalListener;
 	private Composite pageComposite;
 
 	private Text sourceText;
@@ -58,6 +48,16 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 
 	private String sourceFolder = "src";
 	private String workingFolder = "bin";
+
+	private final class BasicProjectSelectorListener implements ModifyListener {
+		@Override
+		public void modifyText(final ModifyEvent e) {
+			final boolean valid = validatePage();
+			setPageComplete(valid);
+		}
+	}
+
+	private final BasicProjectSelectorListener generalListener;
 
 	public NewTITANProjectOptionsWizardPage() {
 		super(TITLE);

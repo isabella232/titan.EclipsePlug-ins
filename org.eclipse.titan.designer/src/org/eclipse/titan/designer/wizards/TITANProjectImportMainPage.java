@@ -36,6 +36,13 @@ import org.eclipse.titan.common.path.PathConverter;
 public class TITANProjectImportMainPage extends WizardPage {
 	private TITANProjectImportPage newProjectPage;
 
+	private Composite pageComposite;
+	private Text projectFileText;
+	private Button projectFileSelectionButton;
+
+	private String projectFile;
+	private GUIProjectImporter.ProjectInformation projectInformation = null;
+
 	protected class BasicProjectSelectorListener implements ModifyListener, SelectionListener {
 
 		@Override
@@ -61,12 +68,6 @@ public class TITANProjectImportMainPage extends WizardPage {
 	}
 
 	private final BasicProjectSelectorListener generalListener = new BasicProjectSelectorListener();
-	private Composite pageComposite;
-	private Text projectFileText;
-	private Button projectFileSelectionButton;
-
-	private String projectFile;
-	private GUIProjectImporter.ProjectInformation projectInformation = null;
 
 	public TITANProjectImportMainPage(final String name) {
 		super(name);

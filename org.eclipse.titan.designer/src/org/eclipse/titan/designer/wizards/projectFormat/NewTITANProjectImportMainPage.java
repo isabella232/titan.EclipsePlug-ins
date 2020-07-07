@@ -34,6 +34,17 @@ import org.eclipse.swt.widgets.Text;
  * */
 class NewTITANProjectImportMainPage extends WizardPage {
 
+	private Composite pageComposite;
+	private Text projectFileText;
+	private Button projectFileSelectionButton;
+	private Text searchPathEnumerateTextField;
+	/**
+	 * The project file name path, e.g  C:/MyFolder/MyProject.tpd or /MyFolder/MyProject.tpd
+	 */
+	private String projectFile;
+	private List<String> searchPaths;
+	private boolean correctSearchPaths = false;
+
 	protected class BasicProjectSelectorListener implements ModifyListener, SelectionListener {
 
 		@Override
@@ -61,16 +72,6 @@ class NewTITANProjectImportMainPage extends WizardPage {
 	}
 
 	private final BasicProjectSelectorListener generalListener = new BasicProjectSelectorListener();
-	private Composite pageComposite;
-	private Text projectFileText;
-	private Button projectFileSelectionButton;
-	private Text searchPathEnumerateTextField;
-	/**
-	 * The project file name path, e.g  C:/MyFolder/MyProject.tpd or /MyFolder/MyProject.tpd
-	 */
-	private String projectFile;
-	private List<String> searchPaths;
-	private boolean correctSearchPaths = false;
 
 	public NewTITANProjectImportMainPage(final String name) {
 		super(name);
