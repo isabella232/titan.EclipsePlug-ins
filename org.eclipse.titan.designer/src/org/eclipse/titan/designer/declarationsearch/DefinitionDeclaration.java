@@ -45,8 +45,7 @@ class DefinitionDeclaration extends Declaration {
 	@Override
 	public ReferenceFinder getReferenceFinder(final Module module) {
 		try {
-			final ReferenceFinder referenceFinder = new ReferenceFinder(ass);
-			return referenceFinder;
+			return new ReferenceFinder(ass);
 		} catch (final IllegalArgumentException e) {
 			return null;
 		}

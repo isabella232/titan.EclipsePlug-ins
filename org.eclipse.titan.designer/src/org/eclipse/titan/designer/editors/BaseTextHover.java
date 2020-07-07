@@ -146,8 +146,7 @@ public abstract class BaseTextHover implements ITextHover, ITextHoverExtension2 
 	@Override
 	public Object getHoverInfo2(final ITextViewer textViewer, final IRegion hoverRegion) {
 		// Start with the string returned by the older getHoverInfo()
-		final String selection = getHoverInfo(textViewer, hoverRegion);
-		return selection;
+		return getHoverInfo(textViewer, hoverRegion);
 	}
 
 	@Override
