@@ -146,16 +146,16 @@ public final class Reply_Statement extends Statement {
 			portReference.setCodeSection(codeSection);
 		}
 		if (parameter != null) {
-			parameter.setCodeSection(codeSection);;
+			parameter.setCodeSection(codeSection);
 		}
 		if (replyValue != null) {
-			replyValue.setCodeSection(codeSection);;
+			replyValue.setCodeSection(codeSection);
 		}
 		if (toClause != null) {
-			toClause.setCodeSection(codeSection);;
+			toClause.setCodeSection(codeSection);
 		}
 		if (redirectTimestamp != null) {
-			redirectTimestamp.setCodeSection(codeSection);;
+			redirectTimestamp.setCodeSection(codeSection);
 		}
 	}
 

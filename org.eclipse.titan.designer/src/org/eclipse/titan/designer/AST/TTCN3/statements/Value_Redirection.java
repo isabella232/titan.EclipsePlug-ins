@@ -183,7 +183,7 @@ public class Value_Redirection extends ASTNode implements ILocateableNode, IIncr
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
 		for (final Single_ValueRedirection redirect : valueRedirections) {
-			redirect.getVariableReference().setCodeSection(codeSection);;
+			redirect.getVariableReference().setCodeSection(codeSection);
 		}
 	}
 

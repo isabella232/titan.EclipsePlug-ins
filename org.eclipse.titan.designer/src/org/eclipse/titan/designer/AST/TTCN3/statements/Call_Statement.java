@@ -191,19 +191,19 @@ public final class Call_Statement extends Statement {
 			portReference.setCodeSection(codeSection);
 		}
 		if (parameter != null) {
-			parameter.setCodeSection(codeSection);;
+			parameter.setCodeSection(codeSection);
 		}
 		if (timerValue != null) {
-			timerValue.setCodeSection(codeSection);;
+			timerValue.setCodeSection(codeSection);
 		}
 		if (toClause != null) {
-			toClause.setCodeSection(codeSection);;
+			toClause.setCodeSection(codeSection);
 		}
 		if (altGuards != null) {
 			altGuards.setCodeSection(codeSection);
 		}
 		if (redirectTimestamp != null) {
-			redirectTimestamp.setCodeSection(codeSection);;
+			redirectTimestamp.setCodeSection(codeSection);
 		}
 	}
 
