@@ -130,7 +130,7 @@ public final class InternalMakefileGenerator {
 	/**
 	 * right now not set
 	 */
-	private final boolean useCrossCompilation = false;
+	private static final boolean useCrossCompilation = false;
 
 	private List<IProject> reachableProjects;
 	
