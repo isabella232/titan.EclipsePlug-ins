@@ -289,6 +289,8 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		/** built-in codec ,when builtIn is true */
 		public MessageEncoding_type builtInCoding;
 
+		public CustomCoding_type customCoding;
+
 		/** custom codec fields, when builtIn is false */
 		public static class CustomCoding_type {
 			/** name of the user defined codec (the string in the 'encode' attribute) */
@@ -299,8 +301,6 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 			/** the map of decoder functions per type */
 			public HashMap<IType, CoderFunction_Type> decoders;
 		}
-
-		public CustomCoding_type customCoding;
 	}
 
 	/**

@@ -54,6 +54,12 @@ import org.eclipse.ui.texteditor.MarkerAnnotation;
  * */
 public final class MarkerHandler {
 	private static final String MARKER_HANDLING_ERROR = "Marker handling error";
+
+	/** type - resource - line - -offset - markerid. */
+	private static final Map<String, Map<IResource, List<InternalMarker>>> MARKERS = new HashMap<String, Map<IResource, List<InternalMarker>>>();
+	/** type - resource - markerid. */
+	private static final Map<String, Map<IResource, Set<Long>>> MARKERS_TO_BE_REMOVED = new HashMap<String, Map<IResource, Set<Long>>>();
+
 	/** The list of all the marker qualifiers, to decrease the code size. */
 	private static String[] allMarkerTypes = {
 		GeneralConstants.COMPILER_ERRORMARKER,
@@ -74,11 +80,6 @@ public final class MarkerHandler {
 		public int endoffset;
 		public long markerID;
 	}
-
-	/** type - resource - line - -offset - markerid. */
-	private static final Map<String, Map<IResource, List<InternalMarker>>> MARKERS = new HashMap<String, Map<IResource, List<InternalMarker>>>();
-	/** type - resource - markerid. */
-	private static final Map<String, Map<IResource, Set<Long>>> MARKERS_TO_BE_REMOVED = new HashMap<String, Map<IResource, Set<Long>>>();
 
 	/** private constructor to disable instantiation */
 	private MarkerHandler() {

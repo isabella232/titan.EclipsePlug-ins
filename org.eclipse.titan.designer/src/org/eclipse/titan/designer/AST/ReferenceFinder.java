@@ -41,6 +41,11 @@ public final class ReferenceFinder {
 	public static final String NORECOGNISABLEASSIGNMENT = "No valid definition could be recognised";
 	public static final String NOASSIGNMENTTYPE = "Cannot determine the type of the definition";
 
+	public Scope scope = null;
+	public Assignment assignment = null;
+	public IType type = null;
+	public Identifier fieldId = null;
+
 	public static class Hit {
 		public Identifier identifier;
 		public Reference reference;
@@ -55,11 +60,6 @@ public final class ReferenceFinder {
 			this.reference = reference;
 		}
 	}
-
-	public Scope scope = null;
-	public Assignment assignment = null;
-	public IType type = null;
-	public Identifier fieldId = null;
 
 	public ReferenceFinder() {
 		// Do nothing
