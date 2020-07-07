@@ -106,8 +106,7 @@ public class CallHierarchyLabelProvider extends LabelProvider implements ITableL
 			return null;
 		}
 
-		final String iconName = "match.gif";
-		return ImageCache.getImage(iconName);
+		return ImageCache.getImage("match.gif");
 	}
 
 	/**

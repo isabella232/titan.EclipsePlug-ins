@@ -178,8 +178,8 @@ public final class ProjectFileHandler {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("While collecting resources of `" + project.getName() + "'", e);
 		}
-		final Map<String, IFile> files = saveVisitor.getFiles();
-		return files;
+
+		return saveVisitor.getFiles();
 	}
 
 	public static List<IFile> getCfgFiles(final IProject project) {
@@ -209,8 +209,8 @@ public final class ProjectFileHandler {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("While collecting resources of `" + project.getName() + "'", e);
 		}
-		final Map<String, IFolder> folders = saveVisitor.getFolders();
-		return folders;
+
+		return saveVisitor.getFolders();
 	}
 
 
