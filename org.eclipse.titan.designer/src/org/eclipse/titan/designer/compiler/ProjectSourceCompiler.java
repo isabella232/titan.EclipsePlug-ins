@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
  * This is project level root of all java compiler related activities.
  * @author Arpad Lovassy
  */
-public class ProjectSourceCompiler {
+public final class ProjectSourceCompiler {
 	public static boolean generated;
 
 	/**
