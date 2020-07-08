@@ -32,19 +32,6 @@ import edu.uci.ics.jung.graph.Graph;
  * */
 public class TitaniumISOMLayout<V, E> extends AbstractLayout<V, E> implements IterativeContext {
 
-	private static class ISOMVertexData {
-		private int distance;
-		private boolean visited;
-
-		protected ISOMVertexData() {
-			distance = 0;
-			visited = false;
-		}
-	}
-
-
-	private final Map<V, ISOMVertexData> isomVertexData = new HashMap<V, TitaniumISOMLayout.ISOMVertexData>();
-
 	private int maxEpoch = 2000;
 	private final AtomicInteger epoch = new AtomicInteger(1);
 
@@ -61,6 +48,19 @@ public class TitaniumISOMLayout<V, E> extends AbstractLayout<V, E> implements It
 	private double coolingFactor;
 
 	private final List<V> queue = new ArrayList<V>();
+
+	private static class ISOMVertexData {
+		private int distance;
+		private boolean visited;
+
+		protected ISOMVertexData() {
+			distance = 0;
+			visited = false;
+		}
+	}
+
+
+	private final Map<V, ISOMVertexData> isomVertexData = new HashMap<V, TitaniumISOMLayout.ISOMVertexData>();
 
 	/**
 	 * Creates an <code>ISOMLayout</code> instance for the specified graph
