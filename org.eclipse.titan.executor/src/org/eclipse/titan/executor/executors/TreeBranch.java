@@ -16,7 +16,7 @@ import java.util.List;
  * @author Kristof Szabados
  * */
 public class TreeBranch extends TreeLeaf implements ITreeBranch {
-	private List<ITreeLeaf> children;
+	private final List<ITreeLeaf> children;
 
 	public TreeBranch(final String name) {
 		super(name);

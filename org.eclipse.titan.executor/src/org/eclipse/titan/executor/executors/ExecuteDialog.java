@@ -44,7 +44,7 @@ public final class ExecuteDialog extends Dialog {
 	 * A small class to store the type of the executable element.
 	 * */
 	private static final class InnerLeaf extends TreeLeaf {
-		private ExecutableType type;
+		private final ExecutableType type;
 
 		public InnerLeaf(final String name, final ExecutableType type) {
 			super(name);

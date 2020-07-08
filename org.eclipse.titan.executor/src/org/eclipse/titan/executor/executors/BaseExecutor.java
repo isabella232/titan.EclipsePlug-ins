@@ -135,7 +135,7 @@ public abstract class BaseExecutor {
 
 	protected boolean consoleLogging;
 	protected boolean severityLevelExtraction;
-	private int maximumNotificationCount;
+	private final int maximumNotificationCount;
 	protected boolean verdictExtraction;
 	protected boolean keepTemporarilyGeneratedConfigFiles;
 	protected boolean logFileNameDefined = false;
@@ -148,7 +148,7 @@ public abstract class BaseExecutor {
 	protected MainControllerElement mainControllerRoot;
 	private ILaunch launchStarted;
 	protected ArrayList<ExecutedTestcase> executedTests = new ArrayList<ExecutedTestcase>();
-	private LinkedList<Notification> notifications = new LinkedList<Notification>();
+	private final LinkedList<Notification> notifications = new LinkedList<Notification>();
 
 	/** handling the execute dialog's remembering feature. */
 	protected String lastTimeSelection;
@@ -157,7 +157,7 @@ public abstract class BaseExecutor {
 
 	protected File temporalConfigFile;
 
-	private List<HostJob> innerHostControllers = new CopyOnWriteArrayList<HostJob>();
+	private final List<HostJob> innerHostControllers = new CopyOnWriteArrayList<HostJob>();
 
 	/**
 	 * Runnable for the case, when the execution control list is empty.
