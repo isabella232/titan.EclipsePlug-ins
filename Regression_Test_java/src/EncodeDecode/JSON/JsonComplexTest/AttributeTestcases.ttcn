@@ -201,7 +201,7 @@ testcase tc_attribute_default() runs on CT {
 // Encoding a few values of ASN.1 types with the coding instruction "as value"
 // Results are the same as with the TTCN-3 types
 // TODO: bugfix this test (reported)
-//testcase tc_attribute_as_value_asn() runs on MTC {
+//testcase tc_attribute_as_value_asn() runs on CT {
 //  var AsnStuff stuff := { { nval := NULL }, { ival := -10 }, { anyval := 'DCBA'O }, { vsval := "something" }, { pardval := { id := 0, priority := low, val := { iNTEGER := -10 } } } };
 //  var octetstring os := char2oct("[null,-10,\"DCBA\",\"something\",{\"id\":0,\"priority\":\"low\",\"val\":{\"iNTEGER\":-10}}]");
 //  f_check_encoding(encoded := f_enc_asn_stuff(stuff), expected := os);
@@ -417,40 +417,40 @@ testcase tc_attribute_not_as_value_rec() runs on CT {
 // fields of this set (one of the fields is an anytype, which cannot have this attribute otherwise).
 // The set itself is encoded with field names, but its fields are encoded as values.
 //TODO: envalue() decvalue() is wrong for anytype.  Extracted, reported
-//testcase tc_attribute_as_value_fields() runs on MTC {
-//  var SetWithAsValueFields val := {
-//    uni := { i := -3 },
-//    rec := { field := { 1.0, 2.0 } },
-//    list := {
-//      { integer := 12 },
-//      { charstring := "abc" },
-//      { R := { i := 6, cs := "xy", b := false, d := Wednesday } },
-//      { Thing := { bval := true } },
-//      { RoI := { 1, 2, 3 } }
-//    }
-//  };
-//  var bitstring enc_exp := oct2bit(char2oct("{\"uni\":-3,\"rec\":[1.000000,2.000000],\"list\":[12,\"abc\",{\"i\":6,\"cs\":\"xy\",\"b\":false,\"d\":\"Wednesday\"},true,[1,2,3]]}"));
-//  var bitstring enc := encvalue(val);
-//  if (enc != enc_exp) {
-//    setverdict(fail, "Encoding failed. Expected: ", enc_exp, ", got: ", enc);
-//  }
-//  else {
-//    var SetWithAsValueFields dec;
-//    var integer res := decvalue(enc, dec);
-//    if (res != 0) {
-//      setverdict(fail, "Decoding failed. Result: ", res);
-//    }
-//    else if (lengthof(enc) != 0) {
-//      setverdict(fail, "Decoding failed. Remaining bits: ", enc);
-//    }
-//    else if (dec != val) {
-//      setverdict(fail, "Decoding failed. Expected value: ", val, ", got: ", dec);
-//    }
-//    else {
-//      setverdict(pass);
-//    }
-//  }
-//}
+testcase tc_attribute_as_value_fields() runs on CT {
+  var SetWithAsValueFields val := {
+    uni := { i := -3 },
+    rec := { field := { 1.0, 2.0 } },
+    list := {
+      { integer := 12 },
+      { charstring := "abc" },
+      { R := { i := 6, cs := "xy", b := false, d := Wednesday } },
+      { Thing := { bval := true } },
+      { RoI := { 1, 2, 3 } }
+    }
+  };
+  var bitstring enc_exp := oct2bit(char2oct("{\"uni\":-3,\"rec\":[1.000000,2.000000],\"list\":[12,\"abc\",{\"i\":6,\"cs\":\"xy\",\"b\":false,\"d\":\"Wednesday\"},true,[1,2,3]]}"));
+  var bitstring enc := encvalue(val);
+  if (enc != enc_exp) {
+    setverdict(fail, "Encoding failed. Expected: ", enc_exp, ", got: ", enc);
+  }
+  else {
+    var SetWithAsValueFields dec;
+    var integer res := decvalue(enc, dec);
+    if (res != 0) {
+      setverdict(fail, "Decoding failed. Result: ", res);
+    }
+    else if (lengthof(enc) != 0) {
+      setverdict(fail, "Decoding failed. Remaining bits: ", enc);
+    }
+    else if (dec != val) {
+      setverdict(fail, "Decoding failed. Expected value: ", val, ", got: ", dec);
+    }
+    else {
+      setverdict(pass);
+    }
+  }
+}
 
 testcase tc_attribute_as_number() runs on CT {
   var RecWithAsNumber val := {
@@ -748,24 +748,24 @@ control {
   execute(tc_attribute_compactprintp());
   execute(tc_attribute_prettyprint1());
   execute(tc_attribute_prettyprint2());
-  //execute(tc_attribute_union());
+  execute(tc_attribute_union());
   execute(tc_attribute_as_value());
   execute(tc_attribute_default());
-// execute(tc_attribute_as_value_asn()); //TODO: comp error. fatal DTE
+//  execute(tc_attribute_as_value_asn()); //TODO: comp error. open type issue
   execute(tc_attribute_optional_as_value());
   execute(tc_attribute_metainfo_for_unbound());
   execute(tc_attribute_metainfo_for_unbound_negtest());
   execute(tc_attribute_metainfo_for_unbound_empty_rec());
-//  execute(tc_attribute_metainfo_for_unbound_arrays()); //fail, TODO
+  execute(tc_attribute_metainfo_for_unbound_arrays());
   execute(tc_attribute_as_value_rec());
   execute(tc_attribute_not_as_value_rec());
-//  execute(tc_attribute_as_value_fields()); //TODO: fatal DTE
+  execute(tc_attribute_as_value_fields());
   execute(tc_attribute_as_number());
   execute(tc_attribute_as_number_negtest());
   execute(tc_attribute_default_struct());
-//  execute(tc_attribute_chosen());
-//  execute(tc_attribute_chosen_negtest());
-//  execute(tc_attribute_chosen_default());
+//  execute(tc_attribute_chosen()); // java fail
+//  execute(tc_attribute_chosen_negtest()); // java fail
+//  execute(tc_attribute_chosen_default()); // java error
   execute(tc_attribute_as_map());
   execute(tc_attribute_as_map_in_union());
   execute(tc_attribute_text_as());
