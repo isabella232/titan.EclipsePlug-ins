@@ -78,8 +78,8 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 
 	//call on Def_Function -> finds the StatementBlock of the function and starts a StatementBlockVisitor on it
 	private final class NewFuncVisitor extends ASTVisitor {
-		private Definition toFind;
-		private Problems problems;
+		private final Definition toFind;
+		private final Problems problems;
 
 		public NewFuncVisitor(final Definition toFind, final Problems problems) {
 			this.toFind = toFind;
@@ -100,8 +100,8 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 
 	//call on StatementBlocks (recursive with StatementVisitor)
 	private final class StatementBlockVisitor extends ASTVisitor {
-		private Definition toFind;
-		private Problems problems;
+		private final Definition toFind;
+		private final Problems problems;
 
 		private boolean written = false;
 
@@ -169,8 +169,8 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 
 	//call on Statements (recursive with StatementBlockVisitor)
 	private final class StatementVisitor extends ASTVisitor {
-		private Definition toFind;
-		private Problems problems;
+		private final Definition toFind;
+		private final Problems problems;
 
 		private boolean written = false;
 		private boolean allBlocksWritten = true;

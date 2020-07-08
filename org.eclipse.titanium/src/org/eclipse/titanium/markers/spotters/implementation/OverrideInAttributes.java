@@ -38,7 +38,7 @@ public class OverrideInAttributes extends BaseModuleCodeSmellSpotter {
 	}
 	
 	@Override
-	protected void process(IVisitableNode node, Problems problems) {
+	protected void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Group) {
 			final Group g = (Group) node;
 			final MultipleWithAttributes attributePath = g.getAttributePath().getAttributes();

@@ -26,7 +26,7 @@ public class FunctionsWithInoutParametersWithStartupStatement extends BaseModule
 	}
 
 	@Override
-	protected void process(IVisitableNode node, Problems problems) {
+	protected void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Start_Component_Statement) {
 			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			final Start_Component_Statement s = (Start_Component_Statement) node;
