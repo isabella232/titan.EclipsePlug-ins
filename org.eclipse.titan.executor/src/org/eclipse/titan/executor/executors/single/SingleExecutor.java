@@ -162,7 +162,7 @@ public final class SingleExecutor extends BaseExecutor {
 				}
 			}
 
-			final ConfigFileHandler configHandler;
+			ConfigFileHandler configHandler;
 			if (null != configFilePath && configFilePath.length() > 0) {
 				configHandler = readConfigFile();
 			} else {
