@@ -108,7 +108,6 @@ public class StringToTTCNAnalyzer {
 
 	private CommonTokenStream createTokeStream(final Reader reader, final CFGListener lexerListener) {
 		final RuntimeCfgLexer lexer = createLexer(reader, lexerListener);
-		final CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-		return tokenStream;
+		return new CommonTokenStream(lexer);
 	}
 }

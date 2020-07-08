@@ -92,8 +92,7 @@ public final class CfgAnalyzer {
 		// pr_PatternChunk[StringBuilder builder, boolean[] uni]:
 		//   $builder.append($v.text); <-- exception is thrown here: java.lang.UnsupportedOperationException: interval 85..85 not in token buffer window: 86..341
 		// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
-		final CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-		return tokenStream;
+		return new CommonTokenStream(lexer);
 	}
 
 	/**
