@@ -34,6 +34,7 @@ public class CfgPreprocessorUtils {
 			while (str.charAt(i) == ' ' || str.charAt(i) == '\t') {
 				i++;
 			}
+
 			if ((str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') ||
 				(str.charAt(i) >= 'a' && str.charAt(i) <= 'z')) {
 				// the first character of the id shall be a letter
@@ -49,8 +50,10 @@ public class CfgPreprocessorUtils {
 					return null;
 				}
 			}
+
 			return sb.toString();
 		}
+
 		return null;
 	}
 
@@ -116,6 +119,7 @@ public class CfgPreprocessorUtils {
 				return false;
 			}
 		}
+
 		return (state == int_state.ZERO || state == int_state.MORE);
 	}
 
@@ -228,7 +232,9 @@ public class CfgPreprocessorUtils {
 			case ZERO_E:
 				if (c >= '0' && c <= '9') {
 					state = float_state.MORE_E;
-				} else state = float_state.ERR;
+				} else {
+					state = float_state.ERR;
+				}
 				break;
 			case MORE_E:
 				if (c >= '0' && c <= '9') {
@@ -239,6 +245,7 @@ public class CfgPreprocessorUtils {
 			default:
 				break;
 			}
+
 			if (state == float_state.ERR) {
 				return false;
 			}
@@ -264,6 +271,7 @@ public class CfgPreprocessorUtils {
 		if ((first_char < 'a' || first_char > 'z') && (first_char < 'A' || first_char > 'Z')) {
 			return false;
 		}
+
 		boolean has_hyphen = false;
 		boolean has_underscore = false;
 		for (int i = 1; i < len; i++) {
@@ -287,6 +295,7 @@ public class CfgPreprocessorUtils {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -306,6 +315,7 @@ public class CfgPreprocessorUtils {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -318,12 +328,14 @@ public class CfgPreprocessorUtils {
 		if (len == 0 ) {
 			return false;
 		}
+
 		for (int i = 0; i < len; i++) {
 			final char c = str.charAt(i);
 			if ( (c < '0' || c > '9') && (c < 'A' || c > 'F') && (c < 'a' || c > 'f') ) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -370,8 +382,9 @@ public class CfgPreprocessorUtils {
 			} else if (c == ':') {
 				if (state == string_state.INITIAL || state == string_state.ALPHANUM || state == string_state.COLON) {
 					state = string_state.COLON;
+				} else {
+					return false;
 				}
-				else return false;
 			} else if (c == '%') {
 				if (state == string_state.ALPHANUM) {
 					state = string_state.PERCENT;
@@ -389,6 +402,7 @@ public class CfgPreprocessorUtils {
 				return false;
 			}
 		}
+
 		return (state == string_state.ALPHANUM || state == string_state.DOT);
 	}
 
@@ -399,6 +413,7 @@ public class CfgPreprocessorUtils {
 		if ("false".equals(typedMacroValue)) {
 			return true;
 		}
+
 		return false;
 	}
 }
