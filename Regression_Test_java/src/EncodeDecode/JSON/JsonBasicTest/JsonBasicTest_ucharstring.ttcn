@@ -385,11 +385,11 @@ testcase tc_JSON_ustr_in_rec2() runs on CT {
 
 control {
   execute(tc_JSON_ustr_local1());
-  //execute(tc_JSON_ustr_too_big_char());
+  execute(tc_JSON_ustr_too_big_char());
   execute(tc_JSON_ustr_local_char1());
   execute(tc_JSON_ustr_local_char2());
   execute(tc_JSON_ustr_local_char3());
-//  execute(tc_JSON_ustr_local_char4_highest_acceptable()); fail
+  execute(tc_JSON_ustr_local_char4_highest_acceptable());
   execute(tc_JSON_ustr_gc());
   execute(tc_JSON_ustr_lc());
   execute(tc_JSON_ustr_in_rec1());
