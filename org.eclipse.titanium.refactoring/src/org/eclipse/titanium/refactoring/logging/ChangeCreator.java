@@ -138,7 +138,7 @@ class ChangeCreator {
 			insertOffset = toEdit.getLocation().getEndOffset()-1;
 		}
 		//find variable names that are already present in the log statement
-		final Set<String> varsAlreadyPresent;
+		Set<String> varsAlreadyPresent;
 		final Context bottomContext = toAdd.getBottom();
 		if (bottomContext.getNode() instanceof Log_Statement) {
 			final LoggedVariableFinder vis2 = new LoggedVariableFinder();

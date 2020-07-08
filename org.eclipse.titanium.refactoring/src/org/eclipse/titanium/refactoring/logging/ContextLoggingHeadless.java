@@ -45,7 +45,7 @@ public class ContextLoggingHeadless {
 	}
 
 	public void run() {
-		final ContextLoggingRefactoring refactoring;
+		ContextLoggingRefactoring refactoring;
 		if (selectedFile == null) {
 			refactoring = new ContextLoggingRefactoring((IStructuredSelection)selection, settings);
 		} else {
