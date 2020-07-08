@@ -22,12 +22,12 @@ public class ChainElement<T> {
 	 * previous element in the chain,
 	 * null, if this is the first element
 	 */
-	private ChainElement<T> prev = null;
+	private final ChainElement<T> prev;
 
 	/**
 	 * Element value, not null
 	 */
-	private T value;
+	private final T value;
 
 	public ChainElement(final ChainElement<T> prev, final T value) {
 		super();

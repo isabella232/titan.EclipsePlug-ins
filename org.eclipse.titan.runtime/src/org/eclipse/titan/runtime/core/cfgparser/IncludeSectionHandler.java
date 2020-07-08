@@ -18,7 +18,7 @@ import java.util.Set;
 public final class IncludeSectionHandler {
 
 	/** include files */
-	private Set<String> mFiles = new LinkedHashSet<String>();
+	private final Set<String> mFiles = new LinkedHashSet<String>();
 
 	public Set<String> getFiles() {
 		return mFiles;

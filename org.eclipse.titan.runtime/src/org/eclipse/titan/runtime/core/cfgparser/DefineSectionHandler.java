@@ -24,8 +24,8 @@ import org.antlr.v4.runtime.Token;
  */
 public final class DefineSectionHandler {
 
-	private Map<String, List<Token>> definitions = new LinkedHashMap<String, List<Token>>();
-	private CommonTokenStream tokenStream;
+	private final Map<String, List<Token>> definitions = new LinkedHashMap<String, List<Token>>();
+	private final CommonTokenStream tokenStream;
 
 	public DefineSectionHandler(final CommonTokenStream tokenStream) {
 		this.tokenStream = tokenStream;
