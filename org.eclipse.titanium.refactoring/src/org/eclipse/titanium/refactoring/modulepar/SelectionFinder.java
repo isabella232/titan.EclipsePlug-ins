@@ -87,15 +87,15 @@ public class SelectionFinder {
 
 	private static class ModuleParListRecord implements Comparable<ModuleParListRecord> {
 
+		private final String moduleName;
+		private final String id;
+		private final String typeId;
+
 		public ModuleParListRecord(final String moduleName, final String id, final String typeId) {
 			this.moduleName = moduleName;
 			this.id = id;
 			this.typeId = typeId;
 		}
-
-		private final String moduleName;
-		private final String id;
-		private final String typeId;
 
 		@Override
 		public int compareTo(final ModuleParListRecord arg0) {
