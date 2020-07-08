@@ -868,15 +868,15 @@ control {
   execute(tc_charstring_ascii_basic_long());
   execute(tc_charstring_ascii_basic_long_const());
   execute(tc_charstring_ascii_basic_punctuation());
-//  execute(tc_charstring_ascii_basic_escapes());
+//  execute(tc_charstring_ascii_basic_escapes());//java fail
   execute(tc_charstring_ascii_extended1());
 
   execute(tc_ucharstring_empty());
-//  execute(tc_ucharstring_ascii_extended1_xer()); //error
+//  execute(tc_ucharstring_ascii_extended1_xer()); //java error
   execute(tc_ucharstring_ascii_extended1());
   execute(tc_ucharstring_ascii_extended2());
   execute(tc_ucharstring_ascii_extended3());
-//  execute(tc_ucharstring_higherplanes());
+//  execute(tc_ucharstring_higherplanes());//java fail
   execute(tc_octetstring_empty());
   execute(tc_octetstring_nonempty());
   execute(tc_hexstring_empty());
@@ -907,7 +907,7 @@ control {
   execute(tc_asn_choice());
   execute(tc_asn_strings());
   execute(tc_asn_complex());
-//  execute(tc_asn_open_type_and_null()); //java bug
+//  execute(tc_asn_open_type_and_null()); //Java comp error. open type issue
   execute(tc_asn_objid_and_any());
   execute(tc_asn_optional_null());
   
