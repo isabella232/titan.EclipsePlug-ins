@@ -128,8 +128,8 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		}
 	}
 
-	private BasicProjectSelectorListener generalListener;
-	private ILaunchConfigurationTabGroup tabGroup;
+	private final BasicProjectSelectorListener generalListener;
+	private final ILaunchConfigurationTabGroup tabGroup;
 	private ILaunchConfigurationWorkingCopy lastConfiguration;
 
 	protected Text projectNameText;

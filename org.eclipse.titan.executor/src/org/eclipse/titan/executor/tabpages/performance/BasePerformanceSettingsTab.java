@@ -73,7 +73,7 @@ public abstract class BasePerformanceSettingsTab extends AbstractLaunchConfigura
 
 	}
 
-	private BasicSelectorListener selectorListener;
+	private final BasicSelectorListener selectorListener;
 
 	private Button consoleLogging;
 	private Button testcaseRefreshOnStart;

@@ -22,7 +22,7 @@ import org.eclipse.ui.PlatformUI;
  * @author Kristof Szabados
  * */
 public final class LaunchesListener implements ILaunchesListener2 {
-	private ExecutorMonitorView executorMonitorView;
+	private final ExecutorMonitorView executorMonitorView;
 
 	public LaunchesListener(final ExecutorMonitorView executorMonitorView) {
 		this.executorMonitorView = executorMonitorView;
