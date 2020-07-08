@@ -707,7 +707,10 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			}
 			else {
 				final int ret_val = array_elements[i].JSON_encode(get_elem_descr(), p_tok, false);
-				if (0 > ret_val) break;
+				if (0 > ret_val)  {
+					break;
+				}
+
 				enc_len += ret_val;
 			}
 		}

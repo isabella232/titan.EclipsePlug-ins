@@ -370,10 +370,12 @@ public class TitanVerdictType extends Base_Type {
 				}
 
 				final JSON_Tokenizer tok = new JSON_Tokenizer(new String(p_buf.get_data()), p_buf.get_len());
-				if(JSON_decode(p_td, tok, false) < 0)
+				if(JSON_decode(p_td, tok, false) < 0) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG,
 							"Can not decode type '%s', because invalid or incomplete message was received",
 							p_td.name);
+				}
+
 				p_buf.set_pos(tok.get_buf_pos());
 			} finally {
 				errorContext.leave_context();
