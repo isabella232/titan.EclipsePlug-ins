@@ -41,8 +41,8 @@ public class JSON {
 	 * Enumerated text change structure
 	 */
 	public static final class JsonEnumText {
-		private int index;
-		private String text;
+		private final int index;
+		private final String text;
 
 		public JsonEnumText(final int index, final String text) {
 			this.index = index;
