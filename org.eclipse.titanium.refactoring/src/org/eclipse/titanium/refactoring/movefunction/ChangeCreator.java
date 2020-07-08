@@ -202,9 +202,10 @@ class ChangeCreator {
 			}
 		}
 		rootEdit.addChild(new InsertEdit(offset, importText));
-		if (importText.equals("")) {
+		if ("".equals(importText)) {
 			return null;
 		}
+
 		return new InsertEdit(offset, importText);
 	}
 
