@@ -869,7 +869,7 @@ control {
   execute(tc_charstring_ascii_basic_long_const());
   execute(tc_charstring_ascii_basic_punctuation());
 //  execute(tc_charstring_ascii_basic_escapes());
-//  execute(tc_charstring_ascii_extended1()); //TODO: Dynamic test case error: Internal error: Default counter cannot be reset when the control part defaults are saved.
+  execute(tc_charstring_ascii_extended1());
 
   execute(tc_ucharstring_empty());
 //  execute(tc_ucharstring_ascii_extended1_xer()); //error
