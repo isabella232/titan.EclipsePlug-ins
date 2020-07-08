@@ -70,7 +70,7 @@ public class ModuleGraphFromBrowser extends AbstractHandler implements IObjectAc
 
 		final IStructuredSelection structSelection = (IStructuredSelection) selection;
 
-		for (Object selectedFile : structSelection.toList()) {
+		for (final Object selectedFile : structSelection.toList()) {
 			final IProject project = ((IResource) selectedFile).getProject();
 			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(((IResource) selectedFile).getProject());
 			final Module actualModule = projectSourceParser.containedModule((IFile) selectedFile);

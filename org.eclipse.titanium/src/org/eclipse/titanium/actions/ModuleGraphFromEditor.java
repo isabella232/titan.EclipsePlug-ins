@@ -68,7 +68,7 @@ public final class ModuleGraphFromEditor extends AbstractHandler{
 	 * */
 	public static class Generator extends Job {
 		private final IProject project;
-		private Module actualModule;
+		private final Module actualModule;
 
 		// Constructor
 		Generator(final IProject project, final Module actualModule) {
