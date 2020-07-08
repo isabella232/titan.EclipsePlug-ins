@@ -362,8 +362,8 @@ control {
   execute(tc_rec_attr_as_value_intvalue());
   execute( tc_rec_attr_default_values() ); 
   execute( tc_rec_attr_default_novalues() ); 
-//  execute(tc_rec_attr_metainfo_int());//fails in java
-//  execute(tc_rec_attr_metainfo_nameas()); //fails in java
+  execute(tc_rec_attr_metainfo_int());
+  execute(tc_rec_attr_metainfo_nameas());
 }
 
 } with {
