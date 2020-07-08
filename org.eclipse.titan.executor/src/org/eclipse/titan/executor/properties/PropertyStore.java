@@ -21,11 +21,11 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 /**
  * @author Szabolcs Beres
  * */
-public class PropertyStore extends PreferenceStore {
+public final class PropertyStore extends PreferenceStore {
 
-	private IResource resource;
-	private IPreferenceStore workbenchStore;
-	private String pageId;
+	private final IResource resource;
+	private final IPreferenceStore workbenchStore;
+	private final String pageId;
 	private boolean inserting = false;
 
 	public PropertyStore(

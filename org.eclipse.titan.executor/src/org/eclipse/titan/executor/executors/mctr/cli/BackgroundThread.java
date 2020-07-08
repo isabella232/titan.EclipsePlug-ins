@@ -24,10 +24,10 @@ public final class BackgroundThread extends Thread {
 	private boolean active = true;
 
 	// The executor to refresh timely
-	private CliExecutor executor;
+	private final CliExecutor executor;
 
 	/** The background thread delay. */
-	private int delay;
+	private final int delay;
 
 	/** a dummy object to lock. */
 	private final Object lock = new Object();

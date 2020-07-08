@@ -49,7 +49,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	 */
 	private IAdaptable element;
 	private IPreferenceStore overlayStore;
-	private List<FieldEditor> editors = new ArrayList<FieldEditor>();
+	private final List<FieldEditor> editors = new ArrayList<FieldEditor>();
 
 	private static final String USE_PROJECT_SETTINGS = "useProjectSettings";
 	private Button useWorkspaceSettingsButton;
