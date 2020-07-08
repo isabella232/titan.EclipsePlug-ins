@@ -199,6 +199,5 @@ public final class HostJob extends Job {
 		} catch (IOException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		return;
 	}
 }
