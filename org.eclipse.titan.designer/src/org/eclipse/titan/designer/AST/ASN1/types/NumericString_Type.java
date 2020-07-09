@@ -268,6 +268,16 @@ public final class NumericString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if(isTagged() /*|| hasRawAttrs()*/) {
+			return getGenNameOwn();
+		}
+
+		return "NumericString";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanNumericString" );
 		return "TitanNumericString";

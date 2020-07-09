@@ -264,6 +264,16 @@ public final class PrintableString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if(isTagged() /*|| hasRawAttrs()*/) {
+			return getGenNameOwn();
+		}
+
+		return "PrintableString";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanPrintableString" );
 		return "TitanPrintableString";

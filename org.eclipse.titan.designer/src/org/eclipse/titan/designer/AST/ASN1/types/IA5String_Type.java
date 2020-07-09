@@ -268,6 +268,16 @@ public final class IA5String_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if(isTagged() /*|| hasRawAttrs()*/) {
+			return getGenNameOwn();
+		}
+
+		return "IA5String";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanIA5String" );
 		return "TitanIA5String";

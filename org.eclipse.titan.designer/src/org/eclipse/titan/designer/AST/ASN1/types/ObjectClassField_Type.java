@@ -353,6 +353,17 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if (isTagged() || constraints != null /*||
+			(withAttributesPath != null && withAttributesPath.has_attribs())*/) {
+			return getGenNameOwn();
+		} else {
+			return getTypeRefdLast(timestamp).createStringRep_for_OpenType_AltName(timestamp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		if (this == referred_type || referred_type == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous object class field type `" + getFullName() + "''");

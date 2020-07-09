@@ -296,6 +296,16 @@ public final class ObjectID_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if(isTagged() /*|| hasRawAttrs()*/) {
+			return getGenNameOwn();
+		}
+
+		return "OBJECT__IDENTIFIER";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanObjectid" );
 

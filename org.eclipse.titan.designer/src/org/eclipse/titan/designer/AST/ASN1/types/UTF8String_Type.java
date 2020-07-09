@@ -278,6 +278,16 @@ public final class UTF8String_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if(isTagged() /*|| hasRawAttrs()*/) {
+			return getGenNameOwn();
+		}
+
+		return "UTF8String";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport( "TitanUTF8String" );
 

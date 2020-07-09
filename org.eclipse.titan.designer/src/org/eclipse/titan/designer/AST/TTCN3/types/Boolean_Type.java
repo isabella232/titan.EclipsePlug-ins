@@ -335,6 +335,16 @@ public final class Boolean_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if(isTagged() /*|| hasRawAttrs()*/) {
+			return getGenNameOwn();
+		}
+
+		return "BOOLEAN";
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source ) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
 		return "TitanBoolean";

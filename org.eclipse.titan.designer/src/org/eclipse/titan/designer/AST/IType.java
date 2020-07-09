@@ -1132,6 +1132,18 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public boolean hasBuiltInEncoding();
 
 	/**
+	 * Creates and returns a string representation of this type, that can be
+	 * used to calculate the alternative name of this type in an open type.
+	 *
+	 * create_stringRepr on the C side.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @return the base name to start calculating from.
+	 * */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp);
+
+	/**
 	 * Returns the name of this type as it can be generated into the code.
 	 *
 	 * @return The name of the Java type in the generated code.

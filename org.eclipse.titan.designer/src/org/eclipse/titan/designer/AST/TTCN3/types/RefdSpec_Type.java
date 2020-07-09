@@ -318,6 +318,17 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String createStringRep_for_OpenType_AltName(final CompilationTimeStamp timestamp) {
+		if (isTagged() || constraints != null /*||
+			(withAttributesPath != null && withAttributesPath.has_attribs())*/) {
+			return getGenNameOwn();
+		} else {
+			return getTypeRefdLast(timestamp).createStringRep_for_OpenType_AltName(timestamp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source) {
 		if (this == refdType || refdType == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");

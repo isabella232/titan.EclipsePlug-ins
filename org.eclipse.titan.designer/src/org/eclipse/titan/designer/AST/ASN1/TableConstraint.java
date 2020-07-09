@@ -376,7 +376,7 @@ public final class TableConstraint extends Constraint {
 	private Identifier getOpenTypeAlternativeName(final CompilationTimeStamp timestamp, final Type type, final AtomicBoolean isStrange) {
 		final StringBuffer sb = new StringBuffer();
 		//TODO:  if (is_tagged() || is_constrained() || hasRawAttrs()) {
-		if (!type.getIsErroneous(timestamp) && type.isConstrained()) {
+		if (!type.getIsErroneous(timestamp) && (type.isTagged() || type.isConstrained())) {
 			sb.append(type.getGenNameOwn());
 			isStrange.set(true);
 		} else if (!type.getIsErroneous(timestamp) && type instanceof Referenced_Type) {
@@ -421,15 +421,14 @@ public final class TableConstraint extends Constraint {
 				return getOpenTypeAlternativeName(timestamp, (Type) referencedType, isStrange);
 			}
 		} else {
-			final Identifier tmpId1 = new Identifier(Identifier_type.ID_NAME, type.getFullName());
-			String s = tmpId1.getDisplayName();
-			//module name will be cut off:
-			if (s.startsWith("@") && s.indexOf('.') > 0) {
-				s = s.substring(s.indexOf('.') + 1);
+			String s = type.createStringRep_for_OpenType_AltName(timestamp);
+			if (s.startsWith("_root_")) {
+				s = s.substring(6);
 			}
+			String s2 = s.replaceAll("__", "-");
+			sb.append(s2);
 
-			final Identifier tmpId2 = new Identifier(Identifier_type.ID_ASN, s);
-			sb.append(tmpId2.getTtcnName());
+			isStrange.set(s2.contains("_"));
 		}
 		// conversion to lower case initial:
 		sb.replace(0, 1, sb.substring(0, 1).toLowerCase(Locale.ENGLISH));
