@@ -290,6 +290,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean isTagged() {
+		//FIXME implement support for tags.
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public final boolean isConstrained() {
 		return constraints != null;
 	}

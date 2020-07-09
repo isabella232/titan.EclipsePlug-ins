@@ -391,6 +391,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/** @return true if the done extension was assigned to this type */
 	boolean hasDoneAttribute();
 
+	/** @return true if this type has tags attached to it. */
+	boolean isTagged();
+
 	/** @return true if this type has a constraint attached to it */
 	boolean isConstrained();
 
