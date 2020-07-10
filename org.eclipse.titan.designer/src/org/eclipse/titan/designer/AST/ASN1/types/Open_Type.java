@@ -732,6 +732,7 @@ public final class Open_Type extends ASN1Type {
 	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
+		case JSON:
 			break;
 		default:
 			return;
