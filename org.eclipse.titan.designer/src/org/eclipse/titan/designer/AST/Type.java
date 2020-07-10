@@ -2672,10 +2672,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		//FIXME implement: actually more complicated
 		final String genname = getGenNameOwn();
-		if ("RecWithAsNumber_days_0".equals(genname)) {
-			int i = 0;
-			i++;
-		}
 		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source);
 		/* genname{type,ber,raw,text,xer,json,oer}descriptor == gennameown is true if
 		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
