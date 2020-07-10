@@ -578,15 +578,15 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			source.append(", ");
 		}
 		source.append( "final boolean has_timer, final TitanFloat timer_value) {\n" );
-		source.append("TTCN_Runtime.check_begin_testcase(has_timer, timer_value);\n");
+		source.append("\t\tTTCN_Runtime.check_begin_testcase(has_timer, timer_value);\n");
 		getLocation().create_location_object(aData, source, "TESTCASE", getIdentifier().getDisplayName());
 		if ( formalParList != null ) {
 			formalParList.generateCodeSetUnbound(aData, source);
 			formalParList.generateCodeShadowObjects(aData, source);
 		}
 
-		source.append("try{\n");
-		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", ", getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
+		source.append("\t\ttry{\n");
+		source.append(MessageFormat.format("\t\t\tTTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", ", getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		if (systemType == null) {
 			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", runsOnType.getMyScope().getModuleScopeGen().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		} else {
@@ -594,17 +594,20 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		}
 		source.append("has_timer, timer_value);\n");
 		block.generateCode(aData, source);
-		source.append("} catch (TtcnError error) {\n");
-		source.append("// intentionally empty\n");
-		source.append("} catch (TC_End error) {\n");
-		source.append(MessageFormat.format("TTCN_Logger.log_str(TTCN_Logger.Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
+		source.append("\t\t} catch (TtcnError error) {\n");
+		source.append("\t\t\t// intentionally empty\n");
+		source.append("\t\t} catch (TC_End error) {\n");
+		source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_str(TTCN_Logger.Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
+		source.append("\t\t} catch (Exception exception) {\n");
+		source.append("\t\t\tnew TtcnError(exception);\n");
+		source.append(MessageFormat.format("\t\t\tTTCN_Logger.log_str(TTCN_Logger.Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
 		if (aData.getAddSourceInfo()) {
-			source.append("} finally {\n");
+			source.append("\t\t} finally {\n");
 			getLocation().release_location_object(aData, source);
 		}
-		source.append("}\n");
-		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
-		source.append( "}\n" );
+		source.append("\t\t}\n");
+		source.append("\t\treturn new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
+		source.append( "\t}\n" );
 		sb.append(source);
 
 		if (formalParList == null || formalParList.getNofParameters() == 0) {
