@@ -8,6 +8,7 @@
 package org.eclipse.titanium.metrics.implementation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.titan.designer.AST.Module;
@@ -24,10 +25,11 @@ public class MMTimesImported extends BaseModuleMetric {
 	@Override
 	public void init(final MetricData data) {
 		imported.clear();
-		for (final Module module : data.getModules()) {
+		final List<Module> modules = data.getModules();
+		for (final Module module : modules) {
 			imported.put(module, 0);
 		}
-		for (final Module module : data.getModules()) {
+		for (final Module module : modules) {
 			for (final Module imp : module.getImportedModules()) {
 				final Integer count = imported.get(imp);
 				if (count != null) {

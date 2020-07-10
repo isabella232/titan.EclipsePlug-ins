@@ -9,6 +9,7 @@ package org.eclipse.titanium.metrics.implementation;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,10 +33,11 @@ public class MMEfferentCoupling extends BaseModuleMetric {
 	@Override
 	public void init(final MetricData data) {
 		efferentCoupling.clear();
-		for (final Module module : data.getModules()) {
+		final List<Module> modules = data.getModules();
+		for (final Module module : modules) {
 			efferentCoupling.put(module, new HashSet<Assignment>());
 		}
-		for (final Module module : data.getModules()) {
+		for (final Module module : modules) {
 			module.accept(new ASTVisitor() {
 				@Override
 				public int visit(final IVisitableNode node) {
