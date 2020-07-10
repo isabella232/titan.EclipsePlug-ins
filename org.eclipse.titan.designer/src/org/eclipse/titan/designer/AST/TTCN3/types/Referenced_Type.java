@@ -15,6 +15,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
+import org.eclipse.titan.designer.AST.BridgingNamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISetting;
@@ -489,8 +490,9 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 					refd.setMyScope(getMyScope());
 					refd.setParentType(getParentType());
 					refd.setGenName(getGenNameOwn(), "type");
-					//FIXME
+					refd.setFullNameParent(new BridgingNamedNode(this, ".type"));
 				}
+				//FIXME add warning
 				return refd;
 			default:
 				reference.getLocation().reportSemanticError(MessageFormat.format(TYPEREFERENCEEXPECTED, reference.getDisplayName()));
