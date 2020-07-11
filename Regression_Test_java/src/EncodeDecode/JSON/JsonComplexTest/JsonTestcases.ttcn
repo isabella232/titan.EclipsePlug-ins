@@ -567,21 +567,20 @@ testcase tc_asn_complex() runs on MTC {
 
 // ====== Special ASN.1 types ======
 // record containing an open type and a possible NULL value
-//TODO: java: wrong open type handling
-//testcase tc_asn_open_type_and_null() runs on MTC {
-//  var HasPardType x := {
-//    pard := {
-//      id := 0,
-//      priority := low,
-//      val := { iNTEGER := 19 }
-//    },
-//    buul := true,
-//    price := { invaluable := NULL }
-//  };
-//  var octetstring os := char2oct("{\"pard\":{\"id\":0,\"priority\":\"low\",\"val\":{\"iNTEGER\":19}},\"buul\":true,\"price\":{\"invaluable\":null}}");
-//  f_check_encoding(encoded := f_enc_hpt(x), expected := os);
-//  f_bool2verdict(match(f_dec_hpt(os), x));
-//}
+testcase tc_asn_open_type_and_null() runs on MTC {
+  var HasPardType x := {
+    pard := {
+      id := 0,
+      priority := low,
+      val := { iNTEGER := 19 }
+    },
+    buul := true,
+    price := { invaluable := NULL }
+  };
+  var octetstring os := char2oct("{\"pard\":{\"id\":0,\"priority\":\"low\",\"val\":{\"iNTEGER\":19}},\"buul\":true,\"price\":{\"invaluable\":null}}");
+  f_check_encoding(encoded := f_enc_hpt(x), expected := os);
+  f_bool2verdict(match(f_dec_hpt(os), x));
+}
 
 // SEQUENCE containing an object identifier and an ANY type
 testcase tc_asn_objid_and_any() runs on MTC {
@@ -907,7 +906,7 @@ control {
   execute(tc_asn_choice());
   execute(tc_asn_strings());
   execute(tc_asn_complex());
-//  execute(tc_asn_open_type_and_null()); //Java comp error. open type issue
+  execute(tc_asn_open_type_and_null());
   execute(tc_asn_objid_and_any());
   execute(tc_asn_optional_null());
   

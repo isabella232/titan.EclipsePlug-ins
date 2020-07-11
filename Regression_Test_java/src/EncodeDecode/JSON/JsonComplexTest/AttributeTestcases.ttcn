@@ -200,13 +200,12 @@ testcase tc_attribute_default() runs on CT {
 
 // Encoding a few values of ASN.1 types with the coding instruction "as value"
 // Results are the same as with the TTCN-3 types
-// TODO: bugfix this test (reported)
-//testcase tc_attribute_as_value_asn() runs on CT {
-//  var AsnStuff stuff := { { nval := NULL }, { ival := -10 }, { anyval := 'DCBA'O }, { vsval := "something" }, { pardval := { id := 0, priority := low, val := { iNTEGER := -10 } } } };
-//  var octetstring os := char2oct("[null,-10,\"DCBA\",\"something\",{\"id\":0,\"priority\":\"low\",\"val\":{\"iNTEGER\":-10}}]");
-//  f_check_encoding(encoded := f_enc_asn_stuff(stuff), expected := os);
-//  f_bool2verdict( match(f_dec_asn_stuff(f_enc_asn_stuff(stuff)), stuff) );
-//}
+testcase tc_attribute_as_value_asn() runs on CT {
+  var AsnStuff stuff := { { nval := NULL }, { ival := -10 }, { anyval := 'DCBA'O }, { vsval := "something" }, { pardval := { id := 0, priority := low, val := { iNTEGER := -10 } } } };
+  var octetstring os := char2oct("[null,-10,\"DCBA\",\"something\",{\"id\":0,\"priority\":\"low\",\"val\":{\"iNTEGER\":-10}}]");
+  f_check_encoding(encoded := f_enc_asn_stuff(stuff), expected := os);
+  f_bool2verdict( match(f_dec_asn_stuff(f_enc_asn_stuff(stuff)), stuff) );
+}
 
 // Encoding a record with 2 optional union fields encoded as JSON values (attribute 'as value')
 // and as the 'null' value when omitted (attribute 'omit as null').
@@ -751,7 +750,7 @@ control {
   execute(tc_attribute_union());
   execute(tc_attribute_as_value());
   execute(tc_attribute_default());
-//  execute(tc_attribute_as_value_asn()); //TODO: comp error. open type issue
+  execute(tc_attribute_as_value_asn());
   execute(tc_attribute_optional_as_value());
   execute(tc_attribute_metainfo_for_unbound());
   execute(tc_attribute_metainfo_for_unbound_negtest());
