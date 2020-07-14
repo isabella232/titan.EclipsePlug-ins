@@ -666,7 +666,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			}
 			break;
 		case ITU_REC:
-			if (tempInt >= 1 && tempInt <= 26 && (tempName.length() != 1 || tempName.getBytes()[0] != 'a' + tempInt - 1)) {
+			if (tempInt >= 1 && tempInt <= 26 && (tempName.length() != 1 || tempName.charAt(0) != 'a' + tempInt - 1)) {
 				number.getLocation().reportSemanticWarning(MessageFormat.format(
 						"Identifier {0} was expected instead of `{1}'' for number {2} in the NameAndNumberForm as the third OBJECT IDENTIFIER component",
 						('a' + tempInt - 1), name.getDisplayName(), value));
