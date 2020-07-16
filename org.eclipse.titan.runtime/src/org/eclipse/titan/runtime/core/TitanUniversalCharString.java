@@ -2521,9 +2521,16 @@ public class TitanUniversalCharString extends Base_Type {
 				cstr = out;
 			} else {
 				charstring = false;
-				final byte temp[] = new byte[value.length()];
-				for (int i = 0; i < value.length(); i++) {
-					temp[i] = (byte)value.charAt(i);
+				final byte temp[];
+				if (use_default) {
+					// default value is a normal Java string
+					temp = value.toString().getBytes();
+				} else {
+					// value contains UTF-8 encoded byte sequence, this is not a valid Java string
+					temp = new byte[value.length()];
+					for (int i = 0; i < value.length(); i++) {
+						temp[i] = (byte)value.charAt(i);
+					}
 				}
 				decode_utf8(temp, CharCoding.UTF_8, false);
 				if (!from_JSON_string(!use_default)) {
