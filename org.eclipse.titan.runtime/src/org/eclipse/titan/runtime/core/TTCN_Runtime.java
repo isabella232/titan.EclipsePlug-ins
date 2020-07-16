@@ -699,8 +699,8 @@ public final class TTCN_Runtime {
 	//originally initialize_system_port
 	public static void initialize_system_port(final String port_name)
 	{
-		 Module_List.initialize_system_port(system_type_module.get(),
-		  system_type_name.get(), port_name);
+		Module_List.initialize_system_port(system_type_module.get(),
+				system_type_name.get(), port_name);
 	}
 
 	//originally create_component

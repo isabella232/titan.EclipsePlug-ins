@@ -35,7 +35,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	int indexOffset;
 
 	// only package visible
-/*	TitanValueArray(final Class<T> clazz) {
+	/*	TitanValueArray(final Class<T> clazz) {
 		this.clazz = clazz;
 		array_elements = new ArrayList<T>();
 	}*/
@@ -78,7 +78,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 	}
 
 	//FIXME: implement
-/*	public void set_size(final int length) {
+	/*	public void set_size(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T emply = clazz.newInstance();
@@ -657,7 +657,7 @@ public class TitanValue_Array<T extends Base_Type> extends Base_Type {
 			} finally {
 				errorContext.leave_context();
 			}
-		    break;
+			break;
 		}
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type {0}", p_td.name));

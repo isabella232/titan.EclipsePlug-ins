@@ -215,7 +215,7 @@ public class TTCN_Pattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
 	private static void convert_static_pattern( final String ttcnPattern, final AtomicInteger pos,
-											  final StringBuilder javaPattern, final Map< String, String > refs ) {
+			final StringBuilder javaPattern, final Map< String, String > refs ) {
 		while ( pos.get() < ttcnPattern.length() ) {
 			final char c = ttcnPattern.charAt(pos.getAndIncrement());
 			switch ( c ) {
@@ -296,7 +296,7 @@ public class TTCN_Pattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
 	private static void convert_escaped( final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern,
-										final boolean isSet, final Map< String, String > refs ) {
+			final boolean isSet, final Map< String, String > refs ) {
 		final char c = ttcnPattern.charAt(pos.getAndIncrement());
 		switch ( c ) {
 		case 'd':
@@ -354,7 +354,7 @@ public class TTCN_Pattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
 	private static void convert_set( final String ttcnPattern, final AtomicInteger pos,
-									final StringBuilder javaPattern, final Map< String, String > refs ) {
+			final StringBuilder javaPattern, final Map< String, String > refs ) {
 		char c = ttcnPattern.charAt(pos.getAndIncrement());
 		if ( c == '^' ) {
 			javaPattern.append('^');
@@ -394,7 +394,7 @@ public class TTCN_Pattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
 	private static void convert_static_reference( final String ttcnPattern, final AtomicInteger pos,
-												final StringBuilder javaPattern, final Map<String, String> refs ) {
+			final StringBuilder javaPattern, final Map<String, String> refs ) {
 		final String input = ttcnPattern.substring(pos.get());
 		final Matcher m = PATTERN_STATIC_REFERENCE.matcher(input);
 		if ( m.matches() ) {
@@ -419,8 +419,8 @@ public class TTCN_Pattern {
 	 * @param refs references in a map, where key is reference, value is reference value
 	 */
 	private static void convert_charset_reference( final String ttcnPattern, final AtomicInteger pos,
-												 final StringBuilder javaPattern, final boolean isSet,
-												 final Map<String, String> refs ) {
+			final StringBuilder javaPattern, final boolean isSet,
+			final Map<String, String> refs ) {
 		final String input = ttcnPattern.substring(pos.get());
 		final Matcher m = PATTERN_CHARSET_REFERENCE.matcher(input);
 		if ( m.matches() ) {
