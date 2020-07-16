@@ -1796,7 +1796,7 @@ public class TitanInteger extends Base_Type {
 				}
 				do {
 					v2 >>= 1;
-				++val_bits;
+					++val_bits;
 				} while (v2 != 0);
 				len_bits = 1 + val_bits / 8; // bits needed to store the length
 				if (val_bits % 8 + len_bits % 8 > 8) {
