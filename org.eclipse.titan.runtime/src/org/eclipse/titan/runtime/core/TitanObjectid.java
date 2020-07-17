@@ -359,12 +359,13 @@ public class TitanObjectid extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public Module_Parameter get_param(final Module_Param_Name param_name) {
-	  if (!is_bound()) {
-	    return new Module_Param_Unbound();
-	  }
-	  final TitanInteger[] intarray = new TitanInteger[components_ptr.size()];
-	  components_ptr.toArray(intarray);
-	  return new Module_Param_Objid(n_components, intarray);
+		if (!is_bound()) {
+			return new Module_Param_Unbound();
+		}
+
+		final TitanInteger[] intarray = new TitanInteger[components_ptr.size()];
+		components_ptr.toArray(intarray);
+		return new Module_Param_Objid(n_components, intarray);
 	}
 
 	@Override

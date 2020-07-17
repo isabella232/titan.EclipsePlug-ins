@@ -825,8 +825,8 @@ public class TitanFloat_template extends Base_Template {
 		}
 		case VALUE_RANGE:
 			mp = new Module_Param_FloatRange( min_value.get_value(), min_is_present,
-											  max_value.get_value(), max_is_present,
-											  min_is_exclusive, max_is_exclusive );
+					max_value.get_value(), max_is_present,
+					min_is_exclusive, max_is_exclusive );
 			break;
 		default:
 			throw new TtcnError("Referencing an uninitialized/unsupported float template.");

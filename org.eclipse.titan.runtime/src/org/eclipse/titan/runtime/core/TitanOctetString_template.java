@@ -654,7 +654,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			return single_value.toString();
 		case COMPLEMENTED_LIST:
 		case VALUE_LIST:
- {
+		{
 			final StringBuilder builder = new StringBuilder();
 			if (template_selection == template_sel.COMPLEMENTED_LIST) {
 				builder.append("complement");
