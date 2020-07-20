@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -3015,7 +3016,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			if (jsonAttribute.default_value == null) {
 				JSON_value.append("null").append(',');
 			} else {
-				JSON_value.append('\"').append(jsonAttribute.default_value).append('\"').append(',');
+				try {
+					final byte[] bytes = jsonAttribute.default_value.getBytes("UTF-8");
+					final StringBuilder utf8encoded = new StringBuilder();
+					for (byte b : bytes) {
+						utf8encoded.append((char)b);
+					}
+					JSON_value.append('\"').append(utf8encoded).append('\"').append(',');
+				} catch (UnsupportedEncodingException e) {
+					ErrorReporter.INTERNAL_ERROR("generateCodeJsonDescriptor(): unsupported charset");
+					JSON_value.append("null").append(',');
+				}
 			}
 
 			JSON_value.append(jsonAttribute.metainfo_unbound).append(',');
