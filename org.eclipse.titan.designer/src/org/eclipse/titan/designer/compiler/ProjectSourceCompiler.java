@@ -566,6 +566,7 @@ public final class ProjectSourceCompiler {
 		}
 
 		if (aData.getPreInit().length() > 0) {
+			aSb.append("\t@Override\n");
 			aSb.append("\tpublic void pre_init_module()\n");
 			aSb.append("\t{\n");
 			aSb.append("\t\tif (pre_init_called) {\n");
@@ -583,6 +584,7 @@ public final class ProjectSourceCompiler {
 		}
 
 		if (aData.getPostInit().length() > 0) {
+			aSb.append("\t@Override\n");
 			aSb.append("\tpublic void post_init_module()\n");
 			aSb.append("\t{\n");
 			aSb.append("\t\tif (post_init_called) {\n");
@@ -651,12 +653,14 @@ public final class ProjectSourceCompiler {
 		}
 
 		if (aData.getListTestcases().length() > 0) {
+			aSb.append("\t@Override\n");
 			aSb.append("\tpublic void list_testcases() {\n");
 			aSb.append(aData.getListTestcases());
 			aSb.append("\t}\n\n");
 		}
 
 		if (aData.getListModulePars().length() > 0) {
+			aSb.append("\t@Override\n");
 			aSb.append("\tpublic void list_modulepars() {\n");
 			aSb.append(aData.getListModulePars());
 			aSb.append("\t}\n\n");
