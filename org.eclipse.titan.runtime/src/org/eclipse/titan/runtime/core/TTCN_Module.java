@@ -77,17 +77,29 @@ public class TTCN_Module {
 		return false;
 	}
 
+	/**
+	 * Initializes the parts of the module that does not depend on module parameters.
+	 * This function is always run before the configuration file is processed.
+	 * This function is called only once for every module.
+	 * */
 	public void pre_init_module() {
 		if (pre_init_called) {
 			return;
 		}
+
 		pre_init_called = true;
 	}
 
+	/**
+	 * Initializes the parts of the module that might depend on module parameters.
+	 * This function is always run after the configuration file is processed.
+	 * This function is called only once for every module.
+	 * */
 	public void post_init_module() {
 		if (post_init_called) {
 			return;
 		}
+
 		post_init_called = true;
 		TTCN_Logger.log_module_init(module_name, false);
 		TTCN_Logger.log_module_init(module_name, true);
@@ -119,10 +131,16 @@ public class TTCN_Module {
 		throw new TtcnError(MessageFormat.format("Module {0} does not contain test cases.", module_name));
 	}
 
+	/**
+	 * Lists the names of the testcases of the module to the console.
+	 * */
 	public void list_testcases() {
 		//do nothing by default
 	}
 
+	/**
+	 * Lists the names of the module parameters of the module to the console.
+	 * */
 	public void list_modulepars() {
 		//do nothing by default
 	}
