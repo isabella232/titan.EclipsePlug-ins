@@ -61,8 +61,11 @@ public class TTCN_Module {
 		return false;
 	}
 
+	/**
+	 * If the module has module parameters, their value is logged.
+	 * */
 	public void log_module_param() {
-		return;
+		//default implementation intentionally empty.
 	}
 
 	/**
