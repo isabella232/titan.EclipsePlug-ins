@@ -47,10 +47,8 @@ testcase tc_name_as_omit_as_null() runs on CT {
   }
 
   var octetstring os := char2oct("{\"name\":\"Bob\",\"phone\":{\"CountryPrefix\":6,\"NetworkPrefix\":1,\"LocalNumber\":3377760},\"meetings\":null}");
-  var octetstring e := f_enc_profile(p);
-  f_check_encoding(encoded:= e, expected := os);
-  var Profile pd := f_dec_profile(e); //DTE
-  f_bool2verdict( match(pd, p) );
+  f_check_encoding(encoded:= f_enc_profile(p), expected := os);
+  f_bool2verdict( match(f_dec_profile(f_enc_profile(p)), p) );
 }
 
 testcase tc_name_as() runs on CT {
@@ -415,8 +413,7 @@ testcase tc_attribute_not_as_value_rec() runs on CT {
 // The base types of the fields do not have the 'as value' attribute set, only when they are used as
 // fields of this set (one of the fields is an anytype, which cannot have this attribute otherwise).
 // The set itself is encoded with field names, but its fields are encoded as values.
-//TODO: envalue() decvalue() is wrong for anytype.  Extracted, reported
-testcase tc_attribute_as_value_fields() runs on CT {
+testcase tc_attribute_as_value_fields() runs on MTC {
   var SetWithAsValueFields val := {
     uni := { i := -3 },
     rec := { field := { 1.0, 2.0 } },
