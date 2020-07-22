@@ -30,12 +30,6 @@ external function f_enc_bool(in boolean x) return octetstring
 external function f_enc_cs(in charstring x) return octetstring
   with { extension "prototype(convert)"; extension "encode(JSON)"; }
 
-external function f_enc_cs_x(in charstring x) return octetstring
-   with { extension "prototype(convert)"; extension "encode(XER:XER_EXTENDED)"; }
-
-external function f_enc_ucs_x(in universal charstring x) return octetstring
-   with { extension "prototype(convert)"; extension "encode(XER:XER_EXTENDED)"; }  
-
 external function f_enc_os(in octetstring x) return octetstring
   with { extension "prototype(convert)"; extension "encode(JSON)"; }
 
@@ -53,9 +47,6 @@ external function f_enc_ucs(in universal charstring x) return octetstring
 
 external function f_enc_f(in float x) return octetstring
   with { extension "prototype(convert)"; extension "encode(JSON)"; }
-
-external function f_enc_f_x(in float x) return octetstring
-  with { extension "prototype(convert)"; extension "encode(XER:XER_EXTENDED)"; }
 
 external function f_enc_days(in Days x) return octetstring
   with { extension "prototype(convert)"; extension "encode(JSON)"; }
@@ -264,15 +255,9 @@ external function f_dec_vt(in octetstring x) return verdicttype
 
 external function f_dec_cs(in octetstring x) return charstring
   with { extension "prototype(convert)"; extension "decode(JSON)"; }
-
-external function f_dec_cs_x(in octetstring x) return charstring
-  with { extension "prototype(convert)"; extension "decode(XER:XER_EXTENDED)"; }
   
 external function f_dec_ucs(in octetstring x) return universal charstring
   with { extension "prototype(convert)"; extension "decode(JSON)"; }
-
-external function f_dec_ucs_x(in octetstring x) return universal charstring
-with { extension "prototype(convert)"; extension "decode(XER:XER_EXTENDED)"; }
 
 external function f_dec_ints(in octetstring u) return IntArr
   with { extension "prototype(convert)"; extension "decode(JSON)"; }

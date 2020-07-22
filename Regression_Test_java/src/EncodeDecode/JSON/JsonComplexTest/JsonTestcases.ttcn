@@ -29,9 +29,6 @@ modulepar R tsp_r := {
 
 modulepar charstring tsp_cs_long := "123456789123456789123456789 abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz ;""'\\/\n\r\t\f\b.,<>?|:][{}=-+!@#$%^&*()";
 
-
-
-
 const octetstring c_BOM_UTF8 :='EFBBBF'O; 
 
 const integer c_i :=18
@@ -156,7 +153,7 @@ testcase tc_charstring_ascii_basic_escapes() runs on MTC{
     "\r","\t","\f","\b"
   };
   var RoOS os_expected := {
-    '225C5C22'O, '222F22'O,'225C6E22'O,
+    '225C5C22'O, '225C2F22'O,'225C6E22'O,
     '225C7222'O,'225C7422'O,'225C6622'O, '225C6222'O
   };
   var integer len:=lengthof(cs);
@@ -180,24 +177,7 @@ testcase tc_charstring_ascii_extended1() runs on MTC{
   @catch(err_msg) {
     setverdict(pass,"expected error, ok")
   }
-
 }
-
-testcase tc_ucharstring_ascii_extended1_xer() runs on MTC{
-  var universal charstring ucs := "Vire au Vert l" & char(0,0,0,224)&"!";
-  var octetstring os:= f_enc_ucs_x( ucs )
-  log( "Octetstring:" , os);
-
-  @try{
-    f_bool2verdict(ucs==f_dec_ucs_x(os));
-    setverdict(pass,ucs," == ", f_dec_ucs_x(os) );
-  } 
-  @catch(err_msg) {
-    setverdict(fail,"unexpected error, nok")
-  }
-}
-
-
 
 //========== Universal Charstring =================
 testcase tc_ucharstring_empty() runs on MTC{
@@ -221,7 +201,7 @@ testcase tc_ucharstring_ascii_basic_escapes() runs on MTC{
     "\r","\t","\f","\b"
   };
   var RoOS os_expected := {
-    '225C5C22'O, '222F22'O,'225C6E22'O,
+    '225C5C22'O, '225C2F22'O,'225C6E22'O,
     '225C7222'O,'225C7422'O,'225C6622'O, '225C6222'O
   };
   var integer len:=lengthof(cs);
@@ -263,7 +243,7 @@ testcase tc_ucharstring_higherplanes() runs on MTC{
     char(0,3,0,0) & char(0,3,0,175) & char(0,3,255,255),
     char(0,15,0,0)& char(0,15,0,175)& char(0,15,255,255),
     char(0,16,0,0)& char(0,16,0,175)& char(0,16,255,255),
-    char(0,16,0,0) & char(0,0,0,1) & " "
+    char(0,16,0,0) & " "
   };
   var octetstring os;
   var integer len:=lengthof(us);
@@ -360,7 +340,6 @@ testcase tc_float() runs on MTC{
   }
   
 }
-
 
 //============ enum ======================
 
@@ -867,15 +846,14 @@ control {
   execute(tc_charstring_ascii_basic_long());
   execute(tc_charstring_ascii_basic_long_const());
   execute(tc_charstring_ascii_basic_punctuation());
-//  execute(tc_charstring_ascii_basic_escapes());//java fail
+  execute(tc_charstring_ascii_basic_escapes());
   execute(tc_charstring_ascii_extended1());
 
   execute(tc_ucharstring_empty());
-//  execute(tc_ucharstring_ascii_extended1_xer()); //java error
   execute(tc_ucharstring_ascii_extended1());
   execute(tc_ucharstring_ascii_extended2());
   execute(tc_ucharstring_ascii_extended3());
-//  execute(tc_ucharstring_higherplanes());//java fail
+  execute(tc_ucharstring_higherplanes());
   execute(tc_octetstring_empty());
   execute(tc_octetstring_nonempty());
   execute(tc_hexstring_empty());
