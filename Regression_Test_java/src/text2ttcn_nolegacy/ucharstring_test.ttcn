@@ -68,38 +68,38 @@ modulepar {
   template universal charstring tspt_ucs_mod4a := "A" //*;
   template universal charstring tspt_ucs_mod4q := "" //?;
   template universal charstring tspt_ucs_mod4al1 := "A" //* length(2); //length restriction
-  template universal charstring tspt_ucs_mod4al2 := "Original" //mofified for: * length(2..4);
-  template universal charstring tspt_ucs_mod4ql1 := "Original" //mofified for:? length(2);
-  template universal charstring tspt_ucs_mod4ql2 := "Original" //mofified for:? length(2..4);
-  template universal charstring tspt_ucs_mod4vl1 := ("ABBA") //TODO: Adam //It should be mofified for: ("ABBA");
-  template universal charstring tspt_ucs_mod4vl2 := "Original" //mofified for:("ABBA","baba");
-  template universal charstring tspt_ucs_mod4vl3 := "Original" //mofified for:("ABBA","baba","Bye");
-  template universal charstring tspt_ucs_mod4c1 := "Original" //mofified for:complement("ABBA")
-  template universal charstring tspt_ucs_mod4c2 := "Original" //mofified for:complement("ABBA","baba");
-  template universal charstring tspt_ucs_mod4c3 := "Original" //mofified for:complement("ABBA","baba","Bye");
-  template universal charstring tspt_ucs_mod4r1 := "Original" //mofified for:("A".."B"); //range
-  template universal charstring tspt_ucs_mod4r2 := "Original" //mofified for:("a".."c");
-  template universal charstring tspt_ucs_mod4pa := "Original" //mofified for:pattern "abc*xyz"
-  template universal charstring tspt_ucs_mod4pq := "Original" //mofified for:pattern "abc?xyz"
+  template universal charstring tspt_ucs_mod4al2 := "Original" //modified for: * length(2..4);
+  template universal charstring tspt_ucs_mod4ql1 := "Original" //modified for:? length(2);
+  template universal charstring tspt_ucs_mod4ql2 := "Original" //modified for:? length(2..4);
+  template universal charstring tspt_ucs_mod4vl1 := ("ABBA") 
+  template universal charstring tspt_ucs_mod4vl2 := "Original" //modified for:("ABBA","baba");
+  template universal charstring tspt_ucs_mod4vl3 := "Original" //modified for:("ABBA","baba","Bye");
+  template universal charstring tspt_ucs_mod4c1 := "Original" //modified for:complement("ABBA")
+  template universal charstring tspt_ucs_mod4c2 := "Original" //modified for:complement("ABBA","baba");
+  template universal charstring tspt_ucs_mod4c3 := "Original" //modified for:complement("ABBA","baba","Bye");
+  template universal charstring tspt_ucs_mod4r1 := "Original" //modified for:("A".."B"); //range
+  template universal charstring tspt_ucs_mod4r2 := "Original" //modified for:("a".."c");
+  template universal charstring tspt_ucs_mod4pa := "Original" //modified for:pattern "abc*xyz"
+  template universal charstring tspt_ucs_mod4pq := "Original" //modified for:pattern "abc?xyz"
   
-  template universal charstring tspt_ucs_mod4vifp := "Original" //mofified for:"ABBA" ifpresent;
-  template universal charstring tspt_ucs_mod4oifp := "Original" //mofified for:omit ifpresent;
-  template universal charstring tspt_ucs_mod4aifp := "Original" //mofified for:* ifpresent;
-  template universal charstring tspt_ucs_mod4qifp := "Original" //mofified for:? ifpresent;
-  template universal charstring tspt_ucs_mod4al1ifp := "Original" //mofified for:* length(2) ifpresent; //length restriction
-  template universal charstring tspt_ucs_mod4al2ifp := "Original" //mofified for:* length(2..4) ifpresent;
-  template universal charstring tspt_ucs_mod4ql1ifp := "Original" //mofified for:? length(2) ifpresent;
-  template universal charstring tspt_ucs_mod4ql2ifp := "Original" //mofified for:? length(2..4) ifpresent;
-  template universal charstring tspt_ucs_mod4vl1ifp :=  ("ABBA") ifpresent //TODO: Adam //It should be mofified for: ("ABBA");
-  template universal charstring tspt_ucs_mod4vl2ifp := "Original" //mofified for:("ABBA","baba") ifpresent;
-  template universal charstring tspt_ucs_mod4vl3ifp := "Original" //mofified for:("ABBA","baba","Bye") ifpresent;
-  template universal charstring tspt_ucs_mod4c1ifp := "Original" //mofified for:complement("ABBA") ifpresent
-  template universal charstring tspt_ucs_mod4c2ifp := "Original" //mofified for:complement("ABBA","baba") ifpresent;
-  template universal charstring tspt_ucs_mod4c3ifp := "Original" //mofified for:complement("ABBA","baba","Bye") ifpresent;
-  template universal charstring tspt_ucs_mod4r1ifp := "Original" //mofified for:("A".."B") ifpresent; //range
-  template universal charstring tspt_ucs_mod4r2ifp := "Original" //mofified for:("a".."c") ifpresent;
-  template universal charstring tspt_ucs_mod4paifp := "Original" //mofified for:pattern "abc*xyz"  ifpresent
-  template universal charstring tspt_ucs_mod4pqifp := "Original" //mofified for:pattern "abc?xyz"  ifpresent  
+  template universal charstring tspt_ucs_mod4vifp := "Original" //modified for:"ABBA" ifpresent;
+  template universal charstring tspt_ucs_mod4oifp := "Original" //modified for:omit ifpresent;
+  template universal charstring tspt_ucs_mod4aifp := "Original" //modified for:* ifpresent;
+  template universal charstring tspt_ucs_mod4qifp := "Original" //modified for:? ifpresent;
+  template universal charstring tspt_ucs_mod4al1ifp := "Original" //modified for:* length(2) ifpresent; //length restriction
+  template universal charstring tspt_ucs_mod4al2ifp := "Original" //modified for:* length(2..4) ifpresent;
+  template universal charstring tspt_ucs_mod4ql1ifp := "Original" //modified for:? length(2) ifpresent;
+  template universal charstring tspt_ucs_mod4ql2ifp := "Original" //modified for:? length(2..4) ifpresent;
+  template universal charstring tspt_ucs_mod4vl1ifp :=  ("ABBA") ifpresent //It should be modified for: ("ABBA");
+  template universal charstring tspt_ucs_mod4vl2ifp := "Original" //modified for:("ABBA","baba") ifpresent;
+  template universal charstring tspt_ucs_mod4vl3ifp := "Original" //modified for:("ABBA","baba","Bye") ifpresent;
+  template universal charstring tspt_ucs_mod4c1ifp := "Original" //modified for:complement("ABBA") ifpresent
+  template universal charstring tspt_ucs_mod4c2ifp := "Original" //modified for:complement("ABBA","baba") ifpresent;
+  template universal charstring tspt_ucs_mod4c3ifp := "Original" //modified for:complement("ABBA","baba","Bye") ifpresent;
+  template universal charstring tspt_ucs_mod4r1ifp := "Original" //modified for:("A".."B") ifpresent; //range
+  template universal charstring tspt_ucs_mod4r2ifp := "Original" //modified for:("a".."c") ifpresent;
+  template universal charstring tspt_ucs_mod4paifp := "Original" //modified for:pattern "abc*xyz"  ifpresent
+  template universal charstring tspt_ucs_mod4pqifp := "Original" //modified for:pattern "abc?xyz"  ifpresent  
   
 }
 
@@ -377,6 +377,7 @@ testcase tc_ucs_string2ttcn_mod4vl1() runs on MC {
   f_string2ttcn_rucs_v(ttcn2string(t_rucs(tspt_ucs_mod4vl1)),t_rucs(tspt_ucs_mod4vl1),true);
 }
 
+//expected error
 testcase tc_ucs_string2ttcn_mod4vl2() runs on MC {
   f_string2ttcn_rucs_t(ttcn2string(t_rucs(tspt_ucs_mod4vl2)),t_rucs(tspt_ucs_mod4vl2));
   f_string2ttcn_rucs_v(ttcn2string(t_rucs(tspt_ucs_mod4vl2)),t_rucs(tspt_ucs_mod4vl2),false);
@@ -517,10 +518,9 @@ testcase tc_ucs_string2ttcn_mod4pqifp() runs on MC {
 control { 
   
   log("***universal charstring tests****");
-  //execute(tc_ucs_v());
-   //ttcn2string:
-  // execute(tc_ucs_ttcn2string_emb());  //TODO: fail
   
+  //ttcn2string:
+  execute(tc_ucs_ttcn2string_emb());
   execute(tc_ucs_string2ttcn_mod4v());
   execute(tc_ucs_string2ttcn_mod4o());
   execute(tc_ucs_string2ttcn_mod4ol());
@@ -531,7 +531,7 @@ control {
   execute(tc_ucs_string2ttcn_mod4ql1());
   execute(tc_ucs_string2ttcn_mod4ql2());
   execute(tc_ucs_string2ttcn_mod4vl1());
-  // execute(tc_ucs_string2ttcn_mod4vl2()); //TODO: fail
+  execute(tc_ucs_string2ttcn_mod4vl2());
   execute(tc_ucs_string2ttcn_mod4vl3());
   execute(tc_ucs_string2ttcn_mod4c1());
   execute(tc_ucs_string2ttcn_mod4c2());
@@ -540,6 +540,7 @@ control {
   execute(tc_ucs_string2ttcn_mod4r2());
   execute(tc_ucs_string2ttcn_mod4pa());
   execute(tc_ucs_string2ttcn_mod4pq());
+  
   //ttcn2string with ifpresent
   execute(tc_ucs_string2ttcn_mod4vifp());
   execute(tc_ucs_string2ttcn_mod4oifp());
@@ -558,8 +559,7 @@ control {
   execute(tc_ucs_string2ttcn_mod4r1ifp());
   execute(tc_ucs_string2ttcn_mod4r2ifp());
   execute(tc_ucs_string2ttcn_mod4paifp());
-  execute(tc_ucs_string2ttcn_mod4pqifp()); 
-  
+  execute(tc_ucs_string2ttcn_mod4pqifp());
 }
 
 } //module
