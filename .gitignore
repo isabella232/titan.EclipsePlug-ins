@@ -1,2 +1,4 @@
 bin
 Semantic_Analizer_Tests/.cache/
+**/*.pdf
+.settings
