@@ -850,7 +850,7 @@ testcase tc_predef_hex2bit_unbound() runs on CT {
       setverdict(fail,"DTE expected");
     }
   }@catch(e){
-    setverdict(pass, "Expected DTE catched")
+    setverdict(pass, "Expected DTE caught")
   }
 }
 
