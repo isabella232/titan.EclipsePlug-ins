@@ -413,7 +413,7 @@ testcase tc_attribute_not_as_value_rec() runs on CT {
 // The base types of the fields do not have the 'as value' attribute set, only when they are used as
 // fields of this set (one of the fields is an anytype, which cannot have this attribute otherwise).
 // The set itself is encoded with field names, but its fields are encoded as values.
-testcase tc_attribute_as_value_fields() runs on MTC {
+testcase tc_attribute_as_value_fields() runs on CT {
   var SetWithAsValueFields val := {
     uni := { i := -3 },
     rec := { field := { 1.0, 2.0 } },
