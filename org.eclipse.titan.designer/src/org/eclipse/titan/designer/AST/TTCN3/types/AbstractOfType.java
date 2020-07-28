@@ -506,7 +506,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions
@@ -551,7 +551,7 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		if (!jsonAttribute.default_value.matches("\\{\\}")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for type `{0}'. Only the empty array is allowed.", getTypename()));
 		}

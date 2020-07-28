@@ -621,7 +621,7 @@ public final class Anytype_Type extends Type {
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions 

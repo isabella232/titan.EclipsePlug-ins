@@ -540,7 +540,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions 

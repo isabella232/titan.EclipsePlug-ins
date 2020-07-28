@@ -181,7 +181,7 @@ public final class Verdict_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		final String defaultValue = jsonAttribute.default_value;
 		if (!defaultValue.matches("none|pass|inconc|fail|error")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));

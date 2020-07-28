@@ -314,7 +314,7 @@ public final class Float_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		final String defaultValue = jsonAttribute.default_value;
 		if (defaultValue.matches("-?infinity|not_a_number") || defaultValue.length() < 1) {
 			// special float values => skip the rest of the check

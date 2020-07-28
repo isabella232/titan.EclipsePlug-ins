@@ -614,7 +614,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions 

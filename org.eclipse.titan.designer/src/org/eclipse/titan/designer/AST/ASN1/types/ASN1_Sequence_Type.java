@@ -1111,7 +1111,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions

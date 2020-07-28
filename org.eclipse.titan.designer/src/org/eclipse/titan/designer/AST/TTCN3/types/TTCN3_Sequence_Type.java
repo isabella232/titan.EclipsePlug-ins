@@ -994,7 +994,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		if (getNofComponents() != 0) {
 			getLocation().reportSemanticError("JSON default values are not available for record/set types with 1 or more fields");
 		}

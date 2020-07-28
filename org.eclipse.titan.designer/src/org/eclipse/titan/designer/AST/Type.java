@@ -1068,7 +1068,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions 
@@ -1124,7 +1124,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		getLocation().reportSemanticError(MessageFormat.format("JSON default values are not available for type `{0}''", getTypename()));
 	}
 

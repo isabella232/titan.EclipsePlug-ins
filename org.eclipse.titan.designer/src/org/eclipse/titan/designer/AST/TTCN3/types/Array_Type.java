@@ -876,7 +876,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions

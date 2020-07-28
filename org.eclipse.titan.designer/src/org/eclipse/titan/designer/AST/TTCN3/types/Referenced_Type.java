@@ -617,7 +617,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		final String defaultValue = jsonAttribute.default_value;
 		final int length = defaultValue.length();
 		int i;
@@ -919,7 +919,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions 

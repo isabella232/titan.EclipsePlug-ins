@@ -218,7 +218,7 @@ public final class BitString_Type extends Type {
 	}
 
 	@Override
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		final String defaultValue = jsonAttribute.default_value;
 		if (!defaultValue.matches("[0-1]+")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));

@@ -711,7 +711,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void checkJson(final CompilationTimeStamp timestamp);
 
 	//FIXME: comment
-	void checkJsonDefault();
+	void checkJsonDefault(final CompilationTimeStamp timestamp);
 
 	/**
 	 * Adds a coding to the type.

@@ -620,7 +620,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions 
@@ -665,7 +665,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		final Identifier identifier = new Identifier(Identifier_type.ID_TTCN, jsonAttribute.default_value);
 		if (!hasEnumItemWithName(identifier)) { 
 			getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for enumerated type `{0}'", getTypename()));

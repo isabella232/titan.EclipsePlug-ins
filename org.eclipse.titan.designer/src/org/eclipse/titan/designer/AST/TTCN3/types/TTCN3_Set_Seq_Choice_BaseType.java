@@ -694,7 +694,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		}
 
 		if (jsonAttribute.default_value != null) {
-			checkJsonDefault();
+			checkJsonDefault(timestamp);
 		}
 
 		//TODO: check schema extensions 

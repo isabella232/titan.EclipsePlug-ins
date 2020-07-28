@@ -360,7 +360,7 @@ public final class UniversalCharstring_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		final String defaultValue = jsonAttribute.default_value;
 		final int length = defaultValue.length();
 		int i = 0;

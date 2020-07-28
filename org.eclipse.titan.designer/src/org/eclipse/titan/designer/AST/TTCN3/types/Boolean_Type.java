@@ -211,7 +211,7 @@ public final class Boolean_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault() {
+	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
 		final String defaultValue = jsonAttribute.default_value;
 		if (!defaultValue.matches("true|false")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
