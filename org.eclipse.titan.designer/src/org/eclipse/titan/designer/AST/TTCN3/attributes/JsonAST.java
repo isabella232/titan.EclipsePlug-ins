@@ -98,8 +98,11 @@ public class JsonAST {
 	 * Fields that don't appear in the JSON code will decode this value instead.
 	 */
 	public String default_value;
-	public Location defaultLocation;
 
+	/**
+	 * The location of the default value in the source code.
+	 */
+	public Location defaultLocation;
 
 	public List<JsonSchemaExtension> schema_extensions;
 
