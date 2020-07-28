@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 
 /**
@@ -97,6 +98,8 @@ public class JsonAST {
 	 * Fields that don't appear in the JSON code will decode this value instead.
 	 */
 	public String default_value;
+	public Location defaultLocation;
+
 
 	public List<JsonSchemaExtension> schema_extensions;
 

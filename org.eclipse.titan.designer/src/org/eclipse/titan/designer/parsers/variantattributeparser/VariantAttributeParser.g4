@@ -1112,7 +1112,7 @@ pr_JsonAlias returns [String value]:
 pr_XAsValue: ASKeyword VALUEKeyword { jsonstruct.as_value = true; };
 
 pr_XDefault: DEFAULTKeyword value = pr_JsonValue 
-{ jsonstruct.default_value = $value.v; };
+{ jsonstruct.default_value = $value.v; jsonstruct.defaultLocation = getLocation( $value.start, $value.stop );};
 
 pr_XExtend: EXTENDKeyword v1 = pr_JsonValue COLON v2 = pr_JsonValue
 	{ jsonstruct.schema_extensions.add(jsonstruct.new JsonSchemaExtension($v1.v, $v2.v)); };
@@ -1176,7 +1176,7 @@ pr_JOmitAsNull: OMIT ASKeyword Null {jsonstruct.omit_as_null = true;  };
 
 pr_JAsValue: ASVALUEKeyword {jsonstruct.as_value = true; };
 
-pr_JDefault: DEFAULTKeyword value = pr_JsonValue { jsonstruct.default_value = $value.v; };
+pr_JDefault: DEFAULTKeyword value = pr_JsonValue { jsonstruct.default_value = $value.v; jsonstruct.defaultLocation = getLocation( $value.start, $value.stop );};
 
 pr_JExtend: EXTENDKeyword v1 = pr_JsonValue COLON v2 = pr_JsonValue
 	{ jsonstruct.schema_extensions.add(jsonstruct.new JsonSchemaExtension($v1.v, $v2.v)); };
