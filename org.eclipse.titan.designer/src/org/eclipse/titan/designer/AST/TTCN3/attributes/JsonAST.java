@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 
@@ -103,6 +104,11 @@ public class JsonAST {
 	 * The location of the default value in the source code.
 	 */
 	public Location defaultLocation;
+
+	/**
+	 * The value parsed from the default value.
+	 */
+	public IValue actualDefaultValue;
 
 	public List<JsonSchemaExtension> schema_extensions;
 

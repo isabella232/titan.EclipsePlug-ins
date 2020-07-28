@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.BridgingNamedNode;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -44,6 +45,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.JSONDefaultAnalyzer;
 
 /**
  * @author Kristof Szabados
@@ -407,6 +409,21 @@ public final class UniversalCharstring_Type extends Type {
 			}
 			i++;
 		}//while
+
+//		final JSONDefaultAnalyzer refAnalyzer = new JSONDefaultAnalyzer();
+//		final IValue parsedValue = refAnalyzer.parseJSONDefaultValue(defaultValue, jsonAttribute.defaultLocation);
+//		if (parsedValue != null) {
+//			parsedValue.setMyGovernor(this);
+//			parsedValue.setMyScope(getMyScope());
+//			parsedValue.setFullNameParent(new BridgingNamedNode(this, ".<JSON default value>"));
+//			final IValue temporalValue = this.checkThisValueRef(timestamp, parsedValue);
+//			// check as if it was a const.
+//			this.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false, true,
+//					false,// can not have implicit omit as this is a type.
+//					false));
+//	
+//			jsonAttribute.actualDefaultValue = temporalValue;
+//		}
 	}
 
 	@Override

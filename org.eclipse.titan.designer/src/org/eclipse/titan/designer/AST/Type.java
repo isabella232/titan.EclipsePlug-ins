@@ -3022,11 +3022,27 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					for (byte b : bytes) {
 						utf8encoded.append((char)b);
 					}
-					JSON_value.append('\"').append(utf8encoded).append('\"').append(',');
+					JSON_value.append('\"').append(utf8encoded).append('\"');
 				} catch (UnsupportedEncodingException e) {
 					ErrorReporter.INTERNAL_ERROR("generateCodeJsonDescriptor(): unsupported charset");
-					JSON_value.append("null").append(',');
+					JSON_value.append("null");
 				}
+
+				if (jsonAttribute.actualDefaultValue != null) {
+					if (jsonAttribute.actualDefaultValue.canGenerateSingleExpression() ) {
+						final ExpressionStruct expression = new ExpressionStruct();
+						jsonAttribute.actualDefaultValue.generateCodeExpressionMandatory(aData, expression, true);
+						if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+							//FIXME hiba?
+						} else {
+							JSON_value.append("/*").append( expression.expression).append("*/");
+						}
+					} else {
+						//FIXME hiba?
+					}
+				}
+
+				JSON_value.append(',');
 			}
 
 			JSON_value.append(jsonAttribute.metainfo_unbound).append(',');

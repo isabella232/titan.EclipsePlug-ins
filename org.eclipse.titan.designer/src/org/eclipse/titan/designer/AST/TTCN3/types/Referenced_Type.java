@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
@@ -52,6 +53,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.JSONDefaultAnalyzer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
@@ -618,7 +620,27 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
+//		if (refdLast == null || refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) || refdLast == this) {
+//			return;
+//		}
+
 		final String defaultValue = jsonAttribute.default_value;
+
+//		final JSONDefaultAnalyzer refAnalyzer = new JSONDefaultAnalyzer();
+//		final IValue parsedValue = refAnalyzer.parseJSONDefaultValue(defaultValue, jsonAttribute.defaultLocation);
+//		if (parsedValue != null) {
+//			parsedValue.setMyGovernor(this);
+//			parsedValue.setMyScope(getMyScope());
+//			parsedValue.setFullNameParent(new BridgingNamedNode(this, ".<JSON default value>"));
+//			final IValue temporalValue = refdLast.checkThisValueRef(timestamp, parsedValue);
+//			// check as if it was a const.
+//			refdLast.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false, true,
+//					false,// can not have implicit omit as this is a type.
+//					false));
+//	
+//			jsonAttribute.actualDefaultValue = temporalValue;
+//		}
+
 		final int length = defaultValue.length();
 		int i;
 		switch (refdLast.getTypetype()) {
