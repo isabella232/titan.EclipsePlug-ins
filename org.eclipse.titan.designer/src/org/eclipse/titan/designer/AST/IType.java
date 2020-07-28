@@ -710,7 +710,12 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	//FIXME: comment
 	void checkJson(final CompilationTimeStamp timestamp);
 
-	//FIXME: comment
+	/**
+	 * Checks the json default attribute assigned to this type.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * */
 	void checkJsonDefault(final CompilationTimeStamp timestamp);
 
 	/**
