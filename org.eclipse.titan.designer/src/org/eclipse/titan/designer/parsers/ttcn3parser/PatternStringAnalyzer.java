@@ -24,13 +24,11 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString;
  * @author Gergo Ujhelyi
  */
 public class PatternStringAnalyzer {
-	
-	private PatternString analyzedPatternString;
-	
-	public PatternString getAnalyzedPatternString() {
-		return analyzedPatternString;
+
+	private PatternStringAnalyzer() {
+		//intentionally empty
 	}
-	
+
 	public static PatternString parse_pattern(final String p_str, final Location p_loc, final Token startToken, final Token endToken)	{
 		final Reader reader = new StringReader(p_str);
 
