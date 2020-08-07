@@ -151,9 +151,8 @@ REFERENCE_RULE : '{' (WS)? IDENTIFIER (( (WS)? '.' (WS)? IDENTIFIER ) | ( (WS)? 
 		}
 		String identifier = referenceString.substring(begin, end);
 		actualColumn = end + 1;
-		TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
 		Location ref_location = new Location(actualFile, actualLine, startToken.getStartIndex() + begin + 1, startToken.getStopIndex() + end);
-		Reference ref = analyzer.parse(actualFile, identifier, false, ref_location.getLine(), ref_location.getOffset());
+		Reference ref = TTCN3ReferenceAnalyzer.parse(actualFile, identifier, false, ref_location.getLine(), ref_location.getOffset());
 		if (ref != null) {
 			ps.addRef(ref, false);
 		} else {
@@ -214,8 +213,7 @@ REFERENCE_WITH_N : '\\N' (WS)? '{' (WS)? IDENTIFIER (WS)? '}' {
 	String id_str = tokenStr.substring(id_begin, id_end);
 	actualColumn = id_end + 1;
 	Location location = new Location(actualFile, actualLine, startToken.getStartIndex() + id_begin + 1, startToken.getStartIndex() + id_end + 1);
-	TTCN3ReferenceAnalyzer analyzer = new TTCN3ReferenceAnalyzer();
-	Reference ref = analyzer.parse(actualFile, id_str, false, location.getLine(), location.getOffset());
+	Reference ref = TTCN3ReferenceAnalyzer.parse(actualFile, id_str, false, location.getLine(), location.getOffset());
 	ps.addRef(ref, true);
 	if (in_set) {
 			location.reportSyntacticWarning(String.format("Character set reference \\N{%s} is not supported, dropped out from the set", id_str));
