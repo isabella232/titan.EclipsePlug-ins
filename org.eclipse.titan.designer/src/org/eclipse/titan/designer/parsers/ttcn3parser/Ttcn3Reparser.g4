@@ -135,7 +135,7 @@ pr_reparse_ImportDef [Group parent_group, List<ImportModule> all_imports, List<I
 )
 {	if ( impmod != null ) {
 		impmod.setWithAttributes( attributes );
-		impmod.setLocation( getLocation( $start, getStopToken() ) );
+		impmod.setLocation( getLocation( $start, getLastVisibleToken() ) );
 		if ( $parent_group == null ) {
 			impmod.setAttributeParentPath( act_ttcn3_module.getAttributePath() );
 		} else {
@@ -175,7 +175,7 @@ pr_reparse_GroupDef
 {	if ( group != null ) {
 		group.setWithAttributes( attributes );
 		group.setParentGroup( $parent_group );
-		group.setLocation( getLocation( $start, getStopToken() ) );
+		group.setLocation( getLocation( $start, getLastVisibleToken() ) );
 		group.setInnerLocation( getLocation( $begin.start, $end1.stop ) );
 		if ( $parent_group != null ) {
 			$parent_group.addGroup( group );
@@ -203,7 +203,7 @@ pr_reparse_FriendModuleDef[ Group parent_group, List<FriendModule> all_friends, 
 {	for ( Identifier identifier : identifiers ) {
 		FriendModule friend = new FriendModule( identifier );
 		friend.setWithAttributes(attributes);
-		friend.setLocation( getLocation( $start, getStopToken() ) );
+		friend.setLocation( getLocation( $start, getLastVisibleToken() ) );
 		if ( $parent_group == null ) {
 			friend.setAttributeParentPath( act_ttcn3_module.getAttributePath() );
 		} else {
