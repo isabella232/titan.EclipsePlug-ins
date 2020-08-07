@@ -25,13 +25,14 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Parser.Pr_UnifiedRefe
  */
 public final class TTCN3ReferenceAnalyzer {
 
-	public TTCN3ReferenceAnalyzer() {
+	private TTCN3ReferenceAnalyzer() {
+		//intentionally private
 	}
 
 	/**
 	 * @return the parsed reference or null if the text can not form a reference
 	 */
-	public Reference parse(final IFile file, final String code, final boolean reportErrors, final int aLine, final int aOffset) {
+	public static Reference parse(final IFile file, final String code, final boolean reportErrors, final int aLine, final int aOffset) {
 		final Reader reader = new StringReader( code );
 		final CharStream charStream = new UnbufferedCharStream( reader );
 		final Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
@@ -63,7 +64,7 @@ public final class TTCN3ReferenceAnalyzer {
 	 * @param file the file to parse, and report the errors to
 	 * @param code the contents of an editor, or null.
 	 * */
-	public Reference parseForCompletion(final IFile file, final String code) {
+	public static Reference parseForCompletion(final IFile file, final String code) {
 		final Reader reader = new StringReader( code );
 		final CharStream charStream = new UnbufferedCharStream( reader );
 		final Ttcn3KeywordlessLexer lexer = new Ttcn3KeywordlessLexer( charStream );

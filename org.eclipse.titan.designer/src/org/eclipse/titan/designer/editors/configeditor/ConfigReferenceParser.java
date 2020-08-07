@@ -119,8 +119,8 @@ public final class ConfigReferenceParser implements IReferenceParser {
 				}
 				parameter = selected.substring(dotIndex + 1);
 			}
-			final TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
-			reference = refAnalyzer.parse(file, parameter, reportErrors, document.getLineOfOffset(ofs) + 1, ofs);
+
+			reference = TTCN3ReferenceAnalyzer.parse(file, parameter, reportErrors, document.getLineOfOffset(ofs) + 1, ofs);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}

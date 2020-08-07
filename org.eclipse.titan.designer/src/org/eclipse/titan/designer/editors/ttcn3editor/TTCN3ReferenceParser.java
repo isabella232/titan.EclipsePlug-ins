@@ -74,8 +74,7 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 			// of the reference
 			ofs++;
 			final String toBeParsed = document.get(ofs, offset - ofs);
-			final TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
-			reference = refAnalyzer.parseForCompletion(file, toBeParsed);
+			reference = TTCN3ReferenceAnalyzer.parseForCompletion(file, toBeParsed);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
@@ -125,8 +124,7 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 				return reference;
 			}
 
-			final TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
-			reference = refAnalyzer.parse(file, toBeParsed, reportErrors, document.getLineOfOffset(ofs) + 1, ofs);
+			reference = TTCN3ReferenceAnalyzer.parse(file, toBeParsed, reportErrors, document.getLineOfOffset(ofs) + 1, ofs);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
