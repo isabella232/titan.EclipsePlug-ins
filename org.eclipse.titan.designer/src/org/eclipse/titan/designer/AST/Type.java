@@ -876,7 +876,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 			//FIXME implement checks
 			//TODO raw, json data is extracted
-			final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
 			boolean newRaw = false;
 			boolean newJson = false;
 			final AtomicBoolean rawFound = new AtomicBoolean(false);
@@ -903,7 +902,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				newJson = true;
 			}
 
-			analyzer.parse(rawAttribute, jsonAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(),
+			VariantAttributeAnalyzer.parse(rawAttribute, jsonAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(),
 					rawFound, jsonFound);
 			//FIME: check variant attribute is related to ... encoding
 			if (!rawFound.get() && newRaw) {
