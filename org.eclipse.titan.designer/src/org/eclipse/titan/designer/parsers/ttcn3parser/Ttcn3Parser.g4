@@ -275,18 +275,6 @@ public void reset() {
 }
 
 /**
- * Gets the last token of the current rule.
- * This is used inside the rule, because \$stop is filled only
- * in the finally block in the generated java code, so it does
- * NOT have the correct value in @after and @finally actions.
- * This method can be used in any part of the rule.
- * @return last consumed token
- */
-public Token getStopToken() {
-	return _input.get( _input.index() - 1 );
-}
-
-/**
  * Gets the last visible token of the current rule.
  *
  * This is used inside the rule, because \$stop is filled only
@@ -703,7 +691,7 @@ pr_TypeDef returns[Def_Type def_type]
 	)
 )
 {	if ( $def_type != null ) {
-		$def_type.setLocation(getLocation( $start, getStopToken() ));
+		$def_type.setLocation(getLocation( $start, getLastVisibleToken() ));
 	}
 };
 
@@ -820,7 +808,7 @@ pr_StructFieldDef returns[CompField compField]
 			}
 		}
 		$compField = new CompField($i.identifier, type, optional, null);
-		$compField.setLocation(getLocation( $start, getStopToken()));
+		$compField.setLocation(getLocation( $start, getLastVisibleToken()));
 		$compField.setCommentLocation( getLastCommentLocation( $start ) );
 	}
 };
@@ -920,7 +908,7 @@ pr_NestedRecordOfDef returns[SequenceOf_Type type]
 		parsedSubTypes.add(new Length_ParsedSubType(restriction));
 		$type.setParsedRestrictions(parsedSubTypes);
 	}
-	$type.setLocation(getLocation( $col.start, getStopToken()));
+	$type.setLocation(getLocation( $col.start, getLastVisibleToken()));
 };
 
 pr_NestedSetOfDef returns[SetOf_Type type]
@@ -943,7 +931,7 @@ pr_NestedSetOfDef returns[SetOf_Type type]
 		parsedSubTypes.add(new Length_ParsedSubType(restriction));
 		$type.setParsedRestrictions(parsedSubTypes);
 	}
-	$type.setLocation(getLocation( $col.start, getStopToken()));
+	$type.setLocation(getLocation( $col.start, getLastVisibleToken()));
 };
 
 pr_NestedEnumDef returns[Type type]
@@ -991,7 +979,7 @@ pr_NestedFunctionTypeDef returns[Type type]
 	if(parList == null) { parList = new FormalParameterList(new ArrayList<FormalParameter>()); }
 	parList.setLocation(getLocation( $start1.start, $end1.stop));
 	$type = new Function_Type(parList, confighelper.runsonReference, confighelper.runsOnSelf, returnType, returnsTemplate, templateRestriction);
-	$type.setLocation(getLocation( $start, getStopToken()));
+	$type.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_NestedAltstepTypeDef returns[Type type]
@@ -1010,7 +998,7 @@ pr_NestedAltstepTypeDef returns[Type type]
 	if(parList == null) { parList = new FormalParameterList(new ArrayList<FormalParameter>()); }
 	parList.setLocation(getLocation( $start1.start, $end1.stop));
 	$type = new Altstep_Type(parList, confighelper.runsonReference, confighelper.runsOnSelf);
-	$type.setLocation(getLocation( $start, getStopToken()));
+	$type.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_NestedTestcaseTypeDef returns[Type type]
@@ -1117,7 +1105,7 @@ pr_UnionFieldDef returns[CompField compField]
 		}
 	}
 	$compField = new CompField($i.identifier, type, false, null);
-	$compField.setLocation(getLocation( $start, getStopToken()));
+	$compField.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_SetDef returns[Def_Type def_type]
@@ -1278,7 +1266,7 @@ pr_Enumeration returns[EnumItem enumItem]
 )
 {
 	$enumItem = new EnumItem($i.identifier, value);
-	$enumItem.setLocation(getLocation( $i.start, getStopToken()));
+	$enumItem.setLocation(getLocation( $i.start, getLastVisibleToken()));
 	$enumItem.setCommentLocation( getLastCommentLocation( $start ) );
 };
 
@@ -1473,7 +1461,7 @@ pr_PortDefAttribs returns[Port_Type portType, PortTypeBody body]
 )
 {
 	if($body != null) {
-		$body.setLocation(getLocation( $start, getStopToken()));
+		$body.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -1599,7 +1587,7 @@ pr_MessageListFromAttribute returns[TypeMappingTarget mappingTarget]:
 	pr_LParen
 	pr_RParen
 {	$mappingTarget = new FunctionTypeMappingTarget( $outerInType.type, $inFunction.reference );
-	$mappingTarget.setLocation(getLocation($start, getStopToken()));
+	$mappingTarget.setLocation(getLocation($start, getLastVisibleToken()));
 };
 
 pr_MessageListToAttributeList returns[TypeMappingTargets mappingTargetList]
@@ -1628,7 +1616,7 @@ pr_MessageListToAttribute returns[TypeMappingTarget mappingTarget]:
 	pr_LParen
 	pr_RParen
 {	$mappingTarget = new FunctionTypeMappingTarget( $outerOutType.type, $outFunction.reference );
-	$mappingTarget.setLocation(getLocation($start, getStopToken()));
+	$mappingTarget.setLocation(getLocation($start, getLastVisibleToken()));
 };
 
 pr_RealtimeKeyword:
@@ -1819,7 +1807,7 @@ pr_ComponentElementDef returns[List<Definition> definitions]
 		if ( modifier != null) {
 			definition.setVisibility( modifier );
 		}
-		definition.setCumulativeDefinitionLocation(getLocation( $start, getStopToken()));
+		definition.setCumulativeDefinitionLocation(getLocation( $start, getLastVisibleToken()));
 	}
 
 };
@@ -1868,7 +1856,7 @@ pr_PortElement[Reference portTypeReference]
 {
 	if($i.identifier != null) {
 		$def_port = new Def_Port( $i.identifier, $portTypeReference, dimensions );
-		$def_port.setLocation(getLocation( $start, getStopToken()));
+		$def_port.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -1959,7 +1947,7 @@ pr_FunctionTypeDef returns[Def_Type def_type]
 		if(parList == null) { parList = new FormalParameterList(new ArrayList<FormalParameter>()); }
 		parList.setLocation(getLocation( $start1.start, $end1.stop));
 		Type type = new Function_Type(parList, confighelper.runsonReference, confighelper.runsOnSelf, returnType, returnsTemplate, templateRestriction);
-		type.setLocation(getLocation( $col.start, getStopToken()));
+		type.setLocation(getLocation( $col.start, getLastVisibleToken()));
 		$def_type = new Def_Type($i.identifier, type);
 	}
 };
@@ -2060,7 +2048,7 @@ pr_BaseTemplate [Template_definition_helper helper]
 	$helper.identifier = $i.identifier;
 	if(formalParList != null) {
 		helper.formalParList = formalParList;
-		helper.formalParList.setLocation(getLocation( $formalStart.start, getStopToken() ));
+		helper.formalParList.setLocation(getLocation( $formalStart.start, getLastVisibleToken() ));
 	}
 };
 
@@ -2146,7 +2134,7 @@ pr_TemplateBody returns[ TTCN3Template template]
 )
 {
 	if( $template != null ) {
-		$template.setLocation(getLocation( $start, getStopToken()));
+		$template.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -2293,7 +2281,7 @@ pr_SingleValueOrAttrib returns[TTCN3Template template]
 )
 {
 	if ($template != null) {
-		$template.setLocation(getLocation( $start, getStopToken()));
+		$template.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -2340,7 +2328,7 @@ pr_ArrayElementSpec returns[ TTCN3Template body]
 )
 {
 	if($body != null) {
-		  $body.setLocation(getLocation( $start, getStopToken()));
+		  $body.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -2375,7 +2363,7 @@ pr_MatchingSymbol returns[TTCN3Template template]
 )
 {
 	if($template != null) {
-		$template.setLocation(getLocation( $start, getStopToken()));
+		$template.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -2641,7 +2629,7 @@ pr_TemplateRefWithParList returns[Reference reference]
 		subReference.setLocation(new Location(parameters.getLocation()));
 		$reference.addSubReference(subReference);
 	}
-	$reference.setLocation(getLocation( $start, getStopToken()));
+	$reference.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_TemplateRef returns[Reference reference]
@@ -2713,9 +2701,9 @@ pr_TemplateActualPar returns[TemplateInstance instance]
 (	pr_NotUsedSymbol
 	{
 		TTCN3Template template = new NotUsed_Template();
-		template.setLocation(getLocation( $start, getStopToken()));
+		template.setLocation(getLocation( $start, getLastVisibleToken()));
 		$instance = new TemplateInstance(null, null, template);
-		$instance.setLocation(getLocation( $start, getStopToken()));
+		$instance.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 |	t = pr_TemplateInstance { $instance = $t.templateInstance; }
 );
@@ -2973,7 +2961,7 @@ pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
 )
 {
 	$statement = new TestcaseStop_Statement(logArguments);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_UpdateStatement returns [Update_Statement statement]
@@ -2989,7 +2977,7 @@ pr_UpdateStatement returns [Update_Statement statement]
 )
 {
 	$statement = new Update_Statement (ref, attr);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_SetStateStatement returns[SetState_Statement statement]
@@ -3006,7 +2994,7 @@ pr_SetStateStatement returns[SetState_Statement statement]
 )
 {
 	$statement = new SetState_Statement($v.value, templateInstance);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_SetencodeStatement returns[Setencode_Statement statement]
@@ -3024,7 +3012,7 @@ pr_SetencodeStatement returns[Setencode_Statement statement]
 )
 {
 	$statement = new Setencode_Statement(type, encoding);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 // TODO this will handle the reference and all port variants of setencode
@@ -3110,7 +3098,7 @@ pr_FunctionRef returns[Reference reference]
 )
 {
 	if ($reference != null) {
-		$reference.setLocation(getLocation( $start, getStopToken()));
+		$reference.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -3219,9 +3207,9 @@ pr_SignatureDef returns[ Def_Type def_type]
 		}
 
 		Type type = new Signature_Type(parameters, returnType, no_block, exceptions);
-		type.setLocation(getLocation( $col.start, getStopToken()));
+		type.setLocation(getLocation( $col.start, getLastVisibleToken()));
 		$def_type = new Def_Type($i.identifier, type);
-		$def_type.setLocation(getLocation( $col.start, getStopToken()));
+		$def_type.setLocation(getLocation( $col.start, getLastVisibleToken()));
 		$def_type.setCommentLocation( getLastCommentLocation( $start ) );
 	}
 };
@@ -3788,7 +3776,7 @@ pr_ImportModuleParSpec:
 	)
 )
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_ModuleParRefList:
@@ -3877,7 +3865,7 @@ pr_ImportGroupSpec:
 	|	pr_AllGroupsWithExcept
 	)
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_GroupRefList:
@@ -3910,7 +3898,7 @@ pr_FullGroupIdentifier returns [Qualifier qualifier]
 		i = pr_Identifier  { $qualifier.addSubReference(new FieldSubReference($i.identifier)); }
 	)*
 {
-	$qualifier.setLocation(getLocation( $start, getStopToken()));
+	$qualifier.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_FullGroupIdentifierWithExcept:
@@ -3924,7 +3912,7 @@ pr_ImportTypeDefSpec:
 	|	pr_AllTypesWithExcept
 	)
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_ExceptGroupRefList:
@@ -3958,7 +3946,7 @@ pr_ImportTemplateSpec:
 	|	pr_AllTemplsWithExcept
 	)
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_TemplateRefList:
@@ -3981,7 +3969,7 @@ pr_ImportConstSpec:
 	|	pr_AllConstsWithExcept
 	)
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_ConstRefList:
@@ -4001,7 +3989,7 @@ pr_ImportTestcaseSpec:
 	|	pr_AllTestcasesWithExcept
 	)
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_TestcaseRefList:
@@ -4028,7 +4016,7 @@ pr_ImportFunctionOrAltstepSpec:
 	)
 )
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_ImportFunctionSpec:
@@ -4058,7 +4046,7 @@ pr_ImportSignatureSpec:
 	|	pr_AllSignaturesWithExcept
 	)
 {
-	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getStopToken() );
+	reportWarning( "Selective importation is not yet supported, importing all definitions", $start, getLastVisibleToken() );
 };
 
 pr_SignatureRefList:
@@ -4095,8 +4083,8 @@ pr_GroupDef[Group parent_group]
 	if (group != null) {
 		group.setWithAttributes(attributes);
 		group.setParentGroup(parent_group);
-		group.setLocation(getLocation( $start, getStopToken()));
-		group.setInnerLocation(getLocation( $begin.start, getStopToken()));
+		group.setLocation(getLocation( $start, getLastVisibleToken()));
+		group.setInnerLocation(getLocation( $begin.start, getLastVisibleToken()));
 		group.setCommentLocation( getLastCommentLocation( $start ) );
 		if ($parent_group != null) {
 			$parent_group.addGroup(group);
@@ -4147,7 +4135,7 @@ pr_FriendModuleDef[Group parent_group]
 	for (Identifier identifier2 : identifiers) {
 		FriendModule friend = new FriendModule(identifier2);
 		friend.setWithAttributes(attributes);
-		friend.setLocation(getLocation( $start, getStopToken()));
+		friend.setLocation(getLocation( $start, getLastVisibleToken()));
 		if($parent_group == null) {
 			friend.setAttributeParentPath(act_ttcn3_module.getAttributePath());
 		} else {
@@ -4188,7 +4176,7 @@ pr_ExtFunctionDef returns [Def_Extfunction def_extfunction]
 		if(parameters == null) { parameters = new FormalParameterList(new ArrayList<FormalParameter>()); }
 		parameters.setLocation(getLocation( $start1.start, $enda.stop));
 		$def_extfunction = new Def_Extfunction($i.identifier, parameters,  returnType, returnsTemplate, templateRestriction);
-		$def_extfunction.setLocation(getLocation( $start, getStopToken()));
+		$def_extfunction.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -4296,7 +4284,7 @@ pr_ModuleParList [Type type]
 	)?
 		{	if($i.identifier != null && $type != null) {
 				Definition def = new Def_ModulePar($i.identifier, $type, value);
-				def.setLocation(getLocation( $i.start, getStopToken()));
+				def.setLocation(getLocation( $i.start, getLastVisibleToken()));
 				$parameters.add(def);
 			}
 		}
@@ -4307,7 +4295,7 @@ pr_ModuleParList [Type type]
 		)?
 			{	if($i2.identifier != null && $type != null) {
 					Definition def = new Def_ModulePar($i2.identifier, $type, value);
-					def.setLocation(getLocation( $i2.start, getStopToken()));
+					def.setLocation(getLocation( $i2.start, getLastVisibleToken()));
 					$parameters.add(def);
 				}
 			}
@@ -4438,7 +4426,7 @@ pr_ControlStatement returns[Statement statement]
 |	s3 = pr_TimerStatements { $statement = $s3.statement; }
 |	s4 = pr_BehaviourStatements { $statement = $s4.statement; }
 |	STOP	{	$statement = new Stop_Execution_Statement();
-				$statement.setLocation(getLocation( $start, getStopToken())); }
+				$statement.setLocation(getLocation( $start, getLastVisibleToken())); }
 );
 
 pr_VarInstance returns[List<Definition> definitions]
@@ -4506,7 +4494,7 @@ pr_SingleTempVarInstance [List<Definition> definitions, Type type, TemplateRestr
 		}
 
 		Definition definition = new Def_Var_Template( $templateRestriction, $i.identifier, tempType, formalParList, template );
-		definition.setLocation(getLocation( $start, getStopToken()));
+		definition.setLocation(getLocation( $start, getLastVisibleToken()));
 		$definitions.add(definition);
 	}
 };
@@ -4541,7 +4529,7 @@ pr_SingleVarInstance[Type type, parameterEvaluationType eval] returns[Def_Var de
 			}
 		}
 		$definition = new Def_Var( $i.identifier, type2, value, $eval );
-		$definition.setLocation(getLocation( $start, getStopToken()));
+		$definition.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -4613,7 +4601,7 @@ pr_SingleTimerInstance returns[Def_Timer def_timer]
 {
 	if($i.identifier != null) {
 		$def_timer = new Def_Timer($i.identifier, dimensions, value);
-		$def_timer.setLocation(getLocation( $start, getStopToken()));
+		$def_timer.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -4718,7 +4706,7 @@ pr_ConfigurationStatements returns[Statement statement]
 )
 {
 	if( $statement != null ) {
-		$statement.setLocation(getLocation( $start, getStopToken()));
+		$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -5191,7 +5179,7 @@ pr_CommunicationStatements returns[Statement statement]
 )
 {
 	if( $statement != null ) {
-		$statement.setLocation(getLocation( $start, getStopToken()));
+		$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -5329,7 +5317,7 @@ pr_CallBodyStatement returns[AltGuard altGuard]
 )
 {
 	$altGuard = new Operation_Altguard($v.value, $s.statement, statementBlock);
-	$altGuard.setLocation(getLocation( $v.start, getStopToken()));
+	$altGuard.setLocation(getLocation( $v.start, getLastVisibleToken()));
 };
 
 pr_CallBodyOps returns[Statement statement]
@@ -5361,7 +5349,7 @@ pr_PortReplyOp [Reference reference]
 )
 {
 	$statement = new Reply_Statement($reference, $parameter.templateInstance, replyValue, toClause, timestamp);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 
@@ -5395,7 +5383,7 @@ pr_PortRaiseOp [Reference reference]
 )
 {
 	$statement = new Raise_Statement($reference, $signature.reference, $parameter.templateInstance, toClause, timestamp);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_RaiseKeyword:
@@ -5441,7 +5429,7 @@ pr_PortReceiveOp [Reference reference, boolean is_check, boolean is_any_from, bo
 			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp, translate );
 		}
 	}
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_ReceiveOpKeyword:
@@ -5510,7 +5498,7 @@ pr_ValueSpec returns[Value_Redirection redirection]
 			for(Single_ValueRedirection singleRedirection : $svs.valueRedirections) {
 			  $redirection.add(singleRedirection);
 			}
-			$redirection.setLocation(getLocation( $start, getStopToken()));
+			$redirection.setLocation(getLocation( $start, getLastVisibleToken()));
 		}
 ;
 
@@ -5575,7 +5563,7 @@ pr_SingleValueSpec returns[Single_ValueRedirection singleRedirection]
 	)?
 	{
 		$singleRedirection = new Single_ValueRedirection($vr.reference, subreferences, is_decoded, string_encoding);
-		$singleRedirection.setLocation(getLocation( $vr.start, getStopToken()));
+		$singleRedirection.setLocation(getLocation( $vr.start, getLastVisibleToken()));
 	}
 ;
 
@@ -5624,7 +5612,7 @@ pr_PortTriggerOp [Reference reference, boolean is_any_from]
 	} else {
 		$statement = new Trigger_Port_Statement(reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, helper.redirectTimestamp);
 	}
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_PortGetCallOp [Reference reference, boolean is_check, boolean is_any_from]
@@ -5657,7 +5645,7 @@ pr_PortGetCallOp [Reference reference, boolean is_check, boolean is_any_from]
 			$statement = new Getcall_Statement($reference, is_any_from, parameter, from, helper.redirectionParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		}
 	}
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_PortRedirectWithParam [boolean is_any_from] returns[Redirection_Helper helper]:
@@ -5799,7 +5787,7 @@ pr_VariableEntry returns[Variable_Entry entry]
 )
 {
 	$entry = new Variable_Entry(reference);
-	$entry.setLocation(getLocation( $start, getStopToken()));
+	$entry.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_PortGetReplyOp [Reference reference, boolean is_check, boolean is_any_from]
@@ -5834,7 +5822,7 @@ pr_PortGetReplyOp [Reference reference, boolean is_check, boolean is_any_from]
 			$statement = new Getreply_Statement($reference, is_any_from, parameter, valueMatch, from, helper.redirectValue, helper.redirectionParameters, helper.senderReference, helper.indexReference, helper.timestampReference);
 		}
 	}
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_GetReplyOpKeyword:
@@ -5900,7 +5888,7 @@ pr_FromClausePresent [Reference reference, boolean is_any_from]
 )
 {
 	$statement = new Check_Port_Statement(reference, is_any_from, fromClause, redirectSender, redirectIndex, redirectTimestamp);
-	$statement.setLocation(getLocation( $f.start, getStopToken()));
+	$statement.setLocation(getLocation( $f.start, getLastVisibleToken()));
 };
 
 pr_CheckPortOpsPresent [Reference reference, boolean is_any_from]
@@ -5915,7 +5903,7 @@ pr_CheckPortOpsPresent [Reference reference, boolean is_any_from]
 )
 {
 	if ($statement != null) {
-		$statement.setLocation(getLocation( $start, getStopToken()));
+		$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -5938,7 +5926,7 @@ pr_RedirectPresent [Reference reference, boolean is_any_from]
 )
 {
 	$statement = new Check_Port_Statement( $reference, is_any_from, null, redirectSender, redirectIndex, redirectTimestamp);
-	$statement.setLocation( getLocation( $start, getStopToken() ) );
+	$statement.setLocation( getLocation( $start, getLastVisibleToken() ) );
 };
 
 pr_PortCatchOp [Reference reference, boolean is_check, boolean is_any_from]
@@ -5971,7 +5959,7 @@ pr_PortCatchOp [Reference reference, boolean is_check, boolean is_any_from]
 		$statement = new Catch_Statement(reference, is_any_from, catchopHelper.signatureReference, catchopHelper.parameter, catchopHelper.timeout,
 		from, redirectHelper.redirectValue, redirectHelper.redirectSender, redirectHelper.redirectIndex, redirectHelper.redirectTimestamp);
 	}
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_CatchOpKeyword:
@@ -6065,7 +6053,7 @@ pr_TimerStatements returns[Statement statement]
 )
 {
 	if($statement != null) {
-		$statement.setLocation(getLocation( $start, getStopToken()));
+		$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -6090,7 +6078,7 @@ pr_TimerOps returns[Expression_Value value]
 	)
 )
 {
-	$value.setLocation(getLocation( $col.start, getStopToken()));
+	$value.setLocation(getLocation( $col.start, getLastVisibleToken()));
 };
 
 pr_TimeoutKeyword:
@@ -6106,7 +6094,7 @@ pr_Type returns[Type type]
 )
 {
 	if ( $type != null ) {
-		$type.setLocation(getLocation( $start, getStopToken()));
+		$type.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -6172,7 +6160,7 @@ pr_ReferencedType returns[Type type]
 			reference.addSubReference(subReference2);
 		}
 	}
-	reference.setLocation(getLocation( $start, getStopToken()));
+	reference.setLocation(getLocation( $start, getLastVisibleToken()));
 	$type = new Referenced_Type(reference);
 };
 
@@ -6273,7 +6261,7 @@ pr_FloatValue returns[Real_Value value]
 |	NOT_A_NUMBER	{ $value = new Real_Value( Float.NaN ); }
 )
 {
-	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
+	if($value != null) { $value.setLocation(getLocation( $start, getLastVisibleToken())); }
 };
 
 pr_BooleanValue returns[Boolean_Value value]
@@ -6284,7 +6272,7 @@ pr_BooleanValue returns[Boolean_Value value]
 |	FALSE	{ $value = new Boolean_Value(false); }
 )
 {
-	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
+	if($value != null) { $value.setLocation(getLocation( $start, getLastVisibleToken())); }
 };
 
 pr_VerdictTypeValue returns[Verdict_Value value]
@@ -6298,7 +6286,7 @@ pr_VerdictTypeValue returns[Verdict_Value value]
 |	ERROR	{ $value = new Verdict_Value( Verdict_Value.Verdict_type.ERROR  ); }
 )
 {
-	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
+	if($value != null) { $value.setLocation(getLocation( $start, getLastVisibleToken())); }
 };
 
 pr_CharStringValue returns[Value value]
@@ -6316,7 +6304,7 @@ pr_CharStringValue returns[Value value]
 |	usi_value = pr_USI	{ $value = new UniversalCharstring_Value(new UniversalCharstring($usi_value.uid_elements, getLocation( $usi_value.start, $usi_value.stop))); }
 )
 {
-	if($value != null) { $value.setLocation(getLocation( $start, getStopToken())); }
+	if($value != null) { $value.setLocation(getLocation( $start, getLastVisibleToken())); }
 };
 
 pr_CstringList returns[String string]:
@@ -6424,7 +6412,7 @@ pr_ValueReference returns[Reference reference]
 		FieldSubReference subReference = new FieldSubReference($id.identifier);
 		subReference.setLocation($id.identifier.getLocation());
 		$reference.addSubReference(subReference);
-		$reference.setLocation(getLocation( $start, getStopToken()));//TODO: maybe this can be improved too.
+		$reference.setLocation(getLocation( $start, getLastVisibleToken()));//TODO: maybe this can be improved too.
 	}
 };
 
@@ -6490,7 +6478,7 @@ pr_FormalValuePar returns[FormalParameter parameter]
 {
 	$parameter = new FormalParameter(TemplateRestriction.Restriction_type.TR_NONE, assignmentType, $t.type, $i.identifier, default_value, eval);
 	$parameter.setCommentLocation( getLastCommentLocation( $start ) );
-	$parameter.setLocation(getLocation( $start, getStopToken()));
+	$parameter.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_FormalTimerPar returns[FormalParameter parameter]
@@ -6509,7 +6497,7 @@ pr_FormalTimerPar returns[FormalParameter parameter]
 {
 	$parameter = new FormalParameter( TemplateRestriction.Restriction_type.TR_NONE, Assignment_type.A_PAR_TIMER, null,
 		$i.identifier, default_value, parameterEvaluationType.NORMAL_EVAL );
-	$parameter.setLocation(getLocation( startcol, getStopToken()));
+	$parameter.setLocation(getLocation( startcol, getLastVisibleToken()));
 };
 
 pr_FormalTemplatePar returns[FormalParameter parameter]
@@ -6543,7 +6531,7 @@ pr_FormalTemplatePar returns[FormalParameter parameter]
 )
 {
 	$parameter = new FormalParameter(templateRestriction, $assignmentType, $t.type, $i.identifier, default_value, eval);
-	$parameter.setLocation(getLocation( $start, getStopToken()));
+	$parameter.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_TemplateOptRestricted returns[TemplateRestriction.Restriction_type templateRestriction]
@@ -6689,7 +6677,7 @@ pr_DefOrFieldRef returns[Qualifier qualifier]
 		{	reportUnsupportedConstruct( "Reference to multiple definitions in attribute qualifiers is not yet supported", $c.start, $c.stop );	}
 ) {
 	if ($qualifier != null) {
-		$qualifier.setLocation(getLocation( $start, getStopToken()));
+		$qualifier.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -6863,7 +6851,7 @@ pr_ReturnStatement returns[Return_Statement statement]
 )
 {
 	$statement = new Return_Statement( template );
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_AltConstruct returns[Statement statement]
@@ -6911,7 +6899,7 @@ pr_GuardStatement returns [AltGuard altGuard]
 		)?
 		pr_SemiColon?
 		{	$altGuard = new Invoke_Altguard($v.value, value2, $p1.parsedParameters, statementBlock);
-			$altGuard.setLocation(getLocation( $start, getStopToken())); }
+			$altGuard.setLocation(getLocation( $start, getLastVisibleToken())); }
 	|	t = pr_FunctionInstance
 		( p2 = pr_ApplyOpEnd { invoked = true; parsedParameters = $p2.parsedParameters; } )?
 		(	pr_SemiColon?
@@ -6925,7 +6913,7 @@ pr_GuardStatement returns [AltGuard altGuard]
 			} else {
 				$altGuard = new Referenced_Altguard($v.value, $t.temporalReference, statementBlock);
 			}
-			$altGuard.setLocation(getLocation( $start, getStopToken()));
+			$altGuard.setLocation(getLocation( $start, getLastVisibleToken()));
 		}
 	|	s = pr_GuardOp
 		(	pr_SemiColon?
@@ -6933,7 +6921,7 @@ pr_GuardStatement returns [AltGuard altGuard]
 		)?
 		pr_SemiColon?
 		{	$altGuard = new Operation_Altguard($v.value, $s.statement, statementBlock);
-			$altGuard.setLocation(getLocation( $start, getStopToken())); }
+			$altGuard.setLocation(getLocation( $start, getLastVisibleToken())); }
 	)
 );
 
@@ -6947,7 +6935,7 @@ pr_StatementBlock returns [StatementBlock statementblock]
 	pr_EndChar
 )
 {
-	$statementblock.setLocation(getLargeLocation( $start, getStopToken()));
+	$statementblock.setLocation(getLargeLocation( $start, getLastVisibleToken()));
 	if(statements != null) {
 		for(Statement statement : statements) {
 			$statementblock.addStatement(statement);
@@ -6967,7 +6955,7 @@ pr_ElseStatement returns [Else_Altguard altGuard]
 )
 {
 	$altGuard = new Else_Altguard($s.statementblock);
-	$altGuard.setLocation(getLocation( $start, getStopToken()));
+	$altGuard.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_AltGuardChar returns[Value value]
@@ -7102,7 +7090,7 @@ pr_GuardOp returns[Statement statement]
 )
 {
 	if($statement != null) {
-		$statement.setLocation(getLocation( $start, getStopToken()));
+		$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -7143,7 +7131,7 @@ pr_InterleavedGuardElement returns[AltGuard altGuard]
 )
 {
 	$altGuard = new Operation_Altguard(null, $g.statement, statementBlock);
-	$altGuard.setLocation(getLocation( $start, getStopToken()));
+	$altGuard.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_LabelStatement returns[Label_Statement statement]
@@ -7171,7 +7159,7 @@ pr_GotoStatement returns[Goto_statement statement]
 {
 	if(identifier != null) {
 		$statement = new Goto_statement(identifier);
-		$statement.setLocation(getLocation( $GOTO, getStopToken()));
+		$statement.setLocation(getLocation( $GOTO, getLastVisibleToken()));
 	}
 };
 
@@ -7199,7 +7187,7 @@ pr_ActivateOp returns [Value value]
 )
 {
 	if($value != null) {
-		$value.setLocation(getLocation( $start, getStopToken()));
+		$value.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -7226,7 +7214,7 @@ pr_ActivateStatement returns[Statement statement]
 )
 {
 	if($statement != null) {
-		$statement.setLocation(getLocation( $start, getStopToken()));
+		$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -7241,7 +7229,7 @@ pr_ReferOp returns[RefersExpression value]
 )
 {
 	$value = new RefersExpression($r.reference);
-	$value.setLocation(getLocation( $start, getStopToken()));
+	$value.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_DeactivateStatement returns[Deactivate_Statement statement]
@@ -7257,7 +7245,7 @@ pr_DeactivateStatement returns[Deactivate_Statement statement]
 )
 {
 	$statement = new Deactivate_Statement(value);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_BasicStatements returns[Statement statement]
@@ -7276,7 +7264,7 @@ pr_BasicStatements returns[Statement statement]
 |	sb = pr_StatementBlock
 		{	if ($sb.statementblock != null) {
 				$statement = new StatementBlock_Statement($sb.statementblock);
-				$statement.setLocation(getLocation( $start, getStopToken()));
+				$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 			}
 		}
 );
@@ -7548,7 +7536,7 @@ pr_BitNotExpression returns[Value value]
 }:
 (	NOT4B
 	v = pr_BitNotExpression {	$value = new Not4bExpression($v.value);
-								$value.setLocation(getLocation( $start, getStopToken())); }
+								$value.setLocation(getLocation( $start, getLastVisibleToken())); }
 |	v2 = pr_AddExpression { $value = $v2.value; }
 );
 
@@ -7914,7 +7902,7 @@ pr_CheckStateOp returns[Value value]
 	} else {
 		$value = new CheckStateExpression( reference, $v.value );
 	}
-	$value.setLocation(getLocation( $start, getStopToken()));
+	$value.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_CheckStateKeyword:
@@ -7930,7 +7918,7 @@ pr_GetRefOp returns[Value value]:
 )
 {
 	$value = new GetPortReferenceExpression();
-	$value.setLocation(getLocation( $start, getStopToken()));
+	$value.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_GetrefKeyword:
@@ -7942,7 +7930,7 @@ pr_nowOp returns[Value value]:
 )
 {
 	$value = new NowExpression();
-	$value.setLocation(getLocation( $start, getStopToken()));
+	$value.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_NowKeyword:
@@ -8079,7 +8067,7 @@ pr_PredefinedOps returns[Value value]
 )
 {
 	if ( $value != null ) {
-		$value.setLocation(getLocation( $start, getStopToken()));
+		$value.setLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -8229,7 +8217,7 @@ pr_PredefinedOps1 returns[Value value]
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new Cbor2JsonExpression($v.value); }
 )
-{ $value.setLocation(getLocation( $start, getStopToken())); };
+{ $value.setLocation(getLocation( $start, getLastVisibleToken())); };
 
 //The ones with 2 standard operands
 pr_PredefinedOps2 returns[Value value]
@@ -8253,7 +8241,7 @@ pr_PredefinedOps2 returns[Value value]
 	pr_Comma	v2 = pr_SingleExpression
 	pr_RParen	{	$value = new IsTemplateKindExpression($t1.templateInstance, $v2.value); }
 )
-{ $value.setLocation(getLocation( $start, getStopToken())); };
+{ $value.setLocation(getLocation( $start, getLastVisibleToken())); };
 
 //The ones with 3 or 4 standard operands
 pr_PredefinedOps3 returns[Value value]
@@ -8285,7 +8273,7 @@ pr_PredefinedOps3 returns[Value value]
 	pr_Comma	t4 = pr_TemplateInstance
 	pr_RParen	{	$value = new ReplaceExpression($t1.templateInstance, $v2.value, $v3.value, $t4.templateInstance); }
 )
-{ $value.setLocation(getLocation( $start, getStopToken())); };
+{ $value.setLocation(getLocation( $start, getLastVisibleToken())); };
 
 pr_SizeofARG returns[Reference reference]
 @init {
@@ -8414,7 +8402,7 @@ pr_InitialDefinitions returns[For_Loop_Definitions definitions]
 		$definitions.addDefinitions( $d.definitions );
 		for ( int i = 0; i < $definitions.getNofAssignments(); i++ ) {
 			Definition definition = $definitions.getAssignmentByIndex(i);
-			definition.setCumulativeDefinitionLocation(getLocation( $start, getStopToken()));
+			definition.setCumulativeDefinitionLocation(getLocation( $start, getLastVisibleToken()));
 		}
 	}
 	$definitions.setLocation( getLocation( $d.start, $d.stop ) );
@@ -8478,7 +8466,7 @@ pr_ConditionalConstruct returns[If_Statement ifStatement]
 	firstIfClause.setLocation( getLocation( $start, $sb.stop) );
 	ifClauses.addFrontIfClause(firstIfClause);
 	$ifStatement = new If_Statement(ifClauses, statementblock2);
-	$ifStatement.setLocation(getLocation( $start, getStopToken()));
+	$ifStatement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_ElseIfClause returns[If_Clause ifClause]
@@ -8550,7 +8538,7 @@ pr_SelectCase returns[SelectCase selectCase]
 )
 {
 	$selectCase = new SelectCase(templateInstances, $s.statementblock);
-	$selectCase.setLocation( getLocation( $start, getStopToken()) );
+	$selectCase.setLocation( getLocation( $start, getLastVisibleToken()) );
 };
 
 pr_SelectUnionCaseConstruct returns[ Statement statement ]
@@ -8601,7 +8589,7 @@ pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 	s = pr_StatementBlock
 )
 {	$selectUnionCase = new SelectUnionCase( items, $s.statementblock );
-	$selectUnionCase.setLocation( getLocation( $start, getStopToken() ) );
+	$selectUnionCase.setLocation( getLocation( $start, getLastVisibleToken() ) );
 };
 
 pr_SelectUnionCaseHeader[ List<Identifier> items ]:
@@ -8630,7 +8618,7 @@ pr_TryCatchConstruct returns[Statement statement]
 )
 {
 	$statement = new TryCatch_Statement($sb1.statementblock, exceptionId, $sb2.statementblock);
-	$statement.setLocation(getLocation( $start, getStopToken()));
+	$statement.setLocation(getLocation( $start, getLastVisibleToken()));
 };
 
 pr_Identifier returns [Identifier identifier]
@@ -8696,13 +8684,13 @@ pr_DecodedModifier returns[Value value, boolean is_decoded]
 		pr_RParen
 	)?
 {
-	//reportWarning( "Modifier `@decoded' is not yet supported."+value, $start, getStopToken() );
+	//reportWarning( "Modifier `@decoded' is not yet supported."+value, $start, getLastVisibleToken() );
 };
 
 pr_DeterministicModifier:
 	DETERMINISTICKEYWORD	//TODO: Modifier `@deterministic' is not yet supported.
 {
-	reportWarning( "Modifier `@deterministic' is not yet supported.", $start, getStopToken() );
+	reportWarning( "Modifier `@deterministic' is not yet supported.", $start, getLastVisibleToken() );
 };
 
 pr_IndexSpec returns[Reference reference]:
