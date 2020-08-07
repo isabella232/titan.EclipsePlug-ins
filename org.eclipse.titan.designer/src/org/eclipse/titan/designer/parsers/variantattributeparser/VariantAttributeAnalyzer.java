@@ -35,7 +35,11 @@ import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
  */
 public class VariantAttributeAnalyzer {
 
-	public void parse(final RawAST rawAST, final JsonAST jsonAST, final AttributeSpecification specification, 
+	private VariantAttributeAnalyzer() {
+		//intentionally empty
+	}
+
+	public static void parse(final RawAST rawAST, final JsonAST jsonAST, final AttributeSpecification specification, 
 						final int lengthMultiplier, final AtomicBoolean raw_found, final AtomicBoolean json_found) {
 		final Location location = specification.getLocation();
 		final StringReader reader = new StringReader(specification.getSpecification());
