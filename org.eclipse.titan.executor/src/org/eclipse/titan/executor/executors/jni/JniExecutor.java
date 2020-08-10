@@ -394,19 +394,20 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 
 		final Formatter formatter = new Formatter();
 		formatter.format(DATETIMEFORMAT, new Date(time.tv_sec * 1000), time.tv_usec);
+		final String timestamp = formatter.toString();
 		if (severityLevelExtraction) {
-			addNotification(new Notification(formatter.toString(), SeverityResolver.getSeverityString(severity), source, msg));
+			addNotification(new Notification(timestamp, SeverityResolver.getSeverityString(severity), source, msg));
 		} else {
-			addNotification(new Notification(formatter.toString(), EMPTY_STRING, source, msg));
+			addNotification(new Notification(timestamp, EMPTY_STRING, source, msg));
 		}
 
 		if (verdictExtraction
 				&& executionFinishedMatcher.reset(msg).matches()) {
 			final String reason = executionFinishedMatcher.group(2);
 			if (reasonMatcher.reset(reason).matches()) {
-				executedTests.add(new ExecutedTestcase(formatter.toString(), executionFinishedMatcher.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
+				executedTests.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
 			} else {
-				executedTests.add(new ExecutedTestcase(formatter.toString(), executionFinishedMatcher.group(1), executionFinishedMatcher.group(2), ""));
+				executedTests.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(1), executionFinishedMatcher.group(2), ""));
 			}
 		}
 	}
