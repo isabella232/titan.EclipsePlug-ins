@@ -376,12 +376,12 @@ public final class SingleExecutor extends BaseExecutor {
 		while (null != fastLine) {
 			if (verdictExtraction && (executionFinished.reset(fastLine).matches())) {
 				final String reason = executionFinished.group(2);
+				final String timestamp = (new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString();
 				if (reasonMatcher.reset(reason).matches()) {
-					executedTests.add(new ExecutedTestcase((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), executionFinished
-							.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
+					executedTests.add(new ExecutedTestcase(timestamp, executionFinished.group(1), reasonMatcher.group(1),
+							reasonMatcher.group(2)));
 				} else {
-					executedTests.add(new ExecutedTestcase((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), executionFinished
-							.group(1), executionFinished.group(2), ""));
+					executedTests.add(new ExecutedTestcase(timestamp, executionFinished.group(1), executionFinished.group(2), ""));
 				}
 			}
 			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));

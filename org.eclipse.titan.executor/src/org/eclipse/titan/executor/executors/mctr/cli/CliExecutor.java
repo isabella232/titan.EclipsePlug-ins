@@ -905,12 +905,13 @@ public final class CliExecutor extends BaseExecutor {
 	private void testExecution() {
 		if (fastLine != null && verdictExtraction && (executionFinishedMatcher.reset(fastLine).matches())) {
 			final String reason = executionFinishedMatcher.group(3);
+			final String timestamp = (new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString();
 			if (reasonMatcher.reset(reason).matches()) {
-				executedTests.add(new ExecutedTestcase((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(),
-						executionFinishedMatcher.group(2), reasonMatcher.group(1), reasonMatcher.group(2)));
+				executedTests.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(2), reasonMatcher.group(1),
+						reasonMatcher.group(2)));
 			} else {
-				executedTests.add(new ExecutedTestcase((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(),
-						executionFinishedMatcher.group(2), executionFinishedMatcher.group(3), ""));
+				executedTests.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(2), executionFinishedMatcher
+						.group(3), ""));
 			}
 		}
 	}
