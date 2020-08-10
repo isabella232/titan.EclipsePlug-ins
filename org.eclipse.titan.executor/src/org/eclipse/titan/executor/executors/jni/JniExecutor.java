@@ -366,11 +366,12 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 			for (int i = 0; i < s.size(); i++) {
 				if (executionFinishedMatcher.reset(s.get(i)[4]).matches()) {
 					final String reason = executionFinishedMatcher.group(2);
+					final String timestamp = times.get(i);
 					if (reasonMatcher.reset(reason).matches()) {
-						executedTests.add(new ExecutedTestcase(times.get(i), executionFinishedMatcher.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
+						executedTests.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
 					} else {
 						executedTests
-						.add(new ExecutedTestcase(times.get(i), executionFinishedMatcher.group(1), executionFinishedMatcher.group(2), ""));
+						.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(1), executionFinishedMatcher.group(2), ""));
 					}
 				}
 			}
