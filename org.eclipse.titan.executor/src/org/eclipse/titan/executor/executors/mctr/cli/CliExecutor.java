@@ -891,7 +891,11 @@ public final class CliExecutor extends BaseExecutor {
 						}
 					}
 				}
-				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", line));
+
+				final Formatter formatter = new Formatter();
+				final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+				formatter.close();
+				addNotification(new Notification(timestamp, "", "", line));
 			}
 		} catch (IOException e) {
 			ErrorReporter.logExceptionStackTrace(e);
@@ -905,7 +909,10 @@ public final class CliExecutor extends BaseExecutor {
 	private void testExecution() {
 		if (fastLine != null && verdictExtraction && (executionFinishedMatcher.reset(fastLine).matches())) {
 			final String reason = executionFinishedMatcher.group(3);
-			final String timestamp = (new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString();
+			final Formatter formatter = new Formatter();
+			final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+			formatter.close();
+
 			if (reasonMatcher.reset(reason).matches()) {
 				executedTests.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(2), reasonMatcher.group(1),
 						reasonMatcher.group(2)));
@@ -957,7 +964,11 @@ public final class CliExecutor extends BaseExecutor {
 			} else if ( consoleTimeStampLength < fastLine.length() &&
 					fastLine.substring(consoleTimeStampLength).startsWith("MC@")) {
 				fastLine = fastLine.substring(consoleTimeStampLength);
-				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
+				final Formatter formatter = new Formatter();
+				final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+				formatter.close();
+
+				addNotification(new Notification(timestamp, "", "", fastLine));
 				final int index = fastLine.indexOf(':');
 				final String shortversion = fastLine.substring(index + 1);
 				if (SHUTDOWN_COMPLETE.equals(shortversion)) {

@@ -492,8 +492,11 @@ public abstract class BaseExecutor {
 
 	public final void startHostControllers() {
 		if (hostControllers == null || hostControllers.isEmpty()) {
-			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "",
-					NO_HOSTCONTROLLER_SPECIFIED));
+			final Formatter formatter = new Formatter();
+			final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+			formatter.close();
+
+			addNotification(new Notification(timestamp, "", "", NO_HOSTCONTROLLER_SPECIFIED));
 			return;
 		}
 

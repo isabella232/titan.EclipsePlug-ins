@@ -395,6 +395,8 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		final Formatter formatter = new Formatter();
 		formatter.format(DATETIMEFORMAT, new Date(time.tv_sec * 1000), time.tv_usec);
 		final String timestamp = formatter.toString();
+		formatter.close();
+
 		if (severityLevelExtraction) {
 			addNotification(new Notification(timestamp, SeverityResolver.getSeverityString(severity), source, msg));
 		} else {
@@ -561,8 +563,10 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		}
 
 		if (localAddress != null && !EMPTY_STRING.equals(localAddress) && 0 == tcpport) {
-			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), EMPTY_STRING, EMPTY_STRING,
+			final Formatter formatter = new Formatter();
+			addNotification(new Notification(formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString(), EMPTY_STRING, EMPTY_STRING,
 					"If LocalAddress is specified you must also set the TCPPort in the configuration file: " + configFilePath));
+			formatter.close();
 
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"Error in the configuration",

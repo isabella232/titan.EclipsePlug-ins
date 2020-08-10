@@ -88,13 +88,16 @@ public final class HostJob extends Job {
 						EMPTY, "Host Controller executed successfully"));
 			} else {
 				if (stderr.ready()) {
-					final String tempDate = (new Formatter()).format(BaseExecutor.PADDEDDATETIMEFORMAT, new Date()).toString();
-					executor.addNotification(new Notification(tempDate, EMPTY, EMPTY, "Host Controller execution failed"));
-					executor.addNotification(new Notification(tempDate, EMPTY, EMPTY, "  returned with value:" + exitVal));
-					executor.addNotification(new Notification(tempDate, EMPTY, EMPTY, "Sent the following error messages:"));
+					final Formatter formatter = new Formatter();
+					final String timestamp = formatter.format(BaseExecutor.PADDEDDATETIMEFORMAT, new Date()).toString();
+					formatter.close();
+
+					executor.addNotification(new Notification(timestamp, EMPTY, EMPTY, "Host Controller execution failed"));
+					executor.addNotification(new Notification(timestamp, EMPTY, EMPTY, "  returned with value:" + exitVal));
+					executor.addNotification(new Notification(timestamp, EMPTY, EMPTY, "Sent the following error messages:"));
 					line = stderr.readLine();
 					while (null != line) {
-						executor.addNotification(new Notification(tempDate, EMPTY, EMPTY, line));
+						executor.addNotification(new Notification(timestamp, EMPTY, EMPTY, line));
 						line = stderr.readLine();
 					}
 				}

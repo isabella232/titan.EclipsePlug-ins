@@ -374,9 +374,13 @@ public final class SingleExecutor extends BaseExecutor {
 		fastOffset = 0;
 		readFullLineOnly(stdout);
 		while (null != fastLine) {
+			final Formatter formatter = new Formatter();
+			final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
+			formatter.close();
+
 			if (verdictExtraction && (executionFinished.reset(fastLine).matches())) {
 				final String reason = executionFinished.group(2);
-				final String timestamp = (new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString();
+				
 				if (reasonMatcher.reset(reason).matches()) {
 					executedTests.add(new ExecutedTestcase(timestamp, executionFinished.group(1), reasonMatcher.group(1),
 							reasonMatcher.group(2)));
@@ -384,7 +388,7 @@ public final class SingleExecutor extends BaseExecutor {
 					executedTests.add(new ExecutedTestcase(timestamp, executionFinished.group(1), executionFinished.group(2), ""));
 				}
 			}
-			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
+			addNotification(new Notification(timestamp, "", "", fastLine));
 			builder.delete(0, fastOffset);
 			if (Activator.getMainView() != null) {
 				Activator.getMainView().refreshIfSelected(mainControllerRoot);
