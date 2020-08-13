@@ -9,7 +9,7 @@
  -->
 <?eclipse version="4.4"?>
 <plugin>
-  <!-- Applications: temporary for tests -->  
+  <!-- Applications: temporary for tests -->
   <!--
   <extension
         id="org.eclipse.titanium.refactoring.HeadlessRunner"
@@ -307,10 +307,10 @@
             commandId="org.eclipse.titanium.commands.LazyficationProject"
             label="Lazy-fication of formal parameters">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -319,10 +319,10 @@
             commandId="org.eclipse.titanium.commands.MinimizeVisibilityProject"
             label="Minimize visibility modifiers">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -331,10 +331,10 @@
             commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
             label="Expand value list notation">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -343,10 +343,10 @@
             commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
             label="Order assignment list notation">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -355,10 +355,10 @@
             commandId="org.eclipse.titanium.commands.ContextLoggingFromBrowser"
             label="Add context info to log statements">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -367,10 +367,10 @@
             commandId="org.eclipse.titanium.commands.ExtractModuleParFromBrowser"
             label="Extract module parameters into a new project">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -379,7 +379,7 @@
             commandId="org.eclipse.titanium.commands.MinimizeScopeFromBrowser"
             label="Minimize scope of local variables">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
                 </adapt>
@@ -391,10 +391,10 @@
             commandId="org.eclipse.titanium.commands.OrganizeImportProject"
             label="Organize imports">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -403,10 +403,10 @@
             commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
             label="Runs on scope reduction">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -415,10 +415,10 @@
             commandId="org.eclipse.titanium.commands.AddSemicolonProject"
             label="Adds missing semicolon">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -427,10 +427,10 @@
             commandId="org.eclipse.titanium.commands.UngroupModuleparFromBrowser"
             label="Ungroup module parameters">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -439,10 +439,10 @@
             commandId="org.eclipse.titanium.commands.InsertFieldProject"
             label="Insert field">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -451,10 +451,10 @@
             commandId="org.eclipse.titanium.commands.ChangeToSelectUnionFromBrowser"
             label="Change union to select union">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -463,10 +463,10 @@
             commandId="org.eclipse.titanium.commands.MoveFunctionProject"
             label="Move function">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -485,10 +485,10 @@
             commandId="org.eclipse.titanium.commands.LazyficationProject"
             label="Lazy-fication of formal parameters">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -497,10 +497,10 @@
             commandId="org.eclipse.titanium.commands.MinimizeVisibilityProject"
             label="Minimize visibility modifiers">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -509,10 +509,10 @@
             commandId="org.eclipse.titanium.commands.OrganizeImportProject"
             label="Organize imports">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -521,10 +521,10 @@
             commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
             label="Runs on scope reduction">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -533,10 +533,10 @@
             commandId="org.eclipse.titanium.commands.AddSemicolonProject"
             label="Adds missing semicolon">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -545,10 +545,10 @@
             commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
             label="Expand value list notation">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -557,10 +557,10 @@
             commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
             label="Order assignment list notation">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -569,10 +569,10 @@
             commandId="org.eclipse.titanium.commands.ContextLoggingFromBrowser"
             label="Add context info to log statements">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -581,10 +581,10 @@
             commandId="org.eclipse.titanium.commands.ExtractModuleParFromBrowser"
             label="Extract module parameters into a new project">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -593,10 +593,10 @@
             commandId="org.eclipse.titanium.commands.MinimizeScopeFromBrowser"
             label="Minimize scope of local variables">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -605,10 +605,10 @@
             commandId="org.eclipse.titanium.commands.InsertFieldFromEditor"
             label="Insert field">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
@@ -617,10 +617,10 @@
             commandId="org.eclipse.titanium.commands.MoveFunctionProject"
             label="Move function">
           <visibleWhen checkEnabled="false">
-            <with variable="selection">  
+            <with variable="selection">
               <iterate operator="and">
                 <adapt type="org.eclipse.core.resources.IResource">
-                </adapt>  
+                </adapt>
               </iterate>
             </with>
           </visibleWhen>
