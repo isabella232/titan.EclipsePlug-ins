@@ -23,7 +23,7 @@ import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 public class TitanUTF8String extends TitanUniversalCharString {
 	private static final ASN_Tag TitanUTF8String_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 12)};
 	public static final ASN_BERdescriptor TitanUTF8String_Ber_ = new ASN_BERdescriptor(1, TitanUTF8String_tag_);
-	public static final TTCN_JSONdescriptor TitanUTF8String_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanUTF8String_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanUTF8String_descr_ = new TTCN_Typedescriptor("UTF8String", TitanUTF8String_Ber_, null, TitanUTF8String_json_, null);
 
 

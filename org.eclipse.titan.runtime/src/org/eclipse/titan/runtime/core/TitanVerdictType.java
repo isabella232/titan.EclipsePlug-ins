@@ -29,7 +29,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
  * @author Arpad Lovassy
  */
 public class TitanVerdictType extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanVerdictType_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanVerdictType_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null, null, TitanVerdictType_json_, null);
 
 	//originally Types.hh/verdicttype

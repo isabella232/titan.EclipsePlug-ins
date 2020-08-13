@@ -24,7 +24,7 @@ import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 public class TitanVideotexString extends TitanUniversalCharString {
 	private static final ASN_Tag TitanVideotexString_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 21)};
 	public static final ASN_BERdescriptor TitanVideotexString_Ber_ = new ASN_BERdescriptor(1, TitanVideotexString_tag_);
-	public static final TTCN_JSONdescriptor TitanVideotexString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanVideotexString_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanVideotexString_descr_ = new TTCN_Typedescriptor("VideotexString", TitanVideotexString_Ber_, null, TitanVideotexString_json_, null);
 
 	/**
