@@ -33,7 +33,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null);
 	public static final TTCN_Typedescriptor TitanCharacter_String_identification_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification", TitanCharacter_String_identification.TitanCharacter_String_identification_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_default_coding = new TitanUniversalCharString("JSON");
 	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntax_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntax", TitanObjectid.TitanObjectid_json_);
