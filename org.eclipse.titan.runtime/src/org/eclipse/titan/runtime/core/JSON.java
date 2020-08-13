@@ -100,8 +100,16 @@ public class JSON {
 		/**
 		 * Decoding only.
 		 * Fields that don't appear in the JSON code will decode this value instead.
+		 * Old version kept for backward compatibility.
 		 */
 		private final String default_value;
+
+		/**
+		 * Decoding only.
+		 * Fields that don't appear in the JSON code will decode this value instead.
+		 * TODO rename once the old version is removed.
+		 */
+		private final Base_Type actual_default_value;
 
 		/**
 		 * If set, encodes unbound fields of records and sets as null and inserts a
@@ -166,6 +174,33 @@ public class JSON {
 			this.alias = alias;
 			this.as_value = as_value;
 			this.default_value = default_value;
+			this.actual_default_value = null;
+			this.metainfo_unbound = metainfo_unbound;
+			this.as_number = as_number;
+			this.as_map = as_map;
+			this.nof_enum_texts = nof_enum_texts;
+			this.enum_texts = enum_texts;
+			this.use_null = use_null;
+			this.escaping = escaping;
+		}
+
+		public TTCN_JSONdescriptor(final boolean omit_as_null,
+				final String alias,
+				final boolean as_value,
+				final String default_value,
+				final Base_Type actual_default_value,
+				final boolean metainfo_unbound,
+				final boolean as_number,
+				final boolean as_map,
+				final int nof_enum_texts,
+				final List<JsonEnumText> enum_texts,
+				final boolean use_null,
+				final json_string_escaping escaping) {
+			this.omit_as_null = omit_as_null;
+			this.alias = alias;
+			this.as_value = as_value;
+			this.default_value = default_value;
+			this.actual_default_value = actual_default_value;
 			this.metainfo_unbound = metainfo_unbound;
 			this.as_number = as_number;
 			this.as_map = as_map;
@@ -189,6 +224,32 @@ public class JSON {
 			this.alias = alias;
 			this.as_value = as_value;
 			this.default_value = default_value;
+			this.actual_default_value = null;
+			this.metainfo_unbound = metainfo_unbound;
+			this.as_number = as_number;
+			this.as_map = as_map;
+			this.nof_enum_texts = nof_enum_texts;
+			this.enum_texts = enum_texts;
+			this.use_null = false;
+			this.escaping = json_string_escaping.ESCAPE_AS_SHORT;
+		}
+
+		//TODO: remove
+		public TTCN_JSONdescriptor(final boolean omit_as_null,
+				final String alias,
+				final boolean as_value,
+				final String default_value,
+				final Base_Type actual_default_value,
+				final boolean metainfo_unbound,
+				final boolean as_number,
+				final boolean as_map,
+				final int nof_enum_texts,
+				final List<JsonEnumText> enum_texts) {
+			this.omit_as_null = omit_as_null;
+			this.alias = alias;
+			this.as_value = as_value;
+			this.default_value = default_value;
+			this.actual_default_value = actual_default_value;
 			this.metainfo_unbound = metainfo_unbound;
 			this.as_number = as_number;
 			this.as_map = as_map;
@@ -212,6 +273,10 @@ public class JSON {
 
 		public String getDefault_value() {
 			return default_value;
+		}
+
+		public Base_Type getActualDefaultValue() {
+			return actual_default_value;
 		}
 
 		public boolean isMetainfo_unbound() {
@@ -299,7 +364,7 @@ public class JSON {
 	public static final String JSON_DEC_CHOSEN_FIELD_OMITTED_NULL = "Field cannot be omitted (as indicated by a condition in attribute 'chosen')%s";
 
 	// JSON descriptors for base types
-	public static final TTCN_JSONdescriptor ENUMERATED_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor ENUMERATED_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 
 	////////////////////////////////////////////////////////////////////////////////
 	//// CBOR conversion

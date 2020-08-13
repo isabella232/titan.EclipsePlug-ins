@@ -3001,7 +3001,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				(ownerType == TypeOwner_type.OT_RECORD_OF && parentType.getJsonAttribute() != null && parentType.getJsonAttribute().as_map);
 
 		if (jsonAttribute == null) { 
-			JSON_value.append(MessageFormat.format("false, null, false, null, false, false, {0}, 0, null)", as_map ? "true": "false"));
+			JSON_value.append(MessageFormat.format("false, null, false, null, null, false, false, {0}, 0, null)", as_map ? "true": "false"));
 		} else {
 			String enum_texts_name = null;
 			JSON_value.append(jsonAttribute.omit_as_null).append(',');
@@ -3012,6 +3012,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 			// FIXME: || jsonattrib->tag_list != NULL
 			JSON_value.append(jsonAttribute.as_value).append(',');
+
+			//TODO old version kept until the new is supported everywhere.
 			if (jsonAttribute.default_value == null) {
 				JSON_value.append("null").append(',');
 			} else {
@@ -3027,18 +3029,24 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					JSON_value.append("null");
 				}
 
-				if (jsonAttribute.actualDefaultValue != null) {
-					if (jsonAttribute.actualDefaultValue.canGenerateSingleExpression() ) {
-						final ExpressionStruct expression = new ExpressionStruct();
-						jsonAttribute.actualDefaultValue.generateCodeExpressionMandatory(aData, expression, true);
-						if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
-							//FIXME hiba?
-						} else {
-							JSON_value.append("/*").append( expression.expression).append("*/");
-						}
-					} else {
+				JSON_value.append(',');
+			}
+
+			if (jsonAttribute.actualDefaultValue == null) {
+				JSON_value.append("null").append(',');
+			} else {
+				if (jsonAttribute.actualDefaultValue.canGenerateSingleExpression() ) {
+					final ExpressionStruct expression = new ExpressionStruct();
+					jsonAttribute.actualDefaultValue.generateCodeExpressionMandatory(aData, expression, true);
+					if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 						//FIXME hiba?
+						JSON_value.append("null");
+					} else {
+						JSON_value.append( expression.expression);
 					}
+				} else {
+					//FIXME hiba?
+					JSON_value.append("null");
 				}
 
 				JSON_value.append(',');
