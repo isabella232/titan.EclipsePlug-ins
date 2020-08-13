@@ -23,7 +23,7 @@ import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 public class TitanBMPString  extends TitanUniversalCharString {
 	private static final ASN_Tag TitanBMPString_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 30)};
 	public static final ASN_BERdescriptor TitanBMPString_Ber_ = new ASN_BERdescriptor(1, TitanBMPString_tag_);
-	public static final TTCN_JSONdescriptor TitanBMPString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanBMPString_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", TitanBMPString_Ber_, null, TitanBMPString_json_, null);
 
 
