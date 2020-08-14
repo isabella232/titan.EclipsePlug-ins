@@ -253,6 +253,7 @@ public final class OctetString_Type extends ASN1Type {
 		if (defaultValue.length() % 2 != 0 || !defaultValue.matches("[0-9a-fA-F]+")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 		}
+		calculateDefaultValue(timestamp);
 	}
 
 	@Override

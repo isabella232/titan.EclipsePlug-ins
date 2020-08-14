@@ -223,6 +223,7 @@ public final class BitString_Type extends Type {
 		if (!defaultValue.matches("[0-1]+")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 		}
+		calculateDefaultValue(timestamp);
 	}
 
 	@Override

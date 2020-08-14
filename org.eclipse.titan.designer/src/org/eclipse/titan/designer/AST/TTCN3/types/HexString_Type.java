@@ -221,6 +221,7 @@ public final class HexString_Type extends Type {
 		if (!defaultValue.matches("[0-9a-fA-F]+")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 		}
+		calculateDefaultValue(timestamp);
 	}
 
 	@Override

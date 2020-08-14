@@ -386,6 +386,7 @@ public final class Float_Type extends ASN1Type {
 		if (!first_digit && !zero) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 		}
+		calculateDefaultValue(timestamp);
 	}
 
 	@Override

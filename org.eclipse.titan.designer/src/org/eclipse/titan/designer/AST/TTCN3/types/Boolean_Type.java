@@ -216,6 +216,7 @@ public final class Boolean_Type extends ASN1Type {
 		if (!defaultValue.matches("true|false")) {
 			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
 		}
+		calculateDefaultValue(timestamp);
 	}
 
 	@Override
