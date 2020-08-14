@@ -59,7 +59,7 @@ public class JSON {
 	}
 
 	/** Helper enumerated type for storing the different methods of escaping in character strings */
-	enum json_string_escaping {
+	public enum json_string_escaping {
 		ESCAPE_AS_SHORT, /* use short escapes wherever possible (e.g. '\n', '\\', etc.)*/
 		ESCAPE_AS_USI, /* use USI escapes in all cases (i.e. '\\u' followed by 4 hex nibbles) */
 		ESCAPE_AS_TRANSPARENT /* do not escape anything, except control characters */
