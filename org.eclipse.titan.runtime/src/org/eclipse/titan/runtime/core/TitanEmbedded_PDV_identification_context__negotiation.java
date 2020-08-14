@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -27,7 +28,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV_identification_context__negotiation extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanEmbedded_PDV_identification_context__negotiation_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanEmbedded_PDV_identification_context__negotiation_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanEmbedded_PDV_identification_context__negotiation_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV.identification.context-negotiation", TitanEmbedded_PDV_identification_context__negotiation.TitanEmbedded_PDV_identification_context__negotiation_json_);
 	public static final TitanUniversalCharString TitanEmbedded_PDV_identification_context__negotiation_default_coding = new TitanUniversalCharString("JSON");
 	public static final TTCN_Typedescriptor TitanEmbedded_PDV_identification_context__negotiation_presentation__context__id_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV.identification.context-negotiation.presentation-context-id", TitanInteger.TitanInteger_json_);

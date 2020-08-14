@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.JSON.TTCN_JSONdescriptor;
+import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 import org.eclipse.titan.runtime.core.JSON_Tokenizer.json_token_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -28,7 +29,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification_syntaxes extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_syntaxes_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null);
+	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_syntaxes_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntaxes_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntaxes", TitanCharacter_String_identification_syntaxes.TitanCharacter_String_identification_syntaxes_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_syntaxes_default_coding = new TitanUniversalCharString("JSON");
 	public static final TTCN_Typedescriptor TitanCharacter_String_identification_syntaxes_abstract__descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.syntaxes.abstract", TitanObjectid.TitanObjectid_json_);
