@@ -2991,6 +2991,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * */
 	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
+		aData.addBuiltinTypeImport("JSON.json_string_escaping");
 		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
 		final String genname = getGenNameOwn();
@@ -3003,7 +3004,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				(ownerType == TypeOwner_type.OT_RECORD_OF && parentType.getJsonAttribute() != null && parentType.getJsonAttribute().as_map);
 
 		if (jsonAttribute == null) { 
-			JSON_value.append(MessageFormat.format("false, null, false, null, null, false, false, {0}, 0, null)", as_map ? "true": "false"));
+			JSON_value.append(MessageFormat.format("false, null, false, null, null, false, false, {0}, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT)", as_map ? "true": "false"));
 		} else {
 			String enum_texts_name = null;
 			JSON_value.append(jsonAttribute.omit_as_null).append(',');
@@ -3076,7 +3077,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					localTarget.append(enum_texts_value);
 				}
 			}
-			JSON_value.append(enum_texts_name).append(")");
+			// use_null, escaping
+			JSON_value.append(enum_texts_name).append(", false, json_string_escaping.ESCAPE_AS_SHORT)");
 		}
 
 		final StringBuilder globalVariable = new StringBuilder();
