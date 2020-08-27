@@ -483,12 +483,17 @@ public class TitanObjectid extends Base_Type {
 		final AtomicInteger value_len = new AtomicInteger(0);
 		boolean error = false;
 		int dec_len = 0;
-		final boolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();
-		if (use_default) {
+		boolean use_default = false;
+		if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+			operator_assign(p_td.json.getActualDefaultValue());
+
+			return dec_len;
+		} else if (p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length()) {
 			// No JSON data in the buffer -> use default value
 			value.setLength(0);
 			value.append( p_td.json.getDefault_value() );
 			value_len.set(value.length());
+			use_default = true;
 		} else {
 			dec_len = p_tok.get_next_token(token, value, value_len);
 		}
