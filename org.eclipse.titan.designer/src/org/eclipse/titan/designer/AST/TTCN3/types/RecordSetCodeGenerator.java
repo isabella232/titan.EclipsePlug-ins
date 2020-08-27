@@ -4037,7 +4037,11 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t@Override\n");
 			source.append("\t\t/** {@inheritDoc} */\n");
 			source.append("\t\tpublic int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {\n");
-			source.append("\t\t\tif (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {\n");
+			source.append("\t\t\tif (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {\n");
+			source.append("\t\t\t\toperator_assign(p_td.json.getActualDefaultValue());\n");
+
+			source.append("\t\t\t\treturn 0;\n");
+			source.append("\t\t\t} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {\n");
 			// use the default value
 			source.append("\t\t\t\tbound_flag = true;\n");
 			source.append("\t\t\t\treturn p_td.json.getDefault_value().length();\n");
