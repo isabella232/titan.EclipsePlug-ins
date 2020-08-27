@@ -1094,7 +1094,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -3346,7 +3349,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -5726,7 +5732,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -7993,7 +8002,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -10260,7 +10272,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -12527,7 +12542,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -14794,7 +14812,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -17061,7 +17082,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -19328,7 +19352,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -21595,7 +21622,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -23862,7 +23892,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -26114,7 +26147,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -28479,7 +28515,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -30844,7 +30883,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -33209,7 +33251,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -35574,7 +35619,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -37954,7 +38002,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -40206,7 +40257,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -42571,7 +42625,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -44936,7 +44993,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -47301,7 +47361,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -49666,7 +49729,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -52031,7 +52097,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -54411,7 +54480,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -56678,7 +56750,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -58930,7 +59005,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -61295,7 +61373,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -63660,7 +63741,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -66040,7 +66124,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -68307,7 +68394,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -70559,7 +70649,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -72939,7 +73032,10 @@ public final class PreGenRecordOf extends TTCN_Module {
 		@Override
 		/** {@inheritDoc} */
 		public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-			if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
+			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
+				operator_assign(p_td.json.getActualDefaultValue());
+				return 0;
+			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
 				set_size(0);
 				return p_td.json.getDefault_value().length();
 			}
@@ -75097,6 +75193,7 @@ public final class PreGenRecordOf extends TTCN_Module {
 			throw new TtcnError(MessageFormat.format("Restriction `{0}'' on template of type {1} violated.", get_res_name(restriction), name == null ? "@PreGenRecordOf.anytype" : name));
 		}
 	}
+	@Override
 	public void pre_init_module()
 	{
 		if (pre_init_called) {
