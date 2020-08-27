@@ -2995,6 +2995,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
 		final String genname = getGenNameOwn();
+		final StringBuilder staticBlock = new StringBuilder();
 		final String descriptorName = MessageFormat.format("{0}_json_", genname);
 		final StringBuilder JSON_value = new StringBuilder();
 
@@ -3042,14 +3043,20 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					final ExpressionStruct expression = new ExpressionStruct();
 					jsonAttribute.actualDefaultValue.generateCodeExpressionMandatory(aData, expression, true);
 					if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
-						//FIXME hiba?
+						//FIXME something went wrong
 						JSON_value.append("null");
 					} else {
 						JSON_value.append( expression.expression);
 					}
 				} else {
-					//FIXME hiba?
-					JSON_value.append("null");
+					final String typeGeneratedName = getGenNameValue( aData, source );
+					JSON_value.append(MessageFormat.format("new {0}()", typeGeneratedName));
+
+					staticBlock.append("static {\n");
+					final String tempId = aData.getTemporaryVariableName();
+					staticBlock.append(MessageFormat.format("{0} {1} = ({0}){2}.getActualDefaultValue();\n", typeGeneratedName, tempId, descriptorName));
+					jsonAttribute.actualDefaultValue.generateCodeInit( aData, staticBlock, tempId );
+					staticBlock.append("}\n");
 				}
 
 				JSON_value.append(',');
@@ -3092,6 +3099,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 		} else {
 			globalVariable.append(MessageFormat.format("\tpublic static final TTCN_JSONdescriptor {0}_json_ = {1};\n", genname, JSON_value.toString()));
+		}
+		if (staticBlock.length() != 0) {
+			globalVariable.append(staticBlock);
 		}
 		if (localTarget == null) {
 			aData.addGlobalVariable(descriptorName, globalVariable.toString());
