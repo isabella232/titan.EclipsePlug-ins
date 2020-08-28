@@ -747,16 +747,10 @@ public class TitanBoolean extends Base_Type {
 			operator_assign(p_td.json.getActualDefaultValue());
 
 			return dec_len;
-		} else if (p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length()) {
-			// No JSON data in the buffer -> use default value
-			if ("true".equals( p_td.json.getDefault_value() ) ) {
-				token.set( json_token_t.JSON_TOKEN_LITERAL_TRUE );
-			} else {
-				token.set( json_token_t.JSON_TOKEN_LITERAL_FALSE );
-			}
-		} else {
-			dec_len = p_tok.get_next_token(token, null, null);
 		}
+
+		dec_len = p_tok.get_next_token(token, null, null);
+
 		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
 			if(!p_silent) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
