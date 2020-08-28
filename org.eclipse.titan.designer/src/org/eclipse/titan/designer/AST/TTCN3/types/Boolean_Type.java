@@ -211,16 +211,6 @@ public final class Boolean_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
-		final String defaultValue = jsonAttribute.default_value;
-		if (!defaultValue.matches("true|false")) {
-			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
-		}
-		calculateDefaultValue(timestamp);
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
 		if (coding == MessageEncoding_type.BER) {
 			return hasEncoding(timestamp, MessageEncoding_type.BER, null);

@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
-import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +19,10 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.parsers.CharstringExtractor;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.ASN1.Value_Assignment;
@@ -1125,8 +1124,25 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
-		getLocation().reportSemanticError(MessageFormat.format("JSON default values are not available for type `{0}''", getTypename()));
+	public final void checkJsonDefault(final CompilationTimeStamp timestamp) {
+		CharstringExtractor extractor = new CharstringExtractor(jsonAttribute.default_value, true);
+		final String defaultValue = extractor.getExtractedString();
+		final JSONDefaultAnalyzer refAnalyzer = new JSONDefaultAnalyzer();
+		final IValue parsedValue = refAnalyzer.parseJSONDefaultValue(defaultValue, jsonAttribute.defaultLocation);
+		if (parsedValue != null) {
+			parsedValue.setMyGovernor(this);
+			parsedValue.setMyScope(getMyScope());
+			parsedValue.setFullNameParent(new BridgingNamedNode(this, ".<JSON default value>"));
+
+			final IType last = getTypeRefdLast(timestamp);
+			final IValue temporalValue = last.checkThisValueRef(timestamp, parsedValue);
+			// check as if it was a const.
+			last.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false, true,
+					false,// can not have implicit omit as this is a type.
+					false));
+	
+			jsonAttribute.actualDefaultValue = temporalValue;
+		}
 	}
 
 	@Override
@@ -3018,23 +3034,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			JSON_value.append(jsonAttribute.as_value).append(',');
 
 			//TODO old version kept until the new is supported everywhere.
-			if (jsonAttribute.default_value == null) {
-				JSON_value.append("null").append(',');
-			} else {
-				try {
-					final byte[] bytes = jsonAttribute.default_value.getBytes("UTF-8");
-					final StringBuilder utf8encoded = new StringBuilder();
-					for (byte b : bytes) {
-						utf8encoded.append((char)b);
-					}
-					JSON_value.append('\"').append(utf8encoded).append('\"');
-				} catch (UnsupportedEncodingException e) {
-					ErrorReporter.INTERNAL_ERROR("generateCodeJsonDescriptor(): unsupported charset");
-					JSON_value.append("null");
-				}
-
-				JSON_value.append(',');
-			}
+			JSON_value.append("null").append(',');
 
 			if (jsonAttribute.actualDefaultValue == null) {
 				JSON_value.append("null").append(',');
@@ -3108,27 +3108,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		} else {
 			localTarget.append(globalVariable);
 		}
-	}
-
-	protected void calculateDefaultValue(final CompilationTimeStamp timestamp) {
-//TODO: uncomment
-/*
-		final String defaultValue = jsonAttribute.default_value;
-		final JSONDefaultAnalyzer refAnalyzer = new JSONDefaultAnalyzer();
-		final IValue parsedValue = refAnalyzer.parseJSONDefaultValue(defaultValue, jsonAttribute.defaultLocation);
-		if (parsedValue != null) {
-			parsedValue.setMyGovernor(this);
-			parsedValue.setMyScope(getMyScope());
-			parsedValue.setFullNameParent(new BridgingNamedNode(this, ".<JSON default value>"));
-			final IValue temporalValue = this.checkThisValueRef(timestamp, parsedValue);
-			// check as if it was a const.
-			this.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false, true,
-					false,// can not have implicit omit as this is a type.
-					false));
-	
-			jsonAttribute.actualDefaultValue = temporalValue;
-		}
-*/
 	}
 
 	/**

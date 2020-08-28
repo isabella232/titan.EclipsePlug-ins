@@ -248,15 +248,6 @@ public final class OctetString_Type extends ASN1Type {
 	}
 
 	@Override
-	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
-		final String defaultValue = jsonAttribute.default_value;
-		if (defaultValue.length() % 2 != 0 || !defaultValue.matches("[0-9a-fA-F]+")) {
-			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
-		}
-		calculateDefaultValue(timestamp);
-	}
-
-	@Override
 	/** {@inheritDoc} */
 	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding) {
 		if (coding == MessageEncoding_type.BER) {

@@ -551,14 +551,6 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
-		if (!jsonAttribute.default_value.matches("\\{\\}")) {
-			getLocation().reportSemanticError(MessageFormat.format("Invalid JSON default value for type `{0}'. Only the empty array is allowed.", getTypename()));
-		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
 		if (typeList.contains(this)) {
 			return;

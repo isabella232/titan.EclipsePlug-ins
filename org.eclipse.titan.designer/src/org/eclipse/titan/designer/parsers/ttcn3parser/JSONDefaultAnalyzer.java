@@ -21,8 +21,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 import org.eclipse.titan.designer.parsers.ParserUtilities;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Parser.Pr_CharStringValueContext;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Parser.Pr_PrimaryContext;
+import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Parser.Pr_SingleExpressionContext;
 
 /**
  * This is helper class, letting us parse JSON default attribute values as TTCN-3 values.
@@ -58,55 +57,22 @@ public class JSONDefaultAnalyzer {
 		final TitanListener parserListener = new TitanListener();
 		parser.addErrorListener( parserListener );
 
-		final Pr_PrimaryContext root = parser.pr_Primary();
+		final Pr_SingleExpressionContext root = parser.pr_SingleExpression();
 		parser.pr_EndOfFile();
 
-		if (!lexerListener.getErrorsStored().isEmpty() || !parserListener.getErrorsStored().isEmpty()) {
-			//Lets assume it is a string of some type
-			final String newString = "\"" + defaultString + "\"";
-			final Reader reader2 = new StringReader( newString );
-			final CharStream charStream2 = new UnbufferedCharStream( reader2 );
-			final Ttcn3Lexer lexer2 = new Ttcn3Lexer( charStream2 );
-			lexer2.setTokenFactory( new CommonTokenFactory( true ) );
-			lexer2.initRootInterval( newString.length() );
-			lexer2.removeErrorListeners();
-
-			final CommonTokenStream tokenStream2 = new CommonTokenStream( lexer2 );
-			final Ttcn3Parser parser2 = new Ttcn3Parser( tokenStream2 );
-			ParserUtilities.setBuildParseTree( parser2 );
-
-			lexer2.setActualFile((IFile)location.getFile());
-			parser2.setActualFile((IFile)location.getFile());
-			parser2.setProject(location.getFile().getProject());
-			parser2.setLine(location.getLine());
-			parser2.setOffset(location.getOffset());
-			final TitanListener lexerListener2 = new TitanListener();
-			// remove ConsoleErrorListener
-			lexer2.removeErrorListeners();
-			lexer2.addErrorListener(lexerListener2);
-			parser2.removeErrorListeners();
-			final TitanListener parserListener2 = new TitanListener();
-			parser2.addErrorListener( parserListener2 );
-
-			final Pr_CharStringValueContext root2 = parser2.pr_CharStringValue();
-			parser2.pr_EndOfFile();
-
-			if (lexerListener2.getErrorsStored() != null) {
-				for (int i = 0; i < lexerListener2.getErrorsStored().size(); i++) {
-					final Location temp = new Location(location);
-					temp.setOffset(temp.getOffset() + 1);
-					ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), lexerListener2.getErrorsStored().get(i), IMarker.SEVERITY_ERROR, temp);
-				}
+		if (lexerListener.getErrorsStored() != null) {
+			for (int i = 0; i < lexerListener.getErrorsStored().size(); i++) {
+				final Location temp = new Location(location);
+				temp.setOffset(temp.getOffset() + 1);
+				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), lexerListener.getErrorsStored().get(i), IMarker.SEVERITY_ERROR, temp);
 			}
-			if (parserListener2.getErrorsStored() != null) {
-				for (int i = 0; i < parserListener2.getErrorsStored().size(); i++) {
-					final Location temp = new Location(location);
-					temp.setOffset(temp.getOffset() + 1);
-					ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), parserListener2.getErrorsStored().get(i), IMarker.SEVERITY_ERROR, temp);
-				}
+		}
+		if (parserListener.getErrorsStored() != null) {
+			for (int i = 0; i < parserListener.getErrorsStored().size(); i++) {
+				final Location temp = new Location(location);
+				temp.setOffset(temp.getOffset() + 1);
+				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), parserListener.getErrorsStored().get(i), IMarker.SEVERITY_ERROR, temp);
 			}
-
-			return root2.value;
 		}
 
 		//no syntax errors found

@@ -458,29 +458,6 @@ public final class Integer_Type extends Type {
 	}
 
 	@Override
-	public void checkJsonDefault(final CompilationTimeStamp timestamp) {
-		final String defaultValue = jsonAttribute.default_value;
-		if (!defaultValue.matches("-?[0-9]+")) {
-			getLocation().reportSemanticError(MessageFormat.format("Invalid {0} JSON default value", getTypename()));
-		}
-
-//		final JSONDefaultAnalyzer refAnalyzer = new JSONDefaultAnalyzer();
-//		final IValue parsedValue = refAnalyzer.parseJSONDefaultValue(defaultValue, jsonAttribute.defaultLocation);
-//		if (parsedValue != null) {
-//			parsedValue.setMyGovernor(this);
-//			parsedValue.setMyScope(getMyScope());
-//			parsedValue.setFullNameParent(new BridgingNamedNode(this, ".<JSON default value>"));
-//			final IValue temporalValue = this.checkThisValueRef(timestamp, parsedValue);
-//			// check as if it was a const.
-//			this.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false, true,
-//					false,// can not have implicit omit as this is a type.
-//					false));
-//	
-//			jsonAttribute.actualDefaultValue = temporalValue;
-//		}
-	}
-
-	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("integer");
