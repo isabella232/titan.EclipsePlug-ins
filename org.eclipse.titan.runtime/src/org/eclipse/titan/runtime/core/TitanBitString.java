@@ -46,7 +46,7 @@ public class TitanBitString extends Base_Type {
 	private static final ASN_Tag TitanBitString_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 3)};
 	public static final ASN_BERdescriptor TitanBitString_Ber_ = new ASN_BERdescriptor(1, TitanBitString_tag_);
 	public static final TTCN_RAWdescriptor TitanBitString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null, false);
-	public static final TTCN_JSONdescriptor TitanBitString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanBitString_json_ = new TTCN_JSONdescriptor(false, null, false,  null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", TitanBitString_Ber_, TitanBitString_raw_, TitanBitString_json_, null);
 
 	/**
@@ -1411,34 +1411,26 @@ public class TitanBitString extends Base_Type {
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
 		boolean error = false;
-		int dec_len = 0;
-		boolean use_default = false;
 		if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 			operator_assign(p_td.json.getActualDefaultValue());
 
-			return dec_len;
-		} else if (p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length()) {
-			// No JSON data in the buffer -> use default value
-			value.append(p_td.json.getDefault_value());
-			value_len.set(value.length());
-			use_default = true;
-		} else {
-			dec_len = p_tok.get_next_token(token, value, value_len);
+			return 0;
 		}
+
+		final int dec_len = p_tok.get_next_token(token, value, value_len);
 		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
 			if(!p_silent) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
-			if (use_default || (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
-				if (!use_default) {
-					// The default value doesn't have quotes around it
-					final String valueWithoutQuotes = value.substring(1, value.length() - 1);
-					value.setLength(0);
-					value.append( valueWithoutQuotes );
-					value_len.set(value.length());
-				}
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get()) {
+			if (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"') {
+				// The default value doesn't have quotes around it
+				final String valueWithoutQuotes = value.substring(1, value.length() - 1);
+				value.setLength(0);
+				value.append( valueWithoutQuotes );
+				value_len.set(value.length());
+
 				// White spaces are ignored, so the resulting bitstring might be shorter
 				// than the extracted JSON string
 				int bits = value_len.get();
@@ -1478,8 +1470,10 @@ public class TitanBitString extends Base_Type {
 			if(!p_silent) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "bitstring");
 			}
+
 			return JSON.JSON_ERROR_FATAL;
 		}
+
 		return dec_len;
 	}
 
