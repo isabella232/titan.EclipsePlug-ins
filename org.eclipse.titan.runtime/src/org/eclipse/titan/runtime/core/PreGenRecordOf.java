@@ -1097,9 +1097,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -3352,9 +3349,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -5735,9 +5729,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -8005,9 +7996,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -10275,9 +10263,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -12545,9 +12530,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -14815,9 +14797,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -17085,9 +17064,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -19355,9 +19331,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -21625,9 +21598,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -23895,9 +23865,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -26150,9 +26117,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -28518,9 +28482,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -30886,9 +30847,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -33254,9 +33212,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -35622,9 +35577,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -38005,9 +37957,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -40260,9 +40209,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -42628,9 +42574,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -44996,9 +44939,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -47364,9 +47304,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -49732,9 +49669,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -52100,9 +52034,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -54483,9 +54414,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -56753,9 +56681,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -59008,9 +58933,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -61376,9 +61298,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -63744,9 +63663,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -66127,9 +66043,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -68397,9 +68310,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -70652,9 +70562,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
@@ -73035,9 +72942,6 @@ public final class PreGenRecordOf extends TTCN_Module {
 			if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 				operator_assign(p_td.json.getActualDefaultValue());
 				return 0;
-			} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {
-				set_size(0);
-				return p_td.json.getDefault_value().length();
 			}
 			final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 			int dec_len = p_tok.get_next_token(token, null, null);
