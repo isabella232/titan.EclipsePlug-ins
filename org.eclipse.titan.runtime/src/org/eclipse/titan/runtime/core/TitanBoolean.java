@@ -741,13 +741,13 @@ public class TitanBoolean extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public int JSON_decode(final TTCN_Typedescriptor p_td, final JSON_Tokenizer p_tok, final boolean p_silent, final boolean p_parent_is_map, final int p_chosen_field) {
-		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 			operator_assign(p_td.json.getActualDefaultValue());
 
 			return 0;
 		}
 
+		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		final int dec_len = p_tok.get_next_token(token, null, null);
 		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
 			if(!p_silent) {
