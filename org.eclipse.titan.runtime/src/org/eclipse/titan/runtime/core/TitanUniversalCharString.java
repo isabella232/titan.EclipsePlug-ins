@@ -2500,24 +2500,22 @@ public class TitanUniversalCharString extends Base_Type {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
-		int dec_len = 0;
-		boolean use_default = false;
 		if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 			operator_assign(p_td.json.getActualDefaultValue());
 
-			return dec_len;
+			return 0;
 		}
 
-		dec_len = p_tok.get_next_token(token, value, value_len);
+		final int dec_len = p_tok.get_next_token(token, value, value_len);
 
 		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
 			if(!p_silent) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get()) {
 			final StringBuilder out = new StringBuilder();
-			if (TitanCharString.from_JSON_string(value.toString(), !use_default, out)) {
+			if (TitanCharString.from_JSON_string(value.toString(), true, out)) {
 				charstring = true;
 				cstr = out;
 			} else {
@@ -2528,19 +2526,21 @@ public class TitanUniversalCharString extends Base_Type {
 					temp[i] = (byte)value.charAt(i);
 				}
 				decode_utf8(temp, CharCoding.UTF_8, false);
-				if (!from_JSON_string(!use_default)) {
+				if (!from_JSON_string(true)) {
 					if(!p_silent) {
 						TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "universal charstring");
 					}
 					if (p_silent) {
 						clean_up();
 					}
+
 					return JSON.JSON_ERROR_FATAL;
 				}
 			}
 		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
 		}
+
 		return dec_len;
 	}
 
@@ -2612,6 +2612,7 @@ public class TitanUniversalCharString extends Base_Type {
 		return json_str.toString();
 	}
 
+	//TODO check if only used for default values with false
 	private boolean from_JSON_string(final boolean check_quotes) {
 		final int json_len = val_ptr.size();
 		final List<TitanUniversalChar> json_str = val_ptr;

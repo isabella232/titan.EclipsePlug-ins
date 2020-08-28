@@ -1277,9 +1277,6 @@ public class TitanFloat extends Base_Type {
 	private static final String POS_INF_STR = "\"infinity\"";
 	private static final String NEG_INF_STR = "\"-infinity\"";
 	private static final String NAN_STR = "\"not_a_number\"";
-	private static final String POS_INF_STR_DEFAULT = "infinity";
-	private static final String NEG_INF_STR_DEFAULT = "-infinity";
-	private static final String NAN_STR_DEFAULT = "not_a_number";
 
 	@Override
 	public int JSON_encode(final TTCN_Typedescriptor cborFloatDescr, final JSON_Tokenizer p_tok, final boolean p_parent_is_map) {
@@ -1315,15 +1312,13 @@ public class TitanFloat extends Base_Type {
 		final AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
-		int dec_len = 0;
-		boolean use_default = false;
 		if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 			operator_assign(p_td.json.getActualDefaultValue());
 
-			return dec_len;
+			return 0;
 		}
 
-		dec_len = p_tok.get_next_token(token, value, value_len);
+		final int dec_len = p_tok.get_next_token(token, value, value_len);
 
 		final String valueStr = value.toString();
 		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
@@ -1331,14 +1326,14 @@ public class TitanFloat extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
 			return JSON.JSON_ERROR_FATAL;
-		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
-			if ( (use_default ? POS_INF_STR_DEFAULT : POS_INF_STR).equals(valueStr) ) {
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get()) {
+			if ( POS_INF_STR.equals(valueStr) ) {
 				float_value = new Ttcn3Float(Double.POSITIVE_INFINITY);
-			} else if ( (use_default ? NEG_INF_STR_DEFAULT : NEG_INF_STR).equals(valueStr) ) {
+			} else if ( NEG_INF_STR.equals(valueStr) ) {
 				float_value = new Ttcn3Float(Double.NEGATIVE_INFINITY);
-			} else if ( (use_default ? NAN_STR_DEFAULT : NAN_STR).equals(valueStr) ) {
+			} else if ( NAN_STR.equals(valueStr) ) {
 				float_value = new Ttcn3Float(Double.NaN);
-			} else if (!use_default) {
+			} else {
 				final String spec_val = MessageFormat.format("float ({0}, {1} or {2})", POS_INF_STR, NEG_INF_STR, NAN_STR);
 				if(!p_silent) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", spec_val);
@@ -1351,11 +1346,7 @@ public class TitanFloat extends Base_Type {
 		} else {
 			return JSON.JSON_ERROR_INVALID_TOKEN;
 		}
-		if (!is_bound() && use_default) {
-			// Already checked the default value for the string possibilities, now
-			// check for a valid number
-			float_value = new Ttcn3Float(Double.parseDouble(valueStr));
-		}
+
 		return dec_len;
 	}
 }

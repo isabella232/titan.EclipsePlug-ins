@@ -1290,30 +1290,28 @@ public class TitanOctetString extends Base_Type {
 		final StringBuilder value = new StringBuilder();
 		final AtomicInteger value_len = new AtomicInteger(0);
 		boolean error = false;
-		int dec_len = 0;
-		boolean use_default = false;
 		if (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {
 			operator_assign(p_td.json.getActualDefaultValue());
 
-			return dec_len;
+			return 0;
 		}
 
-		dec_len = p_tok.get_next_token(token, value, value_len);
+		final int dec_len = p_tok.get_next_token(token, value, value_len);
 
 		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
 			if(!p_silent) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_BAD_TOKEN_ERROR, "");
 			}
+
 			return JSON.JSON_ERROR_FATAL;
-		} else if (json_token_t.JSON_TOKEN_STRING == token.get() || use_default) {
-			if (use_default || (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"')) {
-				if (!use_default) {
-					// The default value doesn't have quotes around it
-					final String valueWithoutQuotes = value.substring(1, value.length() - 1);
-					value.setLength(0);
-					value.append( valueWithoutQuotes );
-					value_len.set(value.length());
-				}
+		} else if (json_token_t.JSON_TOKEN_STRING == token.get()) {
+			if (value_len.get() >= 2 && value.charAt(0) == '\"' && value.charAt(value_len.get() - 1) == '\"') {
+				// The default value doesn't have quotes around it
+				final String valueWithoutQuotes = value.substring(1, value.length() - 1);
+				value.setLength(0);
+				value.append( valueWithoutQuotes );
+				value_len.set(value.length());
+
 				// White spaces are ignored, so the resulting octetstring might be shorter
 				// than the extracted JSON string
 				int nibbles = value_len.get();
@@ -1362,8 +1360,10 @@ public class TitanOctetString extends Base_Type {
 			if(!p_silent) {
 				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INVAL_MSG, JSON.JSON_DEC_FORMAT_ERROR, "string", "octetstring");
 			}
+
 			return JSON.JSON_ERROR_FATAL;
 		}
+
 		return dec_len;
 	}
 
