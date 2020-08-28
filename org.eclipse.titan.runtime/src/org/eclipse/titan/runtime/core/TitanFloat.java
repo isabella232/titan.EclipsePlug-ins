@@ -1321,14 +1321,9 @@ public class TitanFloat extends Base_Type {
 			operator_assign(p_td.json.getActualDefaultValue());
 
 			return dec_len;
-		} else if (p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length()) {
-			// No JSON data in the buffer -> use default value
-			value.append(p_td.json.getDefault_value());
-			value_len.set(value.length());
-			use_default = true;
-		} else {
-			dec_len = p_tok.get_next_token(token, value, value_len);
 		}
+
+		dec_len = p_tok.get_next_token(token, value, value_len);
 
 		final String valueStr = value.toString();
 		if (json_token_t.JSON_TOKEN_ERROR == token.get()) {
