@@ -163,31 +163,6 @@ public class JSON {
 				final String alias,
 				final boolean as_value,
 				final String default_value,
-				final boolean metainfo_unbound,
-				final boolean as_number,
-				final boolean as_map,
-				final int nof_enum_texts,
-				final List<JsonEnumText> enum_texts,
-				final boolean use_null,
-				final json_string_escaping escaping) {
-			this.omit_as_null = omit_as_null;
-			this.alias = alias;
-			this.as_value = as_value;
-			this.default_value = default_value;
-			this.actual_default_value = null;
-			this.metainfo_unbound = metainfo_unbound;
-			this.as_number = as_number;
-			this.as_map = as_map;
-			this.nof_enum_texts = nof_enum_texts;
-			this.enum_texts = enum_texts;
-			this.use_null = use_null;
-			this.escaping = escaping;
-		}
-
-		public TTCN_JSONdescriptor(final boolean omit_as_null,
-				final String alias,
-				final boolean as_value,
-				final String default_value,
 				final Base_Type actual_default_value,
 				final boolean metainfo_unbound,
 				final boolean as_number,
@@ -208,55 +183,6 @@ public class JSON {
 			this.enum_texts = enum_texts;
 			this.use_null = use_null;
 			this.escaping = escaping;
-		}
-
-		//TODO: remove
-		public TTCN_JSONdescriptor(final boolean omit_as_null,
-				final String alias,
-				final boolean as_value,
-				final String default_value,
-				final boolean metainfo_unbound,
-				final boolean as_number,
-				final boolean as_map,
-				final int nof_enum_texts,
-				final List<JsonEnumText> enum_texts) {
-			this.omit_as_null = omit_as_null;
-			this.alias = alias;
-			this.as_value = as_value;
-			this.default_value = default_value;
-			this.actual_default_value = null;
-			this.metainfo_unbound = metainfo_unbound;
-			this.as_number = as_number;
-			this.as_map = as_map;
-			this.nof_enum_texts = nof_enum_texts;
-			this.enum_texts = enum_texts;
-			this.use_null = false;
-			this.escaping = json_string_escaping.ESCAPE_AS_SHORT;
-		}
-
-		//TODO: remove
-		public TTCN_JSONdescriptor(final boolean omit_as_null,
-				final String alias,
-				final boolean as_value,
-				final String default_value,
-				final Base_Type actual_default_value,
-				final boolean metainfo_unbound,
-				final boolean as_number,
-				final boolean as_map,
-				final int nof_enum_texts,
-				final List<JsonEnumText> enum_texts) {
-			this.omit_as_null = omit_as_null;
-			this.alias = alias;
-			this.as_value = as_value;
-			this.default_value = default_value;
-			this.actual_default_value = actual_default_value;
-			this.metainfo_unbound = metainfo_unbound;
-			this.as_number = as_number;
-			this.as_map = as_map;
-			this.nof_enum_texts = nof_enum_texts;
-			this.enum_texts = enum_texts;
-			this.use_null = false;
-			this.escaping = json_string_escaping.ESCAPE_AS_SHORT;
 		}
 
 		public boolean isOmit_as_null() {
