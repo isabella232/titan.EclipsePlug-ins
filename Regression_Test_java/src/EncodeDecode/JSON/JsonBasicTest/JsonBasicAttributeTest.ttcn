@@ -231,7 +231,7 @@ type record R5_json {
   charstring cs
 } with { encode "JSON";
   variant(i) "JSON: default (127)"
-  variant(cs) "JSON: default (Abba)"
+  variant(cs) "JSON: default (""Abba"")"
 }
 
 testcase tc_rec_attr_default_values() runs on CT {

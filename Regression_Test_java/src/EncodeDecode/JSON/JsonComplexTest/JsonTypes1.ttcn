@@ -164,6 +164,8 @@ type union Thing {
 
 type record of Thing Stuff;
 
+const universal charstring c_ures := char(0,0,0,252)& "res";
+
 type record RecDef {
   integer i,
   float f,
@@ -176,14 +178,14 @@ type record RecDef {
   enumerated { Tiny, Small, Medium, Large, Huge } size,
   verdicttype vt
 } with {
-  variant(cs) "JSON : default(empty)";
+  variant(cs) "JSON : default(""empty"")";
   variant(i) "JSON:default(-19)";
   variant(f) "JSON:default(1.0e6)";
   variant(size) "JSON:default(Tiny)";
-  variant(os) "JSON : default(1DE7)";
-  variant(ucs) "JSON:default(üres)";
-  variant(bs) "JSON:default (101)";
-  variant(hs) "JSON:default(DEAD)";
+  variant(os) "JSON : default('1DE7'O)";
+  variant(ucs) "JSON:default(c_ures)";
+  variant(bs) "JSON:default ('101'B)";
+  variant(hs) "JSON:default('DEAD'H)";
   variant(vt) "JSON:default(fail)";
   variant(b) "JSON:default(false)";
 }
