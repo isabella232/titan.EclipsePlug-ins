@@ -29,7 +29,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Arpad Lovassy
  */
 public class TitanCharacter_String_identification_context__negotiation extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_context__negotiation_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanCharacter_String_identification_context__negotiation_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanCharacter_String_identification_context__negotiation_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.context-negotiation", TitanCharacter_String_identification_context__negotiation.TitanCharacter_String_identification_context__negotiation_json_);
 	public static final TitanUniversalCharString TitanCharacter_String_identification_context__negotiation_default_coding = new TitanUniversalCharString("JSON");
 	public static final TTCN_Typedescriptor TitanCharacter_String_identification_context__negotiation_presentation__context__id_descr_ = new TTCN_Typedescriptor("CHARACTER STRING.identification.context-negotiation.presentation-context-id", TitanInteger.TitanInteger_json_);

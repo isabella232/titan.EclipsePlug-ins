@@ -33,7 +33,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV_identification extends Base_Type {
-	public static final TTCN_JSONdescriptor TitanEmbedded_PDV_identification_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanEmbedded_PDV_identification_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanEmbedded_PDV_identification_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV.identification", TitanEmbedded_PDV_identification.TitanEmbedded_PDV_identification_json_);
 	public static final TitanUniversalCharString TitanEmbedded_PDV_identification_default_coding = new TitanUniversalCharString("JSON");
 	public static final TTCN_Typedescriptor TitanEmbedded_PDV_identification_syntax_descr_ = new TTCN_Typedescriptor("EMBEDDED PDV.identification.syntax", TitanObjectid.TitanObjectid_json_);

@@ -21,7 +21,7 @@ import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 public class TitanISO646String extends TitanCharString {
 	private static final ASN_Tag TitanISO646String_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 26)};
 	public static final ASN_BERdescriptor TitanISO646String_Ber_ = new ASN_BERdescriptor(1, TitanISO646String_tag_);
-	public static final TTCN_JSONdescriptor TitanISO646String_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanISO646String_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanISO646String_descr_ = new TTCN_Typedescriptor("ISO646String", TitanISO646String_Ber_, null, TitanISO646String_json_, null);
 
 	/**

@@ -162,7 +162,6 @@ public class JSON {
 		public TTCN_JSONdescriptor(final boolean omit_as_null,
 				final String alias,
 				final boolean as_value,
-				final String default_value,
 				final Base_Type actual_default_value,
 				final boolean metainfo_unbound,
 				final boolean as_number,
@@ -174,7 +173,7 @@ public class JSON {
 			this.omit_as_null = omit_as_null;
 			this.alias = alias;
 			this.as_value = as_value;
-			this.default_value = default_value;
+			this.default_value = null;
 			this.actual_default_value = actual_default_value;
 			this.metainfo_unbound = metainfo_unbound;
 			this.as_number = as_number;
@@ -290,7 +289,7 @@ public class JSON {
 	public static final String JSON_DEC_CHOSEN_FIELD_OMITTED_NULL = "Field cannot be omitted (as indicated by a condition in attribute 'chosen')%s";
 
 	// JSON descriptors for base types
-	public static final TTCN_JSONdescriptor ENUMERATED_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor ENUMERATED_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 
 	////////////////////////////////////////////////////////////////////////////////
 	//// CBOR conversion

@@ -22,7 +22,7 @@ import org.eclipse.titan.runtime.core.JSON.json_string_escaping;
 public class TitanVisibleString extends TitanCharString {
 	private static final ASN_Tag TitanVisibleString_tag_[] = new ASN_Tag[] {new ASN_Tag(ASN_TagClass.ASN_TAG_UNIV, 26)};
 	public static final ASN_BERdescriptor TitanVisibleString_Ber_ = new ASN_BERdescriptor(1, TitanVisibleString_tag_);
-	public static final TTCN_JSONdescriptor TitanVisibleString_json_ = new TTCN_JSONdescriptor(false, null, false, null, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
+	public static final TTCN_JSONdescriptor TitanVisibleString_json_ = new TTCN_JSONdescriptor(false, null, false, null, false, false, false, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT);
 	public static final TTCN_Typedescriptor TitanVisibleString_descr_ = new TTCN_Typedescriptor("VisibleString", TitanVisibleString_Ber_, null, TitanVisibleString_json_, null);
 
 	/**
