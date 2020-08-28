@@ -875,7 +875,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			}
 		}
 
-		if (jsonAttribute.default_value != null) {
+		if (jsonAttribute.parsed_default_value != null) {
 			checkJsonDefault(timestamp);
 		}
 

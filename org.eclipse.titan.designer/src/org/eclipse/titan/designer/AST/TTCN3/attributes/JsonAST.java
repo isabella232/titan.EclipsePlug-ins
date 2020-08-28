@@ -96,9 +96,9 @@ public class JsonAST {
 
 	/**
 	 * Decoding only.
-	 * Fields that don't appear in the JSON code will decode this value instead.
+	 * Stores the text parsed from the default attribute without any further processing.
 	 */
-	public String default_value;
+	public String parsed_default_value;
 
 	/**
 	 * The location of the default value in the source code.
@@ -106,9 +106,10 @@ public class JsonAST {
 	public Location defaultLocation;
 
 	/**
-	 * The value parsed from the default value.
+	 * Decoding only.
+	 * The value parsed from the parsed_default_value.
 	 */
-	public IValue actualDefaultValue;
+	public IValue default_value;
 
 	public List<JsonSchemaExtension> schema_extensions;
 
@@ -164,7 +165,7 @@ public class JsonAST {
 			omit_as_null = value.omit_as_null;
 			alias = value.alias;
 			as_value = value.as_value;
-			default_value = value.default_value;
+			parsed_default_value = value.parsed_default_value;
 			metainfo_unbound = value.metainfo_unbound;
 			as_number = value.as_number;
 			tag_list = value.tag_list != null ? new ArrayList<rawAST_coding_taglist>(value.tag_list) : null;
@@ -183,7 +184,7 @@ public class JsonAST {
 		omit_as_null = false;
 		alias = null;
 		as_value = false;
-		default_value = null;
+		parsed_default_value = null;
 		metainfo_unbound = false;
 		as_number = false;
 		tag_list = null;
@@ -197,7 +198,7 @@ public class JsonAST {
 
 	public boolean empty() {
 		return omit_as_null == false && alias == null && as_value == false &&
-				default_value == null && metainfo_unbound == false && as_number == false &&
+				parsed_default_value == null && metainfo_unbound == false && as_number == false &&
 				tag_list == null && as_map == false && enum_texts.size() == 0 &&
 				use_null == false && type_indicator != json_type_indicator.JSON_OBJECT &&
 				type_indicator != json_type_indicator.JSON_OBJECT_MEMBER && type_indicator != json_type_indicator.JSON_LITERAL &&
@@ -274,8 +275,8 @@ public class JsonAST {
 		if (as_value) {
 			System.out.printf("Encoding unions as JSON value\n\r");
 		}
-		if (default_value != null) {
-			System.out.printf("Default value: %s\n\r", default_value);
+		if (parsed_default_value != null) {
+			System.out.printf("Parsed default value: %s\n\r", parsed_default_value);
 		}
 		if (as_number) {
 			System.out.printf("Encoding enumerated values as numbers\n\r");

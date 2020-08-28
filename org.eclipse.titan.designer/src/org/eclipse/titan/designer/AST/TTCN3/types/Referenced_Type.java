@@ -687,7 +687,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			}
 		}
 
-		if (jsonAttribute.default_value != null) {
+		if (jsonAttribute.parsed_default_value != null) {
 			checkJsonDefault(timestamp);
 		}
 

@@ -693,7 +693,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			}
 		}
 
-		if (jsonAttribute.default_value != null) {
+		if (jsonAttribute.parsed_default_value != null) {
 			checkJsonDefault(timestamp);
 		}
 

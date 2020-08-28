@@ -505,7 +505,7 @@ public abstract class AbstractOfType extends ASN1Type {
 			}
 		}
 
-		if (jsonAttribute.default_value != null) {
+		if (jsonAttribute.parsed_default_value != null) {
 			checkJsonDefault(timestamp);
 		}
 

@@ -927,7 +927,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
 					ofType, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source),
 					jsonAttribute != null ? jsonAttribute.metainfo_unbound : false,
-					jsonAttribute != null ? jsonAttribute.default_value : null,
+					jsonAttribute != null ? jsonAttribute.parsed_default_value : null,
 					jsonChosen,
 					jsonAttribute != null ? jsonAttribute.alias : null,
 					jsonAttribute != null ? jsonAttribute.omit_as_null : false);

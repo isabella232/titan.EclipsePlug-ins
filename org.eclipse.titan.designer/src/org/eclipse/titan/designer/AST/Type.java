@@ -1067,7 +1067,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 		}
 
-		if (jsonAttribute.default_value != null) {
+		if (jsonAttribute.parsed_default_value != null) {
 			checkJsonDefault(timestamp);
 		}
 
@@ -1125,7 +1125,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public final void checkJsonDefault(final CompilationTimeStamp timestamp) {
-		CharstringExtractor extractor = new CharstringExtractor(jsonAttribute.default_value, true);
+		CharstringExtractor extractor = new CharstringExtractor(jsonAttribute.parsed_default_value, true);
 		final String defaultValue = extractor.getExtractedString();
 		final JSONDefaultAnalyzer refAnalyzer = new JSONDefaultAnalyzer();
 		final IValue parsedValue = refAnalyzer.parseJSONDefaultValue(defaultValue, jsonAttribute.defaultLocation);
@@ -1141,7 +1141,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					false,// can not have implicit omit as this is a type.
 					false));
 	
-			jsonAttribute.actualDefaultValue = temporalValue;
+			jsonAttribute.default_value = temporalValue;
 		}
 	}
 
@@ -3033,12 +3033,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			// FIXME: || jsonattrib->tag_list != NULL
 			JSON_value.append(jsonAttribute.as_value).append(',');
 
-			if (jsonAttribute.actualDefaultValue == null) {
+			if (jsonAttribute.default_value == null) {
 				JSON_value.append("null").append(',');
 			} else {
-				if (jsonAttribute.actualDefaultValue.canGenerateSingleExpression() ) {
+				if (jsonAttribute.default_value.canGenerateSingleExpression() ) {
 					final ExpressionStruct expression = new ExpressionStruct();
-					jsonAttribute.actualDefaultValue.generateCodeExpressionMandatory(aData, expression, true);
+					jsonAttribute.default_value.generateCodeExpressionMandatory(aData, expression, true);
 					if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 						//FIXME something went wrong
 						JSON_value.append("null");
@@ -3052,7 +3052,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					staticBlock.append("static {\n");
 					final String tempId = aData.getTemporaryVariableName();
 					staticBlock.append(MessageFormat.format("{0} {1} = ({0}){2}.getActualDefaultValue();\n", typeGeneratedName, tempId, descriptorName));
-					jsonAttribute.actualDefaultValue.generateCodeInit( aData, staticBlock, tempId );
+					jsonAttribute.default_value.generateCodeInit( aData, staticBlock, tempId );
 					staticBlock.append("}\n");
 				}
 

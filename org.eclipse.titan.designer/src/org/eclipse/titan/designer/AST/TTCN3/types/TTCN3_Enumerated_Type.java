@@ -619,7 +619,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			}
 		}
 
-		if (jsonAttribute.default_value != null) {
+		if (jsonAttribute.parsed_default_value != null) {
 			checkJsonDefault(timestamp);
 		}
 
