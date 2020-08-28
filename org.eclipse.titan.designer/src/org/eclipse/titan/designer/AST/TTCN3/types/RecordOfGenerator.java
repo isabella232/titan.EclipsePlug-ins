@@ -1633,11 +1633,6 @@ public final class RecordOfGenerator {
 			source.append("\t\t\t\toperator_assign(p_td.json.getActualDefaultValue());\n");
 
 			source.append("\t\t\t\treturn 0;\n");
-			source.append("\t\t\t} else if (null != p_td.json.getDefault_value() && 0 == p_tok.get_buffer_length()) {\n");
-			// use the default value (currently only the empty array can be set as
-			// default value for this type)
-			source.append("\t\t\t\tset_size(0);\n");
-			source.append("\t\t\t\treturn p_td.json.getDefault_value().length();\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t\tfinal AtomicReference<json_token_t> token = new AtomicReference<json_token_t>(json_token_t.JSON_TOKEN_NONE);\n");
 			source.append("\t\t\tint dec_len = p_tok.get_next_token(token, null, null);\n");

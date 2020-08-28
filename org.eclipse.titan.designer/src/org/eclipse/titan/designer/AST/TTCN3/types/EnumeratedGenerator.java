@@ -656,11 +656,10 @@ public final class EnumeratedGenerator {
 			source.append("\t\t\tfinal AtomicInteger value_len = new AtomicInteger(0);\n");
 			source.append("\t\t\tboolean error = false;\n");
 			source.append("\t\t\tint dec_len = 0;\n");
-			source.append("\t\t\tboolean use_default = p_td.json.getDefault_value() != null && 0 == p_tok.get_buffer_length();\n");
-			source.append("\t\t\tif (use_default) {\n");
-			source.append("\t\t\t\t// No JSON data in the buffer -> use default value\n");
-			source.append("\t\t\t\tvalue.append(p_td.json.getDefault_value());\n");
-			source.append("\t\t\t\tvalue_len.set(value.length());\n");
+			source.append("\t\t\tboolean use_default = false;\n");
+			source.append("\t\t\tif (p_td.json.getActualDefaultValue() != null && 0 == p_tok.get_buffer_length()) {\n");
+			source.append("\t\t\t\toperator_assign(p_td.json.getActualDefaultValue());\n");
+			source.append("\t\t\t\treturn dec_len;\n");
 			source.append("\t\t\t} else {\n");
 			source.append("\t\t\t\tdec_len = p_tok.get_next_token(token, value, value_len);\n");
 			source.append("\t\t\t}\n");
