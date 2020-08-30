@@ -61,7 +61,6 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	private List<TITANMarker> unsupportedConstructs;
 	private Interval rootInterval;
 	private TTCN3Module actualTtc3Module;
-	private byte[] digest = null;
 
 	/**
 	 * The list of markers (ERROR and WARNING) created during parsing
@@ -356,7 +355,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 
 		if (md5 != null) {
-			digest = md5.digest();
+			final byte[] digest = md5.digest();
 			if (actualTtc3Module != null) {
 				actualTtc3Module.addMD5Digest(digest);
 			}
