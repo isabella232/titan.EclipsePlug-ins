@@ -4483,7 +4483,9 @@ public class MainController {
 
 	private static void process_log(final Host tc) {
 		final Text_Buf text_buf = incoming_buf.get();
-		final int seconds = text_buf.pull_int().get_int();
+		final int upper_int = text_buf.pull_int().get_int();
+		final int lower_int = text_buf.pull_int().get_int();
+		final long seconds = upper_int * 0xffffffff + lower_int;
 		final int microseconds = text_buf.pull_int().get_int();
 		final int severity = text_buf.pull_int().get_int();
 

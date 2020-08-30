@@ -474,8 +474,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			return false;
 		}
 
-		//FIXME the seconds can be a long, will be needed for the advanced fix of 563289
-		if (!TTCN_Communication.send_log((int)event.get_field_timestamp__().get_field_seconds().get_long(), event.get_field_timestamp__().get_field_microSeconds().get_int(), event.get_field_severity().get_int(), event_str)) {
+		if (!TTCN_Communication.send_log(event.get_field_timestamp__().get_field_seconds().get_long(), event.get_field_timestamp__().get_field_microSeconds().get_int(), event.get_field_severity().get_int(), event_str)) {
 			// The event text shall be printed to stderr when there is no control
 			// connection towards MC (e.g. in single mode or in case of network
 			// error).

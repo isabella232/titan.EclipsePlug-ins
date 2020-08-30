@@ -986,11 +986,14 @@ public final class TTCN_Communication {
 		send_message(text_buf);
 	}
 
-	public static boolean send_log(final int seconds, final int microseconds, final int event_severity, final String message_text) {
+	public static boolean send_log(final long seconds, final int microseconds, final int event_severity, final String message_text) {
 		if (is_connected.get()) {
 			final Text_Buf text_buf = new Text_Buf();
 			text_buf.push_int(MSG_LOG);
-			text_buf.push_int(seconds);
+			int upper_int = (int)(seconds / 0xffffffff);
+			int lower_int = (int)(seconds % 0xffffffff);
+			text_buf.push_int(upper_int);
+			text_buf.push_int(lower_int);
 			text_buf.push_int(microseconds);
 			text_buf.push_int(event_severity);
 			final byte messageBytes[] = message_text.getBytes();
