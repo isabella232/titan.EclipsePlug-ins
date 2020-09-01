@@ -478,8 +478,14 @@ public class TitanBitString extends Base_Type {
 		must_bound("Unbound left operand of bitstring concatenation.");
 		other_value.must_bound("Unbound right operand of bitstring element");
 
-		final TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits + 1);
+		final int n_bytes = (n_bits / 8) + 1;
+		final TitanBitString ret_val = new TitanBitString();
+		ret_val.bits_ptr = new byte[n_bytes];
+		ret_val.n_bits = n_bits + 1;
+		System.arraycopy(bits_ptr, 0, ret_val.bits_ptr, 0, bits_ptr.length);
+
 		ret_val.set_bit(n_bits, other_value.get_bit());
+		ret_val.clear_unused_bits();
 
 		return ret_val;
 	}
