@@ -788,7 +788,20 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	boolean hasEncoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final String customEncoding);
 
-	//FIXME comment
+	/**
+	 * Helper function for hasEncodeAttribute. Checks this type's qualified
+	 * encoding attributes that refer to the specified type (target_type).
+	 * 
+	 * Recursive function (calls the parent type's hasEncodeAttrForType
+	 * function if no matching attributes are found).
+	 *
+	 * @param type
+	 *                the type to be checked.
+	 * @param encodingName
+	 *                the name of the encoding to check for.
+	 * @return true if any of the encoding attributes of the specified type
+	 *         match the specified encoding (encoding_name)
+	 */
 	boolean hasEncodeAttributeForType(final Type type, final String encodingName);
 
 	/**

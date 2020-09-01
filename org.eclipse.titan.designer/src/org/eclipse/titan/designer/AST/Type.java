@@ -3453,13 +3453,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		return false;
 	}
 
-	/** Helper function for hasEncodeAttribute. Checks this type's qualified encoding
-	 * attributes that refer to the specified type (target_type) and returns
-	 * true if any of them match the specified encoding (encoding_name).
-	 * Recursive function (calls the parent type's hasEncodeAttrForType function
-	 * if no matching attributes are found).
-	 */
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasEncodeAttributeForType(final Type type, final String encoding_name) {
 		// if this type has an encode attribute, that also extends to its
 		// fields/elements
