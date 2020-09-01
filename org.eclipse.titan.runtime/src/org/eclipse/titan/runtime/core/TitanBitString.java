@@ -480,7 +480,7 @@ public class TitanBitString extends Base_Type {
 
 		final int n_bytes = (n_bits / 8) + 1;
 		final TitanBitString ret_val = new TitanBitString();
-		ret_val.bits_ptr = new byte[n_bytes];
+		ret_val.bits_ptr = new int[n_bytes];
 		ret_val.n_bits = n_bits + 1;
 		System.arraycopy(bits_ptr, 0, ret_val.bits_ptr, 0, bits_ptr.length);
 
