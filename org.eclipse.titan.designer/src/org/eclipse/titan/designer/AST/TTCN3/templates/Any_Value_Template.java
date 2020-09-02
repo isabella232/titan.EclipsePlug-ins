@@ -146,8 +146,6 @@ public final class Any_Value_Template extends TTCN3Template {
 		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
-		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-
 		source.append(MessageFormat.format("{0}.operator_assign({1});\n", name, getSingleExpression(aData, false)));
 
 		if (lengthRestriction != null) {

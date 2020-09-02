@@ -235,8 +235,6 @@ public final class Value_Range_Template extends TTCN3Template {
 		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
-		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-
 		if (valueRange != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
 				valueRange.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());

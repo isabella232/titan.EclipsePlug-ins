@@ -244,6 +244,9 @@ public final class PatternString implements IVisitableNode, INamedNode, IASTNode
 
 	//FIXME comment
 	public String create_charstring_literals(final JavaGenData aData, final Module module, final StringBuilder preamble) {
+		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+
 		final StringBuilder s = new StringBuilder();
 		check_refs(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, CompilationTimeStamp.getBaseTimestamp());
 		if (patterntype == PatternType.CHARSTRING_PATTERN) {
