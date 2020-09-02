@@ -52,6 +52,7 @@ import org.eclipse.titan.designer.OutOfMemoryCheck;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
@@ -650,7 +651,8 @@ public final class ProjectSourceParser {
 					TITANDebugConsole.println("Refreshing the syntax took " + (System.nanoTime() - parserStart) * (1e-9) + " secs");
 				}
 
-				TTCN3Analyzer.md5_parser(file, reparser.getCode());
+				final TTCN3Module actualModule = (TTCN3Module)GlobalParser.getProjectSourceParser(file.getProject()).containedModule(file);
+				TTCN3Analyzer.md5_parser(file, reparser.getCode(), actualModule);
 
 
 				return Status.OK_STATUS;

@@ -8,9 +8,6 @@
 package org.eclipse.titan.designer.parsers.ttcn3parser;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -43,7 +40,6 @@ import org.eclipse.titan.common.parsers.Interval;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.TitanListener;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ISourceAnalyzer;
@@ -142,7 +138,6 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 
 		parse( reader, rootInt, aFile );
-		md5_parser(aFile, aCode);
 	}
 
 	/**
@@ -267,7 +262,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 	}
 
-	public static void md5_parser(final IFile aFile, final String aCode) {
+	public static void md5_parser(final IFile aFile, final String aCode, final TTCN3Module actualTtc3Module) {
 		Reader reader;
 		if ( aCode != null ) {
 			reader = new StringReader( aCode );
@@ -295,11 +290,14 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			return;
 		}
 
-		final Module actualModule = GlobalParser.getProjectSourceParser(aFile.getProject()).containedModule(aFile);
-		md5_processing(reader, aFile, (TTCN3Module)actualModule);
+		TTCN3Module actualModule = actualTtc3Module;
+		if (actualModule == null) {
+			actualModule = (TTCN3Module)GlobalParser.getProjectSourceParser(aFile.getProject()).containedModule(aFile);
+		}
+		md5_processing(reader, aFile, actualModule);
 	}
 
-	public static void md5_processing(final Reader aReader, final IFile aEclipseFile, final TTCN3Module actualTtc3Module) {
+	private static void md5_processing(final Reader aReader, final IFile aEclipseFile, final TTCN3Module actualTtc3Module) {
 		final IPreferencesService prefs = Platform.getPreferencesService();
 		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
 

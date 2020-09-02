@@ -867,7 +867,12 @@ public final class ProjectSourceSyntacticAnalyzer {
 		unsupportedConstructMap.remove(file);
 
 		try {
-			analyzer.parse(file, document == null ? null : document.get());
+			final String code = document == null ? null : document.get();
+			analyzer.parse(file, code);
+			final Module module = analyzer.getModule();
+			if (module instanceof TTCN3Module) {
+				TTCN3Analyzer.md5_parser(file, code, (TTCN3Module)module);
+			}
 		} catch (FileNotFoundException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
