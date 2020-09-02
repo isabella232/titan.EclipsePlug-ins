@@ -100,7 +100,6 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("RAW.top_bit_order_t");
 		aData.addBuiltinTypeImport("JSON_Tokenizer");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
-		aData.addBuiltinTypeImport("TTCN_EncDec");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
