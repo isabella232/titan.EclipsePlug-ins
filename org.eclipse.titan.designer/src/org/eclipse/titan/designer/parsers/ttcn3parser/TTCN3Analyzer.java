@@ -43,6 +43,7 @@ import org.eclipse.titan.common.parsers.Interval;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.TitanListener;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ISourceAnalyzer;
@@ -101,11 +102,9 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 */
 	public void parse( final IFile aFile, final String aCode ) {
 		Reader reader;
-		Reader reader2;
 		int rootInt;
 		if ( aCode != null ) {
 			reader = new StringReader( aCode );
-			reader2 = new StringReader( aCode );
 			rootInt = aCode.length();
 		} else if (aFile != null) {
 			try {
@@ -120,17 +119,6 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				}
 
 				reader = new BufferedReader(temp);
-				InputStreamReader temp2 = new InputStreamReader(aFile.getContents());
-				if (!aFile.getCharset().equals(temp.getEncoding())) {
-					try {
-						temp2.close();
-					} catch (IOException e) {
-						ErrorReporter.logWarningExceptionStackTrace(e);
-					}
-					temp2 = new InputStreamReader(aFile.getContents(), aFile.getCharset());
-				}
-
-				reader2 = new BufferedReader(temp2);
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace(e);
 				return;
@@ -154,7 +142,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 
 		parse( reader, rootInt, aFile );
-		md5_processing(reader2, aFile, actualTtc3Module);
+		md5_parser(aFile, aCode);
 	}
 
 	/**
@@ -299,6 +287,38 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			aReader.close();
 		} catch (IOException e) {
 		}
+	}
+
+	public static void md5_parser(final IFile aFile, final String aCode) {
+		Reader reader;
+		if ( aCode != null ) {
+			reader = new StringReader( aCode );
+		} else if (aFile != null) {
+			try {
+				InputStreamReader temp = new InputStreamReader(aFile.getContents());
+				if (!aFile.getCharset().equals(temp.getEncoding())) {
+					try {
+						temp.close();
+					} catch (IOException e) {
+						ErrorReporter.logWarningExceptionStackTrace(e);
+					}
+					temp = new InputStreamReader(aFile.getContents(), aFile.getCharset());
+				}
+
+				reader = new BufferedReader(temp);
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				return;
+			} catch (UnsupportedEncodingException e) {
+				ErrorReporter.logExceptionStackTrace(e);
+				return;
+			}
+		} else {
+			return;
+		}
+
+		final Module actualModule = GlobalParser.getProjectSourceParser(aFile.getProject()).containedModule(aFile);
+		md5_processing(reader, aFile, (TTCN3Module)actualModule);
 	}
 
 	public static void md5_processing(final Reader aReader, final IFile aEclipseFile, final TTCN3Module actualTtc3Module) {

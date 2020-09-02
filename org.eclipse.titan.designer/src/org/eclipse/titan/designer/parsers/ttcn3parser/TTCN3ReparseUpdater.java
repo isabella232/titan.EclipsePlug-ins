@@ -110,6 +110,10 @@ public final class TTCN3ReparseUpdater {
 		return modificationEndOffset;
 	}
 
+	public final String getCode() {
+		return code;
+	}
+
 	public final int getFirstLine() {
 		return firstLine;
 	}
