@@ -7,6 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.parsers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,6 +56,7 @@ import org.eclipse.titan.designer.OutOfMemoryCheck;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
@@ -61,6 +66,7 @@ import org.eclipse.titan.designer.editors.ISemanticTITANEditor;
 import org.eclipse.titan.designer.extensions.ExtensionHandler;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.license.LicenseValidator;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3Analyzer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.preferences.PreferenceConstantValues;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
@@ -648,6 +654,30 @@ public final class ProjectSourceParser {
 				if (store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION)) {
 					TITANDebugConsole.println("Refreshing the syntax took " + (System.nanoTime() - parserStart) * (1e-9) + " secs");
 				}
+
+				BufferedReader reader;
+
+				try {
+					InputStreamReader temp = new InputStreamReader(file.getContents());
+					if (!file.getCharset().equals(temp.getEncoding())) {
+						try {
+							temp.close();
+						} catch (IOException e) {
+							ErrorReporter.logWarningExceptionStackTrace(e);
+						}
+						temp = new InputStreamReader(file.getContents(), file.getCharset());
+					}
+
+					reader = new BufferedReader(temp);
+
+					final Module actualModule = GlobalParser.getProjectSourceParser(file.getProject()).getSemanticAnalyzer().getModulebyFile(file);
+					TTCN3Analyzer.md5_processing(reader, file, (TTCN3Module)actualModule);
+				} catch (CoreException e) {
+					ErrorReporter.logExceptionStackTrace(e);
+				} catch (UnsupportedEncodingException e) {
+					ErrorReporter.logExceptionStackTrace(e);
+				}
+
 
 				return Status.OK_STATUS;
 			}
