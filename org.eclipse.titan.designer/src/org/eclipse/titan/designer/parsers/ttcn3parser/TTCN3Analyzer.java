@@ -147,28 +147,6 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 	/**
 	 * Parse TTCN-3 file using ANTLR v4
-	 * Eclipse independent version
-	 * @param aFile TTCN-3 file to parse, It cannot be null
-	 */
-	public void parse(final File aFile ) {
-		BufferedReader bufferedReader;
-		BufferedReader bufferedReader2;
-
-		try {
-			bufferedReader = new BufferedReader( new FileReader( aFile ) );
-			bufferedReader2 = new BufferedReader( new FileReader( aFile ) );
-		} catch ( FileNotFoundException e ) {
-			//TODO: handle error
-			return;
-		}
-
-		final int fileLength = (int)aFile.length();
-		parse( bufferedReader, fileLength, null );
-		md5_processing(bufferedReader2, null, actualTtc3Module);
-	}
-
-	/**
-	 * Parse TTCN-3 file using ANTLR v4
 	 * @param aReader file to parse (cannot be null, closes aReader)
 	 * @param aFileLength file length
 	 * @param aEclipseFile Eclipse dependent resource file
