@@ -743,6 +743,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		final String returnValueID = aData.getTemporaryVariableName();
 		if (fieldType.hasBuiltInEncoding()) {
 			aData.addBuiltinTypeImport("TTCN_EncDec");
+
 			expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n");
 			expression.preamble.append("TTCN_EncDec.clear_error();\n");
 		}

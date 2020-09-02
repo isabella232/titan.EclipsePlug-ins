@@ -551,7 +551,6 @@ public final class DecodeExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanOctetString");
-		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		final ExpressionStruct expression1 = new ExpressionStruct();
@@ -586,6 +585,8 @@ public final class DecodeExpression extends Expression_Value {
 		final String bufferID = aData.getTemporaryVariableName();
 		final String returnValueID = aData.getTemporaryVariableName();
 		if (fieldType.hasBuiltInEncoding()) {
+			aData.addBuiltinTypeImport("TTCN_EncDec");
+
 			expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n");
 			expression.preamble.append("TTCN_EncDec.clear_error();\n");
 		}
