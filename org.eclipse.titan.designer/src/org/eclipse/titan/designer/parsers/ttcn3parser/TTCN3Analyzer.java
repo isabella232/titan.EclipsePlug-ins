@@ -154,7 +154,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 
 		parse( reader, rootInt, aFile );
-		md5_processing(reader2, aFile);
+		md5_processing(reader2, aFile, actualTtc3Module);
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 		final int fileLength = (int)aFile.length();
 		parse( bufferedReader, fileLength, null );
-		md5_processing(bufferedReader2, null);
+		md5_processing(bufferedReader2, null, actualTtc3Module);
 	}
 
 	/**
@@ -301,7 +301,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		}
 	}
 
-	private void md5_processing(final Reader aReader, final IFile aEclipseFile) {
+	public static void md5_processing(final Reader aReader, final IFile aEclipseFile, final TTCN3Module actualTtc3Module) {
 		final IPreferencesService prefs = Platform.getPreferencesService();
 		final boolean realtimeEnabled = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.ENABLEREALTIMEEXTENSION, false, null);;
 
