@@ -707,7 +707,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	void forceJson(final CompilationTimeStamp timestamp);
 
-	//FIXME: comment
+	/**
+	 * Check the json coding attributes of the type.
+	 *
+	 * @param timestamp the timestamp of the actual semantic check cycle.
+	 * */
 	void checkJson(final CompilationTimeStamp timestamp);
 
 	/**
