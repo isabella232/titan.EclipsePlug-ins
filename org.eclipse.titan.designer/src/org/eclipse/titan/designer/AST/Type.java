@@ -3186,7 +3186,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// encoder and decoder functions
-		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanOctetString");
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
 		aData.addCommonLibraryImport("TtcnError");
@@ -3255,6 +3254,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					} else {
 						aData.addCommonLibraryImport("AdditionalFunctions");
 						aData.addBuiltinTypeImport("TitanBitString");
+						aData.addBuiltinTypeImport("TitanInteger");
 
 						decoderString.append("\t\t\tfinal TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
 						decoderString.append(MessageFormat.format("\t\t\tfinal TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, "")));
@@ -3950,6 +3950,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
+
+		aData.addBuiltinTypeImport("TitanInteger");
 
 		final Value indexValue = ((ArraySubReference) subReference).getValue();
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
