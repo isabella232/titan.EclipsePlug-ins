@@ -94,7 +94,6 @@ public final class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Enumerated");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Unbound");
-		aData.addBuiltinTypeImport("RAW");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
 		aData.addBuiltinTypeImport("RAW.top_bit_order_t");
@@ -558,6 +557,7 @@ public final class EnumeratedGenerator {
 		source.append("\t\t}\n\n");
 
 		if (rawNeeded) {
+			aData.addBuiltinTypeImport("RAW");
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 
