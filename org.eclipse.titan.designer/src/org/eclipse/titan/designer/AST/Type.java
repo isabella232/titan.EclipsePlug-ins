@@ -3010,7 +3010,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	protected void generateCodeJsonDescriptor(final JavaGenData aData, final StringBuilder source, final StringBuilder localTarget, final HashMap<String, String> attributeRegistry) {
 		aData.addBuiltinTypeImport("JSON.TTCN_JSONdescriptor");
 		aData.addBuiltinTypeImport("JSON.json_string_escaping");
-		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
 		final String genname = getGenNameOwn();
 		final StringBuilder staticBlock = new StringBuilder();
