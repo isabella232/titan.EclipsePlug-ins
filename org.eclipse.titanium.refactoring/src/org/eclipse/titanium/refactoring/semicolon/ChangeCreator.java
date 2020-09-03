@@ -144,12 +144,25 @@ public class ChangeCreator {
 				final InputStreamReader isr = new InputStreamReader(is, toVisit.getCharset());
 				final int lenght = endoffset-offset;
 				final char[] content = new char[lenght];
-
 				isr.skip(offset);
 				isr.read(content);
+
 				if (content[lenght-1] != ';'  && content[lenght-1] != ','  && content[lenght-1] != '{' && content[lenght-1] != '}') {
 					char a = (char)isr.read();
 					while (!Character.isAlphabetic(a) && !Character.isDigit(a) && a != ';' && a != ','&& a != '{' && a != '}' && a != ')') {
+						if (a == '/') {
+							char b = (char)isr.read();
+							if (b == '/') { // line comment
+								while (b != '\n') {
+									b = (char)isr.read();
+								}
+							} else if (b == '*') {//block comment
+								while (a != '*' || b!= '/') {
+									a = b;
+									b = (char)isr.read();
+								}
+							}
+						}
 						a = (char)isr.read();
 					}
 					if (a != ';' && a != ',' && a != '{'  && a != ')') {
@@ -169,8 +182,6 @@ public class ChangeCreator {
 		return edit;
 	}
 }
-
-
 
 /**
  * 
