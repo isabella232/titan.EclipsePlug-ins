@@ -21,6 +21,7 @@ import java.net.SocketAddress;
 import java.net.StandardSocketOptions;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
@@ -211,11 +212,128 @@ public class MainController {
 		REASON_NOTHING, REASON_SHUTDOWN, REASON_MTC_KILL_TIMER
 	}
 	
+	/** Data structure for representing a port connection */
+	static class PortConnection {
+		conn_state_enum conn_state;
+		transport_type_enum transport_type;
+		int comp_ref;
+		String port_name;
+		PortConnection next;
+		PortConnection prev;
+		ComponentStruct component;
+		List<ComponentStruct> components;
+		int headComp;
+		String headPort;
+		int tailComp;
+		String tailPort;
+		RequestorStruct requestors;
+	}
 	
+	/** Data structure for describing the component location constraints */
+	static class HostGroupStruct {
+		String group_name;
+		boolean has_all_hosts;
+		boolean has_all_components;
+		List<Host> host_members;
+		List<ComponentStruct> assigned_components;
+	}
+	
+	/** Data structure for each host (and the corresponding HC) */
+	static class Host {
+		SocketChannel socket;
+		SocketAddress address;
+		hc_state_enum hc_state;
+		List<ComponentStruct> components;
+		boolean transport_supported[];
+		String hostname;
+		String machine_type;
+		String system_name;
+		String system_release;
+		String system_version;
+
+		Host(final SocketChannel sc) {
+			socket = sc;
+			components = new ArrayList<ComponentStruct>();
+			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
+		}
+
+		void addComponent(final ComponentStruct comp) {
+			components.add(comp);
+		}
+
+	}
+	
+	static class QualifiedName {
+		public String module_name;
+		public String definition_name;
+
+		public QualifiedName(final String module_name, final String definition_name) {
+			this.module_name = module_name;
+			this.definition_name = definition_name;
+		}
+
+	}
+	
+	/** Data structure for each TC */
+	static class ComponentStruct {
+		int comp_ref;
+		QualifiedName comp_type;
+		String comp_name;
+		String log_source;
+		Host comp_location;
+		tc_state_enum tc_state;
+		VerdictTypeEnum local_verdict;
+		String verdict_reason;
+		int tc_fd;
+		Text_Buf text_buf;
+		QualifiedName tc_fn_name;
+		String return_type;
+		byte[] return_value;
+		boolean is_alive;
+		boolean stop_requested;
+		boolean process_killed;
+		// int arg;
+		byte[] arg;
+		ComponentStruct create_requestor;
+		ComponentStruct start_requestor;
+		RequestorStruct cancel_done_sent_to;
+		RequestorStruct stop_requestors;
+		RequestorStruct kill_requestors;
+		List<PortConnection> conn_head_list;
+		List<PortConnection> conn_tail_list;
+		RequestorStruct done_requestors;
+		RequestorStruct killed_requestors;
+		RequestorStruct cancel_done_sent_for;
+
+		ComponentStruct(final Text_Buf tb) {
+			text_buf = tb;
+		}
+
+	}
+	
+	/** Structure for timers */
+	static class TimerStruct {
+		double expiration;
+		ComponentStruct component;
+	}
+
+	/** Container of test components (when a pending operation can be requested by several components) */
+	static class RequestorStruct {
+		int n_components;
+		ComponentStruct comp;
+		List<ComponentStruct> components;
+	}
+	
+	private static UserInterface ui;
+	private static NetworkHandler nh = new NetworkHandler();
 
 	private static mcStateEnum mc_state;
 	private static String mc_hostname;
-
+	
+	/** Use ServerSocketChannel and Selector for non-blocking I/O instead of file descriptor*/
+	private static ServerSocketChannel mc_channel; 
+	private static Selector mc_selector;
+	
 	private static ThreadLocal<Text_Buf> incoming_buf = new ThreadLocal<Text_Buf>() {
 		@Override
 		protected Text_Buf initialValue() {
@@ -292,7 +410,7 @@ public class MainController {
 	private static List<Host> hosts;
 	private static List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
 	private static List<ExecuteItem> executeItems;
-	private static ServerSocketChannel serverSocketChannel;
+	
 
 	private static ThreadLocal<CfgAnalyzer> cfgAnalyzer = new ThreadLocal<CfgAnalyzer>() {
 		@Override
@@ -303,118 +421,8 @@ public class MainController {
 
 	private static Map<Integer, ComponentStruct> components;
 
-	private static UserInterface ui;
-	private static NetworkHandler nh = new NetworkHandler();
 	private static double kill_timer = 0.0;
 	private static ReentrantLock mutex;
-
-	static class Host {
-		SocketChannel socket;
-		SocketAddress address;
-		hc_state_enum hc_state;
-		List<ComponentStruct> components;
-		boolean transport_supported[];
-		String hostname;
-		String machine_type;
-		String system_name;
-		String system_release;
-		String system_version;
-
-		Host(final SocketChannel sc) {
-			socket = sc;
-			components = new ArrayList<ComponentStruct>();
-			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
-		}
-
-		void addComponent(final ComponentStruct comp) {
-			components.add(comp);
-		}
-
-	}
-
-	static class ComponentStruct {
-		int comp_ref;
-		QualifiedName comp_type;
-		String comp_name;
-		String log_source;
-		Host comp_location;
-		tc_state_enum tc_state;
-		VerdictTypeEnum local_verdict;
-		String verdict_reason;
-		int tc_fd;
-		Text_Buf text_buf;
-		QualifiedName tc_fn_name;
-		String return_type;
-		byte[] return_value;
-		boolean is_alive;
-		boolean stop_requested;
-		boolean process_killed;
-		// int arg;
-		byte[] arg;
-		ComponentStruct create_requestor;
-		ComponentStruct start_requestor;
-		RequestorStruct cancel_done_sent_to;
-		RequestorStruct stop_requestors;
-		RequestorStruct kill_requestors;
-		List<PortConnection> conn_head_list;
-		List<PortConnection> conn_tail_list;
-		RequestorStruct done_requestors;
-		RequestorStruct killed_requestors;
-		RequestorStruct cancel_done_sent_for;
-
-		ComponentStruct(final Text_Buf tb) {
-			text_buf = tb;
-		}
-
-	}
-
-	static class HostGroupStruct {
-		String group_name;
-		boolean has_all_hosts;
-		boolean has_all_components;
-		List<Host> host_members;
-		List<ComponentStruct> assigned_components;
-	}
-
-	static class TimerStruct {
-		double expiration;
-		ComponentStruct component;
-	}
-
-
-	static class QualifiedName {
-		public String module_name;
-		public String definition_name;
-
-		public QualifiedName(final String module_name, final String definition_name) {
-			this.module_name = module_name;
-			this.definition_name = definition_name;
-		}
-
-	}
-
-	static class PortConnection {
-		conn_state_enum conn_state;
-		transport_type_enum transport_type;
-		int comp_ref;
-		String port_name;
-		PortConnection next;
-		PortConnection prev;
-		ComponentStruct component;
-		List<ComponentStruct> components;
-		int headComp;
-		String headPort;
-		int tailComp;
-		String tailPort;
-		RequestorStruct requestors;
-	}
-
-
-	static class RequestorStruct {
-		int n_components;
-		ComponentStruct comp;
-		List<ComponentStruct> components;
-	}
 
 	private static ComponentStruct mtc;
 	private static ComponentStruct ptc;
@@ -522,7 +530,7 @@ public class MainController {
 			nh.set_family(new InetSocketAddress(local_address, tcp_port));
 
 			try {
-				serverSocketChannel = serverSocketChannel.open();
+				mc_channel = ServerSocketChannel.open();
 			} catch (IOException e) {
 				System.err.printf("Server socket creation failed: %s\n", e.getMessage());
 				mutex.unlock();
@@ -531,7 +539,7 @@ public class MainController {
 			}
 
 			try {
-				serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+				mc_channel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
 			} catch (IOException e) {
 				System.err.printf("SO_REUSEADDR failed on server socket: %s", e.getMessage());
 				mutex.unlock();
@@ -542,7 +550,7 @@ public class MainController {
 			//TCP_NODELAY not supported for server sockets in Java
 
 			try {
-				serverSocketChannel.bind(nh.get_addr(), 10);
+				mc_channel.bind(nh.get_addr(), 10);
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
 					System.err.printf("Binding server socket to TCP port %d failed: %s\n", tcp_port, e.getMessage());
@@ -562,9 +570,9 @@ public class MainController {
 			try {
 				mc_state = mcStateEnum.MC_LISTENING;
 				System.out.printf("Listening on IP address %s and TCP port %d.\n",
-						((InetSocketAddress)serverSocketChannel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort());
-				tcp_port = ((InetSocketAddress)serverSocketChannel.getLocalAddress()).getPort();
-				SocketChannel sc = serverSocketChannel.accept();
+						((InetSocketAddress)mc_channel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)mc_channel.getLocalAddress()).getPort());
+				tcp_port = ((InetSocketAddress)mc_channel.getLocalAddress()).getPort();
+				SocketChannel sc = mc_channel.accept();
 				Host host = new Host(sc);
 				hosts.add(host);
 				host.address = sc.getRemoteAddress();
@@ -691,7 +699,7 @@ public class MainController {
 	private synchronized static void connect_mtc() {
 		SocketChannel sc;
 		try {
-			sc = serverSocketChannel.accept();
+			sc = mc_channel.accept();
 			final Host mtcHost = new Host(sc);
 			mtcHost.address = sc.getLocalAddress();
 			setup_host(mtcHost);
@@ -766,7 +774,7 @@ public class MainController {
 	private static void connect_ptc() {
 		SocketChannel sc;
 		try {
-			sc = serverSocketChannel.accept();
+			sc = mc_channel.accept();
 			final Host ptcHost = new Host(sc);
 			ptcHost.address = sc.getLocalAddress();
 			setup_host(ptcHost);
@@ -4602,7 +4610,7 @@ public class MainController {
 		case MC_LISTENING_CONFIGURED:
 			// TODO shutdown server
 			try {
-				serverSocketChannel.close();
+				mc_channel.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
