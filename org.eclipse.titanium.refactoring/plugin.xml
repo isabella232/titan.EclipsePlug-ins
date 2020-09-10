@@ -267,7 +267,7 @@
             commandId="org.eclipse.titanium.commands.AddSemicolonModule"
             icon="resources/icons/titan.gif"
             id="org.eclipse.titanium.commands.AddSemicolonModule"
-            label="Adds missing semicolon">
+            label="Add missing semicolon">
         </command>
         <command
             commandId="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
@@ -413,7 +413,7 @@
         </command>
         <command
             commandId="org.eclipse.titanium.commands.AddSemicolonProject"
-            label="Adds missing semicolon">
+            label="Add missing semicolon">
           <visibleWhen checkEnabled="false">
             <with variable="selection">
               <iterate operator="and">
@@ -531,7 +531,7 @@
         </command>
         <command
             commandId="org.eclipse.titanium.commands.AddSemicolonProject"
-            label="Adds missing semicolon">
+            label="Add missing semicolon">
           <visibleWhen checkEnabled="false">
             <with variable="selection">
               <iterate operator="and">
