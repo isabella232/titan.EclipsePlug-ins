@@ -74882,7 +74882,8 @@ public final class PreGenRecordOf extends TTCN_Module {
 		 *                use legacy mode.
 		 * */
 		public void log_match(final anytype match_value, final boolean legacy) {
-			if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {
+			final boolean isCompact = TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity();
+			if (isCompact && match(match_value, legacy)) {
 				TTCN_Logger.print_logmatch_buffer();
 				TTCN_Logger.log_event_str(" matched");
 				return;

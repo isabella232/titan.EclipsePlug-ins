@@ -796,7 +796,8 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	 *                use legacy mode.
 	 * */
 	public void log_match(final TitanCharacter_String_identification match_value, final boolean legacy) {
-		if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {
+		final boolean isCompact = TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity();
+		if (isCompact && match(match_value, legacy)) {
 			TTCN_Logger.print_logmatch_buffer();
 			TTCN_Logger.log_event_str(" matched");
 			return;
@@ -804,7 +805,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		if (template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
 			switch (single_value_union_selection) {
 			case ALT_syntaxes:
-				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+				if (isCompact) {
 					TTCN_Logger.log_logmatch_info(".syntaxes");
 					single_value.log_match(match_value.get_field_syntaxes(), legacy);
 				} else {
@@ -814,7 +815,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				}
 				break;
 			case ALT_syntax:
-				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+				if (isCompact) {
 					TTCN_Logger.log_logmatch_info(".syntax");
 					single_value.log_match(match_value.get_field_syntax(), legacy);
 				} else {
@@ -824,7 +825,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				}
 				break;
 			case ALT_presentation__context__id:
-				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+				if (isCompact) {
 					TTCN_Logger.log_logmatch_info(".presentation-context-id");
 					single_value.log_match(match_value.get_field_presentation__context__id(), legacy);
 				} else {
@@ -834,7 +835,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				}
 				break;
 			case ALT_context__negotiation:
-				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+				if (isCompact) {
 					TTCN_Logger.log_logmatch_info(".context-negotiation");
 					single_value.log_match(match_value.get_field_context__negotiation(), legacy);
 				} else {
@@ -844,7 +845,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				}
 				break;
 			case ALT_transfer__syntax:
-				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+				if (isCompact) {
 					TTCN_Logger.log_logmatch_info(".transfer-syntax");
 					single_value.log_match(match_value.get_field_transfer__syntax(), legacy);
 				} else {
@@ -854,7 +855,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				}
 				break;
 			case ALT_fixed:
-				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+				if (isCompact) {
 					TTCN_Logger.log_logmatch_info(".fixed");
 					single_value.log_match(match_value.get_field_fixed(), legacy);
 				} else {
