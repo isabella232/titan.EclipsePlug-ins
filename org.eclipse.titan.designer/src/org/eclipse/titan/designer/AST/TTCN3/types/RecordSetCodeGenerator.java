@@ -1562,13 +1562,13 @@ public final class RecordSetCodeGenerator {
 				source.append("}\n");
 			}
 
-			source.append("myleaf.length = encoded_length;\n");
-			source.append("return encoded_length;\n");
-			source.append("}\n\n");
+			source.append("\t\t\tmyleaf.length = encoded_length;\n");
+			source.append("\t\t\treturn encoded_length;\n");
+			source.append("\t\t}\n\n");
 
-			source.append("@Override\n");
-			source.append("/** {@inheritDoc} */\n");
-			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
+			source.append("\t\t@Override\n");
+			source.append("\t\t/** {@inheritDoc} */\n");
+			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			if (isSet) {
 				int mand_num = 0;
 				for (int i = 0; i < fieldInfos.size(); i++) {
@@ -1576,10 +1576,10 @@ public final class RecordSetCodeGenerator {
 						mand_num++;
 					}
 				}
-				source.append("final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
-				source.append("limit -= prepaddlength;\n");
-				source.append("int decoded_length = 0;\n");
-				source.append("int field_map[] = new int[]{");
+				source.append("\t\t\tfinal int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+				source.append("\t\t\tlimit -= prepaddlength;\n");
+				source.append("\t\t\tint decoded_length = 0;\n");
+				source.append("\t\t\tint field_map[] = new int[]{");
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
 					if (i != 0) {
 						source.append(',');
@@ -1588,26 +1588,26 @@ public final class RecordSetCodeGenerator {
 				}
 				source.append("};\n");
 				if (mand_num > 0) {
-					source.append("int nof_mand_fields = 0;\n");
+					source.append("\t\t\tint nof_mand_fields = 0;\n");
 				}
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 
 					if (fieldInfo.isOptional) {
-						source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+						source.append(MessageFormat.format("\t\t\t{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 					}
 				}
-				source.append("raw_order_t local_top_order;\n");
-				source.append("if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
-				source.append("local_top_order = top_bit_ord;\n");
-				source.append("} else if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) {\n");
-				source.append("local_top_order = raw_order_t.ORDER_MSB;\n");
-				source.append("} else {\n");
-				source.append("local_top_order = raw_order_t.ORDER_LSB;\n");
-				source.append("}\n");
+				source.append("\t\t\traw_order_t local_top_order;\n");
+				source.append("\t\t\tif (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
+				source.append("\t\t\t\tlocal_top_order = top_bit_ord;\n");
+				source.append("\t\t\t} else if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) {\n");
+				source.append("\t\t\t\tlocal_top_order = raw_order_t.ORDER_MSB;\n");
+				source.append("\t\t\t} else {\n");
+				source.append("\t\t\t\tlocal_top_order = raw_order_t.ORDER_LSB;\n");
+				source.append("\t\t\t}\n");
 
-				source.append("while (limit > 0) {\n");
-				source.append("final int fl_start_pos = buff.get_pos_bit();\n");
+				source.append("\t\t\twhile (limit > 0) {\n");
+				source.append("\t\t\t\tfinal int fl_start_pos = buff.get_pos_bit();\n");
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
 					// tagged fields
 					final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -1635,98 +1635,98 @@ public final class RecordSetCodeGenerator {
 							}
 						}
 
-						source.append(MessageFormat.format("if (field_map[{0}] == 0", i));
+						source.append(MessageFormat.format("\t\t\t\tif (field_map[{0}] == 0", i));
 						if (fieldInfo.isOptional) {
 							source.append(MessageFormat.format(" && (force_omit == null || !force_omit.shouldOmit({0}))", i));
 						}
 						source.append(") {\n");
 						if (flag_needed) {
-							source.append("boolean already_failed = true;\n");
+							source.append("\t\t\t\t\tboolean already_failed = true;\n");
 						}
 						if (has_fixed) {
 							boolean first_fixed= true;
-							source.append("raw_order_t temporal_top_order;\n");
-							source.append("int temporal_decoded_length;\n");
+							source.append("\t\t\t\t\traw_order_t temporal_top_order;\n");
+							source.append("\t\t\t\t\tint temporal_decoded_length;\n");
 							for (int j = 0; j < cur_choice.fields.size(); j++) {
 								final rawAST_coding_field_list cur_field_list = cur_choice.fields.get(j);
 								if (cur_field_list.start_pos < 0) {
 									continue;
 								}
 								if (!first_fixed) {
-									source.append("if (!already_failed) {\n");
+									source.append("\t\t\t\t\tif (!already_failed) {\n");
 								}
 								for (int k = cur_field_list.fields.size() - 1; k > 0; k--) {
-									source.append(MessageFormat.format("if ({0}_descr_.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) '{'\n", cur_field_list.fields.get(k - 1).typedesc));
-									source.append("temporal_top_order = raw_order_t.ORDER_MSB;\n");
-									source.append(MessageFormat.format("} else if ({0}_descr_.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT) '{'\n", cur_field_list.fields.get(k - 1).typedesc));
-									source.append("temporal_top_order = raw_order_t.ORDER_LSB;\n");
-									source.append("} else ");
+									source.append(MessageFormat.format("\t\t\t\t\t\tif ({0}_descr_.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) '{'\n", cur_field_list.fields.get(k - 1).typedesc));
+									source.append("\t\t\t\t\t\t\ttemporal_top_order = raw_order_t.ORDER_MSB;\n");
+									source.append(MessageFormat.format("\t\t\t\t\t\t} else if ({0}_descr_.raw.top_bit_order == top_bit_order_t.TOP_BIT_LEFT) '{'\n", cur_field_list.fields.get(k - 1).typedesc));
+									source.append("\t\t\t\t\t\t\ttemporal_top_order = raw_order_t.ORDER_LSB;\n");
+									source.append("\t\t\t\t\t\t} else ");
 								}
 								source.append("{\n");
-								source.append("temporal_top_order = top_bit_ord;\n");
-								source.append("}\n");
-								source.append(MessageFormat.format("final {0} temporal_{1} = new {0}();\n", cur_field_list.fields.get(cur_field_list.fields.size() - 1).type, j));
-								source.append(MessageFormat.format("buff.set_pos_bit(fl_start_pos + {0});\n", cur_field_list.start_pos));
-								source.append(MessageFormat.format("temporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true, null);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
-								source.append("buff.set_pos_bit(fl_start_pos);\n");
-								source.append(MessageFormat.format("if (temporal_decoded_length > 0 && temporal_{0}.operator_equals({1})) '{'\n", j, cur_field_list.nativeExpression.expression));
-								source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-								source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
-								source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
+								source.append("\t\t\t\t\t\t\ttemporal_top_order = top_bit_ord;\n");
+								source.append("\t\t\t\t\t\t}\n");
+								source.append(MessageFormat.format("\t\t\t\t\t\tfinal {0} temporal_{1} = new {0}();\n", cur_field_list.fields.get(cur_field_list.fields.size() - 1).type, j));
+								source.append(MessageFormat.format("\t\t\t\t\t\tbuff.set_pos_bit(fl_start_pos + {0});\n", cur_field_list.start_pos));
+								source.append(MessageFormat.format("\t\t\t\t\t\ttemporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true, null);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
+								source.append("\t\t\t\t\t\tbuff.set_pos_bit(fl_start_pos);\n");
+								source.append(MessageFormat.format("\t\t\t\t\t\tif (temporal_decoded_length > 0 && temporal_{0}.operator_equals({1})) '{'\n", j, cur_field_list.nativeExpression.expression));
+								source.append(MessageFormat.format("\t\t\t\t\t\t\tfinal RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+								source.append(MessageFormat.format("\t\t\t\t\t\t\tfinal int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
+								source.append(MessageFormat.format("\t\t\t\t\t\t\tif (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
 								genRawFieldChecker(source, cur_choice, true);
 								source.append(")) {\n");
-								source.append("decoded_length += decoded_field_length;\n");
-								source.append("limit -= decoded_field_length;\n");
+								source.append("\t\t\t\t\t\t\t\tdecoded_length += decoded_field_length;\n");
+								source.append("\t\t\t\t\t\t\t\tlimit -= decoded_field_length;\n");
 								if (!fieldInfo.isOptional) {
-									source.append("nof_mand_fields++;\n");
+									source.append("\t\t\t\t\t\t\t\tnof_mand_fields++;\n");
 								}
-								source.append(MessageFormat.format("field_map[{0}] = 1;", i));
-								source.append("continue;\n");
-								source.append("} else {\n");
-								source.append("buff.set_pos_bit(fl_start_pos);\n");
+								source.append(MessageFormat.format("\t\t\t\t\t\t\t\tfield_map[{0}] = 1;", i));
+								source.append("\t\t\t\t\t\t\t\tcontinue;\n");
+								source.append("\t\t\t\t\t\t\t} else {\n");
+								source.append("\t\t\t\t\t\t\t\tbuff.set_pos_bit(fl_start_pos);\n");
 								if (fieldInfo.isOptional) {
-									source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+									source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 								}
 								if (flag_needed) {
-									source.append("already_failed = true;\n");
+									source.append("\t\t\t\t\t\t\t\talready_failed = true;\n");
 								}
-								source.append("}\n");
-								source.append("}\n");
+								source.append("\t\t\t\t\t\t\t}\n");
+								source.append("\t\t\t\t\t\t}\n");
 								if (first_fixed) {
 									first_fixed = false;
 								} else {
-									source.append("}\n");
+									source.append("\t\t\t\t\t}\n");
 								}
 							}
 						}
 
 						if (has_variable) {
 							if (flag_needed) {
-								source.append("if (!already_failed) {\n");
+								source.append("\t\t\t\t\tif (!already_failed) {\n");
 							}
-							source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-							source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, 3));
-							source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
+							source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("\t\t\t\t\tfinal int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, 3));
+							source.append(MessageFormat.format("\t\t\t\t\tif (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
 							genRawFieldChecker(source, cur_choice, true);
 							source.append(")) {\n");
-							source.append("decoded_length += decoded_field_length;\n");
-							source.append("limit -= decoded_field_length;\n");
+							source.append("\t\t\t\t\t\tdecoded_length += decoded_field_length;\n");
+							source.append("\t\t\t\t\t\tlimit -= decoded_field_length;\n");
 							if (!fieldInfo.isOptional) {
-								source.append("nof_mand_fields++;\n");
+								source.append("\t\t\t\t\t\tnof_mand_fields++;\n");
 							}
-							source.append(MessageFormat.format("field_map[{0}] = 1;", i));
-							source.append("continue;\n");
-							source.append("} else {\n");
-							source.append("buff.set_pos_bit(fl_start_pos);\n");
+							source.append(MessageFormat.format("\t\t\t\t\t\tfield_map[{0}] = 1;", i));
+							source.append("\t\t\t\t\t\tcontinue;\n");
+							source.append("\t\t\t\t\t} else {\n");
+							source.append("\t\t\t\t\t\tbuff.set_pos_bit(fl_start_pos);\n");
 							if (fieldInfo.isOptional) {
-								source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+								source.append(MessageFormat.format("\t\t\t\t\t\t{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 							}
-							source.append("}\n");
+							source.append("\t\t\t\t\t}\n");
 							if (flag_needed) {
-								source.append("}\n");
+								source.append("\t\t\t\t\t}\n");
 							}
 						}
-						source.append("}\n");
+						source.append("\t\t\t\t}\n");
 					}
 				}
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -1738,11 +1738,11 @@ public final class RecordSetCodeGenerator {
 						if (fieldInfo.ofType && fieldInfo.raw != null && fieldInfo.raw.repeatable == RawAST.XDEFYES) {
 							repeatable = true;
 							if (fieldInfo.isOptional) {
-								source.append(MessageFormat.format("if (force_omit == null || !force_omit.shouldOmit({0}))", i));
+								source.append(MessageFormat.format("\t\t\t\tif (force_omit == null || !force_omit.shouldOmit({0}))", i));
 							}
 						} else {
 							repeatable = false;
-							source.append(MessageFormat.format("if (field_map[{0}] == 0 ", i));
+							source.append(MessageFormat.format("\t\t\t\tif (field_map[{0}] == 0 ", i));
 							if (fieldInfo.isOptional) {
 								source.append(MessageFormat.format("&& (force_omit == null || !force_omit.shouldOmit({0}))", i));
 							}
@@ -1750,8 +1750,8 @@ public final class RecordSetCodeGenerator {
 						}
 
 						source.append("{\n");
-						source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-						source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("\t\t\t\tfinal RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("\t\t\t\tfinal int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 						if (repeatable) {
 							source.append(MessageFormat.format("field_map[{0}] == 0", i));
 						} else {
@@ -1759,35 +1759,35 @@ public final class RecordSetCodeGenerator {
 						}
 						source.append(MessageFormat.format(", field_{0}_force_omit);\n", i));
 
-						source.append(MessageFormat.format("if (decoded_field_length {0} 0) '{'\n", fieldInfo.isOptional ? ">" : ">="));
-						source.append("decoded_length += decoded_field_length;\n");
-						source.append("limit -= decoded_field_length;\n");
+						source.append(MessageFormat.format("\t\t\t\tif (decoded_field_length {0} 0) '{'\n", fieldInfo.isOptional ? ">" : ">="));
+						source.append("\t\t\t\t\tdecoded_length += decoded_field_length;\n");
+						source.append("\t\t\t\t\tlimit -= decoded_field_length;\n");
 						if (repeatable) {
 							if (!fieldInfo.isOptional) {
-								source.append(MessageFormat.format("if (field_map[{0}] == 0 ) '{'\n", i));
-								source.append("nof_mand_fields++;\n");
-								source.append("}\n");
+								source.append(MessageFormat.format("\t\t\t\t\tif (field_map[{0}] == 0 ) '{'\n", i));
+								source.append("\t\t\t\t\t\tnof_mand_fields++;\n");
+								source.append("\t\t\t\t\t}\n");
 							}
-							source.append(MessageFormat.format("field_map[{0}]++;\n", i));
+							source.append(MessageFormat.format("\t\t\t\t\tfield_map[{0}]++;\n", i));
 						} else {
 							if (!fieldInfo.isOptional) {
-								source.append("nof_mand_fields++;\n");
+								source.append("\t\t\t\t\tnof_mand_fields++;\n");
 							}
-							source.append(MessageFormat.format("field_map[{0}] = 1;\n", i));
+							source.append(MessageFormat.format("\t\t\t\t\tfield_map[{0}] = 1;\n", i));
 						}
 
-						source.append("continue;\n");
-						source.append("} else {\n");
-						source.append("buff.set_pos_bit(fl_start_pos);\n");
+						source.append("\t\t\t\t\tcontinue;\n");
+						source.append("\t\t\t\t} else {\n");
+						source.append("\t\t\t\t\tbuff.set_pos_bit(fl_start_pos);\n");
 						if (fieldInfo.isOptional) {
 							if (repeatable) {
-								source.append(MessageFormat.format("if (field_map[{0}] == 0) ", i));
+								source.append(MessageFormat.format("\t\t\t\t\tif (field_map[{0}] == 0) ", i));
 							}
 							source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 						}
 
-						source.append("}\n");
-						source.append("}\n");
+						source.append("\t\t\t\t}\n");
+						source.append("\t\t\t\t}\n");
 					}
 				}
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -1796,95 +1796,95 @@ public final class RecordSetCodeGenerator {
 					final int tag_type = raw_options.get(i).tag_type;
 
 					if (tag_type > 0 && raw.taglist.list.get(tag_type - 1).fields.size() == 0) {
-						source.append(MessageFormat.format("if (field_map[{0}] == 0 ", i));
+						source.append(MessageFormat.format("\t\t\t\tif (field_map[{0}] == 0 ", i));
 						if (fieldInfo.isOptional) {
 							source.append(MessageFormat.format("&& (force_omit == null || !force_omit.shouldOmit({0}))", i));
 						}
 						source.append(") {\n");
-						source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-						source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName, i));
-						source.append(MessageFormat.format("if (decoded_field_length {0} 0) '{'\n", fieldInfo.isOptional ? ">" : ">="));
-						source.append("decoded_length += decoded_field_length;\n");
-						source.append("limit -= decoded_field_length;\n");
+						source.append(MessageFormat.format("\t\t\t\t\tfinal RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("\t\t\t\t\tfinal int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName, i));
+						source.append(MessageFormat.format("\t\t\t\t\tif (decoded_field_length {0} 0) '{'\n", fieldInfo.isOptional ? ">" : ">="));
+						source.append("\t\t\t\t\t\tdecoded_length += decoded_field_length;\n");
+						source.append("\t\t\t\t\t\tlimit -= decoded_field_length;\n");
 						if (!fieldInfo.isOptional) {
-							source.append("nof_mand_fields++;\n");
+							source.append("\t\t\t\t\t\tnof_mand_fields++;\n");
 						}
 
-						source.append(MessageFormat.format("field_map[{0}] = 1;\n", i));
-						source.append("continue;\n");
-						source.append("} else {\n");
-						source.append("buff.set_pos_bit(fl_start_pos);\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\tfield_map[{0}] = 1;\n", i));
+						source.append("\t\t\t\t\t\tcontinue;\n");
+						source.append("\t\t\t\t\t} else {\n");
+						source.append("\t\t\t\t\t\tbuff.set_pos_bit(fl_start_pos);\n");
 						if (fieldInfo.isOptional) {
-							source.append(MessageFormat.format("{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+							source.append(MessageFormat.format("\t\t\t\t\t\t{0}.operator_assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 						}
 
-						source.append("}\n");
-						source.append("}\n");
+						source.append("\t\t\t\t\t}\n");
+						source.append("\t\t\t\t}\n");
 					}
 				}
 
-				source.append("break;\n");
-				source.append("}\n");
+				source.append("\t\t\t\tbreak;\n");
+				source.append("\t\t\t}\n");
 
 				if (mand_num > 0) {
-					source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", mand_num));
-					source.append("return limit > 0 ? -1 : -error_type.ET_INCOMPL_MSG.ordinal();\n");
-					source.append("}\n");
+					source.append(MessageFormat.format("\t\t\tif (nof_mand_fields != {0}) '{'\n", mand_num));
+					source.append("\t\t\t\treturn limit > 0 ? -1 : -error_type.ET_INCOMPL_MSG.ordinal();\n");
+					source.append("\t\t\t}\n");
 				}
-				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
+				source.append("\t\t\treturn decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
 			} else {
-				source.append("final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
-				source.append("limit -= prepaddlength;\n");
-				source.append("int last_decoded_pos = buff.get_pos_bit();\n");
-				source.append("int decoded_length = 0;\n");
-				source.append("int decoded_field_length = 0;\n");
-				source.append("raw_order_t local_top_order;\n");
+				source.append("\t\t\tfinal int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+				source.append("\t\t\tlimit -= prepaddlength;\n");
+				source.append("\t\t\tint last_decoded_pos = buff.get_pos_bit();\n");
+				source.append("\t\t\tint decoded_length = 0;\n");
+				source.append("\t\t\tint decoded_field_length = 0;\n");
+				source.append("\t\t\traw_order_t local_top_order;\n");
 
 				if (hasCrosstag.get()) {
-					source.append("int selected_field = -1;\n");
+					source.append("\t\t\tint selected_field = -1;\n");
 				}
 				if (raw != null && raw.ext_bit_groups != null && raw.ext_bit_groups.size() > 0) {
-					source.append("int group_limit = 0;\n");
+					source.append("\t\t\tint group_limit = 0;\n");
 				}
-				source.append("if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
-				source.append("local_top_order = top_bit_ord;\n");
-				source.append("} else if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) {\n");
-				source.append("local_top_order = raw_order_t.ORDER_MSB;\n");
-				source.append("} else {\n");
-				source.append("local_top_order = raw_order_t.ORDER_LSB;\n");
-				source.append("}\n");
+				source.append("\t\t\tif (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
+				source.append("\t\t\t\tlocal_top_order = top_bit_ord;\n");
+				source.append("\t\t\t} else if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) {\n");
+				source.append("\t\t\t\tlocal_top_order = raw_order_t.ORDER_MSB;\n");
+				source.append("\t\t\t} else {\n");
+				source.append("\t\t\t\tlocal_top_order = raw_order_t.ORDER_LSB;\n");
+				source.append("\t\t\t}\n");
 
 				if (has_ext_bit.get()) {
-					source.append("{\n");
-					source.append("byte data[] = buff.get_read_data();\n");
-					source.append("int count = 1;\n");
-					source.append("int mask = 1 << (local_top_order == raw_order_t.ORDER_LSB ? 0 : 7);\n");
-					source.append("if (p_td.raw.extension_bit == ext_bit_t.EXT_BIT_YES) {\n");
-					source.append("while ((data[count - 1] & mask) == 0 && count * 8 < limit) {\n");
-					source.append("count++;\n");
-					source.append("}\n");
-					source.append("} else {\n");
-					source.append("while ((data[count - 1] & mask) != 0 && count * 8 < limit) {\n");
-					source.append("count++;\n");
-					source.append("}\n");
-					source.append("}\n");
-					source.append("if (limit > 0) {\n");
-					source.append("limit = count * 8;\n");
-					source.append("}\n");
-					source.append("}\n");
+					source.append("\t\t\t{\n");
+					source.append("\t\t\t\tbyte data[] = buff.get_read_data();\n");
+					source.append("\t\t\t\tint count = 1;\n");
+					source.append("\t\t\t\tint mask = 1 << (local_top_order == raw_order_t.ORDER_LSB ? 0 : 7);\n");
+					source.append("\t\t\t\tif (p_td.raw.extension_bit == ext_bit_t.EXT_BIT_YES) {\n");
+					source.append("\t\t\t\t\twhile ((data[count - 1] & mask) == 0 && count * 8 < limit) {\n");
+					source.append("\t\t\t\t\t\tcount++;\n");
+					source.append("\t\t\t\t\t}\n");
+					source.append("\t\t\t\t} else {\n");
+					source.append("\t\t\t\t\twhile ((data[count - 1] & mask) != 0 && count * 8 < limit) {\n");
+					source.append("\t\t\t\t\t\tcount++;\n");
+					source.append("\t\t\t\t\t}\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t\tif (limit > 0) {\n");
+					source.append("\t\t\t\t\tlimit = count * 8;\n");
+					source.append("\t\t\t\t}\n");
+					source.append("\t\t\t}\n");
 				}
 				if (hasPointer.get()) {
-					source.append("final int end_of_available_data = last_decoded_pos + limit;\n");
+					source.append("\t\t\tfinal int end_of_available_data = last_decoded_pos + limit;\n");
 				}
 				for (int i = 0; i < fieldInfos.size(); i++) {
 					if (raw_options.get(i).pointerof > 0) {
-						source.append(MessageFormat.format("int start_of_field{0} = -1;\n", i));
+						source.append(MessageFormat.format("\t\t\tint start_of_field{0} = -1;\n", i));
 					}
 					if (raw_options.get(i).ptrbase) {
-						source.append(MessageFormat.format("int start_pos_of_field{0} = -1;\n", i));
+						source.append(MessageFormat.format("\t\t\tint start_pos_of_field{0} = -1;\n", i));
 					}
 					if (raw_options.get(i).lengthto) {
-						source.append(MessageFormat.format("int value_of_length_field{0} = 0;\n", i));
+						source.append(MessageFormat.format("\t\t\tint value_of_length_field{0} = 0;\n", i));
 					}
 				}
 
@@ -1899,18 +1899,18 @@ public final class RecordSetCodeGenerator {
 						if (expression.preamble.length() > 0) {
 							source.append(expression.preamble);
 						}
-						source.append("if (");
+						source.append("\t\t\tif (");
 						source.append(expression.expression);
 						source.append(MessageFormat.format(" < {0}) '{'\n", fieldInfo.raw.length));
-						source.append("return -1 * error_type.ET_LEN_ERR.ordinal();\n");
-						source.append("}\n");
-						source.append(MessageFormat.format("int start_of_field{0} = buff.get_pos_bit();\n", i));
-						source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0} + {1});\n", i, fieldInfo.raw.length));
-						source.append(MessageFormat.format("decoded_length += {0};\n", fieldInfo.raw.length));
-						source.append(MessageFormat.format("last_decoded_pos += {0};\n", fieldInfo.raw.length));
-						source.append(MessageFormat.format("limit -= {0};\n", fieldInfo.raw.length));
+						source.append("\t\t\t\treturn -1 * error_type.ET_LEN_ERR.ordinal();\n");
+						source.append("\t\t\t}\n");
+						source.append(MessageFormat.format("\t\t\tint start_of_field{0} = buff.get_pos_bit();\n", i));
+						source.append(MessageFormat.format("\t\t\tbuff.set_pos_bit(start_of_field{0} + {1});\n", i, fieldInfo.raw.length));
+						source.append(MessageFormat.format("\t\t\tdecoded_length += {0};\n", fieldInfo.raw.length));
+						source.append(MessageFormat.format("\t\t\tlast_decoded_pos += {0};\n", fieldInfo.raw.length));
+						source.append(MessageFormat.format("\t\t\tlimit -= {0};\n", fieldInfo.raw.length));
 						for (int j = 0; j < tempRawOption.lengthof; j++) {
-							source.append(MessageFormat.format("value_of_length_field{0} -= {1};\n", tempRawOption.lengthofField.get(j), fieldInfo.raw.length));
+							source.append(MessageFormat.format("\t\t\tvalue_of_length_field{0} -= {1};\n", tempRawOption.lengthofField.get(j), fieldInfo.raw.length));
 						}
 					} else {
 						genRawDecodeRecordField(aData, source, fieldInfos, i, raw, raw_options, false, prev_ext_group);
@@ -1918,29 +1918,29 @@ public final class RecordSetCodeGenerator {
 						if (tempRawOption.dependentFields != null && !tempRawOption.dependentFields.isEmpty()) {
 							for (int j = 0; j < tempRawOption.dependentFields.size(); j++) {
 								final int dependent_field_index = tempRawOption.dependentFields.get(j);
-								source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", dependent_field_index));
+								source.append(MessageFormat.format("\t\t\tbuff.set_pos_bit(start_of_field{0});\n", dependent_field_index));
 								genRawDecodeRecordField(aData, source, fieldInfos, dependent_field_index, raw, raw_options, true, prev_ext_group);
 							}
 							if (i < fieldInfos.size() - 1) {
 								/* seek back if there are more regular fields to decode */
-								source.append("buff.set_pos_bit(last_decoded_pos);\n");
+								source.append("\t\t\tbuff.set_pos_bit(last_decoded_pos);\n");
 							}
 						}
 					}
 				}
 
 				if (raw != null && raw.presence != null && raw.presence.fields != null && raw.presence.fields.size() > 0) {
-					source.append("if (");
+					source.append("\t\t\tif (");
 					genRawFieldChecker(source, raw.presence, false);
 					source.append(") {\n");
-					source.append("return -1;");
-					source.append("}\n");
+					source.append("\t\t\t\treturn -1;");
+					source.append("\t\t\t}\n");
 				}
-				source.append("buff.set_pos_bit(last_decoded_pos);\n");
-				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
+				source.append("\t\t\tbuff.set_pos_bit(last_decoded_pos);\n");
+				source.append("\t\t\treturn decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
 			}
 
-			source.append("}\n\n");
+			source.append("\t\t}\n\n");
 		}
 	}
 	/**
