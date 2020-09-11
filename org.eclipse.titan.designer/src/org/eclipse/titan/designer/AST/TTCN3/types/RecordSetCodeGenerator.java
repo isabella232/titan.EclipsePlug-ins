@@ -1250,19 +1250,52 @@ public final class RecordSetCodeGenerator {
 			source.append("\t\t\tint encoded_length = 0;\n");
 			source.append("\t\t\tmyleaf.isleaf = false;\n");
 			source.append(MessageFormat.format("\t\t\tmyleaf.num_of_nodes = {0};\n", fieldInfos.size()));
-			source.append(MessageFormat.format("\t\t\tmyleaf.nodes = new RAW_enc_tree[{0}];\n", fieldInfos.size()));
+			boolean hasOptional = false;
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				if (fieldInfo.isOptional) {
-					source.append(MessageFormat.format("\t\t\tif ({0}.is_present()) '{'\n", fieldInfo.mVarName));
-					source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
-					source.append("\t\t\t} else {\n");
-					source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0}] = null;\n", i));
-					source.append("\t\t\t}\n");
-				} else {
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+					hasOptional = true;
+					break;
 				}
 			}
+			if (hasOptional) {
+				source.append("\t\t\tmyleaf.nodes = new RAW_enc_tree[]{\n");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					if (fieldInfo.isOptional) {
+						source.append("\t\t\t\tnull");
+					} else {
+						source.append(MessageFormat.format("\t\t\t\tnew RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw)", i, fieldInfo.mTypeDescriptorName));
+					}
+					if (i != fieldInfos.size() - 1) {
+						source.append(",\n");
+					} else {
+						source.append('\n');
+					}
+				}
+				source.append("\t\t\t};\n");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("\t\t\tif ({0}.is_present()) '{'\n", fieldInfo.mVarName));
+						source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append("\t\t\t}\n");
+					}
+				}
+			} else {
+				source.append("\t\t\tmyleaf.nodes = new RAW_enc_tree[]{\n");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					source.append(MessageFormat.format("\t\t\t\tnew RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw)", i, fieldInfo.mTypeDescriptorName));
+					if (i != fieldInfos.size() - 1) {
+						source.append(",\n");
+					} else {
+						source.append('\n');
+					}
+				}
+				source.append("\t\t\t};\n");
+			}
+
 			final int ext_bit_group_length = raw == null || raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
 			for (int i = 0; i < ext_bit_group_length; i++) {
 				final rawAST_coding_ext_group tempGroup = raw.ext_bit_groups.get(i);
