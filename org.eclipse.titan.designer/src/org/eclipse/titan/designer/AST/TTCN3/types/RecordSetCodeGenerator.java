@@ -1331,23 +1331,30 @@ public final class RecordSetCodeGenerator {
 					aData.addBuiltinTypeImport("RAW.RAW_enc_lengthto");
 
 					source.append(MessageFormat.format("\t\t\tencoded_length += {0};\n", fieldInfo.raw.fieldlength));
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].calc = calc_type.CALC_LENGTH;\n", i));
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
+					final String tempvar = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("\t\t\tfinal RAW_enc_tree {0} = myleaf.nodes[{1}];\n", tempvar, i));
+					source.append(MessageFormat.format("\t\t\t{0}.calc = calc_type.CALC_LENGTH;\n", tempvar));
+					source.append(MessageFormat.format("\t\t\t{0}.coding_descr = {1}_descr_;\n", tempvar, fieldInfo.mTypeDescriptorName));
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("\t\t\t{0}.length = {1};\n", tempvar, fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("\t\t\t{0}.lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", tempvar, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+
+					final String tempvar2 = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("\t\t\tfinal RAW_enc_tr_pos {0}[] = {1}.lengthto.fields;\n", tempvar2, tempvar));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
 						}
-						source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", i, a, fieldInfo.raw.lengthto.get(a)));
+
+						source.append(MessageFormat.format("\t\t\t{0}[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", tempvar2, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append("} else {\n");
-							source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(0, null);\n", i, a));
+							source.append(MessageFormat.format("\t\t\t{0}[{1}] = new RAW_enc_tr_pos(0, null);\n", tempvar2, a));
 							source.append("}\n");
 						}
 					}
+
 				} else if (raw_options.get(i).pointerto) {
 					aData.addBuiltinTypeImport("RAW.calc_type");
 					aData.addBuiltinTypeImport("RAW.RAW_enc_pointer");
@@ -1355,6 +1362,7 @@ public final class RecordSetCodeGenerator {
 					if (fieldInfos.get(fieldInfo.raw.pointerto).isOptional) {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.pointerto).mVarName));
 					}
+					//TODO maybe could also be optimized
 					source.append(MessageFormat.format("\t\t\tencoded_length += {0};\n", fieldInfo.raw.fieldlength));
 					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].calc = calc_type.CALC_POINTER;\n", i));
 					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
@@ -1385,21 +1393,26 @@ public final class RecordSetCodeGenerator {
 						source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfo.mVarName));
 					}
 
-					source.append(MessageFormat.format("\t\t\tif (myleaf.nodes[{0}].nodes[{1}] != null) '{'\n", i, fieldInfo.raw.lengthindex.nthfield));
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].calc = calc_type.CALC_LENGTH;\n", i, fieldInfo.raw.lengthindex.nthfield));
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].coding_descr = {2}_descr_;\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.lengthindex.typedesc));
+					final String tempvar = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("\t\t\tfinal RAW_enc_tree {0} = myleaf.nodes[{1}].nodes[{2}];\n", tempvar, i, fieldInfo.raw.lengthindex.nthfield));
+					source.append(MessageFormat.format("\t\t\tif ({0} != null) '{'\n", tempvar));
+					source.append(MessageFormat.format("\t\t\t\t{0}.calc = calc_type.CALC_LENGTH;\n", tempvar));
+					source.append(MessageFormat.format("\t\t\t\t{0}.coding_descr = {1}_descr_;\n", tempvar, fieldInfo.raw.lengthindex.typedesc));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
-					source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].lengthto = new RAW_enc_lengthto({2}, new RAW_enc_tr_pos[{2}], {3}, {4});\n", i, fieldInfo.raw.lengthindex.nthfield, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("\t\t\t\t{0}.lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", tempvar, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					final String tempvar2 = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("\t\t\t\tfinal RAW_enc_tr_pos {0}[] = {1}.lengthto.fields;\n", tempvar2, tempvar));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
-							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
+							source.append(MessageFormat.format("\t\t\t\tif ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
 						}
-						source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(myleaf.nodes[{3}].curr_pos.level, myleaf.nodes[{3}].curr_pos.pos);\n", i, fieldInfo.raw.lengthindex.nthfield, a, fieldInfo.raw.lengthto.get(a)));
+
+						source.append(MessageFormat.format("\t\t\t\t{0}[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", tempvar2, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
-							source.append("} else {\n");
-							source.append(MessageFormat.format("\t\t\tmyleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(0, null);\n", i, fieldInfo.raw.lengthindex.nthfield, a));
-							source.append("}\n");
+							source.append("\t\t\t\t} else {\n");
+							source.append(MessageFormat.format("\t\t\t\t{0}[{1}] = new RAW_enc_tr_pos(0, null);\n", tempvar2, a));
+							source.append("\t\t\t\t}\n");
 						}
 					}
 					source.append("\t\t\t}\n");
@@ -1422,19 +1435,24 @@ public final class RecordSetCodeGenerator {
 					source.append("sel_field++;\n");
 					source.append("}\n");
 
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].calc = calc_type.CALC_LENGTH;\n", i));
+					final String tempvar = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("\t\t\tfinal RAW_enc_tree {0} = myleaf.nodes[{1}].nodes[sel_field];\n", tempvar, i));
+					source.append(MessageFormat.format("{0}.calc = calc_type.CALC_LENGTH;\n", tempvar));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].length = {1};\n", i, fieldInfo.raw.fieldlength));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("{0}.length = {1};\n", tempvar, fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("{0}.lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", tempvar, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					final String tempvar2 = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("\t\t\tfinal RAW_enc_tr_pos {0}[] = {1}.lengthto.fields;\n", tempvar2, tempvar));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append(MessageFormat.format("if ({0}.is_present()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
 						}
-						source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto.fields[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", i, a, fieldInfo.raw.lengthto.get(a)));
+
+						source.append(MessageFormat.format("\t\t\t{0}[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", tempvar2, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append("} else {\n");
-							source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto.fields[{1}] = new RAW_enc_tr_pos(0, null);\n", i, a));
+							source.append(MessageFormat.format("\t\t\t{0}[{1}] = new RAW_enc_tr_pos(0, null);\n", tempvar2, a));
 							source.append("}\n");
 						}
 					}
