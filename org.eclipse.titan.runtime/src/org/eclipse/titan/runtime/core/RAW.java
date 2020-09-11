@@ -130,6 +130,50 @@ public class RAW {
 		public RAW_enc_tree nodes[];
 		public byte data_array[] = new byte[RAW_INT_ENC_LENGTH];  /**< false */
 
+		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_Typedescriptor type_descriptor) {
+			final TTCN_RAWdescriptor raw_attr = type_descriptor.raw;
+			this.isleaf = is_leaf;
+			rec_of = false;
+			parent = par;
+			curr_pos = new RAW_enc_tr_pos(par_pos.level + 1, new int[par_pos.level + 1]);
+			if (par_pos.level > 0) {
+				System.arraycopy(par_pos.pos, 0, curr_pos.pos, 0, par_pos.pos.length);
+			}
+			curr_pos.pos[curr_pos.level - 1] = my_pos;
+			length = 0;
+			padding = raw_attr.padding;
+			prepadding = raw_attr.prepadding;
+			padding_pattern_length = raw_attr.padding_pattern_length;
+			padding_pattern = raw_attr.padding_pattern;
+			startpos = 0;
+			padlength = 0;
+			prepadlength = 0;
+			align = 0;
+			ext_bit_handling = 0;
+			coding_descr = type_descriptor;
+			ext_bit = raw_attr.extension_bit;
+			top_bit_order = raw_attr.top_bit_order;
+			calc = calc_type.CALC_NO;
+			boolean orders = raw_attr.byteorder == raw_order_t.ORDER_MSB;
+			if (raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+
+			final raw_order_t tempbyteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			orders = raw_attr.bitorderinoctet == raw_order_t.ORDER_MSB;
+			if (raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			final raw_order_t tempbitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			final raw_order_t temphexorder = raw_attr.hexorder;
+			final raw_order_t tempfieldorder = raw_attr.fieldorder;
+			coding_par = new RAW_coding_par(tempbitorder, tempbyteorder, temphexorder, tempfieldorder, false);
+			if (!is_leaf) {
+				num_of_nodes = 0;
+				nodes = null;
+			}
+		}
+
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			this.isleaf = is_leaf;
 			rec_of = false;

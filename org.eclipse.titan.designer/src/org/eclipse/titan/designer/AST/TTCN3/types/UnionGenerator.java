@@ -1229,9 +1229,8 @@ public final class UnionGenerator {
 						final FieldInfo fieldInfo = fieldInfos.get(i);
 
 						source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", fieldInfo.mJavaVarName));
-						source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0,number,#}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0,number,#}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0,number,#}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0,number,#}, {1}_descr_);\n", i, fieldInfo.mTypeDescriptorName));
 						source.append(MessageFormat.format("\t\t\t\tencoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1,number,#}]);\n", fieldInfo.mTypeDescriptorName, i));
-						source.append(MessageFormat.format("\t\t\t\tmyleaf.nodes[{0,number,#}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
 						final int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
 						if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
