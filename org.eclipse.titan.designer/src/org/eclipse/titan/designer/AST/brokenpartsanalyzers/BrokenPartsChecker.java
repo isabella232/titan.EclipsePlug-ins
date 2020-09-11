@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.brokenpartsanalyzers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -203,7 +204,7 @@ public final class BrokenPartsChecker {
 
 				try {
 					activeExecutorCount.incrementAndGet();
-					modulesBeingChecked.add(module);
+					// modulesBeingChecked.add(module);
 					final long absoluteStart2 = System.nanoTime();
 					module.check(compilationCounter);
 					final long now = System.nanoTime();
@@ -229,7 +230,7 @@ public final class BrokenPartsChecker {
 							}
 						}
 						modulesToCheckCopy.removeAll(modulesToCheckParallely);
-
+						modulesBeingChecked.addAll(modulesToCheckParallely);
 						for (final Module module : modulesToCheckParallely) {
 							addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
 						}
@@ -239,6 +240,8 @@ public final class BrokenPartsChecker {
 							// and this is the last executor running.
 							// current heuristic: just select one to keep checking ... and hope this breaks the loop stopping parallelism.
 							final Module module = modulesToCheckCopy.remove(0);
+							modulesToCheckCopy.remove(module);
+							modulesBeingChecked.add(module);
 							addToExecutor(module, executor, latch, compilationCounter, absoluteStart, modulesToCheckCopy, modulesBeingChecked, activeExecutorCount, progress);
 						}
 					}
