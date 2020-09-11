@@ -598,37 +598,56 @@ public class RAW {
 	}
 
 	public static int RAW_encode_enum_type(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf, final int integer_value, final int min_bits_enum) {
-		final int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
-		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor(fl, p_td.raw.comp, p_td.raw.byteorder, p_td.raw.endianness,
-				p_td.raw.bitorderinfield, p_td.raw.bitorderinoctet, p_td.raw.extension_bit, p_td.raw.hexorder, p_td.raw.fieldorder,
-				p_td.raw.top_bit_order, p_td.raw.padding, p_td.raw.prepadding, p_td.raw.ptroffset, p_td.raw.unit,
-				p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
-				p_td.raw.forceomit, p_td.raw.csn1lh);
+		if (p_td.raw.fieldlength == 0) {
+			final int fl = min_bits_enum;
+			final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor(fl, p_td.raw.comp, p_td.raw.byteorder, p_td.raw.endianness,
+					p_td.raw.bitorderinfield, p_td.raw.bitorderinoctet, p_td.raw.extension_bit, p_td.raw.hexorder, p_td.raw.fieldorder,
+					p_td.raw.top_bit_order, p_td.raw.padding, p_td.raw.prepadding, p_td.raw.ptroffset, p_td.raw.unit,
+					p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
+					p_td.raw.forceomit, p_td.raw.csn1lh);
 
-		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, null, my_raw, null, null);
-		final TitanInteger i = new TitanInteger(integer_value);
-		i.RAW_encode(my_descr, myleaf);
-		//  myleaf.align=0;//p_td.raw.endianness==raw_order_t.ORDER_MSB ? min_bits_enum-fl : fl-min_bits_enum;
-		return myleaf.length = fl;
+			final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, null, my_raw, null, null);
+			final TitanInteger i = new TitanInteger(integer_value);
+			i.RAW_encode(my_descr, myleaf);
+
+			return myleaf.length = fl;
+		} else {
+			final TitanInteger i = new TitanInteger(integer_value);
+			i.RAW_encode(p_td, myleaf);
+
+			return myleaf.length = p_td.raw.fieldlength;
+		}
 	}
 
 	public static int RAW_decode_enum_type(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final AtomicInteger value, final int min_bits_enum, final boolean no_err) {
-		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
-		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor(fl, p_td.raw.comp, p_td.raw.byteorder, p_td.raw.endianness,
-				p_td.raw.bitorderinfield, p_td.raw.bitorderinoctet, p_td.raw.extension_bit, p_td.raw.hexorder, p_td.raw.fieldorder,
-				p_td.raw.top_bit_order, p_td.raw.padding, p_td.raw.prepadding, p_td.raw.ptroffset, p_td.raw.unit,
-				p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
-				p_td.raw.forceomit, p_td.raw.csn1lh);
+		if (p_td.raw.fieldlength == 0) {
+			final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor(min_bits_enum, p_td.raw.comp, p_td.raw.byteorder, p_td.raw.endianness,
+					p_td.raw.bitorderinfield, p_td.raw.bitorderinoctet, p_td.raw.extension_bit, p_td.raw.hexorder, p_td.raw.fieldorder,
+					p_td.raw.top_bit_order, p_td.raw.padding, p_td.raw.prepadding, p_td.raw.ptroffset, p_td.raw.unit,
+					p_td.raw.padding_pattern_length, p_td.raw.padding_pattern, p_td.raw.length_restrition, p_td.raw.stringformat,
+					p_td.raw.forceomit, p_td.raw.csn1lh);
 
-		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, null, my_raw, null, null);
-		final TitanInteger i = new TitanInteger();
-		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord, no_err, -1, true, null);
-		if(fl < 0) {
-			return fl;
+			final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, null, my_raw, null, null);
+			final TitanInteger i = new TitanInteger();
+			final int fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord, no_err, -1, true, null);
+			if(fl < 0) {
+				return fl;
+			}
+
+			value.set(i.get_int());
+
+			return fl + buff.increase_pos_padd(p_td.raw.padding);
+		} else {
+			final TitanInteger i = new TitanInteger();
+			final int fl = i.RAW_decode(p_td, buff, limit, top_bit_ord, no_err, -1, true, null);
+			if(fl < 0) {
+				return fl;
+			}
+
+			value.set(i.get_int());
+
+			return fl + buff.increase_pos_padd(p_td.raw.padding);
 		}
-		value.set(i.get_int());
-
-		return fl + buff.increase_pos_padd(p_td.raw.padding);
 	}
 
 	public int[] init_new_tree_pos(final RAW_enc_tr_pos old_pos, final int new_levels, final int[] new_pos) {
