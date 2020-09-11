@@ -18,7 +18,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_param_type;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
 import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
+import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.extcommand_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
@@ -64,11 +69,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__list;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
-import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
-import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
-import org.eclipse.titan.runtime.core.TTCN_Logger.extcommand_t;
-import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
 
 /**
  * The logger plugin manager, is responsible for managing all the runtime registered logger plug-ins

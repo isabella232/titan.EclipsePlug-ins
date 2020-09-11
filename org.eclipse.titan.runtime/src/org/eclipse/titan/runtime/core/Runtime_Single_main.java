@@ -13,10 +13,10 @@ import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
-import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * The class handling single mode operations.

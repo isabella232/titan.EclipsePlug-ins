@@ -10,8 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 
 /**
  * The class handling parallel mode operations.

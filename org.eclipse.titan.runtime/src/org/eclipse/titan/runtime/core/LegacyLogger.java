@@ -13,6 +13,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_type_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
@@ -57,11 +62,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__list;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
-import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_t;
-import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_type_t;
-import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
-import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
 
 /**
  * A logger plugin implementing the legacy logger behaviour.
