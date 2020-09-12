@@ -962,17 +962,24 @@ public final class UnionGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tModule_Parameter mp_field;\n");
 		if (fieldInfos.size() > maxFieldsLength) {
-			source.append("\t\t\tif (union_selection.ordinal() == 0 ) {\n");
-			source.append("\t\t\t\tmp_field = null;\n");
 			final int fullSize = fieldInfos.size();
+			source.append("\t\t\tfinal int temp = union_selection.ordinal();\n");
+			source.append(MessageFormat.format("\t\t\tswitch (temp / {0,number,#}) '{'\n", maxFieldsLength));
 			final int iterations = fullSize / maxFieldsLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
 				final int start = iteration * maxFieldsLength;
 				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-				source.append(MessageFormat.format("\t\t\t} else if (union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
-				source.append(MessageFormat.format("\t\t\t\tmp_field = value_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+				source.append(MessageFormat.format("\t\t\tcase {0,number,#}:\n", iteration));
+				if (iteration == 0) {
+					source.append(MessageFormat.format("\t\t\t\tmp_field = temp == 0 ? mp_field = null : value_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+				} else if (iteration == iterations) {
+					source.append(MessageFormat.format("\t\t\t\tmp_field = temp > {0,number,#} ? mp_field = null : value_get_param_specific_helper_{1,number,#}_{2,number,#}(param_name);\n", fullSize, start, end));
+				} else {
+					source.append(MessageFormat.format("\t\t\t\tmp_field = value_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+				}
+				source.append("\t\t\t\tbreak;\n");
 			}
-			source.append("\t\t\t} else {\n");
+			source.append("\t\t\tdefault:\n");
 			source.append("\t\t\t\tmp_field = null;\n");
 			source.append("\t\t\t}\n");
 		} else {
@@ -2692,20 +2699,33 @@ public final class UnionGenerator {
 		source.append("\t\t\tif (template_selection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
 
 		if (fieldInfos.size() > maxFieldsLength) {
-			source.append("\t\t\t\tif (single_value_union_selection.ordinal() == 0 ) {\n");
-			source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
-			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
 			final int fullSize = fieldInfos.size();
+			source.append("\t\t\tfinal int temp = single_value_union_selection.ordinal();\n");
+			source.append(MessageFormat.format("\t\t\tswitch (temp / {0,number,#}) '{'\n", maxFieldsLength));
 			final int iterations = fullSize / maxFieldsLength;
 			for (int iteration = 0; iteration <= iterations; iteration++) {
 				final int start = iteration * maxFieldsLength;
 				final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-				source.append(MessageFormat.format("\t\t\t\t} else if (single_value_union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
-				source.append(MessageFormat.format("\t\t\t\t\tlog_match_helper_{0,number,#}_{1,number,#}(match_value, legacy, isCompact);\n", start, end));
+				source.append(MessageFormat.format("\t\t\tcase {0,number,#}:\n", iteration));
+				if (iteration == 0) {
+					source.append("\t\t\t\tif (temp == 0) {\n");
+					source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+					source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
+					source.append("\t\t\t\t} else {\n");
+					source.append(MessageFormat.format("\t\t\t\t\tlog_match_helper_{0,number,#}_{1,number,#}(match_value, legacy, isCompact);\n", start, end));
+					source.append("\t\t\t\t}\n");
+				} else if (iteration == iterations) {
+					source.append(MessageFormat.format("\t\t\t\tif (temp > {0,number,#}) '{'\n", fullSize)); //1689 meg jo, fullSize
+					source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+					source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
+					source.append("\t\t\t\t} else {\n");
+					source.append(MessageFormat.format("\t\t\t\t\tlog_match_helper_{0,number,#}_{1,number,#}(match_value, legacy, isCompact);\n", start, end));
+					source.append("\t\t\t\t}\n");
+				} else {
+					source.append(MessageFormat.format("\t\t\t\tlog_match_helper_{0,number,#}_{1,number,#}(match_value, legacy, isCompact);\n", start, end));
+				}
+				source.append("\t\t\t\tbreak;\n");
 			}
-			source.append("\t\t\t\t} else {\n");
-			source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
-			source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"<invalid selector>\");\n");
 			source.append("\t\t\t\t}\n");
 		} else {
 			source.append("\t\t\t\tswitch (single_value_union_selection) {\n");
@@ -3092,18 +3112,33 @@ public final class UnionGenerator {
 			source.append("\t\t\t\tModule_Parameter mp_field = null;\n");
 	
 			if (fieldInfos.size() > maxFieldsLength) {
-				source.append("\t\t\t\tif (single_value_union_selection.ordinal() == 0 ) {\n");
-				source.append("\t\t\t\t\tbreak;\n");
 				final int fullSize = fieldInfos.size();
+				source.append("\t\t\t\tfinal int temp = single_value_union_selection.ordinal();\n");
+				source.append(MessageFormat.format("\t\t\t\tswitch (temp / {0,number,#}) '{'\n", maxFieldsLength));
 				final int iterations = fullSize / maxFieldsLength;
 				for (int iteration = 0; iteration <= iterations; iteration++) {
 					final int start = iteration * maxFieldsLength;
 					final int end = Math.min((iteration + 1) * maxFieldsLength - 1, fullSize - 1);
-					source.append(MessageFormat.format("\t\t\t\t} else if (single_value_union_selection.ordinal() <= {0,number,#}) '{'\n", end + 1));
-					source.append(MessageFormat.format("\t\t\t\t\tmp_field = template_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+					source.append(MessageFormat.format("\t\t\t\tcase {0,number,#}:\n", iteration));
+					if (iteration == 0) {
+						source.append("\t\t\t\t\tif (temp == 0) {\n");
+						source.append("\t\t\t\t\t\tbreak;\n");
+						source.append("\t\t\t\t\t} else {\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\tmp_field = template_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+						source.append("\t\t\t\t\t}\n");
+					} else if (iteration == iterations) {
+						source.append(MessageFormat.format("\t\t\t\t\tif (temp > {0,number,#}) '{'\n", fullSize));
+						source.append("\t\t\t\t\t\tbreak;\n");
+						source.append("\t\t\t\t\t} else {\n");
+						source.append(MessageFormat.format("\t\t\t\t\t\tmp_field = template_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+						source.append("\t\t\t\t\t}\n");
+					} else {
+						source.append(MessageFormat.format("\t\t\t\t\tmp_field = template_get_param_specific_helper_{0,number,#}_{1,number,#}(param_name);\n", start, end));
+					}
+					source.append("\t\t\t\t\tbreak;\n");
 				}
-				source.append("\t\t\t\t} else {\n");
-				source.append("\t\t\t\t\tbreak;\n");
+				source.append("\t\t\t\tdefault:\n");
+				source.append("\t\t\t\t\tmp_field = null;\n");
 				source.append("\t\t\t\t}\n");
 			} else {
 				source.append("\t\t\t\tswitch(single_value_union_selection) {\n");

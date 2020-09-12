@@ -1498,14 +1498,27 @@ public final class RecordSetCodeGenerator {
 					}
 
 					if (crosstagLength > maxCrosstagLength) {
-						source.append(MessageFormat.format("\t\t\t\tif ({0}{1}.get_selection().ordinal() == 0 ) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
 						final int fullSize = crosstagLength;
+						source.append(MessageFormat.format("\t\t\t\tfinal int temp = {0}{1}.get_selection().ordinal();\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
+						source.append(MessageFormat.format("\t\t\t\tswitch (temp / {0,number,#}) '{'\n", maxCrosstagLength));
+
 						final int iterations = fullSize / maxCrosstagLength;
 						for (int iteration = 0; iteration <= iterations; iteration++) {
 							final int start = iteration * maxCrosstagLength;
 							final int end = Math.min((iteration + 1) * maxCrosstagLength - 1, fullSize - 1);
-							source.append(MessageFormat.format("\t\t\t\t} else if ({0}{1}.get_selection().ordinal() <= {2,number,#}) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", end + 1));
-							source.append(MessageFormat.format("\t\t\t\t\tRAW_encode_helper_{0}_{1,number,#}_{2,number,#}(myleaf);\n", fieldInfo.mVarName, start, end));
+							source.append(MessageFormat.format("\t\t\t\tcase {0,number,#}:\n", iteration));
+							if (iteration == 0) {
+								source.append("\t\t\t\t\tif (temp != 0) {\n");
+								source.append(MessageFormat.format("\t\t\t\t\t\tRAW_encode_helper_{0}_{1,number,#}_{2,number,#}(myleaf);\n", fieldInfo.mVarName, start, end));
+								source.append("\t\t\t\t\t}\n");
+							} else if (iteration == iterations) {
+								source.append(MessageFormat.format("\t\t\t\t\tif (temp <= {0,number,#}) '{'\n", fullSize));
+								source.append(MessageFormat.format("\t\t\t\t\t\tRAW_encode_helper_{0}_{1,number,#}_{2,number,#}(myleaf);\n", fieldInfo.mVarName, start, end));
+								source.append("\t\t\t\t\t}\n");
+							} else {
+								source.append(MessageFormat.format("\t\t\t\t\tRAW_encode_helper_{0}_{1,number,#}_{2,number,#}(myleaf);\n", fieldInfo.mVarName, start, end));
+							}
+							source.append("\t\t\t\t\tbreak;\n");
 						}
 						source.append("\t\t\t\t}\n");
 					} else {
