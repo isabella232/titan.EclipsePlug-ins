@@ -1126,18 +1126,43 @@ public final class RecordSetCodeGenerator {
 										}
 									}
 								}
+
+								String outerEnumChecker = null;
+								boolean issame = true;
+								for (String currentFirstCheckPrefic : commonFirstCheckPrefix.values()) {
+									if (outerEnumChecker == null) {
+										outerEnumChecker = currentFirstCheckPrefic;
+									} else if (!outerEnumChecker.equals(currentFirstCheckPrefic)) {
+										issame = false;
+									}
+								}
+								if (issame && outerEnumChecker != null) {
+									source.append("//itt\n");
+									source.append("\t\t\tswitch(" + outerEnumChecker + ".get_selection()) {\n");
+								}
 								//generate the groups
 								boolean first_group = true;
 								for (final String firstCheck: commonFirstCheck.keySet()) {
-									if (first_group) {
-										source.append("\t\t\tif (");
-										first_group = false;
-									} else {
-										source.append(" else if (");
-									}
-									source.append(MessageFormat.format("{0}) '{'\n", firstCheck));
 									final String firstCheckPrefix = commonFirstCheckPrefix.get(firstCheck);
 									final ArrayList<Integer> temp = commonFirstCheck.get(firstCheck);
+
+									if (issame) {
+										final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(temp.get(0));
+
+										final rawAST_coding_field_list fields_1 = cur_choice.fields.get(0);
+										final rawAST_coding_fields field_1 = fields_1.fields.get(fields_1.fields.size() -1);
+										source.append(MessageFormat.format("\t\t\tcase ALT_{0}:\n", field_1.nthfieldname));
+
+									} else {
+										if (first_group) {
+											source.append("\t\t\tif (");
+											first_group = false;
+										} else {
+											source.append(" else if (");
+										}
+										source.append(MessageFormat.format("{0}) '{'\n", firstCheck));
+									}
+
 									// check if we can optimize further within the group
 									boolean canOptimizeForEnum = true;
 									String fieldname = null;
@@ -1161,6 +1186,7 @@ public final class RecordSetCodeGenerator {
 									}
 									if (canOptimizeForEnum) {
 										String fieldName = null;
+										//FIXME this could be generated as a read from a pre-filled int[];
 										for (final int j : temp) {
 											final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
 											for (int k = 0; k < cur_choice.fields.size(); k++) {
@@ -1209,10 +1235,18 @@ public final class RecordSetCodeGenerator {
 										source.append('\n');
 										source.append("\t\t\t\treturn -1;\n");
 									}
-									source.append("\t\t\t}");
+									if (!issame) {
+										source.append("\t\t\t}");
+									}
 								}
 								source.append('\n');
-								source.append("\t\t\treturn -1;\n");
+								if (issame) {
+									source.append("\t\t\tdefault:\n");
+									source.append("\t\t\treturn -1;\n");
+									source.append("\t\t\t}\n");
+								} else {
+									source.append("\t\t\treturn -1;\n");
+								}
 								source.append("\t\t}\n");
 							} else {
 								boolean first_value = true;
