@@ -204,7 +204,6 @@ public final class BrokenPartsChecker {
 
 				try {
 					activeExecutorCount.incrementAndGet();
-					// modulesBeingChecked.add(module);
 					final long absoluteStart2 = System.nanoTime();
 					module.check(compilationCounter);
 					final long now = System.nanoTime();
