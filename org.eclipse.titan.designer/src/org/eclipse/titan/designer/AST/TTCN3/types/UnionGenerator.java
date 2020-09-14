@@ -162,6 +162,7 @@ public final class UnionGenerator {
 		aData.addBuiltinTypeImport("RAW.top_bit_order_t");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Id");
 		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
@@ -783,11 +784,13 @@ public final class UnionGenerator {
 		source.append("\t\tpublic void set_param(Module_Parameter param) {\n");
 
 		// Originally RT2
+		source.append("\t\t\tfinal Module_Param_Id param_id = param.get_id();\n");
 		source.append("\t\t\tif (param.get_id() != null && param.get_id().next_name()) {\n");
 		// Haven't reached the end of the module parameter name
 		// => the name refers to one of the fields, not to the whole union
 		source.append("\t\t\t\tfinal String param_field = param.get_id().get_current_name();\n");
-		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
+		source.append("\t\t\t\tfinal char first_char = param_field.charAt(0);\n");
+		source.append("\t\t\t\tif (first_char >= '0' && first_char <= '9') {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union type `{0}''\");\n", displayName ));
 		source.append("\t\t\t\t}\n");
 		if (fieldInfos.size() > maxFieldsLength) {
@@ -2895,9 +2898,11 @@ public final class UnionGenerator {
 
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void set_param(Module_Parameter param) {\n");
+		source.append("\t\t\tfinal Module_Param_Id param_id = param.get_id();\n");
 		source.append("\t\t\tif((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {\n");
 		source.append("\t\t\t\tfinal String param_field = param.get_id().get_current_name();\n");
-		source.append("\t\t\t\tif (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
+		source.append("\t\t\t\tfinal char first_char = param_field.charAt(0);\n");
+		source.append("\t\t\t\tif (first_char >= '0' && first_char <= '9') {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tparam.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}''\");\n", displayName));
 		source.append("\t\t\t\t}\n");
 		if (fieldInfos.size() > maxFieldsLength) {
