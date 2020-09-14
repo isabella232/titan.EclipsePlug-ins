@@ -1342,12 +1342,12 @@ public final class UnionGenerator {
 					for (int i = start ; i <= end; i++) {
 						if (tag_type[i] == 0) {
 							final FieldInfo fieldInfo = fieldInfos.get(i);
-							source.append("buff.set_pos_bit(starting_pos);\n");
-							source.append(MessageFormat.format("final RAW_Force_Omit field_{0,number,#}_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-							source.append(MessageFormat.format("decoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2,number,#}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
-							source.append("if (decoded_length >= 0) {\n");
-							source.append("return decoded_length;\n");
-							source.append("}\n");
+							source.append("\t\t\tbuff.set_pos_bit(starting_pos);\n");
+							source.append(MessageFormat.format("\t\t\tfinal RAW_Force_Omit field_{0,number,#}_force_omit = new RAW_Force_Omit({0,number,#}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("\t\t\tdecoded_length = get_field_{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2,number,#}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
+							source.append("\t\t\tif (decoded_length >= 0) {\n");
+							source.append("\t\t\t\treturn decoded_length;\n");
+							source.append("\t\t\t}\n");
 						}
 					}
 
