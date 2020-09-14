@@ -195,7 +195,7 @@ public final class UnionGenerator {
 		}
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
 		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded, hasRaw, raw);
-		if (jsonNeeded) {
+		if (jsonNeeded && fieldInfos.size() > 0) {
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 			aData.addImport("java.util.concurrent.atomic.AtomicReference");
 			aData.addBuiltinTypeImport("JSON");
