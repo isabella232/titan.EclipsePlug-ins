@@ -626,6 +626,10 @@ public class MainController {
 		return mc_state;
 	}
 
+	public static boolean get_stop_after_testcase() {
+		return stop_after_tc.get();
+	}
+
 	public static BigInteger get_nof_hosts() {
 		return n_hosts.get();
 	}
