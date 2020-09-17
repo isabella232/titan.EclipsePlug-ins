@@ -48,12 +48,15 @@ public final class ExecutorMonitorView extends ViewPart {
 	public static final String SINGLE_MODE_LAUNCHCONFIGURATION_ID = Activator.PLUGIN_ID + ".executors.single.LaunchConfigurationDelegate";
 	public static final String MCTR_CLI_MODE_LAUNCHCONFIGURATION_ID = Activator.PLUGIN_ID + ".executors.mctr.cli.LaunchConfigurationDelegate";
 	public static final String JNI_MODE_LAUNCHCONFIGURATION_ID = Activator.PLUGIN_ID + ".executors.jni.LaunchConfigurationDelegate";
+	public static final String NATIVE_JAVA_LAUNCHCONFIGURATION_ID = Activator.PLUGIN_ID + ".executors.java_mctr.LaunchConfigurationDelegate";
 	public static final ILaunchConfigurationType MCTR_CLI_LAUNCHCONFIGURATION_TYPE = DebugPlugin.getDefault().getLaunchManager()
 			.getLaunchConfigurationType(MCTR_CLI_MODE_LAUNCHCONFIGURATION_ID);
 	public static final ILaunchConfigurationType SINGLE_LAUNCHCONFIGURATION_TYPE = DebugPlugin.getDefault().getLaunchManager()
 			.getLaunchConfigurationType(SINGLE_MODE_LAUNCHCONFIGURATION_ID);
 	public static final ILaunchConfigurationType JNI_LAUNCHCONFIGURATION_TYPE = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurationType(
 			JNI_MODE_LAUNCHCONFIGURATION_ID);
+	public static final ILaunchConfigurationType NATIVE_JAVA_LAUNCHCONFIGURATION_TYPE = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurationType(
+			NATIVE_JAVA_LAUNCHCONFIGURATION_ID);
 
 	private TreeViewer viewer;
 	private MenuManager manager;
@@ -568,7 +571,8 @@ public final class ExecutorMonitorView extends ViewPart {
 			return false;
 		}
 		try {
-			return JNI_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
+			return NATIVE_JAVA_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
+					|| JNI_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
 					|| SINGLE_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType())
 					|| MCTR_CLI_LAUNCHCONFIGURATION_TYPE.equals(launchConfiguration.getType());
 		} catch (CoreException e) {

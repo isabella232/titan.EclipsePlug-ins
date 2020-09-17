@@ -33,6 +33,11 @@
       modes="run"
       id="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate">
     </launchConfigurationType>
+    <launchConfigurationType name="TITAN Native Java launcher"
+      delegate="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate"
+      modes="run"
+      id="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate">
+    </launchConfigurationType>
   </extension>
   <extension point="org.eclipse.debug.ui.launchShortcuts">
     <shortcut
@@ -174,6 +179,31 @@
       <configurationType
         id="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate" />
     </shortcut>
+    <shortcut class="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcut"
+      id="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcut"
+      label="TITAN Native Java launcher" icon="icons/launch_jni.gif"
+      description="Launch an execution in native Java mode" modes="run">
+      <description description="Runs a local TITAN application"
+        mode="run">
+      </description>
+      <contextualLaunch>
+        <enablement>
+          <with variable="selection">
+            <count value="1" />
+            <iterate>
+              <instanceof value="org.eclipse.core.resources.IProject" />
+              <test value="org.eclipse.titan.designer.core.TITANNature"
+                property="org.eclipse.core.resources.projectNature" />
+              <test
+                property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
+                forcePluginActivation="true" />
+            </iterate>
+          </with>
+        </enablement>
+      </contextualLaunch>
+      <configurationType
+        id="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate" />
+    </shortcut>
     <shortcut
       class="org.eclipse.titan.executor.executors.jni.LaunchShortcutConfig"
       description="Launch an execution in jni mode" icon="icons/launch_jni.gif"
@@ -205,6 +235,37 @@
         id="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate">
       </configurationType>
     </shortcut>
+    <shortcut
+      class="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcutConfig"
+      description="Launch an execution in native Java mode" icon="icons/launch_jni.gif"
+      id="org.eclipse.titan.executor.executors.java_mctr.LaunchShortcutConfig"
+      label="TITAN Native Java launcher" modes="run">
+      <description description="Runs a local TITAN application"
+        mode="run">
+      </description>
+      <contextualLaunch>
+        <enablement>
+          <with variable="selection">
+            <count value="1">
+            </count>
+            <iterate operator="and">
+              <instanceof value="org.eclipse.core.resources.IFile">
+              </instanceof>
+              <test property="org.eclipse.core.resources.projectNature"
+                value="org.eclipse.titan.designer.core.TITANNature" />
+              <test property="org.eclipse.core.resources.extension"
+                value="cfg" />
+              <test
+                property="org.eclipse.titan.executor.propertyTesters.ParallelModeBuild"
+                forcePluginActivation="true" />
+            </iterate>
+          </with>
+        </enablement>
+      </contextualLaunch>
+      <configurationType
+        id="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate">
+      </configurationType>
+    </shortcut>
   </extension>
   <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
     <launchConfigurationTypeImage icon="icons/launch_cli.gif"
@@ -218,6 +279,10 @@
     <launchConfigurationTypeImage icon="icons/launch_jni.gif"
       configTypeID="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate"
       id="org.eclipse.titan.executor.executors.jni.uniquetypeImage">
+    </launchConfigurationTypeImage>
+    <launchConfigurationTypeImage icon="icons/launch_jni.gif"
+      configTypeID="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate"
+      id="org.eclipse.titan.executor.executors.java_mctr.uniquetypeImage">
     </launchConfigurationTypeImage>
   </extension>
   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
@@ -241,6 +306,14 @@
       type="org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate"
       class="org.eclipse.titan.executor.executors.jni.LaunchConfigurationTabGroup"
       id="org.eclipse.titan.executor.executors.jni.LaunchConfigurationTabGroup">
+      <launchMode mode="run"
+        perspective="org.eclipse.titan.executor.perspectives.ExecutingPerspective">
+      </launchMode>
+    </launchConfigurationTabGroup>
+    <launchConfigurationTabGroup
+      type="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationDelegate"
+      class="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationTabGroup"
+      id="org.eclipse.titan.executor.executors.java_mctr.LaunchConfigurationTabGroup">
       <launchMode mode="run"
         perspective="org.eclipse.titan.executor.perspectives.ExecutingPerspective">
       </launchMode>
