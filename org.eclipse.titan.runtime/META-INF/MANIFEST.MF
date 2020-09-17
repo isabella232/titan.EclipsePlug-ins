@@ -2,9 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TITAN_Runtime Plug-in
 Bundle-SymbolicName: org.eclipse.titan.runtime
-Bundle-Version: 7.1.1.CRL_113_200_7_R1B_20200624-1000
+Bundle-Version: 7.1.1.CRL_113_200_7_R1B_20200908-1200
 Require-Bundle: org.antlr.runtime;bundle-version="4.3.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.titan.runtime.core
+Eclipse-LazyStart: true
+Bundle-ClassPath: .
+Export-Package: org.eclipse.titan.runtime.core,
+ org.eclipse.titan.runtime.core.mctr
 Bundle-Vendor: Eclipse Titan Project
