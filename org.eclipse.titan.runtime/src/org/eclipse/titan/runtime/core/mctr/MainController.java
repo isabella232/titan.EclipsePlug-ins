@@ -4531,6 +4531,24 @@ public class MainController {
 		mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
 	}
 
+	public static void stop_after_testcase(final boolean newState) {
+		stop_after_tc.set(newState);
+		if (mc_state == mcStateEnum.MC_PAUSED && !stop_after_tc.get()) {
+			continue_testcase();
+		};
+	}
+
+	public static void continue_testcase() {
+		if (mc_state == mcStateEnum.MC_PAUSED) {
+			//FIXME call notify("Resuming execution.");
+			//FIXME call send_continue();
+			mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
+			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
+			ui.status_change();
+		}
+		//FIXME else error("MainController::continue_testcase: called in wrong state.");
+	}
+
 	private static void send_execute_testcase(final String moduleName, final String testcaseName) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXECUTE_TESTCASE);
