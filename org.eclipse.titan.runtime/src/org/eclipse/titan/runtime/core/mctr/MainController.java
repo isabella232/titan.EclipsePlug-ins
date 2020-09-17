@@ -178,7 +178,7 @@ public class MainController {
 	private static final int MSG_CONFIGURE_NAK = 201;
 
 	/** For representing the global state of MC */
-	static enum mcStateEnum {
+	public static enum mcStateEnum {
 		MC_INACTIVE, MC_LISTENING, MC_LISTENING_CONFIGURED, MC_HC_CONNECTED,
 		MC_CONFIGURING, MC_ACTIVE, MC_SHUTDOWN, MC_CREATING_MTC, MC_READY,
 		MC_TERMINATING_MTC, MC_EXECUTING_CONTROL, MC_EXECUTING_TESTCASE,
