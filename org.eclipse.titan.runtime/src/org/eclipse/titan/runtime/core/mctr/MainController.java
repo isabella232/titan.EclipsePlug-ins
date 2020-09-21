@@ -577,12 +577,12 @@ public class MainController {
 				mc_channel.bind(nh.get_addr(), 10);
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
-					error(MessageFormat.format("Binding server socket to TCP port {0} failed: {1}\n", tcp_port, e.getMessage()));
+					error(MessageFormat.format("Binding server socket to TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
 				} else {
-					error(MessageFormat.format("Binding server socket to IP address {0} and TCP port {1} failed: {2}\n", local_address, tcp_port, e.getMessage()));
+					error(MessageFormat.format("Binding server socket to IP address {0} and TCP port {1,number,#} failed: {2}\n", local_address, tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
@@ -593,7 +593,7 @@ public class MainController {
 			hosts = new ArrayList<Host>();
 			try {
 				mc_state = mcStateEnum.MC_LISTENING;
-				notify(MessageFormat.format("Listening on IP address {0} and TCP port {1}.\n",
+				notify(MessageFormat.format("Listening on IP address {0} and TCP port {1,number,#}.\n",
 						((InetSocketAddress)mc_channel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)mc_channel.getLocalAddress()).getPort()));
 				tcp_port = ((InetSocketAddress)mc_channel.getLocalAddress()).getPort();
 				SocketChannel sc = mc_channel.accept();
@@ -610,12 +610,12 @@ public class MainController {
 
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
-					error(MessageFormat.format("Listening on TCP port {0} failed: {1}\n", tcp_port, e.getMessage()));
+					error(MessageFormat.format("Listening on TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
 				} else {
-					error(MessageFormat.format("Listening on IP address {0} and TCP port {1} failed: {2}\n", local_address, tcp_port, e.getMessage()));
+					error(MessageFormat.format("Listening on IP address {0} and TCP port {1,number,#} failed: {2}\n", local_address, tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
