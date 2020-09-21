@@ -39,16 +39,11 @@ import org.eclipse.titan.executor.TITANConsole;
 import org.eclipse.titan.executor.designerconnection.EnvironmentHelper;
 import org.eclipse.titan.executor.executors.BaseExecutor;
 import org.eclipse.titan.executor.executors.ExecuteDialog;
-import org.eclipse.titan.executor.executors.SeverityResolver;
 import org.eclipse.titan.executor.executors.ExecuteDialog.ExecutableType;
-import org.eclipse.titan.executor.jni.ComponentStruct;
-import org.eclipse.titan.executor.jni.HostStruct;
+import org.eclipse.titan.executor.executors.SeverityResolver;
 import org.eclipse.titan.executor.jni.IJNICallback;
 import org.eclipse.titan.executor.jni.JNIMiddleWare;
-import org.eclipse.titan.executor.jni.McStateEnum;
-import org.eclipse.titan.executor.jni.QualifiedName;
 import org.eclipse.titan.executor.jni.Timeval;
-import org.eclipse.titan.executor.jni.VerdictTypeEnum;
 import org.eclipse.titan.executor.views.executormonitor.ComponentElement;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorStorage;
@@ -60,6 +55,7 @@ import org.eclipse.titan.executor.views.executormonitor.MainControllerElement;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
+import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.mctr.MainController;
 import org.eclipse.titan.runtime.core.mctr.UserInterface;
 
@@ -872,38 +868,46 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	 * Updates the information displayed about the MainController's and HostControllers actual states.
 	 * */
 	private void updateInfoDisplay() {
-		final JNIMiddleWare middleware = jnimw;
-		final McStateEnum mcState = middleware.get_state();
+		//final JNIMiddleWare middleware = jnimw;
+		//final McStateEnum mcState = middleware.get_state();
+		final MainController.mcStateEnum mcState = MainController.get_state();
 		final MainControllerElement tempRoot = new MainControllerElement("Temporal root", this);
-		final String mcStateName = middleware.get_mc_state_name(mcState);
+		//final String mcStateName = middleware.get_mc_state_name(mcState);
+		final String mcStateName = MainController.get_mc_state_name(mcState);
 		tempRoot.setStateInfo(new InformationElement("state: " + mcStateName));
 
 		HostControllerElement tempHost;
-		ComponentStruct comp;
-		QualifiedName qualifiedName;
+		MainController.ComponentStruct comp;
+		MainController.QualifiedName qualifiedName;
 		ComponentElement tempComponent;
 		StringBuilder builder;
 
-		final int nofHosts = middleware.get_nof_hosts();
-		HostStruct host;
+		//final int nofHosts = middleware.get_nof_hosts();
+		final int nofHosts = MainController.get_nof_hosts();
+		//HostStruct host;
+		MainController.Host host;
 		for (int i = 0; i < nofHosts; i++) {
-			host = middleware.get_host_data(i);
+			//host = middleware.get_host_data(i);
+			host = MainController.get_host_data(i);
 
 			tempHost = new HostControllerElement("Host Controller: ");
 			tempRoot.addHostController(tempHost);
 			tempHost.setIPAddressInfo(new InformationElement("IP address: " + host.hostname));
-			tempHost.setIPNumberInfo(new InformationElement("IP number: " + host.ip_addr));
+			//FIXME add support for ip_addr
+			//tempHost.setIPNumberInfo(new InformationElement("IP number: " + host.ip_addr));
 			tempHost.setHostNameInfo(new InformationElement("Local host name:" + host.hostname_local));
 
 			tempHost.setOperatingSystemInfo(new InformationElement(host.system_name + " " + host.system_release + " " + host.system_version));
-			tempHost.setStateInfo(new InformationElement("State: " + middleware.get_hc_state_name(host.hc_state)));
+			tempHost.setStateInfo(new InformationElement("State: " + MainController.get_hc_state_name(host.hc_state)));
 
-			final int activeComponents = host.n_active_components;
+			final int activeComponents = host.components.size();
 
-			final int[] components = host.components.clone();
-			middleware.release_data();
+			final List<MainController.ComponentStruct> components = host.components;
+			//middleware.release_data();
+			MainController.release_data();
 			for (int component_index = 0; component_index < activeComponents; component_index++) {
-				comp = middleware.get_component_data(components[component_index]);
+				//comp = middleware.get_component_data(components[component_index]);
+				comp = components.get(component_index);
 				tempComponent = new ComponentElement("Component: " + comp.comp_name, new InformationElement("Component reference: " + comp.comp_ref));
 				tempHost.addComponent(tempComponent);
 
@@ -917,10 +921,10 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 					tempComponent.setTypeInfo(new InformationElement(builder.toString()));
 				}
 
-				tempComponent.setStateInfo(new InformationElement(middleware.get_tc_state_name(comp.tc_state)));
+				tempComponent.setStateInfo(new InformationElement(MainController.get_tc_state_name(comp.tc_state)));
 
 				qualifiedName = comp.tc_fn_name;
-				if (qualifiedName.definition_name != null) {
+				if (qualifiedName != null && qualifiedName.definition_name != null) {
 					builder = new StringBuilder(comp.comp_ref == 1 ? "test case" : "function");
 					if (qualifiedName.module_name != null) {
 						builder.append(qualifiedName.module_name).append('.');
@@ -929,14 +933,15 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 					tempComponent.setExecutedInfo(new InformationElement(builder.toString()));
 				}
 
-				final VerdictTypeEnum localVerdict = comp.local_verdict;
+				final TitanVerdictType.VerdictTypeEnum localVerdict = comp.local_verdict;
 				if (localVerdict != null) {
 					builder = new StringBuilder("local verdict: ");
 					builder.append(localVerdict.getName());
 				}
 			}
 		}
-		middleware.release_data();
+		//middleware.release_data();
+		//MainController.release_data();
 
 		if (mainControllerRoot != null) {
 			mainControllerRoot.children().clear();

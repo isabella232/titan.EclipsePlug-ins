@@ -377,7 +377,7 @@ public class Cli extends UserInterface {
 		case WAIT_HC_CONNECTED:
 			if (MainController.get_state() == mcStateEnum.MC_HC_CONNECTED) {
 				if (mycfg.getNum_hcs().compareTo(BigInteger.ZERO) == 1) {
-					return MainController.get_nof_hosts().compareTo(mycfg.getNum_hcs()) == 0 || MainController.get_nof_hosts().compareTo(mycfg.getNum_hcs()) == 1;
+					return MainController.get_nof_hosts() == mycfg.getNum_hcs().intValue() || MainController.get_nof_hosts() > mycfg.getNum_hcs().intValue();
 				} else {
 					return true;
 				}

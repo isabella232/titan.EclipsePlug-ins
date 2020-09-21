@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -239,17 +238,18 @@ public class MainController {
 	}
 	
 	/** Data structure for each host (and the corresponding HC) */
-	static class Host {
+	public static class Host {
 		SocketChannel socket;
 		SocketAddress address;
-		hc_state_enum hc_state;
-		List<ComponentStruct> components;
+		public hc_state_enum hc_state;
+		public List<ComponentStruct> components;
 		boolean transport_supported[];
-		String hostname;
+		public String hostname;
+		public String hostname_local;
 		String machine_type;
-		String system_name;
-		String system_release;
-		String system_version;
+		public String system_name;
+		public String system_release;
+		public String system_version;
 
 		Host(final SocketChannel sc) {
 			socket = sc;
@@ -263,7 +263,7 @@ public class MainController {
 
 	}
 	
-	static class QualifiedName {
+	public static class QualifiedName {
 		public String module_name;
 		public String definition_name;
 
@@ -275,18 +275,18 @@ public class MainController {
 	}
 	
 	/** Data structure for each TC */
-	static class ComponentStruct {
-		int comp_ref;
-		QualifiedName comp_type;
-		String comp_name;
+	public static class ComponentStruct {
+		public int comp_ref;
+		public QualifiedName comp_type;
+		public String comp_name;
 		String log_source;
 		Host comp_location;
-		tc_state_enum tc_state;
-		VerdictTypeEnum local_verdict;
+		public tc_state_enum tc_state;
+		public VerdictTypeEnum local_verdict;
 		String verdict_reason;
 		int tc_fd;
 		Text_Buf text_buf;
-		QualifiedName tc_fn_name;
+		public QualifiedName tc_fn_name;
 		String return_type;
 		byte[] return_value;
 		boolean is_alive;
@@ -342,10 +342,10 @@ public class MainController {
 	};
 
 
-	private static ThreadLocal<BigInteger> n_hosts = new ThreadLocal<BigInteger>() {
+	private static ThreadLocal<Integer> n_hosts = new ThreadLocal<Integer>() {
 		@Override
-		protected BigInteger initialValue() {
-			return BigInteger.ZERO;
+		protected Integer initialValue() {
+			return Integer.valueOf(0);
 		}
 	};
 
@@ -630,8 +630,122 @@ public class MainController {
 		return stop_after_tc.get();
 	}
 
-	public static BigInteger get_nof_hosts() {
-		return n_hosts.get();
+	public static int get_nof_hosts() {
+		return hosts.size();
+	}
+
+	public static Host get_host_data(final int host_index) {
+		mutex.lock();
+		return hosts.get(host_index);
+	}
+
+	public static void release_data() {
+		mutex.unlock();
+	}
+
+	public static String get_mc_state_name(final mcStateEnum state) {
+		switch (state) {
+		case MC_INACTIVE:
+			return "inactive";
+		case MC_LISTENING:
+			return "listening";
+		case MC_LISTENING_CONFIGURED:
+			return "listening (configured)";
+		case MC_HC_CONNECTED:
+			return "HC connected";
+		case MC_CONFIGURING:
+			return "configuring...";
+		case MC_ACTIVE:
+			return "active";
+		case MC_CREATING_MTC:
+			return "creating MTC...";
+		case MC_TERMINATING_MTC:
+			return "terminating MTC...";
+		case MC_READY:
+			return "ready";
+		case MC_EXECUTING_CONTROL:
+			return "executing control part";
+		case MC_EXECUTING_TESTCASE:
+			return "executing testcase";
+		case MC_TERMINATING_TESTCASE:
+			return "terminating testcase...";
+		case MC_PAUSED:
+			return "paused after testcase";
+		case MC_SHUTDOWN:
+			return "shutting down...";
+		default:
+			return "unknown/transient";
+		}
+	}
+
+	public static String get_hc_state_name(final hc_state_enum state) {
+		switch (state) {
+		case HC_IDLE:
+			return "not configured";
+		case HC_CONFIGURING:
+		case HC_CONFIGURING_OVERLOADED:
+			return "being configured";
+		case HC_ACTIVE:
+			return "ready";
+		case HC_OVERLOADED:
+			return "overloaded";
+		case HC_DOWN:
+			return "down";
+		default:
+			return "unknown/transient";
+		}
+	}
+
+	public static String get_tc_state_name(final tc_state_enum state) {
+		switch (state) {
+		case TC_INITIAL:
+			return "being created";
+		case TC_IDLE:
+			return "inactive - waiting for start";
+		case TC_CREATE:
+			return "executing create operation";
+		case TC_START:
+			return "executing component start operation";
+		case TC_STOP:
+		case MTC_ALL_COMPONENT_STOP:
+			return "executing component stop operation";
+		case TC_KILL:
+		case MTC_ALL_COMPONENT_KILL:
+			return "executing kill operation";
+		case TC_CONNECT:
+			return "executing connect operation";
+		case TC_DISCONNECT:
+			return "executing disconnect operation";
+		case TC_MAP:
+			return "executing map operation";
+		case TC_UNMAP:
+			return "executing unmap operation";
+		case TC_STOPPING:
+			return "being stopped";
+		case TC_EXITING:
+			return "terminated";
+		case TC_EXITED:
+			return "exited";
+		case MTC_CONTROLPART:
+			return "executing control part";
+		case MTC_TESTCASE:
+			return "executing testcase";
+		case MTC_TERMINATING_TESTCASE:
+			return "terminating testcase";
+		case MTC_PAUSED:
+			return "paused";
+		case PTC_FUNCTION:
+			return "executing function";
+		case PTC_STARTING:
+			return "being started";
+		case PTC_STOPPED:
+			return "stopped - waiting for re-start";
+		case PTC_KILLING:
+		case PTC_STOPPING_KILLING:
+			return "being killed";
+		default:
+			return "unknown/transient";
+		}
 	}
 
 	//Temporary
@@ -1135,7 +1249,9 @@ public class MainController {
 
 	private static void add_new_host(final Host hc) {
 		final Text_Buf text_buf = incoming_buf.get();
-		hc.hostname = text_buf.pull_string();
+		hc.hostname_local = text_buf.pull_string();
+		//FIXME hostname should be calculated
+		hc.hostname = hc.hostname_local;
 		hc.machine_type = text_buf.pull_string();
 		hc.system_name = text_buf.pull_string();
 		hc.system_release = text_buf.pull_string();
