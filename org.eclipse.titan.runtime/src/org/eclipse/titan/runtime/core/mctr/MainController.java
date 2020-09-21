@@ -1435,7 +1435,8 @@ public class MainController {
 			handle_tc_data(mtc);
 		//}
 		ui.status_change();
-		incoming_buf.get().cut_message();
+		//FIXME these part should not be here !!!
+/*		incoming_buf.get().cut_message();
 		exit_mtc();
 
 		if (mc_state != mcStateEnum.MC_TERMINATING_MTC) {
@@ -1455,7 +1456,7 @@ public class MainController {
 		stop_requested.set(false);
 
 		shutdown_session();
-		System.out.println("Shutdown complete.");
+		System.out.println("Shutdown complete.");*/
 	}
 
 
