@@ -594,6 +594,12 @@ public class MainController {
 					return 0;
 				}
 			}
+
+			//FIXME start background thread listening for connections and replies.
+			//FIXME notification about localAddress
+			ui.status_change();
+			mutex.unlock();
+
 			return tcp_port;
 		} finally {
 			mutex.unlock();
