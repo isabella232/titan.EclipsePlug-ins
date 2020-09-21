@@ -45,6 +45,14 @@ public class NetworkHandler {
 		set_family(m_addr);
 	}
 
+	public void set_family(final String p_addr, final int tcp_port) {
+		if (p_addr == null) {
+			m_family = NetworkFamily.ipv4;
+		} else {
+			set_family(new InetSocketAddress(p_addr, tcp_port));
+		}
+	}
+
 	public void set_family(final NetworkFamily p_family) {
 		m_family = p_family;
 	}
