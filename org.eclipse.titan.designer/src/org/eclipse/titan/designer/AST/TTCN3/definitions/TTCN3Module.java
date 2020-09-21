@@ -1328,7 +1328,7 @@ public final class TTCN3Module extends Module {
 				if (i > 0) {
 					constructor.append(", ");
 				}
-				constructor.append("(byte)").append(digest[i] & 0xff);
+				constructor.append("(byte)").append(String.format("0x%02X", digest[i] & 0xff));
 			}
 			constructor.append('}');
 		}
