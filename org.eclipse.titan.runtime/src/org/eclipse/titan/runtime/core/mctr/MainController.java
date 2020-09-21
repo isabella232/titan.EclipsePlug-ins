@@ -7,8 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.mctr;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,21 +27,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.titan.runtime.core.NetworkHandler;
+import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 import org.eclipse.titan.runtime.core.TTCN_Runtime;
 import org.eclipse.titan.runtime.core.Text_Buf;
 import org.eclipse.titan.runtime.core.TitanCharString;
 import org.eclipse.titan.runtime.core.TitanComponent;
-import org.eclipse.titan.runtime.core.TitanVerdictType;
-import org.eclipse.titan.runtime.core.TtcnError;
-import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 import org.eclipse.titan.runtime.core.TitanPort.Map_Params;
+import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
+import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
@@ -1312,15 +1309,18 @@ public class MainController {
 			//TODO error, message in MainController::configure
 			return;
 		}
-		
-		try {
-			Scanner sc = new Scanner(new File(config_file));
-			config_str.set(sc.useDelimiter("\\Z").next());
-			sc.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		//FIXME needs to be processed somewhere
+		config_str.set(config_file);
+
+//		try {
+//			Scanner sc = new Scanner(new File(config_file));
+//			config_str.set(sc.useDelimiter("\\Z").next());
+//			sc.close();
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
 			System.out.println("Downloading configuration file to all HCs.");
