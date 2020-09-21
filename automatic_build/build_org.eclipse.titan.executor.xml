@@ -37,6 +37,7 @@
             <classpath refid="PDE.classpath"/>
             <classpath refid="common.classpath"/>
             <classpath refid="designer.classpath"/>
+            <classpath refid="runtime.classpath"/>
         </javac>
     </target>
 
