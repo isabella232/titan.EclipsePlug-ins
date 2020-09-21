@@ -197,7 +197,7 @@ public class MainController {
 	}
 
 	/** Possible states of a TC (MTC or PTC) */
-	private static enum tc_state_enum {
+	public static enum tc_state_enum {
 		TC_INITIAL, TC_IDLE, TC_CREATE, TC_START, TC_STOP, TC_KILL,
 		TC_CONNECT, TC_DISCONNECT, TC_MAP, TC_UNMAP, TC_STOPPING, TC_EXITING, TC_EXITED,
 		MTC_CONTROLPART, MTC_TESTCASE, MTC_ALL_COMPONENT_STOP,
