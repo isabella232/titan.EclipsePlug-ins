@@ -575,20 +575,21 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			localAddress = configHandler.getLocalAddress();
 
 			MainController.set_kill_timer(killTimer);
-			jnimw.destroy_host_groups();
-
-			final Map<String, String[]> groups = configHandler.getGroups();
-			final Map<String, String> components = configHandler.getComponents();
-
-			for (final Map.Entry<String, String[]> group : groups.entrySet()) {
-				for (final String hostName : group.getValue()) {
-					MainController.add_host(group.getKey(), hostName);
-				}
-			}
-
-			for (final Map.Entry<String, String> component : components.entrySet()) {
-				jnimw.assign_component(component.getValue(), component.getKey());
-			}
+			//FIXME temporarily remove so that we can work with the rest
+//			jnimw.destroy_host_groups();
+//
+//			final Map<String, String[]> groups = configHandler.getGroups();
+//			final Map<String, String> components = configHandler.getComponents();
+//
+//			for (final Map.Entry<String, String[]> group : groups.entrySet()) {
+//				for (final String hostName : group.getValue()) {
+//					MainController.add_host(group.getKey(), hostName);
+//				}
+//			}
+//
+//			for (final Map.Entry<String, String> component : components.entrySet()) {
+//				jnimw.assign_component(component.getValue(), component.getKey());
+//			}
 		}
 
 		if (localAddress != null && !EMPTY_STRING.equals(localAddress) && 0 == tcpport) {
