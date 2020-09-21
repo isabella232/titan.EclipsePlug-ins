@@ -33,6 +33,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.titan.runtime.core.NetworkHandler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
+import org.eclipse.titan.runtime.core.TTCN_Logger;
 import org.eclipse.titan.runtime.core.TTCN_Runtime;
 import org.eclipse.titan.runtime.core.Text_Buf;
 import org.eclipse.titan.runtime.core.TitanCharString;
@@ -467,6 +468,31 @@ public class MainController {
 
 	}
 
+	public static void error(final String message) {
+		mutex.unlock();
+		ui.error(0, message);
+		mutex.lock();
+	}
+
+	public static void notify(final String message) {
+		final long timestamp = System.currentTimeMillis();
+		notify(timestamp, mc_hostname,  TTCN_Logger.Severity.EXECUTOR_UNQUALIFIED.ordinal(), message);
+	}
+
+	public static void notify(final long timestamp, final String source, final int severity, final String message) {
+		mutex.unlock();
+		ui.notify(timestamp, source, severity, message);
+		mutex.lock();
+	}
+
+	public static void status_change() {
+		mutex.unlock();
+		ui.status_change();
+		mutex.lock();
+	}
+
+	//FIXME implement fatal_error
+
 	public static void add_host(final String group_name, final String host_name) {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
 			throw new TtcnError("MainController.add_host: called in wrong state.");
@@ -520,7 +546,7 @@ public class MainController {
 		mutex.lock();
 		try {
 			if (mc_state != mcStateEnum.MC_INACTIVE) {
-				System.err.println("MainController.start_session: called in wrong state.");
+				error("MainController.start_session: called in wrong state.");
 				mutex.unlock();
 				return 0;
 			}
@@ -530,7 +556,7 @@ public class MainController {
 			try {
 				mc_channel = ServerSocketChannel.open();
 			} catch (IOException e) {
-				System.err.printf("Server socket creation failed: %s\n", e.getMessage());
+				error(MessageFormat.format("Server socket creation failed: {0}\n", e.getMessage()));
 				mutex.unlock();
 				//clean up?
 				return 0;
@@ -539,7 +565,7 @@ public class MainController {
 			try {
 				mc_channel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
 			} catch (IOException e) {
-				System.err.printf("SO_REUSEADDR failed on server socket: %s", e.getMessage());
+				error(MessageFormat.format("SO_REUSEADDR failed on server socket: {0}", e.getMessage()));
 				mutex.unlock();
 				//clean up?
 				return 0;
@@ -551,12 +577,12 @@ public class MainController {
 				mc_channel.bind(nh.get_addr(), 10);
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
-					System.err.printf("Binding server socket to TCP port %d failed: %s\n", tcp_port, e.getMessage());
+					error(MessageFormat.format("Binding server socket to TCP port {0} failed: {1}\n", tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
 				} else {
-					System.err.printf("Binding server socket to IP address %s and TCP port %d failed: %s\n", local_address, tcp_port, e.getMessage());
+					error(MessageFormat.format("Binding server socket to IP address {0} and TCP port {1} failed: {2}\n", local_address, tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
@@ -567,8 +593,8 @@ public class MainController {
 			hosts = new ArrayList<Host>();
 			try {
 				mc_state = mcStateEnum.MC_LISTENING;
-				System.out.printf("Listening on IP address %s and TCP port %d.\n",
-						((InetSocketAddress)mc_channel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)mc_channel.getLocalAddress()).getPort());
+				notify(MessageFormat.format("Listening on IP address {0} and TCP port {1}.\n",
+						((InetSocketAddress)mc_channel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)mc_channel.getLocalAddress()).getPort()));
 				tcp_port = ((InetSocketAddress)mc_channel.getLocalAddress()).getPort();
 				SocketChannel sc = mc_channel.accept();
 				Host host = new Host(sc);
@@ -577,19 +603,19 @@ public class MainController {
 				host.hc_state = hc_state_enum.HC_IDLE;
 
 				process_version(host);
-				System.out.println(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
+				notify(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
 						host.machine_type));
 
 				mc_state = mcStateEnum.MC_ACTIVE;
 
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
-					System.err.printf("Listening on TCP port %d failed: %s\n", tcp_port, e.getMessage());
+					error(MessageFormat.format("Listening on TCP port {0} failed: {1}\n", tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
 				} else {
-					System.err.printf("Listening on IP address %s and TCP port %d failed: %s\n", local_address, tcp_port, e.getMessage());
+					error(MessageFormat.format("Listening on IP address {0} and TCP port {1} failed: {2}\n", local_address, tcp_port, e.getMessage()));
 					mutex.unlock();
 					//clean up?
 					return 0;
@@ -599,7 +625,6 @@ public class MainController {
 			//FIXME start background thread listening for connections and replies.
 			//FIXME notification about localAddress
 			ui.status_change();
-			mutex.unlock();
 
 			return tcp_port;
 		} finally {
@@ -1301,6 +1326,7 @@ public class MainController {
 	}
 
 	public static void configure(final String config_file) {
+		mutex.lock();
 		switch(mc_state) {
 		case MC_HC_CONNECTED:
 		case MC_ACTIVE:
@@ -1314,6 +1340,7 @@ public class MainController {
 			break;
 		default:
 			//TODO error, message in MainController::configure
+			mutex.unlock();
 			return;
 		}
 
@@ -1330,17 +1357,20 @@ public class MainController {
 //		}
 
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
-			System.out.println("Downloading configuration file to all HCs.");
+			notify("Downloading configuration file to all HCs.");
 			for (final Host host : hosts) {
 				configure_host(host, false);
-				handle_hc_data(host);
+				handle_hc_data(host);//?
 			}
 		}
 
 		if (mc_state == mcStateEnum.MC_RECONFIGURING) {
-			System.out.println("Downloading configuration file to the MTC.");
+			notify("Downloading configuration file to the MTC.");
 			configure_mtc();
 		}
+
+		status_change();
+		mutex.unlock();
 	}
 
 	private static void configure_mtc() {

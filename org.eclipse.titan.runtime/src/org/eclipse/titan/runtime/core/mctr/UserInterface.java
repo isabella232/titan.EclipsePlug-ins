@@ -41,8 +41,9 @@ public abstract class UserInterface {
 
 	/**
 	 * General notification from MC.
+	 * timestamp is in miliseconds.
 	 */
-	public abstract void notify(/**const struct timeval* timestamp,*/ final String source, final int severity, final String message);
+	public abstract void notify(final long timestamp, final String source, final int severity, final String message);
 
 	public abstract void executeBatchFile(final String filename);
 }

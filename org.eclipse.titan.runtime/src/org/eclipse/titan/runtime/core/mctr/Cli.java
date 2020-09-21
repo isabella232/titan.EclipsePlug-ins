@@ -155,19 +155,19 @@ public class Cli extends UserInterface {
 	}
 
 	@Override
-	public void error(int severity, String message) {
+	public void error(final int severity, final String message) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void notify(String source, int severity, String message) {
+	public void notify(final long timestamp, final String source, final int severity, final String message) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void executeBatchFile(String filename) {
+	public void executeBatchFile(final String filename) {
 		// TODO Auto-generated method stub
 
 	}
@@ -321,6 +321,7 @@ public class Cli extends UserInterface {
 		}
 		waitMCState(waitStateEnum.WAIT_HC_CONNECTED);
 		// download config file
+		//FIXME incorrect we need to send the processed contents not the name of the file.
 		MainController.configure(mycfg.getLog_file_name());
 		waitMCState(waitStateEnum.WAIT_ACTIVE);
 		if (MainController.get_state() != mcStateEnum.MC_ACTIVE) {

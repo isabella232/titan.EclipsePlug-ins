@@ -105,7 +105,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		}
 
 		@Override
-		public int enterLoop(String[] args) {
+		public int enterLoop(final String[] args) {
 			TITANDebugConsole.println("NativeJavaUI.enterLoop called");
 			return 0;
 		}
@@ -116,17 +116,17 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		}
 
 		@Override
-		public void error(int severity, String message) {
+		public void error(final int severity, final String message) {
 			TITANDebugConsole.println("NativeJavaUI.error called");
 		}
 
 		@Override
-		public void notify(String source, int severity, String message) {
-			TITANDebugConsole.println("NativeJavaUI.notify called");
+		public void notify(final long timestamp, final String source, final int severity, final String message) {
+			callback.notifyCallback(new Timeval(timestamp / 1000, timestamp % 1000), source, severity, message);
 		}
 
 		@Override
-		public void executeBatchFile(String filename) {
+		public void executeBatchFile(final String filename) {
 			TITANDebugConsole.println("NativeJavaUI.executeBatchFile called");
 		}
 	}
