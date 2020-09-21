@@ -152,6 +152,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			@Override
 			public void run() {
 				initialization();
+				updateGUI();//FIXME temp only for debugging
 			}
 		};
 		startSession.setToolTipText("Start session");
