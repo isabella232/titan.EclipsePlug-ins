@@ -684,7 +684,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			return;
 		}
 		/* this is not a constant null, it just so happens to trick your eyes */
-		jnimw.create_mtc(0);
+		//jnimw.create_mtc(0);
+		MainController.create_mtc(MainController.get_host_data(0));
 		createMTCRequested = false;
 	}
 
@@ -807,12 +808,15 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		final int i = testElement.indexOf('.');
 		if (i != -1) {
 			if ("control".equals(testElement.substring(i + 1))) {
-				jnimw.execute_control(testElement.substring(0, i));
+				//jnimw.execute_control(testElement.substring(0, i));
+				MainController.execute_control(testElement.substring(0, i));
 			} else {
-				jnimw.execute_testcase(testElement.substring(0, i), testElement.substring(i + 1));
+				//jnimw.execute_testcase(testElement.substring(0, i), testElement.substring(i + 1));
+				MainController.execute_testcase(testElement.substring(0, i), testElement.substring(i + 1));
 			}
 		} else {
-			jnimw.execute_control(testElement);
+			//jnimw.execute_control(testElement);
+			MainController.execute_control(testElement);
 		}
 	}
 
@@ -841,7 +845,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		if (MainController.mcStateEnum.MC_READY != state) {
 			return;
 		}
-		jnimw.exit_mtc();
+		//jnimw.exit_mtc();
+		MainController.exit_mtc();
 	}
 
 	/**
@@ -857,7 +862,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		final MainController.mcStateEnum state = MainController.get_state();
 		//final int stateValue = jnimw.get_state().getValue();
 		if (MainController.mcStateEnum.MC_LISTENING == state || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == state || MainController.mcStateEnum.MC_HC_CONNECTED == state || MainController.mcStateEnum.MC_ACTIVE == state) {
-			jnimw.shutdown_session();
+			//jnimw.shutdown_session();
+			MainController.shutdown_session();
 			// jnimw.terminate_internal() must be also called when shutdown is finished, see statusChangeCallback() case MC_INACTIVE
 			startHCRequested = false;
 			configureRequested = false;
