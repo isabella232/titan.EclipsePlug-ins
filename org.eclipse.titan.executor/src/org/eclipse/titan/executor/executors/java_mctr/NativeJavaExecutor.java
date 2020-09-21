@@ -93,6 +93,11 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private ConfigFileHandler configHandler = null;
 	
 	public static class NativeJavaUI extends UserInterface {
+		private NativeJavaExecutor callback;
+
+		public NativeJavaUI(final NativeJavaExecutor callback) {
+			this.callback = callback;
+		}
 
 		@Override
 		public void initialize() {
@@ -107,7 +112,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 
 		@Override
 		public void status_change() {
-			TITANDebugConsole.println("NativeJavaUI.status_change called");
+			callback.statusChangeCallback();
 		}
 
 		@Override
@@ -247,7 +252,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 
 		//jnimw = new JNIMiddleWare(this);
 		//jnimw.initialize(1500);
-		NativeJavaUI tempUI = new NativeJavaUI();
+		NativeJavaUI tempUI = new NativeJavaUI(this);
 		MainController.initialize(tempUI, 1500);//mx_ptcs
 		TITANDebugConsole.println("initialize called");
 
