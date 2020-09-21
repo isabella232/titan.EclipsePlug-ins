@@ -606,7 +606,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		}
 
 		if (localAddress == null) {
-			localAddress = "NULL";
+			//FIXME temporal change to enable efficient work.
+			localAddress = "127.0.0.1";
 		}
 
 		mcHost = localAddress;
