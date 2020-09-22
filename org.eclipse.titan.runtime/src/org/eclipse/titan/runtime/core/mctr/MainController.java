@@ -465,7 +465,7 @@ public class MainController {
 	}
 
 	public static void terminate() {
-
+		//FIXME implement
 	}
 
 	private static void lock() {
