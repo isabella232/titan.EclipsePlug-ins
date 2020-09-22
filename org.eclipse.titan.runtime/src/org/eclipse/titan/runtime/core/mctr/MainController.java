@@ -478,24 +478,24 @@ public class MainController {
 		mutex.unlock();
 	}
 
-	public static void error(final String message) {
+	private static void error(final String message) {
 		mutex.unlock();
 		ui.error(0, message);
 		mutex.lock();
 	}
 
-	public static void notify(final String message) {
+	private static void notify(final String message) {
 		final long timestamp = System.currentTimeMillis();
 		notify(timestamp, mc_hostname,  TTCN_Logger.Severity.EXECUTOR_UNQUALIFIED.ordinal(), message);
 	}
 
-	public static void notify(final long timestamp, final String source, final int severity, final String message) {
+	private static void notify(final long timestamp, final String source, final int severity, final String message) {
 		mutex.unlock();
 		ui.notify(timestamp, source, severity, message);
 		mutex.lock();
 	}
 
-	public static void status_change() {
+	private static void status_change() {
 		mutex.unlock();
 		ui.status_change();
 		mutex.lock();
