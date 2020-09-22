@@ -501,7 +501,9 @@ public class MainController {
 		lock();
 	}
 
-	//FIXME implement fatal_error
+	private static void fatal_error() {
+		//FIXME implement fatal_error
+	}
 
 	public static void add_host(final String group_name, final String host_name) {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
