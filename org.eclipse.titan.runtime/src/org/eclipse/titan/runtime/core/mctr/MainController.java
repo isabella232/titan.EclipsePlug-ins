@@ -479,9 +479,9 @@ public class MainController {
 	}
 
 	private static void error(final String message) {
-		mutex.unlock();
+		unlock();
 		ui.error(0, message);
-		mutex.lock();
+		lock();
 	}
 
 	private static void notify(final String message) {
@@ -490,15 +490,15 @@ public class MainController {
 	}
 
 	private static void notify(final long timestamp, final String source, final int severity, final String message) {
-		mutex.unlock();
+		unlock();
 		ui.notify(timestamp, source, severity, message);
-		mutex.lock();
+		lock();
 	}
 
 	private static void status_change() {
-		mutex.unlock();
+		unlock();
 		ui.status_change();
-		mutex.lock();
+		lock();
 	}
 
 	//FIXME implement fatal_error
