@@ -468,6 +468,16 @@ public class MainController {
 
 	}
 
+	private static void lock() {
+		//TODO handle error
+		mutex.lock();
+	}
+
+	private static void unlock() {
+		//TODO handle error
+		mutex.unlock();
+	}
+
 	public static void error(final String message) {
 		mutex.unlock();
 		ui.error(0, message);
@@ -543,11 +553,11 @@ public class MainController {
 	}
 
 	public static int start_session(final String local_address, int tcp_port) {
-		mutex.lock();
+		lock();
 		try {
 			if (mc_state != mcStateEnum.MC_INACTIVE) {
 				error("MainController.start_session: called in wrong state.");
-				mutex.unlock();
+
 				return 0;
 			}
 
@@ -557,7 +567,6 @@ public class MainController {
 				mc_channel = ServerSocketChannel.open();
 			} catch (IOException e) {
 				error(MessageFormat.format("Server socket creation failed: {0}\n", e.getMessage()));
-				mutex.unlock();
 				//clean up?
 				return 0;
 			}
@@ -566,7 +575,6 @@ public class MainController {
 				mc_channel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
 			} catch (IOException e) {
 				error(MessageFormat.format("SO_REUSEADDR failed on server socket: {0}", e.getMessage()));
-				mutex.unlock();
 				//clean up?
 				return 0;
 			}
@@ -578,12 +586,10 @@ public class MainController {
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
 					error(MessageFormat.format("Binding server socket to TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
-					mutex.unlock();
 					//clean up?
 					return 0;
 				} else {
 					error(MessageFormat.format("Binding server socket to IP address {0} and TCP port {1,number,#} failed: {2}\n", local_address, tcp_port, e.getMessage()));
-					mutex.unlock();
 					//clean up?
 					return 0;
 				}
@@ -611,12 +617,10 @@ public class MainController {
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
 					error(MessageFormat.format("Listening on TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
-					mutex.unlock();
 					//clean up?
 					return 0;
 				} else {
 					error(MessageFormat.format("Listening on IP address {0} and TCP port {1,number,#} failed: {2}\n", local_address, tcp_port, e.getMessage()));
-					mutex.unlock();
 					//clean up?
 					return 0;
 				}
@@ -628,7 +632,7 @@ public class MainController {
 
 			return tcp_port;
 		} finally {
-			mutex.unlock();
+			unlock();
 		}
 
 	}
@@ -1326,7 +1330,7 @@ public class MainController {
 	}
 
 	public static void configure(final String config_file) {
-		mutex.lock();
+		lock();
 		switch(mc_state) {
 		case MC_HC_CONNECTED:
 		case MC_ACTIVE:
@@ -1340,7 +1344,7 @@ public class MainController {
 			break;
 		default:
 			//TODO error, message in MainController::configure
-			mutex.unlock();
+			unlock();
 			return;
 		}
 
@@ -1370,7 +1374,7 @@ public class MainController {
 		}
 
 		status_change();
-		mutex.unlock();
+		unlock();
 	}
 
 	private static void configure_mtc() {
