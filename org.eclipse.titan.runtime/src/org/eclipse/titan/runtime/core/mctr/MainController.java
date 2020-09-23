@@ -974,42 +974,6 @@ public class MainController {
 		send_message(host, text_buf);
 	}
 
-	public static void printWelcome() {
-		System.out.printf("\n"+
-				"*************************************************************************\n"+
-				"* TTCN-3 Test Executor - Main Controller 2                              *\n"+
-				"* Version: %-40s                     *\n"+
-				"* Copyright (c) 2000-2020 Ericsson Telecom AB                           *\n"+
-				"* All rights reserved. This program and the accompanying materials      *\n"+
-				"* are made available under the terms of the Eclipse Public License v2.0 *\n"+
-				"* which accompanies this distribution, and is available at              *\n"+
-				"* https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html            *\n"+
-				"*************************************************************************\n"+
-				"\n", TTCN_Runtime.PRODUCT_NUMBER);
-	}
-
-	//original: Cli::printUsage
-	//  This is the titan.core solution:
-	//	public static void printUsage() {
-	//		System.err.printf(
-	//				"TTCN-3 Test Executor - Main Controller 2\n"+
-	//			    "Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
-	//			    "usage: mctr_cli [configuration_file]\n" +
-	//			    "where: the optional 'configuration_file' parameter specifies the name "+
-	//			    "and\nlocation of the main controller configuration file"+
-	//			    "\n");
-	//	}
-
-	//This is the temporal solution:
-	public static void printUsage() {
-		System.err.printf(
-				"TTCN-3 Test Executor - Main Controller 2\n"+
-						"Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
-						"usage: mctr_cli configuration_file\n" +
-						"where: the 'configuration_file' parameter specifies the name and \n"+
-				"location of the main controller configuration file\n");
-	}
-
 	private static void handle_hc_data(final Host hc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		boolean error_flag = false;
