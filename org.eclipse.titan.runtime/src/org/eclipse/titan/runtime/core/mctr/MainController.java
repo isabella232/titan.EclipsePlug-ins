@@ -1381,7 +1381,7 @@ public class MainController {
 
 	private static void configure_mtc() {
 		if (config_str == null) {
-			//TODO error, MainController::configure_mtc
+			fatal_error("MainController.configure_mtc: no config file");
 		}
 		if (mtc.tc_state == tc_state_enum.TC_IDLE) {
 			//TODO error, MainController::configure_mtc
