@@ -501,7 +501,7 @@ public class MainController {
 		lock();
 	}
 
-	private static void fatal_error() {
+	private static void fatal_error(final String message) {
 		//FIXME implement fatal_error
 	}
 
