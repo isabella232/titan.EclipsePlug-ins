@@ -505,6 +505,45 @@ public class MainController {
 		//FIXME implement fatal_error
 	}
 
+	private static void thread_main() {
+		lock();
+		while (mc_state != mcStateEnum.MC_INACTIVE) {
+			//FIXME implement
+			unlock();
+			try {
+				SocketChannel sc = mc_channel.accept();
+				lock();
+				Host host = new Host(sc);
+				hosts.add(host);
+				host.address = sc.getRemoteAddress();
+				host.hc_state = hc_state_enum.HC_IDLE;
+
+				process_version(host);
+				MainController.notify(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
+						host.machine_type));
+
+				mc_state = mcStateEnum.MC_ACTIVE;
+				status_change();
+
+			} catch (IOException e) {
+/*				if (local_address == null || local_address.isEmpty()) {
+					error(MessageFormat.format("Listening on TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
+					//clean up?
+					return 0;
+				} else {
+					error(MessageFormat.format("Listening on IP address {0} and TCP port {1,number,#} failed: {2}\n", local_address, tcp_port, e.getMessage()));
+					//clean up?
+					return 0;
+				}
+				*/
+				return;
+			}
+		}
+		notify("Shutdown complete.");
+		unlock();
+		status_change();
+	}
+
 	public static void add_host(final String group_name, final String host_name) {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
 			throw new TtcnError("MainController.add_host: called in wrong state.");
@@ -600,36 +639,25 @@ public class MainController {
 
 			hosts = new ArrayList<Host>();
 			mc_state = mcStateEnum.MC_LISTENING;
+			final Thread thread = new Thread() {
+
+				@Override
+				public void run() {
+					thread_main();
+				}
+
+			};
+
+			thread.start();
+
 			try {
+				tcp_port = ((InetSocketAddress)mc_channel.getLocalAddress()).getPort();
 				notify(MessageFormat.format("Listening on IP address {0} and TCP port {1,number,#}.\n",
 						((InetSocketAddress)mc_channel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)mc_channel.getLocalAddress()).getPort()));
-				tcp_port = ((InetSocketAddress)mc_channel.getLocalAddress()).getPort();
-				SocketChannel sc = mc_channel.accept();
-				Host host = new Host(sc);
-				hosts.add(host);
-				host.address = sc.getRemoteAddress();
-				host.hc_state = hc_state_enum.HC_IDLE;
-
-				process_version(host);
-				notify(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
-						host.machine_type));
-
-				mc_state = mcStateEnum.MC_ACTIVE;
-
 			} catch (IOException e) {
-				if (local_address == null || local_address.isEmpty()) {
-					error(MessageFormat.format("Listening on TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
-					//clean up?
-					return 0;
-				} else {
-					error(MessageFormat.format("Listening on IP address {0} and TCP port {1,number,#} failed: {2}\n", local_address, tcp_port, e.getMessage()));
-					//clean up?
-					return 0;
-				}
+				//FIXME what can be the error here?
 			}
 
-			//FIXME start background thread listening for connections and replies.
-			//FIXME notification about localAddress
 			ui.status_change();
 
 			return tcp_port;
