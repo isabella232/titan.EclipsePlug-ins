@@ -34,7 +34,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.titan.runtime.core.NetworkHandler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
-import org.eclipse.titan.runtime.core.TTCN_Runtime;
 import org.eclipse.titan.runtime.core.Text_Buf;
 import org.eclipse.titan.runtime.core.TitanCharString;
 import org.eclipse.titan.runtime.core.TitanComponent;
@@ -545,15 +544,17 @@ public class MainController {
 	}
 
 	public static void add_host(final String group_name, final String host_name) {
+		lock();
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
-			throw new TtcnError("MainController.add_host: called in wrong state.");
+			error("MainController.add_host: called in wrong state.");
+			unlock();
+			return;
 		}
 
 		HostGroupStruct group = add_host_group(group_name);
 		if (host_name != null) {
 			if (group.has_all_hosts) {
-				//System.err ?
-				throw new TtcnError(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.", host_name, group_name));
+				error(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.", host_name, group_name));
 			} else {
 				/*if (group.host_members.contains()) {
 
@@ -562,6 +563,7 @@ public class MainController {
 		}
 
 		//TODO: implement
+		unlock();
 	}
 
 	private static HostGroupStruct add_host_group(final String group_name) {
@@ -674,13 +676,13 @@ public class MainController {
 		case MC_HC_CONNECTED:
 		case MC_RECONFIGURING:
 			if (timer_val < 0.0) {
-				System.err.println("MainController.set_kill_timer: setting a negative kill timer value.");
+				error("MainController.set_kill_timer: setting a negative kill timer value.");
 			} else {
 				kill_timer = timer_val;
 			}
 			break;
 		default:
-			System.err.println("MainController.set_kill_timer: called in wrong state.");
+			error("MainController.set_kill_timer: called in wrong state.");
 			break;
 		}
 	}
@@ -817,23 +819,25 @@ public class MainController {
 	}
 
 	public static synchronized void create_mtc(final Host host) {
-		mutex.lock();
+		lock();
 		if (mc_state != mcStateEnum.MC_ACTIVE) {
-			System.out.println("MainController.create_mtc: called in wrong state.");
+			notify("MainController.create_mtc: called in wrong state.");
+			unlock();
 			return;
 		}
 
 		switch (host.hc_state) {
 		case HC_OVERLOADED:
-			System.out.println("HC on host"+host.hostname+" reported overload. Trying to create MTC there anyway.");
+			notify(MessageFormat.format("HC on host {0} reported overload. Trying to create MTC there anyway.", host.hostname));
 		case HC_ACTIVE:
 			break;
 		default:
-			// TODO error, message in MainController::create_mtc
+			error(MessageFormat.format("MTC cannot be created on %s: HC is not active.", host.hostname));
+			unlock();
 			return;
 		}
 
-		System.out.println("Creating MTC on host "+host.hostname+".");
+		notify(MessageFormat.format("Creating MTC on host {0}.", host.hostname));
 		send_create_mtc(host);
 
 		mtc = new ComponentStruct(new Text_Buf());
@@ -875,6 +879,7 @@ public class MainController {
 		};
 
 		MTC.start();
+		unlock();
 	}
 
 	private synchronized static void connect_mtc() {
@@ -921,7 +926,10 @@ public class MainController {
 				process_ptc_created(mtc);
 				break;
 			default:
-				// TODO error, message in MainController::handle_unknown_data
+				error(MessageFormat.format("Invalid message type ({0}) was received on an "
+						+ "unknown connection from {1} [{2}].", 
+						msg_type, mtc.hostname, mtc.address ));
+				//error_flag = TRUE;
 			}
 			if (process_more_messages) {
 				local_incoming_buf.cut_message();
@@ -938,9 +946,10 @@ public class MainController {
 		final String reason = text_buf.pull_string();
 		text_buf.cut_message();
 		if (tc.equals(mtc)) {
-			// TODO error, message in MainController::process_error
+			error(MessageFormat.format("Error message was received from the MTC at {0} [{1}]: {2}",
+					mtc.comp_location.hostname, mtc.comp_location.address, reason));
 		} else {
-			System.out.println(MessageFormat.format("Error message was received from PTC {0} at {1} [{2}]: {3}",
+			notify(MessageFormat.format("Error message was received from PTC {0} at {1} [{2}]: {3}",
 					tc.comp_ref, tc.comp_location.hostname, tc.comp_location.address, reason));
 		}
 	}
@@ -949,7 +958,8 @@ public class MainController {
 		final Text_Buf text_buf = incoming_buf.get();
 		final String reason = text_buf.pull_string();
 		text_buf.cut_message();
-		// TODO error, message in MainController::process_error
+		error(MessageFormat.format("Error message was received from HC at {0} [{1}]: {2}",
+		    hc.hostname, hc.address/*hc->ip_addr->get_addr_str()*/, reason));
 	}
 
 	private static void connect_ptc() {
@@ -992,7 +1002,7 @@ public class MainController {
 				process_configure_nak(hc);
 				break;
 			case MSG_CREATE_NAK:
-				// TODO
+				//FIXME: process_create_nak(hc);
 				break;
 			case MSG_LOG:
 				process_log(hc);
@@ -1001,10 +1011,11 @@ public class MainController {
 				process_hc_ready(hc);
 				break;
 			case MSG_DEBUG_RETURN_VALUE:
-				// TODO
+				//FIXME: process_debug_return_value(*hc->text_buf, hc->log_source, msg_end, false);
 				break;
 			default:
-				// TODO error, message in MainController::handle_hc_data
+				error(MessageFormat.format("Invalid message type ({0}) was received on HC connection from {1} [{2}].",
+						msg_type, hc.hostname, hc.address));
 				error_flag = true;
 			}
 			if (error_flag) {
@@ -1034,8 +1045,9 @@ public class MainController {
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
 			check_all_hc_configured();
 		} else {
-			System.out.println("Processing of configuration file failed on host "+hc.hostname+".");
+			notify(MessageFormat.format("Processing of configuration file failed on host {0}.", hc.hostname));
 		}
+		//FIXME: status_change();
 	}
 
 	private static void process_hc_ready(final Host hc) {
@@ -1050,7 +1062,7 @@ public class MainController {
 			send_error(hc, "Unexpected message HC_READY was received.");
 			return;
 		}
-		System.out.println("Host "+hc.hostname+" is no more overloaded.");
+		notify(MessageFormat.format("Host {0} is no more overloaded.", hc.hostname));
 		incoming_buf.get().cut_message();
 	}
 
@@ -1195,7 +1207,7 @@ public class MainController {
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
 			check_all_hc_configured();
 		} else {
-			System.out.println("Host "+hc.hostname+" was configured successfully.");
+			notify(MessageFormat.format("Host {0} was configured successfully.", hc.hostname));
 		}
 		incoming_buf.get().cut_message();
 	}
@@ -1209,13 +1221,13 @@ public class MainController {
 
 		if (is_hc_in_state(hc_state_enum.HC_IDLE)) {
 			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_HC_CONNECTED;
-			// TODO error , message in MainController::check_all_hc_configured
+			error("There were errors during configuring HCs.");
 		} else if (is_hc_in_state(hc_state_enum.HC_ACTIVE) || is_hc_in_state(hc_state_enum.HC_OVERLOADED)) {
-			System.out.println("Configuration file was processed on all HCs.");
+			notify("Configuration file was processed on all HCs.");
 			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_ACTIVE;
 		} else {
 			mc_state = mcStateEnum.MC_LISTENING;
-			//TODO error , message in MainController::check_all_hc_configured
+			error("There is no HC connection after processing the configuration file.");
 		}
 
 	}
@@ -1337,7 +1349,7 @@ public class MainController {
 		case MC_RECONFIGURING:
 			break;
 		default:
-			//TODO error, message in MainController::configure
+			error("MainController::configure: called in wrong state.");
 			unlock();
 			return;
 		}
@@ -1376,7 +1388,7 @@ public class MainController {
 			fatal_error("MainController.configure_mtc: no config file");
 		}
 		if (mtc.tc_state == tc_state_enum.TC_IDLE) {
-			//TODO error, MainController::configure_mtc
+			error("MainController.configure_mtc(): MTC is in wrong state.");
 		} else {
 			mtc.tc_state = tc_state_enum.MTC_CONFIGURING;
 			send_configure_mtc(config_str.get());
@@ -1397,7 +1409,8 @@ public class MainController {
 		case HC_CONFIGURING:
 		case HC_CONFIGURING_OVERLOADED:
 		case HC_EXITING:
-			//TODO error, message in MainController::configure_host
+			fatal_error(MessageFormat.format("MainController.configure_host(): host {0} is in wrong state.",
+				      host.hostname));
 			break;
 		case HC_DOWN:
 			break;
@@ -1407,7 +1420,7 @@ public class MainController {
 		default:
 			host.hc_state = next_state;
 			if (should_notify) {
-				System.out.println("Downloading configuration file to HC on host "+host.hostname+".");
+				notify(MessageFormat.format("Downloading configuration file to HC on host {0}.", host.hostname));
 			}
 			send_configure(host);
 
@@ -1450,14 +1463,15 @@ public class MainController {
 			return;
 		}
 		if (mtc == null || mtc.tc_state != tc_state_enum.TC_INITIAL ) {
-			//TODO error, message in MainController::process_mtc_created
+			fatal_error("MainController::process_mtc_created: MTC is in invalid state.");
 			return;
 		}
+		//FIXME: implement
 
 		mc_state = mcStateEnum.MC_READY;
 		mtc.tc_state = tc_state_enum.TC_IDLE;
 
-		System.out.println("MTC is created.");
+		notify("MTC is created.");
 		/*for (final ExecuteItem item : executeItems) {
 			if (item.getTestcaseName() == null) {
 				execute_control(hc, item.getModuleName());
@@ -1475,10 +1489,10 @@ public class MainController {
 		exit_mtc();
 
 		if (mc_state != mcStateEnum.MC_TERMINATING_MTC) {
-			System.out.println("The control connection to MTC is lost. Destroying all PTC connections.");
+			notify("The control connection to MTC is lost. Destroying all PTC connections.");
 		}
 		// TODO destroy_all_components();
-		System.out.println("MTC terminated.");
+		notify("MTC terminated.");
 		if (is_hc_in_state(hc_state_enum.HC_CONFIGURING)) {
 			mc_state = mcStateEnum.MC_CONFIGURING;
 		} else if (is_hc_in_state(hc_state_enum.HC_IDLE)) {
@@ -1491,7 +1505,7 @@ public class MainController {
 		stop_requested.set(false);
 
 		shutdown_session();
-		System.out.println("Shutdown complete.");*/
+		notify("Shutdown complete.");*/
 	}
 
 
@@ -1569,16 +1583,16 @@ public class MainController {
 				process_unmapped(tc);
 				break;
 			case MSG_DEBUG_RETURN_VALUE:
-				// TODO
+				// TODO: process_debug_return_value(*tc->text_buf, tc->log_source, message_end,tc == mtc);
 				break;
 			case MSG_DEBUG_HALT_REQ:
-				// TODO
+				// TODO: process_debug_broadcast_req(tc, D_HALT);
 				break;
 			case MSG_DEBUG_CONTINUE_REQ:
-				// TODO
+				// TODO: process_debug_broadcast_req(tc, D_CONTINUE);
 				break;
 			case MSG_DEBUG_BATCH:
-				// TODO
+				// TODO: process_debug_batch(tc);
 				break;
 			default:
 				if (tc.equals(mtc)) {
@@ -1600,7 +1614,8 @@ public class MainController {
 						process_configure_nak_mtc();
 						break;
 					default:
-						// TODO error, message in MainController::handle_tc_data
+						error(MessageFormat.format("Invalid message type ({0}) was received from the MTC at {1} [{2}].",
+								msg_type, mtc.comp_location.hostname, mtc.comp_location.address));
 						close_connection = true;
 					}
 				} else {
@@ -1616,11 +1631,10 @@ public class MainController {
 						process_killed(tc);
 						break;
 					default:
-						System.out.println(MessageFormat.format("Invalid message type ({}) was received from PTC {1} "
+						notify(MessageFormat.format("Invalid message type ({0}) was received from PTC {1} "
 								+ "at {2} [{3}].", msg_type, tc.comp_ref, tc.comp_location.hostname,
 								tc.comp_location.address.toString()));
 						close_connection = true;
-						// TODO
 					}
 				}
 			}
@@ -1699,11 +1713,13 @@ public class MainController {
 
 		switch(mc_state) {
 		case MC_EXECUTING_TESTCASE:
+			// this is the correct state
 			break;
 		case MC_TERMINATING_TESTCASE:
+			// do nothing, we are waiting for the end of all PTC connections
 			return;
 		default:
-			//TODO error, message in MainController::component_stopped
+			error(MessageFormat.format("PTC {0} stopped in invalid MC state.", tc.comp_ref));
 			return;
 		}
 		if (!tc.is_alive) {
@@ -2339,7 +2355,7 @@ public class MainController {
 	}
 
 	private static void process_killed(final ComponentStruct tc) {
-		System.out.println("Process killed: "+tc.tc_state.toString());
+		notify("Process killed: "+tc.tc_state.toString());
 		switch(tc.tc_state) {
 		case TC_IDLE:
 		case PTC_STOPPED:
@@ -2347,7 +2363,7 @@ public class MainController {
 			break;
 		default:
 			send_error(tc.comp_location, "Unexpected message KILLED was received.");
-			System.out.println("Unexpected message KILLED was received from PTC "+tc.comp_ref+".");
+			notify(MessageFormat.format("Unexpected message KILLED was received from PTC {0}.", tc.comp_ref));
 			incoming_buf.get().cut_message();
 			return;
 		}
@@ -2369,7 +2385,7 @@ public class MainController {
 			return;
 		}
 		mtc.tc_state = tc_state_enum.TC_IDLE;
-		System.out.println("Processing of configuration file failed on the MTC.");
+		notify("Processing of configuration file failed on the MTC.");
 	}
 
 	private static void process_configure_ack_mtc() {
@@ -2378,7 +2394,7 @@ public class MainController {
 			return;
 		}
 		mtc.tc_state = tc_state_enum.TC_IDLE;
-		System.out.println("Configuration file was processed on the MTC.");
+		notify("Configuration file was processed on the MTC.");
 	}
 
 	private static void process_map_req(final ComponentStruct tc) {
@@ -2592,7 +2608,7 @@ public class MainController {
 			break;
 		default:
 			send_error(tc.comp_location, "Unexpected message STOPPED_KILLED was received.");
-			System.out.println("Unexpected message STOPPED_KILLED was received from PTC "+tc.comp_ref+".");
+			notify(MessageFormat.format("Unexpected message STOPPED_KILLED was received from PTC {0}.", tc.comp_ref));
 			return;
 		}
 
@@ -2618,7 +2634,7 @@ public class MainController {
 		case MC_TERMINATING_TESTCASE:
 			return;
 		default:
-			// TODO error, message in MainController::component_terminated
+			error(MessageFormat.format("PTC {0} terminated in invalid MC state.", tc.comp_ref));
 			return;
 		}
 
@@ -2762,7 +2778,9 @@ public class MainController {
 			send_disconnect_ack_to_requestors(conn);
 			break;
 		default:
-			// TODO error, message in MainController::destroy_connection
+			//FIXME: check params 
+			error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when test component {4} has terminated.",
+					conn.headComp, conn.headPort, conn.tailComp, conn.tailPort, tc.comp_ref));
 		}
 		it.remove();
 	}
@@ -2952,7 +2970,8 @@ public class MainController {
 					break;
 				}
 			default:
-				//TODO error, message in MainController::check_all_component_stop
+				error(MessageFormat.format("PTC {0} is in invalid state when performing " +
+				        "'all component.stop' operation.", comp.comp_ref));
 			}
 			if (!ready_for_ack) {
 				break;
@@ -2978,7 +2997,7 @@ public class MainController {
 			case PTC_STALE:
 				break;
 			default:
-				// TODO error, message in MainController::check_all_component_kill
+				error(MessageFormat.format("PTC %d is in invalid state when performing 'all component.kill' operation.", comp.comp_ref));
 			}
 			if (!ready_for_ack) {
 				break;
@@ -3052,7 +3071,7 @@ public class MainController {
 		case TC_EXITED:
 			return false;
 		default:
-			// TODO error, message in MainController::component_is_alive
+			error(MessageFormat.format("PTC {0} is in invalid state when checking whether it is alive.",tc.comp_ref));
 			return false;
 		}
 	}
@@ -3090,7 +3109,7 @@ public class MainController {
 		case PTC_KILLING:
 			return false;
 		default:
-			// TODO error, message in MainController::component_is_running
+			error(MessageFormat.format("PTC {0} is in invalid state when checking whether it is running.",tc.comp_ref));
 			return false;
 		}
 	}
@@ -3124,7 +3143,8 @@ public class MainController {
 			// the PTC requestor is not interested in the component status anymore
 			break;
 		default:
-			// TODO error, message in MainController::send_component_status_to_requestor
+			error(MessageFormat.format("PTC {0} is in invalid state when sending out COMPONENT_STATUS message about PTC {1}.",
+					requestor.comp_ref, tc.comp_ref));
 		}
 	}
 
@@ -3163,8 +3183,8 @@ public class MainController {
 					kill_all_components(true);
 					mtc.stop_requested = true;
 					// TODO timer
-					System.out.println("Test Component "+tc.comp_ref+" had requested to stop MTC. Terminating current "
-							+ "testcase execution.");
+					notify(MessageFormat.format("Test Component {0} had requested to stop MTC. Terminating current testcase execution.", tc.comp_ref));
+					//FIXME: status_change();
 				}
 			} else {
 				send_error(tc.comp_location, "MTC has requested to stop itself.");
@@ -3182,6 +3202,7 @@ public class MainController {
 					send_stop_ack(mtc);
 				} else {
 					mtc.tc_state = tc_state_enum.MTC_ALL_COMPONENT_STOP;
+					//FIXME: status_change();
 				}
 			} else {
 				send_error(tc.comp_location, "Operation 'all component.stop' can only be performed on the MTC.");
@@ -3204,8 +3225,8 @@ public class MainController {
 		switch(target.tc_state) {
 		case PTC_STOPPED:
 			if (!target.is_alive) {
-				throw new TtcnError("PTC "+component_reference+" cannot be in state STOPPED because it is not an "
-						+ "alive type PTC.");
+				error( MessageFormat.format("PTC {0} cannot be in state STOPPED because it is not an "
+						+ "alive type PTC.", component_reference));
 			}
 			// no break
 		case TC_IDLE:
@@ -3342,7 +3363,7 @@ public class MainController {
 			case PTC_STALE:
 				break;
 			default:
-				throw new TtcnError("Test Component "+tc.comp_ref+" is in invalid state when stopping all components.");
+				error(MessageFormat.format("Test Component {0} is in invalid state when stopping all components.", tc.comp_ref));
 
 			}
 			final boolean mtc_requested_done = has_requestor(tc.done_requestors, mtc);
@@ -3419,7 +3440,7 @@ public class MainController {
 			case PTC_STALE:
 				break;
 			default:
-				// TODO error, message in MainController::kill_all_components
+				error(MessageFormat.format("Test Component {0} is in invalid state when killing all components.", tc.comp_ref));
 			}
 			if (testcase_ends) {
 				tc.done_requestors = new RequestorStruct();
@@ -3498,7 +3519,8 @@ public class MainController {
 				remove_connection(conn);
 				break;
 			default:
-				// TODO error, message in MainController::process_disconnected
+				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when "+
+				        "MC was notified about its termination.", tc.comp_ref, sourcePort, remoteComponent, remotePort));
 			}
 		}
 	}
@@ -3559,7 +3581,9 @@ public class MainController {
 				send_error(tc.comp_location, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot "
 						+ "be destroyed due to an internal error in the MC.", sourceComponent,
 						sourcePort, destinationComponent, destinationPort));
-				// TODO error, message in MainController::process_disconnect_req
+				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when "+
+						"a disconnect operation was requested on it.",
+						sourcePort, destinationComponent, destinationPort));
 			}
 		} else {
 			send_disconnect_ack(tc);
@@ -3713,7 +3737,8 @@ public class MainController {
 				case PTC_STOPPING_KILLING:
 					break;
 				default:
-					// TODO error, message in MainController::process_start_req
+					error(MessageFormat.format("Test Component {0} is in invalid state when starting PTC {1}.", 
+							comp.comp_ref, component_reference));
 				}
 			}
 
@@ -3817,7 +3842,8 @@ public class MainController {
 		case PTC_STOPPING_KILLING:
 			return false;
 		default:
-			// TODO error, message in MainController::component_is_done
+			error(MessageFormat.format("PTC {0} is in invalid state when checking whether it is done.",
+				      tc.comp_ref));
 			return false;
 		}
 	}
@@ -4131,7 +4157,9 @@ public class MainController {
 				send_error(tc.comp_location, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot "
 						+ "be established due to an internal error in the MC.",
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
-				// TODO error, message in MainController::process_connect_req
+				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state " +
+				        "when a connect operation was requested on it.",
+				        sourceComponent, sourcePort, destinationComponent, destinationPort));
 			}
 		}
 	}
@@ -4384,14 +4412,16 @@ public class MainController {
 		mc_state = mcStateEnum.MC_READY;
 		mtc.tc_state = tc_state_enum.TC_IDLE;
 		mtc.stop_requested = false;
-		System.out.println("Test execution finished.");
+		notify("Test execution finished.");
 		// TODO timer
 	}
 
 
 	public static void shutdown_session() {
+		lock();
 		switch(mc_state) {
 		case MC_INACTIVE:
+			//FIXME: status_change()
 			break;
 		case MC_SHUTDOWN:
 			break;
@@ -4399,12 +4429,13 @@ public class MainController {
 		case MC_LISTENING_CONFIGURED:
 		case MC_HC_CONNECTED:
 		case MC_ACTIVE:
-			System.out.println("Shutting down session.");
+			notify("Shutting down session.");
 			perform_shutdown();
 			break;
 		default:
-			// TODO error, message in MainController::shutdown_session
+			error("MainController::shutdown_session: called in wrong state.");
 		}
+		unlock();
 
 	}
 
@@ -4518,7 +4549,7 @@ public class MainController {
 		default:
 			break;
 		}
-		System.out.println(MessageFormat.format("The sender of message {0} is in unexpected state: {1}.", message_name, from.tc_state.toString()));
+		notify(MessageFormat.format("The sender of message {0} is in unexpected state: {1}.", message_name, from.tc_state.toString()));
 		send_error(from.comp_location, MessageFormat.format("The sender of message {0} is in unexpected state.", message_name));
 		return false;
 	}
@@ -4596,7 +4627,7 @@ public class MainController {
 			send_ptc_verdict(false);
 			mtc.tc_state = tc_state_enum.MTC_PAUSED;
 			mc_state = mcStateEnum.MC_PAUSED;
-			System.out.println("Execution has been paused.");
+			notify("Execution has been paused.");
 		} else {
 			send_ptc_verdict(true);
 			mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
@@ -4669,36 +4700,47 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		System.out.println(new String(messageBytes));
+		notify(new String(messageBytes));
 		text_buf.cut_message();
 	}
 
 	public static void execute_testcase(final String moduleName, final String testcaseName) {
+		lock();
 		if (mc_state != mcStateEnum.MC_READY) {
-			// TODO error, message in MainController::execute_testcase
+			error("MainController::execute_testcase: called in wrong state.");
+		    unlock();
 			return;
 		}
 		send_execute_testcase(moduleName, testcaseName);
 		mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
+		//FIXME: status_change();
+		unlock();
 	}
 
 	public static void stop_after_testcase(final boolean newState) {
+		lock();
 		stop_after_tc.set(newState);
 		if (mc_state == mcStateEnum.MC_PAUSED && !stop_after_tc.get()) {
+			unlock();
 			continue_testcase();
-		};
+		} else {
+			unlock();
+		}
 	}
 
 	public static void continue_testcase() {
+		lock();
 		if (mc_state == mcStateEnum.MC_PAUSED) {
-			//FIXME call notify("Resuming execution.");
+			notify("Resuming execution.");
 			//FIXME call send_continue();
 			mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 			ui.status_change();
+		} else {
+			error("MainController::continue_testcase: called in wrong state.");
 		}
-		//FIXME else error("MainController::continue_testcase: called in wrong state.");
+		unlock();
 	}
 
 	private static void send_execute_testcase(final String moduleName, final String testcaseName) {
@@ -4710,13 +4752,17 @@ public class MainController {
 	}
 
 	public static void execute_control(final String module_name) {
+		lock();
 		if (mc_state != mcStateEnum.MC_READY) {
-			// TODO error, message in MainController::execute_control
-			return;
+			error("MainController::execute_control: called in wrong state.");
+		    unlock();
+		    return;
 		}
 		send_execute_control(module_name);
 		mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
+		//FIXME: status_change();
+		unlock();
 	}
 
 	private static void send_execute_control(final String module_name) {
@@ -4739,17 +4785,21 @@ public class MainController {
 
 
 	public static void exit_mtc() {
+		lock();
 		if (mc_state != mcStateEnum.MC_READY && mc_state != mcStateEnum.MC_RECONFIGURING) {
-			// TODO error
+			error("MainController::exit_mtc: called in wrong state.");
+		    unlock();
 			return;
 		}
-		System.out.println("Terminating MTC.");
+		notify("Terminating MTC.");
 		send_exit_mtc();
 
 		process_final_log();
 		mtc.tc_state = tc_state_enum.TC_EXITING;
 		mc_state = mcStateEnum.MC_TERMINATING_MTC;
 		// TODO timer
+		//FIXME: status_change();
+		unlock();
 	}
 
 	private static void process_final_log() {
@@ -4796,7 +4846,7 @@ public class MainController {
 			}
 			break;
 		default:
-			// TODO error, message in MainController::perform_shutdown
+			fatal_error("MainController::perform_shutdown: called in wrong state.");
 		}
 	}
 
