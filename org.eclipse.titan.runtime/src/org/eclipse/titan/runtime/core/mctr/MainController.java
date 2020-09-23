@@ -599,8 +599,8 @@ public class MainController {
 			//declare hosts list?
 
 			hosts = new ArrayList<Host>();
+			mc_state = mcStateEnum.MC_LISTENING;
 			try {
-				mc_state = mcStateEnum.MC_LISTENING;
 				notify(MessageFormat.format("Listening on IP address {0} and TCP port {1,number,#}.\n",
 						((InetSocketAddress)mc_channel.getLocalAddress()).getAddress().getHostAddress(), ((InetSocketAddress)mc_channel.getLocalAddress()).getPort()));
 				tcp_port = ((InetSocketAddress)mc_channel.getLocalAddress()).getPort();
