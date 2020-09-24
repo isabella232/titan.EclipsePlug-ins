@@ -4742,6 +4742,10 @@ public class MainController {
 		}
 		unlock();
 	}
+	
+	public static void stop_execution() {
+		//FIXME: implement
+	}
 
 	private static void send_execute_testcase(final String moduleName, final String testcaseName) {
 		final Text_Buf text_buf = new Text_Buf();
