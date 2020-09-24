@@ -72,7 +72,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private boolean executeRequested = false;
 	private List<String> executeList = new ArrayList<String>();
 	private boolean shutdownRequested = false;
-	private JNIMiddleWare jnimw;
+	//private JNIMiddleWare jnimw;
 
 	private boolean simpleExecutionRunning = false;
 	private boolean isTerminated = false;
@@ -506,7 +506,9 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			if (shutdownRequested) {
 				shutdownRequested = false;
 				// session shutdown is finished (requested by jnimw.shutdown_session())
-				jnimw.terminate_internal();
+				//jnimw.terminate_internal();
+				//TODO: delete user interface?
+				terminate(false);
 				executeList.clear();
 
 				disposeHostControllers();
@@ -828,7 +830,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private void stop() {
 		executeList.clear();
 		executeRequested = false;
-		jnimw.stop_execution();
+		//jnimw.stop_execution();
+		MainController.stop_execution();
 	}
 
 	/**
