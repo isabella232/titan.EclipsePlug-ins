@@ -21,6 +21,7 @@ From the release of TITAN version 6.6.0 the Designer supports 2 types of TITAN P
 When not specified explicitly the expression "TITAN Project" might refer to both modes.
 As they only differ in a few settings and their way of building, most of the advanced editing features will work exactly the same way on both project types.
 
+[[creating-a-new-titan-project]]
 == Creating a New TITAN Project
 
 Using the TITAN Designer, new TITAN projects can be created following these three steps:
@@ -55,6 +56,7 @@ The projects created with this wizard differ from other "General" projects in th
 
 Once the new project is created the property page of that project will be displayed, so that it can be configured immediately. For more information on project properties please refer to section <<_setting_project_properties,Setting Project Properties>>
 
+[[creating-a-new-titan-java-project]]
 == Creating a New TITAN Java Project
 
 Using the TITAN Designer, new TITAN Java projects can be created following these three steps:
@@ -744,7 +746,7 @@ Linked resources are files and folders which are not physically copied into the 
 
 To import folders and files as "linked resources" follow the steps described below.
 
-. Create an empty project without src subfolder according to <<_creating_a_new_project, this section>>. The project name should be the same as the name of the project to be imported.
+. Create an empty project without src subfolder according to <<creating-a-new-titan-project, this section>>. The project name should be the same as the name of the project to be imported.
 . Right click on the project name and select *Import*, as shown on Figure 63 above. On the *Import* window select *General / File System* and press *Next* as shown on below.
 +
 image::images/4_F72.png[title=""]
