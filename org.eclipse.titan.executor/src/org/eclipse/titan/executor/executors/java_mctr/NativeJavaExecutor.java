@@ -41,7 +41,6 @@ import org.eclipse.titan.executor.executors.BaseExecutor;
 import org.eclipse.titan.executor.executors.ExecuteDialog;
 import org.eclipse.titan.executor.executors.ExecuteDialog.ExecutableType;
 import org.eclipse.titan.executor.executors.SeverityResolver;
-import org.eclipse.titan.executor.jni.IJNICallback;
 import org.eclipse.titan.executor.jni.Timeval;
 import org.eclipse.titan.executor.views.executormonitor.ComponentElement;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
@@ -63,7 +62,7 @@ import org.eclipse.titan.runtime.core.mctr.UserInterface;
  *
  * @author Kristof Szabados
  * */
-public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
+public class NativeJavaExecutor extends BaseExecutor {
 	private boolean startHCRequested = false;
 	private boolean configureRequested = false;
 	private int configFileExecutionRequestCounter = -1;
@@ -317,7 +316,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	 * @param severity the severity of the message
 	 * @param msg the message to be shown
 	 * */
-	@Override
 	public void insertError(final int severity, final String msg) {
 		TITANConsole.println("Error: " + msg);
 
@@ -338,7 +336,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	 * @param severity the severity of the message
 	 * @param msg the message to be shown
 	 * */
-	@Override
 	public void errorCallback(final int severity, final String msg) {
 		insertError(severity, msg);
 
@@ -355,7 +352,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	 *
 	 * @param s the list of String arrays.
 	 * */
-	@Override
 	public void batchedInsertNotify(final ArrayList<String[]> s) {
 		if (loggingIsEnabled && consoleLogging) {
 			for (final String[] sv : s) {
@@ -410,7 +406,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	 * @param severity the severity of the message
 	 * @param msg the message to be shown
 	 * */
-	@Override
 	public void insertNotify(final Timeval time, final String source, final int severity, final String msg) {
 		if (loggingIsEnabled && consoleLogging) {
 			TITANConsole.println(source + ": " + msg);
@@ -446,7 +441,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	 * @param severity the severity of the message
 	 * @param msg the message to be shown
 	 * */
-	@Override
 	public void notifyCallback(final Timeval time, final String source, final int severity, final String msg) {
 		insertNotify(time, source, severity, msg);
 
@@ -460,7 +454,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	/**
 	 * Handles a status change reported by the MainController.
 	 * */
-	@Override
 	public void statusChangeCallback() {
 		TITANDebugConsole.println("statusChangeCallback called");
 		final MainController.mcStateEnum state = MainController.get_state();
