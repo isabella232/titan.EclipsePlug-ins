@@ -1002,7 +1002,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		generalLogging.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
 				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue);
 		info.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
-				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue);
+				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue);
 
 		final ExecutorMonitorView mainView = Activator.getMainView();
 		if (mainView != null) {
