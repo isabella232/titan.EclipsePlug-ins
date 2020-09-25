@@ -606,9 +606,7 @@ public class MainController {
 					boolean process_more_messages = false;
 					switch (msg_type) {
 					case MSG_ERROR:
-						//FIXME implement
-						//process_error(mtc);
-						error("MSG_ERROR NOT YET IMPLEMENT");
+						process_error(connection);
 						process_more_messages = true;
 						break;
 					case MSG_LOG:
@@ -627,12 +625,12 @@ public class MainController {
 						error("MSG_PTC_CREATED NOT YET IMPLEMENT");
 						break;
 					default:
-						//FIXME implement
-						//error(MessageFormat.format("Invalid message type ({0}) was received on an "
-						//		+ "unknown connection from {1} [{2}].", 
-						//		msg_type, mtc.hostname, mtc.address ));
-						//error_flag = TRUE;
+						error(MessageFormat.format("Invalid message type ({0}) was received on an "
+								+ "unknown connection from {1} [{2}].", 
+								msg_type, "dummy", "dummy" ));//FIXME conn->ip_addr->get_host_str(), conn->ip_addr->get_addr_str()
+						error_flag = true;
 					}
+
 					if (process_more_messages) {
 						text_buf.cut_message();
 					} else {
@@ -1126,6 +1124,16 @@ public class MainController {
 			}
 		} while (local_incoming_buf.is_message());
 		// TODO
+	}
+
+	private static void process_error(final unknown_connection connection) {
+		final Text_Buf text_buf = connection.text_buf;
+		final String reason = text_buf.pull_string();
+		error(MessageFormat.format("Error message was received on an unknown connection from {0} [{1}]: {2}",
+				"dummy", "dummy", reason));//FIXME conn->ip_addr->get_host_str(), conn->ip_addr->get_addr_str()
+
+		text_buf.cut_message();
+		status_change();
 	}
 
 	private static void process_error(final ComponentStruct tc) {
