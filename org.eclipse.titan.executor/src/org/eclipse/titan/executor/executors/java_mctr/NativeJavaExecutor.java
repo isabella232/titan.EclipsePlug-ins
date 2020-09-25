@@ -578,21 +578,20 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			localAddress = configHandler.getLocalAddress();
 
 			MainController.set_kill_timer(killTimer);
-			//FIXME temporarily remove so that we can work with the rest
-//			jnimw.destroy_host_groups();
-//
-//			final Map<String, String[]> groups = configHandler.getGroups();
-//			final Map<String, String> components = configHandler.getComponents();
-//
-//			for (final Map.Entry<String, String[]> group : groups.entrySet()) {
-//				for (final String hostName : group.getValue()) {
-//					MainController.add_host(group.getKey(), hostName);
-//				}
-//			}
-//
-//			for (final Map.Entry<String, String> component : components.entrySet()) {
-//				jnimw.assign_component(component.getValue(), component.getKey());
-//			}
+			MainController.destroy_host_groups();
+
+			final Map<String, String[]> groups = configHandler.getGroups();
+			final Map<String, String> components = configHandler.getComponents();
+
+			for (final Map.Entry<String, String[]> group : groups.entrySet()) {
+				for (final String hostName : group.getValue()) {
+					MainController.add_host(group.getKey(), hostName);
+				}
+			}
+
+			for (final Map.Entry<String, String> component : components.entrySet()) {
+				MainController.assign_component(component.getValue(), component.getKey());
+			}
 		}
 
 		if (localAddress != null && !EMPTY_STRING.equals(localAddress) && 0 == tcpport) {
@@ -1002,7 +1001,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		generalLogging.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
 				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue);
 		info.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
-				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue);
+				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue
+				|| MainController.mcStateEnum.MC_SHUTDOWN == stateValue);
 
 		final ExecutorMonitorView mainView = Activator.getMainView();
 		if (mainView != null) {
