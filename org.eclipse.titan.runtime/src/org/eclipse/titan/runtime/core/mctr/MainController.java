@@ -18,22 +18,29 @@ import java.net.SocketAddress;
 import java.net.StandardSocketOptions;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channel;
+import java.nio.channels.ClosedChannelException;
+import java.nio.channels.SelectableChannel;
+import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.titan.runtime.core.NetworkHandler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
+import org.eclipse.titan.runtime.core.TTCN_Runtime;
 import org.eclipse.titan.runtime.core.Text_Buf;
 import org.eclipse.titan.runtime.core.TitanCharString;
 import org.eclipse.titan.runtime.core.TitanComponent;
@@ -224,7 +231,13 @@ public class MainController {
 		String tailPort;
 		RequestorStruct requestors;
 	}
-	
+
+	static class unknown_connection {
+		public SocketChannel channel;
+		//FIXME ipaddress?
+		public Text_Buf text_buf;
+	}
+
 	/** Data structure for describing the component location constraints */
 	static class HostGroupStruct {
 		String group_name;
@@ -236,22 +249,23 @@ public class MainController {
 	
 	/** Data structure for each host (and the corresponding HC) */
 	public static class Host {
-		SocketChannel socket;
 		SocketAddress address;
-		public hc_state_enum hc_state;
-		public List<ComponentStruct> components;
-		boolean transport_supported[];
 		public String hostname;
 		public String hostname_local;
 		String machine_type;
 		public String system_name;
 		public String system_release;
 		public String system_version;
+		boolean transport_supported[];
+		String log_source;
+		public hc_state_enum hc_state;
+		SocketChannel socket;//hc_fd
+		public Text_Buf text_buf;
+		public List<ComponentStruct> components;
 
-		Host(final SocketChannel sc) {
-			socket = sc;
-			components = new ArrayList<ComponentStruct>();
+		Host() {
 			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
+			components = new ArrayList<MainController.ComponentStruct>();
 		}
 
 		void addComponent(final ComponentStruct comp) {
@@ -281,7 +295,7 @@ public class MainController {
 		public tc_state_enum tc_state;
 		public VerdictTypeEnum local_verdict;
 		String verdict_reason;
-		int tc_fd;
+		SocketChannel socket;//tc_fd
 		Text_Buf text_buf;
 		public QualifiedName tc_fn_name;
 		String return_type;
@@ -330,7 +344,27 @@ public class MainController {
 	/** Use ServerSocketChannel and Selector for non-blocking I/O instead of file descriptor*/
 	private static ServerSocketChannel mc_channel; 
 	private static Selector mc_selector;
-	
+
+	private enum channel_type_enum {
+		CHANNEL_UNUSED, CHANNEL_SERVER, CHANNEL_UNKNOWN, CHANNEL_HC, CHANNEL_TC
+	}
+
+	private static class channel_table_struct {
+		public channel_type_enum channel_type;
+
+		public unknown_connection unknown;
+		public Host host;
+		public ComponentStruct component;
+		//FIXME dummy?
+	}
+
+	private static ConcurrentHashMap<SelectableChannel, channel_table_struct> channel_table = new ConcurrentHashMap<SelectableChannel, MainController.channel_table_struct>();
+
+	private static class module_version_info {
+		public String module_name;
+		public byte[] module_checksum;
+	}
+
 	private static ThreadLocal<Text_Buf> incoming_buf = new ThreadLocal<Text_Buf>() {
 		@Override
 		protected Text_Buf initialValue() {
@@ -352,6 +386,9 @@ public class MainController {
 			return "";
 		};
 	};
+
+	private static boolean version_known;
+	private static ArrayList<module_version_info> modules;
 
 	private static ThreadLocal<Boolean> any_component_done_requested = new ThreadLocal<Boolean>() {
 		@Override
@@ -445,7 +482,7 @@ public class MainController {
 		hosts = null;
 		config_str.set(null);
 
-		//version_known = FALSE;
+		version_known = false;
 		//modules = NULL;
 
 		//n_components = 0;
@@ -510,19 +547,17 @@ public class MainController {
 			//FIXME implement
 			unlock();
 			try {
-				SocketChannel sc = mc_channel.accept();
+				//FIXME implement proper polltimeout
+				int selectReturn = mc_selector.select(10000);
 				lock();
-				Host host = new Host(sc);
-				hosts.add(host);
-				host.address = sc.getRemoteAddress();
-				host.hc_state = hc_state_enum.HC_IDLE;
-
-				process_version(host);
-				MainController.notify(MessageFormat.format("New HC connected from {0} [{1}]. : {2} {3} on {4}.", host.hostname, host.socket.getRemoteAddress().toString(), host.system_name, host.system_release,
-						host.machine_type));
-
-				mc_state = mcStateEnum.MC_ACTIVE;
-				status_change();
+				if (selectReturn > 0) {
+					final Set<SelectionKey> selectedKeys = mc_selector.selectedKeys();
+					for (final SelectionKey key : selectedKeys) {
+						final SelectableChannel keyChannel = key.channel();
+						dispatch_socket_event(keyChannel);
+					}
+					selectedKeys.clear();
+				}
 
 			} catch (IOException e) {
 /*				if (local_address == null || local_address.isEmpty()) {
@@ -541,6 +576,119 @@ public class MainController {
 		notify("Shutdown complete.");
 		unlock();
 		status_change();
+	}
+
+	private static void dispatch_socket_event(final SelectableChannel channel) {
+		if (!channel_table.containsKey(channel)) {
+			return;
+		}
+
+		channel_table_struct temp_struct = channel_table.get(channel);
+		switch(temp_struct.channel_type) {
+		case CHANNEL_SERVER:
+			handle_incoming_connection((ServerSocketChannel)channel);
+			break;
+		case CHANNEL_UNKNOWN:
+			handle_unknown_data(temp_struct.unknown);
+			break;
+		case CHANNEL_HC:
+			handle_hc_data(temp_struct.host, true);
+			break;
+		case CHANNEL_TC:
+			handle_tc_data(mtc, true);
+			break;
+		//FIXME implement rest
+		}
+	}
+
+	private static void handle_incoming_connection(final ServerSocketChannel channel) {
+		try {
+			SocketChannel sc = channel.accept();//FIXME can return null
+			sc.configureBlocking(false);
+			unknown_connection new_connection = new unknown_connection();
+			new_connection.channel = sc;
+			//FIXME set address
+			new_connection.text_buf = new Text_Buf();
+
+			channel_table_struct new_struct = new channel_table_struct();
+			new_struct.channel_type = channel_type_enum.CHANNEL_UNKNOWN;
+			new_struct.unknown = new_connection;
+			channel_table.put(sc, new_struct);
+			try {
+				sc.register(mc_selector, SelectionKey.OP_READ);
+			} catch (ClosedChannelException e) {
+				//FIXME different error
+				error(MessageFormat.format("Selector registration failed: {0}.", e.getMessage()));
+			}
+		} catch (IOException e) {
+			//FIXME handle error
+		}
+	}
+
+	private static void handle_unknown_data(final unknown_connection connection) {
+		//Actually should come from the connection
+		Text_Buf text_buf = connection.text_buf;
+		int recv_len = receive_to_buffer(connection.channel, text_buf, true);
+		boolean error_flag = false;
+
+		if (recv_len > 0) {
+			try {
+				while (text_buf.is_message()) {
+					final int msg_len = text_buf.pull_int().get_int();
+					final int msg_type = text_buf.pull_int().get_int();
+					boolean process_more_messages = false;
+					switch (msg_type) {
+					case MSG_ERROR:
+						//FIXME implement
+						//process_error(mtc);
+						error("MSG_ERROR NOT YET IMPLEMENT");
+						process_more_messages = true;
+						break;
+					case MSG_LOG:
+						process_log(connection);
+						process_more_messages = true;
+						break;
+					case MSG_VERSION:
+						process_version(connection);
+						break;
+					case MSG_MTC_CREATED:
+						process_mtc_created(connection);
+						break;
+					case MSG_PTC_CREATED:
+						//FIXME implement
+						//process_ptc_created(mtc);
+						error("MSG_PTC_CREATED NOT YET IMPLEMENT");
+						break;
+					default:
+						//FIXME implement
+						//error(MessageFormat.format("Invalid message type ({0}) was received on an "
+						//		+ "unknown connection from {1} [{2}].", 
+						//		msg_type, mtc.hostname, mtc.address ));
+						//error_flag = TRUE;
+					}
+					if (process_more_messages) {
+						text_buf.cut_message();
+					} else {
+						break;
+					}
+				}
+			} catch (TtcnError tc_error) {
+				//FIXME malformed message error
+				error_flag = true;
+			}
+			if (error_flag) {
+				//FIXME send_error_str
+			}
+		} else if (recv_len == 0) {
+			//FIXME error(MessageFormat.format("Unexpected end of an unknown connection from {0} [{1}].", arguments));
+			error_flag = true;
+		} else {
+			//FIXME error report
+			error_flag = true;
+		}
+		if (error_flag) {
+			//FIXME close_unknown_connection
+		}
 	}
 
 	public static void add_host(final String group_name, final String host_name) {
@@ -584,6 +732,7 @@ public class MainController {
 					return host_groups.get(i);
 				}
 			}
+
 			HostGroupStruct new_group = new HostGroupStruct();
 
 			new_group.group_name = group_name;
@@ -604,10 +753,20 @@ public class MainController {
 				return 0;
 			}
 
+			try {
+				mc_selector = Selector.open();
+			} catch (IOException e){
+				//FIXME report error
+				error(MessageFormat.format("Selector opening failed: {0}.", e.getMessage()));
+				unlock();
+				return 0;
+			}
+
 			nh.set_family(local_address, tcp_port);
 
 			try {
 				mc_channel = ServerSocketChannel.open();
+				mc_channel.configureBlocking(false);
 			} catch (IOException e) {
 				error(MessageFormat.format("Server socket creation failed: {0}\n", e.getMessage()));
 				//clean up?
@@ -637,7 +796,17 @@ public class MainController {
 					return 0;
 				}
 			}
-			//declare hosts list?
+
+			try {
+				channel_table_struct server_struct = new channel_table_struct();
+				server_struct.channel_type = channel_type_enum.CHANNEL_SERVER;
+				channel_table.put(mc_channel, server_struct);
+				mc_channel.register(mc_selector, SelectionKey.OP_ACCEPT);
+			} catch (ClosedChannelException e) {
+				error(MessageFormat.format("Selector registration failed: {0}.", e.getMessage()));
+				unlock();
+				return 0;
+			}
 
 			hosts = new ArrayList<Host>();
 			mc_state = mcStateEnum.MC_LISTENING;
@@ -700,12 +869,12 @@ public class MainController {
 	}
 
 	public static Host get_host_data(final int host_index) {
-		mutex.lock();
+		lock();
 		return hosts.get(host_index);
 	}
 
 	public static void release_data() {
-		mutex.unlock();
+		unlock();
 	}
 
 	public static String get_mc_state_name(final mcStateEnum state) {
@@ -821,7 +990,7 @@ public class MainController {
 	public static synchronized void create_mtc(final Host host) {
 		lock();
 		if (mc_state != mcStateEnum.MC_ACTIVE) {
-			notify("MainController.create_mtc: called in wrong state.");
+			error("MainController.create_mtc: called in wrong state.");
 			unlock();
 			return;
 		}
@@ -832,7 +1001,7 @@ public class MainController {
 		case HC_ACTIVE:
 			break;
 		default:
-			error(MessageFormat.format("MTC cannot be created on %s: HC is not active.", host.hostname));
+			error(MessageFormat.format("MTC cannot be created on {0}: HC is not active.", host.hostname));
 			unlock();
 			return;
 		}
@@ -846,14 +1015,15 @@ public class MainController {
 		mtc.tc_state = tc_state_enum.TC_INITIAL;
 		mtc.local_verdict = VerdictTypeEnum.NONE;
 		mtc.comp_location = host;
-		host.addComponent(mtc);
-		components = new HashMap<Integer, ComponentStruct>();
-		components.put(mtc.comp_ref, mtc);
 		mtc.done_requestors = init_requestors(null);
 		mtc.killed_requestors = init_requestors(null);
 		mtc.cancel_done_sent_for = init_requestors(null);
 		mtc.conn_head_list = new ArrayList<PortConnection>();
 		mtc.conn_tail_list = new ArrayList<PortConnection>();
+		host.addComponent(mtc);
+		components = new HashMap<Integer, ComponentStruct>();
+		components.put(mtc.comp_ref, mtc);
+		//FIXME manage connections and add_component
 
 		system = new ComponentStruct(new Text_Buf());
 		system.comp_ref = TitanComponent.SYSTEM_COMPREF;
@@ -866,38 +1036,12 @@ public class MainController {
 		system.cancel_done_sent_for = init_requestors(null);
 		system.conn_head_list = new ArrayList<PortConnection>();
 		system.conn_tail_list = new ArrayList<PortConnection>();
+		//FIXME manage connections and add_component
 
 		mc_state = mcStateEnum.MC_CREATING_MTC;
-
-		final Thread MTC = new Thread() {
-
-			@Override
-			public void run() {
-				connect_mtc();
-			}
-
-		};
-
-		MTC.start();
+		status_change();
 		unlock();
 	}
-
-	private synchronized static void connect_mtc() {
-		SocketChannel sc;
-		try {
-			sc = mc_channel.accept();
-			final Host mtcHost = new Host(sc);
-			mtcHost.address = sc.getLocalAddress();
-			setup_host(mtcHost);
-			mtc.comp_location = mtcHost;
-			handle_unknown_data(mtcHost);
-		} catch (IOException e) {
-			final StringWriter error = new StringWriter();
-			e.printStackTrace(new PrintWriter(error));
-			throw new TtcnError("Sending data on the control connection to HC failed.");
-		}
-	}
-
 
 	private static void handle_unknown_data(final Host mtc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
@@ -966,7 +1110,8 @@ public class MainController {
 		SocketChannel sc;
 		try {
 			sc = mc_channel.accept();
-			final Host ptcHost = new Host(sc);
+			final Host ptcHost = new Host();
+			ptcHost.socket = sc;
 			ptcHost.address = sc.getLocalAddress();
 			setup_host(ptcHost);
 			ptc.comp_location = ptcHost;
@@ -984,6 +1129,68 @@ public class MainController {
 		send_message(host, text_buf);
 	}
 
+	private static void handle_hc_data(final Host hc, final boolean receive_from_socket) {
+		final Text_Buf text_buf = hc.text_buf;
+		boolean error_flag = false;
+		final int recv_len = receive_to_buffer(hc.socket, text_buf, receive_from_socket);
+
+		if (recv_len > 0) {
+			try {
+				while (text_buf.is_message()) {
+					final int msg_len = text_buf.pull_int().get_int();
+					final int msg_type = text_buf.pull_int().get_int();
+					switch (msg_type) {
+					case MSG_ERROR:
+						process_error(hc);//TODO check
+						break;
+					case MSG_LOG:
+						process_log(hc);
+						break;
+					case MSG_CONFIGURE_ACK:
+						process_configure_ack(hc);
+						break;
+					case MSG_CONFIGURE_NAK:
+						process_configure_nak(hc);//TODO check
+						break;
+					case MSG_CREATE_NAK:
+						//FIXME: process_create_nak(hc);
+						break;
+					case MSG_HC_READY:
+						process_hc_ready(hc);//TODO check
+						break;
+					case MSG_DEBUG_RETURN_VALUE:
+						//FIXME: process_debug_return_value(*hc->text_buf, hc->log_source, msg_end, false);
+						break;
+					default:
+						error(MessageFormat.format("Invalid message type ({0}) was received on HC connection from {1} [{2}].",
+								msg_type, hc.hostname, hc.address));
+						error_flag = true;
+					}
+					if (error_flag) {
+						break;
+					}
+					text_buf.cut_message();
+				}
+			} catch (TtcnError tc_error) {
+				//FIXME malformed message error
+				error_flag = true;
+			}
+			if (error_flag) {
+				//FIXME send_error_str
+			}
+		} else if (recv_len == 0) {
+			//FIXME error(MessageFormat.format("Unexpected end of an unknown connection from {0} [{1}].", arguments));
+			error_flag = true;
+		} else {
+			//FIXME error report
+			error_flag = true;
+		}
+		if (error_flag) {
+			//FIXME close_unknown_connection
+		}
+	}
+
+	//FIXME should disappear with time
 	private static void handle_hc_data(final Host hc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		boolean error_flag = false;
@@ -1066,6 +1273,14 @@ public class MainController {
 		incoming_buf.get().cut_message();
 	}
 
+	public static void send_error(final SocketChannel channel, final String reason) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_ERROR);
+		text_buf.push_string(reason);
+		send_message(channel, text_buf);
+	}
+
+	//FIXME should disappear
 	public static void send_error(final Host hc, final String reason) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
@@ -1209,7 +1424,8 @@ public class MainController {
 		} else {
 			notify(MessageFormat.format("Host {0} was configured successfully.", hc.hostname));
 		}
-		incoming_buf.get().cut_message();
+
+		status_change();
 	}
 
 	private static void check_all_hc_configured() {
@@ -1232,6 +1448,13 @@ public class MainController {
 
 	}
 
+	private static void remove_component_from_host(final ComponentStruct component) {
+		final Host host = component.comp_location;
+		if (host != null) {
+			host.components.remove(component);
+		}
+	}
+
 	private static boolean is_hc_in_state(final hc_state_enum checked_state) {
 		for (int i = 0; i < hosts.size(); i++) {
 			if (hosts.get(i).hc_state == checked_state) {
@@ -1241,6 +1464,32 @@ public class MainController {
 		return false;
 	}
 
+	private static int receive_to_buffer(final SocketChannel channel, final Text_Buf text_buf, final boolean receive_from_socket) {
+		if (!receive_from_socket) {
+			return 1;
+		}
+
+		final AtomicInteger buf_ptr = new AtomicInteger();
+		final AtomicInteger buf_len = new AtomicInteger();
+		text_buf.get_end(buf_ptr, buf_len);
+
+		final ByteBuffer tempbuffer = ByteBuffer.allocate(1024);
+		int recv_len = 0;
+		try {
+			recv_len = channel.read(tempbuffer);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new TtcnError(e);
+		}
+		if (recv_len > 0) {
+			//text_buf.increase_length(recv_len);
+			text_buf.push_raw(recv_len, tempbuffer.array());
+		}
+
+		return recv_len;
+	}
+
+	//TODO should not be used in the end
 	public static void receiveMessage(final Host hc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		final AtomicInteger buf_ptr = new AtomicInteger();
@@ -1260,6 +1509,129 @@ public class MainController {
 		}
 	}
 
+	private static boolean check_version(final unknown_connection connection) {
+		final Text_Buf text_buf = connection.text_buf;
+		final int version_major = text_buf.pull_int().get_int();
+		final int version_minor = text_buf.pull_int().get_int();
+		final int version_patchlevel = text_buf.pull_int().get_int();
+		if (version_major != TTCN_Runtime.TTCN3_MAJOR || version_minor != TTCN_Runtime.TTCN3_MINOR
+				|| version_patchlevel != TTCN_Runtime.TTCN3_PATCHLEVEL) {
+			send_error(connection.channel, MessageFormat.format("Version mismatch: The TTCN-3 Main Controller has version {0}, but the ETS was built with version {1}.{2}.pl{3}.",
+					TTCN_Runtime.PRODUCT_NUMBER, version_major, version_minor, version_patchlevel));
+			return true;
+		}
+
+		final int version_build_number = text_buf.pull_int().get_int();
+		if (version_build_number != TTCN_Runtime.TTCN3_BUILDNUMBER) {
+			//FIXME implement rest
+			return true;
+		}
+
+		if (version_known) {
+			final int new_modules_size = text_buf.pull_int().get_int();
+			if (modules.size() != new_modules_size) {
+				send_error(connection.channel, MessageFormat.format("The number of modules in this ETS ({0}) differs from the number of modules in the firstly connected ETS ({1}).", new_modules_size, modules.size()));
+				return true;
+			}
+			for (int i = 0; i < new_modules_size; i++) {
+				String module_name = text_buf.pull_string();
+				module_version_info other_module = null;
+				for (int j = 0; j < modules.size(); j++) {
+					if (module_name.equals(modules.get(j).module_name)) {
+						other_module = modules.get(j);
+						break;
+					}
+				}
+				if (other_module == null) {
+					send_error(connection.channel, MessageFormat.format("The module number {0} in this ETS ({1}) has different name than any other module in the firstly connected ETS.", i, module_name));
+					return true;
+				}
+
+				boolean checksum_differs = false;
+				final int checksum_length = text_buf.pull_int().get_int();
+				byte[] module_checksum;
+				if (checksum_length > 0) {
+					module_checksum = new byte[checksum_length];
+					text_buf.pull_raw(checksum_length, module_checksum);
+				} else {
+					module_checksum = null;
+				}
+				if (checksum_length != other_module.module_checksum.length) {
+					send_error(connection.channel, MessageFormat.format("The checksum of module {0} in this ETS has different length ({1}) than that of the firstly connected ETS ({2}).",
+							module_name, checksum_length, other_module.module_checksum.length));
+					return true;
+				}
+
+				if(!Arrays.equals(module_checksum, other_module.module_checksum)) {
+					for (int j = 0; j < checksum_length; j++) {
+						if (module_checksum[j] != other_module.module_checksum[j]) {
+							send_error(connection.channel, MessageFormat.format("At index {0} the checksum of module {1} in this ETS is different ({2}) than that of the firstly connected ETS ({3}).",
+									j, module_name, module_checksum[j], other_module.module_checksum[j]));
+							checksum_differs = true;
+						}
+					}
+
+					if (checksum_differs) {
+						send_error(connection.channel, MessageFormat.format("The checksum of module {0} in this ETS is different than that of the firstly connected ETS.",
+								module_name));
+					}
+				}
+
+				if (checksum_differs) {
+					return true;
+				}
+			}
+		} else {
+			final int modules_size = text_buf.pull_int().get_int();
+			modules = new ArrayList<MainController.module_version_info>(modules_size);
+			for (int i = 0; i < modules_size; i++) {
+				final module_version_info temp_info = new module_version_info();
+				temp_info.module_name = text_buf.pull_string();
+				final int checksum_length = text_buf.pull_int().get_int();
+				if (checksum_length > 0) {
+					temp_info.module_checksum = new byte[checksum_length];
+					text_buf.pull_raw(checksum_length, temp_info.module_checksum);
+				} else {
+					temp_info.module_checksum = new byte[0];
+				}
+
+				modules.add(temp_info);
+			}
+			version_known = true;
+		}
+
+		return false;
+	}
+
+	public static void process_version(final unknown_connection connection) {
+		if (check_version(connection)) {
+			//FIXME error(MessageFormat.format("HC connection from {0} [{1}] was refused because of incorrect version.", connection.));
+			return;
+		}
+		
+		Host hc = add_new_host(connection);
+		switch (mc_state) {
+		case MC_LISTENING:
+			mc_state = mcStateEnum.MC_HC_CONNECTED;
+		case MC_HC_CONNECTED:
+			break;
+		case MC_LISTENING_CONFIGURED:
+		case MC_ACTIVE:
+			//FIXME configure_host
+			mc_state = mcStateEnum.MC_CONFIGURING;
+			break;
+		case MC_SHUTDOWN:
+			//FIXME send_exit_hc;
+			hc.hc_state = hc_state_enum.HC_EXITING;
+			break;
+		default:
+			//FIXME configure_host
+		}
+		handle_hc_data(hc, false);//TODO check
+		status_change();
+	}
+
+	//FIXME sould disappear with time
 	public static void process_version(final Host hc) {
 		receiveMessage(hc);
 		final Text_Buf local_incoming_buf = incoming_buf.get();
@@ -1286,6 +1658,77 @@ public class MainController {
 		}
 	}
 
+	private static Host add_new_host(final unknown_connection connection) {
+		final Text_Buf text_buf = connection.text_buf;
+		SocketChannel channel = connection.channel;
+
+		final Host hc = new Host();
+		try {
+			hc.address = channel.getLocalAddress();
+		} catch (IOException e) {
+			//FIXME report error
+		}
+		hc.hostname_local = text_buf.pull_string();
+		//FIXME hostname should be calculated
+		hc.hostname = hc.hostname_local;
+		hc.machine_type = text_buf.pull_string();
+		hc.system_name = text_buf.pull_string();
+		hc.system_release = text_buf.pull_string();
+		hc.system_version = text_buf.pull_string();
+
+		for (int i = 0; i < transport_type_enum.TRANSPORT_NUM.ordinal(); i++) {
+			hc.transport_supported[i] = false;
+		}
+
+		final int n_supported_transports = text_buf.pull_int().get_int();
+		for (int i = 0; i < n_supported_transports; i++) {
+			final int transport_type = text_buf.pull_int().get_int();
+			if (transport_type >= 0 && transport_type < transport_type_enum.TRANSPORT_NUM.ordinal()) {
+				if (hc.transport_supported[transport_type]) {
+					send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
+							+ " was specified more than once.", transport_type_enum.values()[transport_type].toString()));
+				} else {
+					hc.transport_supported[transport_type] = true;
+				}
+			} else {
+				send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type code {0} "
+						+ "is invalid.", transport_type));
+			}
+		}
+
+		if (!hc.transport_supported[transport_type_enum.TRANSPORT_LOCAL.ordinal()]) {
+			send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
+					+ " must be supported anyway.", transport_type_enum.TRANSPORT_LOCAL.toString()));
+		}
+		if (!hc.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()]) {
+			send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
+					+ " must be supported anyway.", transport_type_enum.TRANSPORT_INET_STREAM.toString()));
+		}
+
+		hc.log_source = MessageFormat.format("HC@{0}", hc.hostname_local);
+		hc.hc_state = hc_state_enum.HC_IDLE;
+		hc.socket = channel;
+		hc.text_buf = text_buf;
+		//FIXME add remaining fields
+		text_buf.cut_message();
+
+		//FIXME delete_unknown_connection if needed
+
+		hosts.add(hc);
+		channel_table_struct new_struct = new channel_table_struct();
+		new_struct.channel_type = channel_type_enum.CHANNEL_HC;
+		new_struct.host = hc;
+		channel_table.put(channel, new_struct);
+
+		notify(MessageFormat.format("New HC connected from {0} [{1}]. {2}: {3} {4} on {5}.",
+				hc.hostname, hc.address.toString(),
+				hc.hostname_local, hc.system_name,
+				hc.system_release, hc.machine_type));
+
+		return hc;
+	}
+
+	//FIXME should disappear with time
 	private static void add_new_host(final Host hc) {
 		final Text_Buf text_buf = incoming_buf.get();
 		hc.hostname_local = text_buf.pull_string();
@@ -1357,20 +1800,11 @@ public class MainController {
 		//FIXME needs to be processed somewhere
 		config_str.set(config_file);
 
-//		try {
-//			Scanner sc = new Scanner(new File(config_file));
-//			config_str.set(sc.useDelimiter("\\Z").next());
-//			sc.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
 			notify("Downloading configuration file to all HCs.");
 			for (final Host host : hosts) {
 				configure_host(host, false);
-				handle_hc_data(host);//?
+				//handle_hc_data(host);//?
 			}
 		}
 
@@ -1439,6 +1873,23 @@ public class MainController {
 		send_message(hc, text_buf);
 	}
 
+	private static void send_message(final SocketChannel channel, final Text_Buf text_buf) {
+		text_buf.calculate_length();
+		final byte[] msg_ptr = text_buf.get_data();
+		final int msg_len = text_buf.get_len();
+		final ByteBuffer buffer = ByteBuffer.wrap(msg_ptr, text_buf.get_begin(), msg_len);
+		try {
+			while (buffer.hasRemaining()) {
+				channel.write(buffer);
+			}
+		} catch (IOException e) {
+			final StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+			error(MessageFormat.format("Sending of message failed:  {0}", error.toString()));
+		}
+	}
+
+	//FIXME should disappear in the end
 	private static void send_message(final Host hc, final Text_Buf text_buf) {
 		text_buf.calculate_length();
 		final byte[] msg_ptr = text_buf.get_data();
@@ -1457,6 +1908,36 @@ public class MainController {
 		}
 	}
 
+	private static void process_mtc_created(final unknown_connection connection) {
+		if (mc_state != mcStateEnum.MC_CREATING_MTC) {
+			send_error(connection.channel, "Message MTC_CREATED arrived in invalid state.");
+			return;
+		}
+		if (mtc == null || mtc.tc_state != tc_state_enum.TC_INITIAL ) {
+			fatal_error("MainController::process_mtc_created: MTC is in invalid state.");
+			return;
+		}
+		//FIXME: implement
+
+		mc_state = mcStateEnum.MC_READY;
+		mtc.tc_state = tc_state_enum.TC_IDLE;
+		mtc.socket = connection.channel;
+
+		channel_table_struct new_struct = new channel_table_struct();
+		new_struct.channel_type = channel_type_enum.CHANNEL_TC;
+		new_struct.component = mtc;
+		Text_Buf text_buf = connection.text_buf;
+		text_buf.cut_message();
+		mtc.text_buf = text_buf;
+		channel_table.put(connection.channel, new_struct);
+
+		notify("MTC is created.");
+
+		// handle the remaining messages that are in text_buf
+		handle_tc_data(mtc, false);
+		status_change();
+	}
+
 	private static void process_mtc_created(final Host hc) {
 		if (mc_state != mcStateEnum.MC_CREATING_MTC) {
 			send_error(hc, "Message MTC_CREATED arrived in invalid state.");
@@ -1472,43 +1953,209 @@ public class MainController {
 		mtc.tc_state = tc_state_enum.TC_IDLE;
 
 		notify("MTC is created.");
-		/*for (final ExecuteItem item : executeItems) {
-			if (item.getTestcaseName() == null) {
-				execute_control(hc, item.getModuleName());
-			} else if (!"*".equals(item.getTestcaseName())) {
-				execute_testcase(hc, item.getModuleName(), null);
-			} else {
-				execute_testcase(hc, item.getModuleName(), item.getTestcaseName());
-			}*/
 
-			handle_tc_data(mtc);
-		//}
-		ui.status_change();
-		//FIXME these part should not be here !!!
-/*		incoming_buf.get().cut_message();
-		exit_mtc();
+		handle_tc_data(mtc);
 
-		if (mc_state != mcStateEnum.MC_TERMINATING_MTC) {
-			notify("The control connection to MTC is lost. Destroying all PTC connections.");
-		}
-		// TODO destroy_all_components();
-		notify("MTC terminated.");
-		if (is_hc_in_state(hc_state_enum.HC_CONFIGURING)) {
-			mc_state = mcStateEnum.MC_CONFIGURING;
-		} else if (is_hc_in_state(hc_state_enum.HC_IDLE)) {
-			mc_state = mcStateEnum.MC_HC_CONNECTED;
-		} else if (is_hc_in_state(hc_state_enum.HC_ACTIVE) || is_hc_in_state(hc_state_enum.HC_OVERLOADED)) {
-			mc_state = mcStateEnum.MC_ACTIVE;
-		} else {
-			mc_state = mcStateEnum.MC_LISTENING_CONFIGURED;
-		}
-		stop_requested.set(false);
-
-		shutdown_session();
-		notify("Shutdown complete.");*/
+		status_change();
 	}
 
+	private static synchronized void handle_tc_data(final ComponentStruct tc, final boolean receive_from_socket) {
+		final Text_Buf text_buf = tc.text_buf;
+		boolean close_connection = false;
+		int recv_len = receive_to_buffer(tc.socket, text_buf, receive_from_socket);
+		
+		if (recv_len > 0) {
+			try{
+				while (text_buf.is_message()) {
+					final int msg_len = text_buf.pull_int().get_int();
+					final int msg_end = text_buf.get_pos() + msg_len;
+					final int msg_type = text_buf.pull_int().get_int();
+					switch (msg_type) {
+					case MSG_ERROR:
+						process_error(tc);//TODO check
+						break;
+					case MSG_LOG:
+						process_log(tc);
+						break;
+					case MSG_CREATE_REQ:
+						process_create_req(tc);//TODO check
+						break;
+					case MSG_START_REQ:
+						process_start_req(tc);//TODO check
+						break;
+					case MSG_STOP_REQ:
+						process_stop_req(tc);//TODO check
+						break;
+					case MSG_KILL_REQ:
+						process_kill_req(tc);//TODO check
+						break;
+					case MSG_IS_RUNNING:
+						process_is_running(tc);//TODO check
+						break;
+					case MSG_IS_ALIVE:
+						process_is_alive(tc);//TODO check
+						break;
+					case MSG_DONE_REQ:
+						process_done_req(tc);//TODO check
+						break;
+					case MSG_KILLED_REQ:
+						process_killed_req(tc);//TODO check
+						break;
+					case MSG_CANCEL_DONE_ACK:
+						process_cancel_done_ack(tc);//TODO check
+						break;
+					case MSG_CONNECT_REQ://TODO check
+						process_connect_req(tc);
+						break;
+					case MSG_CONNECT_LISTEN_ACK://TODO check
+						process_connect_listen_ack(tc, msg_end);
+						break;
+					case MSG_CONNECTED://TODO check
+						process_connected(tc);
+						break;
+					case MSG_CONNECT_ERROR://TODO check
+						process_connect_error(tc);
+						break;
+					case MSG_DISCONNECT_REQ://TODO check
+						process_disconnect_req(tc);
+						break;
+					case MSG_DISCONNECTED://TODO check
+						process_disconnected(tc);
+						break;
+					case MSG_MAP_REQ://TODO check
+						process_map_req(tc);
+						break;
+					case MSG_MAPPED://TODO check
+						process_mapped(tc);
+						break;
+					case MSG_UNMAP_REQ://TODO check
+						process_unmap_req(tc);
+						break;
+					case MSG_UNMAPPED://TODO check
+						process_unmapped(tc);
+						break;
+					case MSG_DEBUG_RETURN_VALUE:
+						// TODO: process_debug_return_value(*tc->text_buf, tc->log_source, message_end,tc == mtc);
+						break;
+					case MSG_DEBUG_HALT_REQ:
+						// TODO: process_debug_broadcast_req(tc, D_HALT);
+						break;
+					case MSG_DEBUG_CONTINUE_REQ:
+						// TODO: process_debug_broadcast_req(tc, D_CONTINUE);
+						break;
+					case MSG_DEBUG_BATCH:
+						// TODO: process_debug_batch(tc);
+						break;
+					default:
+						if (tc == mtc) {
+							// these messages can be received only from the MTC
+							switch (msg_type) {
+							case MSG_TESTCASE_STARTED:
+								process_testcase_started();//TODO check
+								break;
+							case MSG_TESTCASE_FINISHED:
+								process_testcase_finished();//TODO check
+								break;
+							case MSG_MTC_READY:
+								process_mtc_ready();//TODO check
+								break;
+							case MSG_CONFIGURE_ACK:
+								process_configure_ack_mtc();//TODO check
+								break;
+							case MSG_CONFIGURE_NAK:
+								process_configure_nak_mtc();//TODO check
+								break;
+							default:
+								error(MessageFormat.format("Invalid message type ({0}) was received from the MTC at {1} [{2}].",
+										msg_type, mtc.comp_location.hostname, mtc.comp_location.address));
+								close_connection = true;
+							}
+						} else {
+							// these messages can be received only from PTCs
+							switch (msg_type) {
+							case MSG_STOPPED:
+								process_stopped(tc, msg_end);//TODO check
+								break;
+							case MSG_STOPPED_KILLED:
+								process_stopped_killed(tc, msg_end);//TODO check
+								break;
+							case MSG_KILLED:
+								process_killed(tc);//TODO check
+								break;
+							default:
+								notify(MessageFormat.format("Invalid message type ({0}) was received from PTC {1} "
+										+ "at {2} [{3}].", msg_type, tc.comp_ref, tc.comp_location.hostname,
+										tc.comp_location.address.toString()));
+								close_connection = true;
+							}
+						}
+					}
 
+					if (close_connection) {
+						break;
+					}
+
+					text_buf.cut_message();
+				}
+			} catch (TtcnError e) {
+			}
+			//FIXME
+		} else if (recv_len == 0) {
+			//FIXME
+		} else {
+			// FIXME
+			if (tc == mtc) {
+				//FIXME
+				error(MessageFormat.format("Receiving of data failed from the MTC at {0} [{1}]: {2}",
+						mtc.comp_location.hostname, mtc.comp_location.hostname));
+			} else {
+				//FIXME
+				notify(MessageFormat.format("Receiving of data failed from PTC {0} at {1} [{2}]: {3}",
+						tc.comp_ref, tc.comp_location.hostname, tc.comp_location.hostname));
+			}
+			close_connection = true;
+		}
+
+		if (close_connection) {
+			close_tc_connection(tc);
+			remove_component_from_host(tc);
+			if (tc == mtc) {
+				if (mc_state != mcStateEnum.MC_TERMINATING_MTC) {
+					notify("The control connection to MTC is lost. Destroying all PTC connections.");
+				}
+
+				//FIXME destroy_All_components();
+				notify("MTC terminated");
+				if (is_hc_in_state(hc_state_enum.HC_CONFIGURING)) {
+					mc_state = mcStateEnum.MC_CONFIGURING;
+				} else if (is_hc_in_state(hc_state_enum.HC_IDLE)) {
+					mc_state = mcStateEnum.MC_HC_CONNECTED;
+				} else if (is_hc_in_state(hc_state_enum.HC_ACTIVE)
+						|| is_hc_in_state(hc_state_enum.HC_OVERLOADED)) {
+					mc_state = mcStateEnum.MC_ACTIVE;
+				} else {
+					mc_state = mcStateEnum.MC_LISTENING_CONFIGURED;
+				}
+				stop_requested.set(false);//FIXME should not be threadlocal
+			} else {
+				if (tc.tc_state != tc_state_enum.TC_EXITING) {
+					// we have no idea about the final verdict of the PTC
+					tc.local_verdict = VerdictTypeEnum.ERROR;
+					component_terminated(tc);//TODO check
+				}
+
+				tc.tc_state = tc_state_enum.TC_EXITED;
+				if (mc_state == mcStateEnum.MC_TERMINATING_TESTCASE
+						&& ready_to_finish_testcase()) {
+					finish_testcase();//TODO check
+				}
+			}
+
+			status_change();
+		}
+	}
+
+	//FIXME should disappear with time
 	private static synchronized void handle_tc_data(final ComponentStruct tc) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
@@ -1635,6 +2282,7 @@ public class MainController {
 								+ "at {2} [{3}].", msg_type, tc.comp_ref, tc.comp_location.hostname,
 								tc.comp_location.address.toString()));
 						close_connection = true;
+						// TODO
 					}
 				}
 			}
@@ -1662,6 +2310,21 @@ public class MainController {
 				finish_testcase();
 			}
 		}
+	}
+
+	private static void close_tc_connection(final ComponentStruct component) {
+		if (component.socket != null) {
+			try {
+				component.socket.close();
+			} catch (IOException e) {
+				//FIXME handle
+			}
+			channel_table.remove(component.socket);
+			component.socket = null;
+			component.text_buf = null;
+			//FIXME
+		}
+		//FIXME
 	}
 
 	private static boolean ready_to_finish_testcase() {
@@ -4689,8 +5352,24 @@ public class MainController {
 		incoming_buf.get().cut_message();
 	}
 
-	private static void process_log(final Host tc) {
-		final Text_Buf text_buf = incoming_buf.get();
+	private static void process_log(final unknown_connection connection) {
+		final Text_Buf text_buf = connection.text_buf;
+		final int upper_int = text_buf.pull_int().get_int();
+		final int lower_int = text_buf.pull_int().get_int();
+		final long seconds = upper_int * 0xffffffff + lower_int;
+		final int microseconds = text_buf.pull_int().get_int();
+		//FIXME correct
+		String source = MessageFormat.format("<unknown>@{0}", 1);
+		final int severity = text_buf.pull_int().get_int();
+
+		final int length = text_buf.pull_int().get_int();
+		final byte messageBytes[] = new byte[length];
+		text_buf.pull_raw(length, messageBytes);
+		notify(seconds * 1000 + microseconds, source, severity, new String(messageBytes));
+	}
+
+	private static void process_log(final Host hc) {
+		final Text_Buf text_buf = hc.text_buf;
 		final int upper_int = text_buf.pull_int().get_int();
 		final int lower_int = text_buf.pull_int().get_int();
 		final long seconds = upper_int * 0xffffffff + lower_int;
@@ -4700,8 +5379,21 @@ public class MainController {
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
-		notify(new String(messageBytes));
-		text_buf.cut_message();
+		notify(seconds * 1000 + microseconds, hc.log_source, severity, new String(messageBytes));
+	}
+
+	private static void process_log(final ComponentStruct tc) {
+		final Text_Buf text_buf = tc.text_buf;
+		final int upper_int = text_buf.pull_int().get_int();
+		final int lower_int = text_buf.pull_int().get_int();
+		final long seconds = upper_int * 0xffffffff + lower_int;
+		final int microseconds = text_buf.pull_int().get_int();
+		final int severity = text_buf.pull_int().get_int();
+
+		final int length = text_buf.pull_int().get_int();
+		final byte messageBytes[] = new byte[length];
+		text_buf.pull_raw(length, messageBytes);
+		notify(seconds * 1000 + microseconds, tc.log_source, severity, new String(messageBytes));
 	}
 
 	public static void execute_testcase(final String moduleName, final String testcaseName) {
@@ -4792,20 +5484,21 @@ public class MainController {
 		lock();
 		if (mc_state != mcStateEnum.MC_READY && mc_state != mcStateEnum.MC_RECONFIGURING) {
 			error("MainController::exit_mtc: called in wrong state.");
-		    unlock();
+			unlock();
 			return;
 		}
 		notify("Terminating MTC.");
 		send_exit_mtc();
 
-		process_final_log();
 		mtc.tc_state = tc_state_enum.TC_EXITING;
+		//FIXME 
 		mc_state = mcStateEnum.MC_TERMINATING_MTC;
-		// TODO timer
-		//FIXME: status_change();
+		// FIXME start_kill_timer
+		status_change();
 		unlock();
 	}
 
+	//FIXME should disappear in the end
 	private static void process_final_log() {
 		for (int i = 0; i < 2; i++) {
 			receiveMessage(mtc.comp_location);
@@ -4819,7 +5512,7 @@ public class MainController {
 	private static void send_exit_mtc() {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXIT_MTC);
-		send_message(mtc.comp_location, text_buf);
+		send_message(mtc.socket, text_buf);
 	}
 
 	private static void perform_shutdown() {
@@ -4847,6 +5540,7 @@ public class MainController {
 				mc_state = mcStateEnum.MC_INACTIVE;
 			} else {
 				mc_state = mcStateEnum.MC_SHUTDOWN;
+				status_change();
 			}
 			break;
 		default:
@@ -4857,7 +5551,7 @@ public class MainController {
 	private static void send_exit_hc(final Host hc) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXIT_HC);
-		send_message(hc, text_buf);
+		send_message(hc.socket, text_buf);
 	}
 
 }
