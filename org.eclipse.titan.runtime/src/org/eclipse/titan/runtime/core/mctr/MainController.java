@@ -402,6 +402,8 @@ public class MainController {
 	private static int tc_first_comp_ref;
 	private static List<Host> hosts;
 	private static List<HostGroupStruct> host_groups;
+	private static List<String> assigned_components;
+	private static volatile boolean all_components_assigned;
 	private static List<ExecuteItem> executeItems;
 	
 
@@ -436,7 +438,8 @@ public class MainController {
 		mc_hostname = String.format("MC@%s", mc_hostname);
 
 		host_groups = new ArrayList<HostGroupStruct>();
-		//all_components_assigned = false;
+		assigned_components = new ArrayList<String>();
+		all_components_assigned = false;
 
 		hosts = null;
 		config_str.set(null);
@@ -710,6 +713,24 @@ public class MainController {
 
 		host_groups.add(new_group);
 		return new_group;
+	}
+
+	public static void destroy_host_groups() {
+		lock();
+		if (mc_state != mcStateEnum.MC_INACTIVE) {
+			error("MainController.destroy_host_groups: called in wrong state.");
+		} else {
+			for (HostGroupStruct hostGroup : host_groups) {
+				hostGroup.host_members.clear();
+				hostGroup.assigned_components.clear();
+			}
+
+			host_groups.clear();
+			assigned_components.clear();
+			all_components_assigned = false;
+		}
+
+		unlock();
 	}
 
 	public static int start_session(final String local_address, int tcp_port) {
