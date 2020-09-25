@@ -243,8 +243,8 @@ public class MainController {
 		String group_name;
 		boolean has_all_hosts;
 		boolean has_all_components;
-		List<Host> host_members;
-		List<ComponentStruct> assigned_components;
+		List<String> host_members;
+		List<String> assigned_components;
 	}
 	
 	/** Data structure for each host (and the corresponding HC) */
@@ -665,15 +665,31 @@ public class MainController {
 		HostGroupStruct group = add_host_group(group_name);
 		if (host_name != null) {
 			if (group.has_all_hosts) {
-				error(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.", host_name, group_name));
+				error(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.",
+						host_name, group_name));
 			} else {
-				/*if (group.host_members.contains()) {
+				if (group.host_members.contains(host_name)) {
+					error(MessageFormat.format("Duplicate member `{0}' was ignored in host group `{1}'.",
+							host_name, group_name));
+				} else {
+					group.host_members.add(host_name);
+				}
+			}
+		} else {
+			if (group.has_all_hosts) {
+				error(MessageFormat.format("Duplicate member `*' was ignored in host group `{0}'.", group_name));
+			} else {
+				for (String group_member : group.host_members) {
+					error(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.",
+							group_member, group_name));
+					
+				}
 
-				}*/
+				group.host_members.clear();
+				group.has_all_hosts = true;
 			}
 		}
 
-		//TODO: implement
 		unlock();
 	}
 
@@ -689,6 +705,8 @@ public class MainController {
 		new_group.group_name = group_name;
 		new_group.has_all_hosts = false;
 		new_group.has_all_components = false;
+		new_group.host_members = new ArrayList<String>();
+		new_group.assigned_components = new ArrayList<String>();
 
 		host_groups.add(new_group);
 		return new_group;
