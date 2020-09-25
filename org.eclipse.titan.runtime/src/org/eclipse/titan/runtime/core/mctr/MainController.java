@@ -390,56 +390,13 @@ public class MainController {
 	private static boolean version_known;
 	private static ArrayList<module_version_info> modules;
 
-	private static ThreadLocal<Boolean> any_component_done_requested = new ThreadLocal<Boolean>() {
-		@Override
-		protected Boolean initialValue() {
-			return false;
-		}
-	};
-
-	private static ThreadLocal<Boolean> any_component_done_sent = new ThreadLocal<Boolean>() {
-		@Override
-		protected Boolean initialValue() {
-			return false;
-		}
-	};
-
-	private static ThreadLocal<Boolean> all_component_done_requested = new ThreadLocal<Boolean>() {
-		@Override
-		protected Boolean initialValue() {
-			return false;
-		}
-	};
-
-	private static ThreadLocal<Boolean> any_component_killed_requested = new ThreadLocal<Boolean>() {
-		@Override
-		protected Boolean initialValue() {
-			return false;
-		}
-	};
-
-	private static ThreadLocal<Boolean> all_component_killed_requested = new ThreadLocal<Boolean>() {
-		@Override
-		protected Boolean initialValue() {
-			return false;
-		}
-	};
-
-	//FIXME should not be threadlocal
-	private static ThreadLocal<Boolean> stop_requested = new ThreadLocal<Boolean>() {
-		@Override
-		protected Boolean initialValue() {
-			return false;
-		}
-	};
-
-	//FIXME should not be threadlocal
-	private static ThreadLocal<Boolean> stop_after_tc = new ThreadLocal<Boolean>() {
-		@Override
-		protected Boolean initialValue() {
-			return false;
-		}
-	};
+	private static volatile boolean any_component_done_requested;
+	private static volatile boolean any_component_done_sent;
+	private static volatile boolean all_component_done_requested;
+	private static volatile boolean any_component_killed_requested;
+	private static volatile boolean all_component_killed_requested;
+	private static volatile boolean stop_requested;
+	private static volatile boolean stop_after_tc;
 
 	private static int next_comp_ref;
 	private static int tc_first_comp_ref;
@@ -495,8 +452,8 @@ public class MainController {
 		//debugger_active_tc = NULL;
 		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
 
-		stop_after_tc.set(false);
-		stop_requested.set(false);
+		stop_after_tc = false;
+		stop_requested = false;
 
 		kill_timer = 10.0;
 		mutex = new ReentrantLock();
@@ -865,15 +822,24 @@ public class MainController {
 	}
 
 	public static mcStateEnum get_state() {
-		return mc_state;
+		lock();
+		final mcStateEnum ret_val = mc_state;
+		unlock();
+		return ret_val;
 	}
 
 	public static boolean get_stop_after_testcase() {
-		return stop_after_tc.get();
+		lock();
+		final boolean ret_val = stop_after_tc;
+		unlock();
+		return ret_val;
 	}
 
 	public static int get_nof_hosts() {
-		return hosts.size();
+		lock();
+		final int ret_val = hosts.size();
+		unlock();
+		return ret_val;
 	}
 
 	public static Host get_host_data(final int host_index) {
@@ -2232,7 +2198,7 @@ public class MainController {
 				} else {
 					mc_state = mcStateEnum.MC_LISTENING_CONFIGURED;
 				}
-				stop_requested.set(false);//FIXME should not be threadlocal
+				stop_requested = false;
 			} else {
 				if (tc.tc_state != tc_state_enum.TC_EXITING) {
 					// we have no idea about the final verdict of the PTC
@@ -2498,12 +2464,12 @@ public class MainController {
 				send_component_status_to_requestor(tc, requestor, true, false);
 			}
 		}
-		if (any_component_done_requested.get()) {
+		if (any_component_done_requested) {
 			send_status_to_mtc = true;
 		}
 		boolean all_done_checked = false;
 		boolean all_done_result = false;
-		if (all_component_done_requested.get()) {
+		if (all_component_done_requested) {
 			all_done_checked = true;
 			all_done_result = !is_any_component_running();
 			if (all_done_result) {
@@ -2516,18 +2482,18 @@ public class MainController {
 				all_done_result = !is_any_component_running();
 			}
 			if (send_done_to_mtc) {
-				send_component_status_mtc(tc.comp_ref, true, false, any_component_done_requested.get(), all_done_result,
+				send_component_status_mtc(tc.comp_ref, true, false, any_component_done_requested, all_done_result,
 						false, false, tc.local_verdict, tc.return_type, tc.return_value);
 			} else {
-				send_component_status_mtc(TitanComponent.NULL_COMPREF, false, false, any_component_done_requested.get(),
+				send_component_status_mtc(TitanComponent.NULL_COMPREF, false, false, any_component_done_requested,
 						all_done_result, false, false, VerdictTypeEnum.NONE, null, null);
 			}
-			if (any_component_done_requested.get()) {
-				any_component_done_requested.set(false);
-				any_component_done_sent.set(true);
+			if (any_component_done_requested) {
+				any_component_done_requested = false;
+				any_component_done_sent = true;
 			}
 			if (all_done_result) {
-				all_component_done_requested.set(false);
+				all_component_done_requested = false;
 			}
 
 		}
@@ -2667,7 +2633,7 @@ public class MainController {
 				final boolean answer = !is_all_component_alive();
 				send_killed_ack(mtc, answer);
 				if (!answer) {
-					any_component_killed_requested.set(true);
+					any_component_killed_requested = true;
 				}
 			} else {
 				send_error(tc.comp_location, "Operation 'any component.killed' can only be performed on the MTC.");
@@ -2678,7 +2644,7 @@ public class MainController {
 				final boolean answer = !is_any_component_alive();
 				send_killed_ack(mtc, answer);
 				if (!answer) {
-					all_component_killed_requested.set(true);
+					all_component_killed_requested = true;
 				}
 			} else {
 				send_error(tc.comp_location, "Operation 'all component.killed' can only be performed on the MTC.");
@@ -2759,9 +2725,9 @@ public class MainController {
 				final boolean answer = is_any_component_done();
 				send_done_ack(mtc, answer, VerdictTypeEnum.NONE, null, null);
 				if (answer) {
-					any_component_done_sent.set(true);
+					any_component_done_sent = true;
 				} else {
-					any_component_done_requested.set(true);
+					any_component_done_requested = true;
 				}
 			} else {
 				send_error(tc.comp_location, "Operation 'any component.done' can only be performed on the MTC.");
@@ -2772,7 +2738,7 @@ public class MainController {
 				final boolean answer = !is_any_component_running();
 				send_done_ack(mtc, answer, VerdictTypeEnum.NONE, null, null);
 				if (!answer) {
-					all_component_done_requested.set(true);
+					all_component_done_requested = true;
 				}
 			} else {
 				send_error(tc.comp_location, "Operation 'all component.done' can only be performed on the MTC.");
@@ -3424,12 +3390,12 @@ public class MainController {
 		tc.done_requestors = new RequestorStruct();
 		tc.killed_requestors = new RequestorStruct();
 
-		if (any_component_done_requested.get() || any_component_killed_requested.get()) {
+		if (any_component_done_requested || any_component_killed_requested) {
 			send_status_to_mtc = true;
 		}
 		boolean all_done_checked = false;
 		boolean all_done_result = false;
-		if (all_component_done_requested.get()) {
+		if (all_component_done_requested) {
 			all_done_checked = true;
 			all_done_result = !is_any_component_running();
 			if (all_done_result) {
@@ -3438,7 +3404,7 @@ public class MainController {
 		}
 		boolean all_killed_checked = false;
 		boolean all_killed_result = false;
-		if (all_component_killed_requested.get()) {
+		if (all_component_killed_requested) {
 			all_killed_checked = true;
 			all_killed_result = !is_any_component_alive();
 			if (all_killed_result) {
@@ -3460,14 +3426,14 @@ public class MainController {
 				send_component_status_mtc(tc.comp_ref, false, true, true, all_done_result, true, all_killed_result,
 						VerdictTypeEnum.NONE, null, null);
 			}
-			any_component_done_requested.set(false);
-			any_component_done_sent.set(true);
-			any_component_killed_requested.set(false);
+			any_component_done_requested = false;
+			any_component_done_sent = true;
+			any_component_killed_requested = false;
 			if (all_done_result) {
-				all_component_done_requested.set(false);
+				all_component_done_requested = false;
 			}
 			if (all_killed_result) {
-				all_component_killed_requested.set(false);
+				all_component_killed_requested = false;
 			}
 		}
 		switch(old_state) {
@@ -4501,10 +4467,10 @@ public class MainController {
 				}
 			}
 
-			if (any_component_done_sent.get() && !is_any_component_done()) {
+			if (any_component_done_sent && !is_any_component_done()) {
 				send_cancel_done = true;
 				cancel_any_component_done = true;
-				any_component_done_sent.set(false);
+				any_component_done_sent = false;
 				add_requestor(target.cancel_done_sent_to, mtc);
 			}
 			target.done_requestors = new RequestorStruct();
@@ -5172,7 +5138,7 @@ public class MainController {
 		mtc.tc_state = tc_state_enum.TC_IDLE;
 		mtc.stop_requested = false;
 		//FIXME handle kill_timer
-		stop_requested.set(false);
+		stop_requested = false;
 		notify("Test execution finished.");
 		status_change();
 	}
@@ -5364,11 +5330,11 @@ public class MainController {
 		// TODO timer
 		local_incoming_buf.cut_message();
 
-		any_component_done_requested.set(false);
-		any_component_done_sent.set(false);
-		all_component_done_requested.set(false);
-		any_component_killed_requested.set(false);
-		all_component_killed_requested.set(false);
+		any_component_done_requested = false;
+		any_component_done_sent = false;
+		all_component_done_requested = false;
+		any_component_killed_requested = false;
+		all_component_killed_requested = false;
 
 		if (ready_to_finish) {
 			finish_testcase();
@@ -5377,14 +5343,14 @@ public class MainController {
 
 
 	private static void finish_testcase() {
-		if (stop_requested.get()) {
+		if (stop_requested) {
 			send_ptc_verdict(false);
 			send_stop(mtc);
 			mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
 			mtc.stop_requested = true;
 			// TODO start_kill_timer
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
-		} else if (stop_after_tc.get()) {
+		} else if (stop_after_tc) {
 			send_ptc_verdict(false);
 			mtc.tc_state = tc_state_enum.MTC_PAUSED;
 			mc_state = mcStateEnum.MC_PAUSED;
@@ -5441,11 +5407,11 @@ public class MainController {
 		mc_state = mcStateEnum.MC_EXECUTING_TESTCASE;
 		tc_first_comp_ref = next_comp_ref;
 
-		any_component_done_requested.set(false);
-		any_component_done_sent.set(false);
-		all_component_done_requested.set(false);
-		any_component_killed_requested.set(false);
-		all_component_killed_requested.set(false);
+		any_component_done_requested = false;
+		any_component_done_sent = false;
+		all_component_done_requested = false;
+		any_component_killed_requested = false;
+		all_component_killed_requested = false;
 		text_buf.cut_message();
 		incoming_buf.get().cut_message();
 	}
@@ -5510,8 +5476,8 @@ public class MainController {
 
 	public static void stop_after_testcase(final boolean newState) {
 		lock();
-		stop_after_tc.set(newState);
-		if (mc_state == mcStateEnum.MC_PAUSED && !stop_after_tc.get()) {
+		stop_after_tc = newState;
+		if (mc_state == mcStateEnum.MC_PAUSED && !stop_after_tc) {
 			unlock();
 			continue_testcase();
 		} else {
