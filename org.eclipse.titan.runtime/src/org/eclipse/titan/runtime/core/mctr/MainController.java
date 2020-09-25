@@ -372,7 +372,7 @@ public class MainController {
 		}
 	};
 
-
+	//TODO should not be threadlocal
 	private static ThreadLocal<Integer> n_hosts = new ThreadLocal<Integer>() {
 		@Override
 		protected Integer initialValue() {
@@ -380,6 +380,7 @@ public class MainController {
 		}
 	};
 
+	//TODO should not be threadlocal
 	private static ThreadLocal<String> config_str = new ThreadLocal<String>() {
 		@Override
 		protected String initialValue() {
@@ -620,9 +621,7 @@ public class MainController {
 						process_mtc_created(connection);
 						break;
 					case MSG_PTC_CREATED:
-						//FIXME implement
-						//process_ptc_created(mtc);
-						error("MSG_PTC_CREATED NOT YET IMPLEMENT");
+						process_ptc_created(connection);
 						break;
 					default:
 						error(MessageFormat.format("Invalid message type ({0}) was received on an "
@@ -5243,6 +5242,94 @@ public class MainController {
 
 	}
 
+	private static void process_ptc_created(final unknown_connection connection) {
+		switch(mc_state) {
+		case MC_EXECUTING_TESTCASE:
+		case MC_TERMINATING_TESTCASE:
+			break;
+		default:
+			send_error(connection.channel, "Message PTC_CREATED arrived in invalid state.");
+			//FIXME close_unknown_connection();
+			return;
+		}
+
+		final Text_Buf text_buf = connection.text_buf;
+		final int component_reference = text_buf.pull_int().get_int();
+
+		switch(component_reference) {
+		case TitanComponent.NULL_COMPREF:
+			send_error(connection.channel, "Message PTC_CREATED refers to the null component reference.");
+			//FIXME close_unknown_connection();
+			return;
+		case TitanComponent.MTC_COMPREF:
+			send_error(connection.channel, "Message PTC_CREATED refers to the component reference of the MTC.");
+			//FIXME close_unknown_connection();
+			return;
+		case TitanComponent.SYSTEM_COMPREF:
+			send_error(connection.channel, "Message PTC_CREATED refers to the component reference of the system.");
+			//FIXME close_unknown_connection();
+			return;
+		case TitanComponent.ANY_COMPREF:
+			send_error(connection.channel, "Message PTC_CREATED refers to 'any component'.");
+			//FIXME close_unknown_connection();
+			return;
+		case TitanComponent.ALL_COMPREF:
+			send_error(connection.channel, "Message PTC_CREATED refers to 'all component'.");
+			//FIXME close_unknown_connection();
+			return;
+		}
+
+		final ComponentStruct tc = components.get(component_reference);//TODO check
+		if (tc == null) {
+			send_error(connection.channel, MessageFormat.format("Message PTC_CREATED referes to invalid component reference {0}.", component_reference));
+			//FIXME close_unknown_connection();
+			return;
+		} else if (tc.tc_state != tc_state_enum.TC_INITIAL) {
+			send_error(connection.channel, MessageFormat.format("Message PTC_CREATED refers to test component {0}, which is not "
+					+ "being created.", component_reference));
+			//FIXME close_unknown_connection();
+			return;
+		} //FIXME extra branch conn_ip_addr
+
+		tc.tc_state = tc_state_enum.TC_IDLE;
+		tc.socket = connection.channel;
+
+		channel_table_struct new_struct = new channel_table_struct();
+		new_struct.channel_type = channel_type_enum.CHANNEL_TC;
+		new_struct.component = tc;
+		channel_table.put(connection.channel, new_struct);
+		text_buf.cut_message();
+		tc.text_buf = text_buf;
+		//FIXME implement
+
+		//FIXME delete_unknown_connection(connection);
+
+		if (mc_state == mcStateEnum.MC_TERMINATING_TESTCASE || mtc.stop_requested ||
+				mtc.tc_state == tc_state_enum.MTC_ALL_COMPONENT_KILL ||
+				(mtc.tc_state == tc_state_enum.MTC_ALL_COMPONENT_STOP && !tc.is_alive)) {
+			send_kill(tc);
+			tc.tc_state = tc_state_enum.PTC_KILLING;
+			if (!tc.is_alive) {
+				tc.stop_requested = true;
+			}
+			tc.stop_requestors = init_requestors(null);
+			tc.kill_requestors = init_requestors(null);
+			// TODO start kill timer
+		} else {
+			if (tc.create_requestor.tc_state == tc_state_enum.TC_CREATE) {
+				send_create_ack(tc.create_requestor, component_reference);
+				if (tc.create_requestor.equals(mtc)) {
+					tc.create_requestor.tc_state = tc_state_enum.MTC_TESTCASE;
+				} else {
+					tc.create_requestor.tc_state = tc_state_enum.PTC_FUNCTION;
+				}
+			}
+		}
+		handle_tc_data(tc, false);
+		status_change();
+	}
+
+	//FIXME should disappear
 	private static void process_ptc_created(final Host hc) {
 		switch(mc_state) {
 		case MC_EXECUTING_TESTCASE:
