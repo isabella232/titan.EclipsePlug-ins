@@ -42,7 +42,6 @@ import org.eclipse.titan.executor.executors.ExecuteDialog;
 import org.eclipse.titan.executor.executors.ExecuteDialog.ExecutableType;
 import org.eclipse.titan.executor.executors.SeverityResolver;
 import org.eclipse.titan.executor.jni.IJNICallback;
-import org.eclipse.titan.executor.jni.JNIMiddleWare;
 import org.eclipse.titan.executor.jni.Timeval;
 import org.eclipse.titan.executor.views.executormonitor.ComponentElement;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
@@ -72,7 +71,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private boolean executeRequested = false;
 	private List<String> executeList = new ArrayList<String>();
 	private boolean shutdownRequested = false;
-	//private JNIMiddleWare jnimw;
 
 	private boolean simpleExecutionRunning = false;
 	private boolean isTerminated = false;
@@ -251,8 +249,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		};
 		info.setToolTipText("Updates the status displaying hierarchy");
 
-		//jnimw = new JNIMiddleWare(this);
-		//jnimw.initialize(1500);
 		NativeJavaUI tempUI = new NativeJavaUI(this);
 		MainController.initialize(tempUI, 1500);//mx_ptcs
 		TITANDebugConsole.println("initialize called");
@@ -468,7 +464,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	public void statusChangeCallback() {
 		TITANDebugConsole.println("statusChangeCallback called");
 		final MainController.mcStateEnum state = MainController.get_state();
-		//final McStateEnum state = jnimw.get_state();
 		switch (state) {
 		case MC_LISTENING:
 		case MC_LISTENING_CONFIGURED:
@@ -477,8 +472,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			// FIXME per pillanat amig nem megy a get_host_data, feltetelezem, hogy NumHCs() == 1
 			// if(!McStateEnum.MC_CONFIGURING.equals(previousState) &&
 			// configHandler2.NumHCs() > 0){
-			// HostStruct host = jnimw.get_host_data(configHandler2.NumHCs() -
-			// 1);
+			// HostStruct host = jnimw.get_host_data(configHandler2.NumHCs() - 1);
 			if (shutdownRequested) {
 				shutdownSession();
 			} else if (configureRequested) {
@@ -506,7 +500,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			if (shutdownRequested) {
 				shutdownRequested = false;
 				// session shutdown is finished (requested by jnimw.shutdown_session())
-				//jnimw.terminate_internal();
 				//TODO: delete user interface?
 				terminate(false);
 				executeList.clear();
@@ -614,7 +607,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 
 		mcHost = localAddress;
 		final int port = MainController.start_session(localAddress, tcpport);
-		//final int port = jnimw.start_session(localAddress, tcpport, (configHandler != null) && configHandler.unixDomainSocketEnabled());
 		if (port == 0) {
 			// there were some errors starting the session
 			shutdownSession();
@@ -642,11 +634,11 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private void startHC() {
 		startHCRequested = true;
 		final MainController.mcStateEnum state = MainController.get_state();
-		//final int stateValue = jnimw.get_state().getValue();
 		if (MainController.mcStateEnum.MC_LISTENING != state && MainController.mcStateEnum.MC_LISTENING_CONFIGURED != state) {
 			initialization();
 			return;
 		}
+
 		startHostControllers();
 		startHCRequested = false;
 	}
@@ -660,14 +652,12 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		TITANDebugConsole.println("configure called");
 		configureRequested = true;
 		final MainController.mcStateEnum state = MainController.get_state();
-		//final int stateValue = jnimw.get_state().getValue();
 		if (MainController.mcStateEnum.MC_HC_CONNECTED != state && MainController.mcStateEnum.MC_ACTIVE != state) {
 			startHC();
 			return;
 		}
 
 		MainController.configure(generateCfgString());
-		//jnimw.configure(generateCfgString());
 
 		configureRequested = false;
 	}
@@ -681,13 +671,12 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		TITANDebugConsole.println("createMTC called");
 		createMTCRequested = true;
 		final MainController.mcStateEnum state = MainController.get_state();
-		//final int stateValue = jnimw.get_state().getValue();
 		if (MainController.mcStateEnum.MC_ACTIVE != state) {
 			configure();
 			return;
 		}
+
 		/* this is not a constant null, it just so happens to trick your eyes */
-		//jnimw.create_mtc(0);
 		MainController.Host host = MainController.get_host_data(0);
 		MainController.release_data();
 		MainController.create_mtc(host);
@@ -813,14 +802,11 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		final int i = testElement.indexOf('.');
 		if (i != -1) {
 			if ("control".equals(testElement.substring(i + 1))) {
-				//jnimw.execute_control(testElement.substring(0, i));
 				MainController.execute_control(testElement.substring(0, i));
 			} else {
-				//jnimw.execute_testcase(testElement.substring(0, i), testElement.substring(i + 1));
 				MainController.execute_testcase(testElement.substring(0, i), testElement.substring(i + 1));
 			}
 		} else {
-			//jnimw.execute_control(testElement);
 			MainController.execute_control(testElement);
 		}
 	}
@@ -831,7 +817,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private void stop() {
 		executeList.clear();
 		executeRequested = false;
-		//jnimw.stop_execution();
 		MainController.stop_execution();
 	}
 
@@ -843,15 +828,15 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private void exitMTC() {
 		TITANDebugConsole.println("exitMTC called");
 		final MainController.mcStateEnum state = MainController.get_state();
-		//final int stateValue = jnimw.get_state().getValue();
 		if (MainController.mcStateEnum.MC_EXECUTING_CONTROL == state || MainController.mcStateEnum.MC_EXECUTING_TESTCASE == state || MainController.mcStateEnum.MC_PAUSED == state) {
 			stop();
 			return;
 		}
+
 		if (MainController.mcStateEnum.MC_READY != state) {
 			return;
 		}
-		//jnimw.exit_mtc();
+
 		MainController.exit_mtc();
 	}
 
@@ -866,9 +851,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		shutdownRequested = true;
 		simpleExecutionRunning = false;
 		final MainController.mcStateEnum state = MainController.get_state();
-		//final int stateValue = jnimw.get_state().getValue();
 		if (MainController.mcStateEnum.MC_LISTENING == state || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == state || MainController.mcStateEnum.MC_HC_CONNECTED == state || MainController.mcStateEnum.MC_ACTIVE == state) {
-			//jnimw.shutdown_session();
 			MainController.shutdown_session();
 			// jnimw.terminate_internal() must be also called when shutdown is finished, see statusChangeCallback() case MC_INACTIVE
 			startHCRequested = false;
@@ -886,11 +869,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	 * Updates the information displayed about the MainController's and HostControllers actual states.
 	 * */
 	private void updateInfoDisplay() {
-		//final JNIMiddleWare middleware = jnimw;
-		//final McStateEnum mcState = middleware.get_state();
 		final MainController.mcStateEnum mcState = MainController.get_state();
 		final MainControllerElement tempRoot = new MainControllerElement("Temporal root", this);
-		//final String mcStateName = middleware.get_mc_state_name(mcState);
 		final String mcStateName = MainController.get_mc_state_name(mcState);
 		tempRoot.setStateInfo(new InformationElement("state: " + mcStateName));
 
@@ -900,12 +880,9 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		ComponentElement tempComponent;
 		StringBuilder builder;
 
-		//final int nofHosts = middleware.get_nof_hosts();
 		final int nofHosts = MainController.get_nof_hosts();
-		//HostStruct host;
 		MainController.Host host;
 		for (int i = 0; i < nofHosts; i++) {
-			//host = middleware.get_host_data(i);
 			host = MainController.get_host_data(i);
 
 			tempHost = new HostControllerElement("Host Controller: ");
@@ -921,10 +898,8 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 			final int activeComponents = host.components.size();
 
 			final List<MainController.ComponentStruct> components = host.components;
-			//middleware.release_data();
 			MainController.release_data();
 			for (int component_index = 0; component_index < activeComponents; component_index++) {
-				//comp = middleware.get_component_data(components[component_index]);
 				comp = components.get(component_index);
 				tempComponent = new ComponentElement("Component: " + comp.comp_name, new InformationElement("Component reference: " + comp.comp_ref));
 				tempHost.addComponent(tempComponent);
@@ -958,8 +933,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 				}
 			}
 		}
-		//middleware.release_data();
-		//MainController.release_data();
 
 		if (mainControllerRoot != null) {
 			mainControllerRoot.children().clear();
@@ -978,7 +951,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	private void updateGUI() {
 		TITANDebugConsole.println("updateGUI called");
 		final MainController.mcStateEnum stateValue = MainController.get_state();
-		//final int stateValue = jnimw.get_state().getValue();
 
 		automaticExecution.setEnabled(!isTerminated && executeList.isEmpty());
 		startSession.setEnabled(!isTerminated && MainController.mcStateEnum.MC_INACTIVE == stateValue);
@@ -1001,8 +973,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		generalLogging.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
 				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue);
 		info.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
-				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue
-				|| MainController.mcStateEnum.MC_SHUTDOWN == stateValue);
+				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue);
 
 		final ExecutorMonitorView mainView = Activator.getMainView();
 		if (mainView != null) {
@@ -1024,7 +995,6 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 	public void terminate(final boolean external) {
 		TITANDebugConsole.println("terminate called");
 		final MainController.mcStateEnum state = MainController.get_state();
-		//final McStateEnum state = jnimw.get_state();
 
 		if (MainController.mcStateEnum.MC_INACTIVE == state) {
 			setRunning(false);
@@ -1048,6 +1018,7 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		} else {
 			shutdownSession();
 		}
+
 		updateGUI();
 	}
 
