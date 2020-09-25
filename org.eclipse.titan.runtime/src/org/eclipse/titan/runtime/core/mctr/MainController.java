@@ -425,6 +425,7 @@ public class MainController {
 		}
 	};
 
+	//FIXME should not be threadlocal
 	private static ThreadLocal<Boolean> stop_requested = new ThreadLocal<Boolean>() {
 		@Override
 		protected Boolean initialValue() {
@@ -432,6 +433,7 @@ public class MainController {
 		}
 	};
 
+	//FIXME should not be threadlocal
 	private static ThreadLocal<Boolean> stop_after_tc = new ThreadLocal<Boolean>() {
 		@Override
 		protected Boolean initialValue() {
@@ -5378,7 +5380,7 @@ public class MainController {
 			send_stop(mtc);
 			mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
 			mtc.stop_requested = true;
-			// TODO timer
+			// TODO start_kill_timer
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		} else if (stop_after_tc.get()) {
 			send_ptc_verdict(false);
