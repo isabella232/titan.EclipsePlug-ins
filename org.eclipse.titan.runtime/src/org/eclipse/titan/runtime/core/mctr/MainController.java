@@ -715,6 +715,48 @@ public class MainController {
 		return new_group;
 	}
 
+	public static void assign_component(final String host_or_group, final String component_id) {
+		lock();
+		if (mc_state != mcStateEnum.MC_INACTIVE) {
+			error("MainController.assign_component: called in wrong state.");
+			unlock();
+			return;
+		}
+
+		final HostGroupStruct group = add_host_group(host_or_group);
+		if (component_id == null) {
+			if (all_components_assigned) {
+				for (HostGroupStruct hostGroup : host_groups) {
+					if (hostGroup.has_all_components) {
+						error(MessageFormat.format("Duplicate assignment of all components (*) to host group `{0}'. Previous assignment to group `{1}' is ignored.",
+								host_or_group, hostGroup.group_name));
+						hostGroup.has_all_components = false;
+					}
+				}
+			} else {
+				all_components_assigned = true;
+			}
+
+			group.has_all_components = true;
+		} else {
+			if (assigned_components.contains(component_id)) {
+				for (HostGroupStruct hostGroup : host_groups) {
+					if (hostGroup.assigned_components.contains(component_id)) {
+						error(MessageFormat.format("Duplicate assignment of component `{0}' to host group `{1}'. Previous assignment to group `{2}' is ignored.",
+								component_id, host_or_group, hostGroup.group_name));
+						hostGroup.assigned_components.remove(component_id);
+					}
+				}
+			} else {
+				assigned_components.add(component_id);
+			}
+
+			group.assigned_components.add(component_id);
+		}
+
+		unlock();
+	}
+
 	public static void destroy_host_groups() {
 		lock();
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
