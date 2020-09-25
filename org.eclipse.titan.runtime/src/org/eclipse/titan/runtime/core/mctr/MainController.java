@@ -2131,7 +2131,7 @@ public class MainController {
 								process_testcase_finished();//TODO check
 								break;
 							case MSG_MTC_READY:
-								process_mtc_ready();//TODO check
+								process_mtc_ready();
 								break;
 							case MSG_CONFIGURE_ACK:
 								process_configure_ack_mtc();//TODO check
@@ -5163,16 +5163,18 @@ public class MainController {
 	}
 
 	private static void process_mtc_ready() {
-		incoming_buf.get().cut_message();
 		if (mc_state != mcStateEnum.MC_EXECUTING_CONTROL || mtc.tc_state != tc_state_enum.MTC_CONTROLPART) {
-			send_error(mtc.comp_location, "Unexpected message MTC_READY was received.");
+			send_error(mtc.socket, "Unexpected message MTC_READY was received.");
 			return;
 		}
+
 		mc_state = mcStateEnum.MC_READY;
 		mtc.tc_state = tc_state_enum.TC_IDLE;
 		mtc.stop_requested = false;
+		//FIXME handle kill_timer
+		stop_requested.set(false);
 		notify("Test execution finished.");
-		// TODO timer
+		status_change();
 	}
 
 
@@ -5547,13 +5549,14 @@ public class MainController {
 		lock();
 		if (mc_state != mcStateEnum.MC_READY) {
 			error("MainController::execute_control: called in wrong state.");
-		    unlock();
-		    return;
+			unlock();
+			return;
 		}
+
 		send_execute_control(module_name);
 		mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
-		//FIXME: status_change();
+		status_change();
 		unlock();
 	}
 
@@ -5561,7 +5564,7 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXECUTE_CONTROL);
 		text_buf.push_string(module_name);
-		send_message(mtc.comp_location, text_buf);
+		send_message(mtc.socket, text_buf);
 	}
 
 	private static RequestorStruct init_requestors(final ComponentStruct tc) {
