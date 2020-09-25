@@ -501,6 +501,7 @@ public class MainController {
 	}
 
 	public static void terminate() {
+		clean_up();
 		//FIXME implement
 	}
 
@@ -573,9 +574,12 @@ public class MainController {
 				return;
 			}
 		}
+
+		clean_up();
 		notify("Shutdown complete.");
 		unlock();
-		status_change();
+		//no locking
+		ui.status_change();
 	}
 
 	private static void dispatch_socket_event(final SelectableChannel channel) {
@@ -758,6 +762,7 @@ public class MainController {
 			} catch (IOException e){
 				//FIXME report error
 				error(MessageFormat.format("Selector opening failed: {0}.", e.getMessage()));
+				clean_up();
 				unlock();
 				return 0;
 			}
@@ -769,7 +774,7 @@ public class MainController {
 				mc_channel.configureBlocking(false);
 			} catch (IOException e) {
 				error(MessageFormat.format("Server socket creation failed: {0}\n", e.getMessage()));
-				//clean up?
+				clean_up();
 				return 0;
 			}
 
@@ -777,7 +782,7 @@ public class MainController {
 				mc_channel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
 			} catch (IOException e) {
 				error(MessageFormat.format("SO_REUSEADDR failed on server socket: {0}", e.getMessage()));
-				//clean up?
+				clean_up();
 				return 0;
 			}
 
@@ -788,11 +793,11 @@ public class MainController {
 			} catch (IOException e) {
 				if (local_address == null || local_address.isEmpty()) {
 					error(MessageFormat.format("Binding server socket to TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
-					//clean up?
+					clean_up();
 					return 0;
 				} else {
 					error(MessageFormat.format("Binding server socket to IP address {0} and TCP port {1,number,#} failed: {2}\n", local_address, tcp_port, e.getMessage()));
-					//clean up?
+					clean_up();
 					return 0;
 				}
 			}
@@ -804,6 +809,7 @@ public class MainController {
 				mc_channel.register(mc_selector, SelectionKey.OP_ACCEPT);
 			} catch (ClosedChannelException e) {
 				error(MessageFormat.format("Selector registration failed: {0}.", e.getMessage()));
+				clean_up();
 				unlock();
 				return 0;
 			}
@@ -1179,14 +1185,55 @@ public class MainController {
 				//FIXME send_error_str
 			}
 		} else if (recv_len == 0) {
-			//FIXME error(MessageFormat.format("Unexpected end of an unknown connection from {0} [{1}].", arguments));
+			if (hc.hc_state == hc_state_enum.HC_EXITING) {
+				close_hc_connection(hc);
+				if (mc_state == mcStateEnum.MC_SHUTDOWN && all_hc_in_state(hc_state_enum.HC_DOWN)) {
+					mc_state = mcStateEnum.MC_INACTIVE;
+				} else {
+					error(MessageFormat.format("Unexpected end of HC connection from {0} [{1}].",
+							hc.hostname, hc.hostname_local));//FIXME ipaddress
+				}
+			}
+
 			error_flag = true;
 		} else {
-			//FIXME error report
+			error(MessageFormat.format("Receiving of data failed on HC connection from {0} [{1}].",
+					hc.hostname, hc.hostname));//FIXME ipaddress
 			error_flag = true;
 		}
+
 		if (error_flag) {
-			//FIXME close_unknown_connection
+			close_hc_connection(hc);
+			switch (mc_state) {
+			case MC_INACTIVE:
+			case MC_LISTENING:
+			case MC_LISTENING_CONFIGURED:
+				fatal_error("MC is in invalid state when a HC connection terminated.");
+				break;
+			case MC_HC_CONNECTED:
+				if (all_hc_in_state(hc_state_enum.HC_DOWN)) {
+					mc_state = mcStateEnum.MC_LISTENING;
+				}
+				break;
+			case MC_CONFIGURING:
+			case MC_RECONFIGURING:
+				check_all_hc_configured();
+				break;
+			case MC_ACTIVE:
+				if (all_hc_in_state(hc_state_enum.HC_DOWN)) {
+					mc_state = mcStateEnum.MC_LISTENING_CONFIGURED;
+				} else if (!is_hc_in_state(hc_state_enum.HC_ACTIVE)
+						&& !is_hc_in_state(hc_state_enum.HC_OVERLOADED)) {
+					mc_state = mcStateEnum.MC_HC_CONNECTED;
+				}
+				break;
+			default:
+				if (!is_hc_in_state(hc_state_enum.HC_ACTIVE)) {
+					notify("There is no active HC connection. Further create operations will fail.");
+				}
+			}
+
+			status_change();
 		}
 	}
 
@@ -1436,14 +1483,14 @@ public class MainController {
 		}
 
 		if (is_hc_in_state(hc_state_enum.HC_IDLE)) {
-			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_HC_CONNECTED;
 			error("There were errors during configuring HCs.");
+			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_HC_CONNECTED;
 		} else if (is_hc_in_state(hc_state_enum.HC_ACTIVE) || is_hc_in_state(hc_state_enum.HC_OVERLOADED)) {
 			notify("Configuration file was processed on all HCs.");
 			mc_state = reconf ? mcStateEnum.MC_READY : mcStateEnum.MC_ACTIVE;
 		} else {
-			mc_state = mcStateEnum.MC_LISTENING;
 			error("There is no HC connection after processing the configuration file.");
+			mc_state = mcStateEnum.MC_LISTENING;
 		}
 
 	}
@@ -1455,13 +1502,38 @@ public class MainController {
 		}
 	}
 
+	private static void close_hc_connection(final Host hc) {
+		if (hc.hc_state != hc_state_enum.HC_DOWN) {
+			try {
+				hc.socket.close();
+			} catch (IOException e) {
+				//FIXME
+			}
+			channel_table.remove(hc.socket);
+			hc.socket = null;
+			hc.text_buf = null;
+			hc.hc_state = hc_state_enum.HC_DOWN;
+		}
+	}
+
 	private static boolean is_hc_in_state(final hc_state_enum checked_state) {
 		for (int i = 0; i < hosts.size(); i++) {
 			if (hosts.get(i).hc_state == checked_state) {
 				return true;
 			}
 		}
+
 		return false;
+	}
+
+	private static boolean all_hc_in_state(final hc_state_enum checked_state) {
+		for (int i = 0; i < hosts.size(); i++) {
+			if (hosts.get(i).hc_state != checked_state) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private static int receive_to_buffer(final SocketChannel channel, final Text_Buf text_buf, final boolean receive_from_socket) {
@@ -5084,7 +5156,7 @@ public class MainController {
 		lock();
 		switch(mc_state) {
 		case MC_INACTIVE:
-			//FIXME: status_change()
+			status_change();
 			break;
 		case MC_SHUTDOWN:
 			break;
@@ -5515,6 +5587,18 @@ public class MainController {
 		send_message(mtc.socket, text_buf);
 	}
 
+	private static void shutdown_server() {
+		if (mc_channel != null) {
+			try {
+				mc_channel.close();
+			} catch (IOException e) {
+				//FIXME handle
+			}
+			channel_table.remove(mc_channel);
+			mc_channel = null;
+		}
+	}
+
 	private static void perform_shutdown() {
 		boolean shutdown_complete = true;
 		switch(mc_state) {
@@ -5527,15 +5611,12 @@ public class MainController {
 					shutdown_complete = false;
 				}
 			}
+			// no break
 		case MC_LISTENING:
 		case MC_LISTENING_CONFIGURED:
-			// TODO shutdown server
-			try {
-				mc_channel.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			shutdown_server();
+			// don't call status_change() if shutdown is complete
+			    // it will be called from thread_main() later
 			if (shutdown_complete) {
 				mc_state = mcStateEnum.MC_INACTIVE;
 			} else {
@@ -5554,4 +5635,32 @@ public class MainController {
 		send_message(hc.socket, text_buf);
 	}
 
+	private static void clean_up() {
+		shutdown_server();
+
+		//FIXME close_unknown_connection
+
+		//FIXME destroy_all_componnents();
+
+		for (Host hc : hosts) {
+			close_hc_connection(hc);
+		}
+		hosts.clear();
+		config_str.set(null);
+
+		//FIXME debugger support
+
+		//FIXME cancel_timer
+
+		modules.clear();
+		version_known = false;
+		try {
+			mc_selector.close();
+		} catch (IOException e) {
+			//FIXME handle
+		}
+
+		channel_table.clear();
+		mc_state = mcStateEnum.MC_INACTIVE;
+	}
 }
