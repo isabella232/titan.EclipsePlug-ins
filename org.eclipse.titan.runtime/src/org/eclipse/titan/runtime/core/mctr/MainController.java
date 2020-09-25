@@ -401,7 +401,7 @@ public class MainController {
 	private static int next_comp_ref;
 	private static int tc_first_comp_ref;
 	private static List<Host> hosts;
-	private static List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
+	private static List<HostGroupStruct> host_groups;
 	private static List<ExecuteItem> executeItems;
 	
 
@@ -435,7 +435,7 @@ public class MainController {
 		}
 		mc_hostname = String.format("MC@%s", mc_hostname);
 
-		host_groups = null;
+		host_groups = new ArrayList<HostGroupStruct>();
 		//all_components_assigned = false;
 
 		hosts = null;
@@ -678,33 +678,20 @@ public class MainController {
 	}
 
 	private static HostGroupStruct add_host_group(final String group_name) {
-		if (host_groups == null) {
-			host_groups = new ArrayList<HostGroupStruct>();
-			HostGroupStruct new_group = new HostGroupStruct();
-
-			new_group.group_name = group_name;
-			new_group.has_all_hosts = false;
-			new_group.has_all_components = false;
-			new_group.host_members = new ArrayList<Host>();
-
-			host_groups.add(new_group);
-			return new_group;
-		} else {
-			for (int i = 0; i < host_groups.size(); i++) {
-				if (host_groups.get(i).group_name.equals(group_name)) {
-					return host_groups.get(i);
-				}
+		for (int i = 0; i < host_groups.size(); i++) {
+			if (host_groups.get(i).group_name.equals(group_name)) {
+				return host_groups.get(i);
 			}
-
-			HostGroupStruct new_group = new HostGroupStruct();
-
-			new_group.group_name = group_name;
-			new_group.has_all_hosts = false;
-			new_group.has_all_components = false;
-
-			host_groups.add(new_group);
-			return new_group;
 		}
+
+		HostGroupStruct new_group = new HostGroupStruct();
+
+		new_group.group_name = group_name;
+		new_group.has_all_hosts = false;
+		new_group.has_all_components = false;
+
+		host_groups.add(new_group);
+		return new_group;
 	}
 
 	public static int start_session(final String local_address, int tcp_port) {
