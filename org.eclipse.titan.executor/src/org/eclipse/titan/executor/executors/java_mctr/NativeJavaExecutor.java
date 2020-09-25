@@ -689,7 +689,9 @@ public class NativeJavaExecutor extends BaseExecutor implements IJNICallback {
 		}
 		/* this is not a constant null, it just so happens to trick your eyes */
 		//jnimw.create_mtc(0);
-		MainController.create_mtc(MainController.get_host_data(0));
+		MainController.Host host = MainController.get_host_data(0);
+		MainController.release_data();
+		MainController.create_mtc(host);
 		createMTCRequested = false;
 	}
 
