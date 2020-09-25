@@ -2170,10 +2170,32 @@ public class MainController {
 					text_buf.cut_message();
 				}
 			} catch (TtcnError e) {
+				if (tc == mtc) {
+					error(MessageFormat.format("Malformed message was received from the MTC at {0} [{1}].",
+							mtc.comp_location.hostname, mtc.comp_location.hostname));//FIXME ipaddress
+				} else {
+					notify(MessageFormat.format("Malformed message was received from PTC {0} at {1} [{2}].",
+							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.hostname));//FIXME ipaddress
+				}
+				close_connection = true;
 			}
-			//FIXME
+
+			if (close_connection) {
+				send_error(tc.socket, "The received message was not understood by the MC.");
+			}
 		} else if (recv_len == 0) {
-			//FIXME
+			// TCP connection is closed by peer
+			if (tc.tc_state != tc_state_enum.TC_EXITING && !tc.process_killed) {
+				if (tc == mtc) {
+					error(MessageFormat.format("Unexpected end of MTC connection from {0} [{1}].",
+							mtc.comp_location.hostname, mtc.comp_location.hostname));//FIXME ipaddress
+				} else {
+					notify(MessageFormat.format("Unexpected end of PTC connection ({0}) from {1} [{2}].",
+							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.hostname));//FIXME ipaddress
+				}
+			}
+
+			close_connection = true;
 		} else {
 			// FIXME
 			if (tc == mtc) {
