@@ -563,7 +563,8 @@ public class MainController {
 		case CHANNEL_TC:
 			handle_tc_data(mtc, true);
 			break;
-		//FIXME implement rest
+		default:
+			fatal_error(MessageFormat.format("Invalid connection type ({0}) for channel {1}.", temp_struct.channel_type, channel));
 		}
 	}
 
