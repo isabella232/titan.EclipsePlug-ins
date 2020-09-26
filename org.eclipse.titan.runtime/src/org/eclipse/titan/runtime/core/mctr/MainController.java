@@ -261,17 +261,12 @@ public class MainController {
 		public hc_state_enum hc_state;
 		SocketChannel socket;//hc_fd
 		public Text_Buf text_buf;
-		public List<ComponentStruct> components;
+		public List<Integer> components;
 
 		Host() {
 			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
-			components = new ArrayList<MainController.ComponentStruct>();
+			components = new ArrayList<Integer>();
 		}
-
-		void addComponent(final ComponentStruct comp) {
-			components.add(comp);
-		}
-
 	}
 	
 	public static class QualifiedName {
@@ -315,13 +310,8 @@ public class MainController {
 		RequestorStruct done_requestors;
 		RequestorStruct killed_requestors;
 		RequestorStruct cancel_done_sent_for;
-
-		ComponentStruct(final Text_Buf tb) {
-			text_buf = tb;
-		}
-
 	}
-	
+
 	/** Structure for timers */
 	static class TimerStruct {
 		double expiration;
@@ -415,7 +405,7 @@ public class MainController {
 		}
 	};
 
-	private static Map<Integer, ComponentStruct> components;
+	public static Map<Integer, ComponentStruct> components;
 
 	private static double kill_timer = 0.0;
 	private static ReentrantLock mutex;
@@ -450,7 +440,7 @@ public class MainController {
 
 		//n_components = 0;
 		//n_active_ptcs = 0;
-		components = null;
+		components = new ConcurrentHashMap<Integer, MainController.ComponentStruct>();
 		mtc = null;
 		system = null;
 		//debugger_active_tc = NULL;
@@ -1049,34 +1039,34 @@ public class MainController {
 		notify(MessageFormat.format("Creating MTC on host {0}.", host.hostname));
 		send_create_mtc(host);
 
-		mtc = new ComponentStruct(new Text_Buf());
+		mtc = new ComponentStruct();
 		mtc.comp_ref = TitanComponent.MTC_COMPREF;
 		mtc.comp_name = "MTC";
 		mtc.tc_state = tc_state_enum.TC_INITIAL;
 		mtc.local_verdict = VerdictTypeEnum.NONE;
-		mtc.comp_location = host;
+		mtc.text_buf = null;
 		mtc.done_requestors = init_requestors(null);
 		mtc.killed_requestors = init_requestors(null);
 		mtc.cancel_done_sent_for = init_requestors(null);
 		mtc.conn_head_list = new ArrayList<PortConnection>();
 		mtc.conn_tail_list = new ArrayList<PortConnection>();
-		host.addComponent(mtc);
-		components = new HashMap<Integer, ComponentStruct>();
+		//FIXME init_connections(mtc)
 		components.put(mtc.comp_ref, mtc);
-		//FIXME manage connections and add_component
+		add_component_to_host(host, mtc);
 
-		system = new ComponentStruct(new Text_Buf());
+		system = new ComponentStruct();
 		system.comp_ref = TitanComponent.SYSTEM_COMPREF;
 		system.comp_name = "SYSTEM";
 		system.tc_state = tc_state_enum.TC_SYSTEM;
 		system.local_verdict = VerdictTypeEnum.NONE;
-		components.put(system.comp_ref, system);
+		system.text_buf = null;
 		system.done_requestors = init_requestors(null);
 		system.killed_requestors = init_requestors(null);
 		system.cancel_done_sent_for = init_requestors(null);
 		system.conn_head_list = new ArrayList<PortConnection>();
 		system.conn_tail_list = new ArrayList<PortConnection>();
-		//FIXME manage connections and add_component
+		//FIXME init_connections(system)
+		components.put(system.comp_ref, system);
 
 		mc_state = mcStateEnum.MC_CREATING_MTC;
 		status_change();
@@ -1156,6 +1146,7 @@ public class MainController {
 		    hc.hostname, hc.address/*hc->ip_addr->get_addr_str()*/, reason));
 	}
 
+	//FIXME should disappear
 	private static void connect_ptc() {
 		SocketChannel sc;
 		try {
@@ -1385,7 +1376,9 @@ public class MainController {
 			return;
 		}
 
-		final Text_Buf text_buf = incoming_buf.get();
+		//FIXME add max_ptc check
+
+		final Text_Buf text_buf = tc.text_buf;
 
 		final String componentTypeModule = text_buf.pull_string();
 		final String componentTypeName = text_buf.pull_string();
@@ -1394,14 +1387,12 @@ public class MainController {
 		final int isAlive = text_buf.pull_int().get_int();
 		final int seconds = text_buf.pull_int().get_int();
 		final int miliseconds = text_buf.pull_int().get_int();
-		text_buf.cut_message();
 
-
-		// FIXME choose location
+		// FIXME check choose location
 		final Host ptcLoc = choose_ptc_location(componentTypeName, componentName, componentLocation);
 		if (ptcLoc == null) {
 			if (!is_hc_in_state(hc_state_enum.HC_ACTIVE)) {
-				send_error(tc.comp_location, "There is no active HC connection. Create operation cannot be performed.");
+				send_error(tc.socket, "There is no active HC connection. Create operation cannot be performed.");
 			} else {
 				String compData = "component type: "+componentTypeModule+"."+componentTypeName;
 				if (componentName != null) {
@@ -1410,47 +1401,50 @@ public class MainController {
 				if (componentLocation != null) {
 					compData = compData+", location: "+componentLocation;
 				}
-				send_error(tc.comp_location, MessageFormat.format("No suitable host was found to create a new PTC ({0}).", compData));
+				send_error(tc.socket, MessageFormat.format("No suitable host was found to create a new PTC ({0}).", compData));
 			}
+
 			return;
 		}
 
-		tc.tc_state = tc_state_enum.TC_CREATE;
-
-		ptc = new ComponentStruct(new Text_Buf());
-		ptc.comp_ref = next_comp_ref++;
-		ptc.comp_name = componentName;
-		ptc.comp_location = ptcLoc;
-		ptc.tc_state = tc_state_enum.TC_INITIAL;
-		ptc.local_verdict = VerdictTypeEnum.NONE;
-		ptc.is_alive = (isAlive == 1);
-		ptc.create_requestor = tc;
-		ptc.done_requestors = init_requestors(null);
-		ptc.killed_requestors = init_requestors(null);
-		ptc.cancel_done_sent_for = init_requestors(null);
-		ptc.conn_head_list = new ArrayList<PortConnection>();
-		ptc.conn_tail_list = new ArrayList<PortConnection>();
-
-		components.put(ptc.comp_ref, ptc);
-		ptcLoc.addComponent(ptc);
-
-		send_create_ptc(ptcLoc, ptc.comp_ref, componentTypeModule, componentTypeName, system.comp_type,
+		final int comp_ref = next_comp_ref++;
+		send_create_ptc(ptcLoc, comp_ref, componentTypeModule, componentTypeName, system.comp_type,
 				componentName, isAlive, mtc.tc_fn_name, seconds, miliseconds);
 
-		final Thread PTC = new Thread() {
+		tc.tc_state = tc_state_enum.TC_CREATE;
 
-			@Override
-			public void run() {
-				connect_ptc();
-			}
+		final ComponentStruct new_ptc = new ComponentStruct();
+		new_ptc.comp_ref = next_comp_ref++;
+		new_ptc.comp_type = new QualifiedName(componentTypeModule, componentTypeName);
+		new_ptc.comp_name = componentName;
+		new_ptc.comp_location = ptcLoc;
+		new_ptc.tc_state = tc_state_enum.TC_INITIAL;
+		new_ptc.local_verdict = VerdictTypeEnum.NONE;
+		new_ptc.verdict_reason = null;
+		new_ptc.socket = null;
+		new_ptc.text_buf = null;
+		//FIXME init_qualified_name
+		new_ptc.return_type = null;
+		new_ptc.return_value = null;
+		new_ptc.is_alive = (isAlive == 1);
+		new_ptc.stop_requested = false;
+		new_ptc.process_killed = false;
+		new_ptc.create_requestor = tc;
+		//FIXME location_str
+		new_ptc.done_requestors = init_requestors(null);
+		new_ptc.killed_requestors = init_requestors(null);
+		new_ptc.cancel_done_sent_for = init_requestors(null);
+		//FIXME kill_timer
+		//FIXME init_connections(new_ptc)
 
-		};
+		components.put(new_ptc.comp_ref, new_ptc);
+		add_component_to_host(ptcLoc, new_ptc);
 
-		PTC.start();
+		status_change();
 	}
 
 
-	// FIXME
+	// FIXME implement
 	private static Host choose_ptc_location(final String componentTypeName, final String componentName, final String componentLocation) {
 		final Host location = null;
 		for (final Host h : hosts) {
@@ -1495,7 +1489,7 @@ public class MainController {
 		text_buf.push_int(seconds);
 		text_buf.push_int(miliseconds);
 
-		send_message(host, text_buf);
+		send_message(host.socket, text_buf);
 	}
 
 	private static void process_configure_ack(final Host hc) {
@@ -1536,13 +1530,48 @@ public class MainController {
 			error("There is no HC connection after processing the configuration file.");
 			mc_state = mcStateEnum.MC_LISTENING;
 		}
+	}
 
+	private static void add_component_to_host(final Host host, final ComponentStruct component) {
+		if (component.comp_ref == TitanComponent.MTC_COMPREF) {
+			component.log_source = MessageFormat.format("MTC@{0}", host.hostname_local);
+		} else if (component.comp_name != null) {
+			component.log_source = MessageFormat.format("{0}({1})@{2}",
+					component.comp_name, component.comp_ref, host.hostname_local);
+		} else {
+			component.log_source = MessageFormat.format("{0}@{1}", component.comp_ref, host.hostname_local);
+		}
+
+		component.comp_location = host;
+		int i;
+		for (i = host.components.size(); i > 0; i--) {
+			if (host.components.get(i-1) < component.comp_ref) {
+				break;
+			} else if (host.components.get(i-1) == component.comp_ref) {
+				return;
+			}
+		}
+		host.components.add(i, component.comp_ref);
 	}
 
 	private static void remove_component_from_host(final ComponentStruct component) {
+		component.log_source = null;
 		final Host host = component.comp_location;
 		if (host != null) {
-			host.components.remove(component);
+			int i;
+			for (i = host.components.size() -1; i >= 0; i--) {
+				if (host.components.get(i) == component.comp_ref) {
+					break;
+				} else if (host.components.get(i) < component.comp_ref) {
+					return;
+				}
+			}
+
+			if (i < 0) {
+				return;
+			}
+
+			host.components.remove(i);
 		}
 	}
 

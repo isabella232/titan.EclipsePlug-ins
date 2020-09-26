@@ -890,10 +890,10 @@ public class NativeJavaExecutor extends BaseExecutor {
 
 			final int activeComponents = host.components.size();
 
-			final List<MainController.ComponentStruct> components = host.components;
+			final List<Integer> components = host.components;
 			MainController.release_data();
 			for (int component_index = 0; component_index < activeComponents; component_index++) {
-				comp = components.get(component_index);
+				comp = MainController.components.get(components.get(component_index));
 				tempComponent = new ComponentElement("Component: " + comp.comp_name, new InformationElement("Component reference: " + comp.comp_ref));
 				tempHost.addComponent(tempComponent);
 
