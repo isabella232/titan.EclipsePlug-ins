@@ -1525,26 +1525,6 @@ public class MainController {
 		return recv_len;
 	}
 
-	//TODO should not be used in the end
-	public static void receiveMessage(final Host hc) {
-		final Text_Buf local_incoming_buf = incoming_buf.get();
-		final AtomicInteger buf_ptr = new AtomicInteger();
-		final AtomicInteger buf_len = new AtomicInteger();
-		local_incoming_buf.get_end(buf_ptr, buf_len);
-
-		final ByteBuffer tempbuffer = ByteBuffer.allocate(1024);
-		int recv_len = 0;
-		try {
-			recv_len = hc.socket.read(tempbuffer);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new TtcnError(e);
-		}
-		if (recv_len > 0) {
-			local_incoming_buf.push_raw(recv_len, tempbuffer.array());
-		}
-	}
-
 	private static boolean check_version(final unknown_connection connection) {
 		final Text_Buf text_buf = connection.text_buf;
 		final int version_major = text_buf.pull_int().get_int();
