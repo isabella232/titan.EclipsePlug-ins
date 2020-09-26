@@ -1212,53 +1212,6 @@ public class MainController {
 		}
 	}
 
-	//FIXME should disappear with time
-	private static void handle_hc_data(final Host hc) {
-		final Text_Buf local_incoming_buf = incoming_buf.get();
-		boolean error_flag = false;
-		receiveMessage(hc);
-		do {
-			final int msg_len = local_incoming_buf.pull_int().get_int();
-			final int msg_type = local_incoming_buf.pull_int().get_int();
-			switch (msg_type) {
-			case MSG_CONFIGURE_ACK:
-				process_configure_ack(hc);
-				break;
-			case MSG_ERROR:
-				process_error(hc);
-				break;
-			case MSG_CONFIGURE_NAK:
-				process_configure_nak(hc);
-				break;
-			case MSG_CREATE_NAK:
-				//FIXME: process_create_nak(hc);
-				break;
-			case MSG_LOG:
-				process_log(hc);
-				break;
-			case MSG_HC_READY:
-				process_hc_ready(hc);
-				break;
-			case MSG_DEBUG_RETURN_VALUE:
-				//FIXME: process_debug_return_value(*hc->text_buf, hc->log_source, msg_end, false);
-				break;
-			default:
-				error(MessageFormat.format("Invalid message type ({0}) was received on HC connection from {1} [{2}].",
-						msg_type, hc.hostname, hc.address));
-				error_flag = true;
-			}
-			if (error_flag) {
-				break;
-			}
-			local_incoming_buf.cut_message();
-			if (msg_type != MSG_CONFIGURE_ACK) {
-				receiveMessage(hc);
-			}
-		} while (local_incoming_buf.is_message());
-		// TODO
-
-	}
-
 	private static void process_configure_nak(final Host hc) {
 		incoming_buf.get().cut_message();
 		switch(hc.hc_state) {
@@ -1889,7 +1842,6 @@ public class MainController {
 			notify("Downloading configuration file to all HCs.");
 			for (final Host host : hosts) {
 				configure_host(host, false);
-				//handle_hc_data(host);//?
 			}
 		}
 
