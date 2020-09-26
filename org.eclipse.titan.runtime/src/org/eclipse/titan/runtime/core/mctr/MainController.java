@@ -5221,7 +5221,45 @@ public class MainController {
 	}
 	
 	public static void stop_execution() {
-		//FIXME: implement
+		lock();
+		if (!stop_requested) {
+			notify("Stopping execution.");
+			switch (mc_state) {
+			case MC_PAUSED:
+				mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
+				mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
+				// no break
+			case MC_EXECUTING_CONTROL:
+				send_stop(mtc);
+				mtc.stop_requested = true;
+				//FIXME start_kill_timer(mtc);
+				//FIXME wakeup_thread
+				break;
+			case MC_EXECUTING_TESTCASE:
+				if (!mtc.stop_requested) {
+					send_stop(mtc);
+					kill_all_components(true);
+					mtc.stop_requested = true;
+					//FIXME start_kill_timer(mtc)
+					//FIXME wakeup_thread
+				}
+			case MC_TERMINATING_TESTCASE:
+				// MTC will be stopped later in finish_testcase()
+			case MC_READY:
+				//do nothing
+				break;
+			default:
+				error("MainController::stop_execution: called in wrong state.");
+				unlock();
+				return;
+			}
+			stop_requested = true;
+			status_change();
+		} else {
+			notify("Stop was already requested. Operation ignored.");
+		}
+
+		unlock();
 	}
 
 	private static void send_execute_testcase(final String moduleName, final String testcaseName) {
