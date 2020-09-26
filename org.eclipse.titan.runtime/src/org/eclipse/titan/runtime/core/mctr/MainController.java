@@ -361,13 +361,7 @@ public class MainController {
 		}
 	};
 
-	//TODO should not be threadlocal
-	private static ThreadLocal<String> config_str = new ThreadLocal<String>() {
-		@Override
-		protected String initialValue() {
-			return "";
-		};
-	};
+	private static String config_str;
 
 	private static boolean version_known;
 	private static ArrayList<module_version_info> modules;
@@ -424,7 +418,7 @@ public class MainController {
 		all_components_assigned = false;
 
 		hosts = null;
-		config_str.set(null);
+		config_str = null;
 
 		version_known = false;
 		//modules = NULL;
@@ -1730,7 +1724,7 @@ public class MainController {
 		}
 
 		//FIXME needs to be processed somewhere
-		config_str.set(config_file);
+		config_str = config_file;
 
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
 			notify("Downloading configuration file to all HCs.");
@@ -1756,7 +1750,7 @@ public class MainController {
 			error("MainController.configure_mtc(): MTC is in wrong state.");
 		} else {
 			mtc.tc_state = tc_state_enum.MTC_CONFIGURING;
-			send_configure_mtc(config_str.get());
+			send_configure_mtc(config_str);
 		}
 
 	}
@@ -1793,13 +1787,12 @@ public class MainController {
 				// TODO send debug setup
 			}
 		}
-
 	}
 
 	private static void send_configure(final Host hc) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONFIGURE);
-		text_buf.push_string(config_str.get());
+		text_buf.push_string(config_str);
 
 		send_message(hc, text_buf);
 	}
@@ -5357,7 +5350,7 @@ public class MainController {
 			close_hc_connection(hc);
 		}
 		hosts.clear();
-		config_str.set(null);
+		config_str = null;
 
 		//FIXME debugger support
 
