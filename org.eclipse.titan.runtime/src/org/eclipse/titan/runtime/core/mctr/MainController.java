@@ -1115,7 +1115,7 @@ public class MainController {
 						process_configure_ack(hc);
 						break;
 					case MSG_CONFIGURE_NAK:
-						process_configure_nak(hc);//TODO check
+						process_configure_nak(hc);
 						break;
 					case MSG_CREATE_NAK:
 						//FIXME: process_create_nak(hc);
@@ -1197,7 +1197,6 @@ public class MainController {
 	}
 
 	private static void process_configure_nak(final Host hc) {
-		incoming_buf.get().cut_message();
 		switch(hc.hc_state) {
 		case HC_CONFIGURING:
 		case HC_CONFIGURING_OVERLOADED:
@@ -1213,7 +1212,8 @@ public class MainController {
 		} else {
 			notify(MessageFormat.format("Processing of configuration file failed on host {0}.", hc.hostname));
 		}
-		//FIXME: status_change();
+
+		status_change();
 	}
 
 	private static void process_hc_ready(final Host hc) {
