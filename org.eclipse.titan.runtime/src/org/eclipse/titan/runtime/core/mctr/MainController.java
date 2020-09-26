@@ -361,14 +361,6 @@ public class MainController {
 	};
 
 	//TODO should not be threadlocal
-	private static ThreadLocal<Integer> n_hosts = new ThreadLocal<Integer>() {
-		@Override
-		protected Integer initialValue() {
-			return Integer.valueOf(0);
-		}
-	};
-
-	//TODO should not be threadlocal
 	private static ThreadLocal<String> config_str = new ThreadLocal<String>() {
 		@Override
 		protected String initialValue() {
