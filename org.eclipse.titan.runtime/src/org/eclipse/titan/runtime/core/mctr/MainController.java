@@ -1717,50 +1717,6 @@ public class MainController {
 		return hc;
 	}
 
-	//FIXME should disappear with time
-	private static void add_new_host(final Host hc) {
-		final Text_Buf text_buf = incoming_buf.get();
-		hc.hostname_local = text_buf.pull_string();
-		//FIXME hostname should be calculated
-		hc.hostname = hc.hostname_local;
-		hc.machine_type = text_buf.pull_string();
-		hc.system_name = text_buf.pull_string();
-		hc.system_release = text_buf.pull_string();
-		hc.system_version = text_buf.pull_string();
-
-		for (int i = 0; i < transport_type_enum.TRANSPORT_NUM.ordinal(); i++) {
-			hc.transport_supported[i] = false;
-		}
-
-		final int n_supported_transports = text_buf.pull_int().get_int();
-		for (int i = 0; i < n_supported_transports; i++) {
-			final int transport_type = text_buf.pull_int().get_int();
-			if (transport_type >= 0 && transport_type < transport_type_enum.TRANSPORT_NUM.ordinal()) {
-				if (hc.transport_supported[transport_type]) {
-					send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
-							+ " was specified more than once.", transport_type_enum.values()[transport_type].toString()));
-				} else {
-					hc.transport_supported[transport_type] = true;
-				}
-			} else {
-				send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type code {0} "
-						+ "is invalid.", transport_type));
-			}
-		}
-
-		if (!hc.transport_supported[transport_type_enum.TRANSPORT_LOCAL.ordinal()]) {
-			send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
-					+ " must be supported anyway.", transport_type_enum.TRANSPORT_LOCAL.toString()));
-		}
-		if (!hc.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()]) {
-			send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
-					+ " must be supported anyway.", transport_type_enum.TRANSPORT_INET_STREAM.toString()));
-		}
-
-		hc.hc_state = hc_state_enum.HC_IDLE;
-		text_buf.cut_message();
-	}
-
 	private static void setup_host(final Host host) {
 		host.transport_supported[transport_type_enum.TRANSPORT_LOCAL.ordinal()] = true;
 		host.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()] = true;
