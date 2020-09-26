@@ -1120,7 +1120,7 @@ public class MainController {
 						//FIXME: process_create_nak(hc);
 						break;
 					case MSG_HC_READY:
-						process_hc_ready(hc);//TODO check
+						process_hc_ready(hc);
 						break;
 					case MSG_DEBUG_RETURN_VALUE:
 						//FIXME: process_debug_return_value(*hc->text_buf, hc->log_source, msg_end, false);
@@ -1224,11 +1224,12 @@ public class MainController {
 			hc.hc_state = hc_state_enum.HC_CONFIGURING;
 			break;
 		default:
-			send_error(hc, "Unexpected message HC_READY was received.");
+			send_error(hc.socket, "Unexpected message HC_READY was received.");
 			return;
 		}
+
 		notify(MessageFormat.format("Host {0} is no more overloaded.", hc.hostname));
-		incoming_buf.get().cut_message();
+		status_change();
 	}
 
 	private static void send_error(final SocketChannel channel, final String reason) {
