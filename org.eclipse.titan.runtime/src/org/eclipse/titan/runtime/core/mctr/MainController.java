@@ -1146,24 +1146,6 @@ public class MainController {
 		    hc.hostname, hc.address/*hc->ip_addr->get_addr_str()*/, reason));
 	}
 
-	//FIXME should disappear
-	private static void connect_ptc() {
-		SocketChannel sc;
-		try {
-			sc = mc_channel.accept();
-			final Host ptcHost = new Host();
-			ptcHost.socket = sc;
-			ptcHost.address = sc.getLocalAddress();
-			setup_host(ptcHost);
-			ptc.comp_location = ptcHost;
-			handle_unknown_data(ptcHost);
-		} catch (IOException e) {
-			final StringWriter error = new StringWriter();
-			e.printStackTrace(new PrintWriter(error));
-			throw new TtcnError("Sending data on the control connection to HC failed.");
-		}
-	}
-
 	private static void send_create_mtc(final Host host) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_MTC);
