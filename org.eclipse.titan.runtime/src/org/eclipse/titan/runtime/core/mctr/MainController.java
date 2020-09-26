@@ -5396,17 +5396,6 @@ public class MainController {
 		unlock();
 	}
 
-	//FIXME should disappear in the end
-	private static void process_final_log() {
-		for (int i = 0; i < 2; i++) {
-			receiveMessage(mtc.comp_location);
-			final Text_Buf local_incoming_buf = incoming_buf.get();
-			final int msg_len = local_incoming_buf.pull_int().get_int();
-			final int msg_type = local_incoming_buf.pull_int().get_int();
-			process_log(mtc.comp_location);
-		}
-	}
-
 	private static void send_exit_mtc() {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_EXIT_MTC);
