@@ -396,7 +396,6 @@ public class MainController {
 	private static ReentrantLock mutex;
 
 	private static ComponentStruct mtc;
-	private static ComponentStruct ptc;
 	private static ComponentStruct system;
 
 	public static void initialize(final UserInterface par_ui, final int par_max_ptcs) {
