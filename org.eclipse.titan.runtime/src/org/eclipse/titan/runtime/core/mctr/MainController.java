@@ -1081,11 +1081,10 @@ public class MainController {
 	}
 
 	private static void process_error(final Host hc) {
-		final Text_Buf text_buf = incoming_buf.get();
+		final Text_Buf text_buf = hc.text_buf;
 		final String reason = text_buf.pull_string();
-		text_buf.cut_message();
 		error(MessageFormat.format("Error message was received from HC at {0} [{1}]: {2}",
-		    hc.hostname, hc.address/*hc->ip_addr->get_addr_str()*/, reason));
+		    hc.hostname, hc.hostname, reason));//FIXME ip_addr
 	}
 
 	private static void send_create_mtc(final Host host) {
@@ -1106,7 +1105,7 @@ public class MainController {
 					final int msg_type = text_buf.pull_int().get_int();
 					switch (msg_type) {
 					case MSG_ERROR:
-						process_error(hc);//TODO check
+						process_error(hc);
 						break;
 					case MSG_LOG:
 						process_log(hc);
