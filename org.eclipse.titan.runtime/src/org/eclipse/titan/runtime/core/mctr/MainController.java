@@ -1073,48 +1073,6 @@ public class MainController {
 		unlock();
 	}
 
-	private static void handle_unknown_data(final Host mtc) {
-		final Text_Buf local_incoming_buf = incoming_buf.get();
-		receiveMessage(mtc);
-
-		do {
-			final int msg_len = local_incoming_buf.pull_int().get_int();
-			final int msg_type = local_incoming_buf.pull_int().get_int();
-			boolean process_more_messages = false;
-			switch (msg_type) {
-			case MSG_ERROR:
-				process_error(mtc);
-				process_more_messages = true;
-				break;
-			case MSG_LOG:
-				process_log(mtc);
-				process_more_messages = true;
-				break;
-			case MSG_VERSION:
-				process_version(mtc);
-				break;
-			case MSG_MTC_CREATED:
-				process_mtc_created(mtc);
-				break;
-			case MSG_PTC_CREATED:
-				process_ptc_created(mtc);
-				break;
-			default:
-				error(MessageFormat.format("Invalid message type ({0}) was received on an "
-						+ "unknown connection from {1} [{2}].", 
-						msg_type, mtc.hostname, mtc.address ));
-				//error_flag = TRUE;
-			}
-			if (process_more_messages) {
-				local_incoming_buf.cut_message();
-				receiveMessage(mtc);
-			} else {
-				break;
-			}
-		} while (local_incoming_buf.is_message());
-		// TODO
-	}
-
 	private static void process_error(final unknown_connection connection) {
 		final Text_Buf text_buf = connection.text_buf;
 		final String reason = text_buf.pull_string();
