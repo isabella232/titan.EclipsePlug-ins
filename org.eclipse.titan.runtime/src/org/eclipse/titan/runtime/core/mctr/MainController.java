@@ -1973,27 +1973,6 @@ public class MainController {
 		status_change();
 	}
 
-	private static void process_mtc_created(final Host hc) {
-		if (mc_state != mcStateEnum.MC_CREATING_MTC) {
-			send_error(hc, "Message MTC_CREATED arrived in invalid state.");
-			return;
-		}
-		if (mtc == null || mtc.tc_state != tc_state_enum.TC_INITIAL ) {
-			fatal_error("MainController::process_mtc_created: MTC is in invalid state.");
-			return;
-		}
-		//FIXME: implement
-
-		mc_state = mcStateEnum.MC_READY;
-		mtc.tc_state = tc_state_enum.TC_IDLE;
-
-		notify("MTC is created.");
-
-		handle_tc_data(mtc);
-
-		status_change();
-	}
-
 	private static synchronized void handle_tc_data(final ComponentStruct tc, final boolean receive_from_socket) {
 		final Text_Buf text_buf = tc.text_buf;
 		boolean close_connection = false;
