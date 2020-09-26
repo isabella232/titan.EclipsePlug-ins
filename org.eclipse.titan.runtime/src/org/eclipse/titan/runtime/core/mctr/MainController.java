@@ -296,13 +296,18 @@ public class MainController {
 		boolean is_alive;
 		boolean stop_requested;
 		boolean process_killed;
+		//initial
+		ComponentStruct create_requestor;
+		String location_str;
+		//starting
+		ComponentStruct start_requestor;
 		// int arg;
 		byte[] arg;
-		ComponentStruct create_requestor;
-		ComponentStruct start_requestor;
 		RequestorStruct cancel_done_sent_to;
+		//stopping_killing
 		RequestorStruct stop_requestors;
 		RequestorStruct kill_requestors;
+
 		List<PortConnection> conn_head_list;
 		List<PortConnection> conn_tail_list;
 		RequestorStruct done_requestors;
@@ -371,6 +376,8 @@ public class MainController {
 	private static volatile boolean all_component_done_requested;
 	private static volatile boolean any_component_killed_requested;
 	private static volatile boolean all_component_killed_requested;
+	private static int testcase_start_time_seconds;//testcase_start_time
+	private static int testcase_start_time_miliseconds;
 	private static volatile boolean stop_requested;
 	private static volatile boolean stop_after_tc;
 
@@ -1117,7 +1124,7 @@ public class MainController {
 						process_configure_nak(hc);
 						break;
 					case MSG_CREATE_NAK:
-						//FIXME: process_create_nak(hc);
+						process_create_nak(hc);
 						break;
 					case MSG_HC_READY:
 						process_hc_ready(hc);
@@ -1215,6 +1222,129 @@ public class MainController {
 		status_change();
 	}
 
+	private static void process_create_nak(final Host hc) {
+		switch (mc_state) {
+		case MC_CREATING_MTC:
+		case MC_EXECUTING_TESTCASE:
+		case MC_TERMINATING_TESTCASE:
+			break;
+		default:
+			send_error(hc.socket, "Message CREATE_NAK arrived in invalid state.");
+			return;
+		}
+
+		switch (hc.hc_state) {
+		case HC_ACTIVE:
+			notify(MessageFormat.format("Host {0} is overloaded. New components will not be created there until further notice.",
+					hc.hostname));
+			//no break
+		case HC_OVERLOADED:
+			break;
+		default:
+			send_error(hc.socket, "Unexpected message CREATE_NAK was received: the sender is in invalid state.");
+			return;
+		}
+
+		final Text_Buf text_buf = hc.text_buf;
+		int component_reference = text_buf.pull_int().get_int();
+
+		switch (component_reference){
+		case TitanComponent.NULL_COMPREF:
+			send_error(hc.socket, "Message CREATE_NAK refers to the null component reference.");
+			return;
+		case TitanComponent.SYSTEM_COMPREF:
+			send_error(hc.socket, "Message CREATE_NAK refers to the component reference of the system.");
+			return;
+		case TitanComponent.ANY_COMPREF:
+			send_error(hc.socket, "Message CREATE_NAK refers to 'any component'.");
+			return;
+		case TitanComponent.ALL_COMPREF:
+			send_error(hc.socket, "Message CREATE_NAK refers to 'all component'.");
+			return;
+		}
+
+		final ComponentStruct tc = components.get(component_reference);//TODO check
+		if (tc == null) {
+			send_error(hc.socket, MessageFormat.format("Message CREATE_NAK refers to invalid component reference {0}.",
+					component_reference));
+			return;
+		}
+		if (tc.tc_state != tc_state_enum.TC_INITIAL) {
+			send_error(hc.socket, MessageFormat.format("Message CREATE_NAK refers to test component {0}, which is not being created.",
+					component_reference));
+			return;
+		}
+		if (tc.comp_location != hc) {
+			send_error(hc.socket, MessageFormat.format("Message CREATE_NAK refers to test component {0}, which was assigned to a different host ({1}).",
+					component_reference, tc.comp_location.hostname));
+			return;
+		}
+
+		remove_component_from_host(tc);
+
+		final String reason = text_buf.pull_string();
+		if (tc == mtc) {
+			if (mc_state != mcStateEnum.MC_CREATING_MTC) {
+				fatal_error("MainController::process_create_nak: MC is in unexpected state when CREATE_NAK refers to MTC.");
+			}
+			error(MessageFormat.format("Creation of MTC failed on host {0}: {1}.",
+					hc.hostname, reason));
+			//FIXME destroy_all_components();
+			mc_state = mcStateEnum.MC_ACTIVE;
+		} else {
+			Host new_host = choose_ptc_location(tc.comp_type.definition_name, tc.comp_name, tc.location_str);
+			if (new_host != null) {
+				send_create_ptc(new_host, component_reference, tc.comp_type.module_name, tc.comp_type.definition_name, system.comp_type, tc.comp_name, tc.is_alive ? 1 : 0, mtc.tc_fn_name);
+				notify(MessageFormat.format("PTC with component reference {0} was relocated from host {1} to {2} because of overload: {3}.",
+						component_reference, hc.hostname, new_host.hostname, reason));
+				add_component_to_host(new_host, tc);
+			} else {
+				String component_data = MessageFormat.format("component type: {0}.{1}",
+						tc.comp_type.module_name, tc.comp_type.definition_name);
+				if (tc.comp_name != null) {
+					component_data += MessageFormat.format(", name: {0}", tc.comp_name);
+				}
+				if (tc.location_str != null && tc.location_str.startsWith("\0")) {
+					component_data += MessageFormat.format(", location: {0}", tc.location_str);
+				}
+
+				ComponentStruct create_requestor = tc.create_requestor;
+				if (create_requestor.tc_state == tc_state_enum.TC_CREATE) {
+					send_error(tc.socket, MessageFormat.format("Creation of the new PTC ({0}) failed on host {1}: {2}. Other suitable hosts to relocate the component are not available.",
+							component_data, hc.hostname, reason));
+					if (create_requestor == mtc) {
+						create_requestor.tc_state = tc_state_enum.MTC_TESTCASE;
+					} else {
+						create_requestor.tc_state = tc_state_enum.PTC_FUNCTION;
+					}
+				}
+
+				tc.location_str = null;
+				tc.tc_state = tc_state_enum.PTC_STALE;
+				switch (mtc.tc_state) {
+				case MTC_TERMINATING_TESTCASE:
+					if (ready_to_finish_testcase()) {
+						finish_testcase();
+					}
+					break;
+				case MTC_ALL_COMPONENT_KILL:
+					check_all_component_kill();
+					break;
+				case MTC_ALL_COMPONENT_STOP:
+					check_all_component_stop();
+					break;
+				default:
+					break;
+				}
+
+				notify(MessageFormat.format("Creation of a PTC ({0}) failed on host {1}: {2}. Relocation to other suitable host is not possible.",
+						component_data, hc.hostname, reason));
+			}
+		}
+
+		status_change();
+	}
+
 	private static void process_hc_ready(final Host hc) {
 		switch(hc.hc_state) {
 		case HC_OVERLOADED:
@@ -1262,8 +1392,8 @@ public class MainController {
 		final String componentName = text_buf.pull_string();
 		final String componentLocation = text_buf.pull_string();
 		final int isAlive = text_buf.pull_int().get_int();
-		final int seconds = text_buf.pull_int().get_int();
-		final int miliseconds = text_buf.pull_int().get_int();
+		testcase_start_time_seconds = text_buf.pull_int().get_int();
+		testcase_start_time_miliseconds = text_buf.pull_int().get_int();
 
 		// FIXME check choose location
 		final Host ptcLoc = choose_ptc_location(componentTypeName, componentName, componentLocation);
@@ -1286,7 +1416,7 @@ public class MainController {
 
 		final int comp_ref = next_comp_ref++;
 		send_create_ptc(ptcLoc, comp_ref, componentTypeModule, componentTypeName, system.comp_type,
-				componentName, isAlive, mtc.tc_fn_name, seconds, miliseconds);
+				componentName, isAlive, mtc.tc_fn_name);
 
 		tc.tc_state = tc_state_enum.TC_CREATE;
 
@@ -1350,8 +1480,7 @@ public class MainController {
 
 
 	private static void send_create_ptc(final Host host, final int comp_ref, final String componentTypeModule, final String componentTypeName,
-			final QualifiedName comp_type, final String componentName, final int isAlive, final QualifiedName tc_fn_name, final int seconds,
-			final int miliseconds) {
+			final QualifiedName comp_type, final String componentName, final int isAlive, final QualifiedName tc_fn_name) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_PTC);
 		text_buf.push_int(comp_ref);
@@ -1363,8 +1492,8 @@ public class MainController {
 		text_buf.push_int(isAlive);
 		text_buf.push_string(mtc.tc_fn_name.module_name);
 		text_buf.push_string(mtc.tc_fn_name.definition_name);
-		text_buf.push_int(seconds);
-		text_buf.push_int(miliseconds);
+		text_buf.push_int(testcase_start_time_seconds);
+		text_buf.push_int(testcase_start_time_miliseconds);
 
 		send_message(host.socket, text_buf);
 	}
