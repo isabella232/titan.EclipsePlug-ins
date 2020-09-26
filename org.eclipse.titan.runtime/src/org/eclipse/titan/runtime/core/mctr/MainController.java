@@ -1232,7 +1232,7 @@ public class MainController {
 		incoming_buf.get().cut_message();
 	}
 
-	public static void send_error(final SocketChannel channel, final String reason) {
+	private static void send_error(final SocketChannel channel, final String reason) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
 		text_buf.push_string(reason);
@@ -1240,7 +1240,7 @@ public class MainController {
 	}
 
 	//FIXME should disappear
-	public static void send_error(final Host hc, final String reason) {
+	private static void send_error(final Host hc, final String reason) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
 		text_buf.push_string(reason);
@@ -1333,7 +1333,7 @@ public class MainController {
 	}
 
 
-	boolean set_has_string(final Set<String> set, final String str) {
+	private boolean set_has_string(final Set<String> set, final String str) {
 		if (str == null) {
 			return false;
 		}
@@ -1605,7 +1605,7 @@ public class MainController {
 		return false;
 	}
 
-	public static void process_version(final unknown_connection connection) {
+	private static void process_version(final unknown_connection connection) {
 		if (check_version(connection)) {
 			//FIXME error(MessageFormat.format("HC connection from {0} [{1}] was refused because of incorrect version.", connection.));
 			return;
