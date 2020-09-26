@@ -1717,12 +1717,6 @@ public class MainController {
 		return hc;
 	}
 
-	private static void setup_host(final Host host) {
-		host.transport_supported[transport_type_enum.TRANSPORT_LOCAL.ordinal()] = true;
-		host.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()] = true;
-
-	}
-
 	public static void configure(final String config_file) {
 		lock();
 		switch(mc_state) {
