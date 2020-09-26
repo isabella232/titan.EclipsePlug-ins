@@ -1667,33 +1667,6 @@ public class MainController {
 		status_change();
 	}
 
-	//FIXME sould disappear with time
-	public static void process_version(final Host hc) {
-		receiveMessage(hc);
-		final Text_Buf local_incoming_buf = incoming_buf.get();
-		final int msg_len = local_incoming_buf.pull_int().get_int();
-		final int msg_type = local_incoming_buf.pull_int().get_int();
-
-		if (msg_type == MSG_VERSION) {
-			for (int i = 0; i < 4; i++) {
-				local_incoming_buf.pull_int();
-			}
-
-			final int modules_size = local_incoming_buf.pull_int().get_int();
-			for (int i = 0; i < modules_size; i++) {
-				local_incoming_buf.pull_string();
-				final int value = local_incoming_buf.pull_int().get_int();
-				final byte[] data = new byte[16];
-				if (value == 16) {
-					local_incoming_buf.pull_raw(16, data);
-				}
-			}
-
-			add_new_host(hc);
-			local_incoming_buf.cut_message();
-		}
-	}
-
 	private static Host add_new_host(final unknown_connection connection) {
 		final Text_Buf text_buf = connection.text_buf;
 		SocketChannel channel = connection.channel;
