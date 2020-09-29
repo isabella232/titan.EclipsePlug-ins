@@ -232,7 +232,7 @@ public class MainController {
 
 	static class unknown_connection {
 		public SocketChannel channel;
-		//FIXME ipaddress?
+		InetAddress ip_address;
 		public Text_Buf text_buf;
 	}
 
@@ -247,7 +247,7 @@ public class MainController {
 	
 	/** Data structure for each host (and the corresponding HC) */
 	public static class Host {
-		SocketAddress address;
+		InetAddress ip_address;
 		public String hostname;
 		public String hostname_local;
 		String machine_type;
@@ -556,7 +556,7 @@ public class MainController {
 			sc.configureBlocking(false);
 			unknown_connection new_connection = new unknown_connection();
 			new_connection.channel = sc;
-			//FIXME set address
+			new_connection.ip_address = sc.socket().getInetAddress();
 			new_connection.text_buf = new Text_Buf();
 
 			channel_table_struct new_struct = new channel_table_struct();
@@ -607,7 +607,7 @@ public class MainController {
 					default:
 						error(MessageFormat.format("Invalid message type ({0}) was received on an "
 								+ "unknown connection from {1} [{2}].", 
-								msg_type, "dummy", "dummy" ));//FIXME conn->ip_addr->get_host_str(), conn->ip_addr->get_addr_str()
+								msg_type, connection.ip_address.getHostName(), connection.ip_address.getHostAddress()));
 						error_flag = true;
 					}
 
@@ -1068,7 +1068,7 @@ public class MainController {
 		final Text_Buf text_buf = connection.text_buf;
 		final String reason = text_buf.pull_string();
 		error(MessageFormat.format("Error message was received on an unknown connection from {0} [{1}]: {2}",
-				"dummy", "dummy", reason));//FIXME conn->ip_addr->get_host_str(), conn->ip_addr->get_addr_str()
+				connection.ip_address.getHostName(), connection.ip_address.getHostAddress(), reason));
 
 		text_buf.cut_message();
 		status_change();
@@ -1080,10 +1080,10 @@ public class MainController {
 		text_buf.cut_message();
 		if (tc.equals(mtc)) {
 			error(MessageFormat.format("Error message was received from the MTC at {0} [{1}]: {2}",
-					mtc.comp_location.hostname, mtc.comp_location.address, reason));
+					mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress(), reason));
 		} else {
 			notify(MessageFormat.format("Error message was received from PTC {0} at {1} [{2}]: {3}",
-					tc.comp_ref, tc.comp_location.hostname, tc.comp_location.address, reason));
+					tc.comp_ref, tc.comp_location.hostname, tc.comp_location.ip_address.getHostAddress(), reason));
 		}
 	}
 
@@ -1091,7 +1091,7 @@ public class MainController {
 		final Text_Buf text_buf = hc.text_buf;
 		final String reason = text_buf.pull_string();
 		error(MessageFormat.format("Error message was received from HC at {0} [{1}]: {2}",
-		    hc.hostname, hc.hostname, reason));//FIXME ip_addr
+		    hc.hostname, hc.ip_address.getHostAddress(), reason));
 	}
 
 	private static void send_create_mtc(final Host host) {
@@ -1134,7 +1134,7 @@ public class MainController {
 						break;
 					default:
 						error(MessageFormat.format("Invalid message type ({0}) was received on HC connection from {1} [{2}].",
-								msg_type, hc.hostname, hc.address));
+								msg_type, hc.hostname, hc.ip_address.getHostAddress()));
 						error_flag = true;
 					}
 					if (error_flag) {
@@ -1156,14 +1156,14 @@ public class MainController {
 					mc_state = mcStateEnum.MC_INACTIVE;
 				} else {
 					error(MessageFormat.format("Unexpected end of HC connection from {0} [{1}].",
-							hc.hostname, hc.hostname_local));//FIXME ipaddress
+							hc.hostname, hc.ip_address.getHostAddress()));
 				}
 			}
 
 			error_flag = true;
 		} else {
 			error(MessageFormat.format("Receiving of data failed on HC connection from {0} [{1}].",
-					hc.hostname, hc.hostname));//FIXME ipaddress
+					hc.hostname, hc.ip_address.getHostAddress()));
 			error_flag = true;
 		}
 
@@ -1767,14 +1767,9 @@ public class MainController {
 		SocketChannel channel = connection.channel;
 
 		final Host hc = new Host();
-		try {
-			hc.address = channel.getLocalAddress();
-		} catch (IOException e) {
-			//FIXME report error
-		}
+		hc.ip_address = channel.socket().getInetAddress();
+		hc.hostname = hc.ip_address.getCanonicalHostName();
 		hc.hostname_local = text_buf.pull_string();
-		//FIXME hostname should be calculated
-		hc.hostname = hc.hostname_local;
 		hc.machine_type = text_buf.pull_string();
 		hc.system_name = text_buf.pull_string();
 		hc.system_release = text_buf.pull_string();
@@ -1825,7 +1820,7 @@ public class MainController {
 		channel_table.put(channel, new_struct);
 
 		notify(MessageFormat.format("New HC connected from {0} [{1}]. {2}: {3} {4} on {5}.",
-				hc.hostname, hc.address.toString(),
+				hc.hostname, hc.ip_address.getHostAddress(),
 				hc.hostname_local, hc.system_name,
 				hc.system_release, hc.machine_type));
 
@@ -2098,7 +2093,7 @@ public class MainController {
 								break;
 							default:
 								error(MessageFormat.format("Invalid message type ({0}) was received from the MTC at {1} [{2}].",
-										msg_type, mtc.comp_location.hostname, mtc.comp_location.address));
+										msg_type, mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress()));
 								close_connection = true;
 							}
 						} else {
@@ -2116,7 +2111,7 @@ public class MainController {
 							default:
 								notify(MessageFormat.format("Invalid message type ({0}) was received from PTC {1} "
 										+ "at {2} [{3}].", msg_type, tc.comp_ref, tc.comp_location.hostname,
-										tc.comp_location.address.toString()));
+										tc.comp_location.ip_address.getHostAddress()));
 								close_connection = true;
 							}
 						}
@@ -2131,10 +2126,10 @@ public class MainController {
 			} catch (TtcnError e) {
 				if (tc == mtc) {
 					error(MessageFormat.format("Malformed message was received from the MTC at {0} [{1}].",
-							mtc.comp_location.hostname, mtc.comp_location.hostname));//FIXME ipaddress
+							mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress()));
 				} else {
 					notify(MessageFormat.format("Malformed message was received from PTC {0} at {1} [{2}].",
-							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.hostname));//FIXME ipaddress
+							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.ip_address.getHostAddress()));
 				}
 				close_connection = true;
 			}
@@ -2147,10 +2142,10 @@ public class MainController {
 			if (tc.tc_state != tc_state_enum.TC_EXITING && !tc.process_killed) {
 				if (tc == mtc) {
 					error(MessageFormat.format("Unexpected end of MTC connection from {0} [{1}].",
-							mtc.comp_location.hostname, mtc.comp_location.hostname));//FIXME ipaddress
+							mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress()));
 				} else {
 					notify(MessageFormat.format("Unexpected end of PTC connection ({0}) from {1} [{2}].",
-							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.hostname));//FIXME ipaddress
+							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.ip_address.getHostAddress()));
 				}
 			}
 
@@ -2160,11 +2155,11 @@ public class MainController {
 			if (tc == mtc) {
 				//FIXME
 				error(MessageFormat.format("Receiving of data failed from the MTC at {0} [{1}]: {2}",
-						mtc.comp_location.hostname, mtc.comp_location.hostname));
+						mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress()));
 			} else {
 				//FIXME
 				notify(MessageFormat.format("Receiving of data failed from PTC {0} at {1} [{2}]: {3}",
-						tc.comp_ref, tc.comp_location.hostname, tc.comp_location.hostname));
+						tc.comp_ref, tc.comp_location.hostname, tc.comp_location.ip_address.getHostAddress()));
 			}
 			close_connection = true;
 		}
