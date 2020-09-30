@@ -1744,7 +1744,8 @@ public class MainController {
 
 	private static void process_version(final unknown_connection connection) {
 		if (check_version(connection)) {
-			//FIXME error(MessageFormat.format("HC connection from {0} [{1}] was refused because of incorrect version.", connection.));
+			error(MessageFormat.format("HC connection from {0} [{1}] was refused because of incorrect version.",
+					connection.ip_address.getCanonicalHostName(), connection.ip_address.getHostAddress()));
 			close_unknown_connection(connection);
 			return;
 		}
