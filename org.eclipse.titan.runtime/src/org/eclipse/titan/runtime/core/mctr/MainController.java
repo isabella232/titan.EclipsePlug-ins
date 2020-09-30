@@ -3826,7 +3826,7 @@ public class MainController {
 			target.stop_requested = true;
 			target.stop_requestors = init_requestors(tc);
 			target.kill_requestors = init_requestors(null);
-			// TODO timer
+			// TODO start_kill_timer
 			tc.tc_state = tc_state_enum.TC_STOP;
 			break;
 		case PTC_KILLING:
