@@ -28,6 +28,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -388,6 +389,7 @@ public class MainController {
 	private static List<String> assigned_components;
 	private static volatile boolean all_components_assigned;
 	private static List<ExecuteItem> executeItems;
+	private static List<unknown_connection> unknown_connections;
 	
 
 	private static ThreadLocal<CfgAnalyzer> cfgAnalyzer = new ThreadLocal<CfgAnalyzer>() {
@@ -421,6 +423,7 @@ public class MainController {
 
 		host_groups = new ArrayList<HostGroupStruct>();
 		assigned_components = new ArrayList<String>();
+		unknown_connections = new LinkedList<MainController.unknown_connection>();
 		all_components_assigned = false;
 
 		hosts = null;
@@ -486,12 +489,26 @@ public class MainController {
 		//FIXME implement fatal_error
 	}
 
+	private static unknown_connection new_unknown_connection() {
+		final unknown_connection temp = new unknown_connection();
+		unknown_connections.add(temp);
+
+		return temp;
+	}
+
+	private static void delete_unknown_connection(final unknown_connection connection) {
+		unknown_connections.remove(connection);
+	}
+
 	private static void close_unknown_connection(final unknown_connection connection) {
 		try {
 			connection.channel.close();
 		} catch (IOException e) {
 			//FIXME handle
 		}
+
+		channel_table.remove(connection.channel);
+		delete_unknown_connection(connection);
 	}
 
 	private static void thread_main() {
@@ -562,7 +579,7 @@ public class MainController {
 		try {
 			SocketChannel sc = channel.accept();//FIXME can return null
 			sc.configureBlocking(false);
-			unknown_connection new_connection = new unknown_connection();
+			unknown_connection new_connection = new_unknown_connection();
 			new_connection.channel = sc;
 			new_connection.ip_address = sc.socket().getInetAddress();
 			new_connection.text_buf = new Text_Buf();
@@ -1822,7 +1839,7 @@ public class MainController {
 		//FIXME add remaining fields
 		text_buf.cut_message();
 
-		//FIXME delete_unknown_connection if needed
+		delete_unknown_connection(connection);
 
 		hosts.add(hc);
 		channel_table_struct new_struct = new channel_table_struct();
@@ -1990,6 +2007,8 @@ public class MainController {
 		text_buf.cut_message();
 		mtc.text_buf = text_buf;
 		channel_table.put(connection.channel, new_struct);
+
+		delete_unknown_connection(connection);
 
 		notify("MTC is created.");
 
@@ -5067,9 +5086,8 @@ public class MainController {
 		channel_table.put(connection.channel, new_struct);
 		text_buf.cut_message();
 		tc.text_buf = text_buf;
-		//FIXME implement
 
-		//FIXME delete_unknown_connection(connection);
+		delete_unknown_connection(connection);
 
 		if (mc_state == mcStateEnum.MC_TERMINATING_TESTCASE || mtc.stop_requested ||
 				mtc.tc_state == tc_state_enum.MTC_ALL_COMPONENT_KILL ||
@@ -5092,6 +5110,7 @@ public class MainController {
 				}
 			}
 		}
+
 		handle_tc_data(tc, false);
 		status_change();
 	}
@@ -5525,7 +5544,10 @@ public class MainController {
 	private static void clean_up() {
 		shutdown_server();
 
-		//FIXME close_unknown_connection
+		while (!unknown_connections.isEmpty()) {
+			final unknown_connection connection = unknown_connections.get(0);
+			close_unknown_connection(connection);
+		}
 
 		//FIXME destroy_all_componnents();
 
