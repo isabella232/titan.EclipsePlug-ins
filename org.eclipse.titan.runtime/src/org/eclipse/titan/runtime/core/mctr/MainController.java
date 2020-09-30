@@ -1762,7 +1762,7 @@ public class MainController {
 			mc_state = mcStateEnum.MC_CONFIGURING;
 			break;
 		case MC_SHUTDOWN:
-			//FIXME send_exit_hc;
+			send_exit_hc(hc);
 			hc.hc_state = hc_state_enum.HC_EXITING;
 			break;
 		default:
