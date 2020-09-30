@@ -486,6 +486,14 @@ public class MainController {
 		//FIXME implement fatal_error
 	}
 
+	private static void close_unknown_connection(final unknown_connection connection) {
+		try {
+			connection.channel.close();
+		} catch (IOException e) {
+			//FIXME handle
+		}
+	}
+
 	private static void thread_main() {
 		lock();
 		while (mc_state != mcStateEnum.MC_INACTIVE) {
@@ -632,7 +640,7 @@ public class MainController {
 			error_flag = true;
 		}
 		if (error_flag) {
-			//FIXME close_unknown_connection
+			close_unknown_connection(connection);
 		}
 	}
 
@@ -1737,6 +1745,7 @@ public class MainController {
 	private static void process_version(final unknown_connection connection) {
 		if (check_version(connection)) {
 			//FIXME error(MessageFormat.format("HC connection from {0} [{1}] was refused because of incorrect version.", connection.));
+			close_unknown_connection(connection);
 			return;
 		}
 		
@@ -1958,10 +1967,12 @@ public class MainController {
 	private static void process_mtc_created(final unknown_connection connection) {
 		if (mc_state != mcStateEnum.MC_CREATING_MTC) {
 			send_error(connection.channel, "Message MTC_CREATED arrived in invalid state.");
+			close_unknown_connection(connection);
 			return;
 		}
 		if (mtc == null || mtc.tc_state != tc_state_enum.TC_INITIAL ) {
 			fatal_error("MainController::process_mtc_created: MTC is in invalid state.");
+			close_unknown_connection(connection);
 			return;
 		}
 		//FIXME: implement
@@ -5002,7 +5013,7 @@ public class MainController {
 			break;
 		default:
 			send_error(connection.channel, "Message PTC_CREATED arrived in invalid state.");
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		}
 
@@ -5012,35 +5023,35 @@ public class MainController {
 		switch(component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			send_error(connection.channel, "Message PTC_CREATED refers to the null component reference.");
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		case TitanComponent.MTC_COMPREF:
 			send_error(connection.channel, "Message PTC_CREATED refers to the component reference of the MTC.");
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		case TitanComponent.SYSTEM_COMPREF:
 			send_error(connection.channel, "Message PTC_CREATED refers to the component reference of the system.");
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		case TitanComponent.ANY_COMPREF:
 			send_error(connection.channel, "Message PTC_CREATED refers to 'any component'.");
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		case TitanComponent.ALL_COMPREF:
 			send_error(connection.channel, "Message PTC_CREATED refers to 'all component'.");
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		}
 
 		final ComponentStruct tc = components.get(component_reference);//TODO check
 		if (tc == null) {
 			send_error(connection.channel, MessageFormat.format("Message PTC_CREATED referes to invalid component reference {0}.", component_reference));
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		} else if (tc.tc_state != tc_state_enum.TC_INITIAL) {
 			send_error(connection.channel, MessageFormat.format("Message PTC_CREATED refers to test component {0}, which is not "
 					+ "being created.", component_reference));
-			//FIXME close_unknown_connection();
+			close_unknown_connection(connection);
 			return;
 		} //FIXME extra branch conn_ip_addr
 
