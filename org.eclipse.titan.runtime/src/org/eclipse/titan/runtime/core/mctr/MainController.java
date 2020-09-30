@@ -1758,7 +1758,7 @@ public class MainController {
 			break;
 		case MC_LISTENING_CONFIGURED:
 		case MC_ACTIVE:
-			//FIXME configure_host
+			configure_host(hc, true);
 			mc_state = mcStateEnum.MC_CONFIGURING;
 			break;
 		case MC_SHUTDOWN:
@@ -1766,7 +1766,7 @@ public class MainController {
 			hc.hc_state = hc_state_enum.HC_EXITING;
 			break;
 		default:
-			//FIXME configure_host
+			configure_host(hc, true);
 		}
 		handle_hc_data(hc, false);//TODO check
 		status_change();
