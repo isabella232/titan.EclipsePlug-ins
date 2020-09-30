@@ -389,7 +389,7 @@ public class MainController {
 	private static List<String> assigned_components;
 	private static volatile boolean all_components_assigned;
 	private static List<ExecuteItem> executeItems;
-	private static List<unknown_connection> unknown_connections;
+	private static LinkedList<unknown_connection> unknown_connections;
 
 
 	private static ThreadLocal<CfgAnalyzer> cfgAnalyzer = new ThreadLocal<CfgAnalyzer>() {
@@ -5545,7 +5545,7 @@ public class MainController {
 		shutdown_server();
 
 		while (!unknown_connections.isEmpty()) {
-			final unknown_connection connection = unknown_connections.get(0);
+			final unknown_connection connection = unknown_connections.getFirst();
 			close_unknown_connection(connection);
 		}
 
