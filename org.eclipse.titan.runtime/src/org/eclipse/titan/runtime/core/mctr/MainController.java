@@ -1892,7 +1892,7 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONFIGURE);
 		text_buf.push_string(config);
-		send_message(mtc.comp_location, text_buf);
+		send_message(mtc.socket, text_buf);
 	}
 
 	private static void configure_host(final Host host, final boolean should_notify) {
@@ -1927,7 +1927,7 @@ public class MainController {
 		text_buf.push_int(MSG_CONFIGURE);
 		text_buf.push_string(config_str);
 
-		send_message(hc, text_buf);
+		send_message(hc.socket, text_buf);
 	}
 
 	private static void send_message(final SocketChannel channel, final Text_Buf text_buf) {
@@ -5412,7 +5412,7 @@ public class MainController {
 		text_buf.push_int(MSG_EXECUTE_TESTCASE);
 		text_buf.push_string(moduleName);
 		text_buf.push_string(testcaseName);
-		send_message(mtc.comp_location, text_buf);
+		send_message(mtc.socket, text_buf);
 	}
 
 	public static void execute_control(final String module_name) {
