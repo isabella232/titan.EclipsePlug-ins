@@ -450,6 +450,7 @@ public class MainController {
 
 	public static void terminate() {
 		clean_up();
+		destroy_host_groups();
 		//FIXME implement
 	}
 
