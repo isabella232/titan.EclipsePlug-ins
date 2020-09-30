@@ -5349,7 +5349,7 @@ public class MainController {
 		lock();
 		if (mc_state == mcStateEnum.MC_PAUSED) {
 			notify("Resuming execution.");
-			//FIXME call send_continue();
+			send_continue();
 			mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 			ui.status_change();
@@ -5358,7 +5358,13 @@ public class MainController {
 		}
 		unlock();
 	}
-	
+
+	private static void send_continue() {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_CONTINUE);
+		send_message(mtc.socket, text_buf);
+	}
+
 	public static void stop_execution() {
 		lock();
 		if (!stop_requested) {
