@@ -213,7 +213,7 @@ public class MainController {
 	private static enum wakeup_reason_t {
 		REASON_NOTHING, REASON_SHUTDOWN, REASON_MTC_KILL_TIMER
 	}
-	
+
 	/** Data structure for representing a port connection */
 	static class PortConnection {
 		conn_state_enum conn_state;
@@ -245,7 +245,7 @@ public class MainController {
 		List<String> host_members;
 		List<String> assigned_components;
 	}
-	
+
 	/** Data structure for each host (and the corresponding HC) */
 	public static class Host {
 		InetAddress ip_address;
@@ -267,7 +267,7 @@ public class MainController {
 			components = new ArrayList<Integer>();
 		}
 	}
-	
+
 	public static class QualifiedName {
 		public String module_name;
 		public String definition_name;
@@ -278,7 +278,7 @@ public class MainController {
 		}
 
 	}
-	
+
 	/** Data structure for each TC */
 	public static class ComponentStruct {
 		public int comp_ref;
@@ -328,13 +328,13 @@ public class MainController {
 		ComponentStruct comp;
 		List<ComponentStruct> components;
 	}
-	
+
 	private static UserInterface ui;
 	private static NetworkHandler nh = new NetworkHandler();
 
 	private static mcStateEnum mc_state;
 	private static String mc_hostname;
-	
+
 	/** Use ServerSocketChannel and Selector for non-blocking I/O instead of file descriptor*/
 	private static ServerSocketChannel mc_channel; 
 	private static Selector mc_selector;
@@ -390,7 +390,7 @@ public class MainController {
 	private static volatile boolean all_components_assigned;
 	private static List<ExecuteItem> executeItems;
 	private static List<unknown_connection> unknown_connections;
-	
+
 
 	private static ThreadLocal<CfgAnalyzer> cfgAnalyzer = new ThreadLocal<CfgAnalyzer>() {
 		@Override
@@ -427,7 +427,7 @@ public class MainController {
 		unknown_connections = new LinkedList<MainController.unknown_connection>();
 		all_components_assigned = false;
 
-		
+
 		config_str = null;
 
 		version_known = false;
@@ -531,7 +531,7 @@ public class MainController {
 				}
 
 			} catch (IOException e) {
-/*				if (local_address == null || local_address.isEmpty()) {
+				/*if (local_address == null || local_address.isEmpty()) {
 					error(MessageFormat.format("Listening on TCP port {0,number,#} failed: {1}\n", tcp_port, e.getMessage()));
 					//clean up?
 					return 0;
@@ -540,7 +540,7 @@ public class MainController {
 					//clean up?
 					return 0;
 				}
-				*/
+				 */
 				return;
 			}
 		}
@@ -690,7 +690,6 @@ public class MainController {
 				for (String group_member : group.host_members) {
 					error(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.",
 							group_member, group_name));
-					
 				}
 
 				group.host_members.clear();
@@ -1116,7 +1115,7 @@ public class MainController {
 		final Text_Buf text_buf = hc.text_buf;
 		final String reason = text_buf.pull_string();
 		error(MessageFormat.format("Error message was received from HC at {0} [{1}]: {2}",
-		    hc.hostname, hc.ip_address.getHostAddress(), reason));
+				hc.hostname, hc.ip_address.getHostAddress(), reason));
 	}
 
 	private static void send_create_mtc(final Host host) {
@@ -1766,7 +1765,7 @@ public class MainController {
 			close_unknown_connection(connection);
 			return;
 		}
-		
+
 		Host hc = add_new_host(connection);
 		switch (mc_state) {
 		case MC_LISTENING:
@@ -1920,7 +1919,7 @@ public class MainController {
 		case HC_CONFIGURING_OVERLOADED:
 		case HC_EXITING:
 			fatal_error(MessageFormat.format("MainController.configure_host(): host {0} is in wrong state.",
-				      host.hostname));
+					host.hostname));
 			break;
 		case HC_DOWN:
 			break;
@@ -2021,7 +2020,7 @@ public class MainController {
 		final Text_Buf text_buf = tc.text_buf;
 		boolean close_connection = false;
 		int recv_len = receive_to_buffer(tc.socket, text_buf, receive_from_socket);
-		
+
 		if (recv_len > 0) {
 			try{
 				while (text_buf.is_message()) {
@@ -3557,7 +3556,7 @@ public class MainController {
 				}
 			default:
 				error(MessageFormat.format("PTC {0} is in invalid state when performing " +
-				        "'all component.stop' operation.", comp.comp_ref));
+						"'all component.stop' operation.", comp.comp_ref));
 			}
 			if (!ready_for_ack) {
 				break;
@@ -4107,7 +4106,7 @@ public class MainController {
 				break;
 			default:
 				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when "+
-				        "MC was notified about its termination.", tc.comp_ref, sourcePort, remoteComponent, remotePort));
+						"MC was notified about its termination.", tc.comp_ref, sourcePort, remoteComponent, remotePort));
 			}
 		}
 	}
@@ -4430,7 +4429,7 @@ public class MainController {
 			return false;
 		default:
 			error(MessageFormat.format("PTC {0} is in invalid state when checking whether it is done.",
-				      tc.comp_ref));
+					tc.comp_ref));
 			return false;
 		}
 	}
@@ -4745,8 +4744,8 @@ public class MainController {
 						+ "be established due to an internal error in the MC.",
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
 				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state " +
-				        "when a connect operation was requested on it.",
-				        sourceComponent, sourcePort, destinationComponent, destinationPort));
+						"when a connect operation was requested on it.",
+						sourceComponent, sourcePort, destinationComponent, destinationPort));
 			}
 		}
 	}
@@ -5342,7 +5341,7 @@ public class MainController {
 		lock();
 		if (mc_state != mcStateEnum.MC_READY) {
 			error("MainController::execute_testcase: called in wrong state.");
-		    unlock();
+			unlock();
 			return;
 		}
 
@@ -5522,7 +5521,7 @@ public class MainController {
 		case MC_LISTENING_CONFIGURED:
 			shutdown_server();
 			// don't call status_change() if shutdown is complete
-			    // it will be called from thread_main() later
+			// it will be called from thread_main() later
 			if (shutdown_complete) {
 				mc_state = mcStateEnum.MC_INACTIVE;
 			} else {
