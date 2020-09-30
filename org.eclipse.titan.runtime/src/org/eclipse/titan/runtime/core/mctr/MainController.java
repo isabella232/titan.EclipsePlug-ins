@@ -421,12 +421,13 @@ public class MainController {
 		}
 		mc_hostname = String.format("MC@%s", mc_hostname);
 
+		hosts = new ArrayList<MainController.Host>();
 		host_groups = new ArrayList<HostGroupStruct>();
 		assigned_components = new ArrayList<String>();
 		unknown_connections = new LinkedList<MainController.unknown_connection>();
 		all_components_assigned = false;
 
-		hosts = null;
+		
 		config_str = null;
 
 		version_known = false;
@@ -845,7 +846,6 @@ public class MainController {
 				return 0;
 			}
 
-			hosts = new ArrayList<Host>();
 			mc_state = mcStateEnum.MC_LISTENING;
 			final Thread thread = new Thread() {
 
