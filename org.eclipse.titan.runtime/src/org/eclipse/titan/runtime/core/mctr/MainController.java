@@ -3743,14 +3743,15 @@ public class MainController {
 			send_error(tc.comp_location, "Stop operation was requested on the null component reference.");
 			return;
 		case TitanComponent.MTC_COMPREF:
+			// 'mtc.stop' initiated by a PTC terminates the current testcase
 			if (!tc.equals(mtc)) {
 				if (!mtc.stop_requested) {
 					send_stop(mtc);
 					kill_all_components(true);
 					mtc.stop_requested = true;
-					// TODO timer
+					// TODO start_kill_timer
 					notify(MessageFormat.format("Test Component {0} had requested to stop MTC. Terminating current testcase execution.", tc.comp_ref));
-					//FIXME: status_change();
+					status_change();
 				}
 			} else {
 				send_error(tc.comp_location, "MTC has requested to stop itself.");
@@ -3768,7 +3769,7 @@ public class MainController {
 					send_stop_ack(mtc);
 				} else {
 					mtc.tc_state = tc_state_enum.MTC_ALL_COMPONENT_STOP;
-					//FIXME: status_change();
+					status_change();
 				}
 			} else {
 				send_error(tc.comp_location, "Operation 'all component.stop' can only be performed on the MTC.");
@@ -5324,10 +5325,12 @@ public class MainController {
 		    unlock();
 			return;
 		}
+
 		send_execute_testcase(moduleName, testcaseName);
 		mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
-		//FIXME: status_change();
+
+		status_change();
 		unlock();
 	}
 
