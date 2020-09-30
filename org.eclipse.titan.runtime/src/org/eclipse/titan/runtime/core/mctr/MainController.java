@@ -1768,7 +1768,8 @@ public class MainController {
 		default:
 			configure_host(hc, true);
 		}
-		handle_hc_data(hc, false);//TODO check
+
+		handle_hc_data(hc, false);
 		status_change();
 	}
 
