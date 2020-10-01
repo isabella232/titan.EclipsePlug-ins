@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -314,6 +315,8 @@ public class MainController {
 		RequestorStruct done_requestors;
 		RequestorStruct killed_requestors;
 		RequestorStruct cancel_done_sent_for;
+
+		timer_struct kill_timer;
 	}
 
 	/** Structure for timers */
@@ -445,6 +448,9 @@ public class MainController {
 		stop_requested = false;
 
 		kill_timer = 10.0;
+		timers = new LinkedList<MainController.timer_struct>();
+
+		kill_timer = 10.0;
 		mutex = new ReentrantLock();
 	}
 
@@ -462,6 +468,136 @@ public class MainController {
 	private static void unlock() {
 		//TODO handle error
 		mutex.unlock();
+	}
+
+	public static class timer_struct {
+		double expiration;
+		//dummy?
+		ComponentStruct component;
+	}
+
+	private static LinkedList<timer_struct> timers = new LinkedList<MainController.timer_struct>();
+
+	private static double time_now() {
+		//TODO check
+		return System.currentTimeMillis() / 1000.0;
+	}
+
+	private static void register_timer(final timer_struct timer) {
+		if (timers.isEmpty()) {
+			timers.add(timer);
+			return;
+		}
+
+		ListIterator<timer_struct> iterator = timers.listIterator();
+		while (iterator.hasNext()) {
+			timer_struct listItem = iterator.next();
+			if (listItem.expiration > timer.expiration) {
+				iterator.previous();
+				iterator.add(timer);
+				return;
+			}
+		}
+
+		timers.add(timer);
+	}
+
+	private static void cancel_timer(timer_struct timer) {
+		timers.remove(timer);
+	}
+
+	private static int get_poll_timeout() {
+		final timer_struct timer_head = timers.peek();
+		if (timer_head == null) {
+			return -1;
+		} else {
+			final double offset = timer_head.expiration - time_now();
+			if (offset > 0.0) {
+				return (int)(1000.0 * offset);
+			} else {
+				return 0;
+			}
+		}
+	}
+
+	private static void handle_expired_timers() {
+		if (timers.isEmpty()) {
+			return;
+		}
+
+		double now = time_now();
+		timer_struct head = timers.peek();
+		while (head != null && head.expiration < now) {
+			handle_kill_timer(head);
+			head = timers.peek();
+		}
+	}
+
+	private static void start_kill_timer(final ComponentStruct tc) {
+		if (kill_timer > 0.0) {
+			final timer_struct timer = new timer_struct();
+			timer.expiration = time_now() + kill_timer;
+			timer.component = tc;
+			tc.kill_timer = timer;
+			register_timer(timer);
+		} else {
+			tc.kill_timer = null;
+		}
+	}
+
+	private static void handle_kill_timer(final timer_struct timer) {
+		ComponentStruct tc = timer.component;
+		Host host = tc.comp_location;
+		boolean kill_process = false;
+		switch (tc.tc_state) {
+		case TC_EXITED:
+			//do nothing
+			break;
+		case TC_EXITING:
+			if (tc == mtc) {
+				error(MessageFormat.format("MTC on host {0} did not close its control connection in time. Trying to kill it using its HC.",
+						host.hostname));
+			} else {
+				notify(MessageFormat.format("PTC {0} on host {1} did not close its control connection in time. Trying to kill it using its HC.",
+						tc.comp_ref, host.hostname));
+			}
+			kill_process = true;
+			break;
+		case TC_STOPPING:
+		case PTC_STOPPING_KILLING:
+		case PTC_KILLING:
+			// active PTCs with kill timer can be only in these states
+			if (tc != mtc) {
+				notify(MessageFormat.format("PTC {0} on host {1} is not responding. Trying to kill it using its HC.",
+						tc.comp_ref, host.hostname));
+				kill_process = true;
+				break;
+			}
+			//no break;
+		default:
+			// MTC can be in any state
+			if (tc == mtc) {
+				error(MessageFormat.format("MTC on host {0} is not responding. Trying to kill it using its HC. This will abort test execution.",
+						host.hostname));
+				kill_process = true;
+			} else {
+				error(MessageFormat.format("PTC {0} is in invalid state when its kill timer expired.",
+						tc.comp_ref));
+			}
+		}
+
+		if (kill_process) {
+			if (host.hc_state == hc_state_enum.HC_ACTIVE) {
+				send_kill_process(host, tc.comp_ref);
+				tc.process_killed = true;
+			} else {
+				error(MessageFormat.format("Test Component {0} cannot be killed because the HC on host {1} is not in active state. Kill the process manually or the test system may get into a deadlock.",
+						tc.comp_ref, host.hostname));
+			}
+		}
+
+		cancel_timer(timer);
+		tc.kill_timer = null;
 	}
 
 	private static void error(final String message) {
@@ -519,8 +655,15 @@ public class MainController {
 			//FIXME implement
 			unlock();
 			try {
-				//FIXME implement proper polltimeout
-				int selectReturn = mc_selector.select(10000);
+				int timeout = get_poll_timeout();
+				int selectReturn;
+				if (timeout > 0) {
+					selectReturn = mc_selector.select(timeout);
+				} else if (timeout < 0) {
+					selectReturn = mc_selector.select(0);
+				} else {
+					selectReturn = mc_selector.selectNow();
+				}
 				lock();
 				if (selectReturn > 0) {
 					final Set<SelectionKey> selectedKeys = mc_selector.selectedKeys();
@@ -876,6 +1019,7 @@ public class MainController {
 	}
 
 	public static void set_kill_timer(final Double timer_val) {
+		lock();
 		switch (mc_state) {
 		case MC_INACTIVE:
 		case MC_LISTENING:
@@ -891,6 +1035,8 @@ public class MainController {
 			error("MainController.set_kill_timer: called in wrong state.");
 			break;
 		}
+
+		unlock();
 	}
 
 	public static mcStateEnum get_state() {
@@ -1064,6 +1210,7 @@ public class MainController {
 		mtc.done_requestors = init_requestors(null);
 		mtc.killed_requestors = init_requestors(null);
 		mtc.cancel_done_sent_for = init_requestors(null);
+		mtc.kill_timer = null;
 		mtc.conn_head_list = new ArrayList<PortConnection>();
 		mtc.conn_tail_list = new ArrayList<PortConnection>();
 		//FIXME init_connections(mtc)
@@ -1081,6 +1228,7 @@ public class MainController {
 		system.cancel_done_sent_for = init_requestors(null);
 		system.conn_head_list = new ArrayList<PortConnection>();
 		system.conn_tail_list = new ArrayList<PortConnection>();
+		system.kill_timer = null;
 		//FIXME init_connections(system)
 		components.put(system.comp_ref, system);
 
@@ -1466,7 +1614,7 @@ public class MainController {
 		new_ptc.done_requestors = init_requestors(null);
 		new_ptc.killed_requestors = init_requestors(null);
 		new_ptc.cancel_done_sent_for = init_requestors(null);
-		//FIXME kill_timer
+		new_ptc.kill_timer = null;
 		//FIXME init_connections(new_ptc)
 
 		components.put(new_ptc.comp_ref, new_ptc);
@@ -2242,12 +2390,20 @@ public class MainController {
 			} catch (IOException e) {
 				//FIXME handle
 			}
+
 			channel_table.remove(component.socket);
 			component.socket = null;
 			component.text_buf = null;
-			//FIXME
+			if (component.kill_timer != null) {
+				cancel_timer(component.kill_timer);
+				component.kill_timer = null;
+			}
 		}
-		//FIXME
+
+		if (component.kill_timer != null) {
+			cancel_timer(component.kill_timer);
+			component.kill_timer = null;
+		}
 	}
 
 	private static boolean ready_to_finish_testcase() {
@@ -2294,7 +2450,10 @@ public class MainController {
 			tc.tc_state = tc_state_enum.PTC_KILLING;
 		} else {
 			tc.tc_state = tc_state_enum.PTC_STOPPED;
-			// TODO timer
+			if (tc.kill_timer != null) {
+				cancel_timer(tc.kill_timer);
+				tc.kill_timer = null;
+			}
 		}
 
 		switch(mc_state) {
@@ -2960,9 +3119,11 @@ public class MainController {
 		text_buf.cut_message();
 
 		if (tc.tc_state != tc_state_enum.PTC_KILLING) {
-			// TODO timer
+			start_kill_timer(tc);
 		}
+
 		component_terminated(tc);
+		status_change();
 	}
 
 	private static void process_configure_nak_mtc() {
@@ -3142,16 +3303,21 @@ public class MainController {
 				target.tc_state = tc_state_enum.PTC_STOPPING_KILLING;
 				target.stop_requested = true;
 			}
+
 			target.stop_requestors = init_requestors(null);
 			target.kill_requestors = init_requestors(tc);
-			// TODO timer
+			start_kill_timer(target);
 			tc.tc_state = tc_state_enum.TC_KILL;
 			break;
 		case TC_STOPPING:
 			// the PTC is currently being stopped
 			send_kill(target);
 			target.tc_state = tc_state_enum.PTC_STOPPING_KILLING;
-			// TODO timer
+			if (target.kill_timer != null) {
+				cancel_timer(target.kill_timer);
+			}
+
+			start_kill_timer(target);
 			// no break
 		case PTC_KILLING:
 		case PTC_STOPPING_KILLING:
@@ -3204,9 +3370,12 @@ public class MainController {
 		tc.return_type = text_buf.pull_string();
 		text_buf.cut_message();
 
+		// start a guard timer to detect whether the control connection is closed
+		  // in time
 		if (tc.tc_state != tc_state_enum.PTC_STOPPING_KILLING) {
-			// TODO timer
+			start_kill_timer(tc);
 		}
+
 		component_terminated(tc);
 
 	}
@@ -3769,7 +3938,7 @@ public class MainController {
 					send_stop(mtc);
 					kill_all_components(true);
 					mtc.stop_requested = true;
-					// TODO start_kill_timer
+					start_kill_timer(mtc);
 					notify(MessageFormat.format("Test Component {0} had requested to stop MTC. Terminating current testcase execution.", tc.comp_ref));
 					status_change();
 				}
@@ -3844,10 +4013,11 @@ public class MainController {
 					target.tc_state = tc_state_enum.PTC_STOPPING_KILLING;
 				}
 			}
+
 			target.stop_requested = true;
 			target.stop_requestors = init_requestors(tc);
 			target.kill_requestors = init_requestors(null);
-			// TODO start_kill_timer
+			start_kill_timer(target);
 			tc.tc_state = tc_state_enum.TC_STOP;
 			break;
 		case PTC_KILLING:
@@ -3902,6 +4072,7 @@ public class MainController {
 					tc.stop_requested = true;
 					tc.stop_requestors = init_requestors(null);
 					tc.kill_requestors = init_requestors(null);
+					start_kill_timer(tc);
 					ready_for_ack = false;
 				}
 				break;
@@ -3921,10 +4092,11 @@ public class MainController {
 					send_kill(tc);
 					tc.tc_state = tc_state_enum.PTC_STOPPING_KILLING;
 				}
+
 				tc.stop_requested = true;
 				tc.stop_requestors = init_requestors(null);
 				tc.killed_requestors = init_requestors(null);
-				// TODO timer
+				start_kill_timer(tc);
 				ready_for_ack = false;
 				break;
 			case PTC_STARTING:
@@ -4003,15 +4175,20 @@ public class MainController {
 					tc.tc_state = tc_state_enum.PTC_STOPPING_KILLING;
 					tc.stop_requested = true;
 				}
+
 				tc.stop_requestors = init_requestors(null);
 				tc.kill_requestors = init_requestors(null);
-				// TODO timer
+				start_kill_timer(tc);
 				ready_for_ack = false;
 				break;
 			case TC_STOPPING:
 				send_kill(tc);
 				tc.tc_state = tc_state_enum.PTC_STOPPING_KILLING;
-				// TODO timer
+				if (tc.kill_timer != null) {
+					cancel_timer(tc.kill_timer);
+				}
+
+				start_kill_timer(tc);
 				// no break
 			case PTC_KILLING:
 			case PTC_STOPPING_KILLING:
@@ -4999,7 +5176,11 @@ public class MainController {
 		mc_state = mcStateEnum.MC_READY;
 		mtc.tc_state = tc_state_enum.TC_IDLE;
 		mtc.stop_requested = false;
-		//FIXME handle kill_timer
+		if (mtc.kill_timer != null) {
+			cancel_timer(mtc.kill_timer);
+			mtc.kill_timer = null;
+		}
+
 		stop_requested = false;
 		notify("Test execution finished.");
 		status_change();
@@ -5097,9 +5278,10 @@ public class MainController {
 			if (!tc.is_alive) {
 				tc.stop_requested = true;
 			}
+
 			tc.stop_requestors = init_requestors(null);
 			tc.kill_requestors = init_requestors(null);
-			// TODO start kill timer
+			start_kill_timer(tc);
 		} else {
 			if (tc.create_requestor.tc_state == tc_state_enum.TC_CREATE) {
 				send_create_ack(tc.create_requestor, component_reference);
@@ -5119,6 +5301,13 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_KILL);
 		send_message(tc.comp_location, text_buf);
+	}
+
+	private static void send_kill_process(final Host hc, final int component_reference) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_KILL_PROCESS);
+		text_buf.push_int(component_reference);
+		send_message(hc.socket, text_buf);
 	}
 
 	private static void send_create_ack(final ComponentStruct create_requestor, final int component_reference) {
@@ -5205,7 +5394,11 @@ public class MainController {
 		mtc.local_verdict = VerdictTypeEnum.values()[verdict];
 		mtc.verdict_reason = reason;
 		mtc.stop_requested = false;
-		// TODO timer
+		if (mtc.kill_timer != null) {
+			cancel_timer(mtc.kill_timer);
+			mtc.kill_timer = null;
+		}
+
 		local_incoming_buf.cut_message();
 
 		any_component_done_requested = false;
@@ -5226,7 +5419,7 @@ public class MainController {
 			send_stop(mtc);
 			mtc.tc_state = tc_state_enum.MTC_CONTROLPART;
 			mtc.stop_requested = true;
-			// TODO start_kill_timer
+			start_kill_timer(mtc);
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		} else if (stop_after_tc) {
 			send_ptc_verdict(false);
@@ -5397,7 +5590,7 @@ public class MainController {
 			case MC_EXECUTING_CONTROL:
 				send_stop(mtc);
 				mtc.stop_requested = true;
-				//FIXME start_kill_timer(mtc);
+				start_kill_timer(mtc);
 				//FIXME wakeup_thread
 				break;
 			case MC_EXECUTING_TESTCASE:
@@ -5405,7 +5598,7 @@ public class MainController {
 					send_stop(mtc);
 					kill_all_components(true);
 					mtc.stop_requested = true;
-					//FIXME start_kill_timer(mtc)
+					start_kill_timer(mtc);
 					//FIXME wakeup_thread
 				}
 			case MC_TERMINATING_TESTCASE:
@@ -5482,7 +5675,7 @@ public class MainController {
 		mtc.tc_state = tc_state_enum.TC_EXITING;
 		//FIXME 
 		mc_state = mcStateEnum.MC_TERMINATING_MTC;
-		// FIXME start_kill_timer
+		start_kill_timer(mtc);
 		status_change();
 		unlock();
 	}
@@ -5559,7 +5752,9 @@ public class MainController {
 
 		//FIXME debugger support
 
-		//FIXME cancel_timer
+		while (!timers.isEmpty()) {
+			cancel_timer(timers.peek());
+		}
 
 		modules.clear();
 		version_known = false;
