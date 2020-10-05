@@ -3371,7 +3371,7 @@ public class MainController {
 		text_buf.cut_message();
 
 		// start a guard timer to detect whether the control connection is closed
-		  // in time
+		// in time
 		if (tc.tc_state != tc_state_enum.PTC_STOPPING_KILLING) {
 			start_kill_timer(tc);
 		}

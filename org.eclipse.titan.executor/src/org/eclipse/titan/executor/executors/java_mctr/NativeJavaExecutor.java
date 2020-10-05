@@ -88,7 +88,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	shutdownSession, info;
 
 	private ConfigFileHandler configHandler = null;
-	
+
 	public static class NativeJavaUI extends UserInterface {
 		private NativeJavaExecutor callback;
 
