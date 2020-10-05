@@ -85,7 +85,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private static final String EMPTY_STRING = "";
 
 	private Action automaticExecution, startSession, configure, startHCs, cmtc, smtc, generalPause, cont, stop, emtc, generalLogging,
-	shutdownSession, info;
+			shutdownSession, info;
 
 	private ConfigFileHandler configHandler = null;
 
@@ -149,7 +149,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 			@Override
 			public void run() {
 				initialization();
-				updateGUI();//FIXME temp only for debugging
+				updateGUI();// FIXME temp only for debugging
 			}
 		};
 		startSession.setToolTipText("Start session");
@@ -249,7 +249,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		info.setToolTipText("Updates the status displaying hierarchy");
 
 		NativeJavaUI tempUI = new NativeJavaUI(this);
-		MainController.initialize(tempUI, 1500);//mx_ptcs
+		MainController.initialize(tempUI, 1500);// mx_ptcs
 		TITANDebugConsole.println("initialize called");
 
 		setRunning(true);
@@ -270,7 +270,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 	/**
 	 * Initializes the Executor.
 	 *
-	 * @param launch the ILaunch instance to start the session with.
+	 * @param launch
+	 *                the ILaunch instance to start the session with.
 	 * */
 	@Override
 	public void startSession(final ILaunch launch) {
@@ -313,15 +314,17 @@ public class NativeJavaExecutor extends BaseExecutor {
 	/**
 	 * Inserts an error message into the notifications view.
 	 *
-	 * @param severity the severity of the message
-	 * @param msg the message to be shown
+	 * @param severity
+	 *                the severity of the message
+	 * @param msg
+	 *                the message to be shown
 	 * */
 	public void insertError(final int severity, final String msg) {
 		TITANConsole.println("Error: " + msg);
 
 		if (severityLevelExtraction) {
-			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), SeverityResolver
-					.getSeverityString(severity), EMPTY_STRING, msg));
+			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(),
+					SeverityResolver.getSeverityString(severity), EMPTY_STRING, msg));
 		} else {
 			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), EMPTY_STRING, EMPTY_STRING, msg));
 		}
@@ -333,8 +336,10 @@ public class NativeJavaExecutor extends BaseExecutor {
 	/**
 	 * Inserts an error message into the notifications view.
 	 *
-	 * @param severity the severity of the message
-	 * @param msg the message to be shown
+	 * @param severity
+	 *                the severity of the message
+	 * @param msg
+	 *                the message to be shown
 	 * */
 	public void errorCallback(final int severity, final String msg) {
 		insertError(severity, msg);
@@ -345,12 +350,15 @@ public class NativeJavaExecutor extends BaseExecutor {
 	}
 
 	/**
-	 * Inserts a lists of messages into the notifications view in a batched manner
+	 * Inserts a lists of messages into the notifications view in a batched
+	 * manner
 	 * <p>
-	 * A list of String arrays issued to store every data reported regarding the message in a undecoded way. On this way if a data is not needed we
-	 * don't need to decode it.
+	 * A list of String arrays issued to store every data reported regarding
+	 * the message in a undecoded way. On this way if a data is not needed
+	 * we don't need to decode it.
 	 *
-	 * @param s the list of String arrays.
+	 * @param s
+	 *                the list of String arrays.
 	 * */
 	public void batchedInsertNotify(final ArrayList<String[]> s) {
 		if (loggingIsEnabled && consoleLogging) {
@@ -401,10 +409,15 @@ public class NativeJavaExecutor extends BaseExecutor {
 	/**
 	 * Inserts a notification message into the notifications view.
 	 *
-	 * @param time the MainController reported time, when the notification message was created
-	 * @param source the source line info of the notification message
-	 * @param severity the severity of the message
-	 * @param msg the message to be shown
+	 * @param time
+	 *                the MainController reported time, when the
+	 *                notification message was created
+	 * @param source
+	 *                the source line info of the notification message
+	 * @param severity
+	 *                the severity of the message
+	 * @param msg
+	 *                the message to be shown
 	 * */
 	public void insertNotify(final Timeval time, final String source, final int severity, final String msg) {
 		if (loggingIsEnabled && consoleLogging) {
@@ -422,8 +435,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 			addNotification(new Notification(timestamp, EMPTY_STRING, source, msg));
 		}
 
-		if (verdictExtraction
-				&& executionFinishedMatcher.reset(msg).matches()) {
+		if (verdictExtraction && executionFinishedMatcher.reset(msg).matches()) {
 			final String reason = executionFinishedMatcher.group(2);
 			if (reasonMatcher.reset(reason).matches()) {
 				executedTests.add(new ExecutedTestcase(timestamp, executionFinishedMatcher.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
@@ -436,10 +448,15 @@ public class NativeJavaExecutor extends BaseExecutor {
 	/**
 	 * Inserts a notification message into the notifications view.
 	 *
-	 * @param time the MainController reported time, when the notification message was created
-	 * @param source the source line info of the notification message
-	 * @param severity the severity of the message
-	 * @param msg the message to be shown
+	 * @param time
+	 *                the MainController reported time, when the
+	 *                notification message was created
+	 * @param source
+	 *                the source line info of the notification message
+	 * @param severity
+	 *                the severity of the message
+	 * @param msg
+	 *                the message to be shown
 	 * */
 	public void notifyCallback(final Timeval time, final String source, final int severity, final String msg) {
 		insertNotify(time, source, severity, msg);
@@ -509,9 +526,11 @@ public class NativeJavaExecutor extends BaseExecutor {
 	}
 
 	/**
-	 * Initializes the test session loading the configuration file if provided.
+	 * Initializes the test session loading the configuration file if
+	 * provided.
 	 * <p>
-	 * If automatic execution is selected the HostControllers are started as the last step
+	 * If automatic execution is selected the HostControllers are started as
+	 * the last step
 	 * <p>
 	 * This is called startSession in mctr_gui
 	 */
@@ -544,7 +563,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 						"An error was found while processing the configuration file",
 						"Please refer to the Error Log view for further information.");
 				return;
-			} else if( configHandler.isErroneous() ) {
+			} else if (configHandler.isErroneous()) {
 
 				if (configHandler.parseExceptions().isEmpty()) {
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
@@ -594,7 +613,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		}
 
 		if (localAddress == null) {
-			//FIXME temporal change to enable efficient work.
+			// FIXME temporal change to enable efficient work.
 			localAddress = "127.0.0.1";
 		}
 
@@ -658,7 +677,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 	/**
 	 * Creates the MainTestComponent.
 	 * <p>
-	 * If the HostControllers are not configured that is also done before creating the MainTestComponent.
+	 * If the HostControllers are not configured that is also done before
+	 * creating the MainTestComponent.
 	 * */
 	private void createMTC() {
 		TITANDebugConsole.println("createMTC called");
@@ -677,11 +697,15 @@ public class NativeJavaExecutor extends BaseExecutor {
 	}
 
 	/**
-	 * Initializes and displays a dialog to the user. If the user selected an executable element, it is also started here.
+	 * Initializes and displays a dialog to the user. If the user selected
+	 * an executable element, it is also started here.
 	 * <p>
-	 * If the MainTestComponent is not yet created it is done before the execution starts.
+	 * If the MainTestComponent is not yet created it is done before the
+	 * execution starts.
 	 *
-	 * @param automaticExecution true if the execution should not be done in step-by-step.
+	 * @param automaticExecution
+	 *                true if the execution should not be done in
+	 *                step-by-step.
 	 * */
 	private void startTest(final boolean automaticExecution) {
 		TITANDebugConsole.println("startTest called");
@@ -751,7 +775,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 					final List<String> configurationFileElements = configHandler.getExecuteElements();
 					if (configurationFileElements.isEmpty()) {
 						invalidSelection = true;
-						Display.getDefault().syncExec( new EmptyExecutionRunnable() );
+						Display.getDefault().syncExec(new EmptyExecutionRunnable());
 					} else {
 						invalidSelection = false;
 						for (int i = 0; i < lastTimeSelectionTime; i++) {
@@ -821,7 +845,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private void exitMTC() {
 		TITANDebugConsole.println("exitMTC called");
 		final MainController.mcStateEnum state = MainController.get_state();
-		if (MainController.mcStateEnum.MC_EXECUTING_CONTROL == state || MainController.mcStateEnum.MC_EXECUTING_TESTCASE == state || MainController.mcStateEnum.MC_PAUSED == state) {
+		if (MainController.mcStateEnum.MC_EXECUTING_CONTROL == state || MainController.mcStateEnum.MC_EXECUTING_TESTCASE == state
+				|| MainController.mcStateEnum.MC_PAUSED == state) {
 			stop();
 			return;
 		}
@@ -844,7 +869,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 		shutdownRequested = true;
 		simpleExecutionRunning = false;
 		final MainController.mcStateEnum state = MainController.get_state();
-		if (MainController.mcStateEnum.MC_LISTENING == state || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == state || MainController.mcStateEnum.MC_HC_CONNECTED == state || MainController.mcStateEnum.MC_ACTIVE == state) {
+		if (MainController.mcStateEnum.MC_LISTENING == state || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == state
+				|| MainController.mcStateEnum.MC_HC_CONNECTED == state || MainController.mcStateEnum.MC_ACTIVE == state) {
 			MainController.shutdown_session();
 			// jnimw.terminate_internal() must be also called when shutdown is finished, see statusChangeCallback() case MC_INACTIVE
 			startHCRequested = false;
@@ -859,7 +885,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 	}
 
 	/**
-	 * Updates the information displayed about the MainController's and HostControllers actual states.
+	 * Updates the information displayed about the MainController's and
+	 * HostControllers actual states.
 	 * */
 	private void updateInfoDisplay() {
 		final MainController.mcStateEnum mcState = MainController.get_state();
@@ -947,26 +974,38 @@ public class NativeJavaExecutor extends BaseExecutor {
 
 		automaticExecution.setEnabled(!isTerminated && executeList.isEmpty());
 		startSession.setEnabled(!isTerminated && MainController.mcStateEnum.MC_INACTIVE == stateValue);
-		configure.setEnabled(MainController.mcStateEnum.MC_LISTENING == stateValue || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue
-				|| MainController.mcStateEnum.MC_ACTIVE == stateValue);
-		startHCs.setEnabled(MainController.mcStateEnum.MC_LISTENING == stateValue || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue);
-		cmtc.setEnabled(MainController.mcStateEnum.MC_LISTENING == stateValue || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue
-				|| MainController.mcStateEnum.MC_ACTIVE == stateValue);
+		configure.setEnabled(MainController.mcStateEnum.MC_LISTENING == stateValue
+				|| MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue
+				|| MainController.mcStateEnum.MC_HC_CONNECTED == stateValue || MainController.mcStateEnum.MC_ACTIVE == stateValue);
+		startHCs.setEnabled(MainController.mcStateEnum.MC_LISTENING == stateValue
+				|| MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue);
+		cmtc.setEnabled(MainController.mcStateEnum.MC_LISTENING == stateValue
+				|| MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue
+				|| MainController.mcStateEnum.MC_HC_CONNECTED == stateValue || MainController.mcStateEnum.MC_ACTIVE == stateValue);
 		smtc.setEnabled(MainController.mcStateEnum.MC_READY == stateValue);
 		cont.setEnabled(MainController.mcStateEnum.MC_PAUSED == stateValue);
-		stop.setEnabled(MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue || MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue
+		stop.setEnabled(MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
+				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue
+				|| MainController.mcStateEnum.MC_PAUSED == stateValue
 				|| MainController.mcStateEnum.MC_TERMINATING_TESTCASE == stateValue);
 		emtc.setEnabled(MainController.mcStateEnum.MC_READY == stateValue);
-		shutdownSession.setEnabled(MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_LISTENING == stateValue || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue
+		shutdownSession.setEnabled(MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_LISTENING == stateValue
+				|| MainController.mcStateEnum.MC_LISTENING_CONFIGURED == stateValue
 				|| MainController.mcStateEnum.MC_HC_CONNECTED == stateValue || MainController.mcStateEnum.MC_ACTIVE == stateValue);
 
-		generalPause.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
-				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue);
+		generalPause.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue
+				|| MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
+				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue
+				|| MainController.mcStateEnum.MC_PAUSED == stateValue);
 		generalPause.setChecked(MainController.get_stop_after_testcase());
-		generalLogging.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
-				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue);
-		info.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue || MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
-				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue || MainController.mcStateEnum.MC_PAUSED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue);
+		generalLogging.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue
+				|| MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
+				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue
+				|| MainController.mcStateEnum.MC_PAUSED == stateValue);
+		info.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue
+				|| MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
+				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue
+				|| MainController.mcStateEnum.MC_PAUSED == stateValue || MainController.mcStateEnum.MC_HC_CONNECTED == stateValue);
 
 		final ExecutorMonitorView mainView = Activator.getMainView();
 		if (mainView != null) {
