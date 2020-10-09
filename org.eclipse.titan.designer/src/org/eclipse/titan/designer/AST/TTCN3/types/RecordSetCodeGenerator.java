@@ -2221,11 +2221,11 @@ public final class RecordSetCodeGenerator {
 					/* field index of the otherwise rule */
 					String otherwise_str = null;
 					boolean first_value = true;
-					source.append("\t\t\t\t\t\t\tint chosen_field = CHOSEN_FIELD_UNSET;\n");
+					source.append("\t\t\t\t\t\t\tint chosen_field = JSON.CHOSEN_FIELD_UNSET;\n");
 					int j;
 					for (j = 0; j < fieldInfos.get(i).jsonChosen.size(); j++) {
-						final rawAST_coding_taglist cur_choice =	fieldInfos.get(i).jsonChosen.get(j);
-						if (cur_choice.fields.size() > 0) {
+						final rawAST_coding_taglist cur_choice = fieldInfos.get(i).jsonChosen.get(j);
+						if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
 							/* this is a normal rule */
 							if (first_value) {
 								source.append("\t\t\t\t\t\t\tif (");
@@ -2241,14 +2241,14 @@ public final class RecordSetCodeGenerator {
 							if (cur_choice.fieldnum != -2) {
 								source.append(cur_choice.fieldnum);
 							} else {
-								source.append("CHOSEN_FIELD_OMITTED");
+								source.append("JSON.CHOSEN_FIELD_OMITTED");
 							}
 							source.append(";\n");
 							source.append("\t\t\t\t\t\t\t}\n");
 						}
 						else {
 							/* this is an otherwise rule */
-							otherwise_str = cur_choice.fieldnum != -2 ?	"" + cur_choice.fieldnum : "CHOSEN_FIELD_OMITTED";
+							otherwise_str = cur_choice.fieldnum != -2 ?	"" + cur_choice.fieldnum : "JSON.CHOSEN_FIELD_OMITTED";
 						}
 					}
 					if (otherwise_str != null) {
@@ -2258,7 +2258,7 @@ public final class RecordSetCodeGenerator {
 						source.append("\t\t\t\t\t\t\t}\n");
 					}
 				}
-				source.append(MessageFormat.format("\t\t\t\t\t\t\tfinal int ret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent{2});\n",
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tfinal int ret_val = get_field_{0}().JSON_decode({1}_descr_, p_tok, p_silent, false{2});\n",
 					fieldInfos.get(i).mJavaVarName, fieldInfos.get(i).mTypeDescriptorName,
 					fieldInfos.get(i).jsonChosen != null ? ", chosen_field" : ""));
 				source.append("\t\t\t\t\t\t\tif (0 > ret_val) {\n");
@@ -2333,7 +2333,8 @@ public final class RecordSetCodeGenerator {
 							boolean has_otherwise = false;
 							boolean omit_otherwise = false;
 							for (j = 0; j < fieldInfos.get(i).jsonChosen.size(); j++) {
-								if (fieldInfos.get(i).jsonChosen.get(j).fields.size() == 0) {
+								if (fieldInfos.get(i).jsonChosen.get(j).fields == null ||
+										fieldInfos.get(i).jsonChosen.get(j).fields.size() == 0) {
 									has_otherwise = true;
 									if (fieldInfos.get(i).jsonChosen.get(j).fieldnum == -2) {
 										omit_otherwise = true;
@@ -4809,18 +4810,22 @@ public final class RecordSetCodeGenerator {
 					fieldName = MessageFormat.format("{0}.get()", fieldName);
 				}
 			}
-			if (fields.fields.get(fields.fields.size() - 1).fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+			if (fields.fields.size() > 0 && fields.fields.get(fields.fields.size() - 1).fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
 				optional = true;
 			}
 
 			if (!firstExpr) {
 				source.append(is_equal ? " && " : " || ");
 			}
-			final StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
-			if (is_equal) {
-				source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
+			if (optional ? fields.expression != null : fields.nativeExpression != null) {
+				final StringBuilder expression = optional ? fields.expression.expression : fields.nativeExpression.expression;
+				if (is_equal) {
+					source.append(MessageFormat.format("{0}.operator_equals({1})", fieldName, expression));
+				} else {
+					source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, expression));
+				}
 			} else {
-				source.append(MessageFormat.format("!{0}.operator_equals({1})", fieldName, expression));
+				source.append("true");
 			}
 
 			if (!firstExpr && taglist.fields.size() > 1) {
