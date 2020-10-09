@@ -40,6 +40,11 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_field_list;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
@@ -3106,6 +3111,58 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		} else {
 			localTarget.append(globalVariable);
 		}
+	}
+
+	protected List<rawAST_coding_taglist> convertJsonCodingAttributes(RawAST jsonattrib, final JavaGenData aData, final StringBuilder source, IType t) {
+		if (jsonattrib == null || jsonattrib.taglist == null) {
+			return null;
+		}
+			
+		final List<rawAST_single_tag> tag_list = jsonattrib.taglist;
+		final List<rawAST_coding_taglist> jsonChosen = new ArrayList<rawAST_coding_taglist>();
+		for (int c = 0; c < tag_list.size(); ++c) {
+			final rawAST_coding_taglist jsonChosenElement = new rawAST_coding_taglist();
+			if (tag_list.get(c).keyList == null || tag_list.get(c).keyList.size() == 0) {
+				jsonChosenElement.fields = null;
+			} else {
+				jsonChosenElement.fields = new ArrayList<rawAST_coding_field_list>();
+			}
+			final Identifier union_field_id = tag_list.get(c).fieldName;
+			final TTCN3_Set_Seq_Choice_BaseType ct = (TTCN3_Set_Seq_Choice_BaseType) t;
+			final TTCN3_Set_Seq_Choice_BaseType clast = (TTCN3_Set_Seq_Choice_BaseType)getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			jsonChosenElement.fieldname = union_field_id != null ? union_field_id.getName() : null; // TODO: currently unused
+			jsonChosenElement.fieldnum = union_field_id != null ? clast.getComponentIndexByName(tag_list.get(c).fieldName) : -2;
+			if (tag_list.get(c).keyList != null) {
+				for (int a = 0; a <tag_list.get(c).keyList.size(); ++a) {
+					final rawAST_coding_field_list key = new rawAST_coding_field_list();
+					key.value = tag_list.get(c).keyList.get(a).value;
+					key.fields = new ArrayList<rawAST_coding_fields>();
+					for (int b = 0; b < key.fields.size(); ++b) {
+						final String current_field_id = tag_list.get(c).keyList.get(a).keyField.names.get(b).getName();
+						final int current_field_index = ct.getComponentIndexByName(current_field_id);
+						final CompField current_field = ct.getComponentByIndex(current_field_index);
+						final rawAST_coding_fields jsonChosenElementField = new rawAST_coding_fields();
+						jsonChosenElementField.nthfield = current_field_index;
+						jsonChosenElementField.nthfieldname = current_field_id;
+						if (t.getTypetype() == Type_type.TYPE_TTCN3_CHOICE) {
+							jsonChosenElementField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+						} else if (current_field.isOptional()) {
+							jsonChosenElementField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+						} else {
+							jsonChosenElementField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+						}
+						final Type field_type = current_field.getType();
+						jsonChosenElementField.type = field_type.getGenNameValue(aData, source);
+						jsonChosenElementField.typedesc = field_type.getGenNameTypeDescriptor(aData, source);
+						t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						key.fields.add(jsonChosenElementField);
+					}
+					jsonChosenElement.fields.add(key);
+				}
+			}
+			jsonChosen.add(jsonChosenElement);
+		}
+		return jsonChosen;
 	}
 
 	/**
