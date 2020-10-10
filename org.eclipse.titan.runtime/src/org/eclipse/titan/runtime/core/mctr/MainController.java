@@ -1284,7 +1284,7 @@ public class MainController {
 	private static void process_error(final ComponentStruct tc) {
 		final Text_Buf text_buf = tc.text_buf;
 		final String reason = text_buf.pull_string();
-		// text_buf.cut_message();
+
 		if (tc.equals(mtc)) {
 			error(MessageFormat.format("Error message was received from the MTC at {0} [{1}]: {2}",
 					mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress(), reason));
@@ -1626,7 +1626,7 @@ public class MainController {
 		tc.tc_state = tc_state_enum.TC_CREATE;
 
 		final ComponentStruct new_ptc = new ComponentStruct();
-		new_ptc.comp_ref = comp_ref; // next_comp_ref++;
+		new_ptc.comp_ref = comp_ref;
 		new_ptc.comp_type = new QualifiedName(componentTypeModule, componentTypeName);
 		new_ptc.comp_name = componentName;
 		new_ptc.comp_location = ptcLoc;
@@ -2472,7 +2472,6 @@ public class MainController {
 		// FIXME: tc->return_value_len = message_end - text_buf.get_pos();
 		tc.return_value = new byte[msg_end - text_buf.get_pos()];
 		text_buf.pull_raw(tc.return_value.length, tc.return_value);
-		// text_buf.cut_message();
 
 		// FIXME: free_qualified_name(&tc->tc_fn_name);
 		tc.tc_fn_name = new QualifiedName("", "");
@@ -2590,7 +2589,6 @@ public class MainController {
 			final String par = text_buf.pull_string();
 			params.set_param(i, new TitanCharString(par));
 		}
-		// text_buf.cut_message();
 
 		PortConnection conn = null;
 		if (!translation) {
@@ -2636,7 +2634,6 @@ public class MainController {
 			final String par = text_buf.pull_string();
 			params.set_param(i, new TitanCharString(par));
 		}
-		// text_buf.cut_message();
 
 		final PortConnection conn = find_connection(sourceComponent, sourcePort, TitanComponent.SYSTEM_COMPREF, systemPort);
 		if (conn == null) {
@@ -3118,7 +3115,6 @@ public class MainController {
 			params.set_param(i, new TitanCharString(par));
 		}
 
-		// text_buf.cut_message();
 		PortConnection conn = null;
 		if (!translation) {
 			conn = find_connection(tc.comp_ref, localPort, TitanComponent.SYSTEM_COMPREF, systemPort);
@@ -3164,14 +3160,12 @@ public class MainController {
 			send_error(tc.socket, "Unexpected message KILLED was received.");
 			// also notify the user because the above message may get lost
 			notify(MessageFormat.format("Unexpected message KILLED was received from PTC {0}.", tc.comp_ref));
-			// incoming_buf.get().cut_message();
 			return;
 		}
 
 		final Text_Buf text_buf = tc.text_buf;
 		tc.local_verdict = VerdictTypeEnum.values()[text_buf.pull_int().get_int()];
 		tc.verdict_reason = text_buf.pull_string();
-		// text_buf.cut_message();
 
 		// start a guard timer to detect whether the control connection is closed in time
 		if (tc.tc_state != tc_state_enum.PTC_KILLING) {
@@ -3213,7 +3207,6 @@ public class MainController {
 		final int nof_params = text_buf.pull_int().get_int();
 
 		if (!valid_endpoint(sourceComponent, true, tc, "map")) {
-			// text_buf.cut_message();
 			return;
 		}
 
@@ -3222,8 +3215,6 @@ public class MainController {
 			final String par = text_buf.pull_string();
 			params.set_param(i, new TitanCharString(par));
 		}
-
-		// text_buf.cut_message();
 
 		PortConnection conn = find_connection(sourceComponent, sourcePort, TitanComponent.SYSTEM_COMPREF, systemPort);
 		if (conn == null) {
@@ -3291,7 +3282,6 @@ public class MainController {
 
 		final Text_Buf text_buf = tc.text_buf;
 		final int component_reference = text_buf.pull_int().get_int();
-		// text_buf.cut_message();
 		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			send_error(tc.socket, "Kill operation was requested on the null component reference.");
@@ -3429,7 +3419,6 @@ public class MainController {
 		tc.local_verdict = TitanVerdictType.VerdictTypeEnum.values()[text_buf.pull_int().get_int()];
 		tc.verdict_reason = text_buf.pull_string();
 		tc.return_type = text_buf.pull_string();
-		// text_buf.cut_message();
 
 		tc.return_value = new byte[msg_end - text_buf.get_pos()];
 		text_buf.pull_raw(tc.return_value.length, tc.return_value);
@@ -4355,7 +4344,6 @@ public class MainController {
 		final String sourcePort = text_buf.pull_string();
 		final int remoteComponent = text_buf.pull_int().get_int();
 		final String remotePort = text_buf.pull_string();
-		// text_buf.cut_message();
 
 		final PortConnection conn = find_connection(tc.comp_ref, sourcePort, remoteComponent, remotePort);
 		if (conn != null) {
@@ -4417,7 +4405,6 @@ public class MainController {
 		final String sourcePort = text_buf.pull_string();
 		final int destinationComponent = text_buf.pull_int().get_int();
 		final String destinationPort = text_buf.pull_string();
-		// text_buf.cut_message();
 
 		if (!valid_endpoint(sourceComponent, false, tc, "disconnect") ||
 				!valid_endpoint(destinationComponent, false, tc, "disconnect")) {
@@ -4906,8 +4893,6 @@ public class MainController {
 		final String remote_port = text_buf.pull_string();
 		final String message = text_buf.pull_string();
 
-		// text_buf.cut_message();
-
 		final PortConnection conn = find_connection(tc.comp_ref, localPort, remote_comp, remote_port);
 		if (conn != null) {
 			switch (conn.conn_state) {
@@ -4975,8 +4960,6 @@ public class MainController {
 		final String sourcePort = text_buf.pull_string();
 		final int destinationComponent = text_buf.pull_int().get_int();
 		final String destinationPort = text_buf.pull_string();
-
-		// text_buf.cut_message();
 
 		if (!valid_endpoint(sourceComponent, true, tc, "connect") || !valid_endpoint(destinationComponent, true, tc, "connect")) {
 			return;
@@ -5515,8 +5498,6 @@ public class MainController {
 			mtc.kill_timer = null;
 		}
 
-		//local_incoming_buf.cut_message();
-
 		any_component_done_requested = false;
 		any_component_done_sent = false;
 		all_component_done_requested = false;
@@ -5579,7 +5560,6 @@ public class MainController {
 		}
 		text_buf.push_int(continue_execution ? 1 : 0);
 		send_message(mtc.socket, text_buf);
-		// incoming_buf.get().cut_message();
 	}
 
 	private static void process_testcase_started() {
@@ -5603,8 +5583,6 @@ public class MainController {
 		any_component_killed_requested = false;
 		all_component_killed_requested = false;
 
-		//text_buf.cut_message();
-		//incoming_buf.get().cut_message();
 		status_change();
 	}
 
