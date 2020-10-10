@@ -1629,7 +1629,7 @@ public class MainController {
 		// FIXME init_qualified_name
 		new_ptc.return_type = null;
 		new_ptc.return_value = null;
-		new_ptc.is_alive = (isAlive == 1); // FIXME: check
+		new_ptc.is_alive = (isAlive == 1);
 		new_ptc.stop_requested = false;
 		new_ptc.process_killed = false;
 		new_ptc.create_requestor = tc;
@@ -2206,7 +2206,7 @@ public class MainController {
 						process_log(tc);
 						break;
 					case MSG_CREATE_REQ:
-						process_create_req(tc);//TODO check
+						process_create_req(tc);
 						break;
 					case MSG_START_REQ:
 						process_start_req(tc);
