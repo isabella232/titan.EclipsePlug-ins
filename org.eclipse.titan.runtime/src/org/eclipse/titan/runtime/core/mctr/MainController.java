@@ -397,15 +397,6 @@ public class MainController {
 		public byte[] module_checksum;
 	}
 
-	// TODO check: most probably every use is wrong. Should disappear with
-	// time.
-	private static ThreadLocal<Text_Buf> incoming_buf = new ThreadLocal<Text_Buf>() {
-		@Override
-		protected Text_Buf initialValue() {
-			return new Text_Buf();
-		}
-	};
-
 	private static String config_str;
 
 	private static boolean version_known;
