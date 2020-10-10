@@ -2510,7 +2510,7 @@ public class MainController {
 		}
 
 		// Note: the COMPONENT_STATUS message must be sent before STOP_ACK because
-		  // the latter may update the component status cache table to an inconsistent state
+		// the latter may update the component status cache table to an inconsistent state
 		boolean send_status_to_mtc = false;
 		boolean send_done_to_mtc = false;
 		// sending out COMPONENT_STATUS messages to PTCs
@@ -2622,11 +2622,11 @@ public class MainController {
 		final boolean translation = text_buf.pull_int().get_int() == 0 ? false : true;
 		final String sourcePort = text_buf.pull_string();
 		final String systemPort = text_buf.pull_string();
-		
+
 		if (!valid_endpoint(sourceComponent, false, tc, "unmap")) {
 			return;
 		}
-		
+
 		final int nof_params = text_buf.pull_int().get_int();
 
 		final Map_Params params = new Map_Params(nof_params);
@@ -4551,7 +4551,7 @@ public class MainController {
 
 		if (target.tc_state == tc_state_enum.PTC_STOPPED) {
 			// updating the state of target because 'any component.done' cannot
-		    // consider this component anymore
+			// consider this component anymore
 			target.tc_state = tc_state_enum.PTC_STARTING;
 			target.return_type = null;
 			target.return_value = null;
@@ -4623,7 +4623,7 @@ public class MainController {
 			send_start_ack(tc);
 			target.tc_state = tc_state_enum.PTC_FUNCTION;
 		}
-		
+
 		status_change();
 	}
 
