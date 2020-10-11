@@ -887,6 +887,86 @@ public class MainController {
 		return new_group;
 	}
 
+	private static HostGroupStruct lookup_host_group(final String group_name) {
+		for (HostGroupStruct group : host_groups){
+			if (group.group_name.equals(group_name)) {
+				return group;
+			}
+		}
+
+		return null;
+	}
+
+	private static boolean is_similar_hostname(final String host1, final String host2) {
+		final String host1Lower = host1.toLowerCase();
+		final String host2lower = host2.toLowerCase();
+		for (int i = 0; i <= Math.min(host1.length(), host2.length()); i++) {
+			// case insensitive comparison of the characters
+			if (host1Lower.charAt(i) != host2lower.charAt(i)) {
+				return false;
+			}
+			// continue the evaluation if they are matching
+		}
+
+		if (host1.length() == host2.length()) {
+			return true;
+		}
+
+		if (host1.length() < host2.length()) {
+			// if host2 is the longer one it may contain an additional domain
+			// name with a leading dot (e.g. "foo" is similar to "foo.bar.com")
+			// note: empty string is similar with empty string only
+			if (host2.charAt(host1.length()) == '.') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			// or vice versa
+			if (host1.charAt(host2.length()) == '.') {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	private static boolean host_has_name(final Host host, final String name) {
+		// name might resemble to host->hostname
+		if (is_similar_hostname(host.hostname, name)) {
+			return true;
+		}
+		// to avoid returning true in situations when name is "foo.bar.com", but
+		// host->hostname is "foo.other.com" and host->hostname_local is "foo"
+		// name might resemble to host->hostname_local
+		//FIXME local_hostname_different
+		if (is_similar_hostname(host.hostname_local, name)) {
+			return true;
+		}
+
+		//FIXME add support for IP address
+		return false;
+	}
+
+	private static boolean member_of_group(final Host host, final HostGroupStruct group) {
+		if (group.has_all_hosts) {
+			return true;
+		}
+
+		if (group.host_members.isEmpty()) {
+			return host_has_name(host, group.group_name);
+		}
+
+		for (int i = 0; i < group.host_members.size(); i++) {
+			final String member_name = group.host_members.get(i);
+			if (host_has_name(host, member_name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static void assign_component(final String host_or_group, final String component_id) {
 		lock();
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
@@ -1650,13 +1730,44 @@ public class MainController {
 
 	// FIXME implement
 	private static Host choose_ptc_location(final String componentTypeName, final String componentName, final String componentLocation) {
-		final Host location = null;
-		for (final Host h : hosts) {
-			if (!h.equals(mtc.comp_location)) {
-				return h;
-			}
+		Host best_candidate = null;
+		//TODO load handling
+		boolean has_constraint = assigned_components.contains(componentTypeName) || assigned_components.contains(componentName);
+		HostGroupStruct group;
+		if (componentLocation != null && !componentLocation.isEmpty()) {
+			group = lookup_host_group(componentLocation);
+		} else {
+			group = null;
 		}
-		return null;
+
+		for (Host host : hosts) {
+			if (host.hc_state != hc_state_enum.HC_ACTIVE) {
+				continue;
+			}
+
+			//FIXME load handling
+
+			if (componentLocation != null && !componentLocation.isEmpty()) {
+				// the explicit location has precedence over the constraints
+				if (group != null) {
+					if (!member_of_group(host, group)) {
+						continue;
+					}
+				} else {
+					if (!host_has_name(host, componentLocation)) {
+						continue;
+					}
+				}
+			} else if (has_constraint){
+				//FIXME allowed_components
+			} else if (all_components_assigned) {
+				//FIXME
+			}
+			best_candidate = host;
+			//FIXME load handling
+		}
+
+		return best_candidate;
 	}
 
 	private boolean set_has_string(final Set<String> set, final String str) {
