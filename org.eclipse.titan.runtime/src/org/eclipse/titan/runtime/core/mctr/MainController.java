@@ -1588,6 +1588,7 @@ public class MainController {
 		final String componentName = text_buf.pull_string();
 		final String componentLocation = text_buf.pull_string();
 		final int isAlive = text_buf.pull_int().get_int();
+		//FIXME this needs to be updated tp 64 bit too.
 		testcase_start_time_seconds = text_buf.pull_int().get_int();
 		testcase_start_time_miliseconds = text_buf.pull_int().get_int();
 
