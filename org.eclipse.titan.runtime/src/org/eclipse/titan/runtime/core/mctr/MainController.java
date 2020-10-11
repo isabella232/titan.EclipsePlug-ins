@@ -4435,7 +4435,7 @@ public class MainController {
 	private static void send_stop(final ComponentStruct tc) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_STOP);
-		send_message(tc.comp_location, text_buf);
+		send_message(tc.socket, text_buf);
 	}
 
 	private static void process_disconnected(final ComponentStruct tc) {
@@ -4964,7 +4964,7 @@ public class MainController {
 			if (comp == null) {
 				break;
 			} else if (comp.tc_state == tc_state_enum.TC_CONNECT) {
-				send_error(comp.comp_location, reason);
+				send_error(comp.socket, reason);
 				if (comp.equals(mtc)) {
 					comp.tc_state = tc_state_enum.MTC_TESTCASE;
 				} else {
@@ -5127,7 +5127,7 @@ public class MainController {
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
 				break;
 			default:
-				send_error(tc.comp_location, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot be established due to an internal error in the MC.",
+				send_error(tc.socket, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot be established due to an internal error in the MC.",
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
 				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when a connect operation was requested on it.",
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
@@ -5170,7 +5170,7 @@ public class MainController {
 		text_buf.push_string(tailPort);
 		text_buf.push_int(transport_type.ordinal());
 
-		send_message(tc.comp_location, text_buf);
+		send_message(tc.socket, text_buf);
 	}
 
 	private static void send_connect(final ComponentStruct tc, final String headPort, final int tailComp, final String compName,
@@ -5199,13 +5199,13 @@ public class MainController {
 			}
 		}
 
-		send_message(tc.comp_location, text_buf);
+		send_message(tc.socket, text_buf);
 	}
 
 	private static void send_connect_ack(final ComponentStruct tc) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONNECT_ACK);
-		send_message(tc.comp_location, text_buf);
+		send_message(tc.socket, text_buf);
 	}
 
 	private static transport_type_enum choose_port_connection_transport(final int sourceComponent, final int destinationComponent) {
