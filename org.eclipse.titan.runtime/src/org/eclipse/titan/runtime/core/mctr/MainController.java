@@ -1375,7 +1375,7 @@ public class MainController {
 	private static void send_create_mtc(final Host host) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_MTC);
-		send_message(host, text_buf);
+		send_message(host.socket, text_buf);
 	}
 
 	private static void handle_hc_data(final Host hc, final boolean receive_from_socket) {
@@ -2242,25 +2242,6 @@ public class MainController {
 			final StringWriter error = new StringWriter();
 			e.printStackTrace(new PrintWriter(error));
 			error(MessageFormat.format("Sending of message failed:  {0}", error.toString()));
-		}
-	}
-
-	// FIXME should disappear in the end
-	private static void send_message(final Host hc, final Text_Buf text_buf) {
-		text_buf.calculate_length();
-		final byte[] msg_ptr = text_buf.get_data();
-		final int msg_len = text_buf.get_len();
-		final ByteBuffer buffer = ByteBuffer.wrap(msg_ptr, text_buf.get_begin(), msg_len);
-		final SocketChannel localChannel = hc.socket;
-		try {
-			while (buffer.hasRemaining()) {
-				localChannel.write(buffer);
-			}
-		} catch (IOException e) {
-			close_connection(hc);
-			final StringWriter error = new StringWriter();
-			e.printStackTrace(new PrintWriter(error));
-			throw new TtcnError("Sending data on the control connection to MC failed.");
 		}
 	}
 
