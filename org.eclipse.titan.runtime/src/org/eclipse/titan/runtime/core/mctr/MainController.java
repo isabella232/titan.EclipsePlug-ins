@@ -1486,7 +1486,7 @@ public class MainController {
 			hc.hc_state = hc_state_enum.HC_IDLE;
 			break;
 		default:
-			send_error(hc, "Unexpected message CONFIGURE_NAK was received.");
+			send_error_str(hc.socket, "Unexpected message CONFIGURE_NAK was received.");
 			return;
 		}
 
@@ -1646,12 +1646,12 @@ public class MainController {
 		send_message(channel, text_buf);
 	}
 
-	// FIXME should disappear
-	private static void send_error(final Host hc, final String reason) {
+	// the same as send_error_str on the Java side
+	private static void send_error_str(final SocketChannel channel, final String reason) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
 		text_buf.push_string(reason);
-		send_message(hc, text_buf);
+		send_message(channel, text_buf);
 	}
 
 	private static void process_create_req(final ComponentStruct tc) {
@@ -1813,7 +1813,7 @@ public class MainController {
 			hc.hc_state = hc_state_enum.HC_OVERLOADED;
 			break;
 		default:
-			send_error(hc, "Unexpected message CONFIGURE_ACK was received.");
+			send_error_str(hc.socket, "Unexpected message CONFIGURE_ACK was received.");
 		}
 
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
@@ -2093,23 +2093,23 @@ public class MainController {
 			final int transport_type = text_buf.pull_int().get_int();
 			if (transport_type >= 0 && transport_type < transport_type_enum.TRANSPORT_NUM.ordinal()) {
 				if (hc.transport_supported[transport_type]) {
-					send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
+					send_error(channel, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
 							+ " was specified more than once.", transport_type_enum.values()[transport_type].toString()));
 				} else {
 					hc.transport_supported[transport_type] = true;
 				}
 			} else {
-				send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type code {0} "
+				send_error(channel, MessageFormat.format("Malformed VERSION message was received: Transport type code {0} "
 						+ "is invalid.", transport_type));
 			}
 		}
 
 		if (!hc.transport_supported[transport_type_enum.TRANSPORT_LOCAL.ordinal()]) {
-			send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
+			send_error(channel, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
 					+ " must be supported anyway.", transport_type_enum.TRANSPORT_LOCAL.toString()));
 		}
 		if (!hc.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()]) {
-			send_error(hc, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
+			send_error(channel, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
 					+ " must be supported anyway.", transport_type_enum.TRANSPORT_INET_STREAM.toString()));
 		}
 
