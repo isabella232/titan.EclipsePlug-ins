@@ -2136,7 +2136,7 @@ public class MainController {
 		return hc;
 	}
 
-	public static void configure(final String config_file) {
+	public static void configure(final String config_file_content) {
 		lock();
 		switch (mc_state) {
 		case MC_HC_CONNECTED:
@@ -2156,7 +2156,7 @@ public class MainController {
 		}
 
 		// FIXME needs to be processed somewhere
-		config_str = config_file;
+		config_str = config_file_content;
 
 		if (mc_state == mcStateEnum.MC_CONFIGURING || mc_state == mcStateEnum.MC_RECONFIGURING) {
 			notify("Downloading configuration file to all HCs.");
