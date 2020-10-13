@@ -13,10 +13,12 @@ public class CliMain {
 		Cli userInterface = new Cli();
 		int max_ptcs = -1;
 
-		MainController.initialize(userInterface, max_ptcs);
+		final MainController mainController = new MainController();
+		userInterface.setMainController(mainController);
+		mainController.initialize(userInterface, max_ptcs);
 
 		userInterface.enterLoop(args);
-		MainController.terminate();
+		mainController.terminate();
 	}
 
 }

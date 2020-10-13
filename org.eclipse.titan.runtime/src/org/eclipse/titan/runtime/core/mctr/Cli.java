@@ -59,6 +59,7 @@ public class Cli extends UserInterface {
 	private ConfigData mycfg = new ConfigData();
 	private int executeListIndex;
 	private ReentrantLock mutex;
+	private MainController mainController;
 
 	public Cli() {
 		loggingEnabled = true;
@@ -66,6 +67,10 @@ public class Cli extends UserInterface {
 		waitState = waitStateEnum.WAIT_NOTHING;
 		executeListIndex = 0;
 		mutex = new ReentrantLock();
+	}
+
+	public void setMainController(final MainController mainController) {
+		this.mainController = mainController;
 	}
 
 	@Override
@@ -98,7 +103,7 @@ public class Cli extends UserInterface {
 				final ExecuteSectionHandler executeSectionHandler = cfgAnalyzer.getExecuteSectionHandler();
 
 				if (mcSectionHandler.getKillTimer() != null) {
-					MainController.set_kill_timer(mcSectionHandler.getKillTimer());
+					mainController.set_kill_timer(mcSectionHandler.getKillTimer());
 				}
 
 				if (mcSectionHandler.getNumHCsText() != null) {
@@ -221,17 +226,17 @@ public class Cli extends UserInterface {
 
 	public void exitCallback(String arguments) {
 		if (arguments == null || arguments.isEmpty()) {
-			switch (MainController.get_state()) {
+			switch (mainController.get_state()) {
 			case MC_READY:
 			case MC_RECONFIGURING:
-				MainController.exit_mtc();
+				mainController.exit_mtc();
 				waitMCState(waitStateEnum.WAIT_MTC_TERMINATED);
 				break;
 		    case MC_LISTENING:
 		    case MC_LISTENING_CONFIGURED:
 		    case MC_HC_CONNECTED:
 		    case MC_ACTIVE:
-		    	MainController.shutdown_session();
+			    mainController.shutdown_session();
 		    	waitMCState(waitStateEnum.WAIT_SHUTDOWN_COMPLETE);
 		    	exitFlag = true;
 		    	break;
@@ -280,7 +285,7 @@ public class Cli extends UserInterface {
 	 * The main cli event loop.
 	 */
 	private int interactiveMode() {
-		if (MainController.start_session(mycfg.getLocal_addr(), mycfg.getTcp_listen_port()) == 0) {
+		if (mainController.start_session(mycfg.getLocal_addr(), mycfg.getTcp_listen_port()) == 0) {
 			System.out.println("Initialization of TCP server failed. Exiting.");
 			return 1; //EXIT_FAILURE
 		}
@@ -315,23 +320,23 @@ public class Cli extends UserInterface {
 		}
 		boolean error_flag = false;
 		// start to listen on TCP port
-		if (MainController.start_session(mycfg.getLocal_addr(), mycfg.getTcp_listen_port()) == 0 ) {
+		if (mainController.start_session(mycfg.getLocal_addr(), mycfg.getTcp_listen_port()) == 0 ) {
 			System.out.println("Initialization of TCP server failed. Exiting.");
 			return 1;
 		}
 		waitMCState(waitStateEnum.WAIT_HC_CONNECTED);
 		// download config file
 		//FIXME incorrect we need to send the processed contents not the name of the file.
-		MainController.configure(mycfg.getLog_file_name());
+		mainController.configure(mycfg.getLog_file_name());
 		waitMCState(waitStateEnum.WAIT_ACTIVE);
-		if (MainController.get_state() != mcStateEnum.MC_ACTIVE) {
+		if (mainController.get_state() != mcStateEnum.MC_ACTIVE) {
 			System.out.println("Error during initialization. Cannot continue in batch mode.");
 			error_flag = true;
 		}
 
 		if (!error_flag) {
 			// create MTC on firstly connected HC
-			MainController.create_mtc(MainController.get_hosts().get(0));
+			mainController.create_mtc(mainController.get_hosts().get(0));
 			/*try {
 				//TODO: need to test on different machines
 				Thread.currentThread().join(1000);
@@ -340,7 +345,7 @@ public class Cli extends UserInterface {
 				e.printStackTrace();
 			}*/
 			waitMCState(waitStateEnum.WAIT_MTC_CREATED);
-			if (MainController.get_state() != mcStateEnum.MC_READY) {
+			if (mainController.get_state() != mcStateEnum.MC_READY) {
 				System.out.println("Creation of MTC failed. Cannot continue in batch mode.");
 				error_flag = true;
 			}
@@ -350,7 +355,7 @@ public class Cli extends UserInterface {
 			for (int i = 0; i < mycfg.getExecuteItems().size(); i++) {
 				executeFromList(i);
 				waitMCState(waitStateEnum.WAIT_MTC_READY);
-				if (MainController.get_state() != mcStateEnum.MC_READY) {
+				if (mainController.get_state() != mcStateEnum.MC_READY) {
 					System.out.println("MTC terminated unexpectedly. Cannot continue in batch mode.");
 					error_flag = true;
 					break;
@@ -359,12 +364,12 @@ public class Cli extends UserInterface {
 		}
 		if(!error_flag) {
 			// terminate the MTC
-			MainController.exit_mtc();
+			mainController.exit_mtc();
 			waitMCState(waitStateEnum.WAIT_MTC_TERMINATED);
 		}
 		// now MC must be in state MC_ACTIVE anyway
 		// shutdown MC
-		MainController.shutdown_session();
+		mainController.shutdown_session();
 		waitMCState(waitStateEnum.WAIT_SHUTDOWN_COMPLETE);
 		if (error_flag) {
 			return 1; //EXIT_FAILURE
@@ -376,9 +381,9 @@ public class Cli extends UserInterface {
 	private boolean conditionHolds(waitStateEnum askedState) {
 		switch (askedState) {
 		case WAIT_HC_CONNECTED:
-			if (MainController.get_state() == mcStateEnum.MC_HC_CONNECTED) {
+			if (mainController.get_state() == mcStateEnum.MC_HC_CONNECTED) {
 				if (mycfg.getNum_hcs().compareTo(BigInteger.ZERO) == 1) {
-					return MainController.get_nof_hosts() == mycfg.getNum_hcs().intValue() || MainController.get_nof_hosts() > mycfg.getNum_hcs().intValue();
+					return mainController.get_nof_hosts() == mycfg.getNum_hcs().intValue() || mainController.get_nof_hosts() > mycfg.getNum_hcs().intValue();
 				} else {
 					return true;
 				}
@@ -386,7 +391,7 @@ public class Cli extends UserInterface {
 				return false;
 			}
 		case WAIT_ACTIVE:
-			switch (MainController.get_state()) {
+			switch (mainController.get_state()) {
 			case MC_ACTIVE: // normal case
 			case MC_HC_CONNECTED: // error happened with config file
 			case MC_LISTENING: // even more strange situations
@@ -396,7 +401,7 @@ public class Cli extends UserInterface {
 			}
 		case WAIT_MTC_CREATED:
 		case WAIT_MTC_READY:
-			switch (MainController.get_state()) {
+			switch (mainController.get_state()) {
 			case MC_READY: // normal case
 			case MC_ACTIVE: // MTC crashed unexpectedly
 			case MC_LISTENING_CONFIGURED: // MTC and all HCs are crashed at the same time
@@ -406,11 +411,11 @@ public class Cli extends UserInterface {
 				return false;
 			}
 		case WAIT_MTC_TERMINATED:
-			return MainController.get_state() == mcStateEnum.MC_ACTIVE;
+			return mainController.get_state() == mcStateEnum.MC_ACTIVE;
 		case WAIT_SHUTDOWN_COMPLETE:
-			return MainController.get_state() == mcStateEnum.MC_INACTIVE;
+			return mainController.get_state() == mcStateEnum.MC_INACTIVE;
 		case WAIT_EXECUTE_LIST:
-			if (MainController.get_state() == mcStateEnum.MC_READY) {
+			if (mainController.get_state() == mcStateEnum.MC_READY) {
 				if (++executeListIndex < mycfg.getExecuteItems().size()) {
 					executeFromList(executeListIndex);
 				} else {
@@ -480,6 +485,7 @@ public class Cli extends UserInterface {
 			infoCallback(argument);
 		}
 	}
+
 	/*
 	 * Executes the index-th element of the execute list
 	 */
@@ -490,11 +496,11 @@ public class Cli extends UserInterface {
 		}
 
 		if (mycfg.getExecuteItems().get(index).getTestcaseName() == null) {
-			MainController.execute_control(mycfg.getExecuteItems().get(index).getModuleName());
+			mainController.execute_control(mycfg.getExecuteItems().get(index).getModuleName());
 		} else if (!mycfg.getExecuteItems().get(index).getTestcaseName().equals("*")) {
-			MainController.execute_testcase(mycfg.getExecuteItems().get(index).getModuleName(), null);
+			mainController.execute_testcase(mycfg.getExecuteItems().get(index).getModuleName(), null);
 		} else {
-			MainController.execute_testcase(mycfg.getExecuteItems().get(index).getModuleName(), mycfg.getExecuteItems().get(index).getTestcaseName());
+			mainController.execute_testcase(mycfg.getExecuteItems().get(index).getModuleName(), mycfg.getExecuteItems().get(index).getTestcaseName());
 		}
 	}
 }

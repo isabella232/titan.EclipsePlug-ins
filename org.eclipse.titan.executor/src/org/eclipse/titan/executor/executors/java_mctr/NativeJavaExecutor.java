@@ -88,6 +88,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 			shutdownSession, info;
 
 	private ConfigFileHandler configHandler = null;
+	private MainController mainController = null;
 
 	public static class NativeJavaUI extends UserInterface {
 		private NativeJavaExecutor callback;
@@ -189,7 +190,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		generalPause = new Action("Pause execution", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
-				MainController.stop_after_testcase(generalPause.isChecked());
+				mainController.stop_after_testcase(generalPause.isChecked());
 			}
 		};
 		generalPause.setToolTipText("Pause execution");
@@ -198,7 +199,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		cont = new Action("Continue execution") {
 			@Override
 			public void run() {
-				MainController.continue_testcase();
+				mainController.continue_testcase();
 			}
 		};
 		cont.setToolTipText("Continue execution");
@@ -249,7 +250,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 		info.setToolTipText("Updates the status displaying hierarchy");
 
 		NativeJavaUI tempUI = new NativeJavaUI(this);
-		MainController.initialize(tempUI, 1500);// mx_ptcs
+		mainController = new MainController();
+		mainController.initialize(tempUI, 1500);// mx_ptcs
 		TITANDebugConsole.println("initialize called");
 
 		setRunning(true);
@@ -473,7 +475,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * */
 	public void statusChangeCallback() {
 		TITANDebugConsole.println("statusChangeCallback called");
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		switch (state) {
 		case MC_LISTENING:
 		case MC_LISTENING_CONFIGURED:
@@ -582,20 +584,20 @@ public class NativeJavaExecutor extends BaseExecutor {
 			final double killTimer = configHandler.getKillTimer();
 			localAddress = configHandler.getLocalAddress();
 
-			MainController.set_kill_timer(killTimer);
-			MainController.destroy_host_groups();
+			mainController.set_kill_timer(killTimer);
+			mainController.destroy_host_groups();
 
 			final Map<String, String[]> groups = configHandler.getGroups();
 			final Map<String, String> components = configHandler.getComponents();
 
 			for (final Map.Entry<String, String[]> group : groups.entrySet()) {
 				for (final String hostName : group.getValue()) {
-					MainController.add_host(group.getKey(), hostName);
+					mainController.add_host(group.getKey(), hostName);
 				}
 			}
 
 			for (final Map.Entry<String, String> component : components.entrySet()) {
-				MainController.assign_component(component.getValue(), component.getKey());
+				mainController.assign_component(component.getValue(), component.getKey());
 			}
 		}
 
@@ -618,7 +620,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		}
 
 		mcHost = localAddress;
-		final int port = MainController.start_session(localAddress, tcpport);
+		final int port = mainController.start_session(localAddress, tcpport);
 		if (port == 0) {
 			// there were some errors starting the session
 			shutdownSession();
@@ -645,7 +647,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * */
 	private void startHC() {
 		startHCRequested = true;
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_LISTENING != state && MainController.mcStateEnum.MC_LISTENING_CONFIGURED != state) {
 			initialization();
 			return;
@@ -663,13 +665,13 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private void configure() {
 		TITANDebugConsole.println("configure called");
 		configureRequested = true;
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_HC_CONNECTED != state && MainController.mcStateEnum.MC_ACTIVE != state) {
 			startHC();
 			return;
 		}
 
-		MainController.configure(generateCfgString());
+		mainController.configure(generateCfgString());
 
 		configureRequested = false;
 	}
@@ -683,16 +685,16 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private void createMTC() {
 		TITANDebugConsole.println("createMTC called");
 		createMTCRequested = true;
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_ACTIVE != state) {
 			configure();
 			return;
 		}
 
 		/* this is not a constant null, it just so happens to trick your eyes */
-		MainController.Host host = MainController.get_host_data(0);
-		MainController.release_data();
-		MainController.create_mtc(host);
+		MainController.Host host = mainController.get_host_data(0);
+		mainController.release_data();
+		mainController.create_mtc(host);
 		createMTCRequested = false;
 	}
 
@@ -792,7 +794,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 
 		executionStarted = true;
 		executeRequested = true;
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_READY == state) {
 			executeNextTest();
 		} else {
@@ -809,7 +811,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * */
 	private void executeNextTest() {
 		TITANDebugConsole.println("executeNextTest called");
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_READY != state) {
 			createMTC();
 			return;
@@ -819,12 +821,12 @@ public class NativeJavaExecutor extends BaseExecutor {
 		final int i = testElement.indexOf('.');
 		if (i != -1) {
 			if ("control".equals(testElement.substring(i + 1))) {
-				MainController.execute_control(testElement.substring(0, i));
+				mainController.execute_control(testElement.substring(0, i));
 			} else {
-				MainController.execute_testcase(testElement.substring(0, i), testElement.substring(i + 1));
+				mainController.execute_testcase(testElement.substring(0, i), testElement.substring(i + 1));
 			}
 		} else {
-			MainController.execute_control(testElement);
+			mainController.execute_control(testElement);
 		}
 	}
 
@@ -834,7 +836,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private void stop() {
 		executeList.clear();
 		executeRequested = false;
-		MainController.stop_execution();
+		mainController.stop_execution();
 	}
 
 	/**
@@ -844,7 +846,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * */
 	private void exitMTC() {
 		TITANDebugConsole.println("exitMTC called");
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_EXECUTING_CONTROL == state || MainController.mcStateEnum.MC_EXECUTING_TESTCASE == state
 				|| MainController.mcStateEnum.MC_PAUSED == state) {
 			stop();
@@ -855,7 +857,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 			return;
 		}
 
-		MainController.exit_mtc();
+		mainController.exit_mtc();
 	}
 
 	/**
@@ -868,10 +870,10 @@ public class NativeJavaExecutor extends BaseExecutor {
 		TITANDebugConsole.println("shutdownSession called");
 		shutdownRequested = true;
 		simpleExecutionRunning = false;
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_LISTENING == state || MainController.mcStateEnum.MC_LISTENING_CONFIGURED == state
 				|| MainController.mcStateEnum.MC_HC_CONNECTED == state || MainController.mcStateEnum.MC_ACTIVE == state) {
-			MainController.shutdown_session();
+			mainController.shutdown_session();
 			// jnimw.terminate_internal() must be also called when shutdown is finished, see statusChangeCallback() case MC_INACTIVE
 			startHCRequested = false;
 			configureRequested = false;
@@ -889,7 +891,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * HostControllers actual states.
 	 * */
 	private void updateInfoDisplay() {
-		final MainController.mcStateEnum mcState = MainController.get_state();
+		final MainController.mcStateEnum mcState = mainController.get_state();
 		final MainControllerElement tempRoot = new MainControllerElement("Temporal root", this);
 		final String mcStateName = MainController.get_mc_state_name(mcState);
 		tempRoot.setStateInfo(new InformationElement("state: " + mcStateName));
@@ -900,10 +902,10 @@ public class NativeJavaExecutor extends BaseExecutor {
 		ComponentElement tempComponent;
 		StringBuilder builder;
 
-		final int nofHosts = MainController.get_nof_hosts();
+		final int nofHosts = mainController.get_nof_hosts();
 		MainController.Host host;
 		for (int i = 0; i < nofHosts; i++) {
-			host = MainController.get_host_data(i);
+			host = mainController.get_host_data(i);
 
 			tempHost = new HostControllerElement("Host Controller: ");
 			tempRoot.addHostController(tempHost);
@@ -918,9 +920,9 @@ public class NativeJavaExecutor extends BaseExecutor {
 			final int activeComponents = host.components.size();
 
 			final List<Integer> components = host.components;
-			MainController.release_data();
+			mainController.release_data();
 			for (int component_index = 0; component_index < activeComponents; component_index++) {
-				comp = MainController.components.get(components.get(component_index));
+				comp = mainController.components.get(components.get(component_index));
 				tempComponent = new ComponentElement("Component: " + comp.comp_name, new InformationElement("Component reference: " + comp.comp_ref));
 				tempHost.addComponent(tempComponent);
 
@@ -970,7 +972,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 */
 	private void updateGUI() {
 		TITANDebugConsole.println("updateGUI called");
-		final MainController.mcStateEnum stateValue = MainController.get_state();
+		final MainController.mcStateEnum stateValue = mainController.get_state();
 
 		automaticExecution.setEnabled(!isTerminated && executeList.isEmpty());
 		startSession.setEnabled(!isTerminated && MainController.mcStateEnum.MC_INACTIVE == stateValue);
@@ -997,7 +999,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 				|| MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
 				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue
 				|| MainController.mcStateEnum.MC_PAUSED == stateValue);
-		generalPause.setChecked(MainController.get_stop_after_testcase());
+		generalPause.setChecked(mainController.get_stop_after_testcase());
 		generalLogging.setEnabled(MainController.mcStateEnum.MC_ACTIVE == stateValue || MainController.mcStateEnum.MC_READY == stateValue
 				|| MainController.mcStateEnum.MC_EXECUTING_CONTROL == stateValue
 				|| MainController.mcStateEnum.MC_EXECUTING_TESTCASE == stateValue
@@ -1026,7 +1028,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	@Override
 	public void terminate(final boolean external) {
 		TITANDebugConsole.println("terminate called");
-		final MainController.mcStateEnum state = MainController.get_state();
+		final MainController.mcStateEnum state = mainController.get_state();
 
 		if (MainController.mcStateEnum.MC_INACTIVE == state) {
 			setRunning(false);
