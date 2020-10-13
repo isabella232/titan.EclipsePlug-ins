@@ -1066,12 +1066,13 @@ public class NativeJavaExecutor extends BaseExecutor {
 		if (configHandler != null) {
 			final List<Integer> disallowedNodes = new ArrayList<Integer>();
 
-			disallowedNodes.add(CfgLexer.MAIN_CONTROLLER_SECTION);
-			disallowedNodes.add(CfgLexer.DEFINE_SECTION);
-			disallowedNodes.add(CfgLexer.INCLUDE_SECTION);
-			disallowedNodes.add(CfgLexer.COMPONENTS_SECTION);
-			disallowedNodes.add(CfgLexer.GROUPS_SECTION);
-			disallowedNodes.add(CfgLexer.EXECUTE_SECTION);
+			//FIXME filtering out the sections that should not be sent to the host controllers does not work now.
+//			disallowedNodes.add(CfgLexer.MAIN_CONTROLLER_SECTION);
+//			disallowedNodes.add(CfgLexer.DEFINE_SECTION);
+//			disallowedNodes.add(CfgLexer.INCLUDE_SECTION);
+//			disallowedNodes.add(CfgLexer.COMPONENTS_SECTION);
+//			disallowedNodes.add(CfgLexer.GROUPS_SECTION);
+//			disallowedNodes.add(CfgLexer.EXECUTE_SECTION);
 
 			result += configHandler.toStringResolved(disallowedNodes);
 		}
