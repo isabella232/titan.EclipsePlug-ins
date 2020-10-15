@@ -671,7 +671,11 @@ public class MainController {
 		}
 	}
 
-	//FIXME implement destroy_all_components
+	private void destroy_all_components() {
+		for (ComponentStruct component : components.values()) {
+			//FIXME implement 
+		}
+	}
 
 	private unknown_connection new_unknown_connection() {
 		final unknown_connection temp = new unknown_connection();
@@ -1591,9 +1595,10 @@ public class MainController {
 			if (mc_state != mcStateEnum.MC_CREATING_MTC) {
 				fatal_error("MainController::process_create_nak: MC is in unexpected state when CREATE_NAK refers to MTC.");
 			}
+
 			error(MessageFormat.format("Creation of MTC failed on host {0}: {1}.",
 					hc.hostname, reason));
-			// FIXME destroy_all_components();
+			destroy_all_components();
 			mc_state = mcStateEnum.MC_ACTIVE;
 		} else {
 			Host new_host = choose_ptc_location(tc.comp_type.definition_name, tc.comp_name, tc.location_str);
@@ -2486,7 +2491,7 @@ public class MainController {
 					notify("The control connection to MTC is lost. Destroying all PTC connections.");
 				}
 
-				// FIXME destroy_All_components();
+				destroy_all_components();
 				notify("MTC terminated");
 				if (is_hc_in_state(hc_state_enum.HC_CONFIGURING)) {
 					mc_state = mcStateEnum.MC_CONFIGURING;
@@ -5943,7 +5948,7 @@ public class MainController {
 			close_unknown_connection(connection);
 		}
 
-		// FIXME destroy_all_componnents();
+		destroy_all_components();
 
 		for (Host hc : hosts) {
 			close_hc_connection(hc);
