@@ -654,7 +654,14 @@ public class MainController {
 		// FIXME implement fatal_error
 	}
 
-	//FIXME add_component
+	private void add_component(final ComponentStruct component) {
+		final int component_reference = component.comp_ref;
+		if (lookup_component(component_reference) != null) {
+			fatal_error(MessageFormat.format("MainController.add_component: duplicate component reference {0}.", component_reference));
+		}
+
+		components.put(component_reference, component);
+	}
 
 	private ComponentStruct lookup_component(final int component_reference) {
 		if (component_reference > 0 && component_reference < components.size()) {
@@ -1339,7 +1346,7 @@ public class MainController {
 		mtc.conn_head_list = new ArrayList<PortConnection>();
 		mtc.conn_tail_list = new ArrayList<PortConnection>();
 		// FIXME init_connections(mtc)
-		components.put(mtc.comp_ref, mtc);
+		add_component(mtc);
 		add_component_to_host(host, mtc);
 
 		system = new ComponentStruct();
@@ -1355,7 +1362,7 @@ public class MainController {
 		system.conn_tail_list = new ArrayList<PortConnection>();
 		system.kill_timer = null;
 		// FIXME init_connections(system)
-		components.put(system.comp_ref, system);
+		add_component(system);
 
 		mc_state = mcStateEnum.MC_CREATING_MTC;
 		status_change();
@@ -1740,9 +1747,8 @@ public class MainController {
 		new_ptc.cancel_done_sent_for = init_requestors(null);
 		new_ptc.kill_timer = null;
 		// FIXME init_connections(new_ptc)
-		// FIXME: check add_component(new_ptc);
 
-		components.put(new_ptc.comp_ref, new_ptc);
+		add_component(new_ptc);
 		add_component_to_host(ptcLoc, new_ptc);
 
 		status_change();
