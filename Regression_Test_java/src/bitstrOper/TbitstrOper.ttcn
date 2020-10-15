@@ -14,7 +14,7 @@
  *
  ******************************************************************************/
 module TbitstrOper
-{ type component bitstrOper_comptype { };
+{ type component bitstrOper_comptype { }
 const bitstring TbitstrOper_const1:='1000'B;
 
 testcase bitstrAssign() runs on bitstrOper_comptype
@@ -34,7 +34,7 @@ testcase bitstrAssign() runs on bitstrOper_comptype
   else {setverdict(fail);}
   //The change does not change the original var:
   x3 := x4;
-  x3 := '00000'B
+  x3 := '00000'B;
   if (x4=='0101'B) {setverdict(pass);} else {setverdict(fail,x4);}
   if (x3=='00000'B) {setverdict(pass);} else {setverdict(fail,x3);}
   
@@ -47,7 +47,7 @@ testcase bitstrAssignElem10() runs on bitstrOper_comptype
   x2:='00000'B;
   x5:='11111'B;
   x3:='1'B;
-  x6:='0'B
+  x6:='0'B;
   x3:=x2[1];
   x1[1]:='0'B;
   x4[3]:=x2[3];
@@ -65,7 +65,8 @@ testcase bitstrAssignElem10() runs on bitstrOper_comptype
 }
 
 testcase bitstrAssignElem01() runs on bitstrOper_comptype
-{ var bitstring x1,x2,x3,x4,x5,x6;
+{ var bitstring x1,x2,x3,x4,x5,
+  x6;
   x1:='00000'B;
   x2:='11111'B;
   x4:='00000'B;
@@ -591,51 +592,51 @@ testcase bitstrRotateLeftEmpty() runs on bitstrOper_comptype
   else {setverdict(fail);}
 }
 
-type bitstring mybstr1
-type mybstr1 mybstr2
-type mybstr1 mybstr3 ('0'B, '1'B)
-type mybstr1 mybstr4 ('0'B, '1'B) length(1)
-type mybstr1 mybstr5 length(1)
-type mybstr1 mybstr6 (int2bit(512, 11), int2bit(1024, 11))
+type bitstring mybstr1;
+type mybstr1 mybstr2;
+type mybstr1 mybstr3 ('0'B, '1'B);
+type mybstr1 mybstr4 ('0'B, '1'B) length(1);
+type mybstr1 mybstr5 length(1);
+type mybstr1 mybstr6 (int2bit(512, 11), int2bit(1024, 11));
 // Length 0.
-type bitstring mybstr7 length(0..0)
-type bitstring MyByte length(8..8)
-type bitstring MyNibbleToByte length(4..8)
-type bitstring BitStrings1 ('0'B, '1'B)
-type bitstring BitStrings2 ('00'B, '01'B, '10'B, '10'B)
-type bitstring BitStrings_1_2 (BitStrings1, BitStrings2)
-type bitstring mybstr8 (mybstr3, mybstr4)
-type bitstring mybstr9 length(0..infinity)  // Full set.
+type bitstring mybstr7 length(0..0);
+type bitstring MyByte length(8..8);
+type bitstring MyNibbleToByte length(4..8);
+type bitstring BitStrings1 ('0'B, '1'B);
+type bitstring BitStrings2 ('00'B, '01'B, '10'B, '10'B);
+type bitstring BitStrings_1_2 (BitStrings1, BitStrings2);
+type bitstring mybstr8 (mybstr3, mybstr4);
+type bitstring mybstr9 length(0..infinity);  // Full set.
 
-const mybstr4 c_mybstr1 := '0'B
-const mybstr8 c_mybstr2 := c_mybstr1
+const mybstr4 c_mybstr1 := '0'B;
+const mybstr8 c_mybstr2 := c_mybstr1;
 
-template mybstr4 t_mybstr1 := '0'B
-template mybstr8 t_mybstr2 := t_mybstr1
-template mybstr7 t_mybstr3 := ''B length(0)
+template mybstr4 t_mybstr1 := '0'B;
+template mybstr8 t_mybstr2 := t_mybstr1;
+template mybstr7 t_mybstr3 := ''B length(0);
 
 function f_bstr1() return mybstr3 {
-  var mybstr2 v_mybstr1 := int2bit(bit2int('0'B), 1)
-  var template mybstr4 vt_mybstr1 := '1'B
+  var mybstr2 v_mybstr1 := int2bit(bit2int('0'B), 1);
+  var template mybstr4 vt_mybstr1 := '1'B;
   // `vt_mybstr1[0] := '0'B' doesn't compile.  T_REFD nodes were not handled
   // in the fix for TR 921.
-  return substr(v_mybstr1 & valueof(vt_mybstr1), 0, 1)
+  return substr(v_mybstr1 & valueof(vt_mybstr1), 0, 1);
 }
 
 testcase bitstrSubtypes(in template mybstr3 p1) runs on bitstrOper_comptype {
-  var template mybstr3 vt_mybstr1 := '0'B  // Value list.
-  var template mybstr4 vt_mybstr2 := '0'B  // Length with value list.
-  var template mybstr5 vt_mybstr3 := '0'B  // Length only.
-  var mybstr3 v_mybstr1 := valueof(vt_mybstr1)
-  var mybstr4 v_mybstr2 := valueof(vt_mybstr2)
-  var mybstr5 v_mybstr3 := valueof(vt_mybstr3)
+  var template mybstr3 vt_mybstr1 := '0'B;  // Value list.
+  var template mybstr4 vt_mybstr2 := '0'B;  // Length with value list.
+  var template mybstr5 vt_mybstr3 := '0'B;  // Length only.
+  var mybstr3 v_mybstr1 := valueof(vt_mybstr1);
+  var mybstr4 v_mybstr2 := valueof(vt_mybstr2);
+  var mybstr5 v_mybstr3 := valueof(vt_mybstr3);
 
-  if (valueof(vt_mybstr1) == v_mybstr1 and v_mybstr2 == valueof(vt_mybstr2)) { setverdict(pass) }
-  else { setverdict(fail) }
-  if (valueof(vt_mybstr3) == v_mybstr3) { setverdict(pass) }
-  else { setverdict(fail) }
-  if (f_bstr1() == c_mybstr1 and '0'B == f_bstr1()) { setverdict(pass) }
-  else { setverdict(fail) }
+  if (valueof(vt_mybstr1) == v_mybstr1 and v_mybstr2 == valueof(vt_mybstr2)) { setverdict(pass); }
+  else { setverdict(fail); }
+  if (valueof(vt_mybstr3) == v_mybstr3) { setverdict(pass); }
+  else { setverdict(fail); }
+  if (f_bstr1() == c_mybstr1 and '0'B == f_bstr1()) { setverdict(pass); }
+  else { setverdict(fail); }
 }
 
 testcase bitstrIsvalue() runs on bitstrOper_comptype{
@@ -643,16 +644,16 @@ testcase bitstrIsvalue() runs on bitstrOper_comptype{
   var bitstring bstr1 := '1111'B;
   var template bitstring tbstr;
 
-  if ( isvalue(bstr0) ) { setverdict(fail); } else { setverdict(pass); };
-  if ( isvalue(bstr1) ) { setverdict(pass); } else { setverdict(fail); };
-  if ( isvalue(tbstr) ) { setverdict(fail); } else { setverdict(pass); };
+  if ( isvalue(bstr0) ) { setverdict(fail); } else { setverdict(pass); }
+  if ( isvalue(bstr1) ) { setverdict(pass); } else { setverdict(fail); }
+  if ( isvalue(tbstr) ) { setverdict(fail); } else { setverdict(pass); }
 
   tbstr := bstr1;
-  if ( isvalue(tbstr) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isvalue(tbstr) ) { setverdict(pass); } else { setverdict(fail); }
   tbstr := ?;
-  if ( isvalue(tbstr) ) { setverdict(fail); } else { setverdict(pass); };
+  if ( isvalue(tbstr) ) { setverdict(fail); } else { setverdict(pass); }
   tbstr := ('000'B,'111'B);
-  if ( isvalue(tbstr) ) { setverdict(fail); } else { setverdict(pass); };
+  if ( isvalue(tbstr) ) { setverdict(fail); } else { setverdict(pass); }
 }
 
 testcase bitstrIsbound() runs on bitstrOper_comptype{
@@ -660,58 +661,58 @@ testcase bitstrIsbound() runs on bitstrOper_comptype{
   var bitstring bstr1 := '1111'B;
   var template bitstring tbstr;
 
-  if ( isbound(bstr0) ) { setverdict(fail); } else { setverdict(pass); };
-  if ( isbound(bstr0[0]) ) { setverdict(fail); } else { setverdict(pass); };
-  if ( isbound(bstr1) ) { setverdict(pass); } else { setverdict(fail); };
-  if ( isbound(tbstr) ) { setverdict(fail); } else { setverdict(pass); };
+  if ( isbound(bstr0) ) { setverdict(fail); } else { setverdict(pass); }
+  if ( isbound(bstr0[0]) ) { setverdict(fail); } else { setverdict(pass); }
+  if ( isbound(bstr1) ) { setverdict(pass); } else { setverdict(fail); }
+  if ( isbound(tbstr) ) { setverdict(fail); } else { setverdict(pass); }
 
   tbstr := bstr1;
-  if ( isbound(tbstr) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isbound(tbstr) ) { setverdict(pass); } else { setverdict(fail); }
   tbstr := ?;
-  if (isbound(tbstr) ) { setverdict(pass); } else { setverdict(fail); };
+  if (isbound(tbstr) ) { setverdict(pass); } else { setverdict(fail); }
   tbstr := ('000'B,'111'B);
-  if ( isbound(tbstr) ) { setverdict(pass); } else { setverdict(fail); };
+  if ( isbound(tbstr) ) { setverdict(pass); } else { setverdict(fail); }
 }
 
 testcase tc_bitstrUninit() runs on bitstrOper_comptype{
   var bitstring x1, x2;
   @try {
     x2 := x1;
-    setverdict(fail, "This line should not be reached. DTE expected")
+    setverdict(fail, "This line should not be reached. DTE expected");
   } @catch(e){
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)}
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   @try {
     x2 := x1[2];
-    setverdict(fail, "This line should not be reached. DTE expected")
+    setverdict(fail, "This line should not be reached. DTE expected");
   } @catch(e){
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)}
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   @try {
     x2 := x1 @> 2;
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)}
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   @try {
     x2 := x1 <@ 2;
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)}
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   var integer i;
   @try {
     i := lengthof(x1);
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(i)) {setverdict(fail)}
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(i)) {setverdict(fail);}
   }
-  if (isbound(x1)) {setverdict(fail)};
+  if (isbound(x1)) {setverdict(fail);}
 }
 
 testcase tc_bitstrIndexMistakes() runs on bitstrOper_comptype {
@@ -721,44 +722,44 @@ testcase tc_bitstrIndexMistakes() runs on bitstrOper_comptype {
     x2 := x1[3];
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)};
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   var integer i := 1, j:= 2,  k;
   @try {
     x2 := x1[i-j]; //runtime negative index
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)};
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   @try {
     x2 := x1[k]; //runtime uninitialized index
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)};
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   @try {
     x2[1] := '1'B; //runtime pos index of uninit charstr
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
-    if (isbound(x2)) {setverdict(fail)};
+    setverdict(pass, "Expected DTE: ", e);
+    if (isbound(x2)) {setverdict(fail);}
   }
   @try {
     x1[i-j] := '0'B; //runtime negative index
     setverdict(fail, "This line should not be reached");
   } @catch(e) {
-    setverdict(pass, "Expected DTE: ", e)
+    setverdict(pass, "Expected DTE: ", e);
   }
 }
 
 //=== String_Element tests ===
 
 type component CT{
-  port BSPort  BS
-  timer T
+  port BSPort  BS;
+  timer T;
 }
 
 type port BSPort message {
@@ -772,7 +773,7 @@ function f_bs(in bitstring bs) return bitstring {
 testcase tc_bs() runs on CT {
   var bitstring vl_bs1 := '01'B, vl_bs2;
   vl_bs2 := f_bs(vl_bs1[0]);
-  if( vl_bs2 == '0'B) {setverdict(pass)} else { setverdict(fail)}
+  if( vl_bs2 == '0'B) {setverdict(pass);} else { setverdict(fail);}
 }
 
 //bs in altstep
@@ -780,8 +781,8 @@ testcase tc_bs() runs on CT {
 altstep as_bs(in bitstring str) runs on CT {
   var template bitstring vl_str := ?;
   var bitstring r;
-  [] BS.receive(vl_str) -> value r { if ( r == str) { setverdict(pass) } }
-  [] T.timeout { setverdict(fail, "timeout")}
+  [] BS.receive(vl_str) -> value r { if ( r == str) { setverdict(pass); } }
+  [] T.timeout { setverdict(fail, "timeout");}
 }
 
 testcase tc_altstep_bs() runs on CT {
@@ -793,21 +794,21 @@ testcase tc_altstep_bs() runs on CT {
   T.stop;
 }
 
-//TODO: bugfix BS.send(vl_str[0]); - compilation error
+//TODO: bugfix BS.send(vl_str[0]) - compilation error
 //testcase tc_altstep_bs_idx() runs on CT {
 //  var bitstring vl_str := '01'B
-//  connect(self:BS, self:BS);
-//  T.start(1.0);
-//  BS.send(vl_str[0]);
-//  as_bs(vl_str[0]);
-//  T.stop;
+//  connect(self:BS, self:BS)
+//  T.start(1.0)
+//  BS.send(vl_str[0])
+//  as_bs(vl_str[0])
+//  T.stop
 //}
 
 altstep as_bs_template(in template bitstring  str) runs on CT {
   var template bitstring vl_str := ?;
   var bitstring r;
-  [] BS.receive(vl_str) -> value r { if ( r == valueof(str)) { setverdict(pass) } }
-  [] T.timeout { setverdict(fail, "timeout")}
+  [] BS.receive(vl_str) -> value r { if ( r == valueof(str)) { setverdict(pass); } };
+  [] T.timeout { setverdict(fail, "timeout");}
 }
 
 testcase tc_altstep_bs_template() runs on CT {
@@ -820,78 +821,78 @@ testcase tc_altstep_bs_template() runs on CT {
 }
 
 testcase tc__value_list_bs() runs on CT {
-  var bitstring vl_cs1 := '01'B, vl_cs2
+  var bitstring vl_cs1 := '01'B, vl_cs2;
   var template bitstring vlt_cs := (vl_cs1[0], vl_cs1[1]); 
   vl_cs2 := '0'B;
-  if( match(vl_cs2,vlt_cs)) {setverdict(pass)} else { setverdict(fail)}
+  if( match(vl_cs2,vlt_cs)) {setverdict(pass);} else { setverdict(fail);}
   vl_cs2 := '1'B;
-  if( match(vl_cs2,vlt_cs)) {setverdict(pass)} else { setverdict(fail)}
+  if( match(vl_cs2,vlt_cs)) {setverdict(pass);} else { setverdict(fail);}
 }
 
 testcase tc__match_bs_idx() runs on CT {
   var bitstring vl_cs1 := '01'B;
   var template bitstring vlt_cs := ('0'B,'1'B); 
-  if( match(vl_cs1[0],vlt_cs)) {setverdict(pass)} else { setverdict(fail)}
+  if( match(vl_cs1[0],vlt_cs)) {setverdict(pass);} else { setverdict(fail);}
 }
 
 control
 {
   const bitstring cl_1:='1000'B;
   var bitstring vl_1;
-  execute(bitstrAssign());
-  execute(bitstrAssignElem10());
-  execute(bitstrAssignElem01());
-  execute(bitstrAssignElem00());
-  execute(bitstrAssignElem11());
-  execute(bitstrAssignElemAdd());
-  execute(bitstrLengthof());
-  execute(bitstrConst());
-  execute(bitstrComp_str_str());
-  execute(bitstrComp_el_str());
-  execute(bitstrComp_str_el());
-  execute(bitstrComp_el_el());
-  execute(bitstrConcat());
-  execute(bitstrNot_str());
-  execute(bitstrNot_el());
-  execute(bitstrAnd_str_str());
-  execute(bitstrAnd_el_str());
-  execute(bitstrAnd_str_el());
-  execute(bitstrAnd_el_el());
-  execute(bitstrOr_str_str());
-  execute(bitstrOr_el_str());
-  execute(bitstrOr_str_el());
-  execute(bitstrOr_el_el());
-  execute(bitstrXor_str_str());
-  execute(bitstrXor_el_str());
-  execute(bitstrXor_str_el());
-  execute(bitstrXor_el_el());
-  execute(bitstrShiftRight1());
-  execute(bitstrShiftRight2());
-  execute(bitstrShiftRightSum());
-  execute(bitstrShiftRightEmpty());
-  execute(bitstrShiftLeft1());
-  execute(bitstrShiftLeft2());
-  execute(bitstrShiftLeftSum());
-  execute(bitstrShiftLeftEmpty());
-  execute(bitstrRotateRight1());
-  execute(bitstrRotateRight2());
-  execute(bitstrRotateRightSum());
-  execute(bitstrRotateRightEmpty());
-  execute(bitstrRotateLeft1());
-  execute(bitstrRotateLeft2());
-  execute(bitstrRotateLeftSum());
-  execute(bitstrRotateLeftEmpty());
-  execute(bitstrSubtypes('0'B));
-  execute(bitstrIsvalue());
-  execute(bitstrIsbound());
-  execute(tc_bitstrUninit());
-  execute(tc_bitstrIndexMistakes());
+  execute(bitstrAssign())
+  execute(bitstrAssignElem10())
+  execute(bitstrAssignElem01())
+  execute(bitstrAssignElem00())
+  execute(bitstrAssignElem11())
+  execute(bitstrAssignElemAdd())
+  execute(bitstrLengthof())
+  execute(bitstrConst())
+  execute(bitstrComp_str_str())
+  execute(bitstrComp_el_str())
+  execute(bitstrComp_str_el())
+  execute(bitstrComp_el_el())
+  execute(bitstrConcat())
+  execute(bitstrNot_str())
+  execute(bitstrNot_el())
+  execute(bitstrAnd_str_str())
+  execute(bitstrAnd_el_str())
+  execute(bitstrAnd_str_el())
+  execute(bitstrAnd_el_el())
+  execute(bitstrOr_str_str())
+  execute(bitstrOr_el_str())
+  execute(bitstrOr_str_el())
+  execute(bitstrOr_el_el())
+  execute(bitstrXor_str_str())
+  execute(bitstrXor_el_str())
+  execute(bitstrXor_str_el())
+  execute(bitstrXor_el_el())
+  execute(bitstrShiftRight1())
+  execute(bitstrShiftRight2())
+  execute(bitstrShiftRightSum())
+  execute(bitstrShiftRightEmpty())
+  execute(bitstrShiftLeft1())
+  execute(bitstrShiftLeft2())
+  execute(bitstrShiftLeftSum())
+  execute(bitstrShiftLeftEmpty())
+  execute(bitstrRotateRight1())
+  execute(bitstrRotateRight2())
+  execute(bitstrRotateRightSum())
+  execute(bitstrRotateRightEmpty())
+  execute(bitstrRotateLeft1())
+  execute(bitstrRotateLeft2())
+  execute(bitstrRotateLeftSum())
+  execute(bitstrRotateLeftEmpty())
+  execute(bitstrSubtypes('0'B))
+  execute(bitstrIsvalue())
+  execute(bitstrIsbound())
+  execute(tc_bitstrUninit())
+  execute(tc_bitstrIndexMistakes())
 
-  execute(tc_bs());
-  execute(tc_altstep_bs());
-//  execute(tc_altstep_bs_idx());
-  execute(tc_altstep_bs_template());
-//  execute(tc__value_list_bs());
-  execute(tc__match_bs_idx());
+  execute(tc_bs())
+  execute(tc_altstep_bs())
+//  execute(tc_altstep_bs_idx())
+  execute(tc_altstep_bs_template())
+//  execute(tc__value_list_bs())
+  execute(tc__match_bs_idx())
 }
 }
