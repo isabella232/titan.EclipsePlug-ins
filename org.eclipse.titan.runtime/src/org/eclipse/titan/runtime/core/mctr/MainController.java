@@ -653,6 +653,10 @@ public class MainController {
 		// FIXME implement fatal_error
 	}
 
+	//FIXME implement add_component
+	//FIXME implement lookup_component
+	//FIXME implement destroy_all_components
+
 	private unknown_connection new_unknown_connection() {
 		final unknown_connection temp = new unknown_connection();
 		unknown_connections.add(temp);
@@ -2120,6 +2124,7 @@ public class MainController {
 		hc.socket = channel;
 		hc.text_buf = text_buf;
 		// FIXME add remaining fields
+		//FIXME add_allowed_components
 		text_buf.cut_message();
 
 		delete_unknown_connection(connection);
