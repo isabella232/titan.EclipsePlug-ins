@@ -339,6 +339,7 @@ public class MainController {
 		RequestorStruct stop_requestors;
 		RequestorStruct kill_requestors;
 
+		//TODO check the usage of these lists
 		List<PortConnection> conn_head_list;
 		List<PortConnection> conn_tail_list;
 		RequestorStruct done_requestors;
@@ -653,8 +654,16 @@ public class MainController {
 		// FIXME implement fatal_error
 	}
 
-	//FIXME implement add_component
-	//FIXME implement lookup_component
+	//FIXME add_component
+
+	private ComponentStruct lookup_component(final int component_reference) {
+		if (component_reference > 0 && component_reference < components.size()) {
+			return components.get(component_reference);
+		} else {
+			return null;
+		}
+	}
+
 	//FIXME implement destroy_all_components
 
 	private unknown_connection new_unknown_connection() {
@@ -1176,6 +1185,11 @@ public class MainController {
 		return hosts.get(host_index);
 	}
 
+	public ComponentStruct get_component_data(final int component_reference) {
+		lock();
+		return lookup_component(component_reference);
+	}
+
 	public void release_data() {
 		unlock();
 	}
@@ -1546,7 +1560,7 @@ public class MainController {
 			return;
 		}
 
-		final ComponentStruct tc = components.get(component_reference);//TODO check
+		final ComponentStruct tc = lookup_component(component_reference);
 		if (tc == null) {
 			send_error(hc.socket, MessageFormat.format("Message CREATE_NAK refers to invalid component reference {0}.",
 					component_reference));
@@ -2804,7 +2818,7 @@ public class MainController {
 		}
 
 		// the operation refers to a specific PTC
-		final ComponentStruct comp = components.get(component_reference);
+		final ComponentStruct comp = lookup_component(component_reference);
 		if (comp == null) {
 			send_error(tc.socket, MessageFormat.format("The argument of killed operation is an invalid "
 					+ "component reference: {0}.", component_reference));
@@ -2898,7 +2912,7 @@ public class MainController {
 		}
 
 		// the operation refers to a specific PTC
-		final ComponentStruct comp = components.get(component_reference);
+		final ComponentStruct comp = lookup_component(component_reference);
 		if (comp == null) {
 			send_error(tc.socket, MessageFormat.format("The argument of done operation is an invalid component "
 					+ "reference: {0}.", component_reference));
@@ -2976,7 +2990,7 @@ public class MainController {
 		default:
 			break;
 		}
-		final ComponentStruct started_tc = components.get(component_reference);
+		final ComponentStruct started_tc = lookup_component(component_reference);
 
 		if (started_tc == null) {
 			send_error(tc.socket, MessageFormat.format("Message CANCEL_DONE_ACK refers to an invalid "
@@ -3024,7 +3038,7 @@ public class MainController {
 		}
 
 		// the operation refers to a specific PTC
-		final ComponentStruct comp = components.get(component_reference);
+		final ComponentStruct comp = lookup_component(component_reference);
 		if (comp == null) {
 			send_error(tc.socket, MessageFormat.format("The argument of alive operation is an invalid "
 					+ "component reference: {0}.", component_reference));
@@ -3117,7 +3131,7 @@ public class MainController {
 		}
 
 		// the operation refers to a specific PTC
-		final ComponentStruct comp = components.get(component_reference);
+		final ComponentStruct comp = lookup_component(component_reference);
 		if (comp == null) {
 			send_error(tc.socket, MessageFormat.format("The argument of running operation is an invalid "
 					+ "component reference: {0}.", component_reference));
@@ -3394,7 +3408,7 @@ public class MainController {
 		}
 
 		// the operation refers to a specific PTC
-		final ComponentStruct target = components.get(component_reference);
+		final ComponentStruct target = lookup_component(component_reference);
 		if (target == null) {
 			send_error(tc.socket, MessageFormat.format("The argument of kill operation is an invalid "
 					+ "component reference: {0}.", component_reference));
@@ -4130,7 +4144,7 @@ public class MainController {
 		}
 
 		// the operation refers to a specific PTC
-		final ComponentStruct target = components.get(component_reference);
+		final ComponentStruct target = lookup_component(component_reference);
 		if (target == null) {
 			send_error(tc.socket, MessageFormat.format("The argument of stop operation is an invalid component reference {0}.", component_reference));
 			return;
@@ -4568,7 +4582,7 @@ public class MainController {
 			return;
 		}
 
-		final ComponentStruct target = components.get(component_reference);
+		final ComponentStruct target = lookup_component(component_reference);
 		if (target == null) {
 			send_error(tc.socket, MessageFormat.format("Start operation was requested on invalid component reference: {0}.",
 					component_reference));
@@ -5221,14 +5235,14 @@ public class MainController {
 			destinationPort = tmp_port;
 		}
 
-		final ComponentStruct headComp = components.get(sourceComponent);
+		final ComponentStruct headComp = lookup_component(sourceComponent);
 
 		final List<PortConnection> headConn = headComp.conn_head_list;
 		if (headConn == null) {
 			return null;
 		}
 
-		final ComponentStruct tailComp = components.get(destinationComponent);
+		final ComponentStruct tailComp = lookup_component(destinationComponent);
 		final List<PortConnection> tailConn = tailComp.conn_tail_list;
 		if (tailConn == null) {
 			return null;
@@ -5265,13 +5279,13 @@ public class MainController {
 			pc.tailPort = tmp_port;
 		}
 
-		final ComponentStruct headComp = components.get(pc.headComp);
+		final ComponentStruct headComp = lookup_component(pc.headComp);
 		if (headComp.conn_head_list == null) {
 			headComp.conn_head_list = new ArrayList<PortConnection>();
 		}
 		headComp.conn_head_list.add(pc);
 
-		final ComponentStruct tailComp = components.get(pc.tailComp);
+		final ComponentStruct tailComp = lookup_component(pc.tailComp);
 		if (tailComp.conn_tail_list == null) {
 			tailComp.conn_tail_list = new ArrayList<PortConnection>();
 		}
@@ -5298,7 +5312,7 @@ public class MainController {
 			break;
 		}
 
-		final ComponentStruct comp = components.get(component_reference);
+		final ComponentStruct comp = lookup_component(component_reference);
 		if (comp == null) {
 			send_error(requestor.socket, MessageFormat.format("The {0} refers to invalid component " + "reference {1}.",
 					operation, component_reference));
@@ -5429,7 +5443,7 @@ public class MainController {
 			return;
 		}
 
-		final ComponentStruct tc = components.get(component_reference);//TODO check
+		final ComponentStruct tc = lookup_component(component_reference);
 		if (tc == null) {
 			send_error(connection.channel, MessageFormat.format("Message PTC_CREATED referes to invalid component reference {0}.", component_reference));
 			close_unknown_connection(connection);

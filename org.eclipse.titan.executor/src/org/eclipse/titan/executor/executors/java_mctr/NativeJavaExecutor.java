@@ -30,7 +30,6 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.common.parsers.cfg.CfgLexer;
 import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.executor.Activator;
@@ -922,7 +921,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 			final List<Integer> components = host.components;
 			mainController.release_data();
 			for (int component_index = 0; component_index < activeComponents; component_index++) {
-				comp = mainController.components.get(components.get(component_index));
+				comp = mainController.get_component_data(components.get(component_index));
 				tempComponent = new ComponentElement("Component: " + comp.comp_name, new InformationElement("Component reference: " + comp.comp_ref));
 				tempHost.addComponent(tempComponent);
 
@@ -953,6 +952,8 @@ public class NativeJavaExecutor extends BaseExecutor {
 					builder = new StringBuilder("local verdict: ");
 					builder.append(localVerdict.getName());
 				}
+
+				mainController.release_data();
 			}
 		}
 
