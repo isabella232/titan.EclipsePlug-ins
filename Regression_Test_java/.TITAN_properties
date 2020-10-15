@@ -136,6 +136,13 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
+      <FolderPath>src/defaultAlternative</FolderPath>
+      <FolderProperties>
+        <CentralStorage>false</CentralStorage>
+        <ExcludeFromBuild>true</ExcludeFromBuild>
+      </FolderProperties>
+    </FolderResource>
+    <FolderResource>
       <FolderPath>src/done</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
