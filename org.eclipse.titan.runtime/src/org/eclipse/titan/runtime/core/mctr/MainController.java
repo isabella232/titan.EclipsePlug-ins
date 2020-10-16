@@ -749,6 +749,8 @@ public class MainController {
 						dispatch_socket_event(keyChannel);
 					}
 					selectedKeys.clear();
+				} else if (selectReturn == 0) {
+					handle_expired_timers();
 				}
 
 			} catch (IOException e) {
