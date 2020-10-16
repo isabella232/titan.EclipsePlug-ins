@@ -698,7 +698,7 @@ public class MainController {
 			free_requestors(component.done_requestors);
 			free_requestors(component.killed_requestors);
 			free_requestors(component.cancel_done_sent_for);
-			//FIXME implement remove_all_connections
+			remove_all_connections(component.comp_ref);
 		}
 
 		components.clear();
@@ -5308,6 +5308,16 @@ public class MainController {
 				}
 			}
 			return null;
+		}
+	}
+
+	private void remove_all_connections(final int head_or_tail) {
+		final ComponentStruct component = lookup_component(head_or_tail);
+		while (!component.conn_head_list.isEmpty()) {
+			remove_connection(component.conn_head_list.get(0));
+		}
+		while (!component.conn_tail_list.isEmpty()) {
+			remove_connection(component.conn_tail_list.get(0));
 		}
 	}
 
