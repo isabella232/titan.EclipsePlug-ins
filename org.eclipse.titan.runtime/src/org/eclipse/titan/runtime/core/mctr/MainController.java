@@ -672,8 +672,38 @@ public class MainController {
 
 	private void destroy_all_components() {
 		for (ComponentStruct component : components.values()) {
-			//FIXME implement 
+			if (component == null) {
+				continue;
+			}
+
+			close_tc_connection(component);
+			remove_component_from_host(component);
+			switch (component.tc_state) {
+			case TC_INITIAL:
+				component.location_str = null;
+				break;
+			case PTC_STARTING:
+				free_requestors(component.cancel_done_sent_to);
+				break;
+			case TC_STOPPING:
+			case PTC_STOPPING_KILLING:
+			case PTC_KILLING:
+				free_requestors(component.stop_requestors);
+				free_requestors(component.kill_requestors);
+				break;
+			default:
+				break;
+			}
+
+			free_requestors(component.done_requestors);
+			free_requestors(component.killed_requestors);
+			free_requestors(component.cancel_done_sent_for);
+			//FIXME implement remove_all_connections
 		}
+
+		components.clear();
+		mtc = null;
+		system = null;
 	}
 
 	private unknown_connection new_unknown_connection() {
@@ -4987,6 +5017,12 @@ public class MainController {
 			}
 		}
 		return null;
+	}
+
+	private static void free_requestors(final RequestorStruct requestor) {
+		if (requestor.components != null) {
+			requestor.components.clear();
+		}
 	}
 
 	private void process_connect_error(final ComponentStruct tc) {
