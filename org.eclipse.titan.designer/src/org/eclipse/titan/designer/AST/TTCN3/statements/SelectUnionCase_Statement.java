@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
@@ -186,6 +187,10 @@ public final class SelectUnionCase_Statement extends Statement {
 			//referenced anytype type to check
 			final Anytype_Type anytypeType = (Anytype_Type)refd;
 			checkAnytypeType( timestamp, anytypeType );
+		} else if ( refd instanceof ASN1_Choice_Type ) {
+			//referenced ASN.1 CHOICE type to check
+			final ASN1_Choice_Type anytypeType = (ASN1_Choice_Type)refd;
+			checkChoiceType( timestamp, anytypeType );
 		} else {
 			expression.getLocation().reportSemanticError( TYPE_MUST_BE_UNION_OR_ANYTYPE );
 			//special operations to check the body of the cases even if the select expression is erroneous
@@ -210,6 +215,33 @@ public final class SelectUnionCase_Statement extends Statement {
 		}
 
 		selectUnionCases.check( aTimestamp, aUnionType, fieldNames );
+
+		if ( !fieldNames.isEmpty() ) {
+			final StringBuilder sb = new StringBuilder( CASENOTCOVERED );
+			for ( int i = 0; i < fieldNames.size(); i++ ) {
+				if ( i > 0 ) {
+					sb.append(", ");
+				}
+				sb.append( fieldNames.get( i ) );
+			}
+			location.reportSemanticWarning( sb.toString() );
+		}
+	}
+
+	/**
+	 * Checks if select union expression is a ASN.1 CHOICE
+	 * @param aTimestamp the timestamp of the actual semantic check cycle.
+	 * @param aUnionType referenced CHOICE type to check
+	 */
+	private void checkChoiceType( final CompilationTimeStamp aTimestamp, final ASN1_Choice_Type aChoiceType ) {
+		// list of union field names. Names of processed field names are removed from the list
+		final List<String> fieldNames = new ArrayList<String>();
+		for ( int i = 0; i < aChoiceType.getNofComponents(); i++ ) {
+			final String compName = aChoiceType.getComponentIdentifierByIndex( i ).getName();
+			fieldNames.add( compName );
+		}
+
+		selectUnionCases.check( aTimestamp, aChoiceType, fieldNames );
 
 		if ( !fieldNames.isEmpty() ) {
 			final StringBuilder sb = new StringBuilder( CASENOTCOVERED );

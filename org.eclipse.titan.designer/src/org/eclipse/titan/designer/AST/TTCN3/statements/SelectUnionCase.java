@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
@@ -223,6 +224,46 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	/**
+	 * Does the semantic checking of this select case of CHOICE type.
+	 *
+	 * @param aTimestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param aChoiceType
+	 *                the referenced CHOICE type of the select expression, to check the cases against.
+	 *                It can not be null.
+	 * @param aUnreachable
+	 *                tells if this case branch is still reachable or not.
+	 * @param aFieldNames
+	 *                CHOICE field names, which are not covered yet.
+	 *                If a field name is found, it is removed from the list.
+	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
+	 *
+	 * @return true if this case branch was found to be unreachable, false
+	 *         otherwise.
+	 */
+	public boolean check( final CompilationTimeStamp aTimestamp, final ASN1_Choice_Type aChoiceType, final boolean aUnreachable,
+			final List<String> aFieldNames ) {
+		if ( aUnreachable ) {
+			location.reportConfigurableSemanticProblem(
+					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVER_REACH);
+		}
+
+		boolean unreachable2 = aUnreachable;
+		if ( items != null ) {
+			check( aChoiceType, aFieldNames );
+		} else {
+			// case else
+			unreachable2 = true;
+			aFieldNames.clear();
+		}
+
+		statementBlock.check( aTimestamp );
+
+		return unreachable2;
+	}
+
+	/**
 	 * Does the semantic checking of this select case's statement block.
 	 *
 	 * Please note, that this function is only to be used when the select statement expression was found erroneous.
@@ -292,6 +333,32 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 				}
 			} else {
 				identifier.getLocation().reportSemanticError( MessageFormat.format( INVALID_UNION_FIELD, aUnionType.getFullName(), identifier.getTtcnName() ) );
+			}
+		}
+	}
+
+	/**
+	 * Check header of CHOICE type for invalid or duplicate fields
+	 * @param aChoiceType
+	 *                the referenced CHOICE type of the select expression, to check the cases against.
+	 *                It can not be null.
+	 * @param aFieldNames
+	 *                CHOICE field names, which are not covered yet.
+	 *                If a field name is found, it is removed from the list.
+	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
+	 */
+	public void check( final ASN1_Choice_Type aChoiceType, final List<String> aFieldNames ) {
+		for (final Identifier identifier : items ) {
+			// name of the CHOICE component
+			if ( aChoiceType.hasComponentWithName( identifier ) ) {
+				if ( aFieldNames.contains( identifier.getTtcnName() ) ) {
+					aFieldNames.remove( identifier.getTtcnName() );
+				} else {
+					//this case is already covered
+					identifier.getLocation().reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, identifier.getTtcnName() ) );
+				}
+			} else {
+				identifier.getLocation().reportSemanticError( MessageFormat.format( INVALID_UNION_FIELD, aChoiceType.getFullName(), identifier.getTtcnName() ) );
 			}
 		}
 	}

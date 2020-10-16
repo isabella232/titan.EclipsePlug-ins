@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
@@ -218,6 +219,26 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 		boolean unreachable = false;
 		for (final SelectUnionCase selectCase : selectUnionCases) {
 			unreachable = selectCase.check( aTimestamp, aUnionType, unreachable, aFieldNames );
+		}
+	}
+
+	/**
+	 * Does the semantic checking of the select case list of ASN.1 CHOICE type
+	 *
+	 * @param aTimestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param aChoiceType
+	 *                the referenced CHOICE type of the select expression, to check the cases against.
+	 *                It can not be null.
+	 * @param aFieldNames
+	 *                CHOICE field names, which are not covered yet.
+	 *                If a field name is found, it is removed from the list.
+	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
+	 */
+	public void check( final CompilationTimeStamp aTimestamp, final ASN1_Choice_Type aChoiceType, final List<String> aFieldNames ) {
+		boolean unreachable = false;
+		for (final SelectUnionCase selectCase : selectUnionCases) {
+			unreachable = selectCase.check( aTimestamp, aChoiceType, unreachable, aFieldNames );
 		}
 	}
 
