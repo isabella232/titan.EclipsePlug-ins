@@ -48,7 +48,6 @@ import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
-import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 /**
  * TODO: lots to implement
@@ -418,7 +417,6 @@ public class MainController {
 	private List<HostGroupStruct> host_groups;
 	private List<String> assigned_components;
 	private volatile boolean all_components_assigned;
-	private List<ExecuteItem> executeItems;
 	private LinkedList<unknown_connection> unknown_connections;
 
 	//TODO check why this is not used
