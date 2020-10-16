@@ -638,7 +638,7 @@ public final class TTCN_Communication {
 		text_buf.push_string(System.getProperty("os.name"));//sysname
 		text_buf.push_string(System.getProperty("os.version"));//release
 		text_buf.push_string(""); //Can't get build number like uname().version
-		
+
 		text_buf.push_int(2);//nof supported transports
 		text_buf.push_int(transport_type_enum.TRANSPORT_LOCAL.ordinal()); //TRANSPORT_LOCAL
 		text_buf.push_int(transport_type_enum.TRANSPORT_INET_STREAM.ordinal()); //TRANSPORT_INET_STREAM
