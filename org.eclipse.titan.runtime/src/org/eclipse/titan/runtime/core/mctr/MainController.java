@@ -5311,10 +5311,14 @@ public class MainController {
 
 	private void remove_all_connections(final int head_or_tail) {
 		final ComponentStruct component = lookup_component(head_or_tail);
-		while (!component.conn_head_list.isEmpty()) {
+		if (component == null) {
+			return;
+		}
+
+		while (component.conn_head_list != null && !component.conn_head_list.isEmpty()) {
 			remove_connection(component.conn_head_list.get(0));
 		}
-		while (!component.conn_tail_list.isEmpty()) {
+		while (component.conn_tail_list != null && !component.conn_tail_list.isEmpty()) {
 			remove_connection(component.conn_tail_list.get(0));
 		}
 	}
