@@ -4327,18 +4327,18 @@ public class MainController {
 				ready_for_ack = false;
 				break;
 			case PTC_STARTING:
-				tc.cancel_done_sent_to = new RequestorStruct();
+				free_requestors(tc.cancel_done_sent_to);
 				tc.tc_state = tc_state_enum.PTC_STOPPED;
 				break;
 			case TC_STOPPING:
 			case PTC_STOPPING_KILLING:
-				tc.stop_requestors = new RequestorStruct();
-				tc.killed_requestors = new RequestorStruct();
+				free_requestors(tc.stop_requestors);
+				free_requestors(tc.killed_requestors);
 				ready_for_ack = false;
 				break;
 			case PTC_KILLING:
-				tc.stop_requestors = new RequestorStruct();
-				tc.killed_requestors = new RequestorStruct();
+				free_requestors(tc.stop_requestors);
+				free_requestors(tc.killed_requestors);
 				if (!tc.is_alive) {
 					ready_for_ack = false;
 				}
@@ -4353,12 +4353,13 @@ public class MainController {
 
 			}
 			final boolean mtc_requested_done = has_requestor(tc.done_requestors, mtc);
-			tc.done_requestors = new RequestorStruct();
+			free_requestors(tc.done_requestors);
 			if (mtc_requested_done) {
 				add_requestor(tc.done_requestors, mtc);
 			}
+
 			final boolean mtc_requested_killed = has_requestor(tc.killed_requestors, mtc);
-			tc.killed_requestors = new RequestorStruct();
+			free_requestors(tc.killed_requestors);
 			if (mtc_requested_killed) {
 				add_requestor(tc.killed_requestors, mtc);
 			}
@@ -4419,8 +4420,8 @@ public class MainController {
 				// no break
 			case PTC_KILLING:
 			case PTC_STOPPING_KILLING:
-				tc.stop_requestors = new RequestorStruct();
-				tc.kill_requestors = new RequestorStruct();
+				free_requestors(tc.stop_requestors);
+				free_requestors(tc.kill_requestors);
 				ready_for_ack = false;
 				break;
 			case TC_EXITING:
@@ -4434,22 +4435,23 @@ public class MainController {
 				error(MessageFormat.format("Test Component {0} is in invalid state when killing all components.", tc.comp_ref));
 			}
 			if (testcase_ends) {
-				tc.done_requestors = new RequestorStruct();
-				tc.killed_requestors = new RequestorStruct();
+				free_requestors(tc.done_requestors);
+				free_requestors(tc.killed_requestors);
 			} else {
 				final boolean mtc_requested_done = has_requestor(tc.done_requestors, mtc);
-				tc.done_requestors = new RequestorStruct();
+				free_requestors(tc.done_requestors);
 				if (mtc_requested_done) {
 					add_requestor(tc.done_requestors, mtc);
 				}
 
 				final boolean mtc_requested_killed = has_requestor(tc.killed_requestors, mtc);
-				tc.killed_requestors = new RequestorStruct();
+				free_requestors(tc.killed_requestors);
 				if (mtc_requested_killed) {
 					add_requestor(tc.killed_requestors, mtc);
 				}
 			}
-			tc.cancel_done_sent_for = new RequestorStruct();
+
+			free_requestors(tc.cancel_done_sent_for);
 		}
 		return ready_for_ack;
 	}
