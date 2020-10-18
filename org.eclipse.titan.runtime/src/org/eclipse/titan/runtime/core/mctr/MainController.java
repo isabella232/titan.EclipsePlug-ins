@@ -4363,7 +4363,8 @@ public class MainController {
 			if (mtc_requested_killed) {
 				add_requestor(tc.killed_requestors, mtc);
 			}
-			tc.cancel_done_sent_for = new RequestorStruct();
+
+			free_requestors(tc.cancel_done_sent_for);
 		}
 		return ready_for_ack;
 	}
