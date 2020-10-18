@@ -34,7 +34,7 @@
 	<property name="build.dir" location="${basedir}/../"/>
 	<property name="zip.dir" location="/home/titanrt/eclipse/zips/${version}"/>
 
-	<property name="updatesites.tmp.location" location="/home/titanrt/eclipse_automatic_build/tmp_update_sites" />
+	<property name="updatesites.tmp.location" location="/local/home/titanrt/eclipse_automatic_build/tmp_update_sites" />
 	
 	<!-- Location of external jars -->
 	<property name="lib.dir" value="${base.dir}/../../titan_playground/jar"/>
