@@ -427,7 +427,7 @@ public class MainController {
 		}
 	};
 
-	public Map<Integer, ComponentStruct> components;
+	public List<ComponentStruct> components;
 
 	private double kill_timer = 0.0;
 	private ReentrantLock mutex;
@@ -463,7 +463,7 @@ public class MainController {
 
 		// n_components = 0;
 		// n_active_ptcs = 0;
-		components = new ConcurrentHashMap<Integer, MainController.ComponentStruct>();
+		components = new ArrayList<MainController.ComponentStruct>();
 		mtc = null;
 		system = null;
 		// debugger_active_tc = NULL;
@@ -657,7 +657,11 @@ public class MainController {
 			fatal_error(MessageFormat.format("MainController.add_component: duplicate component reference {0}.", component_reference));
 		}
 
-		components.put(component_reference, component);
+		while (components.size() < component_reference) {
+			components.add(null);
+		}
+
+		components.add(component_reference, component);
 	}
 
 	private ComponentStruct lookup_component(final int component_reference) {
@@ -669,7 +673,7 @@ public class MainController {
 	}
 
 	private void destroy_all_components() {
-		for (ComponentStruct component : components.values()) {
+		for (ComponentStruct component : components) {
 			if (component == null) {
 				continue;
 			}
