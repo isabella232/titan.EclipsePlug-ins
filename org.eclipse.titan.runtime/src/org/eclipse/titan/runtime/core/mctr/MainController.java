@@ -4322,7 +4322,7 @@ public class MainController {
 
 				tc.stop_requested = true;
 				tc.stop_requestors = init_requestors(null);
-				tc.killed_requestors = init_requestors(null);
+				tc.kill_requestors = init_requestors(null);
 				start_kill_timer(tc);
 				ready_for_ack = false;
 				break;
@@ -4333,12 +4333,12 @@ public class MainController {
 			case TC_STOPPING:
 			case PTC_STOPPING_KILLING:
 				free_requestors(tc.stop_requestors);
-				free_requestors(tc.killed_requestors);
+				free_requestors(tc.kill_requestors);
 				ready_for_ack = false;
 				break;
 			case PTC_KILLING:
 				free_requestors(tc.stop_requestors);
-				free_requestors(tc.killed_requestors);
+				free_requestors(tc.kill_requestors);
 				if (!tc.is_alive) {
 					ready_for_ack = false;
 				}
@@ -4359,7 +4359,7 @@ public class MainController {
 			}
 
 			final boolean mtc_requested_killed = has_requestor(tc.killed_requestors, mtc);
-			free_requestors(tc.killed_requestors);
+			free_requestors(tc.kill_requestors);
 			if (mtc_requested_killed) {
 				add_requestor(tc.killed_requestors, mtc);
 			}
