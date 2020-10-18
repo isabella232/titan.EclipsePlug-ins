@@ -4379,6 +4379,7 @@ public class MainController {
 				break;
 			case PTC_STARTING:
 				tc.cancel_done_sent_to = new RequestorStruct();
+				free_requestors(tc.cancel_done_sent_to);
 				// no break
 			case TC_IDLE:
 			case PTC_STOPPED:
