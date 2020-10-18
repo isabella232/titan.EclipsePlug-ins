@@ -5767,6 +5767,7 @@ public class MainController {
 		final int microseconds = text_buf.pull_int().get_int();
 		final int severity = text_buf.pull_int().get_int();
 
+		//FIXME: length can't be below zero
 		final int length = text_buf.pull_int().get_int();
 		final byte messageBytes[] = new byte[length];
 		text_buf.pull_raw(length, messageBytes);
