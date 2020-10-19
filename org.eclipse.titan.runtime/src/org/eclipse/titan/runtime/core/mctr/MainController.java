@@ -53,6 +53,7 @@ import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
  * TODO: lots to implement
  *
  * @author Bianka Bekefi
+ * @author Kristof Szabados
  */
 
 public class MainController {
@@ -427,7 +428,7 @@ public class MainController {
 		}
 	};
 
-	public List<ComponentStruct> components;
+	public List<ComponentStruct> components = new ArrayList<MainController.ComponentStruct>();
 
 	private double kill_timer = 0.0;
 	private ReentrantLock mutex;
@@ -463,7 +464,7 @@ public class MainController {
 
 		// n_components = 0;
 		// n_active_ptcs = 0;
-		components = new ArrayList<MainController.ComponentStruct>();
+		// component initialized with default initializer
 		mtc = null;
 		system = null;
 		// debugger_active_tc = NULL;
