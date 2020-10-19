@@ -290,6 +290,8 @@ public class MainController {
 		public Text_Buf text_buf;
 		public List<Integer> components;
 
+		public boolean all_components_allowed;
+
 		Host() {
 			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
 			components = new ArrayList<Integer>();
@@ -1030,6 +1032,29 @@ public class MainController {
 		}
 
 		return false;
+	}
+
+	private void add_allowed_components(final Host host) {
+		//FIXME implement (allowed_components handling)
+		host.all_components_allowed = false;
+		for (final HostGroupStruct group: host_groups) {
+			if (member_of_group(host, group)) {
+				continue;
+			}
+
+			for (int j = 0; j < group.assigned_components.size();j++) {
+				final String component_id = group.assigned_components.get(j);
+				if (component_id == null) {
+					break;
+				}
+
+				//FIXME implement (allowed_components handling)
+			}
+
+			if (group.has_all_components) {
+				host.all_components_allowed = true;
+			}
+		}
 	}
 
 	public void assign_component(final String host_or_group, final String component_id) {
@@ -1831,7 +1856,9 @@ public class MainController {
 			} else if (has_constraint){
 				//FIXME allowed_components
 			} else if (all_components_assigned) {
-				//FIXME
+				if (!host.all_components_allowed) {
+					continue;
+				}
 			}
 			best_candidate = host;
 			//FIXME load handling
@@ -2186,7 +2213,8 @@ public class MainController {
 		hc.socket = channel;
 		hc.text_buf = text_buf;
 		// FIXME add remaining fields
-		//FIXME add_allowed_components
+		add_allowed_components(hc);
+
 		text_buf.cut_message();
 
 		delete_unknown_connection(connection);
