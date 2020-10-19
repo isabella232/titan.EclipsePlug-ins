@@ -927,9 +927,9 @@ public class MainController {
 	}
 
 	private HostGroupStruct add_host_group(final String group_name) {
-		for (int i = 0; i < host_groups.size(); i++) {
-			if (host_groups.get(i).group_name.equals(group_name)) {
-				return host_groups.get(i);
+		for (final HostGroupStruct current_group : host_groups) {
+			if (current_group.group_name.equals(group_name)) {
+				return current_group;
 			}
 		}
 
