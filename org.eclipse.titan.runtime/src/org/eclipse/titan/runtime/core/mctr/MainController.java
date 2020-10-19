@@ -293,6 +293,7 @@ public class MainController {
 		/* to implement load balancing mechanisms */
 		public List<String> allowed_components;
 		public boolean all_components_allowed;
+		public int n_active_components;
 
 		Host() {
 			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
@@ -708,7 +709,9 @@ public class MainController {
 		mtc = null;
 		system = null;
 
-		//FIXME implement rest
+		for (final Host host : hosts) {
+			host.n_active_components = 0;
+		}
 
 		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
 
@@ -1418,6 +1421,7 @@ public class MainController {
 		// FIXME init_connections(mtc)
 		add_component(mtc);
 		add_component_to_host(host, mtc);
+		host.n_active_components++;
 
 		system = new ComponentStruct();
 		system.comp_ref = TitanComponent.SYSTEM_COMPREF;
@@ -1655,6 +1659,7 @@ public class MainController {
 		}
 
 		remove_component_from_host(tc);
+		hc.n_active_components--;
 
 		final String reason = text_buf.pull_string();
 		if (tc == mtc) {
@@ -1673,6 +1678,7 @@ public class MainController {
 				notify(MessageFormat.format("PTC with component reference {0} was relocated from host {1} to {2} because of overload: {3}.",
 						component_reference, hc.hostname, new_host.hostname, reason));
 				add_component_to_host(new_host, tc);
+				new_host.n_active_components++;
 			} else {
 				String component_data = MessageFormat.format("component type: {0}.{1}",
 						tc.comp_type.module_name, tc.comp_type.definition_name);
@@ -1821,6 +1827,7 @@ public class MainController {
 
 		add_component(new_ptc);
 		add_component_to_host(ptcLoc, new_ptc);
+		ptcLoc.n_active_components++;
 
 		status_change();
 	}
@@ -1828,7 +1835,7 @@ public class MainController {
 	// FIXME implement
 	private Host choose_ptc_location(final String componentTypeName, final String componentName, final String componentLocation) {
 		Host best_candidate = null;
-		//TODO load handling
+		int load_on_best_candidate = 0;
 		boolean has_constraint = assigned_components.contains(componentTypeName) || assigned_components.contains(componentName);
 		HostGroupStruct group;
 		if (componentLocation != null && !componentLocation.isEmpty()) {
@@ -1842,7 +1849,9 @@ public class MainController {
 				continue;
 			}
 
-			//FIXME load handling
+			if (best_candidate != null && host.n_active_components >= load_on_best_candidate) {
+				continue;
+			}
 
 			if (componentLocation != null && !componentLocation.isEmpty()) {
 				// the explicit location has precedence over the constraints
@@ -1865,8 +1874,9 @@ public class MainController {
 					continue;
 				}
 			}
+
 			best_candidate = host;
-			//FIXME load handling
+			load_on_best_candidate = host.n_active_components;
 		}
 
 		return best_candidate;
@@ -2217,8 +2227,9 @@ public class MainController {
 		hc.hc_state = hc_state_enum.HC_IDLE;
 		hc.socket = channel;
 		hc.text_buf = text_buf;
-		// FIXME add remaining fields
+		// FIXME add is_similar_hostname
 		add_allowed_components(hc);
+		hc.n_active_components = 0;
 
 		text_buf.cut_message();
 
@@ -3619,6 +3630,7 @@ public class MainController {
 		// we are walking through the states of all PTCs
 		final tc_state_enum old_state = tc.tc_state;
 		tc.tc_state = tc_state_enum.TC_EXITING;
+		tc.comp_location.n_active_components--;
 		switch (mc_state) {
 		case MC_EXECUTING_TESTCASE:
 			// this is the correct state
@@ -5998,7 +6010,7 @@ public class MainController {
 		send_exit_mtc();
 
 		mtc.tc_state = tc_state_enum.TC_EXITING;
-		// FIXME
+		mtc.comp_location.n_active_components--;
 		mc_state = mcStateEnum.MC_TERMINATING_MTC;
 		start_kill_timer(mtc);
 		status_change();
