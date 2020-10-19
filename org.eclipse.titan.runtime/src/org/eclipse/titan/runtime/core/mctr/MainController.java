@@ -416,7 +416,7 @@ public class MainController {
 	private List<Host> hosts;
 	//can not be null on the Java side
 	private List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
-	private List<String> assigned_components;
+	private List<String> assigned_components = new ArrayList<String>();
 	private volatile boolean all_components_assigned;
 	private LinkedList<unknown_connection> unknown_connections;
 
@@ -452,7 +452,6 @@ public class MainController {
 		mc_hostname = String.format("MC@%s", mc_hostname);
 
 		hosts = new ArrayList<MainController.Host>();
-		assigned_components = new ArrayList<String>();
 		unknown_connections = new LinkedList<MainController.unknown_connection>();
 		all_components_assigned = false;
 
