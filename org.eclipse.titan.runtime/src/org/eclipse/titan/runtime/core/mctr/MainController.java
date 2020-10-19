@@ -1964,8 +1964,8 @@ public class MainController {
 	}
 
 	private boolean is_hc_in_state(final hc_state_enum checked_state) {
-		for (int i = 0; i < hosts.size(); i++) {
-			if (hosts.get(i).hc_state == checked_state) {
+		for (final Host host: hosts) {
+			if (host.hc_state == checked_state) {
 				return true;
 			}
 		}
@@ -1974,8 +1974,8 @@ public class MainController {
 	}
 
 	private boolean all_hc_in_state(final hc_state_enum checked_state) {
-		for (int i = 0; i < hosts.size(); i++) {
-			if (hosts.get(i).hc_state != checked_state) {
+		for (final Host host: hosts) {
+			if (host.hc_state != checked_state) {
 				return false;
 			}
 		}
