@@ -1832,7 +1832,6 @@ public class MainController {
 		status_change();
 	}
 
-	// FIXME implement
 	private Host choose_ptc_location(final String componentTypeName, final String componentName, final String componentLocation) {
 		Host best_candidate = null;
 		int load_on_best_candidate = 0;
