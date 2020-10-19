@@ -435,6 +435,9 @@ public class MainController {
 		}
 	};
 
+	private int n_active_ptcs = 0;
+	//a negative value means no check
+	private int max_ptcs = -1;
 	public List<ComponentStruct> components = new ArrayList<MainController.ComponentStruct>();
 
 	private double kill_timer = 0.0;
@@ -447,7 +450,7 @@ public class MainController {
 	public void initialize(final UserInterface par_ui, final int par_max_ptcs) {
 		ui = par_ui;
 
-		// max_ptcs = par_max_ptcs;
+		max_ptcs = par_max_ptcs;
 
 		mc_state = mcStateEnum.MC_INACTIVE;
 
@@ -463,8 +466,6 @@ public class MainController {
 
 		config_str = null;
 
-		// n_components = 0;
-		// n_active_ptcs = 0;
 		// component initialized with default initializer
 		mtc = null;
 		system = null;
@@ -706,6 +707,7 @@ public class MainController {
 		}
 
 		components.clear();
+		n_active_ptcs = 0;
 		mtc = null;
 		system = null;
 
@@ -1702,6 +1704,7 @@ public class MainController {
 
 				tc.location_str = null;
 				tc.tc_state = tc_state_enum.PTC_STALE;
+				n_active_ptcs--;
 				switch (mtc.tc_state) {
 				case MTC_TERMINATING_TESTCASE:
 					if (ready_to_finish_testcase()) {
@@ -1763,7 +1766,9 @@ public class MainController {
 			return;
 		}
 
-		// FIXME add max_ptc check
+		if (max_ptcs >= 0 && n_active_ptcs >= max_ptcs) {
+			send_error(tc.socket, MessageFormat.format("The license key does not allow more than {0} simultaneously active PTCs.", max_ptcs));
+		}
 
 		final Text_Buf text_buf = tc.text_buf;
 
@@ -1828,6 +1833,7 @@ public class MainController {
 		add_component(new_ptc);
 		add_component_to_host(ptcLoc, new_ptc);
 		ptcLoc.n_active_components++;
+		n_active_ptcs++;
 
 		status_change();
 	}
@@ -3614,7 +3620,7 @@ public class MainController {
 		// we are walking through the states of all PTCs
 		final tc_state_enum old_state = tc.tc_state;
 		tc.tc_state = tc_state_enum.TC_EXITING;
-		//FIXME a_active_ptcs--
+		n_active_ptcs--;
 		tc.comp_location.n_active_components--;
 		switch (mc_state) {
 		case MC_EXECUTING_TESTCASE:
