@@ -290,11 +290,14 @@ public class MainController {
 		public Text_Buf text_buf;
 		public List<Integer> components;
 
+		/* to implement load balancing mechanisms */
+		public List<String> allowed_components;
 		public boolean all_components_allowed;
 
 		Host() {
 			transport_supported = new boolean[transport_type_enum.TRANSPORT_NUM.ordinal()];
 			components = new ArrayList<Integer>();
+			allowed_components = new ArrayList<String>();
 		}
 	}
 
@@ -1035,7 +1038,6 @@ public class MainController {
 	}
 
 	private void add_allowed_components(final Host host) {
-		//FIXME implement (allowed_components handling)
 		host.all_components_allowed = false;
 		for (final HostGroupStruct group: host_groups) {
 			if (member_of_group(host, group)) {
@@ -1048,7 +1050,7 @@ public class MainController {
 					break;
 				}
 
-				//FIXME implement (allowed_components handling)
+				host.allowed_components.add(component_id);
 			}
 
 			if (group.has_all_components) {
@@ -1854,7 +1856,10 @@ public class MainController {
 					}
 				}
 			} else if (has_constraint){
-				//FIXME allowed_components
+				if (!host.allowed_components.contains(componentTypeName) &&
+						!host.allowed_components.contains(componentName)) {
+					continue;
+				}
 			} else if (all_components_assigned) {
 				if (!host.all_components_allowed) {
 					continue;
@@ -6066,7 +6071,10 @@ public class MainController {
 
 		for (Host hc : hosts) {
 			close_hc_connection(hc);
+			hc.components.clear();
+			hc.allowed_components.clear();
 		}
+
 		hosts.clear();
 		config_str = null;
 
