@@ -398,8 +398,8 @@ public class MainController {
 
 	private String config_str;
 
-	private boolean version_known;
-	private ArrayList<module_version_info> modules;
+	private boolean version_known = false;
+	private ArrayList<module_version_info> modules = new ArrayList<MainController.module_version_info>();
 
 	private volatile boolean any_component_done_requested;
 	private volatile boolean any_component_done_sent;
@@ -457,9 +457,6 @@ public class MainController {
 		all_components_assigned = false;
 
 		config_str = null;
-
-		version_known = false;
-		modules = new ArrayList<MainController.module_version_info>();
 
 		// n_components = 0;
 		// n_active_ptcs = 0;
@@ -2086,7 +2083,6 @@ public class MainController {
 			}
 		} else {
 			final int modules_size = text_buf.pull_int().get_int();
-			modules = new ArrayList<MainController.module_version_info>(modules_size);
 			for (int i = 0; i < modules_size; i++) {
 				final module_version_info temp_info = new module_version_info();
 				temp_info.module_name = text_buf.pull_string();
@@ -2100,6 +2096,7 @@ public class MainController {
 
 				modules.add(temp_info);
 			}
+
 			version_known = true;
 		}
 
