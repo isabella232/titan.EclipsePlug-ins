@@ -3964,6 +3964,8 @@ public class MainController {
 	}
 
 	private void check_all_component_kill() {
+		// MTC has requested 'all component.kill'
+		// we have to send acknowledgement to MTC only
 		boolean ready_for_ack = true;
 		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
@@ -4295,11 +4297,14 @@ public class MainController {
 			final ComponentStruct tc = components.get(i);
 			switch (tc.tc_state) {
 			case TC_INITIAL:
+				// we do not have to termiate the PTC (and wait for the control
+				// connection) if it is alive
 				if (!tc.is_alive) {
 					ready_for_ack = false;
 				}
 				break;
 			case TC_IDLE:
+				// do nothing if the component is alive
 				if (!tc.is_alive) {
 					send_kill(tc);
 					tc.tc_state = tc_state_enum.PTC_KILLING;
@@ -4319,6 +4324,7 @@ public class MainController {
 			case TC_MAP:
 			case TC_UNMAP:
 			case PTC_FUNCTION:
+				// the PTC is executing behaviour
 				if (tc.is_alive) {
 					send_stop(tc);
 					tc.tc_state = tc_state_enum.TC_STOPPING;
@@ -4334,6 +4340,7 @@ public class MainController {
 				ready_for_ack = false;
 				break;
 			case PTC_STARTING:
+				// do nothing, just put it back to STOPPED state
 				free_requestors(tc.cancel_done_sent_to);
 				tc.tc_state = tc_state_enum.PTC_STOPPED;
 				break;
@@ -4346,6 +4353,7 @@ public class MainController {
 			case PTC_KILLING:
 				free_requestors(tc.stop_requestors);
 				free_requestors(tc.kill_requestors);
+				// we have to wait only if the PTC is non-alive
 				if (!tc.is_alive) {
 					ready_for_ack = false;
 				}
@@ -4359,6 +4367,8 @@ public class MainController {
 				error(MessageFormat.format("Test Component {0} is in invalid state when stopping all components.", tc.comp_ref));
 
 			}
+
+			// only mtc is preserved in done_requestors and killed_requestors
 			final boolean mtc_requested_done = has_requestor(tc.done_requestors, mtc);
 			free_requestors(tc.done_requestors);
 			if (mtc_requested_done) {
@@ -4384,6 +4394,7 @@ public class MainController {
 			boolean is_inactive = false;
 			switch (tc.tc_state) {
 			case TC_INITIAL:
+				// the PTC does not have an identified control connection yet
 				ready_for_ack = false;
 				break;
 			case PTC_STARTING:
@@ -4405,11 +4416,13 @@ public class MainController {
 			case PTC_FUNCTION:
 				send_kill(tc);
 				if (is_inactive) {
+					// the PTC was inactive
 					tc.tc_state = tc_state_enum.PTC_KILLING;
 					if (!tc.is_alive) {
 						tc.stop_requested = true;
 					}
 				} else {
+					// the PTC was active
 					tc.tc_state = tc_state_enum.PTC_STOPPING_KILLING;
 					tc.stop_requested = true;
 				}
