@@ -2589,6 +2589,7 @@ public class MainController {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -3128,6 +3129,7 @@ public class MainController {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -3220,6 +3222,7 @@ public class MainController {
 			if (tc.stop_requested) {
 				continue;
 			}
+
 			switch (tc.tc_state) {
 			case TC_EXITING:
 			case TC_EXITED:
@@ -3948,10 +3951,12 @@ public class MainController {
 				error(MessageFormat.format("PTC {0} is in invalid state when performing " +
 						"'all component.stop' operation.", comp.comp_ref));
 			}
+
 			if (!ready_for_ack) {
 				break;
 			}
 		}
+
 		if (ready_for_ack) {
 			send_stop_ack(mtc);
 			mtc.tc_state = tc_state_enum.MTC_TESTCASE;
@@ -4020,6 +4025,7 @@ public class MainController {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -4058,6 +4064,7 @@ public class MainController {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -4366,6 +4373,7 @@ public class MainController {
 
 			free_requestors(tc.cancel_done_sent_for);
 		}
+
 		return ready_for_ack;
 	}
 
@@ -5699,6 +5707,7 @@ public class MainController {
 			final ComponentStruct comp = components.get(i);
 			comp.tc_state = tc_state_enum.PTC_STALE;
 		}
+
 		mtc.local_verdict = VerdictTypeEnum.NONE;
 	}
 
@@ -5712,6 +5721,7 @@ public class MainController {
 				n_ptcs++;
 			}
 		}
+
 		text_buf.push_int(n_ptcs);
 		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
@@ -5723,6 +5733,7 @@ public class MainController {
 				text_buf.push_string(comp.verdict_reason);
 			}
 		}
+
 		text_buf.push_int(continue_execution ? 1 : 0);
 		send_message(mtc.socket, text_buf);
 	}
