@@ -398,7 +398,7 @@ public class MainController {
 
 	private String config_str;
 
-	private boolean version_known = false;
+	// version_known is not need. if the modules list is not empty, we know the module version informations from the first HC to connect.
 	private ArrayList<module_version_info> modules = new ArrayList<MainController.module_version_info>();
 
 	private volatile boolean any_component_done_requested;
@@ -2027,7 +2027,7 @@ public class MainController {
 			return true;
 		}
 
-		if (version_known) {
+		if (modules.size() > 0) {
 			final int new_modules_size = text_buf.pull_int().get_int();
 			if (modules.size() != new_modules_size) {
 				send_error(connection.channel, MessageFormat.format("The number of modules in this ETS ({0}) differs from the number of modules in the firstly connected ETS ({1}).", new_modules_size, modules.size()));
@@ -2096,8 +2096,6 @@ public class MainController {
 
 				modules.add(temp_info);
 			}
-
-			version_known = true;
 		}
 
 		return false;
@@ -6044,7 +6042,7 @@ public class MainController {
 		}
 
 		modules.clear();
-		version_known = false;
+
 		try {
 			mc_selector.close();
 		} catch (IOException e) {
