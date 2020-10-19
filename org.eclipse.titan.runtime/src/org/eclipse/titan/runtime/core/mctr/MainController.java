@@ -704,6 +704,14 @@ public class MainController {
 		system = null;
 
 		//FIXME implement rest
+
+		next_comp_ref = TitanComponent.FIRST_PTC_COMPREF;
+
+		any_component_done_requested = false;
+		any_component_done_sent = false;
+		all_component_done_requested = false;
+		any_component_killed_requested = false;
+		all_component_killed_requested = false;
 	}
 
 	private unknown_connection new_unknown_connection() {
