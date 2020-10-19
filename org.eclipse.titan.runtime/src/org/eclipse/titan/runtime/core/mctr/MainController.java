@@ -2573,7 +2573,7 @@ public class MainController {
 				if (tc.tc_state != tc_state_enum.TC_EXITING) {
 					// we have no idea about the final verdict of the PTC
 					tc.local_verdict = VerdictTypeEnum.ERROR;
-					component_terminated(tc);// TODO check
+					component_terminated(tc);
 				}
 
 				tc.tc_state = tc_state_enum.TC_EXITED;
@@ -3614,6 +3614,7 @@ public class MainController {
 		// we are walking through the states of all PTCs
 		final tc_state_enum old_state = tc.tc_state;
 		tc.tc_state = tc_state_enum.TC_EXITING;
+		//FIXME a_active_ptcs--
 		tc.comp_location.n_active_components--;
 		switch (mc_state) {
 		case MC_EXECUTING_TESTCASE:
@@ -3660,8 +3661,8 @@ public class MainController {
 			}
 		}
 
-		tc.done_requestors = new RequestorStruct();
-		tc.killed_requestors = new RequestorStruct();
+		free_requestors(tc.done_requestors);
+		free_requestors(tc.killed_requestors);
 
 		// deciding whether to send a COMPONENT_STATUS message to MTC
 		// 'any component.done' status can be safely sent out
@@ -3741,7 +3742,7 @@ public class MainController {
 			}
 			done_cancelled(tc, comp);
 		}
-		tc.cancel_done_sent_for = new RequestorStruct();
+		free_requestors(tc.cancel_done_sent_for);
 
 		// destroy all connections and mappings of the component
 		// and send out the related messages
