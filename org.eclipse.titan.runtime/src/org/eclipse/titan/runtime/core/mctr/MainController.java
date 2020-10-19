@@ -1881,21 +1881,6 @@ public class MainController {
 		return best_candidate;
 	}
 
-	private boolean set_has_string(final Set<String> set, final String str) {
-		if (str == null) {
-			return false;
-		}
-		for (final String element : set) {
-			final int result = element.compareTo(str);
-			if (result == 0) {
-				return true;
-			} else if (result > 0) {
-				break;
-			}
-		}
-		return false;
-	}
-
 	private void send_create_ptc(final Host host, final int comp_ref, final String componentTypeModule, final String componentTypeName,
 			final QualifiedName comp_type, final String componentName, final int isAlive, final QualifiedName tc_fn_name) {
 		final Text_Buf text_buf = new Text_Buf();
