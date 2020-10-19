@@ -413,7 +413,8 @@ public class MainController {
 
 	private int next_comp_ref;
 	private int tc_first_comp_ref;
-	private List<Host> hosts;
+	//can not be null on the Java side
+	private List<Host> hosts = new ArrayList<MainController.Host>();
 	//can not be null on the Java side
 	private List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
 	private List<String> assigned_components = new ArrayList<String>();
@@ -451,7 +452,6 @@ public class MainController {
 		}
 		mc_hostname = String.format("MC@%s", mc_hostname);
 
-		hosts = new ArrayList<MainController.Host>();
 		unknown_connections = new LinkedList<MainController.unknown_connection>();
 		all_components_assigned = false;
 
