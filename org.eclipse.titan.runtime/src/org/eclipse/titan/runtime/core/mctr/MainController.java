@@ -2062,11 +2062,19 @@ public class MainController {
 
 		final int version_build_number = text_buf.pull_int().get_int();
 		if (version_build_number != TTCN_Runtime.TTCN3_BUILDNUMBER) {
-			// FIXME implement rest
+			if (version_build_number > 0) {
+				send_error(connection.channel, MessageFormat.format("Build number mismatch: The TTCN-3 Main Controller has version {0}, but the ETS was built with {1}.{2}.pre{3} build {4}.",
+						TTCN_Runtime.PRODUCT_NUMBER, version_major, version_minor, version_patchlevel, version_build_number));
+			} else {
+				send_error(connection.channel, MessageFormat.format("Build number mismatch: The TTCN-3 Main Controller has version {0}, but the ETS was built with {1}.{2}.pl{3}.",
+						TTCN_Runtime.PRODUCT_NUMBER, version_major, version_minor, version_patchlevel));
+			}
+
 			return true;
 		}
 
 		if (modules.size() > 0) {
+			//the version is known
 			final int new_modules_size = text_buf.pull_int().get_int();
 			if (modules.size() != new_modules_size) {
 				send_error(connection.channel, MessageFormat.format("The number of modules in this ETS ({0}) differs from the number of modules in the firstly connected ETS ({1}).", new_modules_size, modules.size()));
