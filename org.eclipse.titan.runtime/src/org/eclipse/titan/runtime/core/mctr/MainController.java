@@ -706,6 +706,8 @@ public class MainController {
 		components.clear();
 		mtc = null;
 		system = null;
+
+		//FIXME implement rest
 	}
 
 	private unknown_connection new_unknown_connection() {
