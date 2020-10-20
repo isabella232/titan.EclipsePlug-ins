@@ -246,12 +246,6 @@ public class MainController {
 	private static class PortConnection {
 		conn_state_enum conn_state;
 		transport_type_enum transport_type;
-		int comp_ref;
-		String port_name;
-		PortConnection next;
-		PortConnection prev;
-		ComponentStruct component;
-		List<ComponentStruct> components;
 		int headComp;
 		String headPort;
 		int tailComp;
@@ -343,9 +337,11 @@ public class MainController {
 		RequestorStruct stop_requestors;
 		RequestorStruct kill_requestors;
 
-		//TODO check the usage of these lists
+		// On the C side these are lists linked through the PortConnections
+		// Here the list is outside
 		List<PortConnection> conn_head_list;
 		List<PortConnection> conn_tail_list;
+
 		RequestorStruct done_requestors;
 		RequestorStruct killed_requestors;
 		RequestorStruct cancel_done_sent_for;
@@ -3815,7 +3811,7 @@ public class MainController {
 		int tc_compref;
 		String tc_port;
 		String system_port;
-		if (conn.comp_ref == TitanComponent.SYSTEM_COMPREF) {
+		if (conn.headComp == TitanComponent.SYSTEM_COMPREF) {
 			tc_compref = conn.tailComp;
 			tc_port = conn.tailPort;
 			system_port = conn.headPort;
@@ -3824,6 +3820,7 @@ public class MainController {
 			tc_port = conn.headPort;
 			system_port = conn.tailPort;
 		}
+
 		switch (conn.conn_state) {
 		case CONN_UNMAPPING:
 			for (int i = 0;; i++) {
@@ -5068,7 +5065,7 @@ public class MainController {
 	}
 
 	private void send_error_to_connect_requestors(final PortConnection conn, final String msg) {
-		final String reason = "Establishment of port connection " + conn.comp_ref + ":" + conn.port_name + " - " + conn.tailComp + ":"
+		final String reason = "Establishment of port connection " + conn.headComp + ":" + conn.headPort + " - " + conn.tailComp + ":"
 				+ conn.tailPort + " failed because " + msg;
 		for (int i = 0;; i++) {
 			final ComponentStruct comp = get_requestor(conn.requestors, i);
