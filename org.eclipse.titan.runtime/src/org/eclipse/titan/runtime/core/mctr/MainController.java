@@ -49,7 +49,6 @@ import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 
 /**
- * TODO: lots to implement
  *
  * @author Bianka Bekefi
  * @author Kristof Szabados
