@@ -327,7 +327,14 @@ public final class Map_Statement extends Statement {
 				getLocation().reportSemanticWarning("This mapping is not done in translation mode");
 			}
 		} else {
-			//FIXME implement
+			if (componentReference1.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE) != null) {
+				componentReference1.getLocation().reportSemanticWarning(
+						"Cannot determine the type of the component in the first parameter. The port translation will not work.");
+			}
+			if (componentReference2.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE) != null) {
+				componentReference2.getLocation().reportSemanticWarning(
+						"Cannot determine the type of the component in the second parameter. The port translation will not work.");
+			}
 		}
 
 		check_map_params(timestamp, cref1IsSystem ? body1 : (cref2IsSystem ? body2 : null));

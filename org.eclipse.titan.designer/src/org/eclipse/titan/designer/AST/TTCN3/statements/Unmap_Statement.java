@@ -313,8 +313,6 @@ public final class Unmap_Statement extends Statement {
 					(!body2.isLegacy() && body2.getPortType() == PortType_type.PT_USER)) {
 				getLocation().reportSemanticWarning("This mapping is not done in translation mode");
 			}
-		} else {
-			//FIXME implement
 		}
 
 		check_map_params(timestamp, cref1IsSystem ? body1 : (cref2IsSystem ? body2 : null));
