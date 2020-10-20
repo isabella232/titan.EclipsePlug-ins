@@ -264,6 +264,9 @@ public final class Unmap_Statement extends Statement {
 					(cref2IsSystem && body2 == null))) {
 				getLocation().reportSemanticError("Cannot determine system component in `unmap' operation with `param' clause");
 			}
+
+			check_map_params(timestamp, cref1IsSystem ? body1 : (cref2IsSystem ? body2 : null));
+
 			return;
 		}
 
@@ -310,25 +313,31 @@ public final class Unmap_Statement extends Statement {
 					(!body2.isLegacy() && body2.getPortType() == PortType_type.PT_USER)) {
 				getLocation().reportSemanticWarning("This mapping is not done in translation mode");
 			}
+		} else {
+			//FIXME implement
 		}
 
-		if (parsedParameterList != null) {
-			if (cref1IsSystem) {
-				formalParList = body1.getUnmapParameters();
-			} else if (cref2IsSystem) {
-				formalParList = body2.getUnmapParameters();
-			} else {
-				getLocation().reportSemanticError("Cannot determine system component in `unmap' operation with `param' clause");
-			}
+		check_map_params(timestamp, cref1IsSystem ? body1 : (cref2IsSystem ? body2 : null));
+	}
 
-			if (formalParList != null) {
-				actualParameterList = new ActualParameterList();
-				if (formalParList.checkActualParameterList(timestamp, parsedParameterList, actualParameterList)) {
-					actualParameterList = null;
-				} else {
-					actualParameterList.setFullNameParent(this);
-					actualParameterList.setMyScope(getMyScope());
-				}
+	private void check_map_params(final CompilationTimeStamp timestamp, final PortTypeBody system_port) {
+		if (parsedParameterList == null) {
+			return;
+		}
+
+		if (system_port != null) {
+			formalParList = system_port.getMapParameters();
+		} else {
+			getLocation().reportSemanticError("Cannot determine system component in `unmap' operation with `param' clause");
+		}
+
+		if (formalParList != null) {
+			actualParameterList = new ActualParameterList();
+			if (formalParList.checkActualParameterList(timestamp, parsedParameterList, actualParameterList)) {
+				actualParameterList = null;
+			} else {
+				actualParameterList.setFullNameParent(this);
+				actualParameterList.setMyScope(getMyScope());
 			}
 		}
 	}
