@@ -4970,7 +4970,7 @@ public class MainController {
 							transport_type_enum.values()[transport_type], address, local_port_number);
 				} else {
 					// send an empty string instead of the name of tc if it is known by dst_comp
-					send_connect(dst_comp, remote_port, tc.comp_ref, "", local_port,
+					send_connect(dst_comp, remote_port, tc.comp_ref, null, local_port,
 							transport_type_enum.values()[transport_type], address, local_port_number);
 				}
 				conn.conn_state = conn_state_enum.CONN_CONNECTING;
@@ -5138,8 +5138,7 @@ public class MainController {
 			case TRANSPORT_LOCAL:
 				// send an empty string instead of component name
 				// the component should already know its own name
-				//FIXME: check "" or null
-				send_connect(components.get(conn.headComp), conn.headPort, conn.tailComp, "", conn.tailPort, conn.transport_type, null, null);
+				send_connect(components.get(conn.headComp), conn.headPort, conn.tailComp, null, conn.tailPort, conn.transport_type, null, null);
 				conn.conn_state = conn_state_enum.CONN_CONNECTING;
 				break;
 			case TRANSPORT_UNIX_STREAM:
@@ -5152,8 +5151,7 @@ public class MainController {
 				} else {
 					// send an empty string instead of the name of conn->tail if
 					// it is known by conn->head
-					//FIXME: check "" or null
-					send_connect_listen(components.get(conn.headComp), conn.headPort, conn.tailComp, "",
+					send_connect_listen(components.get(conn.headComp), conn.headPort, conn.tailComp, null,
 							conn.tailPort, conn.transport_type);
 				}
 				conn.conn_state = conn_state_enum.CONN_LISTENING;
