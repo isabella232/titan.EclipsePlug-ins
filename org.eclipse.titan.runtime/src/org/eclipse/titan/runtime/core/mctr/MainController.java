@@ -3897,36 +3897,8 @@ public class MainController {
 		started_tc.tc_state = tc_state_enum.PTC_FUNCTION;
 	}
 
-	//FIXME should no longer have these special cases
 	private void remove_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
-		switch (reqs.n_components) {
-		case 0:
-			break;
-		case 1:
-			if (reqs.components.get(0).equals(tc)) {
-				reqs.n_components = 0;
-			}
-			break;
-		case 2:
-			ComponentStruct tmp = null;
-			if (reqs.components.get(0).equals(tc)) {
-				tmp = reqs.components.get(1);
-			} else if (reqs.components.get(1).equals(tc)) {
-				tmp = reqs.components.get(0);
-			}
-			if (tmp != null) {
-				reqs.n_components = 1;
-				reqs.components.add(tmp);
-			}
-			break;
-		default:
-			for (final ComponentStruct comp : reqs.components) {
-				if (comp.equals(tc)) {
-					reqs.n_components--;
-					break;
-				}
-			}
-		}
+		reqs.components.remove(tc);
 	}
 
 	private void send_kill_ack_to_requestors(final ComponentStruct tc) {
@@ -4523,21 +4495,14 @@ public class MainController {
 		return ready_for_ack;
 	}
 
-	//should not have these special cases
 	private static boolean has_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
-		switch (reqs.n_components) {
-		case 0:
-			return false;
-		case 1:
-			return reqs.components.get(0).equals(tc);
-		default:
-			for (final ComponentStruct comp : reqs.components) {
-				if (comp.equals(tc)) {
-					return true;
-				}
+		for (final ComponentStruct comp : reqs.components) {
+			if (comp.equals(tc)) {
+				return true;
 			}
-			return false;
 		}
+
+		return false;
 	}
 
 	private void send_stop(final ComponentStruct tc) {
@@ -5081,15 +5046,11 @@ public class MainController {
 		}
 	}
 
-	//FIXME should not have these special cases
 	private static ComponentStruct get_requestor(final RequestorStruct reqs, final int index) {
-		if (index >= 0 && index < reqs.n_components) {
-			if (reqs.n_components == 1) {
-				return reqs.components.get(0);
-			} else {
-				return reqs.components.get(index);
-			}
+		if (index >= 0 && index < reqs.components.size()) {
+			return reqs.components.get(index);
 		}
+
 		return null;
 	}
 
@@ -5247,28 +5208,15 @@ public class MainController {
 		}
 	}
 
-	//FIXME should not have these special cases
 	private void add_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
-		switch (reqs.n_components) {
-		case 0:
-			reqs.n_components = 1;
-			reqs.components.add(tc);
-			break;
-		case 1:
-			if (!reqs.components.get(0).equals(tc)) {
-				reqs.n_components = 2;
-				reqs.components.add(tc);
+		for (final ComponentStruct comp : reqs.components) {
+			if (comp.equals(tc)) {
+				return;
 			}
-			break;
-		default:
-			for (final ComponentStruct comp : reqs.components) {
-				if (comp.equals(tc)) {
-					return;
-				}
-			}
-			reqs.n_components++;
-			reqs.components.add(tc);
 		}
+
+		reqs.n_components++;
+		reqs.components.add(tc);
 	}
 
 	private void send_connect_listen(final ComponentStruct tc, final String headPort, final int tailComp, final String comp_name,
@@ -5983,12 +5931,8 @@ public class MainController {
 
 	private static RequestorStruct init_requestors(final ComponentStruct tc) {
 		final RequestorStruct requestors = new RequestorStruct();
-		if (tc != null) {
-			requestors.n_components = 1;
-			requestors.components.add(tc);
-		} else {
-			requestors.n_components = 0;
-		}
+		requestors.n_components = 1;
+		requestors.components.add(tc);
 
 		return requestors;
 	}
