@@ -4496,13 +4496,7 @@ public class MainController {
 	}
 
 	private static boolean has_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
-		for (final ComponentStruct comp : reqs.components) {
-			if (comp.equals(tc)) {
-				return true;
-			}
-		}
-
-		return false;
+		return reqs.components.contains(tc);
 	}
 
 	private void send_stop(final ComponentStruct tc) {
@@ -5209,10 +5203,8 @@ public class MainController {
 	}
 
 	private void add_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
-		for (final ComponentStruct comp : reqs.components) {
-			if (comp.equals(tc)) {
-				return;
-			}
+		if (reqs.components.contains(tc)) {
+			return;
 		}
 
 		reqs.n_components++;
