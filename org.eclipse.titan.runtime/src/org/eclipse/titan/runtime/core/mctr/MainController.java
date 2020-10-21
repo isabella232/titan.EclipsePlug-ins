@@ -418,7 +418,7 @@ public class MainController {
 	private List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
 	private List<String> assigned_components = new ArrayList<String>();
 	private volatile boolean all_components_assigned;
-	private LinkedList<unknown_connection> unknown_connections;
+	private LinkedList<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
 
 	//TODO check why this is not used
 	private static ThreadLocal<CfgAnalyzer> cfgAnalyzer = new ThreadLocal<CfgAnalyzer>() {
@@ -434,7 +434,7 @@ public class MainController {
 	public List<ComponentStruct> components = new ArrayList<MainController.ComponentStruct>();
 
 	private double kill_timer = 0.0;
-	private ReentrantLock mutex;
+	private ReentrantLock mutex = new ReentrantLock();
 
 	private ComponentStruct mtc;
 	private ComponentStruct system;
@@ -454,7 +454,6 @@ public class MainController {
 		}
 		mc_hostname = String.format("MC@%s", mc_hostname);
 
-		unknown_connections = new LinkedList<MainController.unknown_connection>();
 		all_components_assigned = false;
 
 		config_str = null;
@@ -469,10 +468,6 @@ public class MainController {
 		stop_requested = false;
 
 		kill_timer = 10.0;
-		timers = new LinkedList<MainController.timer_struct>();
-
-		kill_timer = 10.0;
-		mutex = new ReentrantLock();
 	}
 
 	public void terminate() {
