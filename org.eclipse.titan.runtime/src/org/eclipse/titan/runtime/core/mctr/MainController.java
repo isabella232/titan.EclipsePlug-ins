@@ -4966,7 +4966,6 @@ public class MainController {
 			case PTC_STOPPED:
 				if (tc.comp_ref != TitanComponent.MTC_COMPREF && tc.comp_ref != remote_component) {
 					// send the name of tc
-					// FIXME: check send_connect parameters
 					send_connect(dst_comp, remote_port, tc.comp_ref, tc.comp_name, local_port,
 							transport_type_enum.values()[transport_type], address, local_port_number);
 				} else {
