@@ -2526,14 +2526,14 @@ public class MainController {
 			//On the C side a readable file descriptor with 0 bytes to read means that the connection is being closed
 			//In Java it is possible to have a readable socket, before any bytes have arrived to it.
 		} else {
-			// FIXME
+			// FIXME handle ECONNRESET
 			if (tc == mtc) {
-				//FIXME
-				error(MessageFormat.format("Receiving of data failed from the MTC at {0} [{1}]: {2}",
+				//TODO what to print instead of errno
+				error(MessageFormat.format("Receiving of data failed from the MTC at {0} [{1}]",
 						mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress()));
 			} else {
-				//FIXME
-				notify(MessageFormat.format("Receiving of data failed from PTC {0} at {1} [{2}]: {3}",
+				//TODO what to print instead of errno
+				notify(MessageFormat.format("Receiving of data failed from PTC {0} at {1} [{2}]",
 						tc.comp_ref, tc.comp_location.hostname, tc.comp_location.ip_address.getHostAddress()));
 			}
 			close_connection = true;
