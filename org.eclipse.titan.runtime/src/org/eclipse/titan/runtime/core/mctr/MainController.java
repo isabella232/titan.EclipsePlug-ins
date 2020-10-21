@@ -5072,9 +5072,15 @@ public class MainController {
 	}
 
 	private void remove_connection(final PortConnection c) {
-		// FIXME: check
-		components.get(c.headComp).conn_head_list.remove(c);
-		components.get(c.tailComp).conn_tail_list.remove(c);
+		// Remove from conn_head_list
+		final ComponentStruct head_component = lookup_component(c.headComp);
+		head_component.conn_head_list.remove(c);
+
+		// Remove from conn_tail_list
+		final ComponentStruct tail_component = lookup_component(c.tailComp);
+		tail_component.conn_tail_list.remove(c);
+
+		free_requestors(c.requestors);
 	}
 
 	private void send_disconnect_to_server(final PortConnection conn) {
