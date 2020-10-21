@@ -360,7 +360,7 @@ public class MainController {
 	 */
 	private static class RequestorStruct {
 		int n_components;//TODO might not be needed as it is the length of the list
-		List<ComponentStruct> components;
+		List<ComponentStruct> components = new ArrayList<MainController.ComponentStruct>();
 	}
 
 	private UserInterface ui;
@@ -5094,9 +5094,7 @@ public class MainController {
 	}
 
 	private static void free_requestors(final RequestorStruct requestor) {
-		if (requestor.components != null) {
-			requestor.components.clear();
-		}
+		requestor.components.clear();
 	}
 
 	private void process_connect_error(final ComponentStruct tc) {
