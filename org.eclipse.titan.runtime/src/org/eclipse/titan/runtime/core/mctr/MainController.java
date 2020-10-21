@@ -46,7 +46,6 @@ import org.eclipse.titan.runtime.core.TitanPort.Map_Params;
 import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnError;
-import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
 
 /**
  *
