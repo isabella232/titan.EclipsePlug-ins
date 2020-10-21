@@ -1502,11 +1502,12 @@ public class MainController {
 					text_buf.cut_message();
 				}
 			} catch (TtcnError tc_error) {
-				// FIXME malformed message error
+				error(MessageFormat.format("Malformed message was received on HC connection from {0} [{1}].",
+						hc.hostname, hc.ip_address.getHostAddress()));
 				error_flag = true;
 			}
 			if (error_flag) {
-				// FIXME send_error_str
+				send_error_str(hc.socket, "The received message was not understood by the MC.");
 			}
 		} else if (recv_len == 0) {
 			if (hc.hc_state == hc_state_enum.HC_EXITING) {
