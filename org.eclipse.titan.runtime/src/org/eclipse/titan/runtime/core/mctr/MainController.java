@@ -4953,8 +4953,7 @@ public class MainController {
 			}
 		}
 
-		conn.requestors.components = null;
-		conn.requestors.n_components = 0;
+		free_requestors(conn.requestors);
 	}
 
 	private void process_connect_listen_ack(final ComponentStruct tc, final int msg_end) {
