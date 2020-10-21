@@ -552,6 +552,11 @@ public class MainController {
 		}
 	}
 
+	private void init_connections(final ComponentStruct tc) {
+		tc.conn_head_list = new ArrayList<MainController.PortConnection>();
+		tc.conn_tail_list = new ArrayList<MainController.PortConnection>();
+	}
+
 	private void handle_kill_timer(final timer_struct timer) {
 		ComponentStruct tc = timer.component;
 		Host host = tc.comp_location;
@@ -1393,14 +1398,20 @@ public class MainController {
 		mtc.comp_name = "MTC";
 		mtc.tc_state = tc_state_enum.TC_INITIAL;
 		mtc.local_verdict = VerdictTypeEnum.NONE;
+		mtc.verdict_reason = null;
 		mtc.text_buf = null;
+		mtc.return_type = null;
+		mtc.return_value = null;
+		mtc.is_alive = false;
+		mtc.stop_requested = false;
+		mtc.process_killed = false;
+		mtc.create_requestor = null;
+		mtc.location_str = null;
 		mtc.done_requestors = init_requestors(null);
 		mtc.killed_requestors = init_requestors(null);
 		mtc.cancel_done_sent_for = init_requestors(null);
 		mtc.kill_timer = null;
-		mtc.conn_head_list = new ArrayList<PortConnection>();
-		mtc.conn_tail_list = new ArrayList<PortConnection>();
-		// FIXME init_connections(mtc)
+		init_connections(mtc);
 		add_component(mtc);
 		add_component_to_host(host, mtc);
 		host.n_active_components++;
@@ -1408,16 +1419,22 @@ public class MainController {
 		system = new ComponentStruct();
 		system.comp_ref = TitanComponent.SYSTEM_COMPREF;
 		system.comp_name = "SYSTEM";
+		system.log_source = null;
+		system.comp_location = null;
 		system.tc_state = tc_state_enum.TC_SYSTEM;
 		system.local_verdict = VerdictTypeEnum.NONE;
+		system.verdict_reason = null;
 		system.text_buf = null;
+		system.return_type = null;
+		system.return_value = null;
+		system.is_alive = false;
+		system.stop_requested = false;
+		system.process_killed = false;
 		system.done_requestors = init_requestors(null);
 		system.killed_requestors = init_requestors(null);
 		system.cancel_done_sent_for = init_requestors(null);
-		system.conn_head_list = new ArrayList<PortConnection>();
-		system.conn_tail_list = new ArrayList<PortConnection>();
 		system.kill_timer = null;
-		// FIXME init_connections(system)
+		init_connections(system);
 		add_component(system);
 
 		mc_state = mcStateEnum.MC_CREATING_MTC;
@@ -1808,7 +1825,7 @@ public class MainController {
 		new_ptc.killed_requestors = init_requestors(null);
 		new_ptc.cancel_done_sent_for = init_requestors(null);
 		new_ptc.kill_timer = null;
-		// FIXME init_connections(new_ptc)
+		init_connections(new_ptc);
 
 		add_component(new_ptc);
 		add_component_to_host(ptcLoc, new_ptc);
