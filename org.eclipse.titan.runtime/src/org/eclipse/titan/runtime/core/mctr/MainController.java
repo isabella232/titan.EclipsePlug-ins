@@ -420,14 +420,6 @@ public class MainController {
 	private volatile boolean all_components_assigned;
 	private LinkedList<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
 
-	//TODO check why this is not used
-	private static ThreadLocal<CfgAnalyzer> cfgAnalyzer = new ThreadLocal<CfgAnalyzer>() {
-		@Override
-		protected CfgAnalyzer initialValue() {
-			return null;
-		}
-	};
-
 	private int n_active_ptcs = 0;
 	//a negative value means no check
 	private int max_ptcs = -1;
