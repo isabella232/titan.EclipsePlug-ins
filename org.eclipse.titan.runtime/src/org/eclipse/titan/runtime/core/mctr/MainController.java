@@ -360,7 +360,6 @@ public class MainController {
 	 */
 	private static class RequestorStruct {
 		int n_components;//TODO might not be needed as it is the length of the list
-		ComponentStruct comp;
 		List<ComponentStruct> components;
 	}
 
@@ -3898,12 +3897,13 @@ public class MainController {
 		started_tc.tc_state = tc_state_enum.PTC_FUNCTION;
 	}
 
+	//FIXME should no longer have these special cases
 	private void remove_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
 		switch (reqs.n_components) {
 		case 0:
 			break;
 		case 1:
-			if (reqs.comp.equals(tc)) {
+			if (reqs.components.get(0).equals(tc)) {
 				reqs.n_components = 0;
 			}
 			break;
@@ -3916,7 +3916,7 @@ public class MainController {
 			}
 			if (tmp != null) {
 				reqs.n_components = 1;
-				reqs.comp = tmp;
+				reqs.components.add(tmp);
 			}
 			break;
 		default:
@@ -4523,12 +4523,13 @@ public class MainController {
 		return ready_for_ack;
 	}
 
+	//should not have these special cases
 	private static boolean has_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
 		switch (reqs.n_components) {
 		case 0:
 			return false;
 		case 1:
-			return reqs.comp.equals(tc);
+			return reqs.components.get(0).equals(tc);
 		default:
 			for (final ComponentStruct comp : reqs.components) {
 				if (comp.equals(tc)) {
@@ -5081,10 +5082,11 @@ public class MainController {
 		}
 	}
 
+	//FIXME should not have these special cases
 	private static ComponentStruct get_requestor(final RequestorStruct reqs, final int index) {
 		if (index >= 0 && index < reqs.n_components) {
 			if (reqs.n_components == 1) {
-				return reqs.comp;
+				return reqs.components.get(0);
 			} else {
 				return reqs.components.get(index);
 			}
@@ -5248,17 +5250,16 @@ public class MainController {
 		}
 	}
 
+	//FIXME should not have these special cases
 	private void add_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
 		switch (reqs.n_components) {
 		case 0:
 			reqs.n_components = 1;
-			reqs.comp = tc;
+			reqs.components.add(tc);
 			break;
 		case 1:
-			if (!reqs.comp.equals(tc)) {
+			if (!reqs.components.get(0).equals(tc)) {
 				reqs.n_components = 2;
-				reqs.components = new ArrayList<ComponentStruct>();
-				reqs.components.add(reqs.comp);
 				reqs.components.add(tc);
 			}
 			break;
@@ -5987,10 +5988,11 @@ public class MainController {
 		final RequestorStruct requestors = new RequestorStruct();
 		if (tc != null) {
 			requestors.n_components = 1;
-			requestors.comp = tc;
+			requestors.components.add(tc);
 		} else {
 			requestors.n_components = 0;
 		}
+
 		return requestors;
 	}
 
