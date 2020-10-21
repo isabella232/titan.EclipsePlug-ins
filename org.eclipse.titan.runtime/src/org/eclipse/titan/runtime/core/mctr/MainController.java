@@ -2346,7 +2346,7 @@ public class MainController {
 			close_unknown_connection(connection);
 			return;
 		}
-		// FIXME: implement
+		// FIXME: implement ip_address check
 
 		mc_state = mcStateEnum.MC_READY;
 		mtc.tc_state = tc_state_enum.TC_IDLE;
