@@ -272,12 +272,6 @@ public final class Map_Statement extends Statement {
 				getLocation().reportSemanticWarning(MessageFormat.format("This mapping is not done in translation mode, because the {0} endpoint is unknown", body1 != null ? "second" : "first"));
 			}
 
-			if (parsedParameterList != null &&
-					((cref1IsSystem && body1 == null) ||
-					(cref2IsSystem && body2 == null))) {
-				getLocation().reportSemanticError("Cannot determine system component in `map' operation with `param' clause");
-			}
-
 			check_map_params(timestamp, cref1IsSystem ? body1 : (cref2IsSystem ? body2 : null));
 
 			return;
