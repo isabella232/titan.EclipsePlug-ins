@@ -359,7 +359,6 @@ public class MainController {
 	 * requested by several components)
 	 */
 	private static class RequestorStruct {
-		int n_components;//TODO might not be needed as it is the length of the list
 		List<ComponentStruct> components = new ArrayList<MainController.ComponentStruct>();
 	}
 
@@ -5207,7 +5206,6 @@ public class MainController {
 			return;
 		}
 
-		reqs.n_components++;
 		reqs.components.add(tc);
 	}
 
@@ -5923,7 +5921,6 @@ public class MainController {
 
 	private static RequestorStruct init_requestors(final ComponentStruct tc) {
 		final RequestorStruct requestors = new RequestorStruct();
-		requestors.n_components = 1;
 		requestors.components.add(tc);
 
 		return requestors;
