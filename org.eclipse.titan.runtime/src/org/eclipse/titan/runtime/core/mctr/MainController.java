@@ -1109,14 +1109,12 @@ public class MainController {
 		try {
 			if (mc_state != mcStateEnum.MC_INACTIVE) {
 				error("MainController.start_session: called in wrong state.");
-
 				return 0;
 			}
 
 			try {
 				mc_selector = Selector.open();
 			} catch (IOException e) {
-				// FIXME report error
 				error(MessageFormat.format("Selector opening failed: {0}.", e.getMessage()));
 				clean_up();
 				unlock();
