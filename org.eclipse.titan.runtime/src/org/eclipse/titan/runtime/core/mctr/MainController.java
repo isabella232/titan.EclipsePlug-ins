@@ -2369,8 +2369,7 @@ public class MainController {
 		status_change();
 	}
 
-	//TODO why synchronized?
-	private synchronized void handle_tc_data(final ComponentStruct tc, final boolean receive_from_socket) {
+	private void handle_tc_data(final ComponentStruct tc, final boolean receive_from_socket) {
 		final Text_Buf text_buf = tc.text_buf;
 		boolean close_connection = false;
 		int recv_len = receive_to_buffer(tc.socket, text_buf, receive_from_socket);
