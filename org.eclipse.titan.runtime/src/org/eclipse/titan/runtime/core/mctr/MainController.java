@@ -5747,8 +5747,7 @@ public class MainController {
 		final int lower_int = text_buf.pull_int().get_int();
 		final long seconds = upper_int * 0xffffffff + lower_int;
 		final int microseconds = text_buf.pull_int().get_int();
-		// FIXME correct
-		String source = MessageFormat.format("<unknown>@{0}", 1);
+		String source = MessageFormat.format("<unknown>@{0}", connection.ip_address.getHostAddress());
 		final int severity = text_buf.pull_int().get_int();
 
 		final int length = text_buf.pull_int().get_int();
