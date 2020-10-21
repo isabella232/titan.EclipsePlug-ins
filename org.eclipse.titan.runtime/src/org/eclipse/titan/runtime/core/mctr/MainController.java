@@ -3780,7 +3780,6 @@ public class MainController {
 			send_disconnect_ack_to_requestors(conn);
 			break;
 		default:
-			// FIXME: check params 
 			error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when test component {4} has terminated.",
 					conn.headComp, conn.headPort, conn.tailComp, conn.tailPort, tc.comp_ref));
 		}
