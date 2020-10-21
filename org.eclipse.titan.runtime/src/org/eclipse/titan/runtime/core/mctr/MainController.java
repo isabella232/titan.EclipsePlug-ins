@@ -866,17 +866,20 @@ public class MainController {
 					}
 				}
 			} catch (TtcnError tc_error) {
-				// FIXME malformed message error
+				error(MessageFormat.format("Maleformed message was received on an unknown connection from {0} [{1}].",
+						connection.ip_address.getHostName(), connection.ip_address.getHostAddress()));
 				error_flag = true;
 			}
 			if (error_flag) {
-				// FIXME send_error_str
+				send_error_str(connection.channel, "The received message was not understood by the MC.");
 			}
 		} else if (recv_len == 0) {
-			// FIXME error(MessageFormat.format("Unexpected end of an unknown connection from {0} [{1}].", arguments));
+			error(MessageFormat.format("Unexpected end of an unknown connection from {0} [{1}].",
+					connection.ip_address.getHostName(), connection.ip_address.getHostAddress()));
 			error_flag = true;
 		} else {
-			// FIXME error report
+			error(MessageFormat.format("Receiving of data failed on an unknown connection from {0} [{1}].",
+					connection.ip_address.getHostName(), connection.ip_address.getHostAddress()));
 			error_flag = true;
 		}
 		if (error_flag) {
