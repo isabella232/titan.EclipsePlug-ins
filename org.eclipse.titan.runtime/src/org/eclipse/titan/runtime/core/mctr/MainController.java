@@ -430,6 +430,8 @@ public class MainController {
 	private ComponentStruct mtc;
 	private ComponentStruct system;
 
+	private wakeup_reason_t wakeup_reason;
+
 	//TODO maybe could be turned into constructor
 	public void initialize(final UserInterface par_ui, final int par_max_ptcs) {
 		ui = par_ui;
@@ -459,6 +461,8 @@ public class MainController {
 		stop_requested = false;
 
 		kill_timer = 10.0;
+
+		wakeup_reason = wakeup_reason_t.REASON_NOTHING;
 	}
 
 	public void terminate() {
@@ -746,6 +750,21 @@ public class MainController {
 					selectReturn = mc_selector.selectNow();
 				}
 				lock();
+
+				switch (wakeup_reason) {
+				case REASON_NOTHING:
+				case REASON_MTC_KILL_TIMER:
+					break;
+				case REASON_SHUTDOWN:
+					wakeup_reason = wakeup_reason_t.REASON_NOTHING;
+					perform_shutdown();
+					continue;
+				default:
+					error(MessageFormat.format("Invalid wakeup reason ({0}) was set.", wakeup_reason));
+					wakeup_reason = wakeup_reason_t.REASON_NOTHING;
+					break;
+				}
+
 				if (selectReturn > 0) {
 					final Set<SelectionKey> selectedKeys = mc_selector.selectedKeys();
 					for (final SelectionKey key : selectedKeys) {
@@ -801,6 +820,11 @@ public class MainController {
 		default:
 			fatal_error(MessageFormat.format("Invalid connection type ({0}) for channel {1}.", temp_struct.channel_type, channel));
 		}
+	}
+
+	private void wakeup_thread(final wakeup_reason_t reason) {
+		//FIXME do we need pipe?
+		wakeup_reason = reason;
 	}
 
 	private void handle_incoming_connection(final ServerSocketChannel channel) {
@@ -1174,6 +1198,8 @@ public class MainController {
 				unlock();
 				return 0;
 			}
+
+			wakeup_reason = wakeup_reason_t.REASON_NOTHING;
 
 			mc_state = mcStateEnum.MC_LISTENING;
 			final Thread thread = new Thread() {
@@ -5471,7 +5497,7 @@ public class MainController {
 		case MC_HC_CONNECTED:
 		case MC_ACTIVE:
 			notify("Shutting down session.");
-			perform_shutdown();
+			wakeup_thread(wakeup_reason_t.REASON_SHUTDOWN);
 			break;
 		default:
 			error("MainController::shutdown_session: called in wrong state.");
@@ -5864,7 +5890,7 @@ public class MainController {
 				send_stop(mtc);
 				mtc.stop_requested = true;
 				start_kill_timer(mtc);
-				// FIXME wakeup_thread
+				wakeup_thread(wakeup_reason_t.REASON_MTC_KILL_TIMER);
 				break;
 			case MC_EXECUTING_TESTCASE:
 				if (!mtc.stop_requested) {
@@ -5872,7 +5898,7 @@ public class MainController {
 					kill_all_components(true);
 					mtc.stop_requested = true;
 					start_kill_timer(mtc);
-					// FIXME wakeup_thread
+					wakeup_thread(wakeup_reason_t.REASON_MTC_KILL_TIMER);
 				}
 			case MC_TERMINATING_TESTCASE:
 				// MTC will be stopped later in finish_testcase()
