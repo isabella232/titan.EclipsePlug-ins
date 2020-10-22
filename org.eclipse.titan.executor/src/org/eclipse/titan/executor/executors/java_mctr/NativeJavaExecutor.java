@@ -30,6 +30,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.parsers.cfg.CfgLexer;
 import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.executor.Activator;
@@ -1069,13 +1070,12 @@ public class NativeJavaExecutor extends BaseExecutor {
 		if (configHandler != null) {
 			final List<Integer> disallowedNodes = new ArrayList<Integer>();
 
-			//FIXME filtering out the sections that should not be sent to the host controllers does not work now.
-//			disallowedNodes.add(CfgLexer.MAIN_CONTROLLER_SECTION);
-//			disallowedNodes.add(CfgLexer.DEFINE_SECTION);
-//			disallowedNodes.add(CfgLexer.INCLUDE_SECTION);
-//			disallowedNodes.add(CfgLexer.COMPONENTS_SECTION);
-//			disallowedNodes.add(CfgLexer.GROUPS_SECTION);
-//			disallowedNodes.add(CfgLexer.EXECUTE_SECTION);
+			disallowedNodes.add(CfgLexer.MAIN_CONTROLLER_SECTION);
+			disallowedNodes.add(CfgLexer.DEFINE_SECTION);
+			disallowedNodes.add(CfgLexer.INCLUDE_SECTION);
+			disallowedNodes.add(CfgLexer.COMPONENTS_SECTION);
+			disallowedNodes.add(CfgLexer.GROUPS_SECTION);
+			disallowedNodes.add(CfgLexer.EXECUTE_SECTION);
 
 			result += configHandler.toStringResolved(disallowedNodes);
 		}

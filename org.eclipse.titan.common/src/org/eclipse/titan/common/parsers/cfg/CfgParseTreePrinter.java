@@ -21,6 +21,7 @@ import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.AddedParseTree;
+import org.eclipse.titan.common.parsers.cfg.CfgParser.Pr_SectionContext;
 import org.eclipse.titan.common.path.PathConverter;
 
 /**
@@ -274,7 +275,8 @@ public class CfgParseTreePrinter {
 
 		if ( aParseTree instanceof ParserRuleContext ) {
 			final ParserRuleContext rule = (ParserRuleContext)aParseTree;
-			if ( mDisallowedNodes != null && mDisallowedNodes.contains( rule.start.getType() ) ) {
+			if ( rule instanceof Pr_SectionContext && mDisallowedNodes != null && mDisallowedNodes.contains( rule.start.getType() ) ) {
+				// if the first token of a section rule (the section label) is disallowed
 				return;
 			}
 			if ( aPrintHiddenBefore && rule.getChildCount() > 0 && rule.getChild( 0 ) instanceof AddedParseTree ) {
