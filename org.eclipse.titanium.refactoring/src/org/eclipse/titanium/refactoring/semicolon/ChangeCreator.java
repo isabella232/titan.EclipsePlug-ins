@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
@@ -34,10 +35,8 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Alt_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.DoWhile_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.For_Statement;
-import org.eclipse.titan.designer.AST.TTCN3.statements.Function_Instance_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.If_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
-import org.eclipse.titan.designer.AST.TTCN3.statements.Testcase_Instance_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.TryCatch_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Applied_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Instance_Statement;
@@ -46,6 +45,8 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Stop_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.While_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 
@@ -244,16 +245,31 @@ class SemicolonVisitor extends ASTVisitor {
 				locations.add(def.getLocation());
 			}
 			//TypeSet mss = port.getInMessages();
+			TypeSet mss =  port.getInMessages();
+//			if (mss != null) {
+//				for (msg : mss) {
+//					
+//				}
+//			}
 			return V_CONTINUE;
+		} 
+		
+		if (node instanceof Def_Port) {
+			Def_Port p = (Def_Port) node;
+			locations.add(p.getLocation());
 		}
+		
+		if (node instanceof Port_Type) {
+			Port_Type p = (Port_Type) node;
+			locations.add(p.getLocation());
+		}
+		
 		return V_CONTINUE;
 	}
 
 	private boolean isGoodType(final IVisitableNode node) {
 		return (node instanceof Statement
 				&& !(node instanceof If_Statement)
-				&& !(node instanceof Testcase_Instance_Statement)
-				&& !(node instanceof Function_Instance_Statement)
 				&& !(node instanceof TryCatch_Statement)
 				&& !(node instanceof For_Statement)
 				&& !(node instanceof While_Statement)
