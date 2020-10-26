@@ -3200,7 +3200,7 @@ public class MainController {
 	private boolean is_all_component_alive() {
 		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
-			if (!comp.is_alive) {
+			if (!component_is_alive(comp)) {
 				return false;
 			}
 		}
