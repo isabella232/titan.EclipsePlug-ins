@@ -671,6 +671,13 @@ public class MainController {
 
 			close_tc_connection(component);
 			remove_component_from_host(component);
+			// free_qualified_name(&comp->comp_type);
+			// free_qualified_name(&comp->tc_fn_name);
+			component.comp_name = null;
+			component.return_type = null;
+			component.return_value = null;
+			component.verdict_reason = null;
+
 			switch (component.tc_state) {
 			case TC_INITIAL:
 				component.location_str = null;
@@ -2634,10 +2641,6 @@ public class MainController {
 			channel_table.remove(component.socket);
 			component.socket = null;
 			component.text_buf = null;
-			if (component.kill_timer != null) {
-				cancel_timer(component.kill_timer);
-				component.kill_timer = null;
-			}
 		}
 
 		if (component.kill_timer != null) {
@@ -3193,7 +3196,7 @@ public class MainController {
 	private boolean is_all_component_alive() {
 		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
-			if (!comp.is_alive) {
+			if (!component_is_alive(comp)) {
 				return false;
 			}
 		}
@@ -3921,8 +3924,9 @@ public class MainController {
 			}
 		}
 
-		started_tc.cancel_done_sent_to = new RequestorStruct();
+		free_requestors(started_tc.cancel_done_sent_to);
 		started_tc.tc_state = tc_state_enum.PTC_FUNCTION;
+		status_change();
 	}
 
 	private void remove_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
@@ -3944,7 +3948,7 @@ public class MainController {
 				}
 			}
 		}
-		tc.kill_requestors = new RequestorStruct();
+		free_requestors(tc.kill_requestors);
 	}
 
 	private void send_stop_ack_to_requestors(final ComponentStruct tc) {
@@ -3962,7 +3966,7 @@ public class MainController {
 				}
 			}
 		}
-		tc.stop_requestors = new RequestorStruct();
+		free_requestors(tc.stop_requestors);
 	}
 
 	private void check_all_component_stop() {
@@ -4977,7 +4981,6 @@ public class MainController {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		text_buf.cut_message();
 
 		final PortConnection conn = find_connection(tc.comp_ref, local_port, remote_component, remote_port);
 		if (conn != null) {
@@ -5204,6 +5207,7 @@ public class MainController {
 			default:
 				send_error(tc.socket, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot be established because no suitable transport mechanism is available on the corrensponding host(s).",
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
+				remove_connection(conn);
 				return;
 			}
 			tc.tc_state = tc_state_enum.TC_CONNECT;
