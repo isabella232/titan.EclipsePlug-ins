@@ -4389,6 +4389,8 @@ public class MainController {
 				break;
 			case PTC_STARTING:
 				// do nothing, just put it back to STOPPED state
+				tc.tc_fn_name = new QualifiedName("", "");
+				tc.arg = null;
 				free_requestors(tc.cancel_done_sent_to);
 				tc.tc_state = tc_state_enum.PTC_STOPPED;
 				break;
@@ -4446,6 +4448,8 @@ public class MainController {
 				ready_for_ack = false;
 				break;
 			case PTC_STARTING:
+				tc.tc_fn_name =  new QualifiedName("", "");
+				tc.arg = null;
 				free_requestors(tc.cancel_done_sent_to);
 				// no break
 			case TC_IDLE:
@@ -4576,6 +4580,8 @@ public class MainController {
 				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when MC was notified about its termination.", tc.comp_ref, sourcePort, remoteComponent, remotePort));
 			}
 		}
+
+		status_change();
 	}
 
 	private void send_disconnect_ack_to_requestors(final PortConnection conn) {
