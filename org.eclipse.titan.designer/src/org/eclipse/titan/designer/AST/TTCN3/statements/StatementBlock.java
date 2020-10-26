@@ -774,8 +774,10 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		if (myDefinition == null) {
 			return null;
 		}
+		
+		Assignment_type at = myDefinition.getAssignmentType();
 
-		if (Assignment_type.A_TESTCASE.semanticallyEquals(myDefinition.getAssignmentType())) {
+		if (Assignment_type.A_TESTCASE.semanticallyEquals(at)) {
 			final Def_Testcase testcase = (Def_Testcase) myDefinition;
 			if (isSystem) {
 				final Component_Type type = testcase.getSystemType(timestamp);
@@ -788,13 +790,15 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 			return testcase.getRunsOnType(timestamp);
 
-		} else if (Assignment_type.A_FUNCTION.semanticallyEquals(myDefinition.getAssignmentType())) {
+		} else if (Assignment_type.A_FUNCTION.semanticallyEquals(at) ||
+				   Assignment_type.A_FUNCTION_RVAL.semanticallyEquals(at) ||
+				   Assignment_type.A_FUNCTION_RTEMP.semanticallyEquals(at)) {
 			if (isSystem) {
 				return ((Def_Function) myDefinition).getSystemType(timestamp);
 			} else {
 				return ((Def_Function) myDefinition).getMtcType(timestamp);
 			}
-		} else if (Assignment_type.A_ALTSTEP.semanticallyEquals(myDefinition.getAssignmentType())) {
+		} else if (Assignment_type.A_ALTSTEP.semanticallyEquals(at)) {
 			if (isSystem) {
 				return ((Def_Altstep) myDefinition).getSystemType(timestamp);
 			} else {
