@@ -2641,10 +2641,6 @@ public class MainController {
 			channel_table.remove(component.socket);
 			component.socket = null;
 			component.text_buf = null;
-			if (component.kill_timer != null) {
-				cancel_timer(component.kill_timer);
-				component.kill_timer = null;
-			}
 		}
 
 		if (component.kill_timer != null) {
@@ -3928,7 +3924,7 @@ public class MainController {
 			}
 		}
 
-		started_tc.cancel_done_sent_to = new RequestorStruct();
+		free_requestors(started_tc.cancel_done_sent_to);
 		started_tc.tc_state = tc_state_enum.PTC_FUNCTION;
 		status_change();
 	}
@@ -3952,7 +3948,7 @@ public class MainController {
 				}
 			}
 		}
-		tc.kill_requestors = new RequestorStruct();
+		free_requestors(tc.kill_requestors);
 	}
 
 	private void send_stop_ack_to_requestors(final ComponentStruct tc) {
@@ -3970,7 +3966,7 @@ public class MainController {
 				}
 			}
 		}
-		tc.stop_requestors = new RequestorStruct();
+		free_requestors(tc.stop_requestors);
 	}
 
 	private void check_all_component_stop() {
@@ -4985,7 +4981,6 @@ public class MainController {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		text_buf.cut_message();
 
 		final PortConnection conn = find_connection(tc.comp_ref, local_port, remote_component, remote_port);
 		if (conn != null) {
