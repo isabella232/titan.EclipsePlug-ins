@@ -3358,7 +3358,7 @@ public class MainController {
 					}
 				}
 			}
-			conn.requestors = new RequestorStruct();
+			free_requestors(conn.requestors);
 			conn.conn_state = conn_state_enum.CONN_MAPPED;
 			status_change();
 		}
@@ -3443,6 +3443,7 @@ public class MainController {
 			conn.conn_state = conn_state_enum.CONN_MAPPING;
 			add_connection(conn);
 			tc.tc_state = tc_state_enum.TC_MAP;
+			status_change();
 		} else {
 			switch (conn.conn_state) {
 			case CONN_MAPPING:
@@ -3924,6 +3925,7 @@ public class MainController {
 			}
 		}
 
+		started_tc.arg = null;
 		free_requestors(started_tc.cancel_done_sent_to);
 		started_tc.tc_state = tc_state_enum.PTC_FUNCTION;
 		status_change();
@@ -4599,7 +4601,7 @@ public class MainController {
 			}
 		}
 
-		conn.requestors = new RequestorStruct();
+		free_requestors(conn.requestors);
 	}
 
 	private void process_disconnect_req(final ComponentStruct tc) {
