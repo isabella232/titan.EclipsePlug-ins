@@ -671,6 +671,13 @@ public class MainController {
 
 			close_tc_connection(component);
 			remove_component_from_host(component);
+			// free_qualified_name(&comp->comp_type);
+			// free_qualified_name(&comp->tc_fn_name);
+			component.comp_name = null;
+			component.return_type = null;
+			component.return_value = null;
+			component.verdict_reason = null;
+
 			switch (component.tc_state) {
 			case TC_INITIAL:
 				component.location_str = null;
@@ -3923,6 +3930,7 @@ public class MainController {
 
 		started_tc.cancel_done_sent_to = new RequestorStruct();
 		started_tc.tc_state = tc_state_enum.PTC_FUNCTION;
+		status_change();
 	}
 
 	private void remove_requestor(final RequestorStruct reqs, final ComponentStruct tc) {
