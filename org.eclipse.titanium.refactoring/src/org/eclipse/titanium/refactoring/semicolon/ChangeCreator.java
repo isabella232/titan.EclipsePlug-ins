@@ -26,7 +26,6 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
@@ -45,8 +44,6 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Stop_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.While_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
-import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
-import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 
@@ -144,6 +141,9 @@ public class ChangeCreator {
 				final InputStream is =  toVisit.getContents();
 				final InputStreamReader isr = new InputStreamReader(is, toVisit.getCharset());
 				final int lenght = endoffset-offset;
+				if (lenght <= 0 ) {
+					continue;
+				}
 				final char[] content = new char[lenght];
 				isr.skip(offset);
 				isr.read(content);
@@ -152,20 +152,25 @@ public class ChangeCreator {
 					char a = (char)isr.read();
 					while (!Character.isAlphabetic(a) && !Character.isDigit(a) && a != ';' && a != ','&& a != '{' && a != '}' && a != ')') {
 						if (a == '/') {
-							char b = (char)isr.read();
-							if (b == '/') { // line comment
-								while (b != '\n') {
-									b = (char)isr.read();
+							while (a == '/') {
+								char b = (char)isr.read();
+								if (b == '/') { // line comment
+									while (b != '\n') {
+										b = (char)isr.read();
+									}
+								} else if (b == '*') {//block comment
+									while (a != '*' || b!= '/') {
+										a = b;
+										b = (char)isr.read();
+									}
 								}
-							} else if (b == '*') {//block comment
-								while (a != '*' || b!= '/') {
-									a = b;
-									b = (char)isr.read();
-								}
+								a = (char)isr.read();
 							}
+						} else {
+							a = (char)isr.read();
 						}
-						a = (char)isr.read();
 					}
+
 					if (a != ';' && a != ',' && a != '{'  && a != ')') {
 						locations.add(endoffset);
 						edit.addChild(new InsertEdit(endoffset, ";"));
@@ -245,25 +250,8 @@ class SemicolonVisitor extends ASTVisitor {
 				locations.add(def.getLocation());
 			}
 			//TypeSet mss = port.getInMessages();
-			TypeSet mss =  port.getInMessages();
-//			if (mss != null) {
-//				for (msg : mss) {
-//					
-//				}
-//			}
 			return V_CONTINUE;
-		} 
-		
-		if (node instanceof Def_Port) {
-			Def_Port p = (Def_Port) node;
-			locations.add(p.getLocation());
 		}
-		
-		if (node instanceof Port_Type) {
-			Port_Type p = (Port_Type) node;
-			locations.add(p.getLocation());
-		}
-		
 		return V_CONTINUE;
 	}
 
