@@ -318,7 +318,7 @@ public final class Unmap_Statement extends Statement {
 		}
 
 		if (system_port != null) {
-			formalParList = system_port.getMapParameters();
+			formalParList = system_port.getUnmapParameters();
 		} else {
 			getLocation().reportSemanticError("Cannot determine system component in `unmap' operation with `param' clause");
 		}
