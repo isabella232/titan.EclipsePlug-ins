@@ -774,7 +774,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		if (myDefinition == null) {
 			return null;
 		}
-		
+
 		Assignment_type at = myDefinition.getAssignmentType();
 
 		if (Assignment_type.A_TESTCASE.semanticallyEquals(at)) {
