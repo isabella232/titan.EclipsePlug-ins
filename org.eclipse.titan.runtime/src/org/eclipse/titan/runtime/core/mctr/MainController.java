@@ -5207,6 +5207,7 @@ public class MainController {
 			default:
 				send_error(tc.socket, MessageFormat.format("The port connection {0}:{1} - {2}:{3} cannot be established because no suitable transport mechanism is available on the corrensponding host(s).",
 						sourceComponent, sourcePort, destinationComponent, destinationPort));
+				remove_connection(conn);
 				return;
 			}
 			tc.tc_state = tc_state_enum.TC_CONNECT;
