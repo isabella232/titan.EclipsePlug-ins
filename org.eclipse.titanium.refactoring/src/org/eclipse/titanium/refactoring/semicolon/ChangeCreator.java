@@ -34,10 +34,8 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Alt_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.DoWhile_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.For_Statement;
-import org.eclipse.titan.designer.AST.TTCN3.statements.Function_Instance_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.If_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
-import org.eclipse.titan.designer.AST.TTCN3.statements.Testcase_Instance_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.TryCatch_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Applied_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Unknown_Instance_Statement;
@@ -143,6 +141,9 @@ public class ChangeCreator {
 				final InputStream is =  toVisit.getContents();
 				final InputStreamReader isr = new InputStreamReader(is, toVisit.getCharset());
 				final int lenght = endoffset-offset;
+				if (lenght <= 0 ) {
+					continue;
+				}
 				final char[] content = new char[lenght];
 				isr.skip(offset);
 				isr.read(content);
@@ -151,20 +152,25 @@ public class ChangeCreator {
 					char a = (char)isr.read();
 					while (!Character.isAlphabetic(a) && !Character.isDigit(a) && a != ';' && a != ','&& a != '{' && a != '}' && a != ')') {
 						if (a == '/') {
-							char b = (char)isr.read();
-							if (b == '/') { // line comment
-								while (b != '\n') {
-									b = (char)isr.read();
+							while (a == '/') {
+								char b = (char)isr.read();
+								if (b == '/') { // line comment
+									while (b != '\n') {
+										b = (char)isr.read();
+									}
+								} else if (b == '*') {//block comment
+									while (a != '*' || b!= '/') {
+										a = b;
+										b = (char)isr.read();
+									}
 								}
-							} else if (b == '*') {//block comment
-								while (a != '*' || b!= '/') {
-									a = b;
-									b = (char)isr.read();
-								}
+								a = (char)isr.read();
 							}
+						} else {
+							a = (char)isr.read();
 						}
-						a = (char)isr.read();
 					}
+
 					if (a != ';' && a != ',' && a != '{'  && a != ')') {
 						locations.add(endoffset);
 						edit.addChild(new InsertEdit(endoffset, ";"));
@@ -252,8 +258,6 @@ class SemicolonVisitor extends ASTVisitor {
 	private boolean isGoodType(final IVisitableNode node) {
 		return (node instanceof Statement
 				&& !(node instanceof If_Statement)
-				&& !(node instanceof Testcase_Instance_Statement)
-				&& !(node instanceof Function_Instance_Statement)
 				&& !(node instanceof TryCatch_Statement)
 				&& !(node instanceof For_Statement)
 				&& !(node instanceof While_Statement)
