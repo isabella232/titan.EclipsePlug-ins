@@ -55,7 +55,7 @@ import org.eclipse.titan.runtime.core.TtcnError;
 
 public class MainController {
 
-	// TODO Use the messages from the TTCN_Communication class
+	// TODO As these are shared with the TTCN_Communication class maybe they could be extracted
 	/* Any relation - any direction */
 
 	private static final int MSG_ERROR = 0;
