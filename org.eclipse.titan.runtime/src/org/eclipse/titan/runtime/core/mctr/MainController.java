@@ -3513,6 +3513,7 @@ public class MainController {
 					send_kill_ack(mtc);
 				} else {
 					mtc.tc_state = tc_state_enum.MTC_ALL_COMPONENT_KILL;
+					status_change();
 				}
 			} else {
 				send_error(tc.socket, "Operation 'all component.kill' can only be performed on the MTC.");
@@ -3538,7 +3539,7 @@ public class MainController {
 		case PTC_STOPPED:
 			// the done status of this PTC is already sent out
 			// and it will not be cancelled in the future
-			target.done_requestors = new RequestorStruct();
+			free_requestors(target.done_requestors);
 			// no break
 		case TC_IDLE:
 			target_inactive = true;
@@ -4441,7 +4442,6 @@ public class MainController {
 				ready_for_ack = false;
 				break;
 			case PTC_STARTING:
-				tc.cancel_done_sent_to = new RequestorStruct();
 				free_requestors(tc.cancel_done_sent_to);
 				// no break
 			case TC_IDLE:
@@ -4798,7 +4798,7 @@ public class MainController {
 				any_component_done_sent = false;
 				add_requestor(target.cancel_done_sent_to, mtc);
 			}
-			target.done_requestors = new RequestorStruct();
+			free_requestors(target.done_requestors);
 		}
 		if (send_cancel_done) {
 			for (int i = 0;; i++) {
@@ -4848,7 +4848,7 @@ public class MainController {
 		text_buf.push_int(MSG_CANCEL_DONE);
 		text_buf.push_int(component_reference);
 
-		send_message(mtc.socket, text_buf);
+		send_message(comp.socket, text_buf);
 	}
 
 	private void send_cancel_done_mtc(final int component_reference, final boolean cancel_any_component_done) {
