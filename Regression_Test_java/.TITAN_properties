@@ -150,13 +150,6 @@
       </FolderProperties>
     </FolderResource>
     <FolderResource>
-      <FolderPath>src/map_param</FolderPath>
-      <FolderProperties>
-        <CentralStorage>false</CentralStorage>
-        <ExcludeFromBuild>true</ExcludeFromBuild>
-      </FolderProperties>
-    </FolderResource>
-    <FolderResource>
       <FolderPath>src/templateRec</FolderPath>
       <FolderProperties>
         <CentralStorage>false</CentralStorage>
