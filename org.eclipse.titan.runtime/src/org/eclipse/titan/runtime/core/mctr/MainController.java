@@ -5745,6 +5745,9 @@ public class MainController {
 		}
 
 		mtc.local_verdict = VerdictTypeEnum.NONE;
+		mtc.comp_type = new QualifiedName("", "");
+		mtc.tc_fn_name = new QualifiedName("", "");
+		system.comp_type = new QualifiedName("", "");
 	}
 
 	private void send_ptc_verdict(final boolean continue_execution) {
