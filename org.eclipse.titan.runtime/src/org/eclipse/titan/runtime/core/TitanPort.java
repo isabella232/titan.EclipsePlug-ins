@@ -154,6 +154,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		private void init(final int nof_params) {
 			this.nof_params = nof_params;
 			this.params = new ArrayList<TitanCharString>(nof_params);
+			TitanCharString tmp = new TitanCharString("");
+			for (int i = 0; i < nof_params; i++) {
+				params.add(i, tmp);
+			}
 		}
 
 		private void clear() {
