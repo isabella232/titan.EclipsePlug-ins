@@ -3358,7 +3358,7 @@ public class MainController {
 					}
 				}
 			}
-			conn.requestors = new RequestorStruct();
+			free_requestors(conn.requestors);
 			conn.conn_state = conn_state_enum.CONN_MAPPED;
 			status_change();
 		}
@@ -3443,6 +3443,7 @@ public class MainController {
 			conn.conn_state = conn_state_enum.CONN_MAPPING;
 			add_connection(conn);
 			tc.tc_state = tc_state_enum.TC_MAP;
+			status_change();
 		} else {
 			switch (conn.conn_state) {
 			case CONN_MAPPING:
@@ -3924,6 +3925,7 @@ public class MainController {
 			}
 		}
 
+		started_tc.arg = null;
 		free_requestors(started_tc.cancel_done_sent_to);
 		started_tc.tc_state = tc_state_enum.PTC_FUNCTION;
 		status_change();
@@ -4389,6 +4391,8 @@ public class MainController {
 				break;
 			case PTC_STARTING:
 				// do nothing, just put it back to STOPPED state
+				tc.tc_fn_name = new QualifiedName("", "");
+				tc.arg = null;
 				free_requestors(tc.cancel_done_sent_to);
 				tc.tc_state = tc_state_enum.PTC_STOPPED;
 				break;
@@ -4446,6 +4450,8 @@ public class MainController {
 				ready_for_ack = false;
 				break;
 			case PTC_STARTING:
+				tc.tc_fn_name =  new QualifiedName("", "");
+				tc.arg = null;
 				free_requestors(tc.cancel_done_sent_to);
 				// no break
 			case TC_IDLE:
@@ -4576,6 +4582,8 @@ public class MainController {
 				error(MessageFormat.format("The port connection {0}:{1} - {2}:{3} is in invalid state when MC was notified about its termination.", tc.comp_ref, sourcePort, remoteComponent, remotePort));
 			}
 		}
+
+		status_change();
 	}
 
 	private void send_disconnect_ack_to_requestors(final PortConnection conn) {
@@ -4593,7 +4601,7 @@ public class MainController {
 			}
 		}
 
-		conn.requestors = new RequestorStruct();
+		free_requestors(conn.requestors);
 	}
 
 	private void process_disconnect_req(final ComponentStruct tc) {
