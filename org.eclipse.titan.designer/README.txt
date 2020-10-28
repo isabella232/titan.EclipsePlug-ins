@@ -32,3 +32,5 @@ After antlr4ide is set up properly the automatic build should be able to compile
 
 In some cases the first compilation happens in a wrong order.
 To correct it just clear the whole project and let the automatic build try again from zero.
+
+See also https://www.eclipse.org/forums/index.php/t/1074653/
