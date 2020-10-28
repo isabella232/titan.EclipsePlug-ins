@@ -14,7 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
-import org.eclipse.titan.runtime.core.cfgparser.StandardCharsets;
 
 /**
  * Buffer used by the different encoders/decoders.
