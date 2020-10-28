@@ -5481,12 +5481,10 @@ public final class AdditionalFunctions {
 				}
 			} else if (p_b64_b64Pos == '=') {
 				break;
+			} else if (p_b64_b64Pos == '\r' && p_b64[b64Pos + 1] == '\n') {
+				b64Pos++; // skip \n too
 			} else {
-				if (p_b64_b64Pos == '\r' && p_b64[b64Pos + 1] == '\n') {
-					b64Pos++; // skip \n too
-				} else {
-					throw new TtcnError(String.format("Error: Invalid character in Base64 encoded data: 0x%02X", p_b64_b64Pos));
-				}
+				throw new TtcnError(String.format("Error: Invalid character in Base64 encoded data: 0x%02X", p_b64_b64Pos));
 			}
 
 			b64Pos++;
