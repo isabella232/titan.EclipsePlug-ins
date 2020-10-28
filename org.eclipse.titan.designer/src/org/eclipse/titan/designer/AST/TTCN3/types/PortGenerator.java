@@ -974,6 +974,8 @@ public final class PortGenerator {
 				//when the definition is referred from another module
 				// the reference shall be qualified with the namespace of my module
 				returnValue.append(myModule.getName()).append('.');
+
+				aData.addInterModuleImport(myModule.getName());
 			}
 
 			returnValue.append(portDefinition.javaName);
@@ -989,6 +991,8 @@ public final class PortGenerator {
 						//when the definition is referred from another module
 						// the reference shall be qualified with the namespace of my module
 						returnValue.append(myModule.getName()).append('.');
+
+						aData.addInterModuleImport(myModule.getName());
 					}
 
 					returnValue.append(portDefinition.javaName);
