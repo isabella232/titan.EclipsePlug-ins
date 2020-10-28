@@ -1846,7 +1846,7 @@ public class MainController {
 		new_ptc.verdict_reason = null;
 		new_ptc.socket = null;
 		new_ptc.text_buf = null;
-		// FIXME init_qualified_name
+		new_ptc.tc_fn_name = new QualifiedName("", "");
 		new_ptc.return_type = null;
 		new_ptc.return_value = null;
 		new_ptc.is_alive = (isAlive == 1);
