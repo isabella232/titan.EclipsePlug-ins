@@ -419,6 +419,7 @@ public final class TTCN_Buffer {
 		final int n_chars = p_cs.lengthof().get_int();
 		if (n_chars > 0) { // there is something in the CHARSTRING
 			final StringBuilder temp = p_cs.get_value();
+			//TODO could we save on the checks of charAt below, by first using getChars and indexing its result?
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(n_chars);
 
