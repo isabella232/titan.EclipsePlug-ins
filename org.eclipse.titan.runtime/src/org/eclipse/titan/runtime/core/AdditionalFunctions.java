@@ -5470,21 +5470,22 @@ public final class AdditionalFunctions {
 
 		while (chars_left > 0) {
 			chars_left--;
-			if (p_b64[b64Pos] > 0 && decode_table[p_b64[b64Pos]] < 64) {
+			final byte p_b64_b64Pos = p_b64[b64Pos];
+			if (p_b64_b64Pos > 0 && decode_table[p_b64_b64Pos] < 64) {
 				bits <<= 6;
-				bits |= decode_table[p_b64[b64Pos]];
+				bits |= decode_table[p_b64_b64Pos];
 				n_bits += 6;
 				if (n_bits >= 8) {
 					output[outpotPos++] = (byte)(( bits >> (n_bits - 8)) & 0xff);
 					n_bits -= 8;
 				}
-			} else if (p_b64[b64Pos] == '=') {
+			} else if (p_b64_b64Pos == '=') {
 				break;
 			} else {
-				if (p_b64[b64Pos] == '\r' && p_b64[b64Pos + 1] == '\n') {
+				if (p_b64_b64Pos == '\r' && p_b64[b64Pos + 1] == '\n') {
 					b64Pos++; // skip \n too
 				} else {
-					throw new TtcnError(String.format("Error: Invalid character in Base64 encoded data: 0x%02X", p_b64[b64Pos]));
+					throw new TtcnError(String.format("Error: Invalid character in Base64 encoded data: 0x%02X", p_b64_b64Pos));
 				}
 			}
 
