@@ -1570,10 +1570,9 @@ public class MainController {
 				} else {
 					error(MessageFormat.format("Unexpected end of HC connection from {0} [{1}].",
 							hc.hostname, hc.ip_address.getHostAddress()));
+					error_flag = true;
 				}
 			}
-
-			error_flag = true;
 		} else {
 			error(MessageFormat.format("Receiving of data failed on HC connection from {0} [{1}].",
 					hc.hostname, hc.ip_address.getHostAddress()));
