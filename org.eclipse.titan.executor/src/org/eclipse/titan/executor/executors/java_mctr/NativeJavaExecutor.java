@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.cfg.CfgLexer;
 import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.executor.Activator;
 import org.eclipse.titan.executor.GeneralConstants;
 import org.eclipse.titan.executor.TITANConsole;
@@ -99,12 +98,10 @@ public class NativeJavaExecutor extends BaseExecutor {
 
 		@Override
 		public void initialize() {
-			TITANDebugConsole.println("NativeJavaUI.initialize called");
 		}
 
 		@Override
 		public int enterLoop(final String[] args) {
-			TITANDebugConsole.println("NativeJavaUI.enterLoop called");
 			return 0;
 		}
 
@@ -115,7 +112,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 
 		@Override
 		public void error(final int severity, final String message) {
-			TITANDebugConsole.println("NativeJavaUI.error called");
 		}
 
 		@Override
@@ -125,7 +121,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 
 		@Override
 		public void executeBatchFile(final String filename) {
-			TITANDebugConsole.println("NativeJavaUI.executeBatchFile called");
 		}
 	}
 
@@ -251,7 +246,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 		NativeJavaUI tempUI = new NativeJavaUI(this);
 		mainController = new MainController();
 		mainController.initialize(tempUI, 1500);// mx_ptcs
-		TITANDebugConsole.println("initialize called");
 
 		setRunning(true);
 
@@ -473,7 +467,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * Handles a status change reported by the MainController.
 	 * */
 	public void statusChangeCallback() {
-		TITANDebugConsole.println("statusChangeCallback called");
 		final MainController.mcStateEnum state = mainController.get_state();
 		switch (state) {
 		case MC_LISTENING:
@@ -658,7 +651,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * They are also started if no HostControler was connected.
 	 * */
 	private void configure() {
-		TITANDebugConsole.println("configure called");
 		configureRequested = true;
 		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_HC_CONNECTED != state && MainController.mcStateEnum.MC_ACTIVE != state) {
@@ -678,7 +670,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * creating the MainTestComponent.
 	 * */
 	private void createMTC() {
-		TITANDebugConsole.println("createMTC called");
 		createMTCRequested = true;
 		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_ACTIVE != state) {
@@ -705,7 +696,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 *                step-by-step.
 	 * */
 	private void startTest(final boolean automaticExecution) {
-		TITANDebugConsole.println("startTest called");
 		boolean invalidSelection = false;
 		do {
 			if (automaticExecution && configFilePath != null && configFilePath.length() != 0 && !invalidSelection) {
@@ -805,7 +795,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * Also creates the MainTestComponent if needed.
 	 * */
 	private void executeNextTest() {
-		TITANDebugConsole.println("executeNextTest called");
 		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_READY != state) {
 			createMTC();
@@ -840,7 +829,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * Also stops the execution if it was not done yet.
 	 * */
 	private void exitMTC() {
-		TITANDebugConsole.println("exitMTC called");
 		final MainController.mcStateEnum state = mainController.get_state();
 		if (MainController.mcStateEnum.MC_EXECUTING_CONTROL == state || MainController.mcStateEnum.MC_EXECUTING_TESTCASE == state
 				|| MainController.mcStateEnum.MC_PAUSED == state) {
@@ -862,7 +850,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * */
 	@Override
 	protected void shutdownSession() {
-		TITANDebugConsole.println("shutdownSession called");
 		shutdownRequested = true;
 		simpleExecutionRunning = false;
 		final MainController.mcStateEnum state = mainController.get_state();
@@ -967,7 +954,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * This function changes the status of the user interface elements.
 	 */
 	private void updateGUI() {
-		TITANDebugConsole.println("updateGUI called");
 		final MainController.mcStateEnum stateValue = mainController.get_state();
 
 		automaticExecution.setEnabled(!isTerminated && executeList.isEmpty());
@@ -1023,7 +1009,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 
 	@Override
 	public void terminate(final boolean external) {
-		TITANDebugConsole.println("terminate called");
 		final MainController.mcStateEnum state = mainController.get_state();
 
 		if (MainController.mcStateEnum.MC_INACTIVE == state) {
