@@ -905,8 +905,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 			tempHost = new HostControllerElement("Host Controller: ");
 			tempRoot.addHostController(tempHost);
 			tempHost.setIPAddressInfo(new InformationElement("IP address: " + host.hostname));
-			//FIXME add support for ip_addr
-			//tempHost.setIPNumberInfo(new InformationElement("IP number: " + host.ip_addr));
+			tempHost.setIPNumberInfo(new InformationElement("IP number: " + host.ip_address.getHostAddress()));
 			tempHost.setHostNameInfo(new InformationElement("Local host name:" + host.hostname_local));
 
 			tempHost.setOperatingSystemInfo(new InformationElement(host.system_name + " " + host.system_release + " " + host.system_version));
