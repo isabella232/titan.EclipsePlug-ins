@@ -342,16 +342,19 @@ public final class TTCN_Communication {
 		if (!mc_addr_set) {
 			throw new TtcnError("Trying to connect to MC, but the address of MC has not yet been set.");
 		}
-		mc_socketchannel.set(hcnh.connect_to_mc());
-		if (mc_socketchannel.get() == null) {
+
+		final SocketChannel newChannel = hcnh.connect_to_mc();
+		mc_socketchannel.set(newChannel);
+		if (newChannel == null) {
 			throw new TtcnError(MessageFormat.format("Connecting to MC failed. MC address: {0}:{1,number,#} \r\n", hcnh.get_mc_addr_str(), hcnh.get_mc_port()));
 		}
 		//FIXME register
-		mc_connection.set(new MC_Connection(mc_socketchannel.get(), incoming_buf.get()));
+		final MC_Connection newMCConnection = new MC_Connection(newChannel, incoming_buf.get());
+		mc_connection.set(newMCConnection);
 		try {
-			mc_socketchannel.get().configureBlocking(false);
-			TTCN_Snapshot.channelMap.get().put(mc_socketchannel.get(), mc_connection.get());
-			mc_socketchannel.get().register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
+			newChannel.configureBlocking(false);
+			TTCN_Snapshot.channelMap.get().put(newChannel, newMCConnection);
+			newChannel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 		} catch (IOException e) {
 			throw new TtcnError(e);
 		}
