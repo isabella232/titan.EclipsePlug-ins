@@ -629,7 +629,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static int ptc_main() {
-		//FIXME implement rest
+		//FIXME implement logger plugin loading
 		int returnValue = 0;
 
 		TTCN_Logger.open_file();
