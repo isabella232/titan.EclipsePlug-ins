@@ -268,7 +268,7 @@ public class MainController {
 
 	/** Data structure for each host (and the corresponding HC) */
 	public static class Host {
-		InetAddress ip_address;
+		public InetAddress ip_address;
 		public String hostname;
 		public String hostname_local;
 		String machine_type;
