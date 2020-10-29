@@ -830,8 +830,9 @@ public class MainController {
 	}
 
 	private void wakeup_thread(final wakeup_reason_t reason) {
-		//FIXME do we need pipe?
+		//we don't need the pipe s we can wakeup the selector.
 		wakeup_reason = reason;
+		mc_selector.wakeup();
 	}
 
 	private void handle_incoming_connection(final ServerSocketChannel channel) {
