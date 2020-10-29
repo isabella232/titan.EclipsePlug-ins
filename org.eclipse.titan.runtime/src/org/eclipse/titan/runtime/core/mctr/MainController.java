@@ -671,8 +671,8 @@ public class MainController {
 
 			close_tc_connection(component);
 			remove_component_from_host(component);
-			// free_qualified_name(&comp->comp_type);
-			// free_qualified_name(&comp->tc_fn_name);
+			component.comp_type = new QualifiedName("", "");
+			component.tc_fn_name = new QualifiedName("", "");
 			component.comp_name = null;
 			component.return_type = null;
 			component.return_value = null;
