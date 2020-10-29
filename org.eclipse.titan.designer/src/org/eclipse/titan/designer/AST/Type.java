@@ -2811,6 +2811,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final boolean dummyRaw = rawAttribute == null;
 		if (dummyRaw) {
+			// TODO as the attributes should not be changed in runtime, maybe generating code that references some object with default setting could make compilation faster.
 			rawAttribute = new RawAST(getDefaultRawFieldLength());
 		}
 		if (rawAttribute.intX) {
