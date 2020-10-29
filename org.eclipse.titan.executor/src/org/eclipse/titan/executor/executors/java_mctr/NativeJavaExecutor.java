@@ -150,7 +150,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 			@Override
 			public void run() {
 				initialization();
-				updateGUI();// FIXME temp only for debugging
 			}
 		};
 		startSession.setToolTipText("Start session");
