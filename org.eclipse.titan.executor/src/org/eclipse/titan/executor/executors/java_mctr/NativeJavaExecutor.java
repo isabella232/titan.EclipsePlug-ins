@@ -480,10 +480,6 @@ public class NativeJavaExecutor extends BaseExecutor {
 		case MC_LISTENING_CONFIGURED:
 			break;
 		case MC_HC_CONNECTED:
-			// FIXME per pillanat amig nem megy a get_host_data, feltetelezem, hogy NumHCs() == 1
-			// if(!McStateEnum.MC_CONFIGURING.equals(previousState) &&
-			// configHandler2.NumHCs() > 0){
-			// HostStruct host = jnimw.get_host_data(configHandler2.NumHCs() - 1);
 			if (shutdownRequested) {
 				shutdownSession();
 			} else if (configureRequested) {
