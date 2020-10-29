@@ -1562,7 +1562,7 @@ public class MainController {
 			if (error_flag) {
 				send_error_str(hc.socket, "The received message was not understood by the MC.");
 			}
-		} else if (recv_len == 0) {
+		} else if (recv_len == -1) {
 			if (hc.hc_state == hc_state_enum.HC_EXITING) {
 				close_hc_connection(hc);
 				if (mc_state == mcStateEnum.MC_SHUTDOWN && all_hc_in_state(hc_state_enum.HC_DOWN)) {
