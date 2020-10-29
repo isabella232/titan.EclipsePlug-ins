@@ -3027,7 +3027,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final boolean as_map = (jsonAttribute != null && jsonAttribute.as_map) || 
 				(ownerType == TypeOwner_type.OT_RECORD_OF && parentType.getJsonAttribute() != null && parentType.getJsonAttribute().as_map);
 
-		if (jsonAttribute == null) { 
+		if (jsonAttribute == null) {
+			// TODO as the attributes should not be changed in runtime, maybe generating code that references some object with default setting could make compilation faster.
 			JSON_value.append(MessageFormat.format("false, null, false, null, false, false, {0}, 0, null, false, json_string_escaping.ESCAPE_AS_SHORT)", as_map ? "true": "false"));
 		} else {
 			String enum_texts_name = null;
