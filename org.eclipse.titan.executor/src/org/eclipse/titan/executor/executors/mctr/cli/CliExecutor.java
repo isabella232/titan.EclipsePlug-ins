@@ -51,7 +51,6 @@ import org.eclipse.titan.executor.TITANDebugConsole;
 import org.eclipse.titan.executor.designerconnection.EnvironmentHelper;
 import org.eclipse.titan.executor.executors.BaseExecutor;
 import org.eclipse.titan.executor.executors.ExecuteDialog;
-import org.eclipse.titan.executor.executors.jni.JniExecutor;
 import org.eclipse.titan.executor.preferences.PreferenceConstants;
 import org.eclipse.titan.executor.properties.FieldEditorPropertyPage;
 import org.eclipse.titan.executor.views.executormonitor.ComponentElement;
@@ -61,6 +60,8 @@ import org.eclipse.titan.executor.views.executormonitor.MainControllerElement;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.titan.executor.views.testexecution.TestExecutionView;
+import org.eclipse.titan.runtime.core.mctr.MainController;
+import org.eclipse.titan.runtime.core.mctr.MainController.mcStateEnum;
 
 /**
  * This executor handles the execution of tests compiled in a parallel mode, connecting to the MainController via command line.
@@ -76,7 +77,7 @@ public final class CliExecutor extends BaseExecutor {
 	private int fastOffset;
 	private boolean simpleExecutionRunning = false;
 	private boolean running = false;
-	private int suspectedLastState;
+	private MainController.mcStateEnum suspectedLastState;
 
 	private BackgroundThread thread;
 
@@ -148,7 +149,7 @@ public final class CliExecutor extends BaseExecutor {
 
 
 		running = true;
-		suspectedLastState = JniExecutor.MC_INACTIVE;
+		suspectedLastState = mcStateEnum.MC_INACTIVE;
 
 		createActions();
 
@@ -440,9 +441,9 @@ public final class CliExecutor extends BaseExecutor {
 	private void createMainTestComponent() {
 		createMTCRequested = true;
 		switch (suspectedLastState) {
-		case JniExecutor.MC_INACTIVE:
-		case JniExecutor.MC_LISTENING:
-		case JniExecutor.MC_LISTENING_CONFIGURED:
+		case MC_INACTIVE:
+		case MC_LISTENING:
+		case MC_LISTENING_CONFIGURED:
 			startHostControllers();
 			return;
 		default:
@@ -477,7 +478,7 @@ public final class CliExecutor extends BaseExecutor {
 				executeList.add("smtc \n");
 				executeRequested = true;
 
-				if (JniExecutor.MC_READY == suspectedLastState) {
+				if (mcStateEnum.MC_READY == suspectedLastState) {
 					executeNextTestElement();
 				} else {
 					createMainTestComponent();
@@ -562,7 +563,7 @@ public final class CliExecutor extends BaseExecutor {
 
 				executionStarted = true;
 
-				if (JniExecutor.MC_READY == suspectedLastState) {
+				if (mcStateEnum.MC_READY == suspectedLastState) {
 					executeNextTestElement();
 				} else {
 					createMainTestComponent();
@@ -577,7 +578,7 @@ public final class CliExecutor extends BaseExecutor {
 	 * Executes the next testcase or control part whose name is stored in the execute list.
 	 * */
 	private void executeNextTestElement() {
-		if (JniExecutor.MC_READY != suspectedLastState) {
+		if (mcStateEnum.MC_READY != suspectedLastState) {
 			createMainTestComponent();
 			return;
 		}
@@ -589,7 +590,7 @@ public final class CliExecutor extends BaseExecutor {
 		final IStreamsProxy proxy = process.getStreamsProxy();
 		if (proxy != null) {
 			try {
-				suspectedLastState = JniExecutor.MC_EXECUTING_TESTCASE;
+				suspectedLastState = mcStateEnum.MC_EXECUTING_TESTCASE;
 				proxy.write(testElement);
 				if ("smtc \n".equals(testElement)) {
 					executingConfigFile = true;
@@ -650,10 +651,10 @@ public final class CliExecutor extends BaseExecutor {
 	protected void shutdownSession() {
 		shutdownRequested = true;
 		switch (suspectedLastState) {
-		case JniExecutor.MC_LISTENING:
-		case JniExecutor.MC_LISTENING_CONFIGURED:
-		case JniExecutor.MC_HC_CONNECTED:
-		case JniExecutor.MC_ACTIVE:
+		case MC_LISTENING:
+		case MC_LISTENING_CONFIGURED:
+		case MC_HC_CONNECTED:
+		case MC_ACTIVE:
 			exit();
 			disposeHostControllers();
 			shutdownRequested = false;
@@ -865,7 +866,7 @@ public final class CliExecutor extends BaseExecutor {
 					consoleTimeStampLength = m.group(1).length();
 					mcHost = m.group(3);
 					mcPort = m.group(4);
-					suspectedLastState = JniExecutor.MC_LISTENING;
+					suspectedLastState = mcStateEnum.MC_LISTENING;
 					if ( consoleTimeStampLength < line.length() ){
 						line = line.substring(consoleTimeStampLength);
 					}
@@ -876,7 +877,7 @@ public final class CliExecutor extends BaseExecutor {
 						consoleTimeStampLength = m.group(1).length();
 						mcHost = m.group(4);
 						mcPort = m.group(5);
-						suspectedLastState = JniExecutor.MC_LISTENING;
+						suspectedLastState = mcStateEnum.MC_LISTENING;
 						if ( consoleTimeStampLength < line.length() ){
 							line = line.substring(consoleTimeStampLength);
 						}
@@ -884,7 +885,7 @@ public final class CliExecutor extends BaseExecutor {
 						m = ERROR_STARTUP_PATTERN.matcher(line);
 						if (m.matches()) {
 							started = true;
-							suspectedLastState = JniExecutor.MC_LISTENING;
+							suspectedLastState = mcStateEnum.MC_LISTENING;
 						} else {
 							line = stdout.readLine();
 							continue;
@@ -986,28 +987,28 @@ public final class CliExecutor extends BaseExecutor {
 						thread = null;
 					}
 				} else if (hcConnectedMatcher.reset(shortversion).matches()) {
-					suspectedLastState = JniExecutor.MC_HC_CONNECTED;
+					suspectedLastState = mcStateEnum.MC_HC_CONNECTED;
 				} else if (MTC_CREATED.equals(shortversion)) {
-					suspectedLastState = JniExecutor.MC_READY;
+					suspectedLastState = mcStateEnum.MC_READY;
 				} else if (TEST_EXECUTION_FINISHED.equals(shortversion)) {
 					if (!executingConfigFile) {
-						suspectedLastState = JniExecutor.MC_READY;
+						suspectedLastState = mcStateEnum.MC_READY;
 					}
 				} else if (EXECUTE_SECTION_FINISHED.equals(shortversion)) {
-					suspectedLastState = JniExecutor.MC_READY;
+					suspectedLastState = mcStateEnum.MC_READY;
 					executingConfigFile = false;
 				} else if (TERMINATING_MTC.equals(shortversion)) {
-					suspectedLastState = JniExecutor.MC_TERMINATING_MTC;
+					suspectedLastState = mcStateEnum.MC_TERMINATING_MTC;
 				} else if (MTC_TERMINATED.equals(shortversion)) {
-					suspectedLastState = JniExecutor.MC_ACTIVE;
+					suspectedLastState = mcStateEnum.MC_ACTIVE;
 				} else if (successfulStartUpMatcher.reset(fastLine).matches()) {
 					mcHost = successfulStartUpMatcher.group(2);
 					mcPort = successfulStartUpMatcher.group(3);
-					suspectedLastState = JniExecutor.MC_LISTENING;
+					suspectedLastState = mcStateEnum.MC_LISTENING;
 				} else if (fullSuccessfulStartUpMatcher.reset(shortversion).matches()) {
 					mcHost = fullSuccessfulStartUpMatcher.group(1);
 					mcPort = fullSuccessfulStartUpMatcher.group(2);
-					suspectedLastState = JniExecutor.MC_LISTENING;
+					suspectedLastState = mcStateEnum.MC_LISTENING;
 				}
 			} else if (	consoleTimeStampLength < fastLine.length() && fastLine.substring(consoleTimeStampLength).startsWith("HC@")) {
 				fastLine = fastLine.substring(consoleTimeStampLength);
@@ -1078,23 +1079,23 @@ public final class CliExecutor extends BaseExecutor {
 	 * */
 	private void statusChangeHandler() {
 		switch (suspectedLastState) {
-		case JniExecutor.MC_LISTENING:
-		case JniExecutor.MC_LISTENING_CONFIGURED:
+		case MC_LISTENING:
+		case MC_LISTENING_CONFIGURED:
 			if (automaticExecuteSectionExecution) {
 				automaticExecuteSectionExecution = false;
 				simpleExecutionRunning = true;
 				startExecution(true);
 			}
 			break;
-		case JniExecutor.MC_HC_CONNECTED:
-		case JniExecutor.MC_ACTIVE:
+		case MC_HC_CONNECTED:
+		case MC_ACTIVE:
 			if (createMTCRequested) {
 				createMainTestComponent();
 			} else if (shutdownRequested) {
 				shutdownSession();
 			}
 			break;
-		case JniExecutor.MC_READY:
+		case MC_READY:
 			if (executeList.isEmpty()) {
 				executeRequested = false;
 			}
@@ -1104,10 +1105,10 @@ public final class CliExecutor extends BaseExecutor {
 				shutdownSession();
 			}
 			break;
-		case JniExecutor.MC_INACTIVE:
+		case MC_INACTIVE:
 			shutdownRequested = false;
 			break;
-		case JniExecutor.MC_SHUTDOWN:
+		case MC_SHUTDOWN:
 			break;
 		default:
 			break;
@@ -1121,11 +1122,11 @@ public final class CliExecutor extends BaseExecutor {
 	 * */
 	private void updateUI() {
 		if (startHC != null) {
-			startHC.setEnabled(JniExecutor.MC_LISTENING == suspectedLastState || JniExecutor.MC_LISTENING_CONFIGURED == suspectedLastState);
-			cmtc.setEnabled(JniExecutor.MC_LISTENING == suspectedLastState || JniExecutor.MC_LISTENING_CONFIGURED == suspectedLastState
-					|| JniExecutor.MC_HC_CONNECTED == suspectedLastState || JniExecutor.MC_ACTIVE == suspectedLastState);
-			smtc.setEnabled(JniExecutor.MC_READY == suspectedLastState);
-			emtc.setEnabled(JniExecutor.MC_READY == suspectedLastState);
+			startHC.setEnabled(mcStateEnum.MC_LISTENING == suspectedLastState || mcStateEnum.MC_LISTENING_CONFIGURED == suspectedLastState);
+			cmtc.setEnabled(mcStateEnum.MC_LISTENING == suspectedLastState || mcStateEnum.MC_LISTENING_CONFIGURED == suspectedLastState
+					|| mcStateEnum.MC_HC_CONNECTED == suspectedLastState || mcStateEnum.MC_ACTIVE == suspectedLastState);
+			smtc.setEnabled(mcStateEnum.MC_READY == suspectedLastState);
+			emtc.setEnabled(mcStateEnum.MC_READY == suspectedLastState);
 		}
 	}
 
@@ -1165,38 +1166,38 @@ public final class CliExecutor extends BaseExecutor {
 	 * @param mcStateName the name of the Main Controller state
 	 * @return the state flag correspondent to the state name, Ready by default.
 	 * */
-	private static int getMCStateFromName(final String mcStateName) {
+	private static mcStateEnum getMCStateFromName(final String mcStateName) {
 		if ("inactive".equals(mcStateName)) {
-			return JniExecutor.MC_INACTIVE;
+			return mcStateEnum.MC_INACTIVE;
 		} else if ("listening".equals(mcStateName)) {
-			return JniExecutor.MC_LISTENING;
+			return mcStateEnum.MC_LISTENING;
 		} else if ("listening (configured)".equals(mcStateName)) {
-			return JniExecutor.MC_LISTENING_CONFIGURED;
+			return mcStateEnum.MC_LISTENING_CONFIGURED;
 		} else if ("HC connected".equals(mcStateName)) {
-			return JniExecutor.MC_HC_CONNECTED;
+			return mcStateEnum.MC_HC_CONNECTED;
 		} else if ("configuring...".equals(mcStateName)) {
-			return JniExecutor.MC_CONFIGURING;
+			return mcStateEnum.MC_CONFIGURING;
 		} else if ("active".equals(mcStateName)) {
-			return JniExecutor.MC_ACTIVE;
+			return mcStateEnum.MC_ACTIVE;
 		} else if ("creating MTC...".equals(mcStateName)) {
-			return JniExecutor.MC_CREATING_MTC;
+			return mcStateEnum.MC_CREATING_MTC;
 		} else if ("terminating MTC...".equals(mcStateName)) {
-			return JniExecutor.MC_TERMINATING_MTC;
+			return mcStateEnum.MC_TERMINATING_MTC;
 		} else if ("ready".equals(mcStateName)) {
-			return JniExecutor.MC_READY;
+			return mcStateEnum.MC_READY;
 		} else if ("executing control part".equals(mcStateName)) {
-			return JniExecutor.MC_EXECUTING_CONTROL;
+			return mcStateEnum.MC_EXECUTING_CONTROL;
 		} else if ("executing testcase".equals(mcStateName)) {
-			return JniExecutor.MC_EXECUTING_TESTCASE;
+			return mcStateEnum.MC_EXECUTING_TESTCASE;
 		} else if ("terminating testcase...".equals(mcStateName)) {
-			return JniExecutor.MC_TERMINATING_TESTCASE;
+			return mcStateEnum.MC_TERMINATING_TESTCASE;
 		} else if ("paused after testcase".equals(mcStateName)) {
-			return JniExecutor.MC_PAUSED;
+			return mcStateEnum.MC_PAUSED;
 		} else if ("shutting down...".equals(mcStateName)) {
-			return JniExecutor.MC_SHUTDOWN;
+			return mcStateEnum.MC_SHUTDOWN;
 		}
 
-		return JniExecutor.MC_READY;
+		return mcStateEnum.MC_READY;
 	}
 
 	@Override
