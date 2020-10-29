@@ -642,6 +642,7 @@ public final class TTCN_Runtime {
 		}
 		TTCN_Logger.log_event_str(". Version: " + PRODUCT_NUMBER + '.');
 		TTCN_Logger.end_event();
+		TTCN_Logger.write_logger_settings();
 
 		//FIXME implement missing parts
 		try {
