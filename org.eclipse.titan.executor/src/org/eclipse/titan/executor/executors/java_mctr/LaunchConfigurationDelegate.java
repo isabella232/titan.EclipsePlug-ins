@@ -51,13 +51,6 @@ public final class LaunchConfigurationDelegate extends TitanLaunchConfigurationD
 //			throw new CoreException(status);
 //		}
 
-		//FIXME for the first try it might be ok to let it run only one instance.
-//		if (JniExecutor.isRunning()) {
-//			final Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, "The Jni based launcher is already running.\n"
-//					+ "Only one instance can be running at any time.", null);
-//			throw new CoreException(status);
-//		}
-
 		showExecutionPerspective();
 		final NativeJavaExecutor executor = new NativeJavaExecutor(arg0);
 		executor.startSession(arg2);
