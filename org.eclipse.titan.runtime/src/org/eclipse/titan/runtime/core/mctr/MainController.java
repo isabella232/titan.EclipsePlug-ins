@@ -2650,7 +2650,7 @@ public class MainController {
 	}
 
 	private boolean ready_to_finish_testcase() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			switch (comp.tc_state) {
 			case TC_EXITED:
@@ -3194,7 +3194,7 @@ public class MainController {
 	}
 
 	private boolean is_all_component_alive() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (!component_is_alive(comp)) {
 				return false;
@@ -3288,7 +3288,7 @@ public class MainController {
 	}
 
 	private boolean is_all_component_running() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			if (tc.stop_requested) {
 				continue;
@@ -3973,7 +3973,7 @@ public class MainController {
 
 	private void check_all_component_stop() {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 
 			switch (comp.tc_state) {
@@ -4017,7 +4017,7 @@ public class MainController {
 		// MTC has requested 'all component.kill'
 		// we have to send acknowledgement to MTC only
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			switch (comp.tc_state) {
 			case TC_INITIAL:
@@ -4071,7 +4071,7 @@ public class MainController {
 	}
 
 	private boolean is_any_component_alive() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_alive(comp)) {
 				return true;
@@ -4110,7 +4110,7 @@ public class MainController {
 	}
 
 	private boolean is_any_component_running() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_running(comp)) {
 				return true;
@@ -4343,7 +4343,7 @@ public class MainController {
 
 	private boolean stop_all_components() {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			switch (tc.tc_state) {
 			case TC_INITIAL:
@@ -4441,7 +4441,7 @@ public class MainController {
 
 	private boolean kill_all_components(final boolean testcase_ends) {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			boolean is_inactive = false;
 			switch (tc.tc_state) {
@@ -4873,7 +4873,7 @@ public class MainController {
 	}
 
 	private boolean is_any_component_done() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_done(comp)) {
 				return true;
@@ -5739,7 +5739,7 @@ public class MainController {
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		}
 
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			comp.tc_state = tc_state_enum.PTC_STALE;
 		}
@@ -5754,7 +5754,7 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_PTC_VERDICT);
 		int n_ptcs = 0;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (comp.tc_state != tc_state_enum.PTC_STALE) {
 				n_ptcs++;
@@ -5762,7 +5762,7 @@ public class MainController {
 		}
 
 		text_buf.push_int(n_ptcs);
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (comp.tc_state != tc_state_enum.PTC_STALE) {
 				text_buf.push_int(comp.comp_ref);
