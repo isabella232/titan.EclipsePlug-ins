@@ -822,7 +822,7 @@ public class MainController {
 			handle_hc_data(temp_struct.host, true);
 			break;
 		case CHANNEL_TC:
-			handle_tc_data(mtc, true);
+			handle_tc_data(temp_struct.component, true);
 			break;
 		default:
 			fatal_error(MessageFormat.format("Invalid connection type ({0}) for channel {1}.", temp_struct.channel_type, channel));
