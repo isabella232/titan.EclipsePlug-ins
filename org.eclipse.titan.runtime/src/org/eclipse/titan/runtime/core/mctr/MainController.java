@@ -2573,10 +2573,22 @@ public class MainController {
 			if (close_connection) {
 				send_error(tc.socket, "The received message was not understood by the MC.");
 			}
-		} else if (recv_len == 0) {
+		} else if (recv_len == -1) {
 			//This is different from the C side
 			//On the C side a readable file descriptor with 0 bytes to read means that the connection is being closed
 			//In Java it is possible to have a readable socket, before any bytes have arrived to it.
+			//tCP connection is closed by peer
+			if (tc.tc_state != tc_state_enum.TC_EXITING && !tc.process_killed) {
+				if (tc == mtc) {
+					error(MessageFormat.format("Unexpected end of MTC connection from {0} [{1}].",
+							mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress()));
+				} else {
+					notify(MessageFormat.format("Unexpected end of PTC connection {0} from {1} [{2}].",
+							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.ip_address.getHostAddress()));
+				}
+			}
+
+			close_connection = true;
 		} else {
 			// FIXME handle ECONNRESET
 			if (tc == mtc) {
