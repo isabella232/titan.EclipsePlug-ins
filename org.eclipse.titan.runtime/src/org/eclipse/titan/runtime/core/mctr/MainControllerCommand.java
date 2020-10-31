@@ -41,7 +41,7 @@ public class MainControllerCommand {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -49,7 +49,7 @@ public class MainControllerCommand {
 		return synopsis;
 	}
 
-	public void setSynopsis(String synopsis) {
+	public void setSynopsis(final String synopsis) {
 		this.synopsis = synopsis;
 	}
 
@@ -57,7 +57,7 @@ public class MainControllerCommand {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 }

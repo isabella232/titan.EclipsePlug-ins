@@ -513,7 +513,7 @@ public class MainController {
 		timers.add(timer);
 	}
 
-	private void cancel_timer(timer_struct timer) {
+	private void cancel_timer(final timer_struct timer) {
 		timers.remove(timer);
 	}
 

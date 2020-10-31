@@ -9,7 +9,7 @@ package org.eclipse.titan.runtime.core.mctr;
 
 public class CliMain {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Cli userInterface = new Cli();
 		int max_ptcs = -1;
 
