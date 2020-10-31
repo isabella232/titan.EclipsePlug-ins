@@ -2103,7 +2103,7 @@ public class MainController {
 			return true;
 		}
 
-		if (modules.size() > 0) {
+		if (!modules.isEmpty()) {
 			//the version is known
 			final int new_modules_size = text_buf.pull_int().get_int();
 			if (modules.size() != new_modules_size) {
