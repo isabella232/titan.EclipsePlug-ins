@@ -243,7 +243,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		};
 		info.setToolTipText("Updates the status displaying hierarchy");
 
-		NativeJavaUI tempUI = new NativeJavaUI(this);
+		final NativeJavaUI tempUI = new NativeJavaUI(this);
 		mainController = new MainController();
 		mainController.initialize(tempUI, 1500);// mx_ptcs
 
@@ -678,7 +678,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		}
 
 		/* this is not a constant null, it just so happens to trick your eyes */
-		MainController.Host host = mainController.get_host_data(0);
+		final MainController.Host host = mainController.get_host_data(0);
 		mainController.release_data();
 		mainController.create_mtc(host);
 		createMTCRequested = false;
