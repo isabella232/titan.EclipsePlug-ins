@@ -26,6 +26,7 @@ import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -397,7 +398,7 @@ public class MainController {
 	private String config_str;
 
 	// version_known is not need. if the modules list is not empty, we know the module version informations from the first HC to connect.
-	private ArrayList<module_version_info> modules = new ArrayList<MainController.module_version_info>();
+	private List<module_version_info> modules = new ArrayList<MainController.module_version_info>();
 
 	private volatile boolean any_component_done_requested;
 	private volatile boolean any_component_done_sent;
@@ -417,7 +418,7 @@ public class MainController {
 	private List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
 	private List<String> assigned_components = new ArrayList<String>();
 	private volatile boolean all_components_assigned;
-	private LinkedList<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
+	private Deque<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
 
 	private int n_active_ptcs = 0;
 	//a negative value means no check
