@@ -67,7 +67,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private int configFileExecutionRequestCounter = -1;
 	private boolean createMTCRequested = false;
 	private boolean executeRequested = false;
-	private List<String> executeList = new ArrayList<String>();
+	private final List<String> executeList = new ArrayList<String>();
 	private boolean shutdownRequested = false;
 
 	private boolean simpleExecutionRunning = false;
@@ -83,14 +83,14 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private final Matcher reasonMatcher = REASON_PATTERN.matcher("");
 	private static final String EMPTY_STRING = "";
 
-	private Action automaticExecution, startSession, configure, startHCs, cmtc, smtc, generalPause, cont, stop, emtc, generalLogging,
+	private final Action automaticExecution, startSession, configure, startHCs, cmtc, smtc, generalPause, cont, stop, emtc, generalLogging,
 			shutdownSession, info;
 
 	private ConfigFileHandler configHandler = null;
-	private MainController mainController = null;
+	private final MainController mainController;
 
 	public static class NativeJavaUI extends UserInterface {
-		private NativeJavaExecutor callback;
+		private final NativeJavaExecutor callback;
 
 		public NativeJavaUI(final NativeJavaExecutor callback) {
 			this.callback = callback;
