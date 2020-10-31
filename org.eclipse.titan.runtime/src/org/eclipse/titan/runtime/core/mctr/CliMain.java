@@ -10,8 +10,8 @@ package org.eclipse.titan.runtime.core.mctr;
 public class CliMain {
 
 	public static void main(final String[] args) {
-		Cli userInterface = new Cli();
-		int max_ptcs = -1;
+		final Cli userInterface = new Cli();
+		final int max_ptcs = -1;
 
 		final MainController mainController = new MainController();
 		userInterface.setMainController(mainController);

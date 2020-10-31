@@ -91,7 +91,7 @@ public class Cli extends UserInterface {
 			final File config_file = new File(args[0]);
 			System.out.printf("Using configuration file: %s\n", config_file.getName());
 
-			CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
+			final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 			final boolean config_file_failure = cfgAnalyzer.parse(config_file);
 			if (config_file_failure) {
 				System.out.println("Error was found in the configuration file. Exiting");
@@ -290,7 +290,7 @@ public class Cli extends UserInterface {
 			return 1; //EXIT_FAILURE
 		}
 
-		BufferedReader console_reader = new BufferedReader(new InputStreamReader(System.in));
+		final BufferedReader console_reader = new BufferedReader(new InputStreamReader(System.in));
 
 		do {
 			try {
@@ -450,8 +450,9 @@ public class Cli extends UserInterface {
 		if (line_read == null || line_read.isEmpty()) {
 			return;
 		}
-		String[] splitted_line = line_read.split("\\s");
-		String command = splitted_line[0];
+
+		final String[] splitted_line = line_read.split("\\s");
+		final String command = splitted_line[0];
 		String argument = null;
 		if (splitted_line.length == 2) {
 			argument = splitted_line[1];
