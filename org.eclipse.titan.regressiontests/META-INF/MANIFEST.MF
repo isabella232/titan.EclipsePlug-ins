@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse Titan Regression Test
 Bundle-SymbolicName: org.eclipse.titan.regressiontests;singleton:=true
-Bundle-Version: 7.1.1.CRL_113_200_7_R1B_20200624-1000
-Fragment-Host: org.eclipse.titan.designer;bundle-version="7.1.1.CRL_113_200_7_R1B_20200624-1000"
+Bundle-Version: 7.2.0.7_CAX_105_7730_R2A_20201030-1000
+Fragment-Host: org.eclipse.titan.designer;bundle-version="7.2.0.7_CAX_105_7730_R2A_20201030-1000"
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  org.junit
