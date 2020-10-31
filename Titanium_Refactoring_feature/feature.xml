@@ -10,11 +10,11 @@
 <feature
       id="Titanium.Refactoring"
       label="Titanium_Refactoring_Feature"
-      version="7.1.1.CRL_113_200_7_R1B_20200624-1000"
+      version="7.2.0.7_CAX_105_7730_R2A_20201030-1000"
       provider-name="Eclipse Titan Project">
 
    <description url="https://projects.eclipse.org/projects/tools.titan/downloads">
-      CRL 113 200/7 R1B (7.1.pl1) version of the Titanium Refactoring plug-in.
+      7/CAX 105 7730 R2A (7.2.pl0) version of the Titanium Refactoring plug-in.
    </description>
 
    <copyright>
@@ -168,16 +168,16 @@ You may add additional accurate notices of copyright ownership.
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.core.filesystem"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.titan.common" version="7.1.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.titan.designer" version="7.1.1" match="greaterOrEqual"/>
-      <import feature="Titanium" version="7.1.1"/>
+      <import plugin="org.eclipse.titan.common" version="7.2.0" match="greaterOrEqual"/>
+      <import feature="Titanium" version="7.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.titan.designer" version="7.2.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="org.eclipse.titanium.refactoring"
          download-size="0"
          install-size="0"
-         version="7.1.1.CRL_113_200_7_R1B_20200624-1000"
+         version="7.2.0.7_CAX_105_7730_R2A_20201030-1000"
          unpack="false"/>
 
 </feature>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TITAN_Runtime Plug-in
 Bundle-SymbolicName: org.eclipse.titan.runtime
-Bundle-Version: 7.1.1.CRL_113_200_7_R1B_20200908-1200
+Bundle-Version: 7.2.0.7_CAX_105_7730_R2A_20201030-1000
 Require-Bundle: org.antlr.runtime;bundle-version="4.3.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
