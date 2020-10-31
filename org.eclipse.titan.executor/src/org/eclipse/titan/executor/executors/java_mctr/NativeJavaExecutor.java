@@ -355,7 +355,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * @param s
 	 *                the list of String arrays.
 	 * */
-	public void batchedInsertNotify(final ArrayList<String[]> s) {
+	public void batchedInsertNotify(final List<String[]> s) {
 		if (loggingIsEnabled && consoleLogging) {
 			for (final String[] sv : s) {
 				TITANConsole.println(sv[2] + ": " + sv[4]);
