@@ -8,7 +8,6 @@
 package org.eclipse.titan.runtime.core.mctr;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.runtime.core.cfgparser.ComponentSectionHandler.Component;
