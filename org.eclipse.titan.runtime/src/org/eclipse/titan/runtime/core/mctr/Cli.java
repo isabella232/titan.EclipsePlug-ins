@@ -416,7 +416,8 @@ public class Cli extends UserInterface {
 			return mainController.get_state() == mcStateEnum.MC_INACTIVE;
 		case WAIT_EXECUTE_LIST:
 			if (mainController.get_state() == mcStateEnum.MC_READY) {
-				if (++executeListIndex < mycfg.getExecuteItems().size()) {
+				++executeListIndex;
+				if (executeListIndex < mycfg.getExecuteItems().size()) {
 					executeFromList(executeListIndex);
 				} else {
 					System.out.println("Execution of [EXECUTE] section finished.");
