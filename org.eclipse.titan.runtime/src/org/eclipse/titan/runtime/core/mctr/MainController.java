@@ -1517,7 +1517,7 @@ public class MainController {
 		boolean error_flag = false;
 		final int recv_len = receive_to_buffer(hc.socket, text_buf, receive_from_socket);
 
-		if (recv_len > 0) {
+		if (recv_len >= 0) {
 			try {
 				while (text_buf.is_message()) {
 					final int msg_len = text_buf.pull_int().get_int();
@@ -2426,7 +2426,7 @@ public class MainController {
 		boolean close_connection = false;
 		int recv_len = receive_to_buffer(tc.socket, text_buf, receive_from_socket);
 
-		if (recv_len > 0) {
+		if (recv_len >= 0) {
 			try {
 				while (text_buf.is_message()) {
 					final int msg_len = text_buf.pull_int().get_int();
