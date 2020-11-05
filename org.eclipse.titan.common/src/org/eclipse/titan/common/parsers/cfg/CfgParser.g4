@@ -466,7 +466,7 @@ pr_ExecuteSectionItem
 	(	DOT
 		testcase = pr_ExecuteSectionItemTestcaseName
 			{
-				executeElement += $testcase.name;
+				executeElement += "." + $testcase.name;
 				item.setTestcaseName( $testcase.ctx );
 			}
 	)?
