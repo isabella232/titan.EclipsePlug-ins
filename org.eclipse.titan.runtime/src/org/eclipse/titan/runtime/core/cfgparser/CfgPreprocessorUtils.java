@@ -30,22 +30,25 @@ public class CfgPreprocessorUtils {
 		if (str != null && str.charAt(0) == '$' && str.charAt(1) == '{') {
 			final StringBuilder sb = new StringBuilder();
 			int i = 2;
+			char charat_i = str.charAt(i);
 			// skip over the whitespaces after the brace
-			while (str.charAt(i) == ' ' || str.charAt(i) == '\t') {
+			while (charat_i == ' ' || charat_i == '\t') {
 				i++;
+				charat_i = str.charAt(i);
 			}
 
-			if ((str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') ||
-				(str.charAt(i) >= 'a' && str.charAt(i) <= 'z')) {
+			if ((charat_i >= 'A' && charat_i <= 'Z') ||
+				(charat_i >= 'a' && charat_i <= 'z')) {
 				// the first character of the id shall be a letter
 				do {
-					sb.append(str.charAt(i));
+					sb.append(charat_i);
 					i++;
-				} while ((str.charAt(i) >= 'A' && str.charAt(i) <= 'Z') ||
-						 (str.charAt(i) >= 'a' && str.charAt(i) <= 'z') ||
-						 (str.charAt(i) >= '0' && str.charAt(i) <= '9') ||
+					charat_i = str.charAt(i);
+				} while ((charat_i >= 'A' && charat_i <= 'Z') ||
+						 (charat_i >= 'a' && charat_i <= 'z') ||
+						 (charat_i >= '0' && charat_i <= '9') ||
 						 str.charAt(i) == '_');
-				if (str.charAt(i) != ' ' && str.charAt(i) != '\t' && str.charAt(i) != ',' && str.charAt(i) != '}') {
+				if (charat_i != ' ' && charat_i != '\t' && charat_i != ',' && charat_i != '}') {
 					// the next character after the id is not a whitespace or , or }
 					return null;
 				}

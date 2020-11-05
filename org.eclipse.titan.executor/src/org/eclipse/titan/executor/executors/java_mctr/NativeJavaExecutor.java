@@ -67,7 +67,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private int configFileExecutionRequestCounter = -1;
 	private boolean createMTCRequested = false;
 	private boolean executeRequested = false;
-	private List<String> executeList = new ArrayList<String>();
+	private final List<String> executeList = new ArrayList<String>();
 	private boolean shutdownRequested = false;
 
 	private boolean simpleExecutionRunning = false;
@@ -83,14 +83,14 @@ public class NativeJavaExecutor extends BaseExecutor {
 	private final Matcher reasonMatcher = REASON_PATTERN.matcher("");
 	private static final String EMPTY_STRING = "";
 
-	private Action automaticExecution, startSession, configure, startHCs, cmtc, smtc, generalPause, cont, stop, emtc, generalLogging,
+	private final Action automaticExecution, startSession, configure, startHCs, cmtc, smtc, generalPause, cont, stop, emtc, generalLogging,
 			shutdownSession, info;
 
 	private ConfigFileHandler configHandler = null;
-	private MainController mainController = null;
+	private final MainController mainController;
 
 	public static class NativeJavaUI extends UserInterface {
-		private NativeJavaExecutor callback;
+		private final NativeJavaExecutor callback;
 
 		public NativeJavaUI(final NativeJavaExecutor callback) {
 			this.callback = callback;
@@ -243,7 +243,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		};
 		info.setToolTipText("Updates the status displaying hierarchy");
 
-		NativeJavaUI tempUI = new NativeJavaUI(this);
+		final NativeJavaUI tempUI = new NativeJavaUI(this);
 		mainController = new MainController();
 		mainController.initialize(tempUI, 1500);// mx_ptcs
 
@@ -355,7 +355,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 	 * @param s
 	 *                the list of String arrays.
 	 * */
-	public void batchedInsertNotify(final ArrayList<String[]> s) {
+	public void batchedInsertNotify(final List<String[]> s) {
 		if (loggingIsEnabled && consoleLogging) {
 			for (final String[] sv : s) {
 				TITANConsole.println(sv[2] + ": " + sv[4]);
@@ -678,7 +678,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 		}
 
 		/* this is not a constant null, it just so happens to trick your eyes */
-		MainController.Host host = mainController.get_host_data(0);
+		final MainController.Host host = mainController.get_host_data(0);
 		mainController.release_data();
 		mainController.create_mtc(host);
 		createMTCRequested = false;

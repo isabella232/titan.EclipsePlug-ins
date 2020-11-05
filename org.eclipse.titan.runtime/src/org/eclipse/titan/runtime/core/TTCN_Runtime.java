@@ -629,7 +629,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static int ptc_main() {
-		//FIXME implement rest
+		//FIXME implement logger plugin loading
 		int returnValue = 0;
 
 		TTCN_Logger.open_file();
@@ -642,6 +642,7 @@ public final class TTCN_Runtime {
 		}
 		TTCN_Logger.log_event_str(". Version: " + PRODUCT_NUMBER + '.');
 		TTCN_Logger.end_event();
+		TTCN_Logger.write_logger_settings();
 
 		//FIXME implement missing parts
 		try {
@@ -2398,7 +2399,7 @@ public final class TTCN_Runtime {
 			public void run() {
 				//runs in the MTC
 				TTCN_Snapshot.re_open();
-				TTCN_Communication.close_mc_connection();
+				//TTCN_Communication.close_mc_connection();not needed on the Java side
 
 				TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 				executorState.set(executorStateEnum.MTC_INITIAL);
@@ -2445,7 +2446,7 @@ public final class TTCN_Runtime {
 			public void run() {
 				//runs in the PTC
 				TTCN_Snapshot.re_open();
-				TTCN_Communication.close_mc_connection();
+				//TTCN_Communication.close_mc_connection();not needed on the Java side
 
 				TitanComponent.self.set(new TitanComponent(component_reference));
 				set_component_type(component_type_module, component_type_name);

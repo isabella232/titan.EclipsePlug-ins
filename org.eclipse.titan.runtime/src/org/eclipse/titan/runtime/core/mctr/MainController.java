@@ -26,6 +26,7 @@ import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -397,7 +398,7 @@ public class MainController {
 	private String config_str;
 
 	// version_known is not need. if the modules list is not empty, we know the module version informations from the first HC to connect.
-	private ArrayList<module_version_info> modules = new ArrayList<MainController.module_version_info>();
+	private List<module_version_info> modules = new ArrayList<MainController.module_version_info>();
 
 	private volatile boolean any_component_done_requested;
 	private volatile boolean any_component_done_sent;
@@ -417,7 +418,7 @@ public class MainController {
 	private List<HostGroupStruct> host_groups = new ArrayList<HostGroupStruct>();
 	private List<String> assigned_components = new ArrayList<String>();
 	private volatile boolean all_components_assigned;
-	private LinkedList<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
+	private Deque<unknown_connection> unknown_connections = new LinkedList<MainController.unknown_connection>();
 
 	private int n_active_ptcs = 0;
 	//a negative value means no check
@@ -500,9 +501,9 @@ public class MainController {
 			return;
 		}
 
-		ListIterator<timer_struct> iterator = timers.listIterator();
+		final ListIterator<timer_struct> iterator = timers.listIterator();
 		while (iterator.hasNext()) {
-			timer_struct listItem = iterator.next();
+			final timer_struct listItem = iterator.next();
 			if (listItem.expiration > timer.expiration) {
 				iterator.previous();
 				iterator.add(timer);
@@ -513,7 +514,7 @@ public class MainController {
 		timers.add(timer);
 	}
 
-	private void cancel_timer(timer_struct timer) {
+	private void cancel_timer(final timer_struct timer) {
 		timers.remove(timer);
 	}
 
@@ -536,7 +537,7 @@ public class MainController {
 			return;
 		}
 
-		double now = time_now();
+		final double now = time_now();
 		timer_struct head = timers.peek();
 		while (head != null && head.expiration < now) {
 			handle_kill_timer(head);
@@ -562,8 +563,8 @@ public class MainController {
 	}
 
 	private void handle_kill_timer(final timer_struct timer) {
-		ComponentStruct tc = timer.component;
-		Host host = tc.comp_location;
+		final ComponentStruct tc = timer.component;
+		final Host host = tc.comp_location;
 		boolean kill_process = false;
 		switch (tc.tc_state) {
 		case TC_EXITED:
@@ -664,7 +665,7 @@ public class MainController {
 	}
 
 	private void destroy_all_components() {
-		for (ComponentStruct component : components) {
+		for (final ComponentStruct component : components) {
 			if (component == null) {
 				continue;
 			}
@@ -747,7 +748,7 @@ public class MainController {
 			// FIXME implement
 			unlock();
 			try {
-				int timeout = get_poll_timeout();
+				final int timeout = get_poll_timeout();
 				int selectReturn;
 				if (timeout > 0) {
 					selectReturn = mc_selector.select(timeout);
@@ -810,7 +811,7 @@ public class MainController {
 			return;
 		}
 
-		channel_table_struct temp_struct = channel_table.get(channel);
+		final channel_table_struct temp_struct = channel_table.get(channel);
 		switch (temp_struct.channel_type) {
 		case CHANNEL_SERVER:
 			handle_incoming_connection((ServerSocketChannel) channel);
@@ -822,7 +823,7 @@ public class MainController {
 			handle_hc_data(temp_struct.host, true);
 			break;
 		case CHANNEL_TC:
-			handle_tc_data(mtc, true);
+			handle_tc_data(temp_struct.component, true);
 			break;
 		default:
 			fatal_error(MessageFormat.format("Invalid connection type ({0}) for channel {1}.", temp_struct.channel_type, channel));
@@ -837,14 +838,14 @@ public class MainController {
 
 	private void handle_incoming_connection(final ServerSocketChannel channel) {
 		try {
-			SocketChannel sc = channel.accept();//FIXME can return null
+			final SocketChannel sc = channel.accept();//FIXME can return null
 			sc.configureBlocking(false);
-			unknown_connection new_connection = new_unknown_connection();
+			final unknown_connection new_connection = new_unknown_connection();
 			new_connection.channel = sc;
 			new_connection.ip_address = sc.socket().getInetAddress();
 			new_connection.text_buf = new Text_Buf();
 
-			channel_table_struct new_struct = new channel_table_struct();
+			final channel_table_struct new_struct = new channel_table_struct();
 			new_struct.channel_type = channel_type_enum.CHANNEL_UNKNOWN;
 			new_struct.unknown = new_connection;
 			channel_table.put(sc, new_struct);
@@ -861,8 +862,8 @@ public class MainController {
 
 	private void handle_unknown_data(final unknown_connection connection) {
 		// Actually should come from the connection
-		Text_Buf text_buf = connection.text_buf;
-		int recv_len = receive_to_buffer(connection.channel, text_buf, true);
+		final Text_Buf text_buf = connection.text_buf;
+		final int recv_len = receive_to_buffer(connection.channel, text_buf, true);
 		boolean error_flag = false;
 
 		if (recv_len > 0) {
@@ -932,7 +933,7 @@ public class MainController {
 			return;
 		}
 
-		HostGroupStruct group = add_host_group(group_name);
+		final HostGroupStruct group = add_host_group(group_name);
 		if (host_name != null) {
 			if (group.has_all_hosts) {
 				error(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.",
@@ -949,7 +950,7 @@ public class MainController {
 			if (group.has_all_hosts) {
 				error(MessageFormat.format("Duplicate member `*' was ignored in host group `{0}'.", group_name));
 			} else {
-				for (String group_member : group.host_members) {
+				for (final String group_member : group.host_members) {
 					error(MessageFormat.format("Redundant member `{0}' was ignored in host group `{1}'. All hosts (`*') are already the members of the group.",
 							group_member, group_name));
 				}
@@ -969,8 +970,7 @@ public class MainController {
 			}
 		}
 
-		HostGroupStruct new_group = new HostGroupStruct();
-
+		final HostGroupStruct new_group = new HostGroupStruct();
 		new_group.group_name = group_name;
 		new_group.has_all_hosts = false;
 		new_group.has_all_components = false;
@@ -982,7 +982,7 @@ public class MainController {
 	}
 
 	private HostGroupStruct lookup_host_group(final String group_name) {
-		for (HostGroupStruct group : host_groups){
+		for (final HostGroupStruct group : host_groups){
 			if (group.group_name.equals(group_name)) {
 				return group;
 			}
@@ -1094,7 +1094,7 @@ public class MainController {
 		final HostGroupStruct group = add_host_group(host_or_group);
 		if (component_id == null) {
 			if (all_components_assigned) {
-				for (HostGroupStruct hostGroup : host_groups) {
+				for (final HostGroupStruct hostGroup : host_groups) {
 					if (hostGroup.has_all_components) {
 						error(MessageFormat.format("Duplicate assignment of all components (*) to host group `{0}'. Previous assignment to group `{1}' is ignored.",
 								host_or_group, hostGroup.group_name));
@@ -1108,7 +1108,7 @@ public class MainController {
 			group.has_all_components = true;
 		} else {
 			if (assigned_components.contains(component_id)) {
-				for (HostGroupStruct hostGroup : host_groups) {
+				for (final HostGroupStruct hostGroup : host_groups) {
 					if (hostGroup.assigned_components.contains(component_id)) {
 						error(MessageFormat.format("Duplicate assignment of component `{0}' to host group `{1}'. Previous assignment to group `{2}' is ignored.",
 								component_id, host_or_group, hostGroup.group_name));
@@ -1130,7 +1130,7 @@ public class MainController {
 		if (mc_state != mcStateEnum.MC_INACTIVE) {
 			error("MainController.destroy_host_groups: called in wrong state.");
 		} else {
-			for (HostGroupStruct hostGroup : host_groups) {
+			for (final HostGroupStruct hostGroup : host_groups) {
 				hostGroup.host_members.clear();
 				hostGroup.assigned_components.clear();
 			}
@@ -1196,7 +1196,7 @@ public class MainController {
 			}
 
 			try {
-				channel_table_struct server_struct = new channel_table_struct();
+				final channel_table_struct server_struct = new channel_table_struct();
 				server_struct.channel_type = channel_type_enum.CHANNEL_SERVER;
 				channel_table.put(mc_channel, server_struct);
 				mc_channel.register(mc_selector, SelectionKey.OP_ACCEPT);
@@ -1517,7 +1517,7 @@ public class MainController {
 		boolean error_flag = false;
 		final int recv_len = receive_to_buffer(hc.socket, text_buf, receive_from_socket);
 
-		if (recv_len > 0) {
+		if (recv_len >= 0) {
 			try {
 				while (text_buf.is_message()) {
 					final int msg_len = text_buf.pull_int().get_int();
@@ -1657,7 +1657,7 @@ public class MainController {
 		}
 
 		final Text_Buf text_buf = hc.text_buf;
-		int component_reference = text_buf.pull_int().get_int();
+		final int component_reference = text_buf.pull_int().get_int();
 
 		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
@@ -1722,7 +1722,7 @@ public class MainController {
 					component_data += MessageFormat.format(", location: {0}", tc.location_str);
 				}
 
-				ComponentStruct create_requestor = tc.create_requestor;
+				final ComponentStruct create_requestor = tc.create_requestor;
 				if (create_requestor.tc_state == tc_state_enum.TC_CREATE) {
 					send_error(tc.socket, MessageFormat.format("Creation of the new PTC ({0}) failed on host {1}: {2}. Other suitable hosts to relocate the component are not available.",
 							component_data, hc.hostname, reason));
@@ -1871,7 +1871,7 @@ public class MainController {
 	private Host choose_ptc_location(final String componentTypeName, final String componentName, final String componentLocation) {
 		Host best_candidate = null;
 		int load_on_best_candidate = 0;
-		boolean has_constraint = assigned_components.contains(componentTypeName) || assigned_components.contains(componentName);
+		final boolean has_constraint = assigned_components.contains(componentTypeName) || assigned_components.contains(componentName);
 		HostGroupStruct group;
 		if (componentLocation != null && !componentLocation.isEmpty()) {
 			group = lookup_host_group(componentLocation);
@@ -1879,7 +1879,7 @@ public class MainController {
 			group = null;
 		}
 
-		for (Host host : hosts) {
+		for (final Host host : hosts) {
 			if (host.hc_state != hc_state_enum.HC_ACTIVE) {
 				continue;
 			}
@@ -2103,7 +2103,7 @@ public class MainController {
 			return true;
 		}
 
-		if (modules.size() > 0) {
+		if (!modules.isEmpty()) {
 			//the version is known
 			final int new_modules_size = text_buf.pull_int().get_int();
 			if (modules.size() != new_modules_size) {
@@ -2111,7 +2111,7 @@ public class MainController {
 				return true;
 			}
 			for (int i = 0; i < new_modules_size; i++) {
-				String module_name = text_buf.pull_string();
+				final String module_name = text_buf.pull_string();
 				module_version_info other_module = null;
 				for (int j = 0; j < modules.size(); j++) {
 					if (module_name.equals(modules.get(j).module_name)) {
@@ -2186,7 +2186,7 @@ public class MainController {
 			return;
 		}
 
-		Host hc = add_new_host(connection);
+		final Host hc = add_new_host(connection);
 		switch (mc_state) {
 		case MC_LISTENING:
 			mc_state = mcStateEnum.MC_HC_CONNECTED;
@@ -2211,7 +2211,7 @@ public class MainController {
 
 	private Host add_new_host(final unknown_connection connection) {
 		final Text_Buf text_buf = connection.text_buf;
-		SocketChannel channel = connection.channel;
+		final SocketChannel channel = connection.channel;
 
 		final Host hc = new Host();
 		hc.ip_address = channel.socket().getInetAddress();
@@ -2264,7 +2264,7 @@ public class MainController {
 		delete_unknown_connection(connection);
 
 		hosts.add(hc);
-		channel_table_struct new_struct = new channel_table_struct();
+		final channel_table_struct new_struct = new channel_table_struct();
 		new_struct.channel_type = channel_type_enum.CHANNEL_HC;
 		new_struct.host = hc;
 		channel_table.put(channel, new_struct);
@@ -2404,10 +2404,10 @@ public class MainController {
 		mtc.tc_state = tc_state_enum.TC_IDLE;
 		mtc.socket = connection.channel;
 
-		channel_table_struct new_struct = new channel_table_struct();
+		final channel_table_struct new_struct = new channel_table_struct();
 		new_struct.channel_type = channel_type_enum.CHANNEL_TC;
 		new_struct.component = mtc;
-		Text_Buf text_buf = connection.text_buf;
+		final Text_Buf text_buf = connection.text_buf;
 		text_buf.cut_message();
 		mtc.text_buf = text_buf;
 		channel_table.put(connection.channel, new_struct);
@@ -2424,9 +2424,9 @@ public class MainController {
 	private void handle_tc_data(final ComponentStruct tc, final boolean receive_from_socket) {
 		final Text_Buf text_buf = tc.text_buf;
 		boolean close_connection = false;
-		int recv_len = receive_to_buffer(tc.socket, text_buf, receive_from_socket);
+		final int recv_len = receive_to_buffer(tc.socket, text_buf, receive_from_socket);
 
-		if (recv_len > 0) {
+		if (recv_len >= 0) {
 			try {
 				while (text_buf.is_message()) {
 					final int msg_len = text_buf.pull_int().get_int();
@@ -2573,10 +2573,22 @@ public class MainController {
 			if (close_connection) {
 				send_error(tc.socket, "The received message was not understood by the MC.");
 			}
-		} else if (recv_len == 0) {
+		} else if (recv_len == -1) {
 			//This is different from the C side
 			//On the C side a readable file descriptor with 0 bytes to read means that the connection is being closed
 			//In Java it is possible to have a readable socket, before any bytes have arrived to it.
+			//tCP connection is closed by peer
+			if (tc.tc_state != tc_state_enum.TC_EXITING && !tc.process_killed) {
+				if (tc == mtc) {
+					error(MessageFormat.format("Unexpected end of MTC connection from {0} [{1}].",
+							mtc.comp_location.hostname, mtc.comp_location.ip_address.getHostAddress()));
+				} else {
+					notify(MessageFormat.format("Unexpected end of PTC connection {0} from {1} [{2}].",
+							tc.comp_ref, tc.comp_location.hostname, tc.comp_location.ip_address.getHostAddress()));
+				}
+			}
+
+			close_connection = true;
 		} else {
 			// FIXME handle ECONNRESET
 			if (tc == mtc) {
@@ -2650,7 +2662,7 @@ public class MainController {
 	}
 
 	private boolean ready_to_finish_testcase() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			switch (comp.tc_state) {
 			case TC_EXITED:
@@ -3194,7 +3206,7 @@ public class MainController {
 	}
 
 	private boolean is_all_component_alive() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (!component_is_alive(comp)) {
 				return false;
@@ -3288,7 +3300,7 @@ public class MainController {
 	}
 
 	private boolean is_all_component_running() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			if (tc.stop_requested) {
 				continue;
@@ -3973,7 +3985,7 @@ public class MainController {
 
 	private void check_all_component_stop() {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 
 			switch (comp.tc_state) {
@@ -4017,7 +4029,7 @@ public class MainController {
 		// MTC has requested 'all component.kill'
 		// we have to send acknowledgement to MTC only
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			switch (comp.tc_state) {
 			case TC_INITIAL:
@@ -4071,7 +4083,7 @@ public class MainController {
 	}
 
 	private boolean is_any_component_alive() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_alive(comp)) {
 				return true;
@@ -4110,7 +4122,7 @@ public class MainController {
 	}
 
 	private boolean is_any_component_running() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_running(comp)) {
 				return true;
@@ -4343,7 +4355,7 @@ public class MainController {
 
 	private boolean stop_all_components() {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			switch (tc.tc_state) {
 			case TC_INITIAL:
@@ -4441,7 +4453,7 @@ public class MainController {
 
 	private boolean kill_all_components(final boolean testcase_ends) {
 		boolean ready_for_ack = true;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct tc = components.get(i);
 			boolean is_inactive = false;
 			switch (tc.tc_state) {
@@ -4873,7 +4885,7 @@ public class MainController {
 	}
 
 	private boolean is_any_component_done() {
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (component_is_done(comp)) {
 				return true;
@@ -5570,7 +5582,7 @@ public class MainController {
 		tc.tc_state = tc_state_enum.TC_IDLE;
 		tc.socket = connection.channel;
 
-		channel_table_struct new_struct = new channel_table_struct();
+		final channel_table_struct new_struct = new channel_table_struct();
 		new_struct.channel_type = channel_type_enum.CHANNEL_TC;
 		new_struct.component = tc;
 		channel_table.put(connection.channel, new_struct);
@@ -5739,7 +5751,7 @@ public class MainController {
 			mc_state = mcStateEnum.MC_EXECUTING_CONTROL;
 		}
 
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			comp.tc_state = tc_state_enum.PTC_STALE;
 		}
@@ -5754,7 +5766,7 @@ public class MainController {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_PTC_VERDICT);
 		int n_ptcs = 0;
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (comp.tc_state != tc_state_enum.PTC_STALE) {
 				n_ptcs++;
@@ -5762,7 +5774,7 @@ public class MainController {
 		}
 
 		text_buf.push_int(n_ptcs);
-		for (int i = tc_first_comp_ref; i <= components.size(); i++) {
+		for (int i = tc_first_comp_ref; i < components.size(); i++) {
 			final ComponentStruct comp = components.get(i);
 			if (comp.tc_state != tc_state_enum.PTC_STALE) {
 				text_buf.push_int(comp.comp_ref);
@@ -5807,7 +5819,7 @@ public class MainController {
 		final int lower_int = text_buf.pull_int().get_int();
 		final long seconds = upper_int * 0xffffffff + lower_int;
 		final int microseconds = text_buf.pull_int().get_int();
-		String source = MessageFormat.format("<unknown>@{0}", connection.ip_address.getHostAddress());
+		final String source = MessageFormat.format("<unknown>@{0}", connection.ip_address.getHostAddress());
 		final int severity = text_buf.pull_int().get_int();
 
 		final int length = text_buf.pull_int().get_int();
@@ -6053,7 +6065,7 @@ public class MainController {
 
 		destroy_all_components();
 
-		for (Host hc : hosts) {
+		for (final Host hc : hosts) {
 			close_hc_connection(hc);
 			hc.components.clear();
 			hc.allowed_components.clear();

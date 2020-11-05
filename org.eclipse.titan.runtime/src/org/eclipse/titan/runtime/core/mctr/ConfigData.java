@@ -8,7 +8,6 @@
 package org.eclipse.titan.runtime.core.mctr;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.runtime.core.cfgparser.ComponentSectionHandler.Component;
@@ -49,7 +48,7 @@ public class ConfigData {
 	 *
 	 * @param group_list: The list of groups in config file.
 	 */
-	public void add_host(List<Group> group_list) {
+	public void add_host(final List<Group> group_list) {
 		this.group_list = group_list;
 	}
 
@@ -57,7 +56,7 @@ public class ConfigData {
 	 *
 	 * @param component_list: The components in config file.
 	 */
-	public void add_component(List<Component> component_list) {
+	public void add_component(final List<Component> component_list) {
 		this.component_list = component_list;
 	}
 
@@ -73,7 +72,7 @@ public class ConfigData {
 	 *
 	 * @param f file name skeleton; the function takes ownership
 	 */
-	public void set_log_file(String f) {
+	public void set_log_file(final String f) {
 		if (f != null) {
 			log_file_name = f;
 		}
@@ -111,19 +110,19 @@ public class ConfigData {
 		return kill_timer;
 	}
 
-	public void setLocal_addr(String local_addr) {
+	public void setLocal_addr(final String local_addr) {
 		this.local_addr = local_addr;
 	}
 
-	public void setTcp_listen_port(int tcp_listen_port) {
+	public void setTcp_listen_port(final int tcp_listen_port) {
 		this.tcp_listen_port = tcp_listen_port;
 	}
 
-	public void setNum_hcs(BigInteger num_hcs) {
+	public void setNum_hcs(final BigInteger num_hcs) {
 		this.num_hcs = num_hcs;
 	}
 
-	public void setKill_timer(Double kill_timer) {
+	public void setKill_timer(final Double kill_timer) {
 		this.kill_timer = kill_timer;
 	}
 }

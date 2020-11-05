@@ -79,7 +79,7 @@ public class Cli extends UserInterface {
 	}
 
 	@Override
-	public int enterLoop(String[] args) {
+	public int enterLoop(final String[] args) {
 		if (args.length > 1) {
 			printUsage("mctr");
 			return 1; //EXIT_FAILURE
@@ -91,7 +91,7 @@ public class Cli extends UserInterface {
 			final File config_file = new File(args[0]);
 			System.out.printf("Using configuration file: %s\n", config_file.getName());
 
-			CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
+			final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 			final boolean config_file_failure = cfgAnalyzer.parse(config_file);
 			if (config_file_failure) {
 				System.out.println("Error was found in the configuration file. Exiting");
@@ -180,51 +180,51 @@ public class Cli extends UserInterface {
 	 * Callback functions for command processing.
 	 * (All callback functions MUST be public!!!)
 	 */
-	public void cmtcCallback(String arguments) {
+	public void cmtcCallback(final String arguments) {
 
 	}
 
-	public void smtcCallback(String arguments) {
+	public void smtcCallback(final String arguments) {
 
 	}
 
-	public void stopCallback(String arguments) {
+	public void stopCallback(final String arguments) {
 
 	}
 
-	public void pauseCallback(String arguments) {
+	public void pauseCallback(final String arguments) {
 
 	}
 
-	public void continueCallback(String arguments) {
+	public void continueCallback(final String arguments) {
 
 	}
 
-	public void emtcCallback(String arguments) {
+	public void emtcCallback(final String arguments) {
 
 	}
 
-	public void logCallback(String arguments) {
+	public void logCallback(final String arguments) {
 
 	}
 
-	public void infoCallback(String arguments) {
+	public void infoCallback(final String arguments) {
 
 	}
 
-	public void reconfCallback(String arguments) {
+	public void reconfCallback(final String arguments) {
 
 	}
 
-	public void helpCallback(String arguments) {
+	public void helpCallback(final String arguments) {
 
 	}
 
-	public void shellCallback(String arguments) {
+	public void shellCallback(final String arguments) {
 
 	}
 
-	public void exitCallback(String arguments) {
+	public void exitCallback(final String arguments) {
 		if (arguments == null || arguments.isEmpty()) {
 			switch (mainController.get_state()) {
 			case MC_READY:
@@ -272,7 +272,7 @@ public class Cli extends UserInterface {
 	/**
 	 * Print program usage information.
 	 */
-	private static void printUsage(String prg_name) {
+	private static void printUsage(final String prg_name) {
 		System.err.printf(
 				"TTCN-3 Test Executor - Main Controller 2\n"+
 						"Version: " + TTCN_Runtime.PRODUCT_NUMBER + "\n\n"+
@@ -290,7 +290,7 @@ public class Cli extends UserInterface {
 			return 1; //EXIT_FAILURE
 		}
 
-		BufferedReader console_reader = new BufferedReader(new InputStreamReader(System.in));
+		final BufferedReader console_reader = new BufferedReader(new InputStreamReader(System.in));
 
 		do {
 			try {
@@ -378,7 +378,7 @@ public class Cli extends UserInterface {
 		}
 	}
 
-	private boolean conditionHolds(waitStateEnum askedState) {
+	private boolean conditionHolds(final waitStateEnum askedState) {
 		switch (askedState) {
 		case WAIT_HC_CONNECTED:
 			if (mainController.get_state() == mcStateEnum.MC_HC_CONNECTED) {
@@ -416,7 +416,8 @@ public class Cli extends UserInterface {
 			return mainController.get_state() == mcStateEnum.MC_INACTIVE;
 		case WAIT_EXECUTE_LIST:
 			if (mainController.get_state() == mcStateEnum.MC_READY) {
-				if (++executeListIndex < mycfg.getExecuteItems().size()) {
+				++executeListIndex;
+				if (executeListIndex < mycfg.getExecuteItems().size()) {
 					executeFromList(executeListIndex);
 				} else {
 					System.out.println("Execution of [EXECUTE] section finished.");
@@ -429,7 +430,7 @@ public class Cli extends UserInterface {
 		}
 	}
 
-	private void waitMCState(waitStateEnum newWaitState) {
+	private void waitMCState(final waitStateEnum newWaitState) {
 		if (newWaitState != waitStateEnum.WAIT_NOTHING) {
 			if (conditionHolds(newWaitState) == true) {
 				waitState = waitStateEnum.WAIT_NOTHING;
@@ -450,8 +451,9 @@ public class Cli extends UserInterface {
 		if (line_read == null || line_read.isEmpty()) {
 			return;
 		}
-		String[] splitted_line = line_read.split("\\s");
-		String command = splitted_line[0];
+
+		final String[] splitted_line = line_read.split("\\s");
+		final String command = splitted_line[0];
 		String argument = null;
 		if (splitted_line.length == 2) {
 			argument = splitted_line[1];
@@ -489,7 +491,7 @@ public class Cli extends UserInterface {
 	/*
 	 * Executes the index-th element of the execute list
 	 */
-	private void executeFromList(int index) {
+	private void executeFromList(final int index) {
 		if (index >= mycfg.getExecuteItems().size()) {
 			System.err.println("Cli.executeFromList: invalid argument");
 			return;
