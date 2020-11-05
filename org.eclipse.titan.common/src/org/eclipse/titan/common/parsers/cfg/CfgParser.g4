@@ -455,22 +455,22 @@ pr_ExecuteSection:
 
 pr_ExecuteSectionItem
 @init {
-	String executeElement = "";
+	StringBuilder executeElement = new StringBuilder();
 	ExecuteItem item = new ExecuteItem();
 }:
 	module = pr_ExecuteSectionItemModuleName
 		{
-			executeElement += $module.name;
+			executeElement.append($module.name);
 			item.setModuleName( $module.ctx );
 		}
 	(	DOT
 		testcase = pr_ExecuteSectionItemTestcaseName
 			{
-				executeElement += "." + $testcase.name;
+				executeElement.append(".").append($testcase.name);
 				item.setTestcaseName( $testcase.ctx );
 			}
 	)?
-	{	mCfgParseResult.getExecuteElements().add( executeElement );
+	{	mCfgParseResult.getExecuteElements().add( executeElement.toString() );
 		item.setRoot( $ctx );
 		executeSectionHandler.getExecuteitems().add( item );
 	}
