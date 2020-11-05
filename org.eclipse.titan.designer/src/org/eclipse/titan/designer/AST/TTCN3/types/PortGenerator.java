@@ -2345,7 +2345,12 @@ public final class PortGenerator {
 
 		source.append(") {\n");
 		source.append("\t\t\tif (!is_started) {\n");
-		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
+		source.append("\t\t\t\tif(is_halted) {\n");
+		source.append("\t\t\t\t\tTtcnError.TtcnWarning(MessageFormat.format(\"A message that arrived on port {0} has been discarded, because the port is not started.\", get_name()));\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		if (isSimple) {
 			source.append("\t\t\tmsg_tail_count++;\n");
@@ -2506,7 +2511,12 @@ public final class PortGenerator {
 			source.append("\t\t\t}\n");
 		}
 		source.append("\t\t\tif (!is_started) {\n");
-		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
+		source.append("\t\t\t\tif(is_halted) {\n");
+		source.append("\t\t\t\t\tTtcnError.TtcnWarning(MessageFormat.format(\"A message that arrived on port {0} has been discarded, because the port is not started.\", get_name()));\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tmsg_tail_count++;\n");
 		source.append("\t\t\tif (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_MQUEUE)) {\n");
@@ -3590,9 +3600,14 @@ public final class PortGenerator {
 		source.append(header);
 
 		source.append(") {\n" );
-		source.append("\t\t\tif (!is_started) {\n" );
-		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a call has arrived on it.\", get_name()));\n");
-		source.append("\t\t\t}\n" );
+		source.append("\t\t\tif (!is_started) {\n");
+		source.append("\t\t\t\tif(is_halted) {\n");
+		source.append("\t\t\t\t\tTtcnError.TtcnWarning(MessageFormat.format(\"A call that arrived on port {0} has been discarded, because the port is not started.\", get_name()));\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a call has arrived on it.\", get_name()));\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tif(TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_PQUEUE)) {\n");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PQUEUE);\n");
@@ -3696,9 +3711,14 @@ public final class PortGenerator {
 		source.append(header);
 
 		source.append(") {\n" );
-		source.append("\t\t\tif (!is_started) {\n" );
-		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a reply has arrived on it.\", get_name()));\n");
-		source.append("\t\t\t}\n" );
+		source.append("\t\t\tif (!is_started) {\n");
+		source.append("\t\t\t\tif(is_halted) {\n");
+		source.append("\t\t\t\t\tTtcnError.TtcnWarning(MessageFormat.format(\"A reply that arrived on port {0} has been discarded, because the port is not started.\", get_name()));\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but a reply has arrived on it.\", get_name()));\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tif(TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_PQUEUE)) {\n");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PQUEUE);\n");
@@ -3802,9 +3822,14 @@ public final class PortGenerator {
 		source.append(header);
 
 		source.append(") {\n" );
-		source.append("\t\t\tif (!is_started) {\n" );
-		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but an exception has arrived on it.\", get_name()));\n");
-		source.append("\t\t\t}\n" );
+		source.append("\t\t\tif (!is_started) {\n");
+		source.append("\t\t\t\tif(is_halted) {\n");
+		source.append("\t\t\t\t\tTtcnError.TtcnWarning(MessageFormat.format(\"An exception that arrived on port {0} has been discarded, because the port is not started.\", get_name()));\n");
+		source.append("\t\t\t\t\treturn;\n");
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Port {0} is not started but an exception has arrived on it.\", get_name()));\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tif(TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_PQUEUE)) {\n");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("\t\t\t\tTTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_PQUEUE);\n");
