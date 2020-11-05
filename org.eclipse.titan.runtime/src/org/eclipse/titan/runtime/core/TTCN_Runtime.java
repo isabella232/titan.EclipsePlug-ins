@@ -969,7 +969,8 @@ public final class TTCN_Runtime {
 		} else {
 			final int index = get_component_status_table_index(component_reference);
 			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
-			switch (local_status_table.get(index).done_status) {
+			final component_status_table_struct indexed_status_table_element = local_status_table.get(index);
+			switch (indexed_status_table_element.done_status) {
 			case ALT_UNCHECKED:
 				switch (executorState.get()) {
 				case MTC_TESTCASE:
@@ -983,21 +984,21 @@ public final class TTCN_Runtime {
 				}
 
 				TTCN_Communication.send_done_req(component_reference);
-				local_status_table.get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+				indexed_status_table_element.done_status = TitanAlt_Status.ALT_MAYBE;
 				create_done_killed_compref.set(component_reference);
 				// wait for DONE_ACK
 				wait_for_state_change();
 
 				return TitanAlt_Status.ALT_REPEAT;
 			case ALT_YES:
-				if (local_status_table.get(index).return_type == null) {
+				if (indexed_status_table_element.return_type == null) {
 					TTCN_Logger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__no__return);
 					return TitanAlt_Status.ALT_NO;
 				}
 
-				if (local_status_table.get(index).return_type.equals(return_type)) {
-					local_status_table.get(index).return_value.rewind();
-					text_buf.set(local_status_table.get(index).return_value);
+				if (indexed_status_table_element.return_type.equals(return_type)) {
+					indexed_status_table_element.return_value.rewind();
+					text_buf.set(indexed_status_table_element.return_value);
 
 					return TitanAlt_Status.ALT_YES;
 				} else {
@@ -1205,17 +1206,18 @@ public final class TTCN_Runtime {
 
 		final int index = get_component_status_table_index(component_reference);
 		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
+		final component_status_table_struct indexed_status_table_element = local_status_table.get(index);
 		// a successful killed operation on the component reference implies done
-		if (local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
+		if (indexed_status_table_element.killed_status == TitanAlt_Status.ALT_YES) {
 			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
 			if (ptc_verdict != null) {
-				ptc_verdict.set(local_status_table.get(index).local_verdict);
+				ptc_verdict.set(indexed_status_table_element.local_verdict);
 			}
 
 			return TitanAlt_Status.ALT_YES;
 		}
 
-		switch (local_status_table.get(index).done_status) {
+		switch (indexed_status_table_element.done_status) {
 		case ALT_UNCHECKED:
 			switch (executorState.get()) {
 			case MTC_TESTCASE:
@@ -1229,7 +1231,7 @@ public final class TTCN_Runtime {
 			}
 
 			TTCN_Communication.send_done_req(component_reference);
-			local_status_table.get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+			indexed_status_table_element.done_status = TitanAlt_Status.ALT_MAYBE;
 			create_done_killed_compref.set(component_reference);
 			// wait for DONE_ACK
 			wait_for_state_change();
@@ -1238,7 +1240,7 @@ public final class TTCN_Runtime {
 		case ALT_YES:
 			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
 			if (ptc_verdict != null) {
-				ptc_verdict.set(local_status_table.get(index).local_verdict);
+				ptc_verdict.set(indexed_status_table_element.local_verdict);
 			}
 
 			return TitanAlt_Status.ALT_YES;
