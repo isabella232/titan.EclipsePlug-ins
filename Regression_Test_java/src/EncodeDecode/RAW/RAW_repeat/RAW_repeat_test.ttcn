@@ -59,7 +59,7 @@ with { extension "prototype(backtrack) decode(RAW)" }
 
 // no spread record of
 testcase tc_1() runs on CT {
-  var octetstring stream;
+  var octetstring stream := '010100020100030100040100'O ;  // IE1, IE2, unknown IE
   var PDU pdu_decoded;
   var PDU pdu_expected := {
     ie1_field := { ie_type := '01'O, len:=1, data := '00'O },
@@ -69,14 +69,9 @@ testcase tc_1() runs on CT {
       {  ie_type := '04'O, len:=1, data := '00'O}
     }
   }
+
   var integer result;
-
-  stream := '010100020100030100040100'O   // IE1, IE2, unknown IE
   result:=dec_PDU_backtrack(stream,pdu_decoded);
-  log(stream);
-  log(result)  // { ie1_field := { ie_type := '01'O, len := 1, data := '00'O }, ie2_field := { ie_type := '02'O, len := 1, data := '00'O }, unknown_ies := { { ie_type := '03'O, len := 1, data := '00'O }, { ie_type := '04'O, len := 1, data := '00'O }  } }
-  log(pdu_decoded);
-
   if (result != 0) {
     setverdict(fail, "decoding failed");
   } else if ( pdu_decoded != pdu_expected) {
@@ -101,11 +96,7 @@ testcase tc_2() runs on CT {
     }
   }
   var integer result;
-  //  stream := '010100030100020100040100'O   // IE1, unknown IE, IE2  -> IE2 added to the unknown_ies 
   result:=dec_PDU_backtrack(stream,pdu_decoded);
-  log(stream)
-  log(result) // { ie1_field := { ie_type := '01'O, len := 1, data := '00'O }, ie2_field := omit, unknown_ies := { { ie_type := '03'O, len := 1, data := '00'O }, { ie_type := '02'O, len := 1, data := '00'O }, { ie_type := '04'O, len := 1, data := '00'O }  } }
-  log(pdu_decoded)
   if (result != 0) {
     setverdict(fail, "decoding failed");
   } else if ( pdu_decoded != pdu_expected) {
@@ -134,9 +125,6 @@ testcase tc_3() runs on CT {
   var integer result;
 
   result:=dec_PDU_backtrack(stream,pdu_decoded);
-  log(stream)
-  log(result) // { ie1_field := { ie_type := '01'O, len := 1, data := '00'O }, ie2_field := omit, unknown_ies := { { ie_type := '03'O, len := 1, data := '00'O }, { ie_type := '02'O, len := 1, data := '00'O }, { ie_type := '04'O, len := 1, data := '00'O }  } }
-  log(pdu_decoded)
   if (result != 0) {
     setverdict(fail, "decoding failed");
   } else if ( pdu_decoded != pdu_expected) {
