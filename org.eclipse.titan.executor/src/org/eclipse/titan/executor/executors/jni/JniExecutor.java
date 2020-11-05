@@ -679,8 +679,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 						dialog.setSelection(lastTimeSelection, lastTimeSelectionTime, lastTimeSelectionType);
 
 						if (dialog.open() != Window.OK) {
-							executionStarted = false;
-							shutdownSession();
+							lastTimeSelectionType = ExecutableType.NONE;
 							return;
 						}
 
@@ -736,9 +735,14 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 				executedTests.ensureCapacity(executedTests.size() + lastTimeSelectionTime);
 				break;
 			default:
+				invalidSelection = false;
 				break;
 			}
 		} while (invalidSelection);
+
+		if (lastTimeSelectionType == ExecutableType.NONE) {
+			return;
+		}
 
 		executionStarted = true;
 		executeRequested = true;

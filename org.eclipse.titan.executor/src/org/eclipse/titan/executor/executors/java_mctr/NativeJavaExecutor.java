@@ -716,8 +716,7 @@ public class NativeJavaExecutor extends BaseExecutor {
 						dialog.setSelection(lastTimeSelection, lastTimeSelectionTime, lastTimeSelectionType);
 
 						if (dialog.open() != Window.OK) {
-							executionStarted = false;
-							shutdownSession();
+							lastTimeSelectionType = ExecutableType.NONE;
 							return;
 						}
 
@@ -773,9 +772,14 @@ public class NativeJavaExecutor extends BaseExecutor {
 				executedTests.ensureCapacity(executedTests.size() + lastTimeSelectionTime);
 				break;
 			default:
+				invalidSelection = false;
 				break;
 			}
 		} while (invalidSelection);
+
+		if (lastTimeSelectionType == ExecutableType.NONE) {
+			return;
+		}
 
 		executionStarted = true;
 		executeRequested = true;
