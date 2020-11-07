@@ -5978,7 +5978,9 @@ public class MainController {
 
 	private static RequestorStruct init_requestors(final ComponentStruct tc) {
 		final RequestorStruct requestors = new RequestorStruct();
-		requestors.components.add(tc);
+		if (tc != null) {
+			requestors.components.add(tc);
+		}
 
 		return requestors;
 	}
