@@ -204,7 +204,7 @@ NOTE: TITAN does not support these language restrictions.
 Code smells in this category indicate some issue in coding style.
 
 * *Report unnecessary negations in if statements:* When the condition of an "if" statement is negated, while it has exactly two branches.
-* *Report if the name of the module is mentioned in the name of the definition*: In TTCN-3 it is supported to refer definitions in a module name prefixed way. In cases the module reference notation is not need, this naming style only makes the name longer.
+* *Report if the name of the module is mentioned in the name of the definition*: In TTCN-3 it is supported to refer definitions in a module name prefixed way. In cases the module reference notation is not needed, this naming style only makes the name longer.
 * *Report if the name of the type is mentioned in the name of the definition*: In repeating the name of the type of a definition in the definitions name is a convenience method, but in some cases this makes the name of definition very large without adding any information.
 * *Report magic constants:* an integer higher than 5 or any string literal.
 * *Report if the attributes are being overridden*: When attributes are being overridden.
@@ -265,7 +265,7 @@ In this section you may set the repair time values of the signed problems. Norma
 
 Repair times are used upon exporting code smells to CSV format. The repair time tells how long it takes to fix one problem of a certain type. You may set minimal, average and maximal repair times for each problem. In these fields only floating point numbers are accepted.
 
-image::images/3_F2.png[title=""]
+image::images/3_F2.png[title="Repair times of code smells"]
 
 [[organize-import-preferences]]
 == Organize import preferences
@@ -383,7 +383,7 @@ The project action of exporting the code smells to an excel sheet (see <<project
 
 === General graph preferences
 
-At the *Titanium Preferences/Graph* page (see Figure 9) it is possible to set some parameters that are related to all the graphs. Currently this page provides two settings, as you can see on the figure, these are:
+At the *Titanium Preferences/Graph* page (see Figure 10) it is possible to set some parameters that are related to all the graphs. Currently this page provides two settings, as you can see on the figure, these are:
 
 * *Maximal number of iterations*: This parameter sets the maximal number of iterations (cycles) used to have a stable place for all nodes. If this limit is reached the nodes will not move anymore, however the provided place for the nodes may not be the optimal according to the used layout algorithm. A smaller value will allow the algorithms to finish much sooner, but the drawback is that in those cases the structure might not be that much visible.
 +
@@ -393,7 +393,7 @@ NOTE: This setting applies only to certain algorithms that have such a settable 
 +
 NOTE: The better algorithm may also depend on the actual structure of the drawn graph.
 
-For further information about graph layouts see the chapter 10.
+For further information about graph layouts see the Chapter <<the-module-dependency-graph, The module dependency graph>>.
 
 image::images/3_F9.png[title="Graph preference page"]
 
@@ -456,7 +456,7 @@ The method works by creating clusters for the given regular expressions and assi
 
 This page can be used to create the regular expressions.
 
-Figure 14 shows an example with two clusters. The first will contain modules, whose name begins with the letter "m" or "M". The second will contain modules, whose name begins with the letter "a" or "A".
+Figure 15 shows an example with two clusters. The first will contain modules, whose name begins with the letter "m" or "M". The second will contain modules, whose name begins with the letter "a" or "A".
 
 By default, the list of clusters is empty.
 
@@ -553,9 +553,9 @@ This entry point takes exactly one parameter: the location of the project descri
 
 == Exporting the detected code smells into Excel files
 
-The "__org.eclipse.titanium.applications.__ExportAllCodeSmells" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract the detected code smells into excel files.
+The "__org.eclipse.titanium.applications.__ExportAllCodeSmells" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract the detected code smells into Excel files.
 
-To support un-attended nightly tests, this entry point analyses a project found in the workspace. This is very useful in large systems, where we might wish to check all projects in the workspace at once.
+To support unattended nightly tests, this entry point analyses a project found in the workspace. This is very useful in large systems, where we might wish to check all projects in the workspace at once.
 
 [source,subs="+quotes"]
 *eclipse.exe -noSplash -data c:\Users\ekrisza\runtime_headless -application org.eclipse.titanium.applications.ExportAllCodeSmells ForProject c:\ekrisza\temporal\TitanSim\TitanSim_20130530*
@@ -581,7 +581,7 @@ This entry point takes 2 or 3 parameters:
 1.  The first parameter is mandatory and is the prefix of the output path.
 2.  The second parameters is mandatory and is the name of the project to process.
 
-The third parameter is optional and is date to be used in the generated file’s name (the current date if not provided).
+The third parameter is optional, and it is the date to be used in the generated file’s name (the current date if not provided).
 
 This prefix will be appended with the name of the project, the provided or current date and the ".xls" extension.
 
@@ -589,7 +589,7 @@ This prefix will be appended with the name of the project, the provided or curre
 
 The "__org.eclipse.titanium.applications.__ExportAllCodeSmellsToCSV" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract the detected code smells into CSV files.
 
-To support un-attended nightly tests this entry point analyses all projects found in the workspace. This is very useful in large systems, where the source code is hierarchically separated into several projects.
+To support unattended nightly tests this entry point analyses all projects found in the workspace. This is very useful in large systems, where the source code is hierarchically separated into several projects.
 
 [source,subs="+quotes"]
 *eclipse.exe -noSplash -data c:\Users\ekrisza\runtime_headless -application org.eclipse.titanium.applications.ExportAllCodeSmellsToCSV c:\ekrisza\temporal\TitanSim\TitanSim_20130530*
@@ -602,12 +602,12 @@ The "times" file contains the estimate repair times calculated for the whole pro
 
 The "__org.eclipse.titanium.applications.__ ExportAllMetrics" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract the measured values of Metrics into excel files.
 
-To support un-attended nightly tests, this entry point analyses all projects found in the workspace. This is very useful in large systems, where the source code is hierarchically separated into several projects.
+To support unattended nightly tests, this entry point analyses all projects found in the workspace. This is very useful in large systems, where the source code is hierarchically separated into several projects.
 
 [source,subs="+quotes"]
 *eclipse.exe -noSplash -data c:\Users\ekrisza\runtime_headless -application org.eclipse.titanium.applications.ExportAllMetrics c:\ekrisza\temporal\TitanSim\TitanSim_20130530*
 
-This entry point takes exactly one parameter: the prefix of the output path.This prefix will be appended with the name of the project and the ".xls" extension.
+This entry point takes exactly one parameter: the prefix of the output path. This prefix will be appended with the name of the project and the ".xls" extension.
 
 [[exporting-the-module-dependency-graph]]
 == Exporting the module dependency graph
@@ -681,7 +681,7 @@ image::images/5_F16.png[title="Editor actions context menu"]
 
 While editing a TTCN3 source file, you can open the context menu by right clicking in the editor. Under the Titanium menu point, you will find the available actions on this file.
 
-* *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf. Section 6.
+* *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf. Chapter <<organize-imports, Organize imports>>.
 
 * *Show module in Module hierarchy:* Displays the module hierarchy, and reveals in it the location of the current module.
 
@@ -694,7 +694,7 @@ image::images/5_F17.png[title="Project actions context menu"]
 
 To access the Titanium project actions, right click to a Titan project name in the Package Explorer, and select the Titanium menu.
 
-* *Organize imports:* Organize imports of all TTCN3 source files in the project. See <<configuring-the-problems-view, here>>.
+* *Organize imports:* Organize imports of all TTCN3 source files in the project. See <<organize-imports, here>>.
 * *View top risk metrics:* Open the Top risk metrics view showing the selected project. See <<top-riskiest-modules-view, here>>.
 * *View metrics:* Open the Metrics view showing the selected project. See <<metrics-view, here>>.
 * *Draw component structure:* Visualize the components of the project. See <<the-component-dependency-graph, here>>.
@@ -713,7 +713,7 @@ To access the Titanium file actions, right click on a file inside a Titan projec
 
 The amount of problems reported in the Problems view for some projects can be quite overwhelming for users.
 
-This can be changed, as in eclipse it is possible to configure the contents of the Problems view to filter the list of seen issues.
+This can be changed, as in Eclipse it is possible to configure the contents of the Problems view to filter the list of seen issues.
 
 image::images/6_F18.png[title="Problems view filtered to show only unused local and global definitions"]
 
@@ -721,17 +721,17 @@ image::images/6_F18.png[title="Problems view filtered to show only unused local 
 
 The first way to configure the contents of the *Problems* view is to use its *View* menu. By right clicking on the *View* menu (the triangle in the right hand side of the toolbar) the menu of the *Problems* view pops up. Here it is possible to check and set which filters are active, set the grouping and sorting of problems, configure the contents and columns of the view.
 
-As seen on Figure 19 the *_Show_* menu displays which already configured settings are active at any time. The configurations active are selected in this menu. If some of them have to be filtered out, or a previously inactive filter has to be activated, it can be done with a single click here.
+As seen on Figure 20 the *_Show_* menu displays which already configured settings are active at any time. The configurations active are selected in this menu. If some of them have to be filtered out, or a previously inactive filter has to be activated, it can be done with a single click here.
 
 image::images/6_F19.png[title="Problems view active filters"]
 
-By selecting the *Configure Contents…* menu entry, the configuration window appears. In this window it is possible to create/remove/change configuration to best fit any user need.For a more detailed description please refer to the help system of eclipse, using the *Workbench User Guide / Concepts / Views / Problems view* path.
+By selecting the *Configure Contents…* menu entry, the configuration window appears. In this window it is possible to create/remove/change configuration to best fit any user need. For a more detailed description please refer to the help system of eclipse, using the *Workbench User Guide / Concepts / Views / Problems view* path.
 
 == Importing a configuration predefined for Titanium
 
 To help in getting started with Titanium, we have created a beginning set of configurations. These settings can be imported from a single file, and fine-tuned to best fit any use case.
 
-The file containing the setting can be downloaded from https://sharepoint.ericsson.com/sites/DUCI_SW_Technology/Titanium/Documents/problems_view_preferences.epf[here].To import it, inside eclipse select *File / Import …* . In the window that pops up select *General / Preferences* (as shown on Figure 20). Till this point this is just like importing a new project, but instead now eclipse is asked to import some of its setting saved previously.
+The file containing the setting can be downloaded from https://sharepoint.ericsson.com/sites/DUCI_SW_Technology/Titanium/Documents/problems_view_preferences.epf[here]. To import it, inside eclipse select *File / Import …* . In the window that pops up select *General / Preferences* (as shown on Figure 21). Till this point this is just like importing a new project, but instead now Eclipse is asked to import some of its setting saved previously.
 
 image::images/6_F20.png[title="The preference importation wizard selected"]
 
@@ -739,6 +739,7 @@ In the window that pops up select the file that was just downloaded. As this fil
 
 image::images/6_F21.png[title="Import preferences selector"]
 
+[[organize-imports]]
 = Organize imports
 
 Organizing imports means intelligently adding and removing module importation statements, according to the currently referenced definitions in the source file.
@@ -763,11 +764,11 @@ The Metrics View provides a convenient overview of the 'health' of a project fro
 
 Usage:
 
-. Open the Window / Show perspective / Metrics view.
+. Open the *Window / Show perspective / Metrics view*.
 . Choose a project to analyse from the combo box (on the top of the view).
 +
 NOTE: Only those projects can be selected that are visible in the project explorer.
-. Press the "Refresh" button (near the project selector).
+. Press the *Refresh* button (near the project selector).
 
 This will create a table with five columns, where the user can explore the results of the metrics on the chosen project.
 
@@ -780,12 +781,12 @@ The first column contains a tree with the following levels:
 
 image::images/8_F24.png[title="Metrics view with selection"]
 
-On Figure 24 the selected row shows information about the *Number of functions* metric (which is in fact a module metric).It can be seen, that:
+On Figure 25 the selected row shows information about the *Number of functions* metric (which is in fact a module metric). It can be seen that:
 
-* the project contains a total of 834 functions
-* the module with the most functions containing 314 of them
-* modules of the project contain 12.26 functions on average
-* with 41.09 standard deviation
+* the project contains a total of 834 functions;
+* the module with the most functions containing 314 of them;
+* modules of the project contain 12.26 functions on average;
+* with 41.09 standard deviation.
 
 As the node is opened, under this node we can examine the modules of the project, ordered by the number of functions they contain, and see that module _AtsIpv6**Core**…_ contains 314 functions, module _AtsIpv6**NeighborDiscovery**…_ contains 113 functions, etc.
 
@@ -814,8 +815,8 @@ Usage of the Top Riskiest Modules View is somewhat similar to the usage of the M
 
 . Open the *Window / Show perspective / Top riskiest modules* view
 . Select the project to analyse from the combo box at the top of the view (only open projects are shown)
-. Press the refresh button right near the project selector
-. A dialog will pop up, where the user can check the metrics she wants to use. When ready, click the "OK" button on the bottom
+. Press the *Refresh* button right near the project selector
+. A dialog will pop up, where the user can check the metrics she wants to use. When ready, click the *OK* button on the bottom
 
 This will finally create a table in the View.
 
@@ -823,7 +824,7 @@ Rows in the table show modules, and the results measured by the different metric
 
 == Colouring
 
-Cells of the table are coloured in the same manner as rows in the Metrics View.If the metric measures high risk for the module it is displayed with red background. When the risk is measured to be low it is yellow. If the metric does not considers a module suspicious, it will be displayed in green. The limits of this classification can be set in the *Window / Preferences / Titanium Preferences / Metrics / Limits* preference page.
+Cells of the table are coloured in the same manner as rows in the Metrics View. If the metric measures high risk for the module it is displayed with red background. When the risk is measured to be low it is yellow. If the metric does not considers a module suspicious, it will be displayed in green. The limits of this classification can be set in the *Window / Preferences / Titanium Preferences / Metrics / Limits* preference page.
 
 NOTE: Ordering of the modules happens descending by the cumulative risk according to the chosen metrics.
 
@@ -871,14 +872,14 @@ NOTE: This tool is meant to be used by people who have a large scale overview of
 
 === Drawing a graph
 
-The architecture of a project can be opened by right clicking on a TTCN-3 project managed by the TITAN Designer, and selecting *Titanium/Draw module structure* (see below)
+The architecture of a project can be opened by right clicking on a TTCN-3 project managed by the TITAN Designer, and selecting *Titanium/Draw module structure* (see below).
 
 image::images/10_F28.png[title="Making module graph"]
 
 Depending on the size of the project and whether it was already analysed by the On-the-fly analyser of the Designer plug-in or not this might take up to a few minutes. The reporting of progress is done in the Eclipse Progress View.
 
-After the successful draw of module graph you should see something similar shown on Figure 29.
-+
+After the successful draw of module graph you should see something similar shown on Figure 28.
+
 NOTE: This image has two main parts, on the right hand side you can see the so called satellite view (this is an Eclipse view that automatically opens upon every graph drawing). And on the left hand side you can see an editor (let’s call it graph area).
 
 Clicking on a specific place in the satellite view, the graph area will jump to show that place, and the area will have a white background on the satellite view.
@@ -895,13 +896,13 @@ After successfully making a module graph several things can be done on the graph
 * Scrolling with the mouse wheel:
 ** This causes the graph to zoom in or out depending on the scrolls direction.
 * Right clicking on a node:
-** A menu should appear, here you can choose an action to perform, there are three actions: (see Figure 30)
+** A menu should appear, here you can choose an action to perform, there are five actions: (see Figure 29)
 *** *Select node*: Here the node is only selected, so it will be marked by different colour, and the incident edges will be red, while all other edges will be grey.
 *** *Search parallel paths*: This menu item starts a search for parallel paths whose source is the clicked node. This action may take longer, however it is much faster than the search for all parallel paths on the graph which may be used from *Tools* menu.
 *** *Show Dependent nodes*: This menu item searches and selects all nodes that could be removed if this node is removed (does not have other transitive dependencies)
 *** *Go to definition:* By clicking on this entry the source file of the selected module will be opened. The place of definition should be highlighted inside the file.
-*** *Show Info window:* Clicking on this item pops up a small window which contains the metrics information calculated for this node (module). See Figure 31
-* Clicking the right mouse button and dragging it inside the window while the Ctrl button is pressed:
+*** *Show Info window:* Clicking on this item pops up a small window which contains the metrics information calculated for this node (module), see Figure 30.
+* Clicking the right mouse button and dragging it inside the window while the *Ctrl* button is pressed:
 ** The view inside the graph will move according to the dragging.
 * +/- key presses:
 ** Zoom in and out of the graph.
@@ -910,23 +911,23 @@ image::images/10_F30.png[title="The popup menu after right click on a graph node
 
 === Module information window
 
-The metric popup window can be opened by right clicking on a selected node
+The metric popup window can be opened by right clicking on a selected node.
 
 image::images/10_F31.png[title="The info window and a selected node"]
 
-The edges belonging to *c* are drawn red, and all the other edges are drawn very soft, grey. This feature visualizes the neighbours of a given node.In the metrics window the *Number of functions* metric is selected in the metrics menu (see Figure 31). The colour of the row in this view is the same as the selected node’s colour, which represents how bad it was according to the selected metric
+The edges belonging to *c* are drawn red, and all the other edges are drawn very soft, grey. This feature visualizes the neighbours of a given node. In the metrics window the *Number of functions* metric is selected in the metrics menu (see Figure 30). The colour of the row in this view is the same as the selected node’s colour, which represents how bad it was according to the selected metric.
 
 === Menu functions
 
-This section lists the functionalities that are reachable from the graph window’s menu. There are six main menus: *File, Layout, Find, Tools, Metrics and Clustering*
+This section lists the functionalities that are reachable from the graph window’s menu. There are six main menus: *File, Layout, Find, Tools, Metrics and Clustering*.
 
 ==== File menu
 
 There are two entries in the file menu:
 
 * Save: This will save the graph into a specific format called Pajek .net. For further information please check http://netwiki.amath.unc.edu/DataFormats/PajekNetAndPajFormats[Pajek’s documentation]. This format stores only the node names, and the connections, but nothing else (no static place, node shape, colour, etc.). _This function also can be reached by Ctrl+S hotkey combination while the graph editor is active._
-* Export to image file: Clicking on this item first pops up a window where you can select from three options (see Figure 32):
-** *Whole graph:* Export all the nodes into a big image file. On big graphs this action may fail, because the image file can be too big
+* Export to image file: Clicking on this item first pops up a window where you can select from three options (see Figure 31):
+** *Whole graph:* Export all the nodes into a big image file. On big graphs this action may fail, because the image file can be too big.
 ** *Only the seen part:* You export the graph editor window to an image file (only the nodes what you see there).
 ** *The Satellite view:* In this case you only export the satellite view in its seen size to an image file.
 
@@ -942,16 +943,18 @@ The currently available layouts:
 
 * *Self Organizing ISOM:* This layout groups the most frequently visited modules close to each other, and collects less visited nodes separately. These way outstanding branches become visible. Isolated components (a group of nodes that does not have any edge that goes to a node that is outside the group) are displayed as separated graphs.
 +
-Further details: Meyer, B; `Self-Organizing Graphs - A Neural Network Perspective of Graph Layout', Graph Drawing'98. http://www.csse.monash.edu.au/%7Eberndm/ISOM/[this link]
+Further details: Meyer B. (1998) Self-Organizing Graphs — A Neural Network Perspective of Graph Layout. In: Whitesides S.H. (eds) Graph Drawing. GD 1998. Lecture Notes in Computer Science, vol 1547. Springer, Berlin, Heidelberg. https://doi.org/10.1007/3-540-37623-2_19
 * *Fruchterman-Reingold algorithm:* This algorithm is based on a method of modern physics. It collects the most frequently visited modules to the centre of a circle like shape. The less visited modules will be on the edge of this circle.
 +
-The exact algorithm can be seen here: THOMAS M. J. FRUCHTERMAN* AND EDWARD M. REINGOLD: "Graph Drawing by Force-directed Placement"SOFTWARE—PRACTICE AND EXPERIENCE, VOL. 21(1 1), 1129-1164 (NOVEMBER 1991)
+The exact algorithm can be seen here: Fruchterman, T.M.J. and Reingold, E.M. (1991), Graph drawing by force‐directed placement. Software: Practice and Experience, 21: 1129-1164. https://doi.org/10.1002/spe.4380211102
+
 * *Kamada-Kawai algorithm:* This algorithm is similar to the self-organizing layout, but it is based on the reduction of number of edge crossings. Thus it may provide better view.
 +
 For further details see:
-** "Tomihisa Kamada and Satoru Kawai: An algorithm for drawing general indirect graphs. Information Processing Letters 31(1):7-15, 1989"
-** "Tomihisa Kamada: On visualization of abstract objects and relations. Ph.D. dissertation, Dept. of Information Science, Univ. of Tokyo, Dec. 1988."
-* *Spring force directed:* This algorithm is based on the force of springs. The edges should be imagined as strong springs that would like to get the nodes closer. But nodes have a toss power, so they won't necessarily get very close. (This toss power is bigger if more nodes are close) This layout is not really good for small graphs, as nodes may cover each other, but it can be useful for big graphs.
+
+** Tomihisa Kamada and Satoru Kawai: An algorithm for drawing general indirect graphs. Information Processing Letters 31(1):7-15, 1989
+** Tomihisa Kamada: On visualization of abstract objects and relations. Ph.D. dissertation, Dept. of Information Science, Univ. of Tokyo, Dec. 1988.
+* *Spring force directed:* This algorithm is based on the force of springs. The edges should be imagined as strong springs that would like to get the nodes closer. But nodes have a toss power, so they won't necessarily get very close. (This toss power is bigger if more nodes are close.) This layout is not really good for small graphs, as nodes may cover each other, but it can be useful for big graphs.
 * *Logical ring:* This layout will organize nodes to a logical ring (circle). The edges will point to different other points of the circle (other nodes). It is not really useful for big graphs, but sometimes it may be good for small graphs.
 * *Directed layouts:* These layouts try to show you some kind of structure inside the graph. They usually show you how distinct logical levels separated on the graph.
 ** *General Directed Graph:* In this case you will see a few root nodes on the top of the screen, these nodes only have edges that point out of them, but there is no edge that points into the node. Below this you will see the children of these nodes (nodes that have an edge pointing to it from one of the root nodes), and so on (later you will see the children of children (grandchildren), and great grandchildren, etc.)
@@ -960,11 +963,11 @@ For further details see:
 
 ==== Find menu
 
-This menu currently only has one entry, *node by name.* Clicking on this entry should pop up a small find window, where you may enter a text (see Figure 33). This text will be normally considered only as the beginning part of the node name, and the finder won’t mind whether it is upper or lower case. You can modify this behaviour by selecting *exact match* or *case sensitive* check boxes. If *exact match* is selected then only such nodes will be found that have exactly the written name (this still doesn’t mind about upper/lower case). These options maybe selected also together, in this case lower/upper case will also be handled separately.
+This menu currently only has one entry, *node by name.* Clicking on this entry should pop up a small find window, where you may enter a text (see Figure 32). This text will be normally considered only as the beginning part of the node name, and the finder won’t mind whether it is upper or lower case. You can modify this behaviour by selecting *exact match* or *case sensitive* check boxes. If *exact match* is selected then only such nodes will be found that have exactly the written name (this still doesn’t mind about upper/lower case). These options maybe selected also together, in this case lower/upper case will also be handled separately.
 
 image::images/10_F33.png[title="The find window"]
 
-On the dialog you can see two buttons, *Find* button will show you a table with the results (see Figure 34), or a message if there is no result. By clicking on an item of the list the graph window will jump there, and colour the selected node to be light blue, while all other nodes will be coloured grey. To totally understand this you can see a mixed figure on Figure 34, you can see the satellite view, the find window and the shown part of graph window together. You can see on the satellite view that your graph has two more nodes that are out of your screen. But as you clicked on A_Ext node the shown part was placed there (in this case the graph window’s center is slide to the node). On the Find window’s result set you can see that there is one more node that matched your search, this is called A_Base. Would you click there the graph window would jump there, and would colour A_Ext grey, and A_Base blue.
+On the dialog you can see two buttons, *Find* button will show you a table with the results (see Figure 33), or a message if there is no result. By clicking on an item of the list the graph window will jump there, and colour the selected node to be light blue, while all other nodes will be coloured grey. To totally understand this you can see a mixed figure on Figure 33, you can see the satellite view, the find window and the shown part of graph window together. You can see on the satellite view that your graph has two more nodes that are out of your screen. But as you clicked on A_Ext node the shown part was placed there (in this case the graph window’s center is slide to the node). On the Find window’s result set you can see that there is one more node that matched your search, this is called A_Base. Would you click there the graph window would jump there, and would colour A_Ext grey, and A_Base blue.
 
 By clicking *Clear result* you may change back to the original node colours, and make the result list to be empty (in this case Find window returns to its original size, and hides the part shown below the horizontal separator line).
 
@@ -984,7 +987,7 @@ NOTE: This algorithm will not find all circles: In some cases when a circle shar
 
 ==== Metrics menu
 
-In this menu the metrics set on the preference page (see section 3) can be selected. This will cause the graph nodes to have specific colours according to their metric values set in this menu.
+In this menu the metrics set on the preference page (see Section 3) can be selected. This will cause the graph nodes to have specific colours according to their metric values set in this menu.
 
 The meaning of colours:
 
@@ -1009,10 +1012,10 @@ image::images/10_F35.png[title="The clustering menu with grouping entries"]
 
 This menu provides the clustering capabilities for module graphs. It can be divided into two further submenus:
 
-* *Grouping clusterer:* Using these entries the identified clusters are drawn into knots on the screen. All nodes that are close each other are in the same cluster (see Figure 36)
+* *Grouping clusterer:* Using these entries the identified clusters are drawn into knots on the screen. All nodes that are close each other are in the same cluster (see Figure 35).
 * *Graph generating cluster:* Using these clusterers each node will represent one named cluster. The edges will represent whether there is connection between the two clusters (maximally can be two edges between two clusters, one pointing out to the other cluster, and one reverse).
 
-To see the difference between the two behaviours compare Figure 36 and Figure 37.
+To see the difference between the two behaviours compare Figure 35 and Figure 36.
 
 image::images/10_F36.png[title="A clustering of module graph made by a grouping clusterer"]
 
@@ -1022,7 +1025,7 @@ image::images/10_F37.png[title="A clustering of module graph made by a graph gen
 +
 As we have already seen in case of using a graph generating clusterer a totally new graph (cluster graph) will be shown. But it results some special behavior in graph menus. First of all, as it does not make sense to speak about the metrics of a cluster (graph node), the info window and the metrics menu will be deactivated. On the second hand all the cluster making menu entries will be deactivated, as currently clustering a cluster graph is not supported.
 +
-All the now mentioned constraints will be changed back, and the original module graph will be seen in case you choose the *Go back to the original graph* entry (see Figure 38).
+All the now mentioned constraints will be changed back, and the original module graph will be seen in case you choose the *Go back to the original graph* entry (see Figure 37).
 +
 image::images/10_F38.png[title="The menu system after changing to cluster graph"]
 
@@ -1058,7 +1061,7 @@ Scrolling and +/- zooming works the same way as on module graph. Also satellite 
 
 Component graph works similarly as the module graph. On the component graph there are no colours, all the nodes are coloured light green, and the selected node is coloured light blue. A node may be selected by the same way as on the module graph, also a group of nodes.
 
-There are no metrics defined on components, so in this case there won’t be a metrics menu (see Figure 40) and also metrics info pop-up window is not active on this graph. Selecting a node by right click only causes the edges and the node to be selected.
+There are no metrics defined on components, so in this case there won’t be a metrics menu (see Figure 39) and also metrics info pop-up window is not active on this graph. Selecting a node by right click only causes the edges and the node to be selected.
 
 === Menu actions
 
@@ -1080,13 +1083,11 @@ image::images/11_F40.png[title="The component graph"]
 
 = Titanium Sonar plugin
 
-The Titanium Sonar plugin makes it possible to display the exported code quality information on the SonarQube server. Currently the detected code smells can be processed. The following sections describe how to install the server and how to transfer the data from the Titanium eclipse plugin to the SonarQube.
-
-A working example of SonarQube server can be examined at the following address: http://nemo.sonarqube.org/ .
+The Titanium Sonar plugin makes it possible to display the exported code quality information on the SonarQube server. Currently the detected code smells can be processed. The following sections describe how to install the server and how to transfer the data from the Titanium Eclipse plug-in to the SonarQube.
 
 == Setting up the SonarQube server
 
-The following description can be used to set up the SonarQube server on a development machine, for a single user. If you need to install it on a server for multiple users please read the documentation at http://docs.codehaus.org/display/SONAR/Documentation .
+The following description can be used to set up the SonarQube server on a development machine, for a single user. If you need to install it on a server for multiple users please read the documentation at https://docs.sonarqube.org/latest/ .
 
 1.  Download the proper zip file (sonarqube-<version>.zip) from http://www.sonarqube.org/downloads/ . Versions 4.1+ are supported.
 2.  Unzip the package
@@ -1116,7 +1117,7 @@ The sonar-runner must be executed in the root directory of the project.
 
 == Browse the result
 
-By default the SoarQube web interface can be accessed on the http://localhost:9000 address. For more information about this interface see http://docs.codehaus.org/display/SONAR/User+Guide .
+By default the SoarQube web interface can be accessed on the http://localhost:9000 address. For more information about this interface see https://docs.sonarqube.org/latest/ .
 
 = References
 

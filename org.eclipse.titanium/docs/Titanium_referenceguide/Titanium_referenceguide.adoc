@@ -148,11 +148,12 @@ public void process(IVisitableNode node, Problems problems) {
 == Register the new Code Smell
 
 [[register-the-new-code-smell-type]]
-== Register the new Code Smell Type
+=== Register the new Code Smell Type
 
 The _CodeSmellType_ enum in *_package_* _org.eclipse.titanium.markers.types_ contains all the Code Smell Types as instances. We have to add the new Code Smell, using the _<Code_Smell_Id>_ which we have chosen in the constructor of our code smell’s class.We have to add a short description of the problem detected by our code smell, and we must specify three numeric parameters as well:
-. the minimum time needed to improve the detected code smell
-. the average time needed to improve the detected code smell
+
+. the minimum time needed to improve the detected code smell;
+. the average time needed to improve the detected code smell;
 . the maximum time needed to correct on instance of the detected code smell.
 
 Example:
@@ -161,9 +162,9 @@ Example:
 ----
 package org.eclipse.titanium.markers.types;
 public enum CodeSmellType implements ProblemType{
-	 ...
+	...
 	GOTO("Goto", 1.0, 5.5, 26.0)
-...
+	...
 }
 ----
 
@@ -180,12 +181,12 @@ Example:
 package org.eclipse.titanium.markers.spotters.implementation;
 class StaticData {
 
-public static Map<CodeSmellType, BaseModuleCodeSmellSpotter[]> newSpotters() {
-...
-m.put(CodeSmellType.GOTO, new BaseModuleCodeSmellSpotter[] { new Goto() });
-...
-return Collections.unmodifiableMap(m);
-}
+	public static Map<CodeSmellType, BaseModuleCodeSmellSpotter[]> newSpotters() {
+		...
+		m.put(CodeSmellType.GOTO, new BaseModuleCodeSmellSpotter[] { new Goto() });
+		...
+		return Collections.unmodifiableMap(m);
+	}
 }
 ----
 
@@ -203,8 +204,8 @@ enum ProblemTypePreference
 
 public enum ProblemTypePreference {
 	...
-GOTO("Report the usage of label and goto statements", EnumSet.of(CodeSmellType.GOTO)),
-...
+	GOTO("Report the usage of label and goto statements", EnumSet.of(CodeSmellType.GOTO)),
+	...
 }
 ----
 
@@ -223,9 +224,10 @@ class PreferenceInitializer
 
 	public final void initializeDefaultPreferences() {
 		IPreferenceStore preferenceStore = getPreference();
-...
-    preferenceStore.setDefault(ProblemTypePreference.GOTO.getPreferenceName(), GeneralConstants.IGNORE);
-...
+		...
+    		preferenceStore.setDefault(ProblemTypePreference.GOTO.getPreferenceName(),
+    			GeneralConstants.IGNORE);
+		...
 }
 ----
 
@@ -241,12 +243,13 @@ package org.eclipse.titanium.preferences.pages;
 class MarkersPreferencePage
 
 static {
-Map<ProblemTypePreference, String> m = new EnumMap<ProblemTypePreference, String>(ProblemTypePreference.class);
+	Map<ProblemTypePreference, String> m = new EnumMap<ProblemTypePreference, String>
+		(ProblemTypePreference.class);
 
 		...
 		m.put(ProblemTypePreference.GOTO,
-"In almost all cases the usage of goto should be forbidden as it can very easily breaks the principles of"
-						+ " structured/well designed source code.");
+		"In almost all cases the usage of goto should be forbidden as it can very easily
+		breaks the principles of structured/well designed source code.");
 		...
 
 }
@@ -265,17 +268,17 @@ class MarkersPreferencePage
 protected void createFieldEditors() {
   ...
 
-addField(b1);
-		{
-			...
-			sec.setText("Potential Structural problems");
-			sec.setFont(fonts.getBold(""));
-			Composite comp = new Composite(sec, 0);
-			comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			comp.setLayout(new FillLayout(SWT.VERTICAL));
+	addField(b1);
+	{
+		...
+		sec.setText("Potential Structural problems");
+		sec.setFont(fonts.getBold(""));
+		Composite comp = new Composite(sec, 0);
+		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comp.setLayout(new FillLayout(SWT.VERTICAL));
 		createField(comp, ProblemTypePreference.GOTO);
-        		 ...
-}
+		...
+	}
 }
 ----
 
@@ -299,7 +302,7 @@ package org.eclipse.titanium.preferences;
 class PreferenceInitializer
 
 preferenceStore.setDefault(
-PreferenceConstants.IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE, 4);
+	PreferenceConstants.IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE, 4);
 ----
 
 Constant need to be added to PreferenceConstants.
@@ -311,7 +314,8 @@ Example:
 package org.eclipse.titanium.preferences;
 class PreferenceConstants
 
-public static final String IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE = "IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE";
+public static final String IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE =
+	"IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE";
 ----
 
 == Refresh Titanium documentation
@@ -330,7 +334,7 @@ Titanium Preferences / Code Smell Preferences / Potential structural problems
 
 == Overview
 
-One of the core features of Titanium is the code metrics for ttcn3 projects. Code metrics (like block nesting of a test case, or cyclomatic complexity of a function) are indicators of code quality, that can tell the user about which are the complex modules of a project, and may serve as a lead in refactoring by showing overly complicated, bloated parts of the project.
+One of the core features of Titanium is the code metrics for TTCN-3 projects. Code metrics (like block nesting of a test case, or cyclomatic complexity of a function) are indicators of code quality, that can tell the user about which are the complex modules of a project, and may serve as a lead in refactoring by showing overly complicated, bloated parts of the project.
 
 Calculating metrics is planned to happen rarely, only when the user opens explicitly an eclipse view that requires the metrics, thus it was not designed to be lightweight.
 
@@ -340,7 +344,7 @@ image::images/2_F2.png[title="Associations of notable classes related to the met
 
 == Metrics
 
-Metrics are similar to the code smell spotters in the `marker` package. Their purpose is to measure a ttcn3 entity (e.g. count the length of a function definition). They can contain local state (to ensure flexibility), but after initialization this state should not be changed, so their measure method is intended to serve a stateless behavior.
+Metrics are similar to the code smell spotters in the `marker` package. Their purpose is to measure a TTCN-3 entity (e.g. count the length of a function definition). They can contain local state (to ensure flexibility), but after initialization this state should not be changed, so their measure method is intended to serve a stateless behavior.
 
 == MetricData
 
@@ -489,7 +493,7 @@ Then we iterate through the nodes again and choose the narrowest cluster the mod
 
 This algorithm is implemented in the *`AutomaticCluster`* class.
 
-This clustering uses a similar algorithm to the one in the article here: http://www.mcs.drexel.edu/~bmitchel/research/iwpc98.pdf
+This clustering uses a similar algorithm to the one in the article here: S. Mancoridis, B. S. Mitchell, C. Rorres, Y. Chen and E. R. Gansner, "Using automatic clustering to produce high-level system organizations of source code," Proceedings. 6th International Workshop on Program Comprehension. IWPC'98 (Cat. No.98TB100242), Ischia, Italy, 1998, pp. 45-52, doi: 10.1109/WPC.1998.693283. Available: https://www.cs.drexel.edu/~spiros/papers/iwpc98.pdf (2020-11-09)
 
 The changes are documented in the javadoc of the class.
 
