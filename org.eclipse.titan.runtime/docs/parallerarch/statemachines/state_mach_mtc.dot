@@ -1,0 +1,48 @@
+/******************************************************************************
+ * Copyright (c) 2000-2020 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ *
+ * Contributors:
+ *   Ujhelyi, Gergo
+ *
+ ******************************************************************************/
+digraph state_mach_mtc {
+    //states
+    node [fontsize = 22];
+
+    //start state (invisible)
+    START [style = invis];
+    //ending states (invisible)
+    IDLE_END [style = invis];
+    EXECUTING_END [style = invis];
+
+    
+
+    // transient states     
+    node[shape = box, style = rounded];
+    IDLE;
+    EXECUTING;
+
+    {rank=same; IDLE_END, IDLE };
+
+    //Edge
+    edge [fontsize = 12];
+
+    //edges to idle
+    START -> IDLE [arrowtail="dot", label = "-/ connect to MC,\nMTC_CREATED"];
+    EXECUTING -> IDLE [dir = backward, label = "STOP/\nSTOPPED"];
+    EXECUTING -> IDLE [dir = backward, label = "    execution finshed/\nCONTROL_FINISHED"];
+
+    //egde to idle end
+    IDLE -> IDLE_END [arrowhead = dotnormal, label = "EXIT_MTC/\nclose connection, terminate"];
+
+    //edge to executing
+    IDLE:sw -> EXECUTING [dir = forward, xlabel = "    EXECUTE_CONTROL/\nstart generated code"];
+
+    //edge to executing end
+    EXECUTING -> EXECUTING_END [arrowhead = dotnormal, label = "EXIT_MTC/\nclose connection, terminate"]
+
+}

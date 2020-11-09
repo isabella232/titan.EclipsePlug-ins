@@ -1,0 +1,42 @@
+/******************************************************************************
+ * Copyright (c) 2000-2020 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ *
+ * Contributors:
+ *   Ujhelyi, Gergo
+ *
+ ******************************************************************************/
+ digraph state_mach_hc {
+     //states
+    node [fontsize = 20];
+
+    //start state (invisible)
+    START [style = invis];
+    //end state (invisible)
+    EXIT_HC [shape = point, width = 0];
+
+
+    node[shape = box, style = rounded];
+    IDLE;
+    PARAMETERS_SET;
+
+    //Edge
+    edge [fontsize = 14];
+
+
+    //FIXME: finish
+
+    //START -> IDLE [arrowtail="dot", label = "   -/ connect to MC,\nVERSION"];
+    //edges to parameters_set
+    //IDLE -> PARAMETERS_SET [label = "   SET_PARAM/\nSET_PARAM_OK    "];
+    //PARAMETERS_SET -> PARAMETERS_SET [label = "SET_PARAM/\nSET_PARAM_OK"];
+    //PARAMETERS_SET -> PARAMETERS_SET [label = "KILL/\nkill()"];
+    //PARAMETERS_SET -> PARAMETERS_SET [label = "CREATE_MTC/\nfork()"];
+    //PARAMETERS_SET -> PARAMETERS_SET [ label = "CREATE/\nfork()"];
+    //edges to exit_hc
+    //IDLE -> EXIT_HC [ label = "EXIT_HC/\nclose connection"];
+    //PARAMETERS_SET -> EXIT_HC [ label = "EXIT_HC/\nclose connection, terminate"];
+ }
