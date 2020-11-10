@@ -1,0 +1,40 @@
+/******************************************************************************
+ * Copyright (c) 2000-2020 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ *
+ * Contributors:
+ *   Szabo, Bence Janos
+ *
+ ******************************************************************************/
+module Mainr {
+	import from Module1r all;
+	import from Module2r all;
+	import from Module3r all;
+	import from Module4r all;
+	import from Module5r all;
+	import from ASN1Module1r language "ASN.1:2002" all;
+	import from ASN1Module2r language "ASN.1:2002" all;
+	import from ASN1Module3r language "ASN.1:2002" all;
+	import from XSDr all;
+	//import from UsefulTtcn3Typesr all;
+
+	type component EmptyCT {}
+
+	testcase tc_test() runs on EmptyCT {
+		var XSDr.Integer sum := module1 + module2 + module3 + module4 + module5
+		+ asn1module1 + asn1module2 + asn1module3;
+		if (sum == 21) {
+			setverdict(pass);
+		} else {
+			setverdict(fail);
+		}
+	}
+
+	control {
+		execute(tc_test());
+	}
+
+}
