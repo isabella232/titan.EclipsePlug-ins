@@ -73,7 +73,7 @@ The slash (/) character is used to denote a menu and sub-menu sequence. For exam
 
 == Installation
 
-For details on installing the TitaniumRefactoring plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE [1].
+For details on installing the TitaniumRefactoring plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE <<_1, [1]>>.
 
 == How to report an error for the tool
 
@@ -125,20 +125,20 @@ image::images/3_F3.png[title="Editor actions context menu"]
 
 While editing a TTCN-3 source file, the context menu can be opened by right clicking in the editor on some selection. Under the TitaniumRefactoring menu item, the available actions on this file can be found.
 
-* *Extract definition into a new project:* Copies the selected definition and all of its dependencies to a new project. See Section 4 for details.
-* *Extract code into a new function:* Extracts the selected code into a new function. See Section 5 for details.
-* *Lazy-fication of formal parameters:* Automatically detects formal module parameters where applying the @lazy modifier would be beneficial see section 11 for details.
-* *Minimize visibility modifiers in module:* Minimizes all visibility modifiers in a single module. This means, that all the definitions in the module which can be private are given a private visibility modifier. See Section 6 for details.
-* *Expand value list notation in module:* Automatically transforms values given with value list notation into assignment notation.
-* *Order value list notation in module:* Automatically correct the order of elements in assignment notation to mimic the order seen in the type of the value.
-* *Add context info to log statements:* Adds context info to log statements in the selected piece of code. See Section 7 for details.
-* *Extract module parameters into a new project:* Extracts all module parameters and all of their dependencies from an entire project into a new project. See Section 8 for details.
-* *Minimize scope of local variables in function:* This is a complex refactoring operation that is able to automatically delete unused variables, move the declaration of variables closer to the first usage, if needed into a smaller scope unit.
-* *Organize imports:* Automatically organizes the import statements into lexicographical order, removing all unused imports.
-* *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters.
-* *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value.
-* *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement.
-* *Move function:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
+* *Extract definition into a new project:* Copies the selected definition and all of its dependencies to a new project. See Chapter <<extract-definition, Extract definition into a new project>> for details.
+* *Extract code into a new function:* Extracts the selected code into a new function. See Chapter <<extract-code, Extract code into a new function>> for details.
+* *Lazy-fication of formal parameters:* Automatically detects formal module parameters where applying the @lazy modifier would be beneficial see Chapter <<lazy-fication, Lazy-fication of formal parameters>> for details.
+* *Minimize visibility modifiers in module:* Minimizes all visibility modifiers in a single module. This means, that all the definitions in the module which can be private are given a private visibility modifier. See Chapter <<minimize-visibility, Minimize visibility modifiers in module>> for details.
+* *Expand value list notation in module:* Automatically transforms values given with value list notation into assignment notation. See Chapter <<expand-value-list-notation, Expand value list notation in module>> for details.
+* *Order value list notation in module:* Automatically correct the order of elements in assignment notation to mimic the order seen in the type of the value. See Chapter <<order-value-list-notation, Order value list notation in module>> for details.
+* *Add context info to log statements:* Adds context info to log statements in the selected piece of code. See Chapter <<add-context-info, Add context info to log statements>> for details.
+* *Extract module parameters into a new project:* Extracts all module parameters and all of their dependencies from an entire project into a new project. See Chapter <<extract-module-parameters, Extract module parameters into a new project>> for details.
+* *Minimize scope of local variables in function:* This is a complex refactoring operation that is able to automatically delete unused variables, move the declaration of variables closer to the first usage, if needed into a smaller scope unit. See Chapter <<minimize-scope, Minimize scope of local variables in function>> for details.
+* *Organize imports:* Automatically organizes the import statements into lexicographical order, removing all unused imports. See Chapter <<organize-imports, Organize imports>> for details.
+* *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters. See Chapter <<ungroup-module-parameters, Ungroup module parameters in module>> for details.
+* *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value. See Chapter <<insert-field, Insert field>> for details.
+* *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement. See Chapter <<change-union, Change union to select union>> for details.
+* *Move function:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed. See Chapter <<move-function, Move function>> for details.
 
 == Project explorer actions
 
@@ -146,33 +146,34 @@ image::images/3_F4.png[title="Project explorer context menu"]
 
 Some of the refactoring operations can work on files, folders or projects. These operations can be found in the Project Explorer context menu, under the TitaniumRefactoring menu item.
 
-* *Lazy-fication of formal parameters:* Automatically detects formal module parameters where applying the @lazy modifier would be beneficial see section 11 for details.
-* *Minimize visibility modifiers:* Minimizes all visibility modifiers in the selected file(s), folder(s) or project(s). This means, that all the definitions in these resources which can be private are given a private visibility modifier. See Section 6 for details.
-* *Expand value list notation in module:* Automatically transforms values given with value list notation into assignment notation.
-* *Order value list notation in module:* Automatically correct the order of elements in assignment notation to mimic the order seen in the type of the value.
-* *Add context info to log statements:* Adds context info to all log statements in the selected file(s), folder(s) or project(s). See Section 7 for details.
-* *Extract module parameters into a new project:* Extracts all module parameters and all of their dependencies from an entire project into a new project. See Section 8 for details.
-* *Minimize scope of local variables in function:* This is a complex refactoring operation that is able to automatically delete unused variables, move the declaration of variables closer to the first usage, if needed into a smaller scope unit.
-* *Organize imports:* Automatically organizes the import statements into lexicographical order, removing all unused imports.
-* *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters.
-* *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value.
-* *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement.
-* *Move function:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed.
+* *Lazy-fication of formal parameters:* Automatically detects formal module parameters where applying the @lazy modifier would be beneficial see Chapter <<lazy-fication, Lazy-fication of formal parameters>> for details.
+* *Minimize visibility modifiers:* Minimizes all visibility modifiers in the selected file(s), folder(s) or project(s). This means, that all the definitions in these resources which can be private are given a private visibility modifier. See Chapter <<minimize-visibility, Minimize visibility modifiers>> for details.
+* *Expand value list notation in module:* Automatically transforms values given with value list notation into assignment notation. See Chapter <<expand-value-list-notation, Expand value list notation in module>> for details.
+* *Order value list notation in module:* Automatically correct the order of elements in assignment notation to mimic the order seen in the type of the value. See Chapter <<order-value-list-notation, Order value list notation in module>> for details.
+* *Add context info to log statements:* Adds context info to all log statements in the selected file(s), folder(s) or project(s). See Chapter <<add-context-info, Add context info to log statements>> for details.
+* *Extract module parameters into a new project:* Extracts all module parameters and all of their dependencies from an entire project into a new project. See Chapter <<extract-module-parameters, Extract module parameters into a new project>> for details.
+* *Minimize scope of local variables in function:* This is a complex refactoring operation that is able to automatically delete unused variables, move the declaration of variables closer to the first usage, if needed into a smaller scope unit. See Chapter <<minimize-scope, Minimize scope of local variables in function>> for details.
+* *Organize imports:* Automatically organizes the import statements into lexicographical order, removing all unused imports. See Chapter <<organize-imports, Organize imports>> for details.
+* *Ungroup module parameters in module:* For all instances where module parameters are declared using the deprecated grouped syntax, automatically replaces them with a separated list of the same module parameters. See Chapter <<ungroup-module-parameters, Ungroup module parameters in module>> for details.
+* *Insert field:* This refactoring can be used on record and set types, to add a new field to the type. When a default value is provided for the new field the refactoring will automatically update all usage locations of the type with this default value. See Chapter <<insert-field, Insert field>> for details.
+* *Change union to select union:* Automatically transforms select statements used with a union parameter, to the more specific select union statement. See Chapter <<change-union, Change union to select union>> for details.
+* *Move function:* With the involvement of the user, this refactoring tries to detect which functions are located in a module they do not belong to, find a better new location for them and automatically move them to their new location. Automatically correcting the imports as needed. See Chapter <<move-function, Move function>> for details.
 
+[[headless-mode]]
 = Headless mode
 
 The TitaniumRefactoring plug-in offers some commands which can be called in headless mode. This way it can be used from command line, and for example integrated into nightly build systems.
 
 In headless mode eclipse plug-ins can offer entry point, called applications, through which the user is able to invoke functionalities of the plug-in without starting the graphical interface of Eclipse. In this mode everything is working exactly the same way as it is when invoked from the graphical user interface, but there are no windows popping up, no user interaction.
 
-It is important to note, that as in this mode there is no interaction between eclipse and the user, all of the settings should be set beforehand. Otherwise the operation might not be able to work properly, or produce un-expected result.
+It is important to note, that as in this mode there is no interaction between eclipse and the user, all of the settings should be set beforehand. Otherwise the operation might not be able to work properly, or produce unexpected result.
 
 == Important settings
 
 There are two settings that are always important to be set correctly; otherwise the headless mode will not be able to operate correctly:
 
-* The license file has to be set in the Designer and it has to be active, otherwise the on-the-fly analyser will not be able to execute.
-* The "__Display debug information__" setting in the Designer has to be turned off. If that option is turned on, the Designer will try to write debug information to the Titan Debug Console … which does not exist in headless mode and the execution aborts.
+* The license file has to be set in the Designer and it has to be active, otherwise the on-the-fly analyzer will not be able to execute.
+* The "__Display debug information__" setting in the Designer has to be turned off. If that option is turned on, the Designer will try to write debug information to the Titan Debug Console, which does not exist in headless mode and the execution aborts.
 * The on-the-fly analysis of code smells must be enabled on the Code smells preference page under Titanium Preferences, otherwise only the Designer will check the code.
 
 == The general structure of invocation
@@ -188,15 +189,20 @@ _Eclipse.exe_ : this is the binary executable of Eclipse to be used.
 
 "__-noSplash__": Eclipse should not display even the splash screen.
 
-"__-data <path to workspace to use>__": The data parameter tells eclipse which workspace to use. A workspace is usually needed, to work with resources.
+"__-data <path to workspace to use>__": The data parameter tells Eclipse which workspace to use. A workspace is usually needed, to work with resources.
 
-"__-application <entry point> <parameters>__": The application parameter tells eclipse which entry point to call, and what parameters to pass to that entry point.
+"__-application <entry point> <parameters>__": The application parameter tells Eclipse which entry point to call, and what parameters to pass to that entry point.
 
 An example call could be:
 
 [source,subs="+quotes"]
 *-noSplash -application org.eclipse.titanium.refactoring.definition.ExtractDefinitionHeadlessRunner -data "C:\Users\JohnDoe\workspace" -in proj1 -out ExtDefTest05 -module test -definition funtest -location "D:\Refactoring\Tests\Headless"*
 
+=== Pitfalls
+
+NOTE: On Linux eclipse should be invoked using the "eclipse" command (without file extension). On Windows we recommend using "eclipse*c*.exe" not "eclipse.exe". The plugins will work with both eclipse versions, but error messages are only printed to the console when using "eclipse*c*.exe". "eclipse.exe" is not able to print to the console it was started from.
+
+[[extract-definition]]
 = Extract definition into a new project
 
 Often it is problem in practice to create a set of the contents of a project, which is still able to reproduce some behaviour of the project and is small enough to debug/analyse.
@@ -226,6 +232,7 @@ Please note that the "Extract definition" feature is working only on TTCN-3 file
 
 NOTE: The algorithm ignores missing references in the source project.
 
+[[extract-code]]
 = Extract code into a new function
 
 This functionality extracts TTCN-3 statements to a new function and replaces their old location with the invocation of the newly created function. The parameters of the new function are automatically determined by the algorithm.
@@ -238,14 +245,15 @@ The algorithm searches for whole statements in the selection, half selected stat
 
 If the selection is valid for the operation, then a wizard is presented for the user to specify the name of the new function and the names of its parameters. After this, the produced changes can be reviewed and accepted by clicking on the *Finish* button.
 
-image::images/6_F6.png[title="Extract to function wizard � specify new function name"]
+image::images/6_F6.png[title="Extract to function wizard - specify new function name"]
 
-image::images/6_F7.png[title="Extract to function wizard � specify parameter names"]
+image::images/6_F7.png[title="Extract to function wizard - specify parameter names"]
 
 == Known limitations
 
- The "Extract to a new function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
+The "Extract to a new function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
+[[lazy-fication]]
 = Lazy-fication of formal parameters
 
 This functionality allows users automatic lazy-fication of non-lazy formal parameters, if they evaluation could be delayed.
@@ -262,6 +270,7 @@ A wizard dialog is presented for the user to review the changes, before executin
 
 Please note that the "Lazy-fication of formal parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
+[[minimize-visibility]]
 = Minimize visibility modifiers
 
 This operation sets the visibility modifier of all definitions in the selected resources to private, where possible. If a definition is referred from another module, its visibility modifier will not be replaced.
@@ -276,7 +285,9 @@ To use the operation on any number of files, folders or projects, select *Titani
 
 Please note that the "Minimize visibility modifiers" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
-= Expend value list notation
+[[expand-value-list-notation]]
+= Expand value list notation
+
 This functionality allows users to automatically expand value list notations with field names, throughout the entire project or smaller parts of the code.
 Making the tests easier to understand and maintain.
 
@@ -311,8 +322,9 @@ A wizard dialog is presented for the user to review the changes, before executin
 
 Please note that the "Expand value list notation" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
-
+[[order-value-list-notation]]
 = Order value list notation
+
 This functionality allows users to automatically re-order the values in assignment list notations, to reflect the field's order in the original type, throughout the entire project or smaller parts of the code.
 
 It can easily happen during the development of a test system, that a value given with an assignment notation, does not follow the order of the original type.
@@ -346,7 +358,7 @@ A wizard dialog is presented for the user to review the changes, before executin
 
 Please note that the "Order assignment list notation" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
-
+[[add-context-info]]
 = Add context info to log statements
 
 This functionality allows users to add automatically constructed additional content to existing log statements throughout the entire project or smaller parts of code.
@@ -359,7 +371,7 @@ The algorithm searches for log statements in the selection and modifies them if 
 
 After selecting the appropriate options, click on the *OK* button to finish the operation.
 
-image::images/8_F8.png[title="Add context info wizard � modify settings"]
+image::images/8_F8.png[title="Add context info wizard - modify settings"]
 
 === Settings
 
@@ -374,6 +386,7 @@ image::images/8_F8.png[title="Add context info wizard � modify settings"]
 
 Please note that the "Extract to a new function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
+[[extract-module-parameters]]
 = Extract module parameters into a new project
 
 This functionality extracts all module parameters and all of their dependencies from an entire project to a new TITAN project. The project settings are also copied to the new project.
@@ -401,6 +414,7 @@ Please note that the "Extract definition" feature is working only on TTCN-3 file
 
 NOTE: The algorithm ignores missing references in the source project.
 
+[[minimize-scope]]
 = Minimize scope of local variables in function
 
 This functionality allows users to rearrange local variable declarations in functions. Declarations which could have a narrower scope can be moved into the appropriate code blocks, or declarations which are declared too early can be moved to a latter location. Also, unused variable declarations can be removed.
@@ -411,7 +425,7 @@ To run the refactoring operation on a specific TTCN-3 function, move the cursor 
 
 After selecting the appropriate options, click on the *OK* button to finish the operation, or use the *Preview* action to browse the changes before accepting them.
 
-image::images/10_F10.png[title="Minimize scope wizard � modify settings"]
+image::images/10_F10.png[title="Minimize scope wizard - modify settings"]
 
 === Settings
 
@@ -437,6 +451,7 @@ The main steps of the refactoring operation are the following:
 
 "Minimize scope of local variables in function" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
+[[organize-imports]]
 = Organize imports
 
 This functionality allows users to rearrange and correct imports in their TTCN-3 modules.
@@ -455,6 +470,7 @@ A wizard dialog is presented for the user to review the changes, before executin
 
 Please note that the "Organize imports" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
+[[runs-on-scope-reduction]]
 = Runs on scope reduction
 
 This functionality allows users to reduce the "runs on" components of functions, altsteps and testcases to the minimal needed.
@@ -475,6 +491,7 @@ A wizard dialog is presented for the user to review the changes, before executin
 
 Please note that the "Runs on scope reduction" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
+[[ungroup-module-parameters]]
 = Ungroup module parameters
 
 This functionality allows users to ungroup module parameters, that are present in the code using the group style definition.
@@ -509,8 +526,10 @@ A wizard dialog is presented for the user to review the changes, before executin
 
 Please note that the "Ungroup module parameters" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
+[[insert-field]]
 = Insert field
-This functionality allows users to insert a new field into the selected record or set type. The new field appears at all of the type's occurences in the project.
+
+This functionality allows users to insert a new field into the selected record or set type. The new field appears at all of the type's occurrences in the project.
 
 == Usage
 To insert a new field into a record or set type, right click on the type definition identifier in the editor window and choose *TitaniumRefactoring / Insert field* from the context menu. If the type of the selection is not supported for the operation, an error message is displayed in the status bar.
@@ -522,6 +541,7 @@ Please note that the "Insert field" feature is working only on TTCN-3 files. ASN
 
 NOTE: The algorithm does not check if the type and the value of the new field are valid.
 
+[[change-union]]
 = Change union to select union
 
 This functionality allows users to automatically convert already existing select statements, to more efficient and descriptive select union statements, if possible.
@@ -576,8 +596,9 @@ A wizard dialog is presented for the user to review the changes, before executin
 
 Please note that the "Change union to select union" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported.
 
-
+[[move-function]]
 = Move function
+
 This refactoring tries to detect functions that are located in a module they do not belong to, find a better new location for them and automatically move them there while also inserting the missing imports.
 
 == Usage
