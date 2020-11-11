@@ -2292,6 +2292,9 @@ public final class RecordSetCodeGenerator {
 			}
 			source.append("{\n");
 			// invalid field name
+			source.append("\t\t\t\t\t\tif (p_silent) {\n");
+			source.append("\t\t\t\t\t\t\treturn JSON.JSON_ERROR_INVALID_TOKEN;\n");
+			source.append("\t\t\t\t\t\t}\n");
 			source.append(MessageFormat.format("\t\t\t\t\t\tJSON_ERROR(p_silent, error_type.ET_INVAL_MSG, {0}JSON.JSON_DEC_INVALID_NAME_ERROR, fld_name);\n",
 					has_metainfo_enabled ? "is_metainfo ? JSON.JSON_DEC_METAINFO_NAME_ERROR : " : ""));
 			// if this is set to a warning, skip the value of the field
