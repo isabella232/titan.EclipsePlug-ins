@@ -405,7 +405,7 @@ public class MainController {
 	private volatile boolean all_component_done_requested;
 	private volatile boolean any_component_killed_requested;
 	private volatile boolean all_component_killed_requested;
-	private int testcase_start_time_seconds;// testcase_start_time
+	private long testcase_start_time_seconds;// testcase_start_time
 	private int testcase_start_time_miliseconds;
 	private volatile boolean stop_requested;
 	private volatile boolean stop_after_tc;
@@ -1808,8 +1808,9 @@ public class MainController {
 		final String componentName = text_buf.pull_string();
 		final String componentLocation = text_buf.pull_string();
 		final int isAlive = text_buf.pull_int().get_int();
-		//FIXME this needs to be updated to 64 bit too.
-		testcase_start_time_seconds = text_buf.pull_int().get_int();
+		final int upper_int = text_buf.pull_int().get_int();
+		final int lower_int = text_buf.pull_int().get_int();
+		testcase_start_time_seconds = upper_int * 0xffffffff + lower_int;
 		testcase_start_time_miliseconds = text_buf.pull_int().get_int();
 
 		final Host ptcLoc = choose_ptc_location(componentTypeName, componentName, componentLocation);
@@ -1930,7 +1931,10 @@ public class MainController {
 		text_buf.push_int(isAlive);
 		text_buf.push_string(mtc.tc_fn_name.module_name);
 		text_buf.push_string(mtc.tc_fn_name.definition_name);
-		text_buf.push_int(testcase_start_time_seconds);
+		final int upper_int = (int)(testcase_start_time_seconds / 0xffffffff);
+		final int lower_int = (int)(testcase_start_time_seconds % 0xffffffff);
+		text_buf.push_int(upper_int);
+		text_buf.push_int(lower_int);
 		text_buf.push_int(testcase_start_time_miliseconds);
 
 		send_message(host.socket, text_buf);

@@ -673,7 +673,7 @@ public final class TTCN_Communication {
 	public static void send_create_req(final String componentTypeModule, final String componentTypeName,
 			final String componentName, final String componentLocation, final boolean is_alive,
 			final double testcase_start_time) {
-		final int seconds = (int)Math.floor(testcase_start_time);
+		final long seconds = (long)testcase_start_time;
 		final int miliseconds = (int)((testcase_start_time - seconds) * 1000);
 
 		final Text_Buf text_buf = new Text_Buf();
@@ -683,7 +683,10 @@ public final class TTCN_Communication {
 		text_buf.push_string(componentName);
 		text_buf.push_string(componentLocation);
 		text_buf.push_int( is_alive ? 1 : 0);
-		text_buf.push_int(seconds);
+		final int upper_int = (int)(seconds / 0xffffffff);
+		final int lower_int = (int)(seconds % 0xffffffff);
+		text_buf.push_int(upper_int);
+		text_buf.push_int(lower_int);
 		text_buf.push_int(miliseconds);
 
 		send_message(text_buf);
@@ -1154,7 +1157,9 @@ public final class TTCN_Communication {
 		final boolean is_alive = local_incoming_buf.pull_int().get_int() == 0 ? false : true;
 		final String testcase_module_name = local_incoming_buf.pull_string();
 		final String testcase_definition_name = local_incoming_buf.pull_string();
-		final int seconds = local_incoming_buf.pull_int().get_int();
+		final int upper_int = local_incoming_buf.pull_int().get_int();
+		final int lower_int = local_incoming_buf.pull_int().get_int();
+		final long seconds = upper_int * 0xffffffff + lower_int;
 		final int milliSeconds = local_incoming_buf.pull_int().get_int();
 		local_incoming_buf.cut_message();
 
