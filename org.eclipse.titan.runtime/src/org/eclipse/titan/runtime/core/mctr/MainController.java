@@ -2250,6 +2250,9 @@ public class MainController {
 			send_error(channel, MessageFormat.format("Malformed VERSION message was received: Transport type {0} "
 					+ " must be supported anyway.", transport_type_enum.TRANSPORT_INET_STREAM.toString()));
 		}
+		if (hc.transport_supported[transport_type_enum.TRANSPORT_UNIX_STREAM.ordinal()]) {
+			hc.transport_supported[transport_type_enum.TRANSPORT_UNIX_STREAM.ordinal()] = false;
+		}
 
 		hc.log_source = MessageFormat.format("HC@{0}", hc.hostname_local);
 		hc.hc_state = hc_state_enum.HC_IDLE;
@@ -5060,7 +5063,6 @@ public class MainController {
 
 				break;
 			case TRANSPORT_INET_STREAM:
-			case TRANSPORT_UNIX_STREAM:
 				break;
 			default:
 				send_error(tc.socket, MessageFormat.format("Message CONNECT_LISTEN_ACK for port connection "
@@ -5209,7 +5211,6 @@ public class MainController {
 				send_connect(components.get(conn.headComp), conn.headPort, conn.tailComp, null, conn.tailPort, conn.transport_type, null, null);
 				conn.conn_state = conn_state_enum.CONN_CONNECTING;
 				break;
-			case TRANSPORT_UNIX_STREAM:
 			case TRANSPORT_INET_STREAM:
 				// conn->head will be the server side
 				if (conn.tailComp != TitanComponent.MTC_COMPREF && conn.tailComp != conn.headComp) {
@@ -5319,9 +5320,6 @@ public class MainController {
 		}
 
 		final Host tailLoc = components.get(destinationComponent).comp_location;
-		if (headLoc.equals(tailLoc) && headLoc.transport_supported[transport_type_enum.TRANSPORT_UNIX_STREAM.ordinal()]) {
-			return transport_type_enum.TRANSPORT_UNIX_STREAM;
-		}
 		if (headLoc.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()]
 				&& tailLoc.transport_supported[transport_type_enum.TRANSPORT_INET_STREAM.ordinal()]) {
 			return transport_type_enum.TRANSPORT_INET_STREAM;
