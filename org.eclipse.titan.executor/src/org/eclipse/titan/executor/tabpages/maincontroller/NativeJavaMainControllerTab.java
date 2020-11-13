@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.filesystem.URIUtil;
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -50,6 +52,7 @@ import org.eclipse.titan.common.fieldeditors.TITANResourceLocator;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.cfg.ConfigFileHandler;
 import org.eclipse.titan.common.path.TITANPathUtilities;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.executor.designerconnection.DesignerHelper;
 import org.eclipse.titan.executor.designerconnection.DynamicLinkingHelper;
 import org.eclipse.titan.executor.designerconnection.EnvironmentHelper;
@@ -72,6 +75,8 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 	private static final String CONFIGFILE_TOOLTIP = "This field is required.\n" +
 			"The runtime configuration file used to describe the runtime behaviour of the executable test program.";
 	private static final String BROWSE_WORKSPACE = "Browse Workspace..";
+
+	public static final String BUILDER_ID = ProductConstants.PRODUCT_ID_DESIGNER + ".core.TITANJavaBuilder";
 
 	private final class BasicProjectSelectorListener extends SelectionAdapter implements ModifyListener {
 
@@ -113,6 +118,7 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 	private Button projectSelectionButton;
 	private Button automaticExecuteSectionExecution;
 	protected boolean projectIsValid;
+	private boolean projectIsJava;
 	protected boolean configurationFileIsValid;
 
 	protected List<Throwable> exceptions = new ArrayList<Throwable>();
@@ -121,6 +127,7 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		this.tabGroup = tabGroup;
 		generalListener = new BasicProjectSelectorListener();
 		projectIsValid = true;
+		projectIsJava = true;
 		configurationFileIsValid = false;
 	}
 
@@ -306,6 +313,33 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 		}
 
 		projectIsValid = true;
+
+		checkJavaBuilder(project);
+	}
+
+	private boolean checkJavaBuilder(final IProject project) {
+		projectIsJava = false;
+
+		if (!project.isAccessible()) {
+			return false;
+		}
+
+		IProjectDescription description;
+		try {
+			description = project.getDescription();
+		} catch (CoreException e) {
+			return false;
+		}
+
+		final ICommand[] cmds = description.getBuildSpec();
+		for (int i = 0; i < cmds.length; i++) {
+			if (BUILDER_ID.equals(cmds[i].getBuilderName())) {
+				projectIsJava = true;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	protected final void handleConfigurationModified() {
@@ -401,6 +435,10 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 			return false;
 		}
 
+		if (!projectIsJava) {
+			return false;
+		}
+
 		return super.canSave();
 	}
 
@@ -408,6 +446,11 @@ public class NativeJavaMainControllerTab extends AbstractLaunchConfigurationTab 
 	public boolean isValid(final ILaunchConfiguration launchConfig) {
 		if (!EMPTY.equals(projectNameText.getText()) && !projectIsValid) {
 			setErrorMessage("The name of the project is not valid.");
+			return false;
+		}
+
+		if (!projectIsJava) {
+			setErrorMessage("The project must be a Titan Java project.");
 			return false;
 		}
 
