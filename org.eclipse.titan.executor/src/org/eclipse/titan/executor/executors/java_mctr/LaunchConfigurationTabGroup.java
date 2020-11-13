@@ -28,7 +28,8 @@ public final class LaunchConfigurationTabGroup implements ILaunchConfigurationTa
 
 	@Override
 	public void createTabs(final ILaunchConfigurationDialog arg0, final String arg1) {
-		tabs = new ILaunchConfigurationTab[] {new NativeJavaMainControllerTab(this), new HostControllersTab(this), new TestSetTab(),
+		//TODO add support for starting Java generated host controllers
+		tabs = new ILaunchConfigurationTab[] {new NativeJavaMainControllerTab(this)/*, new HostControllersTab(this)*/, new TestSetTab(),
 				new NativeJavaPerformanceSettingsTab(), new EnvironmentTab(), new CommonTab()};
 	}
 
