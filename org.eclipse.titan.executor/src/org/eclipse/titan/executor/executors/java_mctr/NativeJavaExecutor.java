@@ -872,6 +872,16 @@ public class NativeJavaExecutor extends BaseExecutor {
 		super.shutdownSession();
 	}
 
+	@Override
+	protected void startHostControllers() {
+		//TODO implement support for starting host controllers automatically
+		// Right now this is disabled
+		final Formatter formatter = new Formatter();
+		addNotification(new Notification(formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString(), EMPTY_STRING, EMPTY_STRING,
+				"Starting HostControllers automatically is not yet supported!"));
+		formatter.close();
+	}
+
 	/**
 	 * Updates the information displayed about the MainController's and
 	 * HostControllers actual states.

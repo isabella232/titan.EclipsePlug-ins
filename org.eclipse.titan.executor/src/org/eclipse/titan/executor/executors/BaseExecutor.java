@@ -490,7 +490,7 @@ public abstract class BaseExecutor {
 		op.schedule();
 	}
 
-	public final void startHostControllers() {
+	protected void startHostControllers() {
 		if (hostControllers == null || hostControllers.isEmpty()) {
 			final Formatter formatter = new Formatter();
 			final String timestamp = formatter.format(PADDEDDATETIMEFORMAT, new Date()).toString();
